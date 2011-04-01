@@ -22,8 +22,14 @@ namespace OSHGui
 		void Render(Drawing::IRenderer *renderer);
 
 	protected:
+		virtual void UpdateRects();
+	
 		WCHAR text[256];
-		Drawing::Rectangle captionBar;
+		Drawing::Rectangle captionBar,
+						   closeRect,
+						   minimizeRect,
+						   clientArea;
+		bool drag;
 	};
 }
 

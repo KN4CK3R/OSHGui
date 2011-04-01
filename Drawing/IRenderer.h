@@ -18,8 +18,8 @@ namespace OSHGui
 			virtual IFont* CreateNewFont() = 0;
 			
 			void SetRenderColor(D3DCOLOR color) { this->color = color; }
-			void SetRenderOffset(Drawing::Point &point) { renderOffset = point; }
-			Drawing::Point GetRenderOffset() { return renderOffset; }
+			void SetRenderRectangle(Drawing::Rectangle &rect) { renderRect = rect; }
+			Drawing::Rectangle GetRenderRectangle() { return renderRect; }
 			
 			virtual void RenderTexture(Drawing::ITexture *texture, const Drawing::Point &point) = 0;
 			virtual void RenderTexture(Drawing::ITexture *texture, int x, int y) = 0;
@@ -39,7 +39,7 @@ namespace OSHGui
 			
 		protected:
 			D3DCOLOR color;
-			Drawing::Point renderOffset;
+			Drawing::Rectangle renderRect;
 		};
 	}
 }
