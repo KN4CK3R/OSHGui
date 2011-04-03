@@ -24,6 +24,9 @@ namespace OSHGui
 			Point(int X, int Y) { this->X = X; this->Y = Y; }
 			Point(const Point &p) { X = p.X; Y = p.Y; }
 			
+			Point operator - (const Point &p) { return Point(X - p.X, Y - p.Y); }
+			void operator -= (const Point &p) { X -= p.X; Y -= p.Y; }
+			
 			void Offset(int X, int Y)
 			{
 				this->X += X;
