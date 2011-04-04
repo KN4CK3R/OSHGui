@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 	public:
 		Key::Keys KeyCode;
-		WCHAR KeyChar;
+		char KeyChar;
 		bool Menu,
 			 Control,
 			 Shift,
@@ -29,7 +29,7 @@ namespace OSHGui
 			IsAlphaNumeric = !Control && KeyChar != 0;
 		}
 	
-		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, WCHAR KeyChar) : Event(Event::Keyboard)
+		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, char KeyChar) : Event(Event::Keyboard)
 		{
 			this->Menu = Menu;
 			this->Control = Control;

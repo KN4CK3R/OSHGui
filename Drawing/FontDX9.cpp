@@ -28,7 +28,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontDX9::Create(LPCWSTR fontName, int size, bool bold, bool italic)
+		bool FontDX9::Create(LPCSTR fontName, int size, bool bold, bool italic)
 		{
 			if (fontName == NULL)
 			{
@@ -36,7 +36,7 @@ namespace OSHGui
 			}
 
 			SAFE_RELEASE(font);
-			if (FAILED(D3DXCreateFontW(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName, &font)))
+			if (FAILED(D3DXCreateFont(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName, &font)))
 			{
 				return false;
 			}

@@ -28,7 +28,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetText(LPCWSTR text)
+	void GroupBox::SetText(LPCSTR text)
 	{
 		if(text == NULL)
 		{
@@ -36,22 +36,22 @@ namespace OSHGui
 			return;
 		}
 
-		wcscpy_s(this->text, 256, text);
+		strcpy_s(this->text, 256, text);
 	}
 	//---------------------------------------------------------------------------
-	LPCWSTR GroupBox::GetText()
+	LPCSTR GroupBox::GetText()
 	{
 		return text;
 	}
 	//---------------------------------------------------------------------------
-	bool GroupBox::GetTextCopy(LPWSTR copy)
+	bool GroupBox::GetTextCopy(LPSTR copy)
 	{
 		if (copy == NULL)
 		{
 			return false;
 		}
 		
-		wcscpy_s(copy, wcslen(text), text);
+		strcpy_s(copy, wcslen(text), text);
 		return true;
 	}
 	//---------------------------------------------------------------------------

@@ -203,7 +203,7 @@ namespace OSHGui
 					
 					case WM_CHAR:
 					{
-						switch ((WCHAR)wpret->wParam)
+						switch ((char)wpret->wParam)
 						{
 							case VK_BACK:
 								keyboard.KeyCode = Key::Back;
@@ -236,7 +236,7 @@ namespace OSHGui
 								break;
 								
 							default:
-								keyboard.KeyChar = (WCHAR)wpret->wParam;
+								keyboard.KeyChar = (char)wpret->wParam;
 						}
 					}
 				}

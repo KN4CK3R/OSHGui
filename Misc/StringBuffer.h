@@ -13,16 +13,16 @@ namespace OSHGui
 			StringBuffer(int size = 1);
 			~StringBuffer();
 			
-			const WCHAR& operator[](int index) const;
-			WCHAR& operator[](int index);
+			const char& operator[](int index) const;
+			char& operator[](int index);
 			int GetLength();
-			const WCHAR* GetBuffer();
+			const char* GetBuffer();
 			
 			void Clear();
-			bool InsertChar(int index, WCHAR wc);
+			bool InsertChar(int index, char wc);
 			bool RemoveChar(int index = -1);
-			bool InsertString(int index, const WCHAR* str, int count = -1);
-			bool SetText(LPCWSTR text);
+			bool InsertString(int index, const char* str, int count = -1);
+			bool SetText(LPCSTR text);
 			
 			int CaretToPosition(int caret);
 			int PositionToCaret(int position);
@@ -30,7 +30,7 @@ namespace OSHGui
 		protected:
 			bool SetBufferSize(int size);
 		
-			WCHAR *buffer;
+			char *buffer;
 			int size;
 		};
 	}

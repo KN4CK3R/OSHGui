@@ -11,9 +11,9 @@ namespace OSHGui
 	public:
 		Label(Panel *parentPanel = NULL);
 		
-		void SetText(LPCWSTR text);
-		LPCWSTR GetText();
-		bool GetTextCopy(LPWSTR copy);
+		void SetText(LPCSTR text);
+		LPCSTR GetText();
+		bool GetTextCopy(LPSTR copy);
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
@@ -21,7 +21,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
-		WCHAR text[256]; 
+		char text[256]; 
 	};
 }
 

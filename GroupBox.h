@@ -17,7 +17,7 @@ namespace OSHGui
 		virtual void Render(IRenderer *renderer);
 		
 	protected:
-		WCHAR text[256];
+		char text[256];
 	};
 }
 

@@ -18,7 +18,7 @@ namespace OSHGui
 		class IFont
 		{
 		public:
-			virtual bool Create(LPCWSTR fontName, int size, bool bold, bool italic) = 0;
+			virtual bool Create(LPCSTR fontName, int size, bool bold, bool italic) = 0;
 		};
 	}
 }

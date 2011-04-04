@@ -24,13 +24,13 @@ namespace OSHGui
 			virtual void RenderTexture(Drawing::ITexture *texture, const Drawing::Point &point) = 0;
 			virtual void RenderTexture(Drawing::ITexture *texture, int x, int y) = 0;
 
-			virtual Drawing::Size MeasureText(Drawing::IFont *font, LPCWSTR text) = 0;
-			virtual Drawing::Size MeasureTextEx(Drawing::IFont *font, LPCWSTR text, ...) = 0;
+			virtual Drawing::Size MeasureText(Drawing::IFont *font, LPCSTR text) = 0;
+			virtual Drawing::Size MeasureTextEx(Drawing::IFont *font, LPCSTR text, ...) = 0;
 
-			virtual void RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCWSTR text) = 0;
-			virtual void RenderText(Drawing::IFont *font, int x, int y, LPCWSTR text) = 0;
-			virtual void RenderText(Drawing::IFont *font, Drawing::Rectangle &rect, LPCWSTR text) = 0;
-			virtual void RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCWSTR text) = 0;
+			virtual void RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text) = 0;
+			virtual void RenderText(Drawing::IFont *font, int x, int y, LPCSTR text) = 0;
+			virtual void RenderText(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text) = 0;
+			virtual void RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text) = 0;
 			
 			virtual void Fill(const Drawing::Point &point) = 0;
 			virtual void Fill(int x, int y) = 0;

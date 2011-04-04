@@ -6,7 +6,7 @@ namespace OSHGui
 	class ListItem
 	{
 	public:
-		WCHAR Text[256];
+		char Text[256];
 		void *Data;
 		Drawing::Rectangle ItemRect;
 	};

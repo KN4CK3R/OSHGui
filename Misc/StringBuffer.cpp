@@ -23,7 +23,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		const WCHAR& StringBuffer::operator[](int index) const
+		const char& StringBuffer::operator[](int index) const
 		{
 			if (index < 0 || index >= size)
 			{
@@ -33,7 +33,7 @@ namespace OSHGui
 			return buffer[index];
 		}
 		//---------------------------------------------------------------------------
-		WCHAR& StringBuffer::operator[](int index)
+		char& StringBuffer::operator[](int index)
 		{
 			if (index < 0 || index >= size)
 			{
@@ -48,7 +48,7 @@ namespace OSHGui
 			return lstrlenW(buffer);
 		}
 		//---------------------------------------------------------------------------
-		const WCHAR* StringBuffer::GetBuffer()
+		const char* StringBuffer::GetBuffer()
 		{
 			return buffer;
 		}
@@ -60,7 +60,7 @@ namespace OSHGui
 			*buffer = 0;
 		}
 		//---------------------------------------------------------------------------	
-		bool StringBuffer::InsertChar(int index, WCHAR wc)
+		bool StringBuffer::InsertChar(int index, char wc)
 		{
 			int length = GetLength();
 			if (index < -1 || index > length)
@@ -86,7 +86,7 @@ namespace OSHGui
 				index = length;
 			}
 
-			WCHAR *dest = buffer + length + 1,
+			char *dest = buffer + length + 1,
 				  *stop = buffer + index,
 				  *src = dest - 1;
 
@@ -113,12 +113,12 @@ namespace OSHGui
 				index = length;
 			}
 			
-			memmove(buffer + index, buffer + index + 1, sizeof(WCHAR) * (length - index));
+			memmove(buffer + index, buffer + index + 1, sizeof(char) * (length - index));
 			
 			return true;
 		}
 		//---------------------------------------------------------------------------	
-		bool StringBuffer::InsertString(int index, const WCHAR* str, int count)
+		bool StringBuffer::InsertString(int index, const char* str, int count)
 		{
 			int length = GetLength();
 			if (length == 0 || index < -1 || str == NULL)
@@ -146,13 +146,13 @@ namespace OSHGui
 				index = length;
 			}
 
-			memmove(buffer + index + count, buffer + index, sizeof(WCHAR) * (length - index + 1));
-			memcpy(buffer + index, str, count * sizeof(WCHAR));
+			memmove(buffer + index + count, buffer + index, sizeof(char) * (length - index + 1));
+			memcpy(buffer + index, str, count * sizeof(char));
 
 			return true;
 		}
 		//---------------------------------------------------------------------------	
-		bool StringBuffer::SetText(LPCWSTR text)
+		bool StringBuffer::SetText(LPCSTR text)
 		{
 			int required = lstrlenW(text) + 1;
 
@@ -169,7 +169,7 @@ namespace OSHGui
 				}
 			}
 			
-			wcscpy_s(buffer, required, text);
+			strcpy_s(buffer, required, text);
 			
 			return true;
 		}
@@ -197,7 +197,7 @@ namespace OSHGui
 				allocSize = 1024;
 			}
 
-			WCHAR *tempBuffer = new WCHAR[allocSize];
+			char *tempBuffer = new char[allocSize];
 			if (tempBuffer  == NULL)
 			{
 				return false;
@@ -205,12 +205,12 @@ namespace OSHGui
 			
 			if (buffer != NULL)
 			{
-				memcpy(tempBuffer, buffer, size * sizeof(WCHAR));
+				memcpy(tempBuffer, buffer, size * sizeof(char));
 				delete[] buffer;
 			}
 			else
 			{
-				memset(tempBuffer, 0x00, sizeof(WCHAR) * allocSize);
+				memset(tempBuffer, 0x00, sizeof(char) * allocSize);
 			}
 
 			buffer = tempBuffer;

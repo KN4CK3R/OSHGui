@@ -39,7 +39,7 @@ namespace OSHGui
 		textRect.Inflate(-7, -7);
 	}
 	
-	void TextBox::SetText(LPCWSTR text)
+	void TextBox::SetText(LPCSTR text)
 	{
 		if (text != NULL)
 		{
@@ -48,11 +48,11 @@ namespace OSHGui
 			PlaceCaret(buffer.GetLength());
 		}
 	}
-	LPCWSTR TextBox::GetText()
+	LPCSTR TextBox::GetText()
 	{
 		return buffer.GetBuffer();
 	}
-	bool TextBox::GetTextCopy(LPWSTR dest, int count)
+	bool TextBox::GetTextCopy(LPSTR dest, int count)
 	{
 		if (dest == NULL || count > buffer.GetLength())
 		{
@@ -109,7 +109,7 @@ namespace OSHGui
 				HANDLE clipboard = GetClipboardData(CF_UNICODETEXT);
 				if (clipboard != NULL)
 				{
-					WCHAR *data = (WCHAR*)GlobalLock(clipboard);
+					char *data = (char*)GlobalLock(clipboard);
 					if (data != NULL)
 					{
 						if (buffer.InsertString(caretPosition, data))

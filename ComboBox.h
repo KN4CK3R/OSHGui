@@ -23,12 +23,12 @@ namespace OSHGui
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
-		bool AddItem(const WCHAR *itemText);
-		bool InsertItem(int index, const WCHAR *itemText);
+		bool AddItem(const char *itemText);
+		bool InsertItem(int index, const char *itemText);
 		bool RemoveItem(int index);
 		bool Clear();
-		bool Contains(const WCHAR *text);
-		int Find(const WCHAR *text);
+		bool Contains(const char *text);
+		int Find(const char *text);
 		void SelectItem(int newIndex);
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);

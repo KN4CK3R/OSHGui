@@ -23,8 +23,8 @@ namespace OSHGui
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
-		bool AddItem(const WCHAR *text);
-		bool InsertItem(int index, const WCHAR *text);
+		bool AddItem(const char *text);
+		bool InsertItem(int index, const char *text);
 		bool RemoveItem(int index);
 		bool Clear();
 		void SelectItem(int newIndex);

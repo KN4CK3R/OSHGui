@@ -39,7 +39,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX11::MeasureText(Drawing::IFont *font, LPCWSTR text)
+		Drawing::Size RendererDX11::MeasureText(Drawing::IFont *font, LPCSTR text)
 		{
 			if (font == NULL || text == NULL)
 			{
@@ -48,22 +48,22 @@ namespace OSHGui
 			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Point &point, LPCWSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text)
 		{
 			DrawText(point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, LPCWSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, LPCSTR text)
 		{
 			DrawText(x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, LPCWSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, LPCSTR text)
 		{
 			DrawText(rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, int w, int h, LPCWSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text)
 		{
 			if (font == NULL || text == NULL)
 			{

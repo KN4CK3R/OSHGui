@@ -89,7 +89,7 @@ namespace OSHGui
 		scrollBar.ShowItem(selectedIndex);
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::AddItem(const WCHAR *itemText)
+	bool ComboBox::AddItem(const char *itemText)
 	{
 		if (itemText == NULL)
 		{
@@ -104,7 +104,7 @@ namespace OSHGui
 		
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 		
-		wcscpy_s(newItem->Text, 256, itemText);
+		strcpy_s(newItem->Text, 256, itemText);
 			
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
@@ -133,7 +133,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::InsertItem(int index, const WCHAR *itemText)
+	bool ComboBox::InsertItem(int index, const char *itemText)
 	{
 		if (itemText == NULL)
 		{
@@ -148,7 +148,7 @@ namespace OSHGui
 		
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 
-		wcscpy_s(newItem->Text, 256, itemText);
+		strcpy_s(newItem->Text, 256, itemText);
 			
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
@@ -223,12 +223,12 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::Contains(const WCHAR* text)
+	bool ComboBox::Contains(const char* text)
 	{
 		return Find(text) != -1;
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::Find(const WCHAR* text)
+	int ComboBox::Find(const char* text)
 	{
 		if (text == NULL)
 		{

@@ -111,7 +111,7 @@ namespace OSHGui
 			AddVertex(x, y + size.Height, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX9::MeasureText(Drawing::IFont *font, LPCWSTR text)
+		Drawing::Size RendererDX9::MeasureText(Drawing::IFont *font, LPCSTR text)
 		{
 			if (font == NULL || text == NULL)
 			{
@@ -124,27 +124,27 @@ namespace OSHGui
 			return Size(rect.right, rect.bottom);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX9::MeasureTextEx(Drawing::IFont *font, LPCWSTR text, ...)
+		Drawing::Size RendererDX9::MeasureTextEx(Drawing::IFont *font, LPCSTR text, ...)
 		{
 			return MeasureText(font, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCWSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text)
 		{
 			RenderText(font, point.X, point.Y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, LPCWSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, LPCSTR text)
 		{
 			RenderText(font, x, y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, Drawing::Rectangle &rectangle, LPCWSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, Drawing::Rectangle &rectangle, LPCSTR text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCWSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text)
 		{
 			if (font == NULL || text == NULL)
 			{
@@ -156,49 +156,49 @@ namespace OSHGui
 			((FontDX9*)font)->GetFont()->DrawTextW(sprite, text, -1, &clip, /*DT_LEFT | DT_TOP | DT_NOCLIP | DT_SINGLELINE*/DT_NOCLIP, color);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCWSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text, ...)
 		{
 			va_list arguments;
-			WCHAR buffer[1024];
+			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(WCHAR), text, arguments);
+			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, point.X, point.Y, 0, 0, buffer);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, LPCWSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, LPCSTR text, ...)
 		{
 			va_list arguments;
-			WCHAR buffer[1024];
+			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(WCHAR), text, arguments);
+			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, x, y, 0, 0, buffer);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, LPCWSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text, ...)
 		{
 			va_list arguments;
-			WCHAR buffer[1024];
+			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(WCHAR), text, arguments);
+			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), buffer);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, LPCWSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text, ...)
 		{
 			va_list arguments;
-			WCHAR buffer[1024];
+			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(WCHAR), text, arguments);
+			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, x, y, w, h, buffer);

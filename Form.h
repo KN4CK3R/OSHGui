@@ -12,9 +12,9 @@ namespace OSHGui
 
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
-		void SetText(LPCWSTR text);
-		LPCWSTR GetText();
-		bool GetTextCopy(LPWSTR copy);
+		void SetText(LPCSTR text);
+		LPCSTR GetText();
+		bool GetTextCopy(LPSTR copy);
 		
 		void Show();
 
@@ -24,7 +24,7 @@ namespace OSHGui
 	protected:
 		virtual void UpdateRects();
 	
-		WCHAR text[256];
+		char text[256];
 		Drawing::Rectangle captionBar,
 						   closeRect,
 						   minimizeRect,

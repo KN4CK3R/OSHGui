@@ -71,7 +71,7 @@ namespace OSHGui
 		scrollBar.ShowItem(selectedIndex);
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::AddItem(const WCHAR *text)
+	bool ListBox::AddItem(const char *text)
 	{
 		if (text == NULL)
 		{
@@ -86,7 +86,7 @@ namespace OSHGui
 		
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 		
-		wcscpy_s(newItem->Text, 256, text);
+		strcpy_s(newItem->Text, 256, text);
 			
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
@@ -103,7 +103,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::InsertItem(int index, const WCHAR *text)
+	bool ListBox::InsertItem(int index, const char *text)
 	{
 		if (text == NULL)
 		{
@@ -118,7 +118,7 @@ namespace OSHGui
 		
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 
-		wcscpy_s(newItem->Text, 256, text);
+		strcpy_s(newItem->Text, 256, text);
 			
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
