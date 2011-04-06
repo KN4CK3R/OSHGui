@@ -70,7 +70,7 @@ namespace OSHGui
 		buttonRect.SetLeft(buttonRect.GetRight() - buttonRect.GetHeight());
 		
 		textRect = bounds;
-		textRect.Inflate(-buttonRect.GetLeft(), 0); //<<<<<<<<<<<<
+		textRect.Inflate(-buttonRect.GetLeft(), 0); //todo
 
 		dropdownRect = textRect;
 		dropdownRect.Offset(0, (int)(0.9f * textRect.GetHeight()));
@@ -545,6 +545,9 @@ namespace OSHGui
 		texture->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x8059595A);
 
 		texture2->EndUpdate();*/
+		
+		renderer->SetRenderColor(backColor);
+		renderer->RenderTexture(texture, bounds.GetPosition());
 
 		scrollBar.Render(renderer);
 	}

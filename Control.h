@@ -125,7 +125,7 @@ namespace OSHGui
 					   backColor;
 		
 		Drawing::IFont *font;
-		Drawing::ITexture *texture;
+		List<Drawing::ITexture*> texture;
 	};
 }
 
