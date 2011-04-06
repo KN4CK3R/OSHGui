@@ -11,18 +11,21 @@ namespace OSHGui
 
 		ParentPanel = NULL;
 	
-		enabled = true;
-		visible = true;
+		SetEnabled(true);
+		SetVisible(true);
+		SetBounds(Rectangle());
+		
+		SetTag(NULL);
+		
+		SetOnClick(NULL);
+		SetOnKeyPress(NULL);
+		SetOnEnter(NULL);
+		SetOnLeave(NULL);
+		SetOnChange(NULL);
+		SetMouseOver(NULL);
+		
 		mouseOver = false;
 		hasFocus = false;
-		tag = NULL;
-
-		changeFunc = NULL;
-		clickFunc = NULL;
-		enterFunc = NULL;
-		leaveFunc = NULL;
-		mouseOver = NULL;
-		keyPressFunc = NULL;
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
@@ -109,6 +112,39 @@ namespace OSHGui
 		return tag;
 	}
 	//---------------------------------------------------------------------------
+	void SetFont(Drawing::IFont *font)
+	{
+		if (font != NULL)
+		{
+			this->font = font;
+		}
+	}
+	//---------------------------------------------------------------------------
+	Drawing::IFont* GetFont()
+	{
+		return font;
+	}
+	//---------------------------------------------------------------------------
+	void SetForeColor(Drawing::Color color)
+	{
+		foreColor = color;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Color GetForeColor()
+	{
+		return foreColor;
+	}
+	//---------------------------------------------------------------------------
+	void SetBackColor(Drawing::Color color)
+	{
+		backColor = color;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Color GetBackColor()
+	{
+		return backColor;
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetOnClick(OnClickFunc clickFunc)
 	{
 		this->clickFunc = clickFunc;
@@ -175,6 +211,7 @@ namespace OSHGui
 	{
 		needRepaint = true;
 	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Control::ProcessEvent(Event *event)

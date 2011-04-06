@@ -42,6 +42,7 @@ namespace OSHGui
 		}
 		
 		strcpy_s(copy, wcslen(text), text);
+		
 		return true;
 	}
 	//---------------------------------------------------------------------------
@@ -156,9 +157,9 @@ namespace OSHGui
 			texture->EndUpdate();
 		}
 		
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture, bounds.GetPosition());
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionbar, text);
 		
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();

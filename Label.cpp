@@ -12,6 +12,8 @@ namespace OSHGui
 		ParentPanel = parentPanel;
 		
 		memset((void*)&text, 0x00, sizeof(text));
+		
+		SetBackColor(Color.Empty);
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -59,6 +61,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Label::Render(Drawing::IRenderer *renderer)
 	{
+		if (backColor.Alpha != 0)
+		{
+			renderer->SetColor(backColor);
+			renderer->Fill(bounds);
+		}
+	
+		renderer->SetColor(foreColor);
 		renderer->RenderText(font, bounds, text);
 	}
 	//---------------------------------------------------------------------------

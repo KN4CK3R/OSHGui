@@ -1,4 +1,4 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\TextureDX9.h"
+#include "TextureDX9.h"
 
 namespace OSHGui
 {
@@ -57,52 +57,52 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear()
 		{
-			Fill(0, 0, size.Width, size.Height, 0x00000000);
+			Fill(0, 0, size.Width, size.Height, Color());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(int x, int y)
 		{
-			Fill(x, y, 1, 1, 0x00000000);
+			Fill(x, y, 1, 1, Color());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(const Drawing::Point &point)
 		{
-			Fill(point.X, point.Y, 1, 1, 0x00000000);
+			Fill(point.X, point.Y, 1, 1, Color());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(Drawing::Rectangle &rect)
 		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), 0x00000000);
+			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), Color());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(int x, int y, int w, int h)
 		{
-			Fill(x, y, w, h, 0x00000000);
+			Fill(x, y, w, h, Color());
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(D3DCOLOR color)
+		void TextureDX9::Fill(Drawing::Color color)
 		{
 			Fill(0, 0, size.Width, size.Height, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int x, int y, D3DCOLOR color)
+		void TextureDX9::Fill(int x, int y, Drawing::Color color)
 		{
 			Fill(x, y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(const Drawing::Point &point, D3DCOLOR color)
+		void TextureDX9::Fill(const Drawing::Point &point, Drawing::Color color)
 		{
 			Fill(point.X, point.Y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(Drawing::Rectangle &rect, D3DCOLOR color)
+		void TextureDX9::Fill(Drawing::Rectangle &rect, Drawing::Color color)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int _x, int _y, int _w, int _h, D3DCOLOR _color)
+		void TextureDX9::Fill(int _x, int _y, int _w, int _h, Drawing::Color _color)
 		{
-			BYTE color[4] = { (BYTE)BLUE(_color), (BYTE)GREEN(_color), (BYTE)RED(_color), (BYTE)ALPHA(_color) };
+			BYTE color[4] = { _color.Blue, _color.Green, _color.Red, _color.Alpha };
 		
 			BYTE *raw = (BYTE*)lock.pBits;
 			for (int y = 0; y < _h; y++)
@@ -121,29 +121,29 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(D3DCOLOR from, D3DCOLOR to, bool updown)
+		void TextureDX9::FillGradient(Drawing::Color from, Drawing::Color to, bool updown)
 		{
 			FillGradient(0, 0, size.Width, size.Height, from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(Drawing::Rectangle &rect, D3DCOLOR from, D3DCOLOR to, bool updown)
+		void TextureDX9::FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown)
 		{
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(int _x, int _y, int _w, int _h, D3DCOLOR from, D3DCOLOR to, bool updown)
+		void TextureDX9::FillGradient(int _x, int _y, int _w, int _h, Drawing::Color from, Drawing::Color to, bool updown)
 		{
-			BYTE color[4] = { (BYTE)BLUE(from), (BYTE)GREEN(from), (BYTE)RED(from), (BYTE)ALPHA(from) };
+			BYTE color[4] = { from.Blue, from.Green, from.Red, from.Alpha };
 			float step[4];
 		
 			BYTE *raw = (BYTE*)lock.pBits;
 			
 			if (updown)
 			{
-				step[0] = ((BYTE)BLUE(to) - color[0]) / (float)(_h - 1);
-				step[1] = ((BYTE)GREEN(to) - color[1]) / (float)(_h - 1);
-				step[2] = ((BYTE)RED(to) - color[2]) / (float)(_h - 1);
-				step[3] = ((BYTE)ALPHA(to) - color[3]) / (float)(_h - 1);
+				step[0] = (to.Blue - color[0]) / (float)(_h - 1);
+				step[1] = (to.Green - color[1]) / (float)(_h - 1);
+				step[2] = (to.Red - color[2]) / (float)(_h - 1);
+				step[3] = (to.Alpha - color[3]) / (float)(_h - 1);
 				
 				for (int y = 0; y < _h; y++)
 				{
@@ -162,10 +162,10 @@ namespace OSHGui
 			}
 			else
 			{
-				step[0] = ((BYTE)BLUE(to) - color[0]) / (float)(_w - 1);
-				step[1] = ((BYTE)GREEN(to) - color[1]) / (float)(_w - 1);
-				step[2] = ((BYTE)RED(to) - color[2]) / (float)(_w - 1);
-				step[3] = ((BYTE)ALPHA(to) - color[3]) / (float)(_w - 1);
+				step[0] = (to.Blue - color[0]) / (float)(_w - 1);
+				step[1] = (to.Green - color[1]) / (float)(_w - 1);
+				step[2] = (to.Red - color[2]) / (float)(_w - 1);
+				step[3] = (to.Alpha - color[3]) / (float)(_w - 1);
 			
 				for (int y = 0; y < _h; y++)
 				{

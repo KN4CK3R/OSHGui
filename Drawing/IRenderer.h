@@ -1,8 +1,9 @@
 #ifndef __OSHGUI_DRAWING_IRENDERER_H__
 #define __OSHGUI_DRAWING_IRENDERER_H__
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\ITexture.h"
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\IFont.h"
+#include "Color.h"
+#include "ITexture.h"
+#include "IFont.h"
 
 namespace OSHGui
 {
@@ -17,7 +18,7 @@ namespace OSHGui
 			virtual ITexture* CreateNewTexture() = 0;
 			virtual IFont* CreateNewFont() = 0;
 			
-			void SetRenderColor(D3DCOLOR color) { this->color = color; }
+			void SetRenderColor(Drawing::Color color) { this->color = color; }
 			void SetRenderRectangle(Drawing::Rectangle &rect) { renderRect = rect; }
 			Drawing::Rectangle GetRenderRectangle() { return renderRect; }
 			
@@ -38,7 +39,7 @@ namespace OSHGui
 			virtual void Fill(int x, int y, int w, int h) = 0;
 			
 		protected:
-			D3DCOLOR color;
+			Drawing::Color color;
 			Drawing::Rectangle renderRect;
 		};
 	}

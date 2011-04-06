@@ -3,9 +3,10 @@
 
 #include <math.h>
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\Point.h"
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\Size.h"
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\Rectangle.h"
+#include "Color.h";
+#include "Point.h"
+#include "Size.h"
+#include "Rectangle.h"
 
 #ifndef SAFE_RELEASE
 	#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p) = NULL; } }
@@ -27,9 +28,6 @@
 #endif
 #ifndef _min
 	#define _min(a, b) (a < b ? a : b)
-#endif
-#ifndef D3DCOLOR
-	#define D3DCOLOR DWORD
 #endif
 
 namespace OSHGui
@@ -53,10 +51,10 @@ namespace OSHGui
 			virtual void Clear() = 0;
 			virtual void Clear(int x, int y, int w, int h) = 0;
 
-			virtual void Fill(D3DCOLOR color) = 0;
-			virtual void Fill(int x, int y, int w, int h, D3DCOLOR color) = 0;
+			virtual void Fill(Drawing::Color color) = 0;
+			virtual void Fill(int x, int y, int w, int h, Drawing::Color color) = 0;
 
-			virtual void FillGradient(int x, int y, int w, int h, D3DCOLOR from, D3DCOLOR to, bool updown = true) = 0;
+			virtual void FillGradient(int x, int y, int w, int h, Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
 			
 			virtual void Rotate(int degrees) = 0;
 

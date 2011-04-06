@@ -57,26 +57,41 @@ namespace OSHGui
 			
 			if (initWidthArray)
 			{
-				// \0 char is 0
-				charWidth[0] = 0;
-			
-				RECT rct, rct2;
+				//special chars
+				for (int i = 0; i < 0x20; i++)
+				{
+					charWidth[i] = 0;
+				}
+				
+				{ //space needs extra calculation
+					RECT rct, rct2;
+					font->DrawText(NULL, "_", -1, &rct, DT_CALCRECT, 0);
+					font->DrawText(NULL, "_ _", -1, &rct2, DT_CALCRECT, 0);
+					charWidth[0x20] = rct2.right - rct.right * 2;
+					charWidth[0xA0] = rct2.right - rct.right * 2;
+				}
+				
+				RECT rect;
 				char str[2] = { 0, 0 };
 				
-				for (int i = 1; i < 0xFF; i++)
+				for (int i = 0x21; i < 0x7E; i++)
 				{
-					if (i == 0x20) // space needs extra calculation
-					{
-						font->DrawText(NULL, "_", -1, &rct, DT_CALCRECT, 0);
-						font->DrawText(NULL, "_ _", -1, &rct2, DT_CALCRECT, 0);
-						charWidth[i] = rct2.right - rct.right * 2;
-					}
-					else
-					{
-						str[0] = (char)i;
-						font->DrawText(NULL, str, -1, &rct, DT_CALCRECT, 0);
-						charWidth[i] = rct.right;
-					}
+					str[0] = (char)i;
+					font->DrawText(NULL, str, -1, &rct, DT_CALCRECT, 0);
+					charWidth[i] = rct.right;
+				}
+				
+				//special chars
+				for (int i = 0x7F; i < 0xA0; i++)
+				{
+					charWidth[i] = 0;
+				}
+				
+				for (int i = 0xA1; i < 0xFF; i++)
+				{
+					str[0] = (char)i;
+					font->DrawText(NULL, str, -1, &rct, DT_CALCRECT, 0);
+					charWidth[i] = rct.right;
 				}
 			}
 			

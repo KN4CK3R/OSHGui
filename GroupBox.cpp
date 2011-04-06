@@ -10,9 +10,6 @@ namespace OSHGui
 		type = CONTROL_GROUPBOX;
 		
 		ParentPanel = parentPanel;
-		
-		visible = false;
-		enabled = false;
 	}
 	//---------------------------------------------------------------------------
 	~GroupBox()
@@ -76,12 +73,20 @@ namespace OSHGui
 
 		texture2->EndUpdate();*/
 		
-		//render text
+		renderer->SetRenderColor(backColor);
+		renderer->RenderTexture(texture, bounds.GetPosition());
+		renderer->SetRenderColor(foreColor);
+		renderer->RenderText(font, textRect, text);
+		
+		Drawing::Rectangle rect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(bounds);
 	
 		for (int i = 0, len = Controls.GetSize(); i < len; i++)
 		{
 			Controls.Get(i)->Render(renderer);
 		}
+		
+		renderer->SetRenderRectangle(bounds);
 	}
 	//---------------------------------------------------------------------------
 }

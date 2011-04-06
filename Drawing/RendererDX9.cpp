@@ -20,8 +20,6 @@ namespace OSHGui
 				vertices[i].u = 0.0f;
 				vertices[i].v = 0.0f;
 			}
-			
-			color = 0xFFFFFFFF;
 		}
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()
@@ -113,13 +111,18 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Drawing::Size RendererDX9::MeasureText(Drawing::IFont *font, LPCSTR text)
 		{
-			if (font == NULL || text == NULL)
+			if (font == NULL || text == NULL || strlen(text) == 0)
 			{
 				return Size();
 			}
 			
 			RECT rect = { 0, 0, 0, 0 };
 			((FontDX9*)font)->GetFont()->DrawTextW(NULL, text, -1, &rect, DT_CALCRECT, 0);
+			
+			for (int i = strlen(text) - 1; i > 0; i--)
+			{
+				rect.right += font->MeasureChar(' ');
+			}
 
 			return Size(rect.right, rect.bottom);
 		}
@@ -153,7 +156,7 @@ namespace OSHGui
 			Flush();
 			
 			RECT clip = { x, y, w, y };
-			((FontDX9*)font)->GetFont()->DrawTextW(sprite, text, -1, &clip, /*DT_LEFT | DT_TOP | DT_NOCLIP | DT_SINGLELINE*/DT_NOCLIP, color);
+			((FontDX9*)font)->GetFont()->DrawTextW(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE /*| DT_NOCLIP*/, color.Color);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text, ...)
@@ -162,7 +165,7 @@ namespace OSHGui
 			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
+				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, point.X, point.Y, 0, 0, buffer);
@@ -174,7 +177,7 @@ namespace OSHGui
 			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
+				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, x, y, 0, 0, buffer);
@@ -186,7 +189,7 @@ namespace OSHGui
 			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
+				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), buffer);
@@ -198,7 +201,7 @@ namespace OSHGui
 			char buffer[1024];
 
 			va_start(arguments, text);
-			//vswprintf(buffer, sizeof(buffer) / sizeof(char), text, arguments);
+				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
 			va_end(arguments);
 			
 			RenderText(font, x, y, w, h, buffer);
@@ -245,7 +248,7 @@ namespace OSHGui
 
 			vertices[verticesNum].x = (float)x;
 			vertices[verticesNum].y = (float)y;
-			vertices[verticesNum].color = color;
+			vertices[verticesNum].color = color.Color;
 
 			verticesNum++;
 		}
@@ -261,7 +264,7 @@ namespace OSHGui
 			vertices[verticesNum].y = (float)y - 0.5f;
 			vertices[verticesNum].u = u;
 			vertices[verticesNum].v = v;
-			vertices[verticesNum].color = color;
+			vertices[verticesNum].color = color.Color;
 
 			verticesNum++;
 		}

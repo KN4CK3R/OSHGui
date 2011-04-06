@@ -221,10 +221,18 @@ namespace OSHGui
 
 		texture2->EndUpdate();*/
 	
+		renderer->SetRenderColor(backColor);
+		renderer->RenderTexture(texture, bounds.GetPosition());
+	
+		Drawing::Rectangle rect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(bounds);
+	
 		for (int i = 0, len = Controls.GetSize(); i < len; i++)
 		{
 			Controls.Get(i)->Render(renderer);
 		}
+		
+		renderer->SetRenderRectangle(bounds);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -129,9 +129,9 @@ namespace OSHGui
 			texture->EndUpdate();
 		}
 		
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(backGround);
 		renderer->RenderTexture(texture, buttonRect.GetPosition());
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(foreGround);
 		renderer->RenderText(font, textRect, text);
 	}
 	//---------------------------------------------------------------------------

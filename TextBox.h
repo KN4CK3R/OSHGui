@@ -31,6 +31,8 @@ namespace OSHGui
 		virtual void UpdateRects();
 	
 		void PlaceCaret(int position);
+		int CharacterToPosition(int charIndex);
+		int PositionToCharacterIndex(int position);
 		
 		void PasteFromClipboard();
 		

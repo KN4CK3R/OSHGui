@@ -12,6 +12,8 @@ namespace OSHGui
 		ParentPanel = parentPanel;
 		
 		pressed = false;
+		
+		SetBackColor(Color(255, 0, 0, 0)); //todo
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -102,9 +104,9 @@ namespace OSHGui
 			texture->EndUpdate();
 		}
 		
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture, bounds.GetPosition());
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds, text);
 	}
 	//---------------------------------------------------------------------------

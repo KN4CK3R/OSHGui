@@ -79,6 +79,12 @@ namespace OSHGui
 		void* GetTag();
 		void SetFont(Drawing::IFont *font);
 		Drawing::IFont* GetFont();
+		void SetForeColor(Drawing::Color color);
+		Drawing::Color GetForeColor();
+		void SetBackColor(Drawing::Color color);
+		Drawing::Color GetBackColor();
+		void SetFont(Drawing::IFont *font);
+		Drawing::IFont* GetFont();
 
 		void SetOnClick(OnClickFunc clickFunc);
 		void SetOnKeyPress(OnKeyPressFunc keyPressFunc);
@@ -114,6 +120,9 @@ namespace OSHGui
 		OnEnterFunc enterFunc;
 		OnLeaveFunc leaveFunc;
 		OnChangeFunc changeFunc;
+		
+		Drawing::Color foreColor,
+					   backColor;
 		
 		Drawing::IFont *font;
 		Drawing::ITexture *texture;

@@ -3,7 +3,7 @@
 
 #include <d3d9.h>
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\ITexture.h"
+#include "ITexture.h"
 
 namespace OSHGui
 {
@@ -29,15 +29,15 @@ namespace OSHGui
 			void Clear(Drawing::Rectangle &rect);
 			virtual void Clear(int x, int y, int w, int h);
 
-			void Fill(D3DCOLOR color);
-			void Fill(const Drawing::Point &point, D3DCOLOR color);
-			void Fill(int x, int y, D3DCOLOR color);
-			void Fill(Drawing::Rectangle &rect, D3DCOLOR color);
-			virtual void Fill(int x, int y, int w, int h, D3DCOLOR color);
+			void Fill(Drawing::Color color);
+			void Fill(const Drawing::Point &point, Drawing::Color color);
+			void Fill(int x, int y, Drawing::Color color);
+			void Fill(Drawing::Rectangle &rect, Drawing::Color color);
+			virtual void Fill(int x, int y, int w, int h, Drawing::Color color);
 
-			void FillGradient(D3DCOLOR from, D3DCOLOR to, bool updown = true);
-			void FillGradient(Drawing::Rectangle &rect, D3DCOLOR from, D3DCOLOR to, bool updown = true);
-			virtual void FillGradient(int x, int y, int w, int h, D3DCOLOR from, D3DCOLOR to, bool updown = true);
+			void FillGradient(Drawing::Color from, Drawing::Color to, bool updown = true);
+			void FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown = true);
+			virtual void FillGradient(int x, int y, int w, int h, Drawing::Color from, Drawing::Color to, bool updown = true);
 			
 			virtual void Rotate(int degrees);
 

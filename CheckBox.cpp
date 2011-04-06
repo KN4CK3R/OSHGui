@@ -131,10 +131,10 @@ namespace OSHGui
 			texture->EndUpdate();
 		}
 		
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture, buttonRect);
 		
-		renderer->SetRenderColor();
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, text);
 	}
 	//---------------------------------------------------------------------------
