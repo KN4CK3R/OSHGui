@@ -24,9 +24,6 @@ namespace OSHGui
 			bool InsertString(int index, const char* str, int count = -1);
 			bool SetText(LPCSTR text);
 			
-			int CaretToPosition(int caret);
-			int PositionToCaret(int position);
-			
 		protected:
 			bool SetBufferSize(int size);
 		

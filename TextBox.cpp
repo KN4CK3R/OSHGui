@@ -2,6 +2,9 @@
 
 namespace OSHGui
 {
+	//---------------------------------------------------------------------------
+	//Constructor
+	//---------------------------------------------------------------------------
 	TextBox::TextBox(Panel *parentPanel)
 	{
 		type = CONTROL_TEXTBOX;
@@ -13,20 +16,58 @@ namespace OSHGui
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
 	}
-		
+	//---------------------------------------------------------------------------
 	TextBox::~TextBox()
 	{
-			
+		
 	}
+	//---------------------------------------------------------------------------
+	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void TextBox::SetText(LPCSTR text)
+	{
+		if (text != NULL)
+		{
+			buffer.SetText(text);
+			firstVisibleCharacter = 0;
+			PlaceCaret(buffer.GetLength());
+		}
+	}
+	//---------------------------------------------------------------------------
+	LPCSTR TextBox::GetText()
+	{
+		return buffer.GetBuffer();
+	}
+	//---------------------------------------------------------------------------
+	bool TextBox::GetTextCopy(LPSTR dest, int count)
+	{
+		if (dest == NULL || count > buffer.GetLength())
+		{
+			return false;
+		}
 	
+		strncpy(dest, buffer.GetBuffer(), count);
+
+		return true;
+	}
+	//---------------------------------------------------------------------------
+	int TextBox::GetTextLength()
+	{
+		return buffer.GetLength();
+	}
+	//---------------------------------------------------------------------------
+	//Runtime-Functions
+	//---------------------------------------------------------------------------
 	bool TextBox::CanHaveFocus()
 	{
 		return enabled && visible;
 	}
+	//---------------------------------------------------------------------------
 	bool TextBox::ContainsPoint(const Drawing::Point &point)
 	{
 		return bounds.Contains(point);
 	}
+	//---------------------------------------------------------------------------
 	void TextBox::UpdateRects()
 	{
 		if (bounds.GetHeight() > TEXTBOX_DEFAULT_HEIGHT)
@@ -38,75 +79,68 @@ namespace OSHGui
 		textRect.Offset(7, 7);
 		textRect.Inflate(-7, -7);
 	}
-	
-	void TextBox::SetText(LPCSTR text)
-	{
-		if (text != NULL)
-		{
-			buffer.SetText(text);
-			firstVisibleCharacter = 0;
-			PlaceCaret(buffer.GetLength());
-		}
-	}
-	LPCSTR TextBox::GetText()
-	{
-		return buffer.GetBuffer();
-	}
-	bool TextBox::GetTextCopy(LPSTR dest, int count)
-	{
-		if (dest == NULL || count > buffer.GetLength())
-		{
-			return false;
-		}
-	
-		//wcscpy(dest, count, buffer.GetBuffer());
-
-		return true;
-	}
-	
-	int TextBox::GetTextLength()
-	{
-		return buffer.GetLength();
-	}
-	
+	//---------------------------------------------------------------------------
 	void TextBox::ClearText()
 	{
 		buffer.Clear();
 		firstVisibleCharacter = 0;
 		PlaceCaret(0);
 	}
-	
+	//---------------------------------------------------------------------------
 	void TextBox::PlaceCaret(int position)
 	{
 		caretPosition = position;
 
-		int firstPos = buffer.CaretToPosition(firstVisibleCharacter);
-		int caretPos = buffer.CaretToPosition(position);
+		int firstPos = CharacterToPosition(firstVisibleCharacter);
+		int caretPos = CharacterToPosition(position);
 		
-		if (caretPos < firstPos)
+		if (caretPos < firstPos || caretPos > firstPos + textRect.GetWidth())
 		{
 			firstVisibleCharacter = position;
 		}
-		else if (caretPos > firstPos + textRect.GetWidth())
-		{
-			int newLeftPos = caretPos - textRect.GetWidth();
-			int newFirstPos = buffer.PositionToCaret(newLeftPos);
+	}
+	//---------------------------------------------------------------------------
+	int TextBox::CharacterToPosition(int charIndex)
+	{
+		const char *str = buffer.GetBuffer();
 		
-			if (buffer.CaretToPosition(newFirstPos) < newLeftPos)
+		int ret = 0;
+		
+		if (charIndex > 0) //todo
+		{
+			for (int i = 0; i < charIndex && str[i] != 0; i++)
 			{
-				newFirstPos++;
+				ret += font->MeasureCharacter[str[i]];
 			}
-
-			firstVisibleCharacter = newFirstPos;
 		}
-	}	
+		
+		return ret;
+	}
+	//---------------------------------------------------------------------------
+	int TextBox::PositionToCharacterIndex(int position)
+	{
+		const char *str = buffer.GetBuffer();
+		
+		int ret = 0;
+		for (int i = 0; str[i] != 0; i++)
+		{
+			ret += font->MeasureCharacter[str[i]];
+			if (ret >= position)
+			{
+				return i;
+			}
+		}
+		
+		return 0;
+	}
+	//---------------------------------------------------------------------------
 	void TextBox::PasteFromClipboard()
 	{		
-		if (IsClipboardFormatAvailable(CF_UNICODETEXT))
+		if (IsClipboardFormatAvailable(CF_TEXT))
 		{
 			if (OpenClipboard(NULL))
 			{
-				HANDLE clipboard = GetClipboardData(CF_UNICODETEXT);
+				HANDLE clipboard = GetClipboardData(CF_TEXT);
 				if (clipboard != NULL)
 				{
 					char *data = (char*)GlobalLock(clipboard);
@@ -124,8 +158,9 @@ namespace OSHGui
 			}
 		}
 	}
-	
-		
+	//---------------------------------------------------------------------------
+	//Event-Handling
+	//---------------------------------------------------------------------------
 	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
 	{
 		/*if (event == NULL || !enabled)
@@ -227,25 +262,11 @@ namespace OSHGui
 			
 				return Event::Invalidate;
 			}
-		}
-		else if (event->Type == Event::Paint)
-		{
-			PaintEvent *paint = (PaintEvent*) event;
-			Graphics *graphic = paint->Graphic;
-			Rectangle clip = paint->Clip.Offset(bounds);
-			
-			graphics->FillRectangle(clip);
-			graphics->DrawString(clip.GetPosition(), text);
-			
-			clip.SetWidth(1);
-			clip.SetHeight(clip.GetHeight() - 6);
-			clip.Offset(0 cursorPosition, 3);
-			graphics->FillRectangle(clip);
 		}*/
 		
 		return Event::None;
 	}
-	
+	//---------------------------------------------------------------------------
 	void TextBox::Render(Drawing::IRenderer *renderer)
 	{
 		//OK
@@ -285,4 +306,5 @@ namespace OSHGui
 		//Carret
 		renderer->Fill();
 	}
+	//---------------------------------------------------------------------------
 }

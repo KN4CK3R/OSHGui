@@ -19,9 +19,14 @@ namespace OSHGui
 
 			virtual bool Create(LPCSTR fontName, int size, bool bold, bool italic);
 			
+			virtual int MeasureChar(char c);
+			
 		private:
 			IDirect3DDevice9 *device;
 			LPD3DXFONT font;
+			
+			bool initWidthArray;
+			int charWidth[0xFF];
 		};
 	}
 }

@@ -11,6 +11,8 @@ namespace OSHGui
 		{
 			this->device = device;
 			
+			initWidthArray = false;
+			
 			font = NULL;
 		}
 		//---------------------------------------------------------------------------
@@ -40,8 +42,45 @@ namespace OSHGui
 			{
 				return false;
 			}
+			
+			initWidthArray = true;
 
 			return true;
+		}
+		//---------------------------------------------------------------------------
+		int FontDX9::MeasureChar(char c)
+		{
+			if (font == NULL)
+			{
+				return 0;
+			}
+			
+			if (initWidthArray)
+			{
+				// \0 char is 0
+				charWidth[0] = 0;
+			
+				RECT rct, rct2;
+				char str[2] = { 0, 0 };
+				
+				for (int i = 1; i < 0xFF; i++)
+				{
+					if (i == 0x20) // space needs extra calculation
+					{
+						font->DrawText(NULL, "_", -1, &rct, DT_CALCRECT, 0);
+						font->DrawText(NULL, "_ _", -1, &rct2, DT_CALCRECT, 0);
+						charWidth[i] = rct2.right - rct.right * 2;
+					}
+					else
+					{
+						str[0] = (char)i;
+						font->DrawText(NULL, str, -1, &rct, DT_CALCRECT, 0);
+						charWidth[i] = rct.right;
+					}
+				}
+			}
+			
+			return charWidth[(int)c];
 		}
 		//---------------------------------------------------------------------------
 	}

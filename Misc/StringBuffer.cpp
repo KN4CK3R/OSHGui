@@ -174,16 +174,6 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------	
-		int StringBuffer::CaretToPosition(int caret)
-		{
-			return -1;
-		}
-		//---------------------------------------------------------------------------	
-		int StringBuffer::PositionToCaret(int position)
-		{
-			return -1;
-		}
-		//---------------------------------------------------------------------------	
 		bool StringBuffer::SetBufferSize(int newSize)
 		{
 			if (newSize > 1023)
