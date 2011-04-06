@@ -10,11 +10,15 @@ namespace OSHGui
 	public:
 		GroupBox(Panel *parentPanel = NULL);
 		virtual ~GroupBox();
+
+		void SetText(LPCSTR text);
+		LPCSTR GetText();
+		bool GetTextCopy(LPSTR copy);
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
 		virtual Event::NextEventType ProcessMessage(Event *event);
-		virtual void Render(IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
 		char text[256];

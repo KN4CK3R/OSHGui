@@ -41,7 +41,7 @@ namespace OSHGui
 			return false;
 		}
 		
-		strcpy_s(copy, wcslen(text), text);
+		strcpy_s(copy, strlen(text), text);
 		
 		return true;
 	}
@@ -60,8 +60,8 @@ namespace OSHGui
 		captionBar.Inflate(-32, 0);
 		captionBar.SetHeight(24);
 		
-		closeRect = Drawing::Rectangle(size.GetWidth() - 15, 7, 10, 10);
-		minimizeRect = Drawing::Rectangle(size.GetWidth() - 32, 7, 10, 10);
+		closeRect = Drawing::Rectangle(bounds.GetWidth() - 15, 7, 10, 10);
+		minimizeRect = Drawing::Rectangle(bounds.GetWidth() - 32, 7, 10, 10);
 		
 		clientArea = bounds;
 		clientArea.Offset(1, 25);
@@ -82,7 +82,7 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			if (captionBar.IsIn(mouse->Position))
+			if (captionBar.Contains(mouse->Position))
 			{
 				if (mouse->State == MouseEvent::Move && drag == true)
 				{
@@ -97,21 +97,21 @@ namespace OSHGui
 				{
 					drag = false;
 				}
-				return NextEventType::None;
+				return Event::None;
 			}
 			if (mouse->State == MouseEvent::LeftUp)
 			{
-				if (closeRect.IsIn(mouse->Position))
+				if (closeRect.Contains(mouse->Position))
 				{
 					//close
 					
-					return NextEventType::None;
+					return Event::None;
 				}
-				else if (minimizeRect.IsIn(mouse->Position))
+				else if (minimizeRect.Contains(mouse->Position))
 				{
 					//minimize
 					
-					return NextEventType::None;
+					return Event::None;
 				}
 			}
 		}
@@ -160,10 +160,10 @@ namespace OSHGui
 		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture, bounds.GetPosition());
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, captionbar, text);
+		renderer->RenderText(font, captionBar, text);
 		
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientRect);
+		renderer->SetRenderRectangle(clientArea);
 	
 		for (int i = 0, len = Controls.GetSize(); i < len; i++)
 		{

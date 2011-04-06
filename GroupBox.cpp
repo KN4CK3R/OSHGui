@@ -12,7 +12,7 @@ namespace OSHGui
 		ParentPanel = parentPanel;
 	}
 	//---------------------------------------------------------------------------
-	~GroupBox()
+	GroupBox::~GroupBox()
 	{
 		for (int i = 0, len = Controls.GetSize(); i < len; i++)
 		{
@@ -48,7 +48,7 @@ namespace OSHGui
 			return false;
 		}
 		
-		strcpy_s(copy, wcslen(text), text);
+		strcpy_s(copy, strlen(text), text);
 		return true;
 	}
 	//---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	void GroupBox::Render(IRenderer *renderer)
+	void GroupBox::Render(Drawing::IRenderer *renderer)
 	{
 		/*Drawing::Size size(220, 224);
 

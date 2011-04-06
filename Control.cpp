@@ -112,7 +112,7 @@ namespace OSHGui
 		return tag;
 	}
 	//---------------------------------------------------------------------------
-	void SetFont(Drawing::IFont *font)
+	void Control::SetFont(Drawing::IFont *font)
 	{
 		if (font != NULL)
 		{
@@ -120,27 +120,27 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::IFont* GetFont()
+	Drawing::IFont* Control::GetFont()
 	{
 		return font;
 	}
 	//---------------------------------------------------------------------------
-	void SetForeColor(Drawing::Color color)
+	void Control::SetForeColor(Drawing::Color color)
 	{
 		foreColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color GetForeColor()
+	Drawing::Color Control::GetForeColor()
 	{
 		return foreColor;
 	}
 	//---------------------------------------------------------------------------
-	void SetBackColor(Drawing::Color color)
+	void Control::SetBackColor(Drawing::Color color)
 	{
 		backColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color GetBackColor()
+	Drawing::Color Control::GetBackColor()
 	{
 		return backColor;
 	}

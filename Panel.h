@@ -24,14 +24,14 @@ namespace OSHGui
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
-
-		Misc::List<Control*> Controls;
 		
 	protected:
 		void OnMouseMove(const Drawing::Point &point);
 		void OnMouseUp(const Drawing::Point &point);
 	
 		Control *FindControlAtPoint(const Drawing::Point &point);
+
+		Misc::List<Control*> Controls;
 
 		Control *focusControl,
 				*captureControl,

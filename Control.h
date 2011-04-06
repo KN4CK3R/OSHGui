@@ -28,6 +28,7 @@ namespace OSHGui
 	{
 		CONTROL_PANEL,
 		CONTROL_FORM,
+		CONTROL_GROUPBOX,
 		CONTROL_LABEL,
 		CONTROL_LINKLABEL,
 		CONTROL_BUTTON,
@@ -83,8 +84,6 @@ namespace OSHGui
 		Drawing::Color GetForeColor();
 		void SetBackColor(Drawing::Color color);
 		Drawing::Color GetBackColor();
-		void SetFont(Drawing::IFont *font);
-		Drawing::IFont* GetFont();
 
 		void SetOnClick(OnClickFunc clickFunc);
 		void SetOnKeyPress(OnKeyPressFunc keyPressFunc);
@@ -125,7 +124,7 @@ namespace OSHGui
 					   backColor;
 		
 		Drawing::IFont *font;
-		List<Drawing::ITexture*> texture;
+		Misc::List<Drawing::ITexture*> texture;
 	};
 }
 

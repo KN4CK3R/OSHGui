@@ -126,7 +126,7 @@ namespace OSHGui
 				return false;
 			}
 			
-			count = count == -1 ? lstrlenW(str) : count > lstrlenW(str) ? lstrlenW(str) : count;
+			count = count == -1 ? strlen(str) : count > strlen(str) ? strlen(str) : count;
 			
 			if (size + count >= 1024)
 			{
@@ -154,7 +154,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------	
 		bool StringBuffer::SetText(LPCSTR text)
 		{
-			int required = lstrlenW(text) + 1;
+			int required = strlen(text) + 1;
 
 			if (required >= 1024)
 			{

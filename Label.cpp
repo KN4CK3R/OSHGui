@@ -13,7 +13,7 @@ namespace OSHGui
 		
 		memset((void*)&text, 0x00, sizeof(text));
 		
-		SetBackColor(Color.Empty);
+		SetBackColor(Drawing::Color::Empty());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -41,7 +41,7 @@ namespace OSHGui
 			return false;
 		}
 		
-		strcpy_s(copy, wcslen(text), text);
+		strcpy_s(copy, strlen(text), text);
 		return true;
 	}
 	//---------------------------------------------------------------------------
@@ -61,13 +61,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Label::Render(Drawing::IRenderer *renderer)
 	{
-		if (backColor.Alpha != 0)
+		if (backColor.A != 0)
 		{
-			renderer->SetColor(backColor);
+			renderer->SetRenderColor(backColor);
 			renderer->Fill(bounds);
 		}
 	
-		renderer->SetColor(foreColor);
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds, text);
 	}
 	//---------------------------------------------------------------------------

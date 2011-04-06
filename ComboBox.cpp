@@ -239,7 +239,7 @@ namespace OSHGui
 		{
 			ListItem *item = items.Get(i);
 
-			if (wcscmp(item->Text, text) == 0)
+			if (strcmp(item->Text, text) == 0)
 			{
 				return i;
 			}

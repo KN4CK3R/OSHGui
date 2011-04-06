@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_DRAWING_COLOR_H__
 #define __OSHGUI_DRAWING_COLOR_H__
 
+#include <windows.h>
+
 namespace OSHGui
 {
 	namespace Drawing
@@ -12,28 +14,41 @@ namespace OSHGui
 			{
 				struct
 				{
-					BYTE Alpha;
-					BYTE Red;
-					BYTE Green;
-					BYTE Blue;
-				}
-				DWORD Color;
+					BYTE A;
+					BYTE R;
+					BYTE G;
+					BYTE B;
+				};
+				DWORD ARGB;
 			};
-		
-			//---------------------------------------------------------------------------
-			//Constructor
-			//---------------------------------------------------------------------------
-			Color(BYTE alpha = 0, BYTE red = 0, BYTE green = 0, BYTE blue = 0)
-			{
-				Alpha = alpha;
-				Red = red;
-				Green = green;
-				Blue = blue;
-			}
-			//---------------------------------------------------------------------------
-			//predefined colors
-			//---------------------------------------------------------------------------
-			static Color Empty;
+
+			Color();
+			Color(BYTE red, BYTE green, BYTE blue);
+			Color(BYTE alpha, BYTE red, BYTE green, BYTE blue);
+
+			static Color Empty();
+
+			static Color Red();
+			static Color Lime();
+			static Color Blue();
+
+			static Color Black();
+			static Color Grey();
+			static Color White();
+
+			static Color Yellow();
+			static Color Fuchsia();
+			static Color Cyan();
+
+			static Color Maroon();
+			static Color Green();
+			static Color Navy();
+
+			float Hue();
+			float Saturation();
+			float Brightness();
+
+			static Color FromHSB(float hue, float saturation, float brightness);
 		};
 	}
 }
