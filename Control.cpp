@@ -26,6 +26,8 @@ namespace OSHGui
 		
 		mouseOver = false;
 		hasFocus = false;
+		
+		createTexture = true;
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()

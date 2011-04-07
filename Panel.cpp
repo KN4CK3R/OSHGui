@@ -211,15 +211,24 @@ namespace OSHGui
 	void Panel::Render(Drawing::IRenderer *renderer)
 	{
 		//OK
-		/*Drawing::Size size(220, 224);
+		if (needsRepaint)
+		{
+			if (texture.IsEmpty())
+			{
+				texture.Add(renderer->CreateNewTexture());
+			}
+	
+			Drawing::Size size = bounds.GetSize();
+			
+			Drawing::ITexture *main = texture.Get(0);
+			
+			main->Create(size);
+			main->BeginUpdate();
 
-		texture2 = new Drawing::Texture(pDevice);
-		texture2->Create(size);
-		texture2->BeginUpdate();
+			main->FillGradient(Color(0xFF3A3937), Color(0xFF4D4B49));
 
-		texture2->FillGradient(0xFF3A3937, 0xFF4D4B49);
-
-		texture2->EndUpdate();*/
+			main->EndUpdate();
+		}
 	
 		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture, bounds.GetPosition());

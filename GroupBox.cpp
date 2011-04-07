@@ -63,18 +63,27 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)
 	{
-		/*Drawing::Size size(220, 224);
+		if (needsRepaint)
+		{
+			if (texture.IsEmpty())
+			{
+				texture.Add(renderer->CreateNewTexture());
+			}
+	
+			Drawing::Size size = bounds.GetSize();
+			
+			Drawing::ITexture *main = texture.Get(0);
 
-		texture2 = new Drawing::Texture(pDevice);
-		texture2->Create(size);
-		texture2->BeginUpdate();
+			main->Create(size);
+			main->BeginUpdate();
 
-		texture2->FillGradient(0xFF5A5655, 0xFF383735);
+			main->FillGradient(Color(0xFF5A5655), Color(0xFF383735));
 
-		texture2->EndUpdate();*/
+			main->EndUpdate();
+		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture, bounds.GetPosition());
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, text);
 		

@@ -35,6 +35,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TextureDX9::Create(const Size &size)
 		{
+			if (size == this->size)
+			{
+				//return true; //todo (Reset Problem)
+			}
+			
 			SAFE_RELEASE(texture);
 			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, NULL)))
 			{
@@ -295,10 +300,10 @@ namespace OSHGui
 				float p3x = (size.Width * cosine); 
 				float p3y = (size.Width * sine); 
 
-				float minx = _min(0, _min(p1x, _min(p2x, p3x))); 
-				float miny = _min(0, _min(p1y, _min(p2y, p3y))); 
-				float maxx = _max(p1x, _max(p2x, p3x)); 
-				float maxy = _max(p1y, _max(p2y, p3y)); 
+				float minx = _min(0, _min(p1x, _min(p2x, p3x)));
+				float miny = _min(0, _min(p1y, _min(p2y, p3y)));
+				float maxx = _max(p1x, _max(p2x, p3x));
+				float maxy = _max(p1y, _max(p2y, p3y));
 
 				Drawing::Size tempSize((int)ceil(fabs(maxx) - minx), (int)ceil(fabs(maxy) - miny)),
 							  bckSize = size;
@@ -381,7 +386,7 @@ namespace OSHGui
 		
 			BYTE *raw = (BYTE*)lock.pBits;
 			BYTE *tempRaw = (BYTE*)tempLock.pBits;
-				
+			
 			for (int y = 0; y < tempSize.Height; y++)
 			{
 				int row = (y + _y) * lock.Pitch,

@@ -87,25 +87,27 @@ namespace OSHGui
 	{
 		if (needRepaint)
 		{
-			if (texture == NULL)
+			if (texture.IsEmpty())
 			{
-				texture = renderer->CreateNewTexture();
+				texture.Add(renderer->CreateNewTexture());
 			}
 
 			Drawing::Size size = bounds.GetSize();
+			
+			Drawing::ITexture *main = texture.Get(0);
 
-			texture->Create(size);
-			texture->BeginUpdate();
+			main->Create(size);
+			main->BeginUpdate();
 
-			texture->Fill(0xFF2D2F2E);
+			main->Fill(Color(0xFF2D2F2E));
 
-			texture->Fill(2, 2, position > 0 ? size.Width * ((float)(position - min) / (max - min)) - 4 : 0, size.Height - 4, 0xFF5F5F5F);
+			main->Fill(2, 2, position > 0 ? size.Width * ((float)(position - min) / (max - min)) - 4 : 0, size.Height - 4, Color(0xFF5F5F5F));
 
-			texture->EndUpdate();
+			main->EndUpdate();
 		}
 
-		renderer->SetRenderColor();
-		renderer->RenderTexture(texture, bounds.GetPosition());
+		renderer->SetRenderColor(backColor);
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 	}
 	//---------------------------------------------------------------------------
 }

@@ -59,7 +59,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::ContainsPoint(const Drawing::Point &point)
 	{
-		return bounds.Contains(point);
+		if (bounds.Contains(point))
+		{
+			return true;
+		}
+		if (opened && dropdownRect.Contains(point))
+		{
+			return true;
+		}
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::UpdateRects()
@@ -87,6 +95,11 @@ namespace OSHGui
 		scrollBar.SetSize(Drawing::Size(-1, dropdownRect.GetHeight()));
 		scrollBar.SetPageSize(itemsRect.GetHeight() / COMBOBOX_ITEM_HEIGHT);
 		scrollBar.ShowItem(selectedIndex);
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::OnFocusOut()
+	{
+		opened = false;
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::AddItem(const char *itemText)
@@ -376,20 +389,20 @@ namespace OSHGui
 							if (focusedIndex > 0)
 							{
 								focusedIndex--;
-								selectedIndex = focusedIndex;     
+								selectedIndex = focusedIndex;
 								
 								if (changeFunc != NULL)
 								{
 									(*changeFunc)(this);
 								}
-							}          
+							}
 						}
 						else
 						{
 							if (focusedIndex + 1 < GetItemsCount())
 							{
 								focusedIndex++;
-								selectedIndex = focusedIndex;   
+								selectedIndex = focusedIndex;
 
 								if (changeFunc != NULL)
 								{
@@ -495,66 +508,80 @@ namespace OSHGui
 	void ComboBox::Render(Drawing::IRenderer *renderer)
 	{
 		//OK
-		/*button:
-		Drawing::Size size(220, 24);
+		if (needRepaint)
+		{
+			if (texture.IsEmpty())
+			{
+				texture.Add(renderer->CreateNewTexture()); //Button
+				texture.Add(renderer->CreateNewTexture()); //DropDown
+			}
+			
+			Drawing::Size size = bounds.GetSize();
+			Drawing::ITexture *button = texture.Get(0);
+			{
+				button->Create(size);
+				button->BeginUpdate();
+				button->Clear();
 
-		texture = new Drawing::Texture(pDevice);
-		texture->Create(size);
-		texture->BeginUpdate();
-		texture->Clear();
+				button->FillGradient(1, 1, size.Width - 2, size.Height - 2, Color(0xFF635F5B), Color(0xFF4E4D4A));
 
-		texture->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF635F5B, 0xFF4E4D4A);
+				Drawing::Color border(0x60FFFFFF);
+				
+				button->Fill(1, 0, size.Width - 2, 1, border);
+				button->Fill(0, 1, 1, size.Height - 2, border);
+				button->Fill(1, size.Height - 1, size.Width - 2, 1, border);
+				button->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
 
-		texture->Fill(1, 0, size.Width - 2, 1, 0x60FFFFFF);
-		texture->Fill(0, 1, 1, size.Height - 2, 0x60FFFFFF);
-		texture->Fill(1, size.Height - 1, size.Width - 2, 1, 0x60FFFFFF);
-		texture->Fill(size.Width - 1, 1, 1, size.Height - 2, 0x60FFFFFF);
+				button->Fill(1, 1, 1, 1, border);
+				button->Fill(size.Width - 2, 1, 1, 1, border);
+				button->Fill(1, size.Height - 2, 1, 1, border);
+				button->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
 
-		texture->Fill(1, 1, 1, 1, 0x60FFFFFF);
-		texture->Fill(size.Width - 2, 1, 1, 1, 0x60FFFFFF);
-		texture->Fill(1, size.Height - 2, 1, 1, 0x60FFFFFF);
-		texture->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x60FFFFFF);
+				button->Fill(size.Width - 20, 4, 1, 16, border);
+				
+				border = Color(0xFFBAB8B9);
 
-		texture->Fill(size.Width - 20, 4, 1, 16, 0x60FFFFFF);
+				button->Fill(size.Width - 11, 14, 1, 1, border);
+				button->Fill(size.Width - 12, 13, 3, 1, border);
+				button->Fill(size.Width - 13, 12, 5, 1, border);
+				button->Fill(size.Width - 14, 11, 7, 1, border);
 
-		texture->Fill(size.Width - 11, 14, 1, 1, 0xFFBAB8B9);
-		texture->Fill(size.Width - 12, 13, 3, 1, 0xFFBAB8B9);
-		texture->Fill(size.Width - 13, 12, 5, 1, 0xFFBAB8B9);
-		texture->Fill(size.Width - 14, 11, 7, 1, 0xFFBAB8B9);
+				button->EndUpdate();
+			}
 
-		texture2->EndUpdate();*/
+			size = dropdownRect.GetSize();
+			Drawing::ITexture *dropdown = texture.Get(1);
+			{
+				dropdown->Create(size);
+				dropdown->BeginUpdate();
+				dropdown->Clear();
+				
+				dropdown->FillGradient(1, 1, size.Width - 2, size.Height - 2, Color(0xFF625E5A), Color(0xFF433F3E));
 
-		/*dropdown:
-		Drawing::Size size(220, 224);
+				Drawing::Color border(0x8059595A);
+				
+				dropdown->Fill(0, 1, 1, size.Height - 2, border);
+				dropdown->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
+				dropdown->Fill(1, 0, size.Width - 2, 1, border);
+				dropdown->Fill(1, size.Height - 1, size.Width - 2, 1, border);
 
-		texture2 = new Drawing::Texture(pDevice);
-		texture2->Create(size);
-		texture2->BeginUpdate();
-		texture2->Clear();
+				dropdown->Fill(1, 1, 1, 1, border);
+				dropdown->Fill(size.Width - 2, 1, 1, 1, border);
+				dropdown->Fill(1, size.Height - 2, 1, 1, border);
+				dropdown->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
 
-		texture->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF625E5A, 0xFF433F3E);
-
-		texture->Fill(0, 1, 1, size.Height - 2, 0x8059595A);
-		texture->Fill(size.Width - 1, 1, 1, size.Height - 2, 0x8059595A);
-		texture->Fill(1, 0, size.Width - 2, 1, 0x8059595A);
-		texture->Fill(1, size.Height - 1, size.Width - 2, 1, 0x8059595A);
-
-		texture->Fill(1, 1, 1, 1, 0x8059595A);
-		texture->Fill(size.Width - 2, 1, 1, 1, 0x8059595A);
-		texture->Fill(1, size.Height - 2, 1, 1, 0x8059595A);
-		texture->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x8059595A);
-
-		texture2->EndUpdate();*/
+				dropdown->EndUpdate();
+			}
+		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture, bounds.GetPosition());
-
-		scrollBar.Render(renderer);
-	}
-	//---------------------------------------------------------------------------
-	void ComboBox::OnFocusOut()
-	{
-		opened = false;
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		
+		if (opened)
+		{
+			render->RenderTexture(texture.Get(1), dropdownRect.GetPosition());
+			scrollBar.Render(renderer);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

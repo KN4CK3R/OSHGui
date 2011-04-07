@@ -41,10 +41,10 @@ namespace OSHGui
 		bool drag,
 			 showSlider;
 		
-		Drawing::Rectangle buttonUp,
-						   buttonDown,
-						   track,
-						   slider;
+		Drawing::Rectangle upButtonRect,
+						   downButtonRect,
+						   trackRect,
+						   sliderRect;
 				  
 		long delayTimestamp;
 	};

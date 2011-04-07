@@ -12,6 +12,11 @@ namespace OSHGui
 			Color(255, 0, 0, 0);
 		}
 		//---------------------------------------------------------------------------
+		Color::Color(DWORD argb)
+		{
+			ARGB = argb;
+		}
+		//---------------------------------------------------------------------------
 		Color::Color(BYTE red, BYTE green, BYTE blue)
 		{
 			Color(255, red, green, blue);

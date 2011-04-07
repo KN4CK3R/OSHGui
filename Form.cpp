@@ -123,42 +123,47 @@ namespace OSHGui
 	{
 		if (needsRepaint)
 		{
-			if (texture == NULL)
+			if (texture.IsEmpty())
 			{
-				texture = renderer->CreateNewTexture();
+				texture.Add(renderer->CreateNewTexture());
 			}
-			Drawing::Size size = bounds.GetSize();
-			texture->Create(size);
-			texture->BeginUpdate();
 			
-			texture->Fill(0, 0, size.Width, 1, 0xFF000000);
-			texture->Fill(0, 0, 1, size.Height, 0xFF000000);
-			texture->Fill(size.Width - 1, 0, 1, size.Height, 0xFF000000);
-			texture->Fill(0, size.Height - 1, size.Width, 1, 0xFF000000);
+			Drawing::Size size = bounds.GetSize();
+			
+			Drawing::ITexture *main = texture.Get(0);
+			
+			main->Create(size);
+			main->BeginUpdate();
+			
+			main->Fill(0, 0, size.Width, 1, Drawing::Color::Black);
+			main->Fill(0, 0, 1, size.Height, Drawing::Color::Black);
+			main->Fill(size.Width - 1, 0, 1, size.Height, Drawing::Color::Black);
+			main->Fill(0, size.Height - 1, size.Width, 1, Drawing::Color::Black);
 			
 			//captionbar
 			{
-				texture->FillGradient(captionBar, 0xFF5F5A59, 0xFF444341);
+				main->FillGradient(captionBar, Color(0xFF5F5A59), Color(0xFF444341));
 				
+				Drawing::Color border(0xFFBAB9B7);
 				for (int i = 0; i < 4; i++)
 				{
-					texture->Fill(size.Width - 16 + i, 8 + i, 2, 1, 0xFFBAB9B7);
-					texture->Fill(size.Width - 16 + i, 16 - i, 2, 1, 0xFFBAB9B7);
-					texture->Fill(size.Width - 8 - i, 8 + i, 2, 1, 0xFFBAB9B7);
-					texture->Fill(size.Width - 8 - i, 16 - i, 2, 1, 0xFFBAB9B7);
+					main->Fill(size.Width - 16 + i, 8 + i, 2, 1, border);
+					main->Fill(size.Width - 16 + i, 16 - i, 2, 1, border);
+					main->Fill(size.Width - 8 - i, 8 + i, 2, 1, border);
+					main->Fill(size.Width - 8 - i, 16 - i, 2, 1, border);
 				}
 			}
 			
 			//clientArea
 			{
-				texture->FillGradient(clientArea, 0xFF5A5655, 0xFF383735);
+				main->FillGradient(clientArea, Color(0xFF5A5655), Color(0xFF383735));
 			}
 			
-			texture->EndUpdate();
+			main->EndUpdate();
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture, bounds.GetPosition());
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionBar, text);
 		

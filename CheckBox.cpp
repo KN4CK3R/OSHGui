@@ -96,43 +96,45 @@ namespace OSHGui
 		//OK
 		if (needRepaint)
 		{
-			if (texture == NULL)
+			if (texture.IsEmpty())
 			{
-				texture = renderer->CreateNewTexture();
+				texture.Add(renderer->CreateNewTexture());
 			}
+			
+			Drawing::ITexture *main = texture.Get(0);
 
-			texture->Create(Drawing::Size(15, 15));
-			texture->BeginUpdate();
-			texture->Clear();
+			main->Create(Drawing::Size(15, 15));
+			main->BeginUpdate();
+			main->Clear();
 
-			texture->Fill(1, 1, 13, 13, 0xFF444341);
+			main->Fill(1, 1, 13, 13, 0xFF444341);
 
-			texture->Fill(0, 1, 1, 13, 0xBF8A7D71);
-			texture->Fill(14, 1, 1, 13, 0xBF8A7D71);
-			texture->Fill(1, 0, 13, 1, 0xBF8A7D71);
-			texture->Fill(1, 14, 13, 1, 0xBF8A7D71);
+			main->Fill(0, 1, 1, 13, 0xBF8A7D71);
+			main->Fill(14, 1, 1, 13, 0xBF8A7D71);
+			main->Fill(1, 0, 13, 1, 0xBF8A7D71);
+			main->Fill(1, 14, 13, 1, 0xBF8A7D71);
 
-			texture->Fill(1, 1, 1, 1, 0xBF8A7D71);
-			texture->Fill(13, 1, 1, 1, 0xBF8A7D71);
-			texture->Fill(1, 13, 1, 1, 0xBF8A7D71);
-			texture->Fill(13, 13, 1, 1, 0xBF8A7D71);
+			main->Fill(1, 1, 1, 1, 0xBF8A7D71);
+			main->Fill(13, 1, 1, 1, 0xBF8A7D71);
+			main->Fill(1, 13, 1, 1, 0xBF8A7D71);
+			main->Fill(13, 13, 1, 1, 0xBF8A7D71);
 
 			if (checked)
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					texture->Fill(3 + i, 6 + i, 1, 3, 0xFFFFFFFF);
-					texture->Fill(7 + i, 8 - i, 1, 3, 0xFFFFFFFF);
+					main->Fill(3 + i, 6 + i, 1, 3, 0xFFFFFFFF);
+					main->Fill(7 + i, 8 - i, 1, 3, 0xFFFFFFFF);
 				}
 
-				texture->Fill(11, 4, 1, 3, 0xFFFFFFFF);
+				main->Fill(11, 4, 1, 3, 0xFFFFFFFF);
 			}
 
-			texture->EndUpdate();
+			main->EndUpdate();
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture, buttonRect);
+		renderer->RenderTexture(texture.Get(0), buttonRect);
 		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, text);

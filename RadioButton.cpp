@@ -46,23 +46,25 @@ namespace OSHGui
 	{
 		if (needRepaint)
 		{
-			if (texture == NULL)
+			if (texture.IsEmpty())
 			{
-				texture = renderer->CreateNewTexture();
+				texture.Add(renderer->CreateNewTexture());
 			}
 
-			D3DCOLOR color[3] = { 0xFFAAA5A2, 0xBFAAA5A2, 0x80AAA5A2 };
+			Drawing::Color color[3] = { Color(0xFFAAA5A2), Color(0xBFAAA5A2), Color(0x80AAA5A2) };
 			
-			texture->Create(Drawing::Size(15, 15));
-			texture->BeginUpdate();
-			texture->Clear();
+			Drawing::ITexture *main = texture.Get(0);
+			
+			main->Create(Drawing::Size(15, 15));
+			main->BeginUpdate();
+			main->Clear();
 			
 			for (int i = 0; i < 2; i++)
 			{
-				texture->Fill(1 - i, 7, 1, 1, color[(2 + i) % 3]);
-				texture->Fill(7, 1 - i, 1, 1, color[(2 + i) % 3]);
-				texture->Fill(13 + i, 7, 1, 1, color[(2 + i) % 3]);
-				texture->Fill(7, 13 + i, 1, 1, color[(2 + i) % 3]);
+				main->Fill(1 - i, 7, 1, 1, color[(2 + i) % 3]);
+				main->Fill(7, 1 - i, 1, 1, color[(2 + i) % 3]);
+				main->Fill(13 + i, 7, 1, 1, color[(2 + i) % 3]);
+				main->Fill(7, 13 + i, 1, 1, color[(2 + i) % 3]);
 			}
 			
 			Drawing::ITexture *temp = renderer->CreateNewTexture();
@@ -84,8 +86,8 @@ namespace OSHGui
 					temp->Fill(2 + i, 1, 1, 1, color[(2 + i) % 3]);
 					temp->Fill(1, 2 + i, 1, 1, color[(2 + i) % 3]);
 				}
-				temp->Fill(1, 6, 1, 1, 0x3FAAA5A2);
-				temp->Fill(6, 1, 1, 1, 0x3FAAA5A2);
+				temp->Fill(1, 6, 1, 1, Color(0x3FAAA5A2));
+				temp->Fill(6, 1, 1, 1, Color(0x3FAAA5A2));
 				temp->Fill(2, 2, 1, 1, color[1]);
 				temp->Fill(2, 3, 1, 1, color[2]);
 				temp->Fill(3, 2, 1, 1, color[2]);
@@ -93,44 +95,44 @@ namespace OSHGui
 				temp->EndUpdate();
 			}
 			
-			texture->Insert(0, 0, temp);
+			main->Insert(0, 0, temp);
 			temp->BeginUpdate();
 			temp->Rotate(90);
 			temp->EndUpdate();
-			texture->Insert(8, 0, temp);
+			main->Insert(8, 0, temp);
 			temp->BeginUpdate();
 			temp->Rotate(90);
 			temp->EndUpdate();
-			texture->Insert(8, 8, temp);
+			main->Insert(8, 8, temp);
 			temp->BeginUpdate();
 			temp->Rotate(90);
 			temp->EndUpdate();
-			texture->Insert(0, 8, temp);
+			main->Insert(0, 8, temp);
 
 			delete temp;
 
 			if (checked)
 			{
-				color[0] = 0xFFFFFFFF;
-				color[1] = 0xBFFFFFFF;
-				color[2] = 0x80FFFFFF;
+				color[0] = Color(0xFFFFFFFF);
+				color[1] = Color(0xBFFFFFFF);
+				color[2] = Color(0x80FFFFFF);
 				
-				texture->Fill(5, 5, 5, 5, color[0]);
+				main->Fill(5, 5, 5, 5, color[0]);
 				
 				for (int i = 0; i < 5; i++)
 				{
-					texture->Fill(5 + i, 4, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
-					texture->Fill(5 + i, 10, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
-					texture->Fill(4, 5 + i, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
-					texture->Fill(10, 5 + i, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
+					main->Fill(5 + i, 4, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
+					main->Fill(5 + i, 10, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
+					main->Fill(4, 5 + i, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
+					main->Fill(10, 5 + i, 1, 1, color[i < 2 ? 2 - i : -2 + i]);
 				}
 			}
 
-			texture->EndUpdate();
+			main->EndUpdate();
 		}
 		
 		renderer->SetRenderColor(backGround);
-		renderer->RenderTexture(texture, buttonRect.GetPosition());
+		renderer->RenderTexture(texture.Get(0), buttonRect.GetPosition());
 		renderer->SetRenderColor(foreGround);
 		renderer->RenderText(font, textRect, text);
 	}

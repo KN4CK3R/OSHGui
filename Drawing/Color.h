@@ -23,6 +23,7 @@ namespace OSHGui
 			};
 
 			Color();
+			Color(DWORD ARGB);
 			Color(BYTE red, BYTE green, BYTE blue);
 			Color(BYTE alpha, BYTE red, BYTE green, BYTE blue);
 

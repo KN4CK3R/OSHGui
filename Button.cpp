@@ -78,34 +78,36 @@ namespace OSHGui
 		//OK
 		if (needRepaint)
 		{
-			if (texture == NULL)
+			if (texture.IsEmpty())
 			{
-				texture = renderer->CreateNewTexture();
+				texture.Add(renderer->CreateNewTexture());
 			}
 			
 			Drawing::Size size = bounds.GetSize();
 
-			texture->Create(size);
-			texture->BeginUpdate();
-			texture->Clear();
+			Drawing::ITexture *main = texture.Get(0);
+			
+			main->Create(size);
+			main->BeginUpdate();
+			main->Clear();
 
-			texture->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF635F5B, 0xFF4E4D4A);
+			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF635F5B, 0xFF4E4D4A);
 
-			texture->Fill(1, 0, size.Width - 2, 1, 0x60FFFFFF);
-			texture->Fill(0, 1, 1, size.Height - 2, 0x60FFFFFF);
-			texture->Fill(1, size.Height - 1, size.Width - 2, 1, 0x60FFFFFF);
-			texture->Fill(size.Width - 1, 1, 1, size.Height - 2, 0x60FFFFFF);
+			main->Fill(1, 0, size.Width - 2, 1, 0x60FFFFFF);
+			main->Fill(0, 1, 1, size.Height - 2, 0x60FFFFFF);
+			main->Fill(1, size.Height - 1, size.Width - 2, 1, 0x60FFFFFF);
+			main->Fill(size.Width - 1, 1, 1, size.Height - 2, 0x60FFFFFF);
 
-			texture->Fill(1, 1, 1, 1, 0x60FFFFFF);
-			texture->Fill(size.Width - 2, 1, 1, 1, 0x60FFFFFF);
-			texture->Fill(1, size.Height - 2, 1, 1, 0x60FFFFFF);
-			texture->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x60FFFFFF);
+			main->Fill(1, 1, 1, 1, 0x60FFFFFF);
+			main->Fill(size.Width - 2, 1, 1, 1, 0x60FFFFFF);
+			main->Fill(1, size.Height - 2, 1, 1, 0x60FFFFFF);
+			main->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x60FFFFFF);
 
-			texture->EndUpdate();
+			main->EndUpdate();
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture, bounds.GetPosition());
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds, text);
 	}

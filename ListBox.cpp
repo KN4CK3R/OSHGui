@@ -87,7 +87,7 @@ namespace OSHGui
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 		
 		strcpy_s(newItem->Text, 256, text);
-			
+		
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
 		if (!items.Add(newItem))
@@ -119,7 +119,7 @@ namespace OSHGui
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 
 		strcpy_s(newItem->Text, 256, text);
-			
+		
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
 		if (!items.Insert(index, newItem))
@@ -200,7 +200,7 @@ namespace OSHGui
 		}
 
 		if (oldSelectedIndex != selectedIndex)
-		{		
+		{
 			scrollBar.ShowItem(selectedIndex);
 			
 			if (changeFunc != NULL)
@@ -342,7 +342,7 @@ namespace OSHGui
 					}
 
 					if (oldSelectedIndex != selectedIndex)
-					{					
+					{
 						scrollBar.ShowItem(selectedIndex);
 						
 						if (changeFunc != NULL)
@@ -367,27 +367,43 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::Render(Drawing::IRenderer *renderer)
 	{
-		/*dropdown:
-		Drawing::Size size(220, 224);
+		if (needsRepaint)
+		{
+			if (texture.IsEmpty())
+			{
+				texture.Add(renderer->CreateNewTexture());
+			}
+			
+			Drawing::Size size = bounds.GetSize();
+			
+			Drawing::ITexture *main = texture.Get(0);
+			
+			main->Create(size);
+			main->BeginUpdate();
+			main->Clear();
+			
+			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, Color(0xFF353432), Color(0xFF171614));
 
-		texture2 = new Drawing::Texture(pDevice);
-		texture2->Create(size);
-		texture2->BeginUpdate();
-		texture2->Clear();
+			Drawing::Color border(0x804C4B47);
+			
+			main->Fill(0, 1, 1, size.Height - 2, border);
+			main->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
+			main->Fill(1, 0, size.Width - 2, 1, border);
+			main->Fill(1, size.Height - 1, size.Width - 2, 1, border);
 
-		texture2->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF353432, 0xFF171614);
-
-		texture2->Fill(0, 1, 1, size.Height - 2, 0x804C4B47);
-		texture2->Fill(size.Width - 1, 1, 1, size.Height - 2, 0x804C4B47);
-		texture2->Fill(1, 0, size.Width - 2, 1, 0x804C4B47);
-		texture2->Fill(1, size.Height - 1, size.Width - 2, 1, 0x804C4B47);
-
-		texture2->Fill(1, 1, 1, 1, 0x804C4B47);
-		texture2->Fill(size.Width - 2, 1, 1, 1, 0x804C4B47);
-		texture2->Fill(1, size.Height - 2, 1, 1, 0x804C4B47);
-		texture2->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x804C4B47);
-
-		texture2->EndUpdate();*/
+			main->Fill(1, 1, 1, 1, border);
+			main->Fill(size.Width - 2, 1, 1, 1, border);
+			main->Fill(1, size.Height - 2, 1, 1, border);
+			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
+			
+			main->EndUpdate();
+		}
+		
+		renderer->SetRenderColor(backColor);
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		
+		renderer->SetRenderColor(foreColor);
+		//renderer->RenderText(font, captionBar, text);
 	
 		scrollBar.Render(renderer);
 	}

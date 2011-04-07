@@ -187,7 +187,47 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::Render(Drawing::IRenderer *renderer)
 	{
-	
+		if (needsRepaint)
+		{
+			if (texture.IsEmpty())
+			{
+				texture.Add(renderer->CreateNewTexture()); //track
+				texture.Add(renderer->CreateNewTexture()); //button
+			}
+			
+			Drawing::ITexture *track = texture.Get(0);
+			{
+				track->Create(bounds.GetSize());
+				track->BeginUpdate();
+				track->Clear();
+				
+				Drawing::Color color(0xFFAFAEAA);
+				
+				int range = max - min;
+				float space = bounds.GetWidth() / (float)range;
+				
+				for (int i = 0; i < range; i++)
+				{
+					track->Fill(x + (i * space), 6, 1, 5, color);
+				}
+
+				track->EndUpdate();
+			}
+			
+			Drawing::ITexture *slider = texture.Get(1);
+			{
+				slider->Create(sliderRect.GetSize());
+				slider->BeginUpdate();
+				
+				slider->Fill(Color(0xFFAFAEAA));
+
+				slider->EndUpdate();
+			}
+		}
+		
+		renderer->SetRenderColor(foreColor);
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		renderer->RenderTexture(texture.Get(1), sliderRect.GetPosition());
 	}
 	//---------------------------------------------------------------------------
 }
