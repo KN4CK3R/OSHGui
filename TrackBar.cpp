@@ -187,7 +187,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::Render(Drawing::IRenderer *renderer)
 	{
-		if (needsRepaint)
+		if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -208,7 +208,7 @@ namespace OSHGui
 				
 				for (int i = 0; i < range; i++)
 				{
-					track->Fill(x + (i * space), 6, 1, 5, color);
+					track->Fill((int)(i * space), 6, 1, 5, color);
 				}
 
 				track->EndUpdate();
@@ -219,7 +219,7 @@ namespace OSHGui
 				slider->Create(sliderRect.GetSize());
 				slider->BeginUpdate();
 				
-				slider->Fill(Color(0xFFAFAEAA));
+				slider->Fill(Drawing::Color(0xFFAFAEAA));
 
 				slider->EndUpdate();
 			}

@@ -107,7 +107,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::Fill(int _x, int _y, int _w, int _h, Drawing::Color _color)
 		{
-			BYTE color[4] = { _color.Blue, _color.Green, _color.Red, _color.Alpha };
+			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
 		
 			BYTE *raw = (BYTE*)lock.pBits;
 			for (int y = 0; y < _h; y++)
@@ -138,17 +138,17 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::FillGradient(int _x, int _y, int _w, int _h, Drawing::Color from, Drawing::Color to, bool updown)
 		{
-			BYTE color[4] = { from.Blue, from.Green, from.Red, from.Alpha };
+			BYTE color[4] = { from.B, from.G, from.R, from.A };
 			float step[4];
 		
 			BYTE *raw = (BYTE*)lock.pBits;
 			
 			if (updown)
 			{
-				step[0] = (to.Blue - color[0]) / (float)(_h - 1);
-				step[1] = (to.Green - color[1]) / (float)(_h - 1);
-				step[2] = (to.Red - color[2]) / (float)(_h - 1);
-				step[3] = (to.Alpha - color[3]) / (float)(_h - 1);
+				step[0] = (to.B - color[0]) / (float)(_h - 1);
+				step[1] = (to.G - color[1]) / (float)(_h - 1);
+				step[2] = (to.R - color[2]) / (float)(_h - 1);
+				step[3] = (to.A - color[3]) / (float)(_h - 1);
 				
 				for (int y = 0; y < _h; y++)
 				{
@@ -167,10 +167,10 @@ namespace OSHGui
 			}
 			else
 			{
-				step[0] = (to.Blue - color[0]) / (float)(_w - 1);
-				step[1] = (to.Green - color[1]) / (float)(_w - 1);
-				step[2] = (to.Red - color[2]) / (float)(_w - 1);
-				step[3] = (to.Alpha - color[3]) / (float)(_w - 1);
+				step[0] = (to.B - color[0]) / (float)(_w - 1);
+				step[1] = (to.G - color[1]) / (float)(_w - 1);
+				step[2] = (to.R - color[2]) / (float)(_w - 1);
+				step[3] = (to.A - color[3]) / (float)(_w - 1);
 			
 				for (int y = 0; y < _h; y++)
 				{

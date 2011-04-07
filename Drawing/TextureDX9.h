@@ -23,20 +23,20 @@ namespace OSHGui
 			virtual void BeginUpdate();
 			virtual void EndUpdate();
 			
-			void Clear();
+			virtual void Clear();
 			void Clear(const Drawing::Point &point);
 			void Clear(int x, int y);
 			void Clear(Drawing::Rectangle &rect);
 			virtual void Clear(int x, int y, int w, int h);
 
-			void Fill(Drawing::Color color);
+			virtual void Fill(Drawing::Color color);
 			void Fill(const Drawing::Point &point, Drawing::Color color);
 			void Fill(int x, int y, Drawing::Color color);
 			void Fill(Drawing::Rectangle &rect, Drawing::Color color);
 			virtual void Fill(int x, int y, int w, int h, Drawing::Color color);
 
-			void FillGradient(Drawing::Color from, Drawing::Color to, bool updown = true);
-			void FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown = true);
+			virtual void FillGradient(Drawing::Color from, Drawing::Color to, bool updown = true);
+			virtual void FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown = true);
 			virtual void FillGradient(int x, int y, int w, int h, Drawing::Color from, Drawing::Color to, bool updown = true);
 			
 			virtual void Rotate(int degrees);

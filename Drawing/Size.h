@@ -16,8 +16,10 @@ namespace OSHGui
 			Size(int Width, int Height) { this->Width = Width; this->Height = Height; }
 			Size(const Size &s) { Width = s.Width; Height = s.Height; }
 			
-			bool operator == (const Point &equal) { return Width == equal.Width && Height == equal.Height; }
-			bool operator != (const Point &equal) { return Width != equal.Width || Height != equal.Height; }
+			bool operator == (const Size &equal) { return Width == equal.Width && Height == equal.Height; }
+			const bool operator == (const Size &equal) { return Width == equal.Width && Height == equal.Height; }
+			bool operator != (const Size &equal) { return Width != equal.Width || Height != equal.Height; }
+			const bool operator != (const Size &equal) { return Width != equal.Width || Height != equal.Height; }
 			
 			void Inflate(int Width, int Height)
 			{

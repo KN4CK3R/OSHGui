@@ -45,7 +45,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		int StringBuffer::GetLength()
 		{
-			return lstrlenW(buffer);
+			return strlen(buffer);
 		}
 		//---------------------------------------------------------------------------
 		const char* StringBuffer::GetBuffer()
@@ -126,7 +126,7 @@ namespace OSHGui
 				return false;
 			}
 			
-			count = count == -1 ? strlen(str) : count > strlen(str) ? strlen(str) : count;
+			count = count == -1 ? strlen(str) : count > (int)strlen(str) ? strlen(str) : count;
 			
 			if (size + count >= 1024)
 			{

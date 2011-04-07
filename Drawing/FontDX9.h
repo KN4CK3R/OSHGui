@@ -3,7 +3,7 @@
 
 #include <d3dx9.h>
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\IFont.h"
+#include "IFont.h"
 
 namespace OSHGui
 {
@@ -19,7 +19,7 @@ namespace OSHGui
 
 			virtual bool Create(LPCSTR fontName, int size, bool bold, bool italic);
 			
-			virtual int MeasureChar(char c);
+			virtual int MeasureCharacter(char c);
 			
 		private:
 			IDirect3DDevice9 *device;

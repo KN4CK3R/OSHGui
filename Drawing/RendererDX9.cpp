@@ -117,11 +117,11 @@ namespace OSHGui
 			}
 			
 			RECT rect = { 0, 0, 0, 0 };
-			((FontDX9*)font)->GetFont()->DrawTextW(NULL, text, -1, &rect, DT_CALCRECT, 0);
+			((FontDX9*)font)->GetFont()->DrawText(NULL, text, -1, &rect, DT_CALCRECT, 0);
 			
 			for (int i = strlen(text) - 1; i > 0; i--)
 			{
-				rect.right += font->MeasureChar(' ');
+				rect.right += font->MeasureCharacter(' ');
 			}
 
 			return Size(rect.right, rect.bottom);
@@ -156,7 +156,7 @@ namespace OSHGui
 			Flush();
 			
 			RECT clip = { x, y, w, y };
-			((FontDX9*)font)->GetFont()->DrawTextW(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE /*| DT_NOCLIP*/, color.Color);
+			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE /*| DT_NOCLIP*/, color.Color);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text, ...)
@@ -248,7 +248,7 @@ namespace OSHGui
 
 			vertices[verticesNum].x = (float)x;
 			vertices[verticesNum].y = (float)y;
-			vertices[verticesNum].color = color.Color;
+			vertices[verticesNum].color = color.ARGB;
 
 			verticesNum++;
 		}
@@ -264,7 +264,7 @@ namespace OSHGui
 			vertices[verticesNum].y = (float)y - 0.5f;
 			vertices[verticesNum].u = u;
 			vertices[verticesNum].v = v;
-			vertices[verticesNum].color = color.Color;
+			vertices[verticesNum].color = color.ARGB;
 
 			verticesNum++;
 		}

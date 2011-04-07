@@ -17,7 +17,7 @@ namespace OSHGui
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
-		virtual Event::NextEventType ProcessMessage(Event *event);
+		virtual Event::NextEventTypes ProcessMessage(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:

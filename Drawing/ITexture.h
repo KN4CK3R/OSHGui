@@ -3,26 +3,11 @@
 
 #include <math.h>
 
-#include "Color.h";
-#include "Point.h"
-#include "Size.h"
-#include "Rectangle.h"
+#include "E:\Coding\OSHGui\Drawing\Color.h"
+#include "E:\Coding\OSHGui\Drawing\Point.h"
+#include "E:\Coding\OSHGui\Drawing\Size.h"
+#include "E:\Coding\OSHGui\Drawing\Rectangle.h"
 
-#ifndef SAFE_RELEASE
-	#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p) = NULL; } }
-#endif
-#ifndef ALPHA
-	#define ALPHA(COLORCODE)((int)(COLORCODE >> 24))
-#endif
-#ifndef RED
-	#define RED(COLORCODE)((int) (COLORCODE >> 16) & 0xFF)
-#endif
-#ifndef GREEN
-	#define GREEN(COLORCODE)((int)(COLORCODE >> 8) & 0xFF)
-#endif
-#ifndef BLUE
-	#define BLUE(COLORCODE)((int) COLORCODE & 0xFF)
-#endif
 #ifndef _max
 	#define _max(a, b) (a > b ? a : b)
 #endif
@@ -54,6 +39,8 @@ namespace OSHGui
 			virtual void Fill(Drawing::Color color) = 0;
 			virtual void Fill(int x, int y, int w, int h, Drawing::Color color) = 0;
 
+			virtual void FillGradient(Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
+			virtual void FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
 			virtual void FillGradient(int x, int y, int w, int h, Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
 			
 			virtual void Rotate(int degrees) = 0;

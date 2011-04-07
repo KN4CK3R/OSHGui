@@ -73,8 +73,8 @@ namespace OSHGui
 		upButtonRect = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 2, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
 		downButtonRect = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetBottom() - 2 - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
 		trackRect = Drawing::Rectangle(upButtonRect.GetLeft(), upButtonRect.GetBottom() + 2, SCROLLBAR_DEFAULT_BUTTON_WIDTH, upButtonRect.GetBottom() - downButtonRect.GetTop() - 4);
-		slider.SetLeft(upButtonRect.GetLeft());
-		slider.SetWidth(SCROLLBAR_DEFAULT_BUTTON_WIDTH);
+		sliderRect.SetLeft(upButtonRect.GetLeft());
+		sliderRect.SetWidth(SCROLLBAR_DEFAULT_BUTTON_WIDTH);
 		
 		UpdateSliderRect();
 	}
@@ -90,14 +90,14 @@ namespace OSHGui
 			}
 			int maxPosition = end - start - pageSize;
 			
-			slider.SetTop(trackRect.GetTop() + (position - start) * ( trackRect.GetHeight() - sliderHeight) / maxPosition);
-			slider.SetHeight(sliderHeight);
+			sliderRect.SetTop(trackRect.GetTop() + (position - start) * ( trackRect.GetHeight() - sliderHeight) / maxPosition);
+			sliderRect.SetHeight(sliderHeight);
 			showSlider = true;
 
 		}
 		else
 		{
-			slider.SetHeight(0);
+			sliderRect.SetHeight(0);
 			showSlider = false;
 		}
 	}
@@ -183,24 +183,24 @@ namespace OSHGui
 					return Event::None;
 				}
 				
-				if (slider.Contains(mouse->Position))
+				if (sliderRect.Contains(mouse->Position))
 				{
 					drag = true;
 					
-					SliderOffsetY = mouse->Position.Y - slider.GetTop();
+					SliderOffsetY = mouse->Position.Y - sliderRect.GetTop();
 					
 					return Event::None;
 				}
 
-				if (slider.GetLeft() <= mouse->Position.X && slider.GetRight() > mouse->Position.X)
+				if (sliderRect.GetLeft() <= mouse->Position.X && sliderRect.GetRight() > mouse->Position.X)
 				{
-					if (slider.GetTop() > mouse->Position.Y && trackRect.GetTop() <= mouse->Position.Y)
+					if (sliderRect.GetTop() > mouse->Position.Y && trackRect.GetTop() <= mouse->Position.Y)
 					{
 						Scroll(-(pageSize - 1));
 						
 						return Event::None;
 					}
-					else if (slider.GetBottom() <= mouse->Position.Y && trackRect.GetBottom() > mouse->Position.Y)
+					else if (sliderRect.GetBottom() <= mouse->Position.Y && trackRect.GetBottom() > mouse->Position.Y)
 					{
 						Scroll(pageSize - 1);
 						return Event::None;
@@ -219,20 +219,20 @@ namespace OSHGui
 				{
 					
 					//m_rcThumb.bottom += slider.Get mouse->Position.Y - ThumbOffsetY - slider.GetTop();
-					slider.SetTop(mouse->Position.Y - SliderOffsetY);
-					if (slider.GetTop() < trackRect.GetTop())
+					sliderRect.SetTop(mouse->Position.Y - SliderOffsetY);
+					if (sliderRect.GetTop() < trackRect.GetTop())
 					{
-						slider.Offset(0, trackRect.GetTop() - slider.GetTop());
+						sliderRect.Offset(0, trackRect.GetTop() - sliderRect.GetTop());
 					}
-					else if(slider.GetBottom() > trackRect.GetBottom())
+					else if(sliderRect.GetBottom() > trackRect.GetBottom())
 					{
-						slider.Offset(0, trackRect.GetBottom() - slider.GetBottom());
+						sliderRect.Offset(0, trackRect.GetBottom() - sliderRect.GetBottom());
 					}
 
 					int maxFirstItem = end - start - pageSize;
-					int maxSlider = trackRect.GetHeight() - slider.GetHeight();
+					int maxSlider = trackRect.GetHeight() - sliderRect.GetHeight();
 
-					position = start + (slider.GetTop() - trackRect.GetTop() + maxSlider / (maxFirstItem * 2)) * maxFirstItem / maxSlider;
+					position = start + (sliderRect.GetTop() - trackRect.GetTop() + maxSlider / (maxFirstItem * 2)) * maxFirstItem / maxSlider;
 				}
 			}
 			return Event::None;
@@ -252,7 +252,7 @@ namespace OSHGui
 	void ScrollBar::Render(Drawing::IRenderer *renderer)
 	{
 		//OK
-		if (needsRepaint)
+		if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -267,7 +267,7 @@ namespace OSHGui
 				upButton->Create(upButtonRect.GetSize());
 				upButton->BeginUpdate();
 				
-				upButton->Fill(Color(0xFF6D6966));
+				upButton->Fill(Drawing::Color(0xFF6D6966));
 				upButton->Clear(0, 0, 1, 1);
 				upButton->Clear(12, 0, 1, 1);
 				upButton->Clear(0, 19, 1, 1);
@@ -290,7 +290,7 @@ namespace OSHGui
 				track->Create(size);
 				track->BeginUpdate();
 				
-				track->FillGradient(Color(0xFF51504B), Color(0xFF262523));
+				track->FillGradient(Drawing::Color(0xFF51504B), Drawing::Color(0xFF262523));
 
 				track->Clear(0, 0, 1, 1);
 				track->Clear(size.Width - 1, 0, 1, 1);
@@ -331,7 +331,7 @@ namespace OSHGui
 				downButton->Create(downButtonRect.GetSize());
 				downButton->BeginUpdate();
 				
-				downButton->Fill(Color(0xFF6D6966));
+				downButton->Fill(Drawing::Color(0xFF6D6966));
 				downButton->Clear(0, 0, 1, 1);
 				downButton->Clear(12, 0, 1, 1);
 				downButton->Clear(0, 19, 1, 1);

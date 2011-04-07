@@ -3,13 +3,9 @@
 
 #include <windows.h>
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\Point.h"
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\Size.h"
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\Rectangle.h"
-
-#ifndef SAFE_RELEASE
-	#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p) = NULL; } }
-#endif
+#include "E:\Coding\OSHGui\Drawing\Point.h"
+#include "E:\Coding\OSHGui\Drawing\Size.h"
+#include "E:\Coding\OSHGui\Drawing\Rectangle.h"
 
 namespace OSHGui
 {

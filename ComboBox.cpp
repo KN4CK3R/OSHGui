@@ -523,7 +523,7 @@ namespace OSHGui
 				button->BeginUpdate();
 				button->Clear();
 
-				button->FillGradient(1, 1, size.Width - 2, size.Height - 2, Color(0xFF635F5B), Color(0xFF4E4D4A));
+				button->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF635F5B), Drawing::Color(0xFF4E4D4A));
 
 				Drawing::Color border(0x60FFFFFF);
 				
@@ -539,7 +539,7 @@ namespace OSHGui
 
 				button->Fill(size.Width - 20, 4, 1, 16, border);
 				
-				border = Color(0xFFBAB8B9);
+				border = Drawing::Color(0xFFBAB8B9);
 
 				button->Fill(size.Width - 11, 14, 1, 1, border);
 				button->Fill(size.Width - 12, 13, 3, 1, border);
@@ -556,7 +556,7 @@ namespace OSHGui
 				dropdown->BeginUpdate();
 				dropdown->Clear();
 				
-				dropdown->FillGradient(1, 1, size.Width - 2, size.Height - 2, Color(0xFF625E5A), Color(0xFF433F3E));
+				dropdown->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF625E5A), Drawing::Color(0xFF433F3E));
 
 				Drawing::Color border(0x8059595A);
 				
@@ -579,7 +579,7 @@ namespace OSHGui
 		
 		if (opened)
 		{
-			render->RenderTexture(texture.Get(1), dropdownRect.GetPosition());
+			renderer->RenderTexture(texture.Get(1), dropdownRect.GetPosition());
 			scrollBar.Render(renderer);
 		}
 	}

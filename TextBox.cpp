@@ -110,7 +110,7 @@ namespace OSHGui
 		{
 			for (int i = 0; i < charIndex && str[i] != 0; i++)
 			{
-				ret += font->MeasureCharacter[str[i]];
+				ret += font->MeasureCharacter(str[i]);
 			}
 		}
 		
@@ -124,7 +124,7 @@ namespace OSHGui
 		int ret = 0;
 		for (int i = 0; str[i] != 0; i++)
 		{
-			ret += font->MeasureCharacter[str[i]];
+			ret += font->MeasureCharacter(str[i]);
 			if (ret >= position)
 			{
 				return i;
@@ -148,7 +148,7 @@ namespace OSHGui
 					{
 						if (buffer.InsertString(caretPosition, data))
 						{
-							PlaceCaret(caretPosition + lstrlenW(data));
+							PlaceCaret(caretPosition + strlen(data));
 						}
 						
 						GlobalUnlock(clipboard);
@@ -281,7 +281,7 @@ namespace OSHGui
 			
 			Drawing::ITexture *main = texture.Get(0);
 			
-			mainCreate(size);
+			main->Create(size);
 			main->BeginUpdate();
 			main->Clear();
 
@@ -300,10 +300,10 @@ namespace OSHGui
 			main->EndUpdate();
 		}
 		
-		renderer->SetRenderColor();
-		renderer->RenderTexture(texture.Get(0), bounds);
-		renderer->SetRenderColor();
-		renderer->RenderText(font, textRect, text);
+		renderer->SetRenderColor(backColor);
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		renderer->SetRenderColor(foreColor);
+		renderer->RenderText(font, textRect, buffer.GetBuffer() + firstVisibleCharacter);
 		
 		//Carret
 		renderer->Fill(23, bounds.GetHeight() + 5, 1, 12);

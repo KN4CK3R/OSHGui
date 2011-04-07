@@ -367,7 +367,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (needsRepaint)
+		if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -382,7 +382,7 @@ namespace OSHGui
 			main->BeginUpdate();
 			main->Clear();
 			
-			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, Color(0xFF353432), Color(0xFF171614));
+			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF353432), Drawing::Color(0xFF171614));
 
 			Drawing::Color border(0x804C4B47);
 			

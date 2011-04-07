@@ -13,7 +13,7 @@ namespace OSHGui
 	
 		SetEnabled(true);
 		SetVisible(true);
-		SetBounds(Rectangle());
+		SetBounds(Drawing::Rectangle());
 		
 		SetTag(NULL);
 		
@@ -22,12 +22,12 @@ namespace OSHGui
 		SetOnEnter(NULL);
 		SetOnLeave(NULL);
 		SetOnChange(NULL);
-		SetMouseOver(NULL);
+		//SetMouseOver(NULL);
 		
 		mouseOver = false;
 		hasFocus = false;
 		
-		createTexture = true;
+		//createTexture = true;
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()

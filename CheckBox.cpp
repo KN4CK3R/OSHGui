@@ -107,34 +107,36 @@ namespace OSHGui
 			main->BeginUpdate();
 			main->Clear();
 
-			main->Fill(1, 1, 13, 13, 0xFF444341);
+			main->Fill(1, 1, 13, 13, Drawing::Color(0xFF444341));
 
-			main->Fill(0, 1, 1, 13, 0xBF8A7D71);
-			main->Fill(14, 1, 1, 13, 0xBF8A7D71);
-			main->Fill(1, 0, 13, 1, 0xBF8A7D71);
-			main->Fill(1, 14, 13, 1, 0xBF8A7D71);
+			Drawing::Color border(0xBF8A7D71);
 
-			main->Fill(1, 1, 1, 1, 0xBF8A7D71);
-			main->Fill(13, 1, 1, 1, 0xBF8A7D71);
-			main->Fill(1, 13, 1, 1, 0xBF8A7D71);
-			main->Fill(13, 13, 1, 1, 0xBF8A7D71);
+			main->Fill(0, 1, 1, 13, border);
+			main->Fill(14, 1, 1, 13, border);
+			main->Fill(1, 0, 13, 1, border);
+			main->Fill(1, 14, 13, 1, border);
+
+			main->Fill(1, 1, 1, 1, border);
+			main->Fill(13, 1, 1, 1, border);
+			main->Fill(1, 13, 1, 1, border);
+			main->Fill(13, 13, 1, 1, border);
 
 			if (checked)
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					main->Fill(3 + i, 6 + i, 1, 3, 0xFFFFFFFF);
-					main->Fill(7 + i, 8 - i, 1, 3, 0xFFFFFFFF);
+					main->Fill(3 + i, 6 + i, 1, 3, Drawing::Color::White());
+					main->Fill(7 + i, 8 - i, 1, 3, Drawing::Color::White());
 				}
 
-				main->Fill(11, 4, 1, 3, 0xFFFFFFFF);
+				main->Fill(11, 4, 1, 3, Drawing::Color::White());
 			}
 
 			main->EndUpdate();
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), buttonRect);
+		renderer->RenderTexture(texture.Get(0), buttonRect.GetPosition());
 		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, text);

@@ -1,4 +1,4 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\FontDX9.h"
+#include "FontDX9.h"
 
 namespace OSHGui
 {
@@ -48,7 +48,7 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------
-		int FontDX9::MeasureChar(char c)
+		int FontDX9::MeasureCharacter(char c)
 		{
 			if (font == NULL)
 			{
@@ -64,11 +64,11 @@ namespace OSHGui
 				}
 				
 				{ //space needs extra calculation
-					RECT rct, rct2;
-					font->DrawText(NULL, "_", -1, &rct, DT_CALCRECT, 0);
-					font->DrawText(NULL, "_ _", -1, &rct2, DT_CALCRECT, 0);
-					charWidth[0x20] = rct2.right - rct.right * 2;
-					charWidth[0xA0] = rct2.right - rct.right * 2;
+					RECT rect, rect2;
+					font->DrawText(NULL, "_", -1, &rect, DT_CALCRECT, 0);
+					font->DrawText(NULL, "_ _", -1, &rect2, DT_CALCRECT, 0);
+					charWidth[0x20] = rect2.right - rect.right * 2;
+					charWidth[0xA0] = rect2.right - rect.right * 2;
 				}
 				
 				RECT rect;
@@ -77,8 +77,8 @@ namespace OSHGui
 				for (int i = 0x21; i < 0x7E; i++)
 				{
 					str[0] = (char)i;
-					font->DrawText(NULL, str, -1, &rct, DT_CALCRECT, 0);
-					charWidth[i] = rct.right;
+					font->DrawText(NULL, str, -1, &rect, DT_CALCRECT, 0);
+					charWidth[i] = rect.right;
 				}
 				
 				//special chars
@@ -90,8 +90,8 @@ namespace OSHGui
 				for (int i = 0xA1; i < 0xFF; i++)
 				{
 					str[0] = (char)i;
-					font->DrawText(NULL, str, -1, &rct, DT_CALCRECT, 0);
-					charWidth[i] = rct.right;
+					font->DrawText(NULL, str, -1, &rect, DT_CALCRECT, 0);
+					charWidth[i] = rect.right;
 				}
 			}
 			

@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_LISTITEM_H__
 #define __OSHGUI_LISTITEM_H__
 
+#include "Drawing\Rectangle.h"
+
 namespace OSHGui
 {
 	class ListItem

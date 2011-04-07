@@ -211,7 +211,7 @@ namespace OSHGui
 	void Panel::Render(Drawing::IRenderer *renderer)
 	{
 		//OK
-		if (needsRepaint)
+		if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -225,13 +225,13 @@ namespace OSHGui
 			main->Create(size);
 			main->BeginUpdate();
 
-			main->FillGradient(Color(0xFF3A3937), Color(0xFF4D4B49));
+			main->FillGradient(Drawing::Color(0xFF3A3937), Drawing::Color(0xFF4D4B49));
 
 			main->EndUpdate();
 		}
 	
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture, bounds.GetPosition());
+		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 	
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);

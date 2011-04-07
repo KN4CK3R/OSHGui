@@ -121,7 +121,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)
 	{
-		if (needsRepaint)
+		if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -135,14 +135,14 @@ namespace OSHGui
 			main->Create(size);
 			main->BeginUpdate();
 			
-			main->Fill(0, 0, size.Width, 1, Drawing::Color::Black);
-			main->Fill(0, 0, 1, size.Height, Drawing::Color::Black);
-			main->Fill(size.Width - 1, 0, 1, size.Height, Drawing::Color::Black);
-			main->Fill(0, size.Height - 1, size.Width, 1, Drawing::Color::Black);
+			main->Fill(0, 0, size.Width, 1, Drawing::Color::Black());
+			main->Fill(0, 0, 1, size.Height, Drawing::Color::Black());
+			main->Fill(size.Width - 1, 0, 1, size.Height, Drawing::Color::Black());
+			main->Fill(0, size.Height - 1, size.Width, 1, Drawing::Color::Black());
 			
 			//captionbar
 			{
-				main->FillGradient(captionBar, Color(0xFF5F5A59), Color(0xFF444341));
+				main->FillGradient(captionBar, Drawing::Color(0xFF5F5A59), Drawing::Color(0xFF444341));
 				
 				Drawing::Color border(0xFFBAB9B7);
 				for (int i = 0; i < 4; i++)
@@ -156,7 +156,7 @@ namespace OSHGui
 			
 			//clientArea
 			{
-				main->FillGradient(clientArea, Color(0xFF5A5655), Color(0xFF383735));
+				main->FillGradient(clientArea, Drawing::Color(0xFF5A5655), Drawing::Color(0xFF383735));
 			}
 			
 			main->EndUpdate();

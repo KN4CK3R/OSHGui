@@ -8,7 +8,7 @@ namespace OSHGui
 	LinkLabel::LinkLabel(Panel *parentPanel)
 	{
 		type = CONTROL_LINKLABEL;
-		
+
 		ParentPanel = parentPanel;
 	}
 	//---------------------------------------------------------------------------

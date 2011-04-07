@@ -1,9 +1,12 @@
 #ifndef __OSHGUI_DRAWING_IRENDERER_H__
 #define __OSHGUI_DRAWING_IRENDERER_H__
 
-#include "Color.h"
-#include "ITexture.h"
-#include "IFont.h"
+#include "E:\Coding\OSHGui\Drawing\Color.h"
+#include "E:\Coding\OSHGui\Drawing\Point.h"
+#include "E:\Coding\OSHGui\Drawing\Size.h"
+#include "E:\Coding\OSHGui\Drawing\Rectangle.h"
+#include "E:\Coding\OSHGui\Drawing\ITexture.h"
+#include "E:\Coding\OSHGui\Drawing\IFont.h"
 
 namespace OSHGui
 {
@@ -20,7 +23,7 @@ namespace OSHGui
 			
 			void SetRenderColor(Drawing::Color color) { this->color = color; }
 			void SetRenderRectangle(Drawing::Rectangle &rect) { renderRect = rect; }
-			Drawing::Rectangle GetRenderRectangle() { return renderRect; }
+			Rectangle GetRenderRectangle() { return renderRect; }
 			
 			virtual void RenderTexture(Drawing::ITexture *texture, const Drawing::Point &point) = 0;
 			virtual void RenderTexture(Drawing::ITexture *texture, int x, int y) = 0;

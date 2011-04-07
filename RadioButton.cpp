@@ -51,7 +51,7 @@ namespace OSHGui
 				texture.Add(renderer->CreateNewTexture());
 			}
 
-			Drawing::Color color[3] = { Color(0xFFAAA5A2), Color(0xBFAAA5A2), Color(0x80AAA5A2) };
+			Drawing::Color color[3] = { Drawing::Color(0xFFAAA5A2), Drawing::Color(0xBFAAA5A2), Drawing::Color(0x80AAA5A2) };
 			
 			Drawing::ITexture *main = texture.Get(0);
 			
@@ -86,8 +86,8 @@ namespace OSHGui
 					temp->Fill(2 + i, 1, 1, 1, color[(2 + i) % 3]);
 					temp->Fill(1, 2 + i, 1, 1, color[(2 + i) % 3]);
 				}
-				temp->Fill(1, 6, 1, 1, Color(0x3FAAA5A2));
-				temp->Fill(6, 1, 1, 1, Color(0x3FAAA5A2));
+				temp->Fill(1, 6, 1, 1, Drawing::Color(0x3FAAA5A2));
+				temp->Fill(6, 1, 1, 1, Drawing::Color(0x3FAAA5A2));
 				temp->Fill(2, 2, 1, 1, color[1]);
 				temp->Fill(2, 3, 1, 1, color[2]);
 				temp->Fill(3, 2, 1, 1, color[2]);
@@ -113,9 +113,9 @@ namespace OSHGui
 
 			if (checked)
 			{
-				color[0] = Color(0xFFFFFFFF);
-				color[1] = Color(0xBFFFFFFF);
-				color[2] = Color(0x80FFFFFF);
+				color[0] = Drawing::Color::White();
+				color[1] = Drawing::Color(0xBFFFFFFF);
+				color[2] = Drawing::Color(0x80FFFFFF);
 				
 				main->Fill(5, 5, 5, 5, color[0]);
 				
@@ -131,9 +131,9 @@ namespace OSHGui
 			main->EndUpdate();
 		}
 		
-		renderer->SetRenderColor(backGround);
+		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture.Get(0), buttonRect.GetPosition());
-		renderer->SetRenderColor(foreGround);
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, text);
 	}
 	//---------------------------------------------------------------------------

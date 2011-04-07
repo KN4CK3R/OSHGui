@@ -1,8 +1,6 @@
 #ifndef __OSHGUI_DRAWING_COLOR_H__
 #define __OSHGUI_DRAWING_COLOR_H__
 
-#include <windows.h>
-
 namespace OSHGui
 {
 	namespace Drawing
@@ -19,11 +17,11 @@ namespace OSHGui
 					BYTE G;
 					BYTE B;
 				};
-				DWORD ARGB;
+				unsigned long ARGB;
 			};
 
 			Color();
-			Color(DWORD ARGB);
+			Color(unsigned long ARGB);
 			Color(BYTE red, BYTE green, BYTE blue);
 			Color(BYTE alpha, BYTE red, BYTE green, BYTE blue);
 

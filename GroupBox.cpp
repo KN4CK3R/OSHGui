@@ -61,9 +61,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
+	Event::NextEventTypes GroupBox::ProcessMessage(Event *event)
+	{
+		return Event::None;
+	}
+	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (needsRepaint)
+		if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -77,7 +82,7 @@ namespace OSHGui
 			main->Create(size);
 			main->BeginUpdate();
 
-			main->FillGradient(Color(0xFF5A5655), Color(0xFF383735));
+			main->FillGradient(Drawing::Color(0xFF5A5655), Drawing::Color(0xFF383735));
 
 			main->EndUpdate();
 		}
@@ -85,7 +90,7 @@ namespace OSHGui
 		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, textRect, text);
+		//renderer->RenderText(font, textRect, text);
 		
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);

@@ -99,9 +99,9 @@ namespace OSHGui
 			main->Create(size);
 			main->BeginUpdate();
 
-			main->Fill(Color(0xFF2D2F2E));
+			main->Fill(Drawing::Color(0xFF2D2F2E));
 
-			main->Fill(2, 2, position > 0 ? size.Width * ((float)(position - min) / (max - min)) - 4 : 0, size.Height - 4, Color(0xFF5F5F5F));
+			main->Fill(2, 2, position > 0 ? (int)(size.Width * ((float)(position - min) / (max - min)) - 4) : 0, size.Height - 4, Drawing::Color(0xFF5F5F5F));
 
 			main->EndUpdate();
 		}

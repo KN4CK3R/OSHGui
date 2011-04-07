@@ -9,15 +9,7 @@ namespace OSHGui
 	namespace Drawing
 	{
 		class Rectangle
-		{
-		private:
-			int left,
-				top,
-				width,
-				height;
-			int bottom,
-				right;
-				
+		{				
 		public:
 			void SetLeft(int left) { this->left = left; right = left + width; }
 			const int GetLeft() { return left; }
@@ -71,6 +63,14 @@ namespace OSHGui
 			{
 				return Size(width, height);
 			}
+
+		private:
+			int left,
+				top,
+				width,
+				height;
+			int bottom,
+				right;
 		};
 	}
 }
