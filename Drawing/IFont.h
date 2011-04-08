@@ -1,11 +1,9 @@
 #ifndef __OSHGUI_DRAWING_IFONT_H__
 #define __OSHGUI_DRAWING_IFONT_H__
 
-#include <windows.h>
-
-#include "E:\Coding\OSHGui\Drawing\Point.h"
-#include "E:\Coding\OSHGui\Drawing\Size.h"
-#include "E:\Coding\OSHGui\Drawing\Rectangle.h"
+#include "Point.h"
+#include "Size.h"
+#include "Rectangle.h"
 
 namespace OSHGui
 {

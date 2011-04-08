@@ -6,31 +6,24 @@ namespace OSHGui
 	namespace Drawing
 	{
 		class Size
-		{
+		{			
 		public:
+			Size();
+			Size(int Width, int Height);
+			Size(const Size &s);
+			
+			bool operator == (const Size &equal);
+			bool operator != (const Size &equal);
+			Size operator - (const Size &s);
+			void operator -= (const Size &s);
+			Size operator + (const Size &s);
+			void operator += (const Size &s);
+			
+			void Inflate(int Width, int Height);
+			Size InflateEx(int Width, int Height);
+			
 			int Width,
 				Height;
-			
-		public:
-			Size() { Size(0, 0); }
-			Size(int Width, int Height) { this->Width = Width; this->Height = Height; }
-			Size(const Size &s) { Width = s.Width; Height = s.Height; }
-			
-			bool operator == (const Size &equal) { return Width == equal.Width && Height == equal.Height; }
-			const bool operator == (const Size &equal) { return Width == equal.Width && Height == equal.Height; }
-			bool operator != (const Size &equal) { return Width != equal.Width || Height != equal.Height; }
-			const bool operator != (const Size &equal) { return Width != equal.Width || Height != equal.Height; }
-			
-			void Inflate(int Width, int Height)
-			{
-				this->Width += Width;
-				this->Height += Height;
-			}
-			
-			Size InflateEx(int Width, int Height)
-			{
-				return Size(this->Width + Width, this->Height + Height);
-			}
 		};
 	}
 }

@@ -3,10 +3,10 @@
 
 #include <math.h>
 
-#include "E:\Coding\OSHGui\Drawing\Color.h"
-#include "E:\Coding\OSHGui\Drawing\Point.h"
-#include "E:\Coding\OSHGui\Drawing\Size.h"
-#include "E:\Coding\OSHGui\Drawing\Rectangle.h"
+#include "Color.h"
+#include "Point.h"
+#include "Size.h"
+#include "Rectangle.h"
 
 #ifndef _max
 	#define _max(a, b) (a > b ? a : b)

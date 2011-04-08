@@ -70,12 +70,14 @@ namespace OSHGui
 		bool GetEnabled();
 		void SetVisible(bool visible);
 		bool GetVisible();
-		void SetBounds(Drawing::Rectangle &bounds);
-		Drawing::Rectangle GetBounds();
-		void SetLocation(Drawing::Point &point);
-		Drawing::Point GetLocation();
-		void SetSize(Drawing::Size &size);
-		Drawing::Size GetSize();
+		
+		virtual void SetBounds(Drawing::Rectangle &bounds);
+		virtual Drawing::Rectangle GetBounds();
+		virtual void SetLocation(Drawing::Point &point);
+		virtual Drawing::Point GetLocation();
+		virtual void SetSize(Drawing::Size &size);
+		virtual Drawing::Size GetSize();
+		
 		void SetTag(void *tag);
 		void* GetTag();
 		void SetFont(Drawing::IFont *font);

@@ -6,8 +6,22 @@ namespace OSHGui
 	namespace Drawing
 	{
 		class Point
-		{
+		{			
 		public:
+			Point();
+			Point(int X, int Y);
+			Point(const Point &p);
+			
+			bool operator == (const Point &equal);
+			bool operator != (const Point &equal);
+			Point operator - (const Point &p);
+			void operator -= (const Point &p);
+			Point operator + (const Point &p);
+			void operator += (const Point &p);
+			
+			void Offset(int X, int Y);
+			Point OffsetEx(int X, int Y);
+			
 			union
 			{
 				int X;
@@ -18,25 +32,6 @@ namespace OSHGui
 				int Y;
 				int Top;
 			};
-			
-		public:
-			Point() { Point(0, 0); }
-			Point(int X, int Y) { this->X = X; this->Y = Y; }
-			Point(const Point &p) { X = p.X; Y = p.Y; }
-			
-			Point operator - (const Point &p) { return Point(X - p.X, Y - p.Y); }
-			void operator -= (const Point &p) { X -= p.X; Y -= p.Y; }
-			
-			void Offset(int X, int Y)
-			{
-				this->X += X;
-				this->Y += Y;
-			}
-			
-			Point OffsetEx(int X, int Y)
-			{
-				return Point(this->X + X, this->Y + Y);
-			}
 		};
 	}
 }
