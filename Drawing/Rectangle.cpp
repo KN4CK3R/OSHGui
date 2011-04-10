@@ -96,12 +96,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		bool operator == (const Rectangle &equal)
+		bool Rectangle::operator == (const Rectangle &equal)
 		{
 			return left == equal.left && top == equal.top && width == equal.width && height == equal.height;
 		}
 		//---------------------------------------------------------------------------
-		bool operator != (const Rectangle &equal)
+		bool Rectangle::operator != (const Rectangle &equal)
 		{
 			return left != equal.left || top != equal.top || width != equal.width || height != equal.height;
 		}
@@ -137,5 +137,3 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 	}
 }
-
-#endif

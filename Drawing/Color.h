@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_DRAWING_COLOR_H__
 #define __OSHGUI_DRAWING_COLOR_H__
 
+#include <windows.h>
+
 namespace OSHGui
 {
 	namespace Drawing
@@ -12,10 +14,10 @@ namespace OSHGui
 			{
 				struct
 				{
-					BYTE A;
-					BYTE R;
-					BYTE G;
 					BYTE B;
+					BYTE G;
+					BYTE R;
+					BYTE A;
 				};
 				unsigned long ARGB;
 			};

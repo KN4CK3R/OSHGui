@@ -69,6 +69,7 @@ namespace OSHGui
 	void Control::SetBounds(Drawing::Rectangle &bounds)
 	{
 		this->bounds = bounds;
+		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Rectangle Control::GetBounds()
@@ -80,6 +81,7 @@ namespace OSHGui
 	{
 		bounds.SetLeft(point.Left);
 		bounds.SetTop(point.Top);
+		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Point Control::GetLocation()
@@ -97,6 +99,7 @@ namespace OSHGui
 		{
 			bounds.SetHeight(size.Height);
 		}
+		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Size Control::GetSize()

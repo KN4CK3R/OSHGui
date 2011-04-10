@@ -14,6 +14,9 @@ namespace OSHGui
 		min = 0;
 		max = 100;
 		position = 0;
+
+		SetBackColor(Drawing::Color(0xFFF0F0F0));
+		SetForeColor(Drawing::Color(0xFFD1CFCD));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

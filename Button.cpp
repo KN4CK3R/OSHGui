@@ -12,8 +12,12 @@ namespace OSHGui
 		ParentPanel = parentPanel;
 		
 		pressed = false;
+
+		SetLocation(Drawing::Point(9, 9));
+		SetSize(Drawing::Size(92, 24));
 		
-		SetBackColor(Drawing::Color(255, 0, 0, 0)); //todo
+		SetBackColor(Drawing::Color(0xFFF0F0F0));
+		SetForeColor(Drawing::Color(0xFFD1CFCD));
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -106,6 +110,8 @@ namespace OSHGui
 			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
 
 			main->EndUpdate();
+
+			needRepaint = false;
 		}
 		
 		renderer->SetRenderColor(backColor);

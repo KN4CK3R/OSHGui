@@ -15,6 +15,9 @@ namespace OSHGui
 		lastBlink = 0;//Gui::GlobalTime->GetAbsoluteTime();
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
+
+		SetBackColor(Drawing::Color(0xFFF0F0F0));
+		SetForeColor(Drawing::Color(0xFFD1CFCD));
 	}
 	//---------------------------------------------------------------------------
 	TextBox::~TextBox()

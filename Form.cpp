@@ -14,6 +14,11 @@ namespace OSHGui
 		drag = false;
 
 		ParentPanel = this;
+
+		memset((void*)&text, 0x00, sizeof(text));
+
+		SetLocation(Drawing::Point(10, 10));
+		SetSize(Drawing::Size(364, 379));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -160,6 +165,8 @@ namespace OSHGui
 			}
 			
 			main->EndUpdate();
+
+			needRepaint = false;
 		}
 		
 		renderer->SetRenderColor(backColor);

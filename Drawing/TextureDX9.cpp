@@ -1,5 +1,9 @@
 #include "TextureDX9.h"
 
+#ifndef SAFE_RELEASE
+	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
+#endif
+
 namespace OSHGui
 {
 	namespace Drawing
@@ -35,7 +39,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TextureDX9::Create(const Size &size)
 		{
-			if (size == this->size)
+			if (this->size == size)
 			{
 				//return true; //todo (Reset Problem)
 			}
@@ -62,27 +66,27 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear()
 		{
-			Fill(0, 0, size.Width, size.Height, Color());
+			Fill(0, 0, size.Width, size.Height, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(int x, int y)
 		{
-			Fill(x, y, 1, 1, Color());
+			Fill(x, y, 1, 1, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(const Drawing::Point &point)
 		{
-			Fill(point.X, point.Y, 1, 1, Color());
+			Fill(point.X, point.Y, 1, 1, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(Drawing::Rectangle &rect)
 		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), Color());
+			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), Color::Empty());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(int x, int y, int w, int h)
 		{
-			Fill(x, y, w, h, Color());
+			Fill(x, y, w, h, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Fill(Drawing::Color color)
@@ -109,12 +113,15 @@ namespace OSHGui
 		{
 			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
 		
+			int rangeX = _w - _x;
+			int rangeY = _h - _y;
+
 			BYTE *raw = (BYTE*)lock.pBits;
-			for (int y = 0; y < _h; y++)
+			for (int y = 0; y < rangeY; y++)
 			{
 				int row = (_y + y) * lock.Pitch;
 				
-				for (int x = 0; x < _w; x++)
+				for (int x = 0; x < rangeX; x++)
 				{
 					int index = (_x + x) * 4 + row;
 					
@@ -145,16 +152,19 @@ namespace OSHGui
 			
 			if (updown)
 			{
-				step[0] = (to.B - color[0]) / (float)(_h - 1);
-				step[1] = (to.G - color[1]) / (float)(_h - 1);
-				step[2] = (to.R - color[2]) / (float)(_h - 1);
-				step[3] = (to.A - color[3]) / (float)(_h - 1);
+				int rangeX = _w - _x;
+				int rangeY = _h - _y;
+
+				step[0] = (to.B - color[0]) / (float)(rangeY - 1);
+				step[1] = (to.G - color[1]) / (float)(rangeY - 1);
+				step[2] = (to.R - color[2]) / (float)(rangeY - 1);
+				step[3] = (to.A - color[3]) / (float)(rangeY - 1);
 				
-				for (int y = 0; y < _h; y++)
+				for (int y = 0; y < rangeY; y++)
 				{
 					int row = (_y + y) * lock.Pitch;
 					
-					for (int x = 0; x < _w; x++)
+					for (int x = 0; x < rangeX; x++)
 					{
 						int index = (_x + x) * 4 + row;
 						
@@ -167,16 +177,19 @@ namespace OSHGui
 			}
 			else
 			{
-				step[0] = (to.B - color[0]) / (float)(_w - 1);
-				step[1] = (to.G - color[1]) / (float)(_w - 1);
-				step[2] = (to.R - color[2]) / (float)(_w - 1);
-				step[3] = (to.A - color[3]) / (float)(_w - 1);
+				int rangeX = _w - _x;
+				int rangeY = _h - _y;
+
+				step[0] = (to.B - color[0]) / (float)(rangeX - 1);
+				step[1] = (to.G - color[1]) / (float)(rangeX - 1);
+				step[2] = (to.R - color[2]) / (float)(rangeX - 1);
+				step[3] = (to.A - color[3]) / (float)(rangeX - 1);
 			
-				for (int y = 0; y < _h; y++)
+				for (int y = 0; y < rangeY; y++)
 				{
 					int row = (_y + y) * lock.Pitch;
 					
-					for (int x = 0; x < _w; x++)
+					for (int x = 0; x < rangeX; x++)
 					{
 						int index = (_x + x) * 4 + row;
 						

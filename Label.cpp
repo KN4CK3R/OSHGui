@@ -14,6 +14,7 @@ namespace OSHGui
 		memset((void*)&text, 0x00, sizeof(text));
 		
 		SetBackColor(Drawing::Color::Empty());
+		SetForeColor(Drawing::Color(0xFFA6A4A1));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

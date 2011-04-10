@@ -7,18 +7,18 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Point()
+		Point::Point()
 		{
 			Point(0, 0);
 		}
 		//---------------------------------------------------------------------------
-		Point(int X, int Y)
+		Point::Point(int X, int Y)
 		{
 			this->X = X;
 			this->Y = Y;
 		}
 		//---------------------------------------------------------------------------
-		Point(const Point &p)
+		Point::Point(const Point &p)
 		{
 			X = p.X;
 			Y = p.Y;
@@ -26,50 +26,48 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		bool operator == (const Point &equal)
+		bool Point::operator == (const Point &equal)
 		{
 			return X == equal.X && Y == equal.Y;
 		}
 		//---------------------------------------------------------------------------
-		bool operator != (const Point &equal)
+		bool Point::operator != (const Point &equal)
 		{
 			return X != equal.X || Y != equal.Y;
 		}
 		//---------------------------------------------------------------------------
-		Point operator - (const Point &p)
+		Point Point::operator - (const Point &p)
 		{
 			return OffsetEx(-p.X, -p.Y);
 		}
 		//---------------------------------------------------------------------------
-		void operator -= (const Point &p)
+		void Point::operator -= (const Point &p)
 		{
 			Offset(-p.X, -p.Y);
 		}
 		//---------------------------------------------------------------------------
-		Point operator + (const Point &p)
+		Point Point::operator + (const Point &p)
 		{
 			return OffsetEx(p.X, p.Y);
 		}
 		//---------------------------------------------------------------------------
-		void operator += (const Point &p)
+		void Point::operator += (const Point &p)
 		{
 			Offset(p.X, p.Y);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void Offset(int X, int Y)
+		void Point::Offset(int X, int Y)
 		{
 			this->X += X;
 			this->Y += Y;
 		}
 		//---------------------------------------------------------------------------
-		Point OffsetEx(int X, int Y)
+		Point Point::OffsetEx(int X, int Y)
 		{
 			return Point(this->X + X, this->Y + Y);
 		}
 		//---------------------------------------------------------------------------
 	}
 }
-
-#endif

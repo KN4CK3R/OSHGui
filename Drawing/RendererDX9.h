@@ -1,7 +1,10 @@
 #ifndef __OSHGUI_DRAWING_RENDERERDX9_H__
 #define __OSHGUI_DRAWING_RENDERERDX9_H__
 
+#include <stdio.h>
+
 #include <d3d9.h>
+#pragma comment(lib, "d3d9.lib")
 
 #include "IRenderer.h"
 #include "TextureDX9.h"
