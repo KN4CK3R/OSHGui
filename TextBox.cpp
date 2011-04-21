@@ -289,16 +289,18 @@ namespace OSHGui
 			main->Clear();
 
 			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF373634, 0xFF383735);
+			
+			Drawing::Color border(0x60FFFFFF);
 
-			main->Fill(1, 0, size.Width - 2, 1, 0x60FFFFFF);
-			main->Fill(0, 1, 1, size.Height - 2, 0x60FFFFFF);
-			main->Fill(1, size.Height - 1, size.Width - 2, 1, 0x60FFFFFF);
-			main->Fill(size.Width - 1, 1, 1, size.Height - 2, 0x60FFFFFF);
+			main->Fill(1, 0, size.Width - 2, 1, border);
+			main->Fill(0, 1, 1, size.Height - 2, border);
+			main->Fill(1, size.Height - 1, size.Width - 2, 1, border);
+			main->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
 
-			main->Fill(1, 1, 1, 1, 0x60FFFFFF);
-			main->Fill(size.Width - 2, 1, 1, 1, 0x60FFFFFF);
-			main->Fill(1, size.Height - 2, 1, 1, 0x60FFFFFF);
-			main->Fill(size.Width - 2, size.Height - 2, 1, 1, 0x60FFFFFF);
+			main->Fill(1, 1, 1, 1, border);
+			main->Fill(size.Width - 2, 1, 1, 1, border);
+			main->Fill(1, size.Height - 2, 1, 1, border);
+			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
 
 			main->EndUpdate();
 		}
