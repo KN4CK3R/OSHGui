@@ -12,9 +12,9 @@ namespace OSHGui
 
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
-		void SetText(LPCSTR text);
-		LPCSTR GetText();
-		bool GetTextCopy(LPSTR copy);
+		void SetText(const char *text);
+		const char* GetText();
+		bool GetTextCopy(char *copy);
 		
 		void Show();
 

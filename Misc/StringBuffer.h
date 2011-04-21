@@ -21,8 +21,8 @@ namespace OSHGui
 			void Clear();
 			bool InsertChar(int index, char wc);
 			bool RemoveChar(int index = -1);
-			bool InsertString(int index, const char* str, int count = -1);
-			bool SetText(LPCSTR text);
+			bool InsertString(int index, const char *str, int count = -1);
+			bool SetText(const char *text);
 			
 		protected:
 			bool SetBufferSize(int size);

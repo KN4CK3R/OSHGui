@@ -118,7 +118,7 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------	
-		bool StringBuffer::InsertString(int index, const char* str, int count)
+		bool StringBuffer::InsertString(int index, const char *str, int count)
 		{
 			int length = GetLength();
 			if (length == 0 || index < -1 || str == NULL)
@@ -152,7 +152,7 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------	
-		bool StringBuffer::SetText(LPCSTR text)
+		bool StringBuffer::SetText(const char *text)
 		{
 			int required = strlen(text) + 1;
 

@@ -1,4 +1,4 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\FontDX11.h"
+#include "FontDX11.h"
 
 namespace OSHGui
 {
@@ -28,7 +28,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontDX11::Create(LPCSTR fontName, int size, bool bold, bool italic)
+		bool FontDX11::Create(const char *fontName, int size, bool bold, bool italic)
 		{
 			if (fontName == NULL)
 			{

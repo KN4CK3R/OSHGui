@@ -23,7 +23,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Form::SetText(LPCSTR text)
+	void Form::SetText(const char *text)
 	{
 		if(text == NULL)
 		{
@@ -34,12 +34,12 @@ namespace OSHGui
 		strcpy_s(this->text, 256, text);
 	}
 	//---------------------------------------------------------------------------
-	LPCSTR Form::GetText()
+	const char* Form::GetText()
 	{
 		return text;
 	}
 	//---------------------------------------------------------------------------
-	bool Form::GetTextCopy(LPSTR copy)
+	bool Form::GetTextCopy(char *copy)
 	{
 		if (copy == NULL)
 		{

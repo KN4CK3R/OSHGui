@@ -1,4 +1,4 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\RendererDX11.h"
+#include "RendererDX11.h"
 
 namespace OSHGui
 {
@@ -39,7 +39,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX11::MeasureText(Drawing::IFont *font, LPCSTR text)
+		Drawing::Size RendererDX11::MeasureText(Drawing::IFont *font, const char *text)
 		{
 			if (font == NULL || text == NULL)
 			{
@@ -48,22 +48,22 @@ namespace OSHGui
 			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Point &point, const char *text)
 		{
 			DrawText(point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, LPCSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, const char *text)
 		{
 			DrawText(x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, LPCSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, const char *text)
 		{
 			DrawText(rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text)
+		void RendererDX11::DrawText(Drawing::IFont *font, int x, int y, int w, int h, const char *text)
 		{
 			if (font == NULL || text == NULL)
 			{

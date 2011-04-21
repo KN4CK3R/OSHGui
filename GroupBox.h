@@ -11,9 +11,9 @@ namespace OSHGui
 		GroupBox(Panel *parentPanel = NULL);
 		virtual ~GroupBox();
 
-		void SetText(LPCSTR text);
-		LPCSTR GetText();
-		bool GetTextCopy(LPSTR copy);
+		void SetText(const char *text);
+		const char* GetText();
+		bool GetTextCopy(char *copy);
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		

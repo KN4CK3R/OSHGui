@@ -14,14 +14,14 @@ namespace OSHGui
 		TextBox(Panel *parentPanel = NULL);
 		virtual ~TextBox();
 		
-		void SetText(LPCSTR text);
-		LPCSTR GetText();
+		void SetText(const char *text);
+		const char* GetText();
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
 		int GetTextLength();
-		bool GetTextCopy(LPSTR dest, int count);
+		bool GetTextCopy(char *dest, int count);
 		void ClearText();
 		
 		Event::NextEventTypes ProcessEvent(Event *event);

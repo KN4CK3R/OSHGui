@@ -119,7 +119,7 @@ namespace OSHGui
 			sprite->Draw(temp->GetTexture(), NULL, NULL, &vec, color.ARGB);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX9::MeasureText(Drawing::IFont *font, LPCSTR text)
+		Drawing::Size RendererDX9::MeasureText(Drawing::IFont *font, const char *text)
 		{
 			if (font == NULL || text == NULL || strlen(text) == 0)
 			{
@@ -137,27 +137,27 @@ namespace OSHGui
 			return Size(rect.right, rect.bottom);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX9::MeasureTextEx(Drawing::IFont *font, LPCSTR text, ...)
+		Drawing::Size RendererDX9::MeasureTextEx(Drawing::IFont *font, const char *text, ...)
 		{
 			return MeasureText(font, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, const Drawing::Point &point, const char *text)
 		{
 			RenderText(font, point.X, point.Y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, LPCSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, const char *text)
 		{
 			RenderText(font, x, y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, Drawing::Rectangle &rectangle, LPCSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, Drawing::Rectangle &rectangle, const char *text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text)
+		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, int w, int h, const char *text)
 		{
 			/*if (font == NULL || text == NULL)
 			{
@@ -169,7 +169,7 @@ namespace OSHGui
 			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP */
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, const char *text, ...)
 		{
 			va_list arguments;
 			char buffer[1024];
@@ -181,7 +181,7 @@ namespace OSHGui
 			RenderText(font, point.X, point.Y, 0, 0, buffer);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, LPCSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, const char *text, ...)
 		{
 			va_list arguments;
 			char buffer[1024];
@@ -193,7 +193,7 @@ namespace OSHGui
 			RenderText(font, x, y, 0, 0, buffer);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, const char *text, ...)
 		{
 			va_list arguments;
 			char buffer[1024];
@@ -205,7 +205,7 @@ namespace OSHGui
 			RenderText(font, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), buffer);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text, ...)
+		void RendererDX9::RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, const char *text, ...)
 		{
 			va_list arguments;
 			char buffer[1024];

@@ -3,7 +3,7 @@
 
 #include <d3d11.h>
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\IRenderer.h"
+#include "IRenderer.h"
 
 namespace OSHGui
 {
@@ -20,11 +20,11 @@ namespace OSHGui
 			void DrawTexture(const Drawing::Point &point, Drawing::ITexture *texture);
 			virtual void DrawTexture(int x, int y, Drawing::ITexture *texture);
 
-			virtual Drawing::Size MeasureText(Drawing::IFont *font, LPCSTR text);
-			void DrawText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text);
-			void DrawText(Drawing::IFont *font, int x, int y, LPCSTR text);
-			void DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, LPCSTR text);
-			virtual void DrawText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text);
+			virtual Drawing::Size MeasureText(Drawing::IFont *font, const char *text);
+			void DrawText(Drawing::IFont *font, const Drawing::Point &point, const char *text);
+			void DrawText(Drawing::IFont *font, int x, int y, const char *text);
+			void DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, const char *text);
+			virtual void DrawText(Drawing::IFont *font, int x, int y, int w, int h, const char *text);
 			
 			void Fill(const Drawing::Point &point, D3DCOLOR color);
 			void Fill(int x, int y, D3DCOLOR color);

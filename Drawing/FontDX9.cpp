@@ -34,7 +34,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontDX9::Create(LPCSTR fontName, int size, bool bold, bool italic)
+		bool FontDX9::Create(const char *fontName, int size, bool bold, bool italic)
 		{
 			if (fontName == NULL)
 			{

@@ -25,7 +25,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetText(LPCSTR text)
+	void GroupBox::SetText(const char *text)
 	{
 		if(text == NULL)
 		{
@@ -36,12 +36,12 @@ namespace OSHGui
 		strcpy_s(this->text, 256, text);
 	}
 	//---------------------------------------------------------------------------
-	LPCSTR GroupBox::GetText()
+	const char* GroupBox::GetText()
 	{
 		return text;
 	}
 	//---------------------------------------------------------------------------
-	bool GroupBox::GetTextCopy(LPSTR copy)
+	bool GroupBox::GetTextCopy(char *copy)
 	{
 		if (copy == NULL)
 		{

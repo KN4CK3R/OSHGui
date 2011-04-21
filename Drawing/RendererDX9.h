@@ -36,18 +36,18 @@ namespace OSHGui
 			virtual void RenderTexture(Drawing::ITexture *texture, const Drawing::Point &point);
 			virtual void RenderTexture(Drawing::ITexture *texture, int x, int y);
 
-			virtual Drawing::Size MeasureText(Drawing::IFont *font, LPCSTR text);
-			virtual Drawing::Size MeasureTextEx(Drawing::IFont *font, LPCSTR text, ...);
+			virtual Drawing::Size MeasureText(Drawing::IFont *font, const char *text);
+			virtual Drawing::Size MeasureTextEx(Drawing::IFont *font, const char *text, ...);
 
-			virtual void RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text);
-			virtual void RenderText(Drawing::IFont *font, int x, int y, LPCSTR text);
-			virtual void RenderText(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text);
-			virtual void RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text);
+			virtual void RenderText(Drawing::IFont *font, const Drawing::Point &point, const char *text);
+			virtual void RenderText(Drawing::IFont *font, int x, int y, const char *text);
+			virtual void RenderText(Drawing::IFont *font, Drawing::Rectangle &rect, const char *text);
+			virtual void RenderText(Drawing::IFont *font, int x, int y, int w, int h, const char *text);
 			
-			void RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text, ...);
-			void RenderTextEx(Drawing::IFont *font, int x, int y, LPCSTR text, ...);
-			void RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text, ...);
-			void RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text, ...);
+			void RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, const char *text, ...);
+			void RenderTextEx(Drawing::IFont *font, int x, int y, const char *text, ...);
+			void RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, const char *text, ...);
+			void RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, const char *text, ...);
 
 			virtual void Fill(const Drawing::Point &point);
 			virtual void Fill(int x, int y);

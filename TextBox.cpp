@@ -27,7 +27,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TextBox::SetText(LPCSTR text)
+	void TextBox::SetText(const char *text)
 	{
 		if (text != NULL)
 		{
@@ -37,12 +37,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	LPCSTR TextBox::GetText()
+	const char* TextBox::GetText()
 	{
 		return buffer.GetBuffer();
 	}
 	//---------------------------------------------------------------------------
-	bool TextBox::GetTextCopy(LPSTR dest, int count)
+	bool TextBox::GetTextCopy(char *dest, int count)
 	{
 		if (dest == NULL || count > buffer.GetLength())
 		{
