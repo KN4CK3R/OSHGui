@@ -60,13 +60,13 @@ namespace OSHGui
 		{
 			sprite->Flush();
 
-			/*if (verticesNum > 0)
+			if (verticesNum > 0)
 			{
 				device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 				device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, verticesNum / 3, &vertices[0], sizeof(Vertex2D));
 
 				verticesNum = 0;
-			}*/
+			}
 		}
 		//---------------------------------------------------------------------------
 		Drawing::ITexture* RendererDX9::CreateNewTexture()
@@ -97,26 +97,19 @@ namespace OSHGui
 			
 			if (this->texture != temp)
 			{
-				//Flush();
-				//device->SetTexture(0, temp->GetTexture());
+				Flush();
+				device->SetTexture(0, temp->GetTexture());
 				this->texture = temp;
 			}
 
 			Drawing::Size size = temp->GetSize();
 			
-			/*AddVertex(x, y, 0.0f, 0.0f);
+			AddVertex(x, y, 0.0f, 0.0f);
 			AddVertex(x + size.Width, y, 1.0f, 0.0f);
 			AddVertex(x, y + size.Height, 0.0f, 1.0f);
 			AddVertex(x + size.Width, y, 1.0f, 0.0f);
 			AddVertex(x + size.Width, y + size.Height, 1.0f, 1.0f);
-			AddVertex(x, y + size.Height, 0.0f, 1.0f);*/
-
-			D3DXVECTOR3 vec;
-			vec.x = x;
-			vec.y = y;
-			vec.z = 0.0f;
-
-			sprite->Draw(temp->GetTexture(), NULL, NULL, &vec, color.ARGB);
+			AddVertex(x, y + size.Height, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
 		Drawing::Size RendererDX9::MeasureText(Drawing::IFont *font, const char *text)
@@ -159,14 +152,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(Drawing::IFont *font, int x, int y, int w, int h, const char *text)
 		{
-			/*if (font == NULL || text == NULL)
+			if (font == NULL || text == NULL)
 			{
 				return;
 			}
 			Flush();
 			
 			RECT clip = { x, y, w, y };
-			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP */
+			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, const char *text, ...)
