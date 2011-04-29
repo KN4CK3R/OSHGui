@@ -14,7 +14,7 @@ namespace OSHGui
 			verticesNum = 0;
 
 			texture = NULL;
-			sprite = NULL;
+			D3DXCreateSprite(device, &sprite);
 
 			for (int i = 0; i < maxVertices; i++)
 			{
@@ -44,8 +44,6 @@ namespace OSHGui
 
 			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-
-			D3DXCreateSprite(device, &sprite);
 
 			sprite->Begin(D3DXSPRITE_ALPHABLEND);
 		}
@@ -158,7 +156,7 @@ namespace OSHGui
 			}
 			Flush();
 			
-			RECT clip = { x, y, w, y };
+			RECT clip = { x, y, x + w, y + h };
 			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
 		}
 		//---------------------------------------------------------------------------
