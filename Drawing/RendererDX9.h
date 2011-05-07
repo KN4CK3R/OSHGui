@@ -33,26 +33,31 @@ namespace OSHGui
 			virtual ITexture* CreateNewTexture();
 			virtual IFont* CreateNewFont();
 			
-			virtual void RenderTexture(Drawing::ITexture *texture, const Drawing::Point &point);
-			virtual void RenderTexture(Drawing::ITexture *texture, int x, int y);
+			virtual void RenderTexture(ITexture *texture, const Point &point);
+			virtual void RenderTexture(ITexture *texture, int x, int y);
 
-			virtual Drawing::Size MeasureText(Drawing::IFont *font, const char *text);
-			virtual Drawing::Size MeasureTextEx(Drawing::IFont *font, const char *text, ...);
+			virtual Size MeasureText(IFont *font, LPCSTR text);
+			virtual Size MeasureTextEx(IFont *font, LPCSTR text, ...);
 
-			virtual void RenderText(Drawing::IFont *font, const Drawing::Point &point, const char *text);
-			virtual void RenderText(Drawing::IFont *font, int x, int y, const char *text);
-			virtual void RenderText(Drawing::IFont *font, Drawing::Rectangle &rect, const char *text);
-			virtual void RenderText(Drawing::IFont *font, int x, int y, int w, int h, const char *text);
-			
-			void RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, const char *text, ...);
-			void RenderTextEx(Drawing::IFont *font, int x, int y, const char *text, ...);
-			void RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, const char *text, ...);
-			void RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, const char *text, ...);
+			virtual void RenderText(IFont *font, const Point &point, LPCSTR text);
+			virtual void RenderText(IFont *font, int x, int y, LPCSTR text);
+			virtual void RenderText(IFont *font, Rectangle &rect, LPCSTR text);
+			virtual void RenderText(IFont *font, int x, int y, int w, int h, LPCSTR text);
 
-			virtual void Fill(const Drawing::Point &point);
+			virtual void RenderTextEx(IFont *font, const Point &point, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, int x, int y, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, Rectangle &rect, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, int x, int y, int w, int h, LPCSTR text, ...);
+
+			virtual void Fill(const Point &point);
 			virtual void Fill(int x, int y);
-			virtual void Fill(Drawing::Rectangle &rect);
+			virtual void Fill(Rectangle &rect);
 			virtual void Fill(int x, int y, int w, int h);
+
+			virtual void FillGradient(const Point &point, Color &to);
+			virtual void FillGradient(int x, int y, Color &to);
+			virtual void FillGradient(Rectangle &rect, Color &to);
+			virtual void FillGradient(int x, int y, int w, int h, Color &to);
 			
 		protected:
 			void Flush();
