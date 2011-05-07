@@ -22,13 +22,13 @@ namespace OSHGui
 		class ITexture
 		{
 		public:		
-			const Drawing::Size GetSize()
+			const Size GetSize()
 			{
 				return size;
 			}
 			virtual bool IsLocked() = 0;
 
-			virtual bool Create(const Drawing::Size &size) = 0;
+			virtual bool Create(const Size &size) = 0;
 		
 			virtual void BeginUpdate() = 0;
 			virtual void EndUpdate() = 0;
@@ -36,19 +36,19 @@ namespace OSHGui
 			virtual void Clear() = 0;
 			virtual void Clear(int x, int y, int w, int h) = 0;
 
-			virtual void Fill(Drawing::Color color) = 0;
-			virtual void Fill(int x, int y, int w, int h, Drawing::Color color) = 0;
+			virtual void Fill(Color color) = 0;
+			virtual void Fill(int x, int y, int w, int h, Color color) = 0;
 
-			virtual void FillGradient(Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
-			virtual void FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
-			virtual void FillGradient(int x, int y, int w, int h, Drawing::Color from, Drawing::Color to, bool updown = true) = 0;
+			virtual void FillGradient(Color from, Color to, bool updown = true) = 0;
+			virtual void FillGradient(Rectangle &rect, Color from, Color to, bool updown = true) = 0;
+			virtual void FillGradient(int x, int y, int w, int h, Color from, Color to, bool updown = true) = 0;
 			
 			virtual void Rotate(int degrees) = 0;
 
-			virtual void Insert(int x, int y, Drawing::ITexture *texture) = 0;
+			virtual void Insert(int x, int y, ITexture *texture) = 0;
 		
 		protected:
-			Drawing::Size size;
+			Size size;
 		};
 	}
 }

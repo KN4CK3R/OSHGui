@@ -17,17 +17,17 @@ namespace OSHGui
 			ARGB = argb;
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(BYTE red, BYTE green, BYTE blue)
+		Color::Color(unsigned int red, unsigned int green, unsigned int blue)
 		{
 			Color(255, red, green, blue);
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(BYTE alpha, BYTE red, BYTE green, BYTE blue)
+		Color::Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue)
 		{
-			A = alpha;
-			R = red;
-			G = green;
-			B = blue;
+			A = alpha & 0xFF;
+			R = red & 0xFF;
+			G = green & 0xFF;
+			B = blue & 0xFF;
 		}
 		//---------------------------------------------------------------------------
 		//predefined colors
@@ -55,14 +55,16 @@ namespace OSHGui
 		float Color::Hue()
 		{ 
 			if (R == G && G == B)
+			{
 				return 0.0f;
+			}
 
-			float r = (float)R / 255.0f; 
-			float g = (float)G / 255.0f;
-			float b = (float)B / 255.0f; 
+			float r = R / 255.0f; 
+			float g = G / 255.0f;
+			float b = B / 255.0f; 
 
 			float max = r > g ? r : g > b ? g : b,
-					min = r < g ? r : g < b ? g : b;
+				  min = r < g ? r : g < b ? g : b;
 			float delta = max - min; 
 			float hue = 0.0f;
 
@@ -89,14 +91,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::Saturation()
 		{
-			float r = (float)R / 255.0f;
-			float g = (float)G / 255.0f; 
-			float b = (float)B / 255.0f;
+			float r = R / 255.0f;
+			float g = G / 255.0f; 
+			float b = B / 255.0f;
 
 			float max = r > g ? r : g > b ? g : b,
-					min = r < g ? r : g < b ? g : b,
-					l,
-					s = 0;
+				  min = r < g ? r : g < b ? g : b,
+				  l,
+				  s = 0;
 
 			if (max != min)
 			{
@@ -116,12 +118,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::Brightness()
 		{ 
-			float r = (float)R / 255.0f;
-			float g = (float)G / 255.0f;
-			float b = (float)B / 255.0f;
+			float r = R / 255.0f;
+			float g = G / 255.0f;
+			float b = B / 255.0f;
 		 
 			float max = r > g ? r : g > b ? g : b,
-					min = r < g ? r : g < b ? g : b;
+				  min = r < g ? r : g < b ? g : b;
 
 			return (max + min) / 2; 
 		}
@@ -181,6 +183,20 @@ namespace OSHGui
 							(BYTE)(p * 255),
 							(BYTE)(q * 255)
 							);
+			}
+		}
+		//---------------------------------------------------------------------------
+		DWORD Color::Format(ColorFormat format)
+		{
+			switch (format)
+			{
+			case ColorFormat::COLOR_RGBA:
+
+
+			case ColorFormat::COLOR_ARGB:
+			case ColorFormat::COLOR_RGB:
+			default:
+				return ARGB;
 			}
 		}
 		//---------------------------------------------------------------------------

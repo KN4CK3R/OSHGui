@@ -1,7 +1,7 @@
-#ifndef __DRAWING_FONTOPENGL_H__
-#define __DRAWING_FONTOPENGL_H__
+#ifndef __OSHGUI_DRAWING_FONTOPENGL_H__
+#define __OSHGUI_DRAWING_FONTOPENGL_H__
 
-#include "include.h"
+#include <windows.h>
 #include <gl\GL.h>
 #include <gl\GLU.h>
 
@@ -10,21 +10,25 @@
 
 #include "IFont.h"
 
-namespace Drawing
+namespace OSHGui
 {
-	class FontOpenGL : public IFont
+	namespace Drawing
 	{
-	public:
-		FontOpenGL();
-		virtual ~FontOpenGL();
+		class FontOpenGL : public IFont
+		{
+		public:
+			FontOpenGL();
+			virtual ~FontOpenGL();
 
-		GLuint GetFont();
+			GLuint GetFont();
 
-		virtual bool Create(LPCSTR fontName, int size, bool bold, bool italic);
+			virtual bool Create(LPCSTR fontName, int size, bool bold, bool italic);
+			virtual int MeasureCharacter(char c);
 
-	protected:
-		GLuint fontID;
-	};
+		protected:
+			GLuint fontID;
+		};
+	}
 }
 
 #endif

@@ -1,47 +1,56 @@
 #include "FontOpenGL.h"
 
-namespace Drawing
+namespace OSHGui
 {
-	//---------------------------------------------------------------------------
-	//Constructor
-	//---------------------------------------------------------------------------
-	FontOpenGL::FontOpenGL()
+	namespace Drawing
 	{
-		fontID = -1;
-	}
-	//---------------------------------------------------------------------------
-	FontOpenGL::~FontOpenGL()
-	{
-		if (fontID != -1)
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
+		FontOpenGL::FontOpenGL()
 		{
-			glDeleteLists(fontID, 256);
+			fontID = -1;
 		}
-	}
-	//Getter/Setter
-	//---------------------------------------------------------------------------
-	GLuint FontOpenGL::GetFont()
-	{
-		return fontID;
-	}
-	//---------------------------------------------------------------------------
-	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool FontOpenGL::Create(LPCSTR fontName, int size, bool bold, bool italic)
-	{
-		if (fontName == NULL)
+		//---------------------------------------------------------------------------
+		FontOpenGL::~FontOpenGL()
 		{
-			return false;
+			if (fontID != -1)
+			{
+				glDeleteLists(fontID, 256);
+			}
 		}
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		GLuint FontOpenGL::GetFont()
+		{
+			return fontID;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		bool FontOpenGL::Create(LPCSTR fontName, int size, bool bold, bool italic)
+		{
+			if (fontName == NULL)
+			{
+				return false;
+			}
 
-		HDC hDC = wglGetCurrentDC();
-		fontID = glGenLists(256);
-		HFONT hFont =  CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, fontName);
-		HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
-		wglUseFontBitmaps(hDC, 0, 255, fontID);
-		SelectObject(hDC, hOldFont);
-		DeleteObject(hFont);
+			HDC hDC = wglGetCurrentDC();
+			fontID = glGenLists(256);
+			HFONT hFont =  CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, fontName);
+			HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+			wglUseFontBitmaps(hDC, 0, 255, fontID);
+			SelectObject(hDC, hOldFont);
+			DeleteObject(hFont);
 
-		return true;
+			return true;
+		}
+		//---------------------------------------------------------------------------
+		int FontOpenGL::MeasureCharacter(char c)
+		{
+			//todo
+			return 0;
+		}
+		//---------------------------------------------------------------------------
 	}
-	//---------------------------------------------------------------------------
 }

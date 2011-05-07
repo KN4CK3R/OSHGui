@@ -10,6 +10,11 @@ namespace OSHGui
 		class Color
 		{
 		public:
+			enum ColorFormat
+			{
+				COLOR_ARGB, COLOR_RGBA, COLOR_RGB, COLOR_ABGR, COLOR_BGRA, COLOR_BGR
+			};
+
 			union
 			{
 				struct
@@ -24,8 +29,8 @@ namespace OSHGui
 
 			Color();
 			Color(unsigned long ARGB);
-			Color(BYTE red, BYTE green, BYTE blue);
-			Color(BYTE alpha, BYTE red, BYTE green, BYTE blue);
+			Color(unsigned int red, unsigned int green, unsigned int blue);
+			Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue);
 
 			static Color Empty();
 
@@ -50,6 +55,8 @@ namespace OSHGui
 			float Brightness();
 
 			static Color FromHSB(float hue, float saturation, float brightness);
+
+			DWORD Format(ColorFormat format);
 		};
 	}
 }
