@@ -19,31 +19,31 @@ namespace OSHGui
 			LPDIRECT3DTEXTURE9 GetTexture();
 			virtual bool IsLocked();
 
-			virtual bool Create(const Drawing::Size &size);
+			virtual bool Create(const Size &size);
 		
 			virtual void BeginUpdate();
 			virtual void EndUpdate();
 			
 			virtual void Clear();
-			void Clear(const Drawing::Point &point);
+			void Clear(const Point &point);
 			void Clear(int x, int y);
-			void Clear(Drawing::Rectangle &rect);
+			void Clear(Rectangle &rect);
 			virtual void Clear(int x, int y, int w, int h);
 
-			virtual void Fill(Drawing::Color color);
-			void Fill(const Drawing::Point &point, Drawing::Color color);
-			void Fill(int x, int y, Drawing::Color color);
-			void Fill(Drawing::Rectangle &rect, Drawing::Color color);
-			virtual void Fill(int x, int y, int w, int h, Drawing::Color color);
+			virtual void Fill(Color color);
+			void Fill(const Point &point, Color color);
+			void Fill(int x, int y, Color color);
+			void Fill(Rectangle &rect, Color color);
+			virtual void Fill(int x, int y, int w, int h, Color color);
 
-			virtual void FillGradient(Drawing::Color from, Drawing::Color to, bool updown = true);
-			virtual void FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown = true);
-			virtual void FillGradient(int x, int y, int w, int h, Drawing::Color from, Drawing::Color to, bool updown = true);
+			virtual void FillGradient(Color from, Color to, bool updown = true);
+			virtual void FillGradient(Rectangle &rect, Color from, Color to, bool updown = true);
+			virtual void FillGradient(int x, int y, int w, int h, Color from, Color to, bool updown = true);
 			
 			virtual void Rotate(int degrees);
 
-			void Insert(const Drawing::Point &point, Drawing::TextureDX9 *texture);
-			virtual void Insert(int x, int y, Drawing::ITexture *texture);
+			void Insert(const Point &point, TextureDX9 *texture);
+			virtual void Insert(int x, int y, ITexture *texture);
 			
 		private:
 			IDirect3DDevice9 *device;
