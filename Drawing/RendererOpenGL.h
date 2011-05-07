@@ -1,7 +1,8 @@
-#ifndef __DRAWING_RENDEREROPENGL_H__
-#define __DRAWING_RENDEREROPENGL_H__
+#ifndef __OSHGUI_DRAWING_RENDEREROPENGL_H__
+#define __OSHGUI_DRAWING_RENDEREROPENGL_H__
 
-#include "include.h"
+#include <windows.h>
+#include <stdio.h>
 #include <gl\GL.h>
 #include <gl\GLU.h>
 
@@ -11,67 +12,70 @@
 #include "IRenderer.h"
 #include "FontOpenGL.h"
 
-namespace Drawing
-{	
-	class RendererOpenGL : public IRenderer
-	{
-	public:
-		RendererOpenGL();
+namespace OSHGui
+{
+	namespace Drawing
+	{	
+		class RendererOpenGL : public IRenderer
+		{
+		public:
+			RendererOpenGL();
 
-		virtual void Begin();
-		virtual void End();
+			virtual void Begin();
+			virtual void End();
 
-		virtual Drawing::IFont* CreateNewFont();
+			virtual IFont* CreateNewFont();
 
-		virtual void SetRenderColor(Drawing::Color color);
+			virtual void SetRenderColor(Color color);
 	
-		//virtual Drawing::Size MeasureText(Drawing::IFont *font, LPCSTR text) = 0;
-		//virtual Drawing::Size MeasureTextEx(Drawing::IFont *font, LPCSTR text, ...) = 0;
+			//virtual Size MeasureText(IFont *font, LPCSTR text) = 0;
+			//virtual Size MeasureTextEx(IFont *font, LPCSTR text, ...) = 0;
 
-		virtual void RenderText(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text);
-		virtual void RenderText(Drawing::IFont *font, int x, int y, LPCSTR text);
-		virtual void RenderText(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text);
-		virtual void RenderText(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text);
+			virtual void RenderText(IFont *font, const Point &point, LPCSTR text);
+			virtual void RenderText(IFont *font, int x, int y, LPCSTR text);
+			virtual void RenderText(IFont *font, Rectangle &rect, LPCSTR text);
+			virtual void RenderText(IFont *font, int x, int y, int w, int h, LPCSTR text);
 		
-		virtual void RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, LPCSTR text, ...);
-		virtual void RenderTextEx(Drawing::IFont *font, int x, int y, LPCSTR text, ...);
-		virtual void RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, LPCSTR text, ...);
-		virtual void RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, const Point &point, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, int x, int y, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, Rectangle &rect, LPCSTR text, ...);
+			virtual void RenderTextEx(IFont *font, int x, int y, int w, int h, LPCSTR text, ...);
 			
-		virtual void Fill(const Drawing::Point &point);
-		virtual void Fill(int x, int y);
-		virtual void Fill(Drawing::Rectangle &rect);
-		virtual void Fill(int x, int y, int w, int h);
+			virtual void Fill(const Point &point);
+			virtual void Fill(int x, int y);
+			virtual void Fill(Rectangle &rect);
+			virtual void Fill(int x, int y, int w, int h);
 
-		struct
-		{
-            int x;
-            int y;
-            int width;
-            int height;
-        } glViewport;
+			struct
+			{
+				int x;
+				int y;
+				int width;
+				int height;
+			} glViewport;
 
-	protected:
-		void Flush();
-		void AddVertex(int x, int y);
+		protected:
+			void Flush();
+			void AddVertex(int x, int y);
 
-		struct glLoc
-		{
-			float x, y, z/*, w*/;
+			struct glLoc
+			{
+				float x, y, z/*, w*/;
+			};
+			struct glUV
+			{
+				float u, v;
+			};
+
+			static const int maxVertices = 1024;
+			glLoc verticesLoc[maxVertices];
+			DWORD verticesColor[maxVertices];
+
+			int verticesNum;
+
+			ITexture *texture;
 		};
-		struct glUV
-		{
-			float u, v;
-		};
-
-		static const int maxVertices = 1024;
-		glLoc verticesLoc[maxVertices];
-		DWORD verticesColor[maxVertices];
-
-		int verticesNum;
-
-		ITexture *texture;
-	};
+	}
 }
 
 #endif
