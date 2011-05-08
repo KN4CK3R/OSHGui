@@ -32,6 +32,11 @@ namespace OSHGui
 			Color(unsigned int red, unsigned int green, unsigned int blue);
 			Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue);
 
+			Color operator + (const Color &color) const;
+			void operator += (const Color &color);
+			Color operator - (const Color &color) const;
+			void operator -= (const Color &color);
+
 			static Color Empty();
 
 			static Color Red();

@@ -9,7 +9,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Color::Color()
 		{
-			Color(255, 0, 0, 0);
+			A = 255;
+			R = 0;
+			G = 0;
+			B = 0;
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(DWORD argb)
@@ -19,15 +22,18 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Color::Color(unsigned int red, unsigned int green, unsigned int blue)
 		{
-			Color(255, red, green, blue);
+			A = 255;
+			R = red & 0xFF;
+			G = green & 0xFF;
+			B = blue & 0xFF;
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue)
 		{
-			A = alpha & 0xFF;
-			R = red & 0xFF;
-			G = green & 0xFF;
-			B = blue & 0xFF;
+			A = (alpha > 255 ? 255 : alpha) & 0xFF;
+			R = (red > 255 ? 255 : red) & 0xFF;
+			G = (green > 255 ? 255 : green) & 0xFF;
+			B = (blue > 255 ? 255 : blue) & 0xFF;
 		}
 		//---------------------------------------------------------------------------
 		//predefined colors
@@ -51,6 +57,58 @@ namespace OSHGui
 		Color Color::Navy() { return Color(255, 0, 0, 128); }
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		Color Color::operator + (const Color &color) const
+		{
+			unsigned int alpha = A + color.A;
+			alpha = alpha > 255 ? 255 : alpha ;
+			unsigned int red = R + color.R;
+			red = red > 255 ? 255 :red;
+			unsigned int green = G + color.G;
+			green = green > 255 ? 255 : green;
+			unsigned int blue = B + color.B;
+			blue = blue > 255 ? 255 : blue;
+
+			return Color(alpha, red, green, blue);
+		}
+		//---------------------------------------------------------------------------
+		void Color::operator += (const Color &color)
+		{
+			unsigned int alpha = A + color.A;
+			A = (alpha > 255 ? 255 : alpha) & 0xFF;
+			unsigned int red = R + color.R;
+			R = (red > 255 ? 255 : red) & 0xFF;
+			unsigned int green = G + color.G;
+			G = (green > 255 ? 255 : green) & 0xFF;
+			unsigned int blue = B + color.B;
+			B = (blue > 255 ? 255 : blue) & 0xFF;
+		}
+		//---------------------------------------------------------------------------
+		Color Color::operator - (const Color &color) const
+		{
+			unsigned int alpha = A - color.A;
+			alpha = alpha < 0 ? 0 : alpha ;
+			unsigned int red = R - color.R;
+			red = red < 0 ? 0 :red;
+			unsigned int green = G - color.G;
+			green = green < 0 ? 0 : green;
+			unsigned int blue = B - color.B;
+			blue = blue < 0 ? 0 : blue;
+
+			return Color(alpha, red, green, blue);
+		}
+		//---------------------------------------------------------------------------
+		void Color::operator -= (const Color &color)
+		{
+			unsigned int alpha = A - color.A;
+			A = (alpha < 0 ? 0 : alpha) & 0xFF;
+			unsigned int red = R - color.R;
+			R = (red < 0 ? 0 : red) & 0xFF;
+			unsigned int green = G - color.G;
+			G = (green < 0 ? 0 : green) & 0xFF;
+			unsigned int blue = B - color.B;
+			B = (blue < 0 ? 0 : blue) & 0xFF;
+		}
 		//---------------------------------------------------------------------------
 		float Color::Hue()
 		{ 
