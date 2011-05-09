@@ -100,6 +100,7 @@ namespace OSHGui
 		
 		Control *Parent;
 		Panel *ParentPanel;
+		bool mouseOver;
 		
 	protected:
 		virtual void UpdateRects();
@@ -108,7 +109,7 @@ namespace OSHGui
 	
 		bool enabled,
 			 visible,
-			 mouseOver,
+			 //mouseOver,
 			 hasFocus,
 			 needRepaint;
 			 
@@ -123,7 +124,9 @@ namespace OSHGui
 		OnChangeFunc changeFunc;
 		
 		Drawing::Color foreColor,
-					   backColor;
+					   backColor,
+					   mouseOverColorDiff,
+					   focusColorDiff;
 		
 		Drawing::IFont *font;
 	public:

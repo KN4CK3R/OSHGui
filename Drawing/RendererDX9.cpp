@@ -101,6 +101,9 @@ namespace OSHGui
 			}
 
 			Size size = temp->GetSize();
+
+			x = x + renderRect.GetLeft();
+			y = y + renderRect.GetTop();
 			
 			AddVertex(x, y, 0.0f, 0.0f);
 			AddVertex(x + size.Width, y, 1.0f, 0.0f);
@@ -135,12 +138,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(IFont *font, const Point &point, const char *text)
 		{
-			RenderText(font, point.X, point.Y, 0, 0, text);
+			RenderText(font, point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(IFont *font, int x, int y, const char *text)
 		{
-			RenderText(font, x, y, 0, 0, text);
+			RenderText(font, x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(IFont *font, Rectangle &rectangle, const char *text)
@@ -155,6 +158,9 @@ namespace OSHGui
 				return;
 			}
 			Flush();
+
+			x = x + renderRect.GetLeft();
+			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
 			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
@@ -231,6 +237,9 @@ namespace OSHGui
 				device->SetTexture(0, NULL);
 				texture = NULL;
 			}
+
+			x = x + renderRect.GetLeft();
+			y = y + renderRect.GetTop();
 			
 			AddVertex(x, y);
 			AddVertex(x + w, y);
@@ -263,6 +272,9 @@ namespace OSHGui
 				device->SetTexture(0, NULL);
 				texture = NULL;
 			}
+
+			x = x + renderRect.GetLeft();
+			y = y + renderRect.GetTop();
 
 			Color bckColor = color;
 			

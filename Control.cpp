@@ -28,6 +28,8 @@ namespace OSHGui
 		hasFocus = false;
 		
 		//createTexture = true;
+
+		mouseOverColorDiff = Drawing::Color(0, 12, 13, 13);
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()

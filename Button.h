@@ -14,6 +14,10 @@ namespace OSHGui
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
+
+	protected:
+		Drawing::Color backColorDiff,
+					   borderColorDiff;
 	};
 }
 
