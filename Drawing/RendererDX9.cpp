@@ -34,6 +34,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
 		{
+			device->GetFVF(&oldFVF);
+		
 			device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -45,6 +47,8 @@ namespace OSHGui
 			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
+			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+
 			sprite->Begin(D3DXSPRITE_ALPHABLEND);
 		}
 		//---------------------------------------------------------------------------
@@ -52,6 +56,8 @@ namespace OSHGui
 		{
 			Flush();
 			sprite->End();
+			
+			device->SetFVF(oldFVF);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Flush()
@@ -60,7 +66,6 @@ namespace OSHGui
 
 			if (verticesNum > 0)
 			{
-				device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 				device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, verticesNum / 3, &vertices[0], sizeof(Vertex2D));
 
 				verticesNum = 0;

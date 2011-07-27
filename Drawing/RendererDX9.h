@@ -72,6 +72,8 @@ namespace OSHGui
 			static const int maxVertices = 1024;
 			int verticesNum;
 			Vertex2D vertices[maxVertices];
+			
+			DWORD oldFVF;
 		};
 	}
 }
