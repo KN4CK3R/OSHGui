@@ -44,6 +44,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void RadioButton::Render(Drawing::IRenderer *renderer)
 	{
+		if (!visible)
+		{
+			return;
+		}
+	
 		if (needRepaint)
 		{
 			if (texture.IsEmpty())

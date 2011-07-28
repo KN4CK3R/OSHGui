@@ -81,6 +81,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::Render(Drawing::IRenderer *renderer)
 	{
+		if (!visible)
+		{
+			return;
+		}
+	
 		//OK
 		/*if (needRepaint)
 		{
@@ -121,13 +126,13 @@ namespace OSHGui
 
 		Drawing::Color tempColor = backColor;
 
-		if (mouseOver)
-		{
-			tempColor += mouseOverColorDiff;
-		}
 		if (hasFocus)
 		{
 			tempColor += focusColorDiff;
+		}
+		else if (mouseOver)
+		{
+			tempColor += mouseOverColorDiff;
 		}
 
 		renderer->SetRenderColor(tempColor);

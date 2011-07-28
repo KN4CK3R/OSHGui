@@ -72,7 +72,7 @@ namespace OSHGui
 					font->DrawText(NULL, "_", -1, &rect, DT_CALCRECT, 0);
 					font->DrawText(NULL, "_ _", -1, &rect2, DT_CALCRECT, 0);
 					charWidth[0x20] = rect2.right - rect.right * 2;
-					charWidth[0xA0] = rect2.right - rect.right * 2;
+					charWidth[0xA0] = charWidth[0x20];
 				}
 				
 				RECT rect;
@@ -97,6 +97,8 @@ namespace OSHGui
 					font->DrawText(NULL, str, -1, &rect, DT_CALCRECT, 0);
 					charWidth[i] = rect.right;
 				}
+				
+				initWidthArray = false;
 			}
 			
 			return charWidth[(int)c];

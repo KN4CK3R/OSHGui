@@ -47,14 +47,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void LinkLabel::Render(Drawing::IRenderer *renderer)
 	{
-		if (backColor.A != 0)
+		if (!visible)
 		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
+			return;
 		}
+	
+		Label::Render(renderer);
 		
-		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, bounds, text);
 		renderer->Fill(bounds.GetLeft(), bounds.GetBottom() + 1, bounds.GetWidth(), 1);
 	}
 	//---------------------------------------------------------------------------

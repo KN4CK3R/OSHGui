@@ -71,15 +71,24 @@ namespace OSHGui
 		void SetVisible(bool visible);
 		bool GetVisible();
 		
+		virtual void SetBounds(int x, int y, int w, int h);
 		virtual void SetBounds(Drawing::Rectangle &bounds);
 		virtual Drawing::Rectangle GetBounds();
 		virtual void SetLocation(Drawing::Point &point);
+		virtual void SetLocation(int x, int y);
 		virtual Drawing::Point GetLocation();
 		virtual void SetSize(Drawing::Size &size);
 		virtual Drawing::Size GetSize();
+		virtual int GetLeft();
+		virtual int GetTop();
+		virtual int GetRight();
+		virtual int GetBottom();
+		virtual int GetWidth();
+		virtual int GetHeight();
 		
 		void SetTag(void *tag);
 		void* GetTag();
+		
 		void SetFont(Drawing::IFont *font);
 		Drawing::IFont* GetFont();
 		void SetForeColor(Drawing::Color color);
@@ -97,6 +106,8 @@ namespace OSHGui
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
+		
+		Control* GetParent();
 		
 		Control *Parent;
 		Panel *ParentPanel;

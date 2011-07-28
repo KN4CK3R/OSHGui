@@ -62,6 +62,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Label::Render(Drawing::IRenderer *renderer)
 	{
+		if (!visible)
+		{
+			return;
+		}
+	
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);

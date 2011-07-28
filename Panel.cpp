@@ -213,6 +213,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Panel::Render(Drawing::IRenderer *renderer)
 	{
+		if (!visible)
+		{
+			return;
+		}
+	
 		//OK
 		if (needRepaint)
 		{

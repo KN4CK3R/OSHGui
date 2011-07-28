@@ -507,6 +507,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::Render(Drawing::IRenderer *renderer)
 	{
+		if (!visible)
+		{
+			return;
+		}
+	
 		//OK
 		if (needRepaint)
 		{

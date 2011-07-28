@@ -68,6 +68,11 @@ namespace OSHGui
 		return visible;
 	}
 	//---------------------------------------------------------------------------
+	void Control::SetBounds(int x, int y, int w, int h)
+	{
+		SetBounds(Drawing::Rectangle(x, y, w, h));
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetBounds(Drawing::Rectangle &bounds)
 	{
 		this->bounds = bounds;
@@ -77,6 +82,11 @@ namespace OSHGui
 	Drawing::Rectangle Control::GetBounds()
 	{
 		return bounds;
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetLocation(int x, int y)
+	{
+		SetLocation(Drawing::Point(x, y));
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(Drawing::Point &point)
@@ -109,6 +119,36 @@ namespace OSHGui
 		return bounds.GetSize();
 	}
 	//---------------------------------------------------------------------------
+	int Control::GetLeft()
+	{
+		return bounds.GetLeft();
+	}
+	//---------------------------------------------------------------------------
+	int Control::GetTop()
+	{
+		return bounds.GetTop();
+	}
+	//---------------------------------------------------------------------------
+	int Control::GetRight()
+	{
+		return bounds.GetRight();
+	}
+	//---------------------------------------------------------------------------
+	int Control::GetBottom()
+	{
+		return bounds.GetBottom();
+	}
+	//---------------------------------------------------------------------------
+	int Control::GetWidth()
+	{
+		return bounds.GetWidth();
+	}
+	//---------------------------------------------------------------------------
+	int Control::GetHeight()
+	{
+		return bounds.GetHeight();
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetTag(void *tag)
 	{
 		this->tag = tag;
@@ -130,6 +170,11 @@ namespace OSHGui
 	Drawing::IFont* Control::GetFont()
 	{
 		return font;
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::GetParent()
+	{
+		return Parent;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetForeColor(Drawing::Color color)
