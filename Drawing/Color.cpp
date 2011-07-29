@@ -171,6 +171,7 @@ namespace OSHGui
 					s = (max - min) / (2 - max - min);
 				}
 			}
+			
 			return s; 
 		}
 		//---------------------------------------------------------------------------
@@ -194,7 +195,7 @@ namespace OSHGui
 			float q = brightness * (1.0f - saturation * f);
 			float t = brightness * (1.0f - (saturation * (1.0f - f)));
 
-			if(h < 1)
+			if (h < 1)
 			{
 				return Color(
 							(BYTE)(brightness * 255),
@@ -202,7 +203,7 @@ namespace OSHGui
 							(BYTE)(p * 255)
 							);
 			}
-			else if(h < 2)
+			else if (h < 2)
 			{
 				return Color(
 							(BYTE)(q * 255),
@@ -210,7 +211,7 @@ namespace OSHGui
 							(BYTE)(p * 255)
 							);
 			}
-			else if(h < 3)
+			else if (h < 3)
 			{
 				return Color(
 							(BYTE)(p * 255),
@@ -218,7 +219,7 @@ namespace OSHGui
 							(BYTE)(t * 255)
 							);
 			}
-			else if(h < 4)
+			else if (h < 4)
 			{
 				return Color(
 							(BYTE)(p * 255),
@@ -226,7 +227,7 @@ namespace OSHGui
 							(BYTE)(brightness * 255)
 							);
 			}
-			else if(h < 5)
+			else if (h < 5)
 			{
 				return Color(
 							(BYTE)(t * 255),

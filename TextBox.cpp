@@ -16,8 +16,8 @@ namespace OSHGui
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
 
-		SetBackColor(Drawing::Color(0xFFF0F0F0));
-		SetForeColor(Drawing::Color(0xFFD1CFCD));
+		SetBackColor(Drawing::Color(0xFF242321));
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
 	TextBox::~TextBox()
@@ -278,7 +278,7 @@ namespace OSHGui
 		}
 	
 		//OK
-		if (needRepaint)
+		/*if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -308,15 +308,20 @@ namespace OSHGui
 			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
 
 			main->EndUpdate();
-		}
+		}*/
 		
+		Drawing::Point position = bounds.GetPosition();
+				
+		renderer->SetRenderColor(backColor - Drawing::Color(0, 20, 20, 20));
+		renderer->Fill(position.Left, position.Top, bounds.GetWidth(), bounds.GetHeight());
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		renderer->Fill(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2)
+		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, buffer.GetBuffer() + firstVisibleCharacter);
 		
 		//Carret
-		renderer->Fill(23, bounds.GetHeight() + 5, 1, 12);
+		renderer->Fill(position.Left + 23, position.Top + 5, 1, 12);
 	}
 	//---------------------------------------------------------------------------
 }

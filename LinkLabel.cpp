@@ -16,33 +16,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes LinkLabel::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !visible || !enabled)
-		{
-			return Event::None;
-		}
-	
-		if (event->Type == Event::Mouse)
-		{
-			MouseEvent *mouse = (MouseEvent*) event;
-			if (mouse->State == MouseEvent::LeftDown)
-			{
-				pressed = true;
-			}
-			if (mouse->State == MouseEvent::LeftUp)
-			{
-				if (pressed && hasFocus)
-				{
-					pressed = false;
-					
-					if (clickFunc != NULL)
-					{
-						(*clickFunc)(this, mouse);
-					}
-				}
-			}
-		}
-		
-		return Event::None;
+		return Label::ProcessEvent(event);
 	}
 	//---------------------------------------------------------------------------
 	void LinkLabel::Render(Drawing::IRenderer *renderer)

@@ -44,6 +44,9 @@ namespace OSHGui
 		int offset = (int)(1.25f * buttonRect.GetWidth());
 		textRect.Offset(offset, 2);
 		textRect.Inflate(-offset, 0);
+		
+		SetBackColor(Drawing::Color(0xFF222222));
+		SetForeColor(Drawing::Color::White());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -139,20 +142,22 @@ namespace OSHGui
 
 			main->EndUpdate();
 		}*/
-				
+		
+		Drawing::Point position = bounds.GetPosition();
+		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(0, 0, 17, 17);
+		renderer->Fill(position.Left, position.Top, 17, 17);
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(1, 1, 15, 15);
+		renderer->FillGradient(position.Left + 1, position.Top + 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(2, 2, 13, 13, backcolor - Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(position.Left + 2, position.Top + 2, 13, 13, backcolor + Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(foreColor);
 		
 		if (checked)
 		{
-			renderer->Fill(5, 5, 7, 7);
-			renderer->FillGradient(6, 6, 5, 5, forColor - Drawing::Color(0, 137, 137, 137));
+			renderer->Fill(position.Left + 5, position.Top + 5, 7, 7);
+			renderer->FillGradient(position.Left + 6, position.Top + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
 		}
 		
 		renderer->RenderText(font, textRect, text);

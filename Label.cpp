@@ -14,7 +14,7 @@ namespace OSHGui
 		memset((void*)&text, 0x00, sizeof(text));
 		
 		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFA6A4A1));
+		SetForeColor(Drawing::Color(0xFFA3A3A3));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -57,6 +57,32 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Label::ProcessEvent(Event *event)
 	{
+		if (event == NULL || !visible || !enabled)
+		{
+			return Event::None;
+		}
+	
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*) event;
+			if (mouse->State == MouseEvent::LeftDown)
+			{
+				pressed = true;
+			}
+			if (mouse->State == MouseEvent::LeftUp)
+			{
+				if (pressed && hasFocus)
+				{
+					pressed = false;
+					
+					if (clickFunc != NULL)
+					{
+						(*clickFunc)(this, mouse);
+					}
+				}
+			}
+		}
+		
 		return Event::None;
 	}
 	//---------------------------------------------------------------------------
