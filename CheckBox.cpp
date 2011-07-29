@@ -99,7 +99,7 @@ namespace OSHGui
 		}
 	
 		//OK
-		if (needRepaint)
+		/*if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -138,12 +138,23 @@ namespace OSHGui
 			}
 
 			main->EndUpdate();
-		}
-		
+		}*/
+				
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), buttonRect.GetPosition());
+		renderer->Fill(0, 0, 17, 17);
+		renderer->SetRenderColor(foreColor);
+		renderer->Fill(1, 1, 15, 15);
+		renderer->SetRenderColor(backColor);
+		renderer->FillGradient(2, 2, 13, 13, backcolor - Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(foreColor);
+		
+		if (checked)
+		{
+			renderer->Fill(5, 5, 7, 7);
+			renderer->FillGradient(6, 6, 5, 5, forColor - Drawing::Color(0, 137, 137, 137));
+		}
+		
 		renderer->RenderText(font, textRect, text);
 	}
 	//---------------------------------------------------------------------------
