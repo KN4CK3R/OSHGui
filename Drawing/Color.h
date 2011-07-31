@@ -1,8 +1,6 @@
 #ifndef __OSHGUI_DRAWING_COLOR_H__
 #define __OSHGUI_DRAWING_COLOR_H__
 
-#include <windows.h>
-
 namespace OSHGui
 {
 	namespace Drawing
@@ -19,10 +17,10 @@ namespace OSHGui
 			{
 				struct
 				{
-					BYTE B;
-					BYTE G;
-					BYTE R;
-					BYTE A;
+					unsigned char B;
+					unsigned char G;
+					unsigned char R;
+					unsigned char A;
 				};
 				unsigned long ARGB;
 			};
@@ -50,6 +48,7 @@ namespace OSHGui
 			static Color Yellow();
 			static Color Fuchsia();
 			static Color Cyan();
+			static Color Orange();
 
 			static Color Maroon();
 			static Color Green();
@@ -61,7 +60,7 @@ namespace OSHGui
 
 			static Color FromHSB(float hue, float saturation, float brightness);
 
-			DWORD Format(ColorFormat format);
+			unsigned long Format(ColorFormat format);
 		};
 	}
 }

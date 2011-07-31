@@ -5,11 +5,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ScrollBar::ScrollBar(Panel *parentPanel)
+	ScrollBar::ScrollBar(Control *parent) : Control(parent)
 	{
 		type = CONTROL_SCROLLBAR;
-		
-		ParentPanel = parentPanel;
 		
 		drag = false;
 		showSlider = false;

@@ -2,13 +2,15 @@
 #define __OSHGUI_PANEL_H__
 
 #include "Control.h"
+#include <vector>
+#include <algorithm>
 
 namespace OSHGui
 {
 	class Panel : public Control
 	{
 	public:
-		Panel(Panel *parentPanel = NULL);
+		Panel(Control *parent = NULL);
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 
@@ -17,25 +19,16 @@ namespace OSHGui
 		void CaptureMouse(Control *control);
 		void ReleaseCapture();
 
-		void RequestFocus(Control *control);
-		void ClearFocus();
-
 		void ClearRadioButtonGroup(int group);
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:
-		void OnMouseMove(const Drawing::Point &point);
-		void OnMouseUp(const Drawing::Point &point);
-	
+	protected:	
 		Control *FindControlAtPoint(const Drawing::Point &point);
 
-		Misc::List<Control*> Controls;
-
-		Control *focusControl,
-				*captureControl,
-				*mouseOverControl;
+		std::vector<Control*> Controls;
+		//Misc::List<Control*> Controls;
 	};
 }
 

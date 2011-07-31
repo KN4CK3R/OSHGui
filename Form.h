@@ -18,6 +18,9 @@ namespace OSHGui
 		
 		void Show();
 
+		virtual Drawing::Point PointToClient(const Drawing::Point &point);
+		virtual Drawing::Point PointToScreen(const Drawing::Point &point);
+
 		Event::NextEventTypes ProcessEvent(Event *event);
 		void Render(Drawing::IRenderer *renderer);
 

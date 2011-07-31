@@ -5,20 +5,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TrackBar::TrackBar(Panel *parentPanel)
+	TrackBar::TrackBar(Control *parent) : Control(parent)
 	{
 		type = CONTROL_TRACKBAR;
-		
-		ParentPanel = parentPanel;
-		
+				
 		pressed = false;
 		
 		min = 1;
 		max = 10;
 		value = 1;
 
-		SetBackColor(Drawing::Color(0xFFF0F0F0));
-		SetForeColor(Drawing::Color(0xFFD1CFCD));
+		SetBackColor(Drawing::Color::Empty());
+		SetForeColor(Drawing::Color(0xFFA6A4A1));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -55,8 +53,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::UpdateRects()
 	{
-		sliderMiddle = (int)((value - min) * (float)bounds.GetWidth() / (max - min));
-		sliderRect = Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), 0, TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
+		sliderMiddle = bounds.GetLeft() + ((value - min) * (float)bounds.GetWidth() / (max - min));
+		sliderRect = Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), bounds.GetTop(), TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
@@ -73,12 +71,14 @@ namespace OSHGui
 				(*changeFunc)(this);
 			}
 		}
+
+		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::ValueFromPosition(int position)
 	{ 
 		float valuePerPixel = (float)(max - min) / bounds.GetWidth();
-		return (int)(0.5f + min + valuePerPixel * (position - bounds.GetLeft())) ; 
+		return (int)(0.5f + min + valuePerPixel * (position/* - bounds.GetLeft()*/)) ; 
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -95,7 +95,7 @@ namespace OSHGui
 			MouseEvent *mouse = (MouseEvent*)event;
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (sliderRect.Contains(mouse->Position))
+				/*if (sliderRect.Contains(mouse->Position))
 				{
 					pressed = true;
 					//SetCapture( DXUTGetHWND() );
@@ -105,13 +105,13 @@ namespace OSHGui
 
 					if (!hasFocus)
 					{
-						ParentPanel->RequestFocus(this);
+						Parent->RequestFocus(this);
 					}
 
 					return Event::None;
-				}
+				}*/
 
-				if (bounds.Contains(mouse->Position))
+				if (Parent->IsMouseOver(this))
 				{
 					dragX = mouse->Position.X;
 					dragOffset = 0;               
@@ -119,7 +119,7 @@ namespace OSHGui
 					
 					if (!hasFocus)
 					{
-						ParentPanel->RequestFocus(this);
+						Parent->RequestFocus(this);
 					}
 
 					if (mouse->Position.X > sliderMiddle + bounds.GetLeft())
@@ -152,7 +152,7 @@ namespace OSHGui
 			{
 				if (pressed)
 				{
-					SetValueInternal(ValueFromPosition(mouse->Position.X + bounds.GetLeft() + dragOffset));
+					SetValueInternal(ValueFromPosition(mouse->Position.X/* - bounds.GetLeft() * 4 + dragOffset*/));
 				}
 			}
 			return Event::None;
@@ -195,7 +195,7 @@ namespace OSHGui
 			return;
 		}
 	
-		if (needRepaint)
+		/*if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -231,11 +231,33 @@ namespace OSHGui
 
 				slider->EndUpdate();
 			}
+		}*/
+
+		if (backColor.A != 0)
+		{
+			renderer->SetRenderColor(backColor);
+			renderer->Fill(bounds);
 		}
-		
+
+		Drawing::Point position = bounds.GetPosition();
+
+		renderer->SetRenderColor(mouseOver || hasFocus ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
+
+		int range = max - min;
+		float space = bounds.GetWidth() / (float)range;
+		if (space < 5.0f)
+		{
+			space = 5.0f;
+			range = bounds.GetWidth() / space;
+		}
+				
+		for (int i = 0; i < range; i++)
+		{
+			renderer->Fill(position.Left + (i * space), position.Top + 6, 1, 5);
+		}
+
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
-		renderer->RenderTexture(texture.Get(1), sliderRect.GetPosition());
+		renderer->Fill(sliderRect);
 	}
 	//---------------------------------------------------------------------------
 }

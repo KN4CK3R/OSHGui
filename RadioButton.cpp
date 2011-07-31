@@ -5,12 +5,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	RadioButton::RadioButton(Panel *parentPanel)
+	RadioButton::RadioButton(Control *parent) : CheckBox(parent)
 	{
 		type = CONTROL_RADIOBUTTON;
-		
-		ParentPanel = parentPanel;
-		
+				
 		group = 0;
 	}
 	//---------------------------------------------------------------------------
@@ -20,7 +18,7 @@ namespace OSHGui
 	{
 		if (this->checked != checked)
 		{
-			ParentPanel->ClearRadioButtonGroup(group);
+			//ParentPanel->ClearRadioButtonGroup(group);
 			
 			this->checked = checked;
 			if (changeFunc != NULL)
@@ -137,9 +135,9 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), buttonRect.GetPosition());
+		//renderer->RenderTexture(texture.Get(0), buttonRect.GetPosition());
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, textRect, text);
+		//renderer->RenderText(font, textRect, text);
 	}
 	//---------------------------------------------------------------------------
 }

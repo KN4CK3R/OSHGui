@@ -5,11 +5,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	LinkLabel::LinkLabel(Panel *parentPanel)
+	LinkLabel::LinkLabel(Control *parent) : Label(parent)
 	{
 		type = CONTROL_LINKLABEL;
-
-		ParentPanel = parentPanel;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

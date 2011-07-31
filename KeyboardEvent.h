@@ -8,6 +8,9 @@ namespace OSHGui
 	class KeyboardEvent : public Event
 	{
 	public:
+		enum KeyboardStates { None, Down, Character, Up };
+
+		KeyboardStates State;
 		Key::Keys KeyCode;
 		char KeyChar;
 		bool Menu,
@@ -19,6 +22,7 @@ namespace OSHGui
 	public:
 		KeyboardEvent() : Event(Event::Keyboard)
 		{
+			State = None;
 			Menu = false;
 			Control = false;
 			Shift = false;

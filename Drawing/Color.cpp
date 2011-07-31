@@ -15,7 +15,7 @@ namespace OSHGui
 			B = 0;
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(DWORD argb)
+		Color::Color(unsigned long argb)
 		{
 			ARGB = argb;
 		}
@@ -51,6 +51,7 @@ namespace OSHGui
 		Color Color::Yellow() { return Color(255, 255, 255, 0); }
 		Color Color::Fuchsia() { return Color(255, 255, 0, 255); }
 		Color Color::Cyan() { return Color(255, 0, 255, 255); }
+		Color Color::Orange() { return Color(255, 255, 125, 0); }
 
 		Color Color::Maroon() { return Color(255, 128, 0, 0); }
 		Color Color::Green() { return Color(255, 0, 128, 0); }
@@ -86,13 +87,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Color Color::operator - (const Color &color) const
 		{
-			unsigned int alpha = A - color.A;
+			int alpha = A - color.A;
 			alpha = alpha < 0 ? 0 : alpha ;
-			unsigned int red = R - color.R;
+			int red = R - color.R;
 			red = red < 0 ? 0 :red;
-			unsigned int green = G - color.G;
+			int green = G - color.G;
 			green = green < 0 ? 0 : green;
-			unsigned int blue = B - color.B;
+			int blue = B - color.B;
 			blue = blue < 0 ? 0 : blue;
 
 			return Color(alpha, red, green, blue);
@@ -198,54 +199,54 @@ namespace OSHGui
 			if (h < 1)
 			{
 				return Color(
-							(BYTE)(brightness * 255),
-							(BYTE)(t * 255),
-							(BYTE)(p * 255)
+							(unsigned char)(brightness * 255),
+							(unsigned char)(t * 255),
+							(unsigned char)(p * 255)
 							);
 			}
 			else if (h < 2)
 			{
 				return Color(
-							(BYTE)(q * 255),
-							(BYTE)(brightness * 255),
-							(BYTE)(p * 255)
+							(unsigned char)(q * 255),
+							(unsigned char)(brightness * 255),
+							(unsigned char)(p * 255)
 							);
 			}
 			else if (h < 3)
 			{
 				return Color(
-							(BYTE)(p * 255),
-							(BYTE)(brightness * 255),
-							(BYTE)(t * 255)
+							(unsigned char)(p * 255),
+							(unsigned char)(brightness * 255),
+							(unsigned char)(t * 255)
 							);
 			}
 			else if (h < 4)
 			{
 				return Color(
-							(BYTE)(p * 255),
-							(BYTE)(q * 255),
-							(BYTE)(brightness * 255)
+							(unsigned char)(p * 255),
+							(unsigned char)(q * 255),
+							(unsigned char)(brightness * 255)
 							);
 			}
 			else if (h < 5)
 			{
 				return Color(
-							(BYTE)(t * 255),
-							(BYTE)(p * 255),
-							(BYTE)(brightness * 255)
+							(unsigned char)(t * 255),
+							(unsigned char)(p * 255),
+							(unsigned char)(brightness * 255)
 							);
 			}
 			else
 			{
 				return Color(
-							(BYTE)(brightness * 255),
-							(BYTE)(p * 255),
-							(BYTE)(q * 255)
+							(unsigned char)(brightness * 255),
+							(unsigned char)(p * 255),
+							(unsigned char)(q * 255)
 							);
 			}
 		}
 		//---------------------------------------------------------------------------
-		DWORD Color::Format(ColorFormat format)
+		unsigned long Color::Format(ColorFormat format)
 		{
 			switch (format)
 			{

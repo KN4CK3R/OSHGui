@@ -5,13 +5,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(Panel *parentPanel)
+	Label::Label(Control *parent) : Control(parent)
 	{
 		type = CONTROL_LABEL;
-		
-		ParentPanel = parentPanel;
-		
+				
 		memset((void*)&text, 0x00, sizeof(text));
+
+		SetSize(Drawing::Size(100, 20));
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA3A3A3));

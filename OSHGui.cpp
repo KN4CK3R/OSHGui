@@ -2,18 +2,32 @@
 
 namespace OSHGui
 {
-	//LRESULT CALLBACK MsgProc(int code, WPARAM wParam, LPARAM lParam);
 	bool Gui::active = false;
 	HHOOK Gui::messageHook = NULL;
-	Gui *Gui::self = NULL;
+	Gui *Gui::instance = NULL;
 	Misc::TimeHelper Gui::GlobalTime;
 
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Gui::Gui()
+	Gui::Gui(Drawing::IRenderer *renderer)
 	{
-		self = this;
+		if (renderer == NULL)
+		{
+			throw "Renderer can't be NULL";
+		}
+
+		instance = this;
+
+		this->renderer = renderer;
+
+		mainForm = NULL;
+		focusForm = NULL;
+	}
+	//---------------------------------------------------------------------------
+	Gui* Gui::GetInstance()
+	{
+		return instance;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -43,7 +57,7 @@ namespace OSHGui
 			return false;
 		}
 		
-		messageHook = SetWindowsHookEx(WH_CALLWNDPROC, MsgProc, NULL, threadId);
+		messageHook = SetWindowsHookEx(WH_GETMESSAGE, MsgProc, NULL, threadId);
 		if (messageHook == NULL)
 		{
 			return false;
@@ -59,15 +73,15 @@ namespace OSHGui
 			return false;
 		}
 		
-		for (int i = 0, len = forms.GetSize(); i < len; i++)
+		for (unsigned int i = 0, len = forms.size(); i < len; i++)
 		{
-			if (forms.Get(i) == form)
+			if (forms.at(i) == form)
 			{
 				return true;
 			}
 		}
 		
-		forms.Add(form);
+		forms.push_back(form);
 		
 		return true;
 	}
@@ -79,17 +93,18 @@ namespace OSHGui
 			return;
 		}
 		
-		for (int i = 0, len = forms.GetSize(); i < len; i++)
+		for (unsigned int i = 0, len = forms.size(); i < len; i++)
 		{
-			if (forms.Get(i) == form)
-			{			
-				forms.Remove(i);
+			if (forms.at(i) == form)
+			{
+				forms.erase(forms.begin() + i);
+				//forms.Remove(i);
 				
 				if (mainForm == form)
 				{
-					if (forms.GetSize() > 0)
+					if (forms.size() > 0)
 					{
-						mainForm = forms.Get(0);
+						mainForm = forms.at(0);
 					}
 					else
 					{
@@ -104,15 +119,33 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Gui::ShowMainForm(Form *form)
 	{
-		if (form == NULL || !forms.Contains(form))
+		if (form == NULL || std::find(forms.begin(), forms.end(), form) == forms.end() /*!forms.Contains(form)*/)
 		{
 			return;
 		}
 		
 		mainForm = form;
+		focusForm = mainForm;
 		
-		form->SetVisible(true);
-		form->SetEnabled(true);
+		mainForm->Show();
+	}
+	//---------------------------------------------------------------------------
+	void Gui::Render()
+	{
+		if (!active)
+		{
+			return;
+		}
+
+		for (unsigned int i = 0, len = forms.size(); i < len; i++)
+		{
+			Form *form = forms.at(i);
+			if (form != mainForm)
+			{
+				form->Render(renderer);
+			}
+		}
+		mainForm->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -126,7 +159,7 @@ namespace OSHGui
 
 		if (code == HC_ACTION)
 		{
-			return self->ProcessMessage(code, wParam, lParam);
+			return instance->ProcessMessage(code, wParam, lParam);
 		}
 		
 		return CallNextHookEx(messageHook, code, wParam, lParam);
@@ -134,9 +167,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	LRESULT Gui::ProcessMessage(int code, WPARAM wParam, LPARAM lParam)
 	{
-		LPCWPRETSTRUCT wpret = (LPCWPRETSTRUCT)lParam;
+		LPMSG msg = (LPMSG)lParam;
 		
-		switch (wpret->message)
+		switch (msg->message)
 		{
 			case WM_MOUSEMOVE:
 			case WM_LBUTTONDOWN:
@@ -148,30 +181,35 @@ namespace OSHGui
 				#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 				#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-				MouseEvent mouse(MouseEvent::None, Drawing::Point((int)(short)LOWORD(wpret->lParam), GET_Y_LPARAM(wpret->lParam)), 0);
+				MouseEvent mouse(MouseEvent::None, Drawing::Point(GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)), 0);
 				
-				switch (wpret->message)
+				switch (msg->message)
 				{
 					case WM_MOUSEMOVE:
 						mouse.State = MouseEvent::Move;
 						break;
 					case WM_LBUTTONDOWN:
+						SetCapture(msg->hwnd);
 						mouse.State = MouseEvent::LeftDown;
 						break;
 					case WM_LBUTTONUP:
+						ReleaseCapture();
 						mouse.State = MouseEvent::LeftUp;
 						break;
 					case WM_RBUTTONDOWN:
+						SetCapture(msg->hwnd);
 						mouse.State = MouseEvent::RightDown;
 						break;
 					case WM_RBUTTONUP:
+						ReleaseCapture();
 						mouse.State = MouseEvent::RightUp;
 						break;
 					case WM_MOUSEWHEEL:
 						mouse.State = MouseEvent::Wheel;
-						UINT lines;
+						/*UINT lines;
 						SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &lines, 0);
-						mouse.Delta = lines * GET_WHEEL_DELTA_WPARAM(wpret->wParam);
+						mouse.Delta = lines * GET_WHEEL_DELTA_WPARAM(msg->wParam);*/
+						mouse.Delta = (short)HIWORD(msg->wParam);
 						break;
 				}
 				
@@ -181,7 +219,7 @@ namespace OSHGui
 				}
 			
 				break;
-			}				
+			}
 			case WM_KEYDOWN:
 			case WM_SYSKEYDOWN:
 			case WM_KEYUP:
@@ -189,56 +227,76 @@ namespace OSHGui
 			case WM_CHAR:
 			{
 				KeyboardEvent keyboard;
-				keyboard.Control = GetKeyState(VK_CONTROL) >= 0;
-				keyboard.Shift = GetKeyState(VK_SHIFT) >= 0;
-				keyboard.Menu = GetKeyState(VK_MENU) >= 0;
-			
-				switch (wpret->message)
+				keyboard.State = KeyboardEvent::None;
+				keyboard.Control = GetKeyState(VK_CONTROL) & 0x8000;
+				keyboard.Shift = GetKeyState(VK_SHIFT) & 0x8000;
+				keyboard.Menu = GetKeyState(VK_MENU) & 0x8000;
+
+				if (msg->message == WM_KEYDOWN || msg->message == WM_SYSKEYDOWN)
 				{
-					case WM_KEYDOWN:
-					case WM_SYSKEYDOWN:
-					
-					case WM_KEYUP:
-					case WM_SYSKEYUP:
-					
-					case WM_CHAR:
-					{
-						switch ((char)wpret->wParam)
-						{
-							case VK_BACK:
-								keyboard.KeyCode = Key::Back;
-								break;
-						
-							case 26:
-							case 2:
-							case 14:
-							case 19:
-							case 4:
-							case 6:
-							case 7:
-							case 10:
-							case 11:
-							case 12:
-							case 17:
-							case 23:
-							case 5:
-							case 18:
-							case 20:
-							case 25:
-							case 21:
-							case 9:
-							case 15:
-							case 16:
-							case 27:
-							case 29:
-							case 28:
-								keyboard.KeyCode = Key::None;
-								break;
-								
-							default:
-								keyboard.KeyChar = (char)wpret->wParam;
-						}
-					}
+					keyboard.State = KeyboardEvent::Down;
+				}
+				else if (msg->message == WM_KEYUP || msg->message == WM_SYSKEYUP)
+				{
+					keyboard.State = KeyboardEvent::Up;
+				}
+				else if (msg->message == WM_CHAR)
+				{
+					keyboard.State = KeyboardEvent::Character;
+				}
+				if (keyboard.State == KeyboardEvent::None)
+				{
+					break;
+				}
+			
+				switch ((char)msg->wParam)
+				{
+					case VK_BACK:
+						keyboard.KeyCode = Key::Back;
+						keyboard.KeyChar = '\b';
+						break;
+					case VK_SPACE:
+						keyboard.KeyCode = Key::Space;
+						keyboard.KeyChar = ' ';
+						break;
+					case 26:
+					case 2:
+					case 14:
+					case 19:
+					case 4:
+					case 6:
+					case 7:
+					case 10:
+					case 11:
+					case 12:
+					case 17:
+					case 23:
+					case 5:
+					case 18:
+					case 20:
+					case 25:
+					case 21:
+					case 9:
+					case 15:
+					case 16:
+					case 27:
+					case 29:
+					case 28:
+						keyboard.KeyCode = Key::None;
+						break;
+					default:
+						keyboard.KeyChar = (char)msg->wParam;
+				}
+
+				if (keyboard.State == KeyboardEvent::Character)
+				{
+					char bla[200];
+					int i = 0;
+					for (; i < strlen(focusForm->GetText()); ++i)
+						bla[i] = focusForm->GetText()[i];
+					bla[i] = /*keyboard.Shift ? keyboard.KeyChar - 0x20 : */keyboard.KeyChar;
+					bla[++i] = 0;
+					focusForm->SetText(bla);
 				}
 			
 				if (focusForm->ProcessEvent(&keyboard) == Event::None)
@@ -253,11 +311,11 @@ namespace OSHGui
 			{
 				SystemEvent system;
 				
-				switch (wpret->message)
+				switch (msg->lParam)
 				{
 					case WM_ACTIVATEAPP:
 						system.State = SystemEvent::ActivateApp;
-						system.Value = wpret->lParam == 1;
+						system.Value = msg->message == 1;
 						break;
 					case WM_CAPTURECHANGED:
 						system.State = SystemEvent::CaptureChanged;

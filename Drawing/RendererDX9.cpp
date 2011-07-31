@@ -49,20 +49,20 @@ namespace OSHGui
 
 			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
-			sprite->Begin(D3DXSPRITE_ALPHABLEND);
+			//sprite->Begin(D3DXSPRITE_ALPHABLEND);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::End()
 		{
 			Flush();
-			sprite->End();
+			//sprite->End();
 			
 			device->SetFVF(oldFVF);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Flush()
 		{
-			sprite->Flush();
+			//sprite->Flush();
 
 			if (verticesNum > 0)
 			{
@@ -168,7 +168,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			((FontDX9*)font)->GetFont()->DrawText(sprite, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
+			((FontDX9*)font)->GetFont()->DrawText(NULL, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTextEx(IFont *font, const Point &point, const char *text, ...)

@@ -2,17 +2,16 @@
 #define __OSHGUI_TRACKBAR_H__
 
 #include "Control.h"
-#include "Panel.h"
 
-#define TRACKBAR_SLIDER_WIDTH 13
-#define TRACKBAR_SLIDER_HEIGHT 22
+#define TRACKBAR_SLIDER_WIDTH 8
+#define TRACKBAR_SLIDER_HEIGHT 16
 
 namespace OSHGui
 {
 	class TrackBar : public Control
 	{
 	public:
-		TrackBar(Panel *parentPanel);
+		TrackBar(Control *parent);
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);

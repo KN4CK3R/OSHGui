@@ -13,7 +13,7 @@ namespace OSHGui
 	class ComboBox : public Button
 	{	
 	public:
-		ComboBox(Panel *parentPanel = NULL);
+		ComboBox(Control *parent = NULL);
 		virtual ~ComboBox();
 		
 		ListItem* GetItem(int index);

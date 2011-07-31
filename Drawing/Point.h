@@ -20,7 +20,7 @@ namespace OSHGui
 			void operator += (const Point &p);
 			
 			void Offset(int X, int Y);
-			Point OffsetEx(int X, int Y);
+			const Point OffsetEx(int X, int Y);
 			
 			union
 			{

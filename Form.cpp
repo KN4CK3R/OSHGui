@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form()
+	Form::Form() : Panel(this)
 	{
 		type = CONTROL_FORM;
 		
@@ -13,12 +13,15 @@ namespace OSHGui
 		enabled = false;
 		drag = false;
 
-		ParentPanel = this;
-
 		memset((void*)&text, 0x00, sizeof(text));
 
 		SetLocation(Drawing::Point(10, 10));
 		SetSize(Drawing::Size(364, 379));
+
+		SetBackColor(Drawing::Color(0xFF7c7b79));
+		SetForeColor(Drawing::Color::White());
+
+		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -32,6 +35,7 @@ namespace OSHGui
 		}
 
 		strcpy_s(this->text, 256, text);
+		this->text[255] = 0;
 	}
 	//---------------------------------------------------------------------------
 	const char* Form::GetText()
@@ -63,20 +67,30 @@ namespace OSHGui
 		captionBar = bounds;
 		captionBar.Offset(1, 1);
 		captionBar.Inflate(-32, 0);
-		captionBar.SetHeight(24);
+		captionBar.SetHeight(17);
 		
-		closeRect = Drawing::Rectangle(bounds.GetWidth() - 15, 7, 10, 10);
-		minimizeRect = Drawing::Rectangle(bounds.GetWidth() - 32, 7, 10, 10);
+		closeRect = Drawing::Rectangle(bounds.GetRight() - 22, bounds.GetTop() + 2, 17, 17);
+		minimizeRect = Drawing::Rectangle(bounds.GetRight() - 39, bounds.GetTop() + 2, 17, 17);
 		
 		clientArea = bounds;
-		clientArea.Offset(1, 25);
-		clientArea.Inflate(-2, -25);
+		clientArea.Offset(3, 20);
+		clientArea.Inflate(-6, -23);
 	}
 	//---------------------------------------------------------------------------
 	void Form::Show()
 	{
 		visible = true;
 		enabled = true;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point Form::PointToClient(const Drawing::Point &point)
+	{
+		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point Form::PointToScreen(const Drawing::Point &point)
+	{
+		return Drawing::Point();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -87,11 +101,29 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			if (captionBar.Contains(mouse->Position))
+			if (captionBar.Contains(mouse->Position) || drag)
 			{
+				if (mouse->State == MouseEvent::LeftUp)
+				{
+					if (closeRect.Contains(mouse->Position))
+					{
+						//close
+					
+						return Event::None;
+					}
+					else if (minimizeRect.Contains(mouse->Position))
+					{
+						//minimize
+					
+						return Event::None;
+					}
+				}
+
 				if (mouse->State == MouseEvent::Move && drag == true)
 				{
-					
+					Drawing::Point delta = mouse->Position - oldMousePosition + bounds.GetPosition();
+					oldMousePosition = mouse->Position;
+					this->SetLocation(delta);
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
@@ -103,21 +135,6 @@ namespace OSHGui
 					drag = false;
 				}
 				return Event::None;
-			}
-			if (mouse->State == MouseEvent::LeftUp)
-			{
-				if (closeRect.Contains(mouse->Position))
-				{
-					//close
-					
-					return Event::None;
-				}
-				else if (minimizeRect.Contains(mouse->Position))
-				{
-					//minimize
-					
-					return Event::None;
-				}
 			}
 		}
 	
@@ -131,7 +148,7 @@ namespace OSHGui
 			return;
 		}
 	
-		if (needRepaint)
+		/*if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -172,19 +189,35 @@ namespace OSHGui
 			main->EndUpdate();
 
 			needRepaint = false;
-		}
-		
+		}*/
+
+		Drawing::Point position = bounds.GetPosition();
+
+		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
+		renderer->Fill(bounds);
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		renderer->FillGradient(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
+		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
+		renderer->Fill(position.Left + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
+		//renderer->FillGradient(clientArea, backColor);
+
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, captionBar, text);
+		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, text);
+
+		for (int i = 0; i < 4; i++)
+		{
+			renderer->Fill(closeRect.GetLeft() + 4 + i, closeRect.GetTop() + 4 + i, 3, 1);
+			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 4 + i, 3, 1);
+			renderer->Fill(closeRect.GetLeft() + 4 + i, closeRect.GetTop() + 11 - i, 3, 1);
+			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 11 - i, 3, 1);
+		}
 		
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(clientArea);
 	
-		for (int i = 0, len = Controls.GetSize(); i < len; i++)
+		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
 		{
-			Controls.Get(i)->Render(renderer);
+			Controls.at(i)->Render(renderer);
 		}
 		
 		renderer->SetRenderRectangle(rect);

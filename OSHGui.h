@@ -23,25 +23,27 @@
 #include "Panel.h"
 #include "Form.h"
 
-#include "ScrollBar.h"
+//#include "ScrollBar.h"
 
 #include "Label.h"
 #include "LinkLabel.h"
 #include "Button.h"
 #include "CheckBox.h"
-#include "RadioButton.h"
-#include "ComboBox.h"
+//#include "RadioButton.h"
+//#include "ComboBox.h"
 
-#include "ListBox.h"
-
-#include "ProgressBar.h"
+//#include "ListBox.h"
+#include "TrackBar.h"
+//#include "ProgressBar.h"
 
 namespace OSHGui
 {
 	class Gui
 	{
 	public:
-		Gui();
+		Gui(Drawing::IRenderer *renderer);
+
+		static Gui* GetInstance();
 		
 		bool InitMessageHook(HWND window);
 
@@ -50,20 +52,24 @@ namespace OSHGui
 		bool RegisterForm(Form *form);
 		void UnregisterForm(Form *form);
 		void ShowMainForm(Form *form);
+		void Render();
 
 		static LRESULT CALLBACK MsgProc(int code, WPARAM wParam, LPARAM lparam);
 		
 		static Misc::TimeHelper GlobalTime;
 
 	private:
-		static Gui *self;
+		static Gui *instance;
 		static HHOOK messageHook;
 		LRESULT ProcessMessage(int code, WPARAM wParam, LPARAM lParam);
 	
+		Drawing::IRenderer *renderer;
+
 		static bool active;
 		Form *focusForm,
 			 *mainForm;
-		Misc::List<Form*> forms;
+		std::vector<Form*> forms;
+		//Misc::List<Form*> forms;
 	};
 }
 

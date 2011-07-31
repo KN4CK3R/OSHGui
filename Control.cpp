@@ -5,15 +5,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Control::Control(Panel *parentPanel)
+	Control::Control(Control *parent)
 	{
 		type = CONTROL_BUTTON;
 
-		ParentPanel = NULL;
+		Parent = parent;
+		if (Parent != NULL)
+		{
+			SetFont(Parent->GetFont());
+		}
 	
 		SetEnabled(true);
 		SetVisible(true);
-		SetBounds(Drawing::Rectangle());
 		
 		SetTag(NULL);
 		
@@ -29,7 +32,7 @@ namespace OSHGui
 		
 		//createTexture = true;
 
-		mouseOverColorDiff = Drawing::Color(0, 12, 13, 13);
+		mouseOverColorDiff = Drawing::Color(0, 20, 20, 20);
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
@@ -142,6 +145,16 @@ namespace OSHGui
 	int Control::GetWidth()
 	{
 		return bounds.GetWidth();
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point Control::PointToClient(const Drawing::Point &point)
+	{
+		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point Control::PointToScreen(const Drawing::Point &point)
+	{
+		return Drawing::Point();
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetHeight()
@@ -262,6 +275,43 @@ namespace OSHGui
 	void Control::Invalidate()
 	{
 		needRepaint = true;
+	}
+	//---------------------------------------------------------------------------
+	bool Control::IsMouseOver(Control *control)
+	{
+		return control == mouseOverControl;
+	}
+	//---------------------------------------------------------------------------
+	void Control::RequestFocus(Control *control)
+	{
+		if (focusControl == control)
+		{
+			return;
+		}
+
+		if (!control->CanHaveFocus())
+		{
+			return;
+		}
+
+		if (focusControl != NULL)
+		{
+			focusControl->OnFocusOut();
+		}
+
+		control->OnFocusIn();
+		focusControl = control;
+	}
+	//---------------------------------------------------------------------------
+	void Control::ClearFocus()
+	{
+		if (focusControl)
+		{
+			focusControl->OnFocusOut();
+			focusControl = NULL;
+		}
+
+		ReleaseCapture();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

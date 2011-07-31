@@ -8,7 +8,7 @@ namespace OSHGui
 	class CheckBox : public Button
 	{
 	public:
-		CheckBox(Panel *parentPanel = NULL);
+		CheckBox(Control *parent = NULL);
 		
 		virtual void SetChecked(bool checked);
 		virtual bool GetChecked();
@@ -17,11 +17,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 	
 	protected:
-		virtual void UpdateRects();
 		bool checked;
-		
-		Drawing::Rectangle buttonRect,
-						   textRect;
 	};
 }
 

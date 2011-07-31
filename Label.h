@@ -9,7 +9,7 @@ namespace OSHGui
 	class Label : public Control
 	{
 	public:
-		Label(Panel *parentPanel = NULL);
+		Label(Control *parent = NULL);
 		
 		void SetText(const char *text);
 		const char* GetText();
@@ -21,6 +21,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
+		bool pressed;
 		char text[256]; 
 	};
 }

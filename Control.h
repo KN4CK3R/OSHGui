@@ -43,7 +43,6 @@ namespace OSHGui
 	};
 
 	class Control;
-	class Panel;
 
 	typedef void (*OnClickFunc)(Control *sender, MouseEvent *mouse);
 	typedef void (*OnKeyPressFunc)(Control *sender, KeyboardEvent *keyboard);
@@ -54,7 +53,7 @@ namespace OSHGui
 	class Control
 	{
 	public:
-		Control(Panel *parentPanel = NULL);
+		Control(Control *parent = NULL);
 		virtual ~Control();
 		
 		CONTROL_TYPE GetType() const;
@@ -85,6 +84,8 @@ namespace OSHGui
 		virtual int GetBottom();
 		virtual int GetWidth();
 		virtual int GetHeight();
+		virtual Drawing::Point PointToClient(const Drawing::Point &point);
+		virtual Drawing::Point PointToScreen(const Drawing::Point &point);
 		
 		void SetTag(void *tag);
 		void* GetTag();
@@ -103,6 +104,10 @@ namespace OSHGui
 		void SetOnChange(OnChangeFunc changeFunc);
 
 		void Invalidate();
+
+		bool IsMouseOver(Control *control);
+		void RequestFocus(Control *control);
+		void ClearFocus();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
@@ -110,7 +115,6 @@ namespace OSHGui
 		Control* GetParent();
 		
 		Control *Parent;
-		Panel *ParentPanel;
 		bool mouseOver;
 		
 	protected:
@@ -140,6 +144,10 @@ namespace OSHGui
 					   focusColorDiff;
 		
 		Drawing::IFont *font;
+
+		Control *focusControl,
+				*captureControl,
+				*mouseOverControl;
 	public:
 		Misc::List<Drawing::ITexture*> texture;
 	};

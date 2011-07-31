@@ -5,22 +5,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	GroupBox::GroupBox(Panel *parentPanel)
+	GroupBox::GroupBox(Control *parent) : Panel(parent)
 	{
 		type = CONTROL_GROUPBOX;
-		
-		ParentPanel = parentPanel;
 	}
 	//---------------------------------------------------------------------------
 	GroupBox::~GroupBox()
 	{
-		for (int i = 0, len = Controls.GetSize(); i < len; i++)
+		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
 		{
-			Control *control = Controls.Get(i);
+			Control *control = Controls.at(i);
 			delete control;
 		}
 	
-		Controls.Clear();
+		//Controls.Clear();
+		Controls.clear();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -100,9 +99,9 @@ namespace OSHGui
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);
 	
-		for (int i = 0, len = Controls.GetSize(); i < len; i++)
+		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
 		{
-			Controls.Get(i)->Render(renderer);
+			Controls.at(i)->Render(renderer);
 		}
 		
 		renderer->SetRenderRectangle(bounds);

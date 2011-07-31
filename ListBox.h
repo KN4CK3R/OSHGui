@@ -13,7 +13,7 @@ namespace OSHGui
 	class ListBox : public Control
 	{	
 	public:
-		ListBox(Panel *parentPanel = NULL);
+		ListBox(Control *parent = NULL);
 		virtual ~ListBox();
 		
 		ListItem* GetItem(int index);

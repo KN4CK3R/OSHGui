@@ -8,7 +8,7 @@ namespace OSHGui
 	class GroupBox : public Panel
 	{
 	public:
-		GroupBox(Panel *parentPanel = NULL);
+		GroupBox(Control *parent = NULL);
 		virtual ~GroupBox();
 
 		void SetText(const char *text);

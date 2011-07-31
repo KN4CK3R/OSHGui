@@ -5,13 +5,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	CheckBox::CheckBox(Panel *parentPanel)
+	CheckBox::CheckBox(Control *parent) : Button(parent)
 	{
 		type = CONTROL_CHECKBOX;
-		
-		ParentPanel = parentPanel;
-		
+				
 		checked = false;
+
+		SetBackColor(Drawing::Color(0xFF222222));
+		SetForeColor(Drawing::Color::White());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -33,22 +34,6 @@ namespace OSHGui
 		return checked;
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::UpdateRects()
-	{
-		Button::UpdateRects();
-
-		buttonRect = bounds;
-		buttonRect.SetWidth(buttonRect.GetHeight());
-
-		textRect = bounds;
-		int offset = (int)(1.25f * buttonRect.GetWidth());
-		textRect.Offset(offset, 2);
-		textRect.Inflate(-offset, 0);
-		
-		SetBackColor(Drawing::Color(0xFF222222));
-		SetForeColor(Drawing::Color::White());
-	}
-	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes CheckBox::ProcessEvent(Event *event)
@@ -61,25 +46,29 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			if (mouse->State == MouseEvent::LeftDown)
+			if (Parent->IsMouseOver(this))
 			{
-				pressed = true;
+				if (mouse->State == MouseEvent::LeftDown)
+				{
+					pressed = true;
 			
-				if (!hasFocus)
-				{
-					ParentPanel->RequestFocus(this);
+					if (!hasFocus)
+					{
+						((Panel*)Parent)->RequestFocus(this);
+					}
+					return Event::None;
 				}
-			}
-			else if (mouse->State == MouseEvent::LeftUp)
-			{
-				if (pressed && hasFocus)
+				else if (mouse->State == MouseEvent::LeftUp)
 				{
-					SetChecked(!GetChecked());
+					if (pressed && hasFocus)
+					{
+						SetChecked(!GetChecked());
 					
-					pressed = false;
+						pressed = false;
+					}
+					return Event::None;
 				}
 			}
-			return Event::None;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -87,8 +76,8 @@ namespace OSHGui
 			if (keyboard->KeyCode == Key::Space)
 			{
 				SetChecked(!GetChecked());
+				return Event::None;
 			}
-			return Event::None;
 		}
 		
 		return Event::Continue;
@@ -150,7 +139,7 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->FillGradient(position.Left + 1, position.Top + 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(position.Left + 2, position.Top + 2, 13, 13, backcolor + Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(position.Left + 2, position.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(foreColor);
 		
@@ -160,7 +149,7 @@ namespace OSHGui
 			renderer->FillGradient(position.Left + 6, position.Top + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
 		}
 		
-		renderer->RenderText(font, textRect, text);
+		renderer->RenderText(font, position.Left + 20, position.Top + 2, bounds.GetWidth() - 20, bounds.GetHeight(), text);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -5,11 +5,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TextBox::TextBox(Panel *parentPanel)
+	TextBox::TextBox(Control *parent) : Control(parent)
 	{
 		type = CONTROL_TEXTBOX;
-		
-		ParentPanel = parentPanel;
 
 		blinkTime = 0.4;
 		lastBlink = 0;//Gui::GlobalTime->GetAbsoluteTime();
@@ -199,6 +197,8 @@ namespace OSHGui
 			bool hasChanged = true;
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
+
+			if (keyboard 
 			
 			if (keyPressFunc != NULL)
 			{
@@ -315,7 +315,7 @@ namespace OSHGui
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 20, 20, 20));
 		renderer->Fill(position.Left, position.Top, bounds.GetWidth(), bounds.GetHeight());
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2)
+		renderer->Fill(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, buffer.GetBuffer() + firstVisibleCharacter);

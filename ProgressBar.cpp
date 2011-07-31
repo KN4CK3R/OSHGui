@@ -5,11 +5,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ProgressBar::ProgressBar(Panel *parentPanel)
+	ProgressBar::ProgressBar(Control *parent) : Control(parent)
 	{
 		type = CONTROL_PROGRESSBAR;
-		
-		ParentPanel = parentPanel;
 		
 		min = 0;
 		max = 100;

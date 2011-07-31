@@ -6,14 +6,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Panel::Panel(Panel *parentPanel)
+	Panel::Panel(Control *parent) : Control(parent)
 	{
 		type = CONTROL_PANEL;
 		
-		ParentPanel = parentPanel;
-
 		SetBackColor(Drawing::Color(0xFFF0F0F0));
 		SetForeColor(Drawing::Color(0xFFD1CFCD));
+
+		focusControl = NULL;
+		mouseOverControl = NULL;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -31,7 +32,8 @@ namespace OSHGui
 			//{
 			//	control->ParentForm = this;
 			//}
-			Controls.Add(control);
+			//Controls.Add(control);
+			Controls.push_back(control);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -44,46 +46,13 @@ namespace OSHGui
 	void Panel::ReleaseCapture()
 	{
 		captureControl = NULL;
-		::ReleaseCapture();
-	}
-	//---------------------------------------------------------------------------
-	void Panel::RequestFocus(Control *control)
-	{
-		if (focusControl == control)
-		{
-			return;
-		}
-
-		if (!control->CanHaveFocus())
-		{
-			return;
-		}
-
-		if (focusControl != NULL)
-		{
-			focusControl->OnFocusOut();
-		}
-
-		control->OnFocusIn();
-		focusControl = control;
-	}
-	//---------------------------------------------------------------------------
-	void Panel::ClearFocus()
-	{
-		if (focusControl)
-		{
-			focusControl->OnFocusOut();
-			focusControl = NULL;
-		}
-
-		ReleaseCapture();
 	}
 	//---------------------------------------------------------------------------
 	void Panel::ClearRadioButtonGroup(int group)
 	{
-		for (int i = 0; i < Controls.GetSize(); i++)
+		for (unsigned int i = 0; i < Controls.size(); i++)
 		{
-			Control *control = Controls.Get(i);
+			Control *control = Controls.at(i);
 
 			if (control->GetType() == CONTROL_RADIOBUTTON)
 			{
@@ -99,48 +68,24 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Panel::FindControlAtPoint(const Drawing::Point &point)
 	{
-		for (int i = 0; i < Controls.GetSize(); i++)
+		Drawing::Point client = PointToClient(point);
+
+		for (unsigned int i = 0; i < Controls.size(); i++)
 		{
-			Control *control = Controls.Get(i);
+			Control *control = Controls.at(i);
 
 			if (control == NULL)
 			{
 				continue;
 			}
 
-			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(point))
+			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(client))
 			{
 				return control;
 			}
 		}
 
 		return NULL;
-	}
-	//---------------------------------------------------------------------------
-	void Panel::OnMouseMove(const Drawing::Point &point)
-	{
-		Control *control = FindControlAtPoint(point);
-		
-		if (control == mouseOverControl)
-		{
-			return;
-		}
-
-		if (mouseOverControl)
-		{
-			mouseOverControl->OnMouseLeave();
-		}
-
-		mouseOverControl = control;
-		if (control != NULL)
-		{
-			mouseOverControl->OnMouseEnter();
-		}
-	}
-	//---------------------------------------------------------------------------
-	void Panel::OnMouseUp(const Drawing::Point &point)
-	{
-		mouseOverControl = NULL;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -156,6 +101,21 @@ namespace OSHGui
 		{
 			return Event::Continue;
 		}
+
+		if (event->Type == Event::Mouse)
+		{
+			Control *control = FindControlAtPoint(((MouseEvent*)event)->Position);
+			if (control != mouseOverControl && mouseOverControl != NULL)
+			{
+				mouseOverControl->OnMouseLeave();
+			}
+
+			if (control != NULL)
+			{
+				mouseOverControl = control;
+				mouseOverControl->OnMouseEnter();
+			}
+		}
 	
 		if (focusControl != NULL && focusControl->GetEnabled())
 		{
@@ -169,10 +129,9 @@ namespace OSHGui
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			
-			Control *control = FindControlAtPoint(mouse->Position);
-			if (control != NULL)
+			if (mouseOverControl != NULL)
 			{
-				if (control->ProcessEvent(event) == Event::None)
+				if (mouseOverControl->ProcessEvent(event) == Event::None)
 				{
 					return Event::None;
 				}
@@ -182,10 +141,6 @@ namespace OSHGui
 			{
 				focusControl->OnFocusOut();
 				focusControl = NULL;
-			}
-			else if (mouse->State == MouseEvent::Move)
-			{
-				OnMouseMove(mouse->Position);
 			}
 			return Event::Continue;
 		}
@@ -244,9 +199,9 @@ namespace OSHGui
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);
 	
-		for (int i = 0, len = Controls.GetSize(); i < len; i++)
+		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
 		{
-			Controls.Get(i)->Render(renderer);
+			Controls.at(i)->Render(renderer);
 		}
 		
 		renderer->SetRenderRectangle(bounds);

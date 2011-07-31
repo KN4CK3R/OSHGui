@@ -3,12 +3,12 @@
 
 #include <stdlib.h>
 
-#ifndef _NEW_
+/*#ifndef _NEW_
 inline void *__cdecl operator new(size_t, void *_Where) throw()
 {
 	return (_Where);
 }
-#endif
+#endif*/
 
 namespace OSHGui
 {
@@ -69,7 +69,7 @@ namespace OSHGui
 					return false;
 				}
 
-				::new (&data[size]) T;
+				//::new (&data[size]) T;
 
 				data[size++] = value;
 
@@ -90,7 +90,7 @@ namespace OSHGui
 
 				memmove(&data[index + 1], &data[index], sizeof(T) * (size - index));
 
-				::new (&data[index]) T;
+				//::new (&data[index]) T;
 
 				data[index] = value;
 				++size;
@@ -176,7 +176,7 @@ namespace OSHGui
 					{
 						for (int i = oldSize; i < newMaxSize; i++)
 						{
-							::new (&data[i]) T;
+							//::new (&data[i]) T;
 						}
 					}
 				}

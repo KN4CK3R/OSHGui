@@ -1,23 +1,19 @@
 #ifndef __OSHGUI_BUTTON_H__
 #define __OSHGUI_BUTTON_H__
 
-#include "LinkLabel.h"
+#include "Label.h"
 
 namespace OSHGui
 {
-	class Button : public LinkLabel
+	class Button : public Label
 	{	
 	public:
-		Button(Panel *parentPanel = NULL);
+		Button(Control *parent = NULL);
 		
 		virtual bool CanHaveFocus();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
-
-	protected:
-		Drawing::Color backColorDiff,
-					   borderColorDiff;
 	};
 }
 

@@ -8,13 +8,10 @@ namespace OSHGui
 	class LinkLabel : public Label
 	{
 	public:
-		LinkLabel(Panel *parentPanel = NULL);
+		LinkLabel(Control *parent = NULL);
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
-		
-	protected:
-		bool pressed;
 	};
 }
 

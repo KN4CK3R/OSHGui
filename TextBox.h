@@ -11,7 +11,7 @@ namespace OSHGui
 	class TextBox : public Control
 	{
 	public:
-		TextBox(Panel *parentPanel = NULL);
+		TextBox(Control *parent = NULL);
 		virtual ~TextBox();
 		
 		void SetText(const char *text);

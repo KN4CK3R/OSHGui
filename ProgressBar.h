@@ -9,7 +9,7 @@ namespace OSHGui
 	class ProgressBar : public Control
 	{	
 	public:
-		ProgressBar(Panel *parentPanel = NULL);
+		ProgressBar(Control *parent = NULL);
 	
 		void SetMin(unsigned int min);
 		int GetMin();

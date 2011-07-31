@@ -5,12 +5,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ListBox::ListBox(Panel *parentPanel) : scrollBar(parentPanel)
+	ListBox::ListBox(Control *parent) : Control(parent), scrollBar(parent)
 	{
 		type = CONTROL_LISTBOX;
-		
-		ParentPanel = parentPanel;
-		
+				
 		selectedIndex = -1;
 		drag = false;
 
@@ -224,7 +222,7 @@ namespace OSHGui
 		
 		if (!hasFocus && event->Type == Event::Mouse && ((MouseEvent*)event)->State == MouseEvent::LeftDown)
 		{
-			ParentPanel->RequestFocus(this);
+			//ParentPanel->RequestFocus(this);
 		}
 		
 		if (scrollBar.ProcessEvent(event) == Event::None)

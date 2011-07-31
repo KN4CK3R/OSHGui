@@ -5,12 +5,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ComboBox::ComboBox(Panel *parentPanel) : scrollBar(parentPanel)
+	ComboBox::ComboBox(Control *parent) : Button(parent), scrollBar(parent)
 	{
 		type = CONTROL_COMBOBOX;
-		
-		ParentPanel = parentPanel;
-		
+				
 		dropdownHeight = COMBOBOX_MAX_HEIGHT;
 		
 		selectedIndex = -1;
@@ -319,7 +317,7 @@ namespace OSHGui
 
 						if (!hasFocus)
 						{
-							ParentPanel->RequestFocus(this);
+							//ParentPanel->RequestFocus(this);
 						}
 
 						if (hasFocus)
@@ -328,7 +326,7 @@ namespace OSHGui
 						
 							if (!opened)
 							{
-								ParentPanel->ClearFocus();
+								//ParentPanel->ClearFocus();
 							}
 						}
 
@@ -351,7 +349,7 @@ namespace OSHGui
 								
 								opened = false;
 								
-								ParentPanel->ClearFocus();
+								//ParentPanel->ClearFocus();
 
 								break;
 							}
@@ -374,7 +372,7 @@ namespace OSHGui
 
 					pressed = false;
 
-					ParentPanel->ClearFocus();
+					//ParentPanel->ClearFocus();
 				}
 				else if (mouse->State == MouseEvent::Wheel)
 				{

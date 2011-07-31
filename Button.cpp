@@ -5,22 +5,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Button::Button(Panel *parentPanel)
+	Button::Button(Control *parent) : Label(parent)
 	{
 		type = CONTROL_BUTTON;
-		
-		ParentPanel = parentPanel;
-		
+				
 		pressed = false;
 
-		SetLocation(Drawing::Point(9, 9));
+		//SetLocation(Drawing::Point(9, 9));
 		SetSize(Drawing::Size(92, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
+		//SetForeColor(Drawing::Color::White());
+		//SetBackColor(Drawing::Color(0xFF222222));
 		SetForeColor(Drawing::Color::White());
-		
-		backColorDiff = Drawing::Color(0, 21, 18, 17);
-		borderColorDiff = Drawing::Color(0, 19, 20, 19);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -41,29 +38,33 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*) event;
-			if (mouse->State == MouseEvent::LeftDown)
+			if (Parent->IsMouseOver(this))
 			{
-				pressed = true;
+				MouseEvent *mouse = (MouseEvent*) event;
+				if (mouse->State == MouseEvent::LeftDown)
+				{
+					pressed = true;
 				
-				if (!hasFocus)
-				{
-					ParentPanel->RequestFocus(this);
-				}
-			}
-			else if (mouse->State == MouseEvent::LeftUp)
-			{
-				if (pressed && hasFocus)
-				{
-					pressed = false;
-					
-					if (clickFunc != NULL)
+					if (!hasFocus)
 					{
-						(*clickFunc)(this, mouse);
+						((OSHGui::Panel*)Parent)->RequestFocus(this);
 					}
+					return Event::None;
+				}
+				else if (mouse->State == MouseEvent::LeftUp)
+				{
+					if (pressed && hasFocus)
+					{
+						pressed = false;
+					
+						if (clickFunc != NULL)
+						{
+							(*clickFunc)(this, mouse);
+						}
+					}
+					return Event::None;
 				}
 			}
-			return Event::None;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -138,10 +139,23 @@ namespace OSHGui
 			tempColor += mouseOverColorDiff;
 		}
 
+		/*renderer->SetRenderColor(backColor);
+		renderer->Fill(bounds);
+		renderer->SetRenderColor(foreColor);
+		renderer->FillGradient(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, foreColor - Drawing::Color(0, 137, 137, 137));
+		renderer->SetRenderColor(backColor);
+		renderer->FillGradient(position.Left + 2, position.Top + 2, bounds.GetWidth() - 4, bounds.GetHeight() - 4, tempColor + Drawing::Color(0, 55, 55, 55));*/
+
 		renderer->SetRenderColor(tempColor + Drawing::Color(0, 10, 10, 10));
-		renderer->Fill(position.Left, position.Top, bounds.GetWidth(), bounds.GetHeight());
-		renderer->SetRenderColor(tempColor)
-		renderer->FillGradient(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 54, 54, 54));
+		renderer->Fill(position.Left + 1, position.Top, bounds.GetWidth() - 2, bounds.GetHeight() - 1);
+		renderer->Fill(position.Left, position.Top + 1, bounds.GetWidth(), bounds.GetHeight() - 3);
+		renderer->SetRenderColor(tempColor - Drawing::Color(0, 50, 50, 50));
+		renderer->Fill(position.Left + 1, position.Top + bounds.GetHeight() - 2, bounds.GetWidth() - 2, 2);
+		renderer->Fill(position.Left + bounds.GetWidth() - 1, position.Top + 1, 1, bounds.GetHeight() - 2);
+
+		renderer->SetRenderColor(tempColor);
+		renderer->FillGradient(position.Left + 1, position.Top + 2, bounds.GetWidth() - 2, bounds.GetHeight() - 4, backColor - Drawing::Color(0, 20, 20, 20));
+		renderer->FillGradient(position.Left + 2, position.Top + 1, bounds.GetWidth() - 4, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, position.Left + 6, position.Top + 5, text);

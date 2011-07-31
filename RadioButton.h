@@ -8,7 +8,7 @@ namespace OSHGui
 	class RadioButton : public CheckBox
 	{	
 	public:
-		RadioButton(Panel *parentPanel = NULL);
+		RadioButton(Control *parent = NULL);
 		
 		virtual void SetChecked(bool checked);
 		void SetGroup(int group);

@@ -13,7 +13,7 @@ namespace OSHGui
 	class ScrollBar : public Control
 	{
 	public:
-		ScrollBar(Panel *parentPanel);
+		ScrollBar(Control *parent);
 		
 		void SetRange(int start, int end);
 		void SetPosition(int position);

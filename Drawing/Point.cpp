@@ -9,7 +9,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Point::Point()
 		{
-			Point(0, 0);
+			X = 0;
+			Y = 0;
 		}
 		//---------------------------------------------------------------------------
 		Point::Point(int X, int Y)
@@ -64,7 +65,7 @@ namespace OSHGui
 			this->Y += Y;
 		}
 		//---------------------------------------------------------------------------
-		Point Point::OffsetEx(int X, int Y)
+		const Point Point::OffsetEx(int X, int Y)
 		{
 			return Point(this->X + X, this->Y + Y);
 		}
