@@ -22,6 +22,8 @@ namespace OSHGui
 			void Inflate(int Width, int Height);
 			Size InflateEx(int Width, int Height);
 			
+			bool Contains(const Point &point);
+			
 			int Width,
 				Height;
 		};

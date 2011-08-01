@@ -54,7 +54,7 @@ namespace OSHGui
 	void TrackBar::UpdateRects()
 	{
 		sliderMiddle = bounds.GetLeft() + ((value - min) * (float)bounds.GetWidth() / (max - min));
-		sliderRect = Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), bounds.GetTop(), TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
+		sliderRect = Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), 0, TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
@@ -93,12 +93,15 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
+			DrawingPoint mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				/*if (sliderRect.Contains(mouse->Position))
+				if (sliderRect.Contains(mouse->Position))
 				{
 					pressed = true;
-					//SetCapture( DXUTGetHWND() );
+					SetCapture(this);
 
 					dragX = mouse->Position.X;
 					dragOffset = sliderMiddle - dragX;
@@ -109,9 +112,9 @@ namespace OSHGui
 					}
 
 					return Event::None;
-				}*/
+				}
 
-				if (Parent->IsMouseOver(this))
+				if (bounds.GetSize().Contains(mouse->Position))
 				{
 					dragX = mouse->Position.X;
 					dragOffset = 0;               
@@ -138,7 +141,7 @@ namespace OSHGui
 				if (pressed)
 				{
 					pressed = false;
-					//ReleaseCapture();
+					ReleaseCapture();
 					
 					if (changeFunc != NULL)
 					{
@@ -153,9 +156,12 @@ namespace OSHGui
 				if (pressed)
 				{
 					SetValueInternal(ValueFromPosition(mouse->Position.X/* - bounds.GetLeft() * 4 + dragOffset*/));
+					return Event::None;
 				}
 			}
-			return Event::None;
+			
+			//restore PointToClient (alternatively call PointToScreen)
+			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -194,44 +200,6 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		/*if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture()); //track
-				texture.Add(renderer->CreateNewTexture()); //button
-			}
-			
-			Drawing::ITexture *track = texture.Get(0);
-			{
-				track->Create(bounds.GetSize());
-				track->BeginUpdate();
-				track->Clear();
-				
-				Drawing::Color color(0xFFAFAEAA);
-				
-				int range = max - min;
-				float space = bounds.GetWidth() / (float)range;
-				
-				for (int i = 0; i < range; i++)
-				{
-					track->Fill((int)(i * space), 6, 1, 5, color);
-				}
-
-				track->EndUpdate();
-			}
-			
-			Drawing::ITexture *slider = texture.Get(1);
-			{
-				slider->Create(sliderRect.GetSize());
-				slider->BeginUpdate();
-				
-				slider->Fill(Drawing::Color(0xFFAFAEAA));
-
-				slider->EndUpdate();
-			}
-		}*/
 
 		if (backColor.A != 0)
 		{
@@ -241,7 +209,7 @@ namespace OSHGui
 
 		Drawing::Point position = bounds.GetPosition();
 
-		renderer->SetRenderColor(mouseOver || hasFocus ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
+		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
 		float space = bounds.GetWidth() / (float)range;
@@ -257,7 +225,7 @@ namespace OSHGui
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(sliderRect);
+		renderer->Fill(sliderRect.OffsetEx(0, bounds.GetTop()));
 	}
 	//---------------------------------------------------------------------------
 }

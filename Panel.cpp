@@ -37,17 +37,6 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Panel::CaptureMouse(Control *control)
-	{
-		captureControl = control;
-		//SetCapture(hwnd);
-	}
-	//---------------------------------------------------------------------------
-	void Panel::ReleaseCapture()
-	{
-		captureControl = NULL;
-	}
-	//---------------------------------------------------------------------------
 	void Panel::ClearRadioButtonGroup(int group)
 	{
 		for (unsigned int i = 0; i < Controls.size(); i++)
@@ -68,8 +57,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Panel::FindControlAtPoint(const Drawing::Point &point)
 	{
-		Drawing::Point client = PointToClient(point);
-
 		for (unsigned int i = 0; i < Controls.size(); i++)
 		{
 			Control *control = Controls.at(i);
@@ -79,7 +66,7 @@ namespace OSHGui
 				continue;
 			}
 
-			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(client))
+			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(point))
 			{
 				return control;
 			}
@@ -102,9 +89,32 @@ namespace OSHGui
 			return Event::Continue;
 		}
 
+		//someone is focused, so let him handle the event expect the mouse
+		if (event->Type != Event::Mouse && focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
+		{
+			if (focusControl->ProcessEvent(event) == Event::None)
+			{
+				return Event::None;
+			}
+		}		
+			
 		if (event->Type == Event::Mouse)
 		{
-			Control *control = FindControlAtPoint(((MouseEvent*)event)->Position);
+			MouseEvent *mouse = (MouseEvent*)event;
+			DrawingPoint mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+			
+			//someone is capturing the mouse
+			if (captureControl != NULL)
+			{
+				if (captureControl->ProcessEvent(mouse) == Event::None)
+				{
+					return Event::None;
+				}
+			}
+			
+			//find mouseOverControl
+			Control *control = FindControlAtPoint(mouse->Position);
 			if (control != mouseOverControl && mouseOverControl != NULL)
 			{
 				mouseOverControl->OnMouseLeave();
@@ -115,20 +125,17 @@ namespace OSHGui
 				mouseOverControl = control;
 				mouseOverControl->OnMouseEnter();
 			}
-		}
-	
-		if (focusControl != NULL && focusControl->GetEnabled())
-		{
-			if (focusControl->ProcessEvent(event) == Event::None)
-			{
-				return Event::None;
-			}
-		}
-		
-		if (event->Type == Event::Mouse)
-		{
-			MouseEvent *mouse = (MouseEvent*)event;
 			
+			//someone is focused
+			if (focusControl != NULL && focusControl->GetEnabled())
+			{
+				if (focusControl->ProcessEvent(mouse) == Event::None)
+				{
+					return Event::None;
+				}
+			}
+			
+			//let mouseOverControl handle the mouse
 			if (mouseOverControl != NULL)
 			{
 				if (mouseOverControl->ProcessEvent(event) == Event::None)
@@ -137,19 +144,15 @@ namespace OSHGui
 				}
 			}
 			
-			if (mouse->State == MouseEvent::LeftDown && focusControl != NULL)
-			{
-				focusControl->OnFocusOut();
-				focusControl = NULL;
-			}
-			return Event::Continue;
+			//restore PointToClient (alternatively call PointToScreen)
+			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::System)
 		{
 			SystemEvent *system = (SystemEvent*)event;
 			if (system->Type == SystemEvent::ActivateApp)
 			{
-				if (focusControl != NULL && focusControl->GetEnabled())
+				if (focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
 				{
 					if (system->Value)
 					{
@@ -159,6 +162,8 @@ namespace OSHGui
 					{
 						focusControl->OnFocusOut();
 					}
+					
+					return Event::None;
 				}
 			}
 		}

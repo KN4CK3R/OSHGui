@@ -108,6 +108,8 @@ namespace OSHGui
 		bool IsMouseOver(Control *control);
 		void RequestFocus(Control *control);
 		void ClearFocus();
+		void CaptureMouse(Control *control);
+		void ReleaseCapture();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
@@ -140,8 +142,7 @@ namespace OSHGui
 		
 		Drawing::Color foreColor,
 					   backColor,
-					   mouseOverColorDiff,
-					   focusColorDiff;
+					   adjustColor;
 		
 		Drawing::IFont *font;
 

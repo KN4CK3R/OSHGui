@@ -32,7 +32,7 @@ namespace OSHGui
 		
 		//createTexture = true;
 
-		mouseOverColorDiff = Drawing::Color(0, 20, 20, 20);
+		adjustColor = Drawing::Color(0, 20, 20, 20);
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
@@ -54,6 +54,10 @@ namespace OSHGui
 	void Control::SetEnabled(bool enabled)
 	{
 		this->enabled = enabled;
+		if (!enabled)
+		{
+			Parent->ClearFocus();
+		}
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled()
@@ -312,6 +316,16 @@ namespace OSHGui
 		}
 
 		ReleaseCapture();
+	}
+	//---------------------------------------------------------------------------
+	void Control::CaptureMouse(Control *control)
+	{
+		captureControl = control;
+	}
+	//---------------------------------------------------------------------------
+	void Control::ReleaseCapture()
+	{
+		captureControl = NULL;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

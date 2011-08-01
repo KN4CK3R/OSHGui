@@ -46,15 +46,18 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			if (Parent->IsMouseOver(this))
-			{
+			DrawingPoint mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+			
+			if (bounds.GetSize().Contains(mouse->Position))
+			{			
 				if (mouse->State == MouseEvent::LeftDown)
 				{
 					pressed = true;
 			
 					if (!hasFocus)
 					{
-						((Panel*)Parent)->RequestFocus(this);
+						Parent->RequestFocus(this);
 					}
 					return Event::None;
 				}
@@ -69,6 +72,9 @@ namespace OSHGui
 					return Event::None;
 				}
 			}
+			
+			//restore PointToClient (alternatively call PointToScreen)
+			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -89,48 +95,6 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		//OK
-		/*if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-			
-			Drawing::ITexture *main = texture.Get(0);
-
-			main->Create(Drawing::Size(15, 15));
-			main->BeginUpdate();
-			main->Clear();
-
-			main->Fill(1, 1, 13, 13, Drawing::Color(0xFF444341));
-
-			Drawing::Color border(0xBF8A7D71);
-
-			main->Fill(0, 1, 1, 13, border);
-			main->Fill(14, 1, 1, 13, border);
-			main->Fill(1, 0, 13, 1, border);
-			main->Fill(1, 14, 13, 1, border);
-
-			main->Fill(1, 1, 1, 1, border);
-			main->Fill(13, 1, 1, 1, border);
-			main->Fill(1, 13, 1, 1, border);
-			main->Fill(13, 13, 1, 1, border);
-
-			if (checked)
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					main->Fill(3 + i, 6 + i, 1, 3, Drawing::Color::White());
-					main->Fill(7 + i, 8 - i, 1, 3, Drawing::Color::White());
-				}
-
-				main->Fill(11, 4, 1, 3, Drawing::Color::White());
-			}
-
-			main->EndUpdate();
-		}*/
 		
 		Drawing::Point position = bounds.GetPosition();
 		

@@ -16,9 +16,6 @@ namespace OSHGui
 
 		void AddControl(Control *control);
 
-		void CaptureMouse(Control *control);
-		void ReleaseCapture();
-
 		void ClearRadioButtonGroup(int group);
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);

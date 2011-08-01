@@ -38,16 +38,19 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			if (Parent->IsMouseOver(this))
+			MouseEvent *mouse = (MouseEvent*) event;
+			DrawingPoint mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+			
+			if (bounds.GetSize().Contains(mouse->Position)
 			{
-				MouseEvent *mouse = (MouseEvent*) event;
 				if (mouse->State == MouseEvent::LeftDown)
 				{
 					pressed = true;
 				
 					if (!hasFocus)
 					{
-						((OSHGui::Panel*)Parent)->RequestFocus(this);
+						Parent->RequestFocus(this);
 					}
 					return Event::None;
 				}
@@ -65,6 +68,9 @@ namespace OSHGui
 					return Event::None;
 				}
 			}
+			
+			//restore PointToClient (alternatively call PointToScreen)
+			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -88,57 +94,15 @@ namespace OSHGui
 			return;
 		}
 	
-		//OK
-		/*if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-			
-			Drawing::Size size = bounds.GetSize();
-
-			Drawing::ITexture *main = texture.Get(0);
-			
-			main->Create(size);
-			main->BeginUpdate();
-			main->Clear();
-
-			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF635F5B), Drawing::Color(0xFF4E4D4A));
-
-			Drawing::Color border(0x60FFFFFF);
-
-			main->Fill(1, 0, size.Width - 2, 1, border);
-			main->Fill(0, 1, 1, size.Height - 2, border);
-			main->Fill(1, size.Height - 1, size.Width - 2, 1, border);
-			main->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
-
-			main->Fill(1, 1, 1, 1, border);
-			main->Fill(size.Width - 2, 1, 1, 1, border);
-			main->Fill(1, size.Height - 2, 1, 1, border);
-			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
-
-			main->EndUpdate();
-
-			needRepaint = false;
-		}
-		
-		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());*/
-
 		Drawing::Point position = bounds.GetPosition();
 		
 		Drawing::Color tempColor = backColor;
 
-		if (hasFocus)
+		if (hasFocus || mouseOver)
 		{
-			tempColor += focusColorDiff;
+			tempColor += adjustColor;
 		}
-		else if (mouseOver)
-		{
-			tempColor += mouseOverColorDiff;
-		}
-
+		
 		/*renderer->SetRenderColor(backColor);
 		renderer->Fill(bounds);
 		renderer->SetRenderColor(foreColor);
