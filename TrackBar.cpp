@@ -93,7 +93,7 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			DrawingPoint mousePositionBackup = mouse->Position;
+			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
 			if (mouse->State == MouseEvent::LeftDown)
@@ -101,7 +101,7 @@ namespace OSHGui
 				if (sliderRect.Contains(mouse->Position))
 				{
 					pressed = true;
-					SetCapture(this);
+					CaptureMouse(this);
 
 					dragX = mouse->Position.X;
 					dragOffset = sliderMiddle - dragX;

@@ -18,15 +18,15 @@ namespace OSHGui
 			void SetLeft(int left);
 			const int GetLeft();
 			void SetTop(int top);
-			const int GetTop();
+			int GetTop();
 			void SetWidth(int width);
-			const int GetWidth();
+			int GetWidth();
 			void SetHeight(int height);
-			const int GetHeight();
-			const int GetRight();
-			const int GetBottom();
-			const Point GetPosition();
-			const Size GetSize();
+			int GetHeight();
+			int GetRight();
+			int GetBottom();
+			Point GetPosition();
+			Size GetSize();
 			
 			bool operator == (const Rectangle &equal);
 			bool operator != (const Rectangle &equal);

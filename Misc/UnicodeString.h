@@ -2,6 +2,7 @@
 #define __OSHGUI_MISC_STRING_H__
 
 #include <string>
+#include <stdio.h>
 
 namespace OSHGui
 {

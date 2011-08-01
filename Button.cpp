@@ -39,10 +39,10 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*) event;
-			DrawingPoint mousePositionBackup = mouse->Position;
+			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
-			if (bounds.GetSize().Contains(mouse->Position)
+			if (bounds.GetSize().Contains(mouse->Position))
 			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{

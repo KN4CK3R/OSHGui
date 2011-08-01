@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_DRAWING_SIZE_H__
 #define __OSHGUI_DRAWING_SIZE_H__
 
+#include "Point.h"
+
 namespace OSHGui
 {
 	namespace Drawing
