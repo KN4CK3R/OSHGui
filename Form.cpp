@@ -136,6 +136,7 @@ namespace OSHGui
 				}
 				return Event::None;
 			}
+			mouse->Position = PointToClient(mouse->Position);
 		}
 	
 		return Panel::ProcessEvent(event);
