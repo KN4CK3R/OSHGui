@@ -12,9 +12,6 @@ namespace OSHGui
 		
 		SetBackColor(Drawing::Color(0xFFF0F0F0));
 		SetForeColor(Drawing::Color(0xFFD1CFCD));
-
-		focusControl = NULL;
-		mouseOverControl = NULL;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -114,7 +111,7 @@ namespace OSHGui
 			}
 			
 			//find mouseOverControl
-			Control *control = FindControlAtPoint(mouse->Position);
+			Control *control = FindControlAtPoint(mousePositionBackup);
 			if (control != mouseOverControl && mouseOverControl != NULL)
 			{
 				mouseOverControl->OnMouseLeave();

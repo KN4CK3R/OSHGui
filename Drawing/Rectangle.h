@@ -16,7 +16,7 @@ namespace OSHGui
 			Rectangle(const Rectangle &rect);
 			
 			void SetLeft(int left);
-			const int GetLeft();
+			int GetLeft();
 			void SetTop(int top);
 			int GetTop();
 			void SetWidth(int width);

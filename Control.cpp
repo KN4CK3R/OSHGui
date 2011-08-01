@@ -30,7 +30,9 @@ namespace OSHGui
 		mouseOver = false;
 		hasFocus = false;
 		
-		//createTexture = true;
+		focusControl = NULL;
+		mouseOverControl = NULL;
+		captureControl = NULL;
 
 		adjustColor = Drawing::Color(0, 20, 20, 20);
 	}

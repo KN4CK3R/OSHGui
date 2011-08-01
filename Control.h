@@ -9,6 +9,7 @@
 #include "Drawing\IRenderer.h"
 
 #include "Misc\List.h"
+#include "Misc\Strings.h"
 
 #include "Event.h"
 #include "MouseEvent.h"
@@ -17,6 +18,12 @@
 
 namespace OSHGui
 {
+	#ifdef UNICODE
+		typedef Misc::String::UnicodeString String;
+	#else
+		typedef Misc::String::AnsiString String;
+	#endif
+
 	#ifndef _max
 		#define _max(a, b) (a > b ? a : b)
 	#endif
@@ -55,6 +62,7 @@ namespace OSHGui
 	public:
 		Control(Control *parent = NULL);
 		virtual ~Control();
+		String s;
 		
 		CONTROL_TYPE GetType() const;
 		

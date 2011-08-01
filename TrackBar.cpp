@@ -224,13 +224,8 @@ namespace OSHGui
 			renderer->Fill(position.Left + (i * space), position.Top + 6, 1, 5);
 		}
 
-		Drawing::Rectangle temp = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(bounds.OffsetEx(temp.GetLeft(), temp.GetTop()));
-
 		renderer->SetRenderColor(foreColor);
 		renderer->Fill(sliderRect.OffsetEx(0, bounds.GetTop()));
-
-		renderer->SetRenderRectangle(temp);
 	}
 	//---------------------------------------------------------------------------
 }
