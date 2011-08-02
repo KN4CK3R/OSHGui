@@ -118,7 +118,7 @@ namespace OSHGui
 			AddVertex(x, y + size.Height, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
-		Size RendererDX9::MeasureText(IFont *font, const String &text)
+		Size RendererDX9::MeasureText(IFont *font, const Misc::UnicodeString &text)
 		{
 			if (font == NULL)
 			{
@@ -128,22 +128,22 @@ namespace OSHGui
 			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, const Point &point, const String &text)
+		void RendererDX9::RenderText(IFont *font, const Point &point, const Misc::UnicodeString &text)
 		{
 			RenderText(font, point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, int x, int y, const String &text)
+		void RendererDX9::RenderText(IFont *font, int x, int y, const Misc::UnicodeString &text)
 		{
 			RenderText(font, x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, Rectangle &rectangle, const String &text)
+		void RendererDX9::RenderText(IFont *font, Rectangle &rectangle, const Misc::UnicodeString &text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, int x, int y, int w, int h, const String &text)
+		void RendererDX9::RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text)
 		{
 			if (font == NULL)
 			{
@@ -155,7 +155,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			((FontDX9*)font)->GetFont()->DrawText(NULL, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
+			((FontDX9*)font)->GetFont()->DrawTextW(NULL, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)

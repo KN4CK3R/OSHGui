@@ -53,6 +53,8 @@ namespace OSHGui
 		void UnregisterForm(Form *form);
 		void ShowMainForm(Form *form);
 		void Render();
+		
+		static IFont* GetDefaultFont();
 
 		static LRESULT CALLBACK MsgProc(int code, WPARAM wParam, LPARAM lparam);
 		
@@ -64,6 +66,8 @@ namespace OSHGui
 		LRESULT ProcessMessage(int code, WPARAM wParam, LPARAM lParam);
 	
 		Drawing::IRenderer *renderer;
+		
+		static Drawing::IFont *font;
 
 		static bool active;
 		Form *focusForm,

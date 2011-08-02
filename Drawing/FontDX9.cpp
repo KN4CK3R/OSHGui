@@ -34,7 +34,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontDX9::Create(const String &fontName, int size, bool bold, bool italic)
+		bool FontDX9::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
 			SAFE_RELEASE(font);
 			if (FAILED(D3DXCreateFont(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
@@ -55,7 +55,7 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------
-		Size MeasureText(const String &str)
+		Size MeasureText(const Misc::UnicodeString &str)
 		{
 			if (font == NULL || str.length() == 0)
 			{
@@ -63,7 +63,7 @@ namespace OSHGui
 			}
 			
 			RECT rect = { 0, 0, 0, 0 };
-			((FontDX9*)font)->GetFont()->DrawText(NULL, str.c_str(), -1, &rect, DT_CALCRECT, 0);
+			((FontDX9*)font)->GetFont()->DrawTextW(NULL, str.c_str(), -1, &rect, DT_CALCRECT, 0);
 			
 			for (int i = str.length() - 1; i > 0; i--)
 			{

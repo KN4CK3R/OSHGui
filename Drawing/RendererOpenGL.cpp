@@ -77,22 +77,22 @@ namespace OSHGui
 			return newFont;
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(IFont *font, const Point &point, const String &text)
+		void RendererOpenGL::RenderText(IFont *font, const Point &point, const Misc::UnicodeString &text)
 		{
 			RenderText(font, point.X, point.Y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(IFont *font, int x, int y, const String &text)
+		void RendererOpenGL::RenderText(IFont *font, int x, int y, const Misc::UnicodeString &text)
 		{
 			RenderText(font, x, y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(IFont *font, Rectangle &rectangle, const String &text)
+		void RendererOpenGL::RenderText(IFont *font, Rectangle &rectangle, const Misc::UnicodeString &text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(IFont *font, int x, int y, int w, int h, const String &text)
+		void RendererOpenGL::RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text)
 		{
 			if (font == NULL || text == NULL)
 			{

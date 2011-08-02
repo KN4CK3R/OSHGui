@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	CheckBox::CheckBox(Control *parent) : Button(parent)
+	CheckBox::CheckBox(Control *parent) : Label(parent)
 	{
 		type = CONTROL_CHECKBOX;
 				
@@ -32,6 +32,19 @@ namespace OSHGui
 	bool CheckBox::GetChecked()
 	{
 		return checked;
+	}
+	//---------------------------------------------------------------------------
+	//Runtime-Functions
+	//---------------------------------------------------------------------------
+	void CheckBox::Invalidate()
+	{
+		if (autoSize)
+		{
+			Drawing::Size size = font->MeasureText(text);
+			size.Width += 20;
+			size.Height += 4;
+			SetSize(size);
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

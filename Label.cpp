@@ -9,7 +9,8 @@ namespace OSHGui
 	{
 		type = CONTROL_LABEL;
 		
-		SetSize(Drawing::Size(100, 20));
+		autoSize = true;
+		SetSize(Drawing::Size(10, OSHGui::GetDefaultFont().GetSize()));
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA3A3A3));
@@ -17,17 +18,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Label::SetText(const String &text)
+	void Label::SetText(const Misc::UnicodeString &text)
 	{
 		this->text = text;
-		UpdateRects();
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	String& Label::GetText()
+	Misc::UnicodeString& Label::GetText()
 	{
 		return text;
 	}
-	//---------------------------------------------------------------------------
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
@@ -36,10 +36,10 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void Label::UpdateRects()
+	void Label::Invalidate()
 	{
 		if (autoSize)
-		{			
+		{
 			SetSize(font->MeasureText(text));
 		}
 	}

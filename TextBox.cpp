@@ -25,7 +25,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TextBox::SetText(const char *text)
+	void TextBox::SetText(const Misc::UnicodeString &text)
 	{
 		if (text != NULL)
 		{
@@ -35,21 +35,9 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const char* TextBox::GetText()
+	Misc::UnicodeString& TextBox::GetText()
 	{
 		return buffer.GetBuffer();
-	}
-	//---------------------------------------------------------------------------
-	bool TextBox::GetTextCopy(char *dest, int count)
-	{
-		if (dest == NULL || count > buffer.GetLength())
-		{
-			return false;
-		}
-	
-		strncpy(dest, buffer.GetBuffer(), count);
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	int TextBox::GetTextLength()

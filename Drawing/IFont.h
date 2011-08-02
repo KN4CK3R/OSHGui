@@ -13,17 +13,17 @@ namespace OSHGui
 		class IFont
 		{
 		public:
-			virtual bool Create(const String &fontName, int size, bool bold, bool italic) = 0;
+			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) = 0;
 			
-			String& GetName() { return fontName; }
+			Misc::UnicodeString& GetName() { return fontName; }
 			int GetSize() { return size; }
 			bool IsBold() { return bold; }
 			bool IsItalic() { return italic; }
 			
-			virtual Size MeasureText(const String &string);
+			virtual Size MeasureText(const Misc::UnicodeString &string);
 						
 		protected:
-			String fontName;
+			Misc::UnicodeString fontName;
 			int size;
 			bool bold;
 			bool italic;

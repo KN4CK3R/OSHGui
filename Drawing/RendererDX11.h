@@ -18,12 +18,12 @@ namespace OSHGui
 			void RenderTexture(const Drawing::Point &point, Drawing::ITexture *texture);
 			virtual void RenderTexture(int x, int y, Drawing::ITexture *texture);
 
-			virtual Size MeasureText(IFont *font, const String &text);
+			virtual Size MeasureText(IFont *font, const Misc::UnicodeString &text);
 
-			virtual void RenderText(IFont *font, const Point &point, const String &text);
-			virtual void RenderText(IFont *font, int x, int y, const String &text);
-			virtual void RenderText(IFont *font, Rectangle &rect, const String &text);
-			virtual void RenderText(IFont *font, int x, int y, int w, int h, const String &text);
+			virtual void RenderText(IFont *font, const Point &point, const Misc::UnicodeString &text);
+			virtual void RenderText(IFont *font, int x, int y, const Misc::UnicodeString &text);
+			virtual void RenderText(IFont *font, Rectangle &rect, const Misc::UnicodeString &text);
+			virtual void RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text);
 
 			virtual void Fill(const Point &point);
 			virtual void Fill(int x, int y);

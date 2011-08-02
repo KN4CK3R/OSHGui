@@ -30,6 +30,8 @@ namespace OSHGui
 		mouseOver = false;
 		hasFocus = false;
 		
+		font = Gui::GetDefaultFont();
+		
 		focusControl = NULL;
 		mouseOverControl = NULL;
 		captureControl = NULL;
@@ -80,7 +82,7 @@ namespace OSHGui
 	void SetAutoSize(bool autoSize)
 	{
 		this->autoSize = autoSize;
-		UpdateRects();
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool GetAutoSize()
@@ -96,7 +98,7 @@ namespace OSHGui
 	void Control::SetBounds(Drawing::Rectangle &bounds)
 	{
 		this->bounds = bounds;
-		UpdateRects();
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Rectangle Control::GetBounds()
@@ -113,7 +115,7 @@ namespace OSHGui
 	{
 		bounds.SetLeft(point.Left);
 		bounds.SetTop(point.Top);
-		UpdateRects();
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Point Control::GetLocation()
@@ -131,6 +133,7 @@ namespace OSHGui
 		{
 			bounds.SetHeight(size.Height);
 		}
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Size Control::GetSize()
@@ -188,12 +191,12 @@ namespace OSHGui
 		return tag;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetName(String &name)
+	void Control::SetName(Misc::UnicodeString &name)
 	{
 		this->name = name;
 	}
 	//---------------------------------------------------------------------------
-	String& Control::GetName()
+	Misc::UnicodeString& Control::GetName()
 	{
 		return name;
 	}
@@ -273,7 +276,7 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	void Control::UpdateRects()
+	void Control::Invalidate()
 	{
 		return;
 	}
@@ -296,11 +299,6 @@ namespace OSHGui
 	void Control::OnMouseLeave()
 	{
 		mouseOver = false;
-	}
-	//---------------------------------------------------------------------------
-	void Control::Invalidate()
-	{
-		needRepaint = true;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::IsMouseOver(Control *control)

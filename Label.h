@@ -11,10 +11,12 @@ namespace OSHGui
 	public:
 		Label(Control *parent = NULL);
 		
-		void SetText(const String &text);
-		String& GetText();
+		void SetText(const Misc::UnicodeString &text);
+		Misc::UnicodeString& GetText();
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
+		
+		virtual void Invalidate();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
@@ -23,7 +25,7 @@ namespace OSHGui
 		virtual void UpdateRects();
 		
 		bool pressed;
-		String text;
+		Misc::UnicodeString text;
 	};
 }
 

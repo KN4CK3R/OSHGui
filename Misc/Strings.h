@@ -8,53 +8,42 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		namespace String
+		typedef std::wstring UnicodeString;
+		typedef wchar_t UnicodeChar;
+		typedef std::string AnsiString;
+		typedef char AnsiChar;
+					
+		inline UnicodeString AnsiToUnicode(const AnsiString &ansi)
 		{
-			typedef std::wstring UnicodeString;
-			typedef wchar_t UnicodeChar;
-			typedef std::string AnsiString;
-			typedef char AnsiChar;
-						
-			inline UnicodeString AnsiToUnicode(const AnsiString &ansi)
+			if (ansi.length() == 0)
 			{
-				if (ansi.length() == 0)
-				{
-					return L"";
-				}
-
-				UnicodeString out(ansi.length(), (UnicodeChar)0);
-
-				std::use_facet<std::ctype<UnicodeChar>>(std::locale()).widen(&ansi[0], &ansi[0] + ansi.length(), &out[0]);
-
-				return out; 
+				return L"";
 			}
-			//---------------------------------------------------------------------------
-			inline AnsiString UnicodeToAnsi(const UnicodeString &unicode)
-			{
-				if (unicode.length() == 0)
-				{
-					return "";
-				}
 
-				AnsiString out(unicode.length(), (AnsiChar)0);
+			UnicodeString out(ansi.length(), (UnicodeChar)0);
 
-				std::use_facet<std::ctype<UnicodeChar>>(std::locale()).narrow(&unicode[0], &unicode[0] + unicode.length(), '?', &out[0]);
+			std::use_facet<std::ctype<UnicodeChar>>(std::locale()).widen(&ansi[0], &ansi[0] + ansi.length(), &out[0]);
 
-				return out;
-			}
-			//---------------------------------------------------------------------------
-			UnicodeString Format(const UnicodeChar *fmt, ...);
-			AnsiString Format(const AnsiChar *fmt, ...);
+			return out; 
 		}
+		//---------------------------------------------------------------------------
+		inline AnsiString UnicodeToAnsi(const UnicodeString &unicode)
+		{
+			if (unicode.length() == 0)
+			{
+				return "";
+			}
+
+			AnsiString out(unicode.length(), (AnsiChar)0);
+
+			std::use_facet<std::ctype<UnicodeChar>>(std::locale()).narrow(&unicode[0], &unicode[0] + unicode.length(), '?', &out[0]);
+
+			return out;
+		}
+		//---------------------------------------------------------------------------
+		UnicodeString Format(const UnicodeChar *fmt, ...);
+		AnsiString Format(const AnsiChar *fmt, ...);
 	}
-	
-	#ifdef UNICODE
-		typedef Misc::String::UnicodeString String;
-		typedef Misc::String::UnicodeChar Char;
-	#else
-		typedef Misc::String::AnsiString String;
-		typedef Misc::String::AnsiChar Char;
-	#endif
 }
 
 #endif

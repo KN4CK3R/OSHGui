@@ -17,15 +17,7 @@
 #include "SystemEvent.h"
 
 namespace OSHGui
-{
-	#ifdef UNICODE
-		typedef Misc::String::UnicodeString String;
-		typedef Misc::String::UnicodeChar Char;
-	#else
-		typedef Misc::String::AnsiString String;
-		typedef Misc::String::AnsiChar Char;
-	#endif
-
+{	
 	#ifndef _max
 		#define _max(a, b) (a > b ? a : b)
 	#endif
@@ -101,8 +93,8 @@ namespace OSHGui
 		void SetTag(void *tag);
 		void* GetTag();
 		
-		void SetName(String &name);
-		String& GetName();
+		void SetName(Misc::UnicodeString &name);
+		Misc::UnicodeString& GetName();
 		
 		void SetFont(Drawing::IFont *font);
 		Drawing::IFont* GetFont();
@@ -117,7 +109,7 @@ namespace OSHGui
 		void SetOnLeave(OnLeaveFunc leaveFunc);
 		void SetOnChange(OnChangeFunc changeFunc);
 
-		void Invalidate();
+		virtual void Invalidate();
 
 		bool IsMouseOver(Control *control);
 		void RequestFocus(Control *control);
@@ -131,17 +123,14 @@ namespace OSHGui
 		Control* GetParent();
 		
 	protected:
-		virtual void UpdateRects();
-		
 		CONTROL_TYPE type;
 		
-		String name;
+		Misc::UnicodeString name;
 	
 		bool enabled,
 			 visible,
 			 mouseOver,
 			 hasFocus,
-			 needRepaint,
 			 autoSize;
 			 
 		void *tag;

@@ -4,7 +4,8 @@ namespace OSHGui
 {
 	bool Gui::active = false;
 	HHOOK Gui::messageHook = NULL;
-	Gui *Gui::instance = NULL;
+	Gui* Gui::instance = NULL;
+	Drawing::IFont* Gui::font = NULL;
 	Misc::TimeHelper Gui::GlobalTime;
 
 	//---------------------------------------------------------------------------
@@ -20,6 +21,12 @@ namespace OSHGui
 		instance = this;
 
 		this->renderer = renderer;
+		
+		font = this->renderer->CreateNewFont();
+		if (!font->Create(String("Arial"), 13, false, false))
+		{
+			throw "Can't create default font.";
+		}
 
 		mainForm = NULL;
 		focusForm = NULL;
@@ -40,6 +47,11 @@ namespace OSHGui
 	bool Gui::GetActive()
 	{
 		return active;
+	}
+	//---------------------------------------------------------------------------
+	IFont* Gui::GetDefaultFont()
+	{
+		return font;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions

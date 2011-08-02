@@ -11,12 +11,10 @@ namespace OSHGui
 				
 		pressed = false;
 
-		//SetLocation(Drawing::Point(9, 9));
+		autoSize = false;
 		SetSize(Drawing::Size(92, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
-		//SetForeColor(Drawing::Color::White());
-		//SetBackColor(Drawing::Color(0xFF222222));
 		SetForeColor(Drawing::Color::White());
 	}
 	//---------------------------------------------------------------------------
@@ -25,6 +23,17 @@ namespace OSHGui
 	bool Button::CanHaveFocus()
 	{
 		return visible && enabled;
+	}
+	//---------------------------------------------------------------------------
+	void Button::Invalidate()
+	{
+		if (autoSize)
+		{
+			Drawing::Size size = font->MeasureText(text);
+			size.Width += 12;
+			size.Height += 10;
+			SetSize(size);
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -103,13 +112,6 @@ namespace OSHGui
 			tempColor += adjustColor;
 		}
 		
-		/*renderer->SetRenderColor(backColor);
-		renderer->Fill(bounds);
-		renderer->SetRenderColor(foreColor);
-		renderer->FillGradient(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, foreColor - Drawing::Color(0, 137, 137, 137));
-		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(position.Left + 2, position.Top + 2, bounds.GetWidth() - 4, bounds.GetHeight() - 4, tempColor + Drawing::Color(0, 55, 55, 55));*/
-
 		renderer->SetRenderColor(tempColor + Drawing::Color(0, 10, 10, 10));
 		renderer->Fill(position.Left + 1, position.Top, bounds.GetWidth() - 2, bounds.GetHeight() - 1);
 		renderer->Fill(position.Left, position.Top + 1, bounds.GetWidth(), bounds.GetHeight() - 3);

@@ -28,12 +28,17 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontOpenGL::Create(const String &fontName, int size, bool bold, bool italic)
+		bool FontOpenGL::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
 			if (fontName == NULL)
 			{
 				return false;
 			}
+			
+			this->fontName = fontName;
+			this->size = size;
+			this->bold = bold;
+			this->italic = italic;
 
 			HDC hDC = wglGetCurrentDC();
 			fontID = glGenLists(256);
