@@ -28,15 +28,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontDX11::Create(const char *fontName, int size, bool bold, bool italic)
+		bool FontDX11::Create(const String &fontName, int size, bool bold, bool italic)
 		{
-			if (fontName == NULL)
-			{
-				return false;
-			}
-
 			SAFE_RELEASE(font);
-			if (FAILED(D3DX11CreateFont(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName, &font)))
+			if (FAILED(D3DX11CreateFont(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
 			{
 				return false;
 			}

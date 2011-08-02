@@ -118,47 +118,34 @@ namespace OSHGui
 			AddVertex(x, y + size.Height, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
-		Size RendererDX9::MeasureText(IFont *font, const char *text)
+		Size RendererDX9::MeasureText(IFont *font, const String &text)
 		{
-			if (font == NULL || text == NULL || strlen(text) == 0)
+			if (font == NULL)
 			{
 				return Size();
 			}
 			
-			RECT rect = { 0, 0, 0, 0 };
-			((FontDX9*)font)->GetFont()->DrawText(NULL, text, -1, &rect, DT_CALCRECT, 0);
-			
-			for (int i = strlen(text) - 1; i > 0; i--)
-			{
-				rect.right += font->MeasureCharacter(' ');
-			}
-
-			return Size(rect.right, rect.bottom);
+			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		Size RendererDX9::MeasureTextEx(IFont *font, const char *text, ...)
-		{
-			return MeasureText(font, text);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, const Point &point, const char *text)
+		void RendererDX9::RenderText(IFont *font, const Point &point, const String &text)
 		{
 			RenderText(font, point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, int x, int y, const char *text)
+		void RendererDX9::RenderText(IFont *font, int x, int y, const String &text)
 		{
 			RenderText(font, x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, Rectangle &rectangle, const char *text)
+		void RendererDX9::RenderText(IFont *font, Rectangle &rectangle, const String &text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, int x, int y, int w, int h, const char *text)
+		void RendererDX9::RenderText(IFont *font, int x, int y, int w, int h, const String &text)
 		{
-			if (font == NULL || text == NULL)
+			if (font == NULL)
 			{
 				return;
 			}
@@ -168,55 +155,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			((FontDX9*)font)->GetFont()->DrawText(NULL, text, -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(IFont *font, const Point &point, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, point.X, point.Y, 1000, 100, buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(IFont *font, int x, int y, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, x, y, 1000, 100, buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(IFont *font, Rectangle &rect, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTextEx(IFont *font, int x, int y, int w, int h, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, x, y, w, h, buffer);
+			((FontDX9*)font)->GetFont()->DrawText(NULL, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)

@@ -18,12 +18,13 @@ namespace OSHGui
 
 		void ClearRadioButtonGroup(int group);
 		
+		Control *FindControlAtPoint(const Drawing::Point &point);
+		Control *FindControlByName(const String &name);
+		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:	
-		Control *FindControlAtPoint(const Drawing::Point &point);
-
+	protected:
 		std::vector<Control*> Controls;
 		//Misc::List<Control*> Controls;
 	};

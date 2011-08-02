@@ -39,11 +39,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		/*for (int i = 0; i < Controls.GetSize(); i++)
+		/*for (unisgned int i = 0; i < Controls.size(); ++i)
 		{
-			delete Controls.Get(i);
+			delete Controls.at(i);
 		}
-		Controls.Clear();*/
+		Controls.clear();*/
 	}
 	//---------------------------------------------------------------------------
 	CONTROL_TYPE Control::GetType() const
@@ -75,6 +75,17 @@ namespace OSHGui
 	bool Control::GetVisible()
 	{
 		return visible;
+	}
+	//---------------------------------------------------------------------------
+	void SetAutoSize(bool autoSize)
+	{
+		this->autoSize = autoSize;
+		UpdateRects();
+	}
+	//---------------------------------------------------------------------------
+	bool GetAutoSize()
+	{
+		return autoSize;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetBounds(int x, int y, int w, int h)
@@ -120,7 +131,6 @@ namespace OSHGui
 		{
 			bounds.SetHeight(size.Height);
 		}
-		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Size Control::GetSize()
@@ -176,6 +186,16 @@ namespace OSHGui
 	void* Control::GetTag()
 	{
 		return tag;
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetName(String &name)
+	{
+		this->name = name;
+	}
+	//---------------------------------------------------------------------------
+	String& Control::GetName()
+	{
+		return name;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetFont(Drawing::IFont *font)

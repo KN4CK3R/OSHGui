@@ -34,33 +34,33 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX10::MeasureText(Drawing::IFont *font, const char *text)
+		Drawing::Size RendererDX10::MeasureText(Drawing::IFont *font, const String &text)
 		{
-			if (font == NULL || text == NULL)
+			if (font == NULL)
 			{
 				return Size();
 			}
 			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::DrawText(Drawing::IFont *font, const Drawing::Point &point, const char *text)
+		void RendererDX10::RenderText(Drawing::IFont *font, const Drawing::Point &point, const String &text)
 		{
-			DrawText(point.X, point.Y, 1000, 100, text);
+			RenderText(point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::DrawText(Drawing::IFont *font, int x, int y, const char *text)
+		void RendererDX10::RenderText(Drawing::IFont *font, int x, int y, const String &text)
 		{
-			DrawText(x, y, 1000, 100, text);
+			RenderText(x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::DrawText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, const char *text)
+		void RendererDX10::RenderText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, const String &text)
 		{
-			DrawText(rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
+			RenderText(rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::DrawText(Drawing::IFont *font, int x, int y, int w, int h, const char *text)
+		void RendererDX10::RenderText(Drawing::IFont *font, int x, int y, int w, int h, const String &text)
 		{
-			if (font == NULL || text == NULL)
+			if (font == NULL)
 			{
 				return;
 			}

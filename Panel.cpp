@@ -72,6 +72,26 @@ namespace OSHGui
 		return NULL;
 	}
 	//---------------------------------------------------------------------------
+	Control* Panel::FindControlByName(const String &name)
+	{
+		for (unsigned int i = 0; i < Controls.size(); i++)
+		{
+			Control *control = Controls.at(i);
+
+			if (control == NULL)
+			{
+				continue;
+			}
+			
+			if (control->GetName() == name)
+			{
+				return control;
+			}
+		}
+
+		return NULL;
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Panel::ProcessEvent(Event *event)

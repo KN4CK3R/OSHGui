@@ -48,7 +48,7 @@ namespace OSHGui
 			glPopAttrib();
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::SetRenderColor(Drawing::Color color)
+		void RendererOpenGL::SetRenderColor(Color color)
 		{
 			IRenderer::SetRenderColor(color);
 			glColor4f(color.R, color.G, color.B, color.A);
@@ -77,22 +77,22 @@ namespace OSHGui
 			return newFont;
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(Drawing::IFont *font, const Drawing::Point &point, const char *text)
+		void RendererOpenGL::RenderText(IFont *font, const Point &point, const String &text)
 		{
 			RenderText(font, point.X, point.Y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(Drawing::IFont *font, int x, int y, const char *text)
+		void RendererOpenGL::RenderText(IFont *font, int x, int y, const String &text)
 		{
 			RenderText(font, x, y, 0, 0, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(Drawing::IFont *font, Drawing::Rectangle &rectangle, const char *text)
+		void RendererOpenGL::RenderText(IFont *font, Rectangle &rectangle, const String &text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderText(Drawing::IFont *font, int x, int y, int w, int h, const char *text)
+		void RendererOpenGL::RenderText(IFont *font, int x, int y, int w, int h, const String &text)
 		{
 			if (font == NULL || text == NULL)
 			{
@@ -108,59 +108,11 @@ namespace OSHGui
 			glPushAttrib(GL_LIST_BIT);
 			glRasterPos2f(x, glViewport.height - y);
 			glListBase(fontID);
-			glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);
+			glCallLists(strlen(text.c_str()), GL_UNSIGNED_BYTE, text.c_str());
 			glPopAttrib();
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderTextEx(Drawing::IFont *font, const Drawing::Point &point, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, point.X, point.Y, 1000, 100, buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderTextEx(Drawing::IFont *font, int x, int y, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, x, y, 1000, 100, buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderTextEx(Drawing::IFont *font, Drawing::Rectangle &rect, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererOpenGL::RenderTextEx(Drawing::IFont *font, int x, int y, int w, int h, const char *text, ...)
-		{
-			va_list arguments;
-			char buffer[1024];
-
-			va_start(arguments, text);
-				_vsnprintf(buffer + strlen(buffer), sizeof(buffer) - strlen(buffer), text, arguments);
-			va_end(arguments);
-			
-			RenderText(font, x, y, w, h, buffer);
-		}
-		//---------------------------------------------------------------------------
-		void RendererOpenGL::Fill(const Drawing::Point &point)
+		void RendererOpenGL::Fill(const Point &point)
 		{
 			Fill(point.X, point.Y, 1, 1);
 		}
@@ -170,7 +122,7 @@ namespace OSHGui
 			Fill(x, y, 1, 1);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::Fill(Drawing::Rectangle &rect)
+		void RendererOpenGL::Fill(Rectangle &rect)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}

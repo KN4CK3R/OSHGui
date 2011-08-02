@@ -11,9 +11,8 @@ namespace OSHGui
 	public:
 		Label(Control *parent = NULL);
 		
-		void SetText(const char *text);
-		const char* GetText();
-		bool GetTextCopy(char *copy);
+		void SetText(const String &text);
+		String& GetText();
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
@@ -21,8 +20,10 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
+		virtual void UpdateRects();
+		
 		bool pressed;
-		char text[256]; 
+		String text;
 	};
 }
 

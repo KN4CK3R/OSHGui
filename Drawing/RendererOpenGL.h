@@ -28,18 +28,13 @@ namespace OSHGui
 
 			virtual void SetRenderColor(Color color);
 	
-			//virtual Size MeasureText(IFont *font, LPCSTR text) = 0;
-			//virtual Size MeasureTextEx(IFont *font, LPCSTR text, ...) = 0;
+			//virtual Size MeasureText(IFont *font, const String &text) = 0;
+			//virtual Size MeasureTextEx(IFont *font, const String &text, ...) = 0;
 
-			virtual void RenderText(IFont *font, const Point &point, LPCSTR text);
-			virtual void RenderText(IFont *font, int x, int y, LPCSTR text);
-			virtual void RenderText(IFont *font, Rectangle &rect, LPCSTR text);
-			virtual void RenderText(IFont *font, int x, int y, int w, int h, LPCSTR text);
-		
-			virtual void RenderTextEx(IFont *font, const Point &point, LPCSTR text, ...);
-			virtual void RenderTextEx(IFont *font, int x, int y, LPCSTR text, ...);
-			virtual void RenderTextEx(IFont *font, Rectangle &rect, LPCSTR text, ...);
-			virtual void RenderTextEx(IFont *font, int x, int y, int w, int h, LPCSTR text, ...);
+			virtual void RenderText(IFont *font, const Point &point, const String &text);
+			virtual void RenderText(IFont *font, int x, int y, const String &text);
+			virtual void RenderText(IFont *font, Rectangle &rect, const String &text);
+			virtual void RenderText(IFont *font, int x, int y, int w, int h, const String &text);
 			
 			virtual void Fill(const Point &point);
 			virtual void Fill(int x, int y);

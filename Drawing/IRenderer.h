@@ -29,19 +29,13 @@ namespace OSHGui
 			virtual void RenderTexture(ITexture *texture, const Point &point) = 0;
 			virtual void RenderTexture(ITexture *texture, int x, int y) = 0;
 
-			virtual Size MeasureText(IFont *font, LPCSTR text) = 0;
-			virtual Size MeasureTextEx(IFont *font, LPCSTR text, ...) = 0;
+			virtual Size MeasureText(IFont *font, const String &text) = 0;
 
-			virtual void RenderText(IFont *font, const Point &point, LPCSTR text) = 0;
-			virtual void RenderText(IFont *font, int x, int y, LPCSTR text) = 0;
-			virtual void RenderText(IFont *font, Rectangle &rect, LPCSTR text) = 0;
-			virtual void RenderText(IFont *font, int x, int y, int w, int h, LPCSTR text) = 0;
-			
-			virtual void RenderTextEx(IFont *font, const Point &point, LPCSTR text, ...) = 0;
-			virtual void RenderTextEx(IFont *font, int x, int y, LPCSTR text, ...) = 0;
-			virtual void RenderTextEx(IFont *font, Rectangle &rect, LPCSTR text, ...) = 0;
-			virtual void RenderTextEx(IFont *font, int x, int y, int w, int h, LPCSTR text, ...) = 0;
-		
+			virtual void RenderText(IFont *font, const Point &point, const String &text) = 0;
+			virtual void RenderText(IFont *font, int x, int y, const String &text) = 0;
+			virtual void RenderText(IFont *font, Rectangle &rect, const String &text) = 0;
+			virtual void RenderText(IFont *font, int x, int y, int w, int h, const String &text) = 0;
+					
 			virtual void Fill(const Point &point) = 0;
 			virtual void Fill(int x, int y) = 0;
 			virtual void Fill(Rectangle &rect) = 0;

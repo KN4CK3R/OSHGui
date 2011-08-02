@@ -1,4 +1,4 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\FontDX10.h"
+#include "FontDX10.h"
 
 namespace OSHGui
 {
@@ -28,15 +28,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontDX10::Create(const char *fontName, int size, bool bold, bool italic)
+		bool FontDX10::Create(const String &fontName, int size, bool bold, bool italic)
 		{
-			if (fontName == NULL)
-			{
-				return false;
-			}
-
 			SAFE_RELEASE(font);
-			if (FAILED(D3DX10CreateFont(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName, &font)))
+			if (FAILED(D3DX10CreateFont(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
 			{
 				return false;
 			}

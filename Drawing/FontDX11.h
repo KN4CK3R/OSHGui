@@ -17,7 +17,7 @@ namespace OSHGui
 
 			LPD3DX11FONT GetFont();
 
-			virtual bool Create(const char *fontName, int size, bool bold, bool italic);
+			virtual bool Create(const String &fontName, int size, bool bold, bool italic);
 			
 		private:
 			ID3D11Device *device;

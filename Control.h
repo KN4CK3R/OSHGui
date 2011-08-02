@@ -20,8 +20,10 @@ namespace OSHGui
 {
 	#ifdef UNICODE
 		typedef Misc::String::UnicodeString String;
+		typedef Misc::String::UnicodeChar Char;
 	#else
 		typedef Misc::String::AnsiString String;
+		typedef Misc::String::AnsiChar Char;
 	#endif
 
 	#ifndef _max
@@ -62,7 +64,6 @@ namespace OSHGui
 	public:
 		Control(Control *parent = NULL);
 		virtual ~Control();
-		String s;
 		
 		CONTROL_TYPE GetType() const;
 		
@@ -78,6 +79,8 @@ namespace OSHGui
 		void SetVisible(bool visible);
 		bool GetVisible();
 		
+		virtual void SetAutoSize(bool autoSize);
+		virtual bool GetAutoSize();
 		virtual void SetBounds(int x, int y, int w, int h);
 		virtual void SetBounds(Drawing::Rectangle &bounds);
 		virtual Drawing::Rectangle GetBounds();
@@ -97,6 +100,9 @@ namespace OSHGui
 		
 		void SetTag(void *tag);
 		void* GetTag();
+		
+		void SetName(String &name);
+		String& GetName();
 		
 		void SetFont(Drawing::IFont *font);
 		Drawing::IFont* GetFont();
@@ -124,21 +130,22 @@ namespace OSHGui
 		
 		Control* GetParent();
 		
-		Control *Parent;
-		bool mouseOver;
-		
 	protected:
 		virtual void UpdateRects();
 		
 		CONTROL_TYPE type;
+		
+		String name;
 	
 		bool enabled,
 			 visible,
-			 //mouseOver,
+			 mouseOver,
 			 hasFocus,
-			 needRepaint;
+			 needRepaint,
+			 autoSize;
 			 
 		void *tag;
+		
 		
 		Drawing::Rectangle bounds;
 		
@@ -154,7 +161,8 @@ namespace OSHGui
 		
 		Drawing::IFont *font;
 
-		Control *focusControl,
+		Control *Parent,
+				*focusControl,
 				*captureControl,
 				*mouseOverControl;
 	public:

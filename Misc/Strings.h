@@ -14,7 +14,7 @@ namespace OSHGui
 			typedef wchar_t UnicodeChar;
 			typedef std::string AnsiString;
 			typedef char AnsiChar;
-			
+						
 			inline UnicodeString AnsiToUnicode(const AnsiString &ansi)
 			{
 				if (ansi.length() == 0)
@@ -47,6 +47,14 @@ namespace OSHGui
 			AnsiString Format(const AnsiChar *fmt, ...);
 		}
 	}
+	
+	#ifdef UNICODE
+		typedef Misc::String::UnicodeString String;
+		typedef Misc::String::UnicodeChar Char;
+	#else
+		typedef Misc::String::AnsiString String;
+		typedef Misc::String::AnsiChar Char;
+	#endif
 }
 
 #endif

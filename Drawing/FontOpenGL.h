@@ -22,8 +22,8 @@ namespace OSHGui
 
 			GLuint GetFont();
 
-			virtual bool Create(LPCSTR fontName, int size, bool bold, bool italic);
-			virtual int MeasureCharacter(char c);
+			virtual bool Create(const String &fontName, int size, bool bold, bool italic);
+			virtual int MeasureCharacter(Char c);
 
 		protected:
 			GLuint fontID;

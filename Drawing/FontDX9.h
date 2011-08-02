@@ -18,16 +18,15 @@ namespace OSHGui
 
 			LPD3DXFONT GetFont();
 
-			virtual bool Create(const char *fontName, int size, bool bold, bool italic);
+			virtual bool Create(const String &fontName, int size, bool bold, bool italic);
 			
-			virtual int MeasureCharacter(char c);
+			virtual Size MeasureSize(const String &string);
 
 		protected:
 			IDirect3DDevice9 *device;
 			LPD3DXFONT font;
 			
-			bool initWidthArray;
-			int charWidth[0xFF];
+			int spaceWidth;
 		};
 	}
 }

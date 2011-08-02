@@ -28,7 +28,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontOpenGL::Create(LPCSTR fontName, int size, bool bold, bool italic)
+		bool FontOpenGL::Create(const String &fontName, int size, bool bold, bool italic)
 		{
 			if (fontName == NULL)
 			{
@@ -37,7 +37,7 @@ namespace OSHGui
 
 			HDC hDC = wglGetCurrentDC();
 			fontID = glGenLists(256);
-			HFONT hFont =  CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, fontName);
+			HFONT hFont = CreateFont(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, fontName.c_str());
 			HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
 			wglUseFontBitmaps(hDC, 0, 255, fontID);
 			SelectObject(hDC, hOldFont);
@@ -46,7 +46,7 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------
-		int FontOpenGL::MeasureCharacter(char c)
+		int FontOpenGL::MeasureCharacter(Char c)
 		{
 			//todo
 			return 0;

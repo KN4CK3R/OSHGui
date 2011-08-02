@@ -8,9 +8,7 @@ namespace OSHGui
 	Label::Label(Control *parent) : Control(parent)
 	{
 		type = CONTROL_LABEL;
-				
-		memset((void*)&text, 0x00, sizeof(text));
-
+		
 		SetSize(Drawing::Size(100, 20));
 		
 		SetBackColor(Drawing::Color::Empty());
@@ -19,38 +17,31 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Label::SetText(const char *text)
+	void Label::SetText(const String &text)
 	{
-		if(text == NULL)
-		{
-			this->text[0] = 0;
-			return;
-		}
-
-		strcpy_s(this->text, 256, text);
+		this->text = text;
+		UpdateRects();
 	}
 	//---------------------------------------------------------------------------
-	const char* Label::GetText()
+	String& Label::GetText()
 	{
 		return text;
 	}
 	//---------------------------------------------------------------------------
-	bool Label::GetTextCopy(char *copy)
-	{
-		if (copy == NULL)
-		{
-			return false;
-		}
-		
-		strcpy_s(copy, strlen(text), text);
-		return true;
-	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool Label::ContainsPoint(const Drawing::Point &point)
 	{
 		return bounds.Contains(point);
+	}
+	//---------------------------------------------------------------------------
+	void Label::UpdateRects()
+	{
+		if (autoSize)
+		{			
+			SetSize(font->MeasureText(text));
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -64,7 +55,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*) event;
+			MouseEvent *mouse = (MouseEvent*)event;
 			if (mouse->State == MouseEvent::LeftDown)
 			{
 				pressed = true;
@@ -92,7 +83,7 @@ namespace OSHGui
 		{
 			return;
 		}
-	
+			
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
