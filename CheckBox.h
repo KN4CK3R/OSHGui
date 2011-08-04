@@ -13,6 +13,8 @@ namespace OSHGui
 		virtual void SetChecked(bool checked);
 		virtual bool GetChecked();
 		
+		virtual bool CanHaveFocus();
+
 		virtual void Invalidate();
 				
 		virtual Event::NextEventTypes ProcessEvent(Event *event);

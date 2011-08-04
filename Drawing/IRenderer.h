@@ -20,6 +20,7 @@ namespace OSHGui
 
 			virtual ITexture* CreateNewTexture() = 0;
 			virtual IFont* CreateNewFont() = 0;
+			static IFont* GetDefaultFont() { return defaultFont; }
 			
 			void SetRenderColor(Color color) { this->color = color; }
 			Color GetRenderColor() { return color; }
@@ -49,6 +50,7 @@ namespace OSHGui
 		protected:
 			Color color;
 			Rectangle renderRect;
+			static IFont *defaultFont;
 		};
 	}
 }

@@ -36,11 +36,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
+	bool CheckBox::CanHaveFocus()
+	{
+		return visible && enabled;
+	}
+	//---------------------------------------------------------------------------
 	void CheckBox::Invalidate()
 	{
 		if (autoSize)
 		{
-			Drawing::Size size = font->MeasureText(text);
+			Drawing::Size size = textHelper.GetSize();
 			size.Width += 20;
 			size.Height += 4;
 			SetSize(size);
@@ -85,7 +90,7 @@ namespace OSHGui
 					return Event::None;
 				}
 			}
-			
+
 			//restore PointToClient (alternatively call PointToScreen)
 			mouse->Position = mousePositionBackup;
 		}
@@ -126,7 +131,7 @@ namespace OSHGui
 			renderer->FillGradient(position.Left + 6, position.Top + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
 		}
 		
-		renderer->RenderText(font, position.Left + 20, position.Top + 2, bounds.GetWidth() - 20, bounds.GetHeight(), text);
+		renderer->RenderText(font, position.Left + 20, position.Top + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 	}
 	//---------------------------------------------------------------------------
 }

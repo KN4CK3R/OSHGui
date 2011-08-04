@@ -72,7 +72,7 @@ namespace OSHGui
 		return NULL;
 	}
 	//---------------------------------------------------------------------------
-	Control* Panel::FindControlByName(const String &name)
+	Control* Panel::FindControlByName(const Misc::UnicodeString &name)
 	{
 		for (unsigned int i = 0; i < Controls.size(); i++)
 		{
@@ -119,7 +119,7 @@ namespace OSHGui
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
+			//mouse->Position = Panel::PointToClient(mouse->Position);
 			
 			//someone is capturing the mouse
 			if (captureControl != NULL)
@@ -195,7 +195,7 @@ namespace OSHGui
 			return;
 		}
 	
-		//OK
+		/*//OK
 		if (needRepaint)
 		{
 			if (texture.IsEmpty())
@@ -213,7 +213,7 @@ namespace OSHGui
 			main->FillGradient(Drawing::Color(0xFF3A3937), Drawing::Color(0xFF4D4B49));
 
 			main->EndUpdate();
-		}
+		}*/
 	
 		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());

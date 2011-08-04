@@ -27,17 +27,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::SetText(const Misc::UnicodeString &text)
 	{
-		if (text != NULL)
+		/*if (text != NULL)
 		{
 			buffer.SetText(text);
 			firstVisibleCharacter = 0;
 			PlaceCaret(buffer.GetLength());
-		}
+		}*/
 	}
 	//---------------------------------------------------------------------------
 	Misc::UnicodeString& TextBox::GetText()
 	{
-		return buffer.GetBuffer();
+		return Misc::UnicodeString();//buffer.GetBuffer();
 	}
 	//---------------------------------------------------------------------------
 	int TextBox::GetTextLength()
@@ -99,7 +99,7 @@ namespace OSHGui
 		{
 			for (int i = 0; i < charIndex && str[i] != 0; i++)
 			{
-				ret += font->MeasureCharacter(str[i]);
+				//ret += font->MeasureCharacter(str[i]);
 			}
 		}
 		
@@ -113,7 +113,7 @@ namespace OSHGui
 		int ret = 0;
 		for (int i = 0; str[i] != 0; i++)
 		{
-			ret += font->MeasureCharacter(str[i]);
+			//ret += font->MeasureCharacter(str[i]);
 			if (ret >= position)
 			{
 				return i;
@@ -306,7 +306,7 @@ namespace OSHGui
 		renderer->Fill(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, textRect, buffer.GetBuffer() + firstVisibleCharacter);
+		//renderer->RenderText(font, textRect, buffer.GetBuffer() + firstVisibleCharacter);
 		
 		//Carret
 		renderer->Fill(position.Left + 23, position.Top + 5, 1, 12);

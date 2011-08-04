@@ -54,7 +54,7 @@ namespace OSHGui
 		void ShowMainForm(Form *form);
 		void Render();
 		
-		static IFont* GetDefaultFont();
+		static Drawing::IFont* GetDefaultFont();
 
 		static LRESULT CALLBACK MsgProc(int code, WPARAM wParam, LPARAM lparam);
 		

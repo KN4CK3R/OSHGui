@@ -5,12 +5,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(Control *parent) : Control(parent)
+	Label::Label(Control *parent) : Control(parent), textHelper(Drawing::IRenderer::GetDefaultFont())
 	{
 		type = CONTROL_LABEL;
 		
-		autoSize = true;
-		SetSize(Drawing::Size(10, OSHGui::GetDefaultFont().GetSize()));
+		SetAutoSize(true);
+		//SetSize(Drawing::Size(10, font->GetSize()));
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA3A3A3));
@@ -20,13 +20,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Label::SetText(const Misc::UnicodeString &text)
 	{
-		this->text = text;
+		textHelper.SetText(text);
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Misc::UnicodeString& Label::GetText()
+	const Misc::UnicodeString& Label::GetText()
 	{
-		return text;
+		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -40,7 +40,7 @@ namespace OSHGui
 	{
 		if (autoSize)
 		{
-			SetSize(font->MeasureText(text));
+			SetSize(textHelper.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ namespace OSHGui
 		}
 	
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, bounds, text);
+		renderer->RenderText(font, bounds, textHelper.GetText());
 	}
 	//---------------------------------------------------------------------------
 }

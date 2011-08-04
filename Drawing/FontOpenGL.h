@@ -23,7 +23,8 @@ namespace OSHGui
 			GLuint GetFont();
 
 			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
-			virtual int MeasureCharacter(Char c);
+
+			virtual Size MeasureText(const Misc::UnicodeString &str);
 
 		protected:
 			GLuint fontID;

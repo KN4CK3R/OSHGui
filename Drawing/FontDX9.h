@@ -20,7 +20,7 @@ namespace OSHGui
 
 			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
 			
-			virtual Size MeasureSize(const Misc::UnicodeString &string);
+			virtual Size MeasureText(const Misc::UnicodeString &str);
 
 		protected:
 			IDirect3DDevice9 *device;

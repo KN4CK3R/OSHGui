@@ -23,6 +23,9 @@ namespace OSHGui
 				vertices[i].u = 0.0f;
 				vertices[i].v = 0.0f;
 			}
+
+			defaultFont = CreateNewFont();
+			defaultFont->Create(L"Arial", 14, false, false);
 		}
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()

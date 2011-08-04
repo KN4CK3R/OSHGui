@@ -13,46 +13,25 @@ namespace OSHGui
 		enabled = false;
 		drag = false;
 
-		memset((void*)&text, 0x00, sizeof(text));
-
 		SetLocation(Drawing::Point(10, 10));
 		SetSize(Drawing::Size(364, 379));
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color::White());
 
-		UpdateRects();
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Form::SetText(const char *text)
+	void Form::SetText(const Misc::UnicodeString &text)
 	{
-		if(text == NULL)
-		{
-			this->text[0] = 0;
-			return;
-		}
-
-		strcpy_s(this->text, 256, text);
-		this->text[255] = 0;
+		this->text = text;
 	}
 	//---------------------------------------------------------------------------
-	const char* Form::GetText()
+	const Misc::UnicodeString& Form::GetText()
 	{
 		return text;
-	}
-	//---------------------------------------------------------------------------
-	bool Form::GetTextCopy(char *copy)
-	{
-		if (copy == NULL)
-		{
-			return false;
-		}
-		
-		strcpy_s(copy, strlen(text), text);
-		
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -62,7 +41,7 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void Form::UpdateRects()
+	void Form::Invalidate()
 	{
 		captionBar = bounds;
 		captionBar.Offset(1, 1);
@@ -85,7 +64,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Point Form::PointToClient(const Drawing::Point &point)
 	{
-		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
+		return Drawing::Point(point.Left, point.Top - clientArea.GetTop());
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Point Form::PointToScreen(const Drawing::Point &point)
@@ -148,49 +127,6 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		/*if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-			
-			Drawing::Size size = bounds.GetSize();
-			
-			Drawing::ITexture *main = texture.Get(0);
-			
-			main->Create(size);
-			main->BeginUpdate();
-			
-			main->Fill(0, 0, size.Width, 1, Drawing::Color::Black());
-			main->Fill(0, 0, 1, size.Height, Drawing::Color::Black());
-			main->Fill(size.Width - 1, 0, 1, size.Height, Drawing::Color::Black());
-			main->Fill(0, size.Height - 1, size.Width, 1, Drawing::Color::Black());
-			
-			//captionbar
-			{
-				main->FillGradient(captionBar, Drawing::Color(0xFF5F5A59), Drawing::Color(0xFF444341));
-				
-				Drawing::Color border(0xFFBAB9B7);
-				for (int i = 0; i < 4; i++)
-				{
-					main->Fill(size.Width - 16 + i, 8 + i, 2, 1, border);
-					main->Fill(size.Width - 16 + i, 16 - i, 2, 1, border);
-					main->Fill(size.Width - 8 - i, 8 + i, 2, 1, border);
-					main->Fill(size.Width - 8 - i, 16 - i, 2, 1, border);
-				}
-			}
-			
-			//clientArea
-			{
-				main->FillGradient(clientArea, Drawing::Color(0xFF5A5655), Drawing::Color(0xFF383735));
-			}
-			
-			main->EndUpdate();
-
-			needRepaint = false;
-		}*/
 
 		Drawing::Point position = bounds.GetPosition();
 

@@ -7,6 +7,7 @@ namespace OSHGui
 	Gui* Gui::instance = NULL;
 	Drawing::IFont* Gui::font = NULL;
 	Misc::TimeHelper Gui::GlobalTime;
+	Drawing::IFont* Drawing::IRenderer::defaultFont = NULL;
 
 	//---------------------------------------------------------------------------
 	//Constructor
@@ -23,7 +24,7 @@ namespace OSHGui
 		this->renderer = renderer;
 		
 		font = this->renderer->CreateNewFont();
-		if (!font->Create(String("Arial"), 13, false, false))
+		if (!font->Create(Misc::UnicodeString(L"Arial"), 13, false, false))
 		{
 			throw "Can't create default font.";
 		}
@@ -49,7 +50,7 @@ namespace OSHGui
 		return active;
 	}
 	//---------------------------------------------------------------------------
-	IFont* Gui::GetDefaultFont()
+	Drawing::IFont* Gui::GetDefaultFont()
 	{
 		return font;
 	}
@@ -298,17 +299,6 @@ namespace OSHGui
 						break;
 					default:
 						keyboard.KeyChar = (char)msg->wParam;
-				}
-
-				if (keyboard.State == KeyboardEvent::Character)
-				{
-					char bla[200];
-					int i = 0;
-					for (; i < strlen(focusForm->GetText()); ++i)
-						bla[i] = focusForm->GetText()[i];
-					bla[i] = /*keyboard.Shift ? keyboard.KeyChar - 0x20 : */keyboard.KeyChar;
-					bla[++i] = 0;
-					focusForm->SetText(bla);
 				}
 			
 				if (focusForm->ProcessEvent(&keyboard) == Event::None)

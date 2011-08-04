@@ -12,11 +12,12 @@ namespace OSHGui
 
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
-		void SetText(const char *text);
-		const char* GetText();
-		bool GetTextCopy(char *copy);
+		void SetText(const Misc::UnicodeString &text);
+		const Misc::UnicodeString& GetText();
 		
 		void Show();
+
+		virtual void Invalidate();
 
 		virtual Drawing::Point PointToClient(const Drawing::Point &point);
 		virtual Drawing::Point PointToScreen(const Drawing::Point &point);
@@ -24,10 +25,8 @@ namespace OSHGui
 		Event::NextEventTypes ProcessEvent(Event *event);
 		void Render(Drawing::IRenderer *renderer);
 
-	protected:
-		virtual void UpdateRects();
-	
-		char text[256];
+	protected:	
+		Misc::UnicodeString text;
 		Drawing::Rectangle captionBar,
 						   closeRect,
 						   minimizeRect,

@@ -10,11 +10,7 @@ namespace OSHGui
 		type = CONTROL_BUTTON;
 
 		Parent = parent;
-		if (Parent != NULL)
-		{
-			SetFont(Parent->GetFont());
-		}
-	
+		
 		SetEnabled(true);
 		SetVisible(true);
 		
@@ -29,8 +25,8 @@ namespace OSHGui
 		
 		mouseOver = false;
 		hasFocus = false;
-		
-		font = Gui::GetDefaultFont();
+
+		font = Drawing::IRenderer::GetDefaultFont();
 		
 		focusControl = NULL;
 		mouseOverControl = NULL;
@@ -79,13 +75,13 @@ namespace OSHGui
 		return visible;
 	}
 	//---------------------------------------------------------------------------
-	void SetAutoSize(bool autoSize)
+	void Control::SetAutoSize(bool autoSize)
 	{
 		this->autoSize = autoSize;
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	bool GetAutoSize()
+	bool Control::GetAutoSize()
 	{
 		return autoSize;
 	}
@@ -123,7 +119,7 @@ namespace OSHGui
 		return bounds.GetPosition();
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetSize(Drawing::Size &size)
+	void Control::SetSize(const Drawing::Size &size)
 	{
 		if (size.Width > -1)
 		{
@@ -133,7 +129,6 @@ namespace OSHGui
 		{
 			bounds.SetHeight(size.Height);
 		}
-		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Size Control::GetSize()
@@ -277,6 +272,11 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	void Control::Invalidate()
+	{
+		return;
+	}
+	//---------------------------------------------------------------------------
+	void Control::UpdateRects()
 	{
 		return;
 	}

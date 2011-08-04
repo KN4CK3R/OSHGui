@@ -11,7 +11,7 @@ namespace OSHGui
 				
 		pressed = false;
 
-		autoSize = false;
+		SetAutoSize(false);
 		SetSize(Drawing::Size(92, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
@@ -29,7 +29,7 @@ namespace OSHGui
 	{
 		if (autoSize)
 		{
-			Drawing::Size size = font->MeasureText(text);
+			Drawing::Size size = textHelper.GetSize();
 			size.Width += 12;
 			size.Height += 10;
 			SetSize(size);
@@ -48,8 +48,6 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*) event;
-			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
 			
 			if (bounds.GetSize().Contains(mouse->Position))
 			{
@@ -77,9 +75,6 @@ namespace OSHGui
 					return Event::None;
 				}
 			}
-			
-			//restore PointToClient (alternatively call PointToScreen)
-			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -124,7 +119,7 @@ namespace OSHGui
 		renderer->FillGradient(position.Left + 2, position.Top + 1, bounds.GetWidth() - 4, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, position.Left + 6, position.Top + 5, text);
+		renderer->RenderText(font, position.Left + 6, position.Top + 5, textHelper.GetText());
 	}
 	//---------------------------------------------------------------------------
 }

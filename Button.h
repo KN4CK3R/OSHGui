@@ -11,6 +11,8 @@ namespace OSHGui
 		Button(Control *parent = NULL);
 		
 		virtual bool CanHaveFocus();
+
+		virtual void Invalidate();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);

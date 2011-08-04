@@ -94,7 +94,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererOpenGL::RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text)
 		{
-			if (font == NULL || text == NULL)
+			if (font == NULL)
 			{
 				return;
 			}
@@ -108,7 +108,7 @@ namespace OSHGui
 			glPushAttrib(GL_LIST_BIT);
 			glRasterPos2f(x, glViewport.height - y);
 			glListBase(fontID);
-			glCallLists(strlen(text.c_str()), GL_UNSIGNED_BYTE, text.c_str());
+			glCallLists(text.length(), GL_UNSIGNED_BYTE, text.c_str());
 			glPopAttrib();
 		}
 		//---------------------------------------------------------------------------

@@ -20,7 +20,7 @@ namespace OSHGui
 			bool IsBold() { return bold; }
 			bool IsItalic() { return italic; }
 			
-			virtual Size MeasureText(const Misc::UnicodeString &string);
+			virtual Size MeasureText(const Misc::UnicodeString &str) = 0;
 						
 		protected:
 			Misc::UnicodeString fontName;

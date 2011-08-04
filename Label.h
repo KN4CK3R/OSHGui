@@ -2,7 +2,7 @@
 #define __OSHGUI_LABEL_H__
 
 #include "Control.h"
-#include "Panel.h"
+#include "Misc\TextHelper.h"
 
 namespace OSHGui
 {
@@ -12,7 +12,7 @@ namespace OSHGui
 		Label(Control *parent = NULL);
 		
 		void SetText(const Misc::UnicodeString &text);
-		Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText();
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
@@ -21,11 +21,10 @@ namespace OSHGui
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:
-		virtual void UpdateRects();
-		
+	protected:		
 		bool pressed;
 		Misc::UnicodeString text;
+		Misc::TextHelper textHelper;
 	};
 }
 

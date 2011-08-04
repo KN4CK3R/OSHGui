@@ -79,7 +79,7 @@ namespace OSHGui
 		virtual void SetLocation(Drawing::Point &point);
 		virtual void SetLocation(int x, int y);
 		virtual Drawing::Point GetLocation();
-		virtual void SetSize(Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size);
 		virtual Drawing::Size GetSize();
 		virtual int GetLeft();
 		virtual int GetTop();
@@ -124,10 +124,12 @@ namespace OSHGui
 		
 	protected:
 		CONTROL_TYPE type;
+		virtual void UpdateRects();
 		
 		Misc::UnicodeString name;
 	
 		bool enabled,
+			 needRepaint,
 			 visible,
 			 mouseOver,
 			 hasFocus,
