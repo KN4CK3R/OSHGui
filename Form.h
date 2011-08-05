@@ -1,11 +1,11 @@
 #ifndef __OSHGUI_FORM_H__
 #define __OSHGUI_FORM_H__
 
-#include "Panel.h"
+#include "ControlContainer.h"
 
 namespace OSHGui
 {
-	class Form : public Panel
+	class Form : public ControlContainer
 	{
 	public:
 		Form();

@@ -1,19 +1,19 @@
 #ifndef __OSHGUI_GROUPBOX_H__
 #define __OSHGUI_GROUPBOX_H__
 
-#include "Panel.h"
+#include "Control.h"
+#include "ContainerControl.h"
 
 namespace OSHGui
 {
-	class GroupBox : public Panel
+	class GroupBox : public Control, ContainerControl
 	{
 	public:
 		GroupBox(Control *parent = NULL);
 		virtual ~GroupBox();
 
-		void SetText(const char *text);
-		const char* GetText();
-		bool GetTextCopy(char *copy);
+		void SetText(const Misc::UnicodeString &text);
+		const Misc::UnicodeString& GetText();
 		
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
@@ -21,7 +21,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
-		char text[256];
+		Misc::UnicodeString text;
 	};
 }
 

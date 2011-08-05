@@ -5,50 +5,32 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	GroupBox::GroupBox(Control *parent) : Panel(parent)
+	GroupBox::GroupBox(Control *parent) : Control(parent)
 	{
 		type = CONTROL_GROUPBOX;
 	}
 	//---------------------------------------------------------------------------
 	GroupBox::~GroupBox()
 	{
-		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
+		for (unsigned int i = 0, len = controls.size(); i < len; i++)
 		{
-			Control *control = Controls.at(i);
+			Control *control = controls.at(i);
 			delete control;
 		}
-	
-		//Controls.Clear();
-		Controls.clear();
+
+		controls.clear();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetText(const char *text)
+	void GroupBox::SetText(const Misc::UnicodeString &text)
 	{
-		if(text == NULL)
-		{
-			this->text[0] = 0;
-			return;
-		}
-
-		strcpy_s(this->text, 256, text);
+		this->text = text;
 	}
 	//---------------------------------------------------------------------------
-	const char* GroupBox::GetText()
+	const Misc::UnicodeString& GroupBox::GetText()
 	{
 		return text;
-	}
-	//---------------------------------------------------------------------------
-	bool GroupBox::GetTextCopy(char *copy)
-	{
-		if (copy == NULL)
-		{
-			return false;
-		}
-		
-		strcpy_s(copy, strlen(text), text);
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -62,6 +44,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes GroupBox::ProcessMessage(Event *event)
 	{
+		//todo
 		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
@@ -99,9 +82,9 @@ namespace OSHGui
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);
 	
-		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
+		for (unsigned int i = 0, len = controls.size(); i < len; i++)
 		{
-			Controls.at(i)->Render(renderer);
+			controls.at(i)->Render(renderer);
 		}
 		
 		renderer->SetRenderRectangle(bounds);
