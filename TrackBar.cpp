@@ -51,9 +51,11 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void TrackBar::UpdateRects()
+	void TrackBar::Invalidate()
 	{
-		sliderMiddle = bounds.GetLeft() + ((value - min) * (float)bounds.GetWidth() / (max - min));
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+
+		sliderMiddle = (value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH * 2) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2;
 		sliderRect = Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), 0, TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
 	}
 	//---------------------------------------------------------------------------
@@ -72,13 +74,13 @@ namespace OSHGui
 			}
 		}
 
-		UpdateRects();
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::ValueFromPosition(int position)
 	{ 
-		float valuePerPixel = (float)(max - min) / bounds.GetWidth();
-		return (int)(0.5f + min + valuePerPixel * (position/* - bounds.GetLeft()*/)) ; 
+		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH);
+		return (int)(0.5f + min + valuePerPixel * position) ; 
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -108,13 +110,13 @@ namespace OSHGui
 
 					if (!hasFocus)
 					{
-						//Parent->RequestFocus(this);
+						Parent->RequestFocus(this);
 					}
 
 					return Event::DontContinue;
 				}
 
-				if (bounds.GetSize().Contains(mouse->Position))
+				if (clientArea.Contains(mouse->Position))
 				{
 					dragX = mouse->Position.X;
 					dragOffset = 0;               
@@ -122,17 +124,11 @@ namespace OSHGui
 					
 					if (!hasFocus)
 					{
-						//Parent->RequestFocus(this);
+						Parent->RequestFocus(this);
 					}
 
-					if (mouse->Position.X > sliderMiddle + bounds.GetLeft())
-					{
-						SetValueInternal(value + 1);
-					}
-					else if (mouse->Position.X < sliderMiddle + bounds.GetLeft())
-					{
-						SetValueInternal(value - 1);
-					}
+					SetValueInternal(ValueFromPosition(mouse->Position.X));
+
 					return Event::DontContinue;
 				}
 			}
@@ -155,7 +151,7 @@ namespace OSHGui
 			{
 				if (pressed)
 				{
-					SetValueInternal(ValueFromPosition(mouse->Position.X/* - bounds.GetLeft() * 4 + dragOffset*/));
+					SetValueInternal(ValueFromPosition(mouse->Position.X));
 					return Event::DontContinue;
 				}
 			}
@@ -166,29 +162,32 @@ namespace OSHGui
 		else if (event->Type == Event::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			switch (keyboard->KeyCode)
-            {
-                case Key::Home:
-                    SetValueInternal(min);
-                    return Event::DontContinue;
-                case Key::End:
-                    SetValueInternal(max);
-                    return Event::DontContinue;
-                case Key::Left:
-                case Key::Down:
-                    SetValueInternal(value - 1);
-                    return Event::DontContinue;
-                case Key::Right:
-                case Key::Up:
-                    SetValueInternal(value + 1);
-                    return Event::DontContinue;
-                case Key::PageDown:
-                    SetValueInternal(value - _max(10, (max - min) / 10));
-                    return Event::DontContinue;
-                case Key::PageUp:
-                    SetValueInternal(value + _max(10, (max - min) / 10));
-                    return Event::DontContinue;
-            }
+			if (keyboard->State == KeyboardEvent::Down)
+			{
+				switch (keyboard->KeyCode)
+				{
+					case Key::Home:
+						SetValueInternal(min);
+						return Event::DontContinue;
+					case Key::End:
+						SetValueInternal(max);
+						return Event::DontContinue;
+					case Key::Left:
+					case Key::Down:
+						SetValueInternal(value - 1);
+						return Event::DontContinue;
+					case Key::Right:
+					case Key::Up:
+						SetValueInternal(value + 1);
+						return Event::DontContinue;
+					case Key::PageDown:
+						SetValueInternal(value - _max(10, (max - min) / 10));
+						return Event::DontContinue;
+					case Key::PageUp:
+						SetValueInternal(value + _max(10, (max - min) / 10));
+						return Event::DontContinue;
+				}
+			}
 		}
 		
 		return Event::Continue;
@@ -201,10 +200,13 @@ namespace OSHGui
 			return;
 		}
 
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
+
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
+			renderer->Fill(clientArea);
 		}
 
 		Drawing::Point position = bounds.GetPosition();
@@ -212,20 +214,23 @@ namespace OSHGui
 		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
-		float space = bounds.GetWidth() / (float)range;
+		int halfWidth = TRACKBAR_SLIDER_WIDTH / 2;
+		float space = (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (float)range;
 		if (space < 5.0f)
 		{
 			space = 5.0f;
-			range = bounds.GetWidth() / space;
+			range = (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space;
 		}
 				
 		for (int i = 0; i < range; i++)
 		{
-			renderer->Fill(position.Left + (i * space), position.Top + 6, 1, 5);
+			renderer->Fill(halfWidth + (i * space), 6, 1, 5);
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(sliderRect.OffsetEx(0, bounds.GetTop()));
+		renderer->Fill(sliderRect);
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

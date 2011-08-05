@@ -278,6 +278,15 @@ namespace OSHGui
 			
 				switch ((char)msg->wParam)
 				{
+					case VK_CONTROL:
+						keyboard.KeyCode = Key::Control;
+						break;
+					case VK_SHIFT:
+						keyboard.KeyCode = Key::Shift;
+						break;
+					case VK_MENU:
+						keyboard.KeyCode = Key::Alt;
+						break;
 					case VK_BACK:
 						keyboard.KeyCode = Key::Back;
 						keyboard.KeyChar = '\b';
@@ -285,6 +294,43 @@ namespace OSHGui
 					case VK_SPACE:
 						keyboard.KeyCode = Key::Space;
 						keyboard.KeyChar = ' ';
+						break;
+					case VK_TAB:
+						keyboard.KeyCode = Key::Tab;
+						break;
+					case VK_CLEAR:
+					case VK_DELETE:
+						keyboard.KeyCode = Key::Delete;
+						break;
+					case VK_INSERT:
+						keyboard.KeyCode = Key::Insert;
+						break;
+					case VK_RETURN:
+						keyboard.KeyCode = Key::Return;
+						break;
+					case VK_PRIOR:
+						keyboard.KeyCode = Key::PageDown;
+						break;
+					case VK_NEXT:
+						keyboard.KeyCode = Key::PageUp;
+						break;
+					case VK_END:
+						keyboard.KeyCode = Key::End;
+						break;
+					case VK_HOME:
+						keyboard.KeyCode = Key::Home;
+						break;
+					case VK_LEFT:
+						keyboard.KeyCode = Key::Left;
+						break;
+					case VK_UP:
+						keyboard.KeyCode = Key::Up;
+						break;
+					case VK_RIGHT:
+						keyboard.KeyCode = Key::Right;
+						break;
+					case VK_DOWN:
+						keyboard.KeyCode = Key::Down;
 						break;
 					case 26:
 					case 2:
@@ -295,17 +341,12 @@ namespace OSHGui
 					case 7:
 					case 10:
 					case 11:
-					case 12:
-					case 17:
 					case 23:
 					case 5:
-					case 18:
 					case 20:
 					case 25:
 					case 21:
-					case 9:
 					case 15:
-					case 16:
 					case 27:
 					case 29:
 					case 28:

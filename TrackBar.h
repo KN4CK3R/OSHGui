@@ -19,13 +19,13 @@ namespace OSHGui
 		void SetRange(int min, int max);
 		void SetValue(int value);
 		int GetValue();
+
+		virtual void Invalidate();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 
-	protected:
-		virtual void UpdateRects();
-	
+	protected:	
 		virtual void SetValueInternal(int value);
 		virtual int ValueFromPosition(int position);
 	
