@@ -7,18 +7,27 @@
 
 namespace OSHGui
 {
-	class ContainerControl
+	class ContainerControl : public Control
 	{
-	public:		
+	public:
+		ContainerControl(Control *parent);
+
 		void AddControl(Control *control);
 
 		void ClearRadioButtonGroup(int group);
+
+		void RequestFocus(Control *control);
+		void ClearFocus();
+		void CaptureMouse(Control *control);
+		void ReleaseCapture();
+
+		void InvalidateChildren();
 		
-		Control *FindControlAtPoint(const Drawing::Point &point);
-		Control *FindControlByName(const Misc::UnicodeString &name);
+		Control* FindControlAtPoint(const Drawing::Point &point);
+		Control* FindControlByName(const Misc::UnicodeString &name);
 				
 	protected:
-		std::vector<Control*> Controls;
+		
 	};
 }
 
