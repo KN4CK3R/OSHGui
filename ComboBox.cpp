@@ -294,12 +294,12 @@ namespace OSHGui
 	{
 		if (event == NULL || !visible || !enabled)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 		
-		if (scrollBar.ProcessEvent(event) == Event::None)
+		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -330,7 +330,7 @@ namespace OSHGui
 							}
 						}
 
-						return Event::None;
+						return Event::DontContinue;
 					}
 
 					if (opened && itemsRect.Contains(mouse->Position))
@@ -355,7 +355,7 @@ namespace OSHGui
 							}
 						}
 
-						return Event::None;
+						return Event::DontContinue;
 					}
 
 					if (opened)
@@ -423,7 +423,7 @@ namespace OSHGui
 								break;
 							}
 						}
-						return Event::None;
+						return Event::DontContinue;
 					}
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
@@ -432,17 +432,17 @@ namespace OSHGui
 					{
 						pressed = false;
 						//ReleaseCapture();
-						return Event::None;
+						return Event::DontContinue;
 					}
 				}
 			}
-			return Event::None;
+			return Event::DontContinue;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
 			if (items.IsEmpty())
 			{
-				return Event::None;
+				return Event::DontContinue;
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
@@ -462,7 +462,7 @@ namespace OSHGui
                         }
                         opened = false;
                         
-                        return Event::None;
+                        return Event::DontContinue;
                     }
                     break;
 				case Key::Down:
@@ -480,7 +480,7 @@ namespace OSHGui
 							}
 						}
                     }
-                    return Event::None;
+                    return Event::DontContinue;
                 case Key::Right:
                 case Key::Up:
                     if (focusedIndex + 1 < GetItemsCount())
@@ -496,7 +496,7 @@ namespace OSHGui
 							}
 						}
                     }
-					return Event::None;
+					return Event::DontContinue;
 			}
 		}
 		

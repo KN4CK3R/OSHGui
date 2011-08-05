@@ -156,7 +156,7 @@ namespace OSHGui
 	
 		if (event == NULL || !visible || !enabled)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -171,7 +171,7 @@ namespace OSHGui
 					
 					UpdateSliderRect();
 					
-					return Event::None;
+					return Event::DontContinue;
 				}
 				
 				if (downButtonRect.Contains(mouse->Position))
@@ -181,7 +181,7 @@ namespace OSHGui
 					
 					UpdateSliderRect();
 					
-					return Event::None;
+					return Event::DontContinue;
 				}
 				
 				if (sliderRect.Contains(mouse->Position))
@@ -190,7 +190,7 @@ namespace OSHGui
 					
 					SliderOffsetY = mouse->Position.Y - sliderRect.GetTop();
 					
-					return Event::None;
+					return Event::DontContinue;
 				}
 
 				if (sliderRect.GetLeft() <= mouse->Position.X && sliderRect.GetRight() > mouse->Position.X)
@@ -199,12 +199,12 @@ namespace OSHGui
 					{
 						Scroll(-(pageSize - 1));
 						
-						return Event::None;
+						return Event::DontContinue;
 					}
 					else if (sliderRect.GetBottom() <= mouse->Position.Y && trackRect.GetBottom() > mouse->Position.Y)
 					{
 						Scroll(pageSize - 1);
-						return Event::None;
+						return Event::DontContinue;
 					}
 				}
 			}
@@ -236,7 +236,7 @@ namespace OSHGui
 					position = start + (sliderRect.GetTop() - trackRect.GetTop() + maxSlider / (maxFirstItem * 2)) * maxFirstItem / maxSlider;
 				}
 			}
-			return Event::None;
+			return Event::DontContinue;
 		}
 		else if (event->Type == Event::System)
 		{

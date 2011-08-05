@@ -352,7 +352,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Control::ProcessEvent(Event *event)
 	{
-		return Event::None;
+		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
 	void Control::Render(Drawing::IRenderer *renderer)

@@ -88,13 +88,13 @@ namespace OSHGui
 					{
 						//close
 					
-						return Event::None;
+						return Event::DontContinue;
 					}
 					else if (minimizeRect.Contains(mouse->Position))
 					{
 						//minimize
 					
-						return Event::None;
+						return Event::DontContinue;
 					}
 				}
 
@@ -113,7 +113,7 @@ namespace OSHGui
 				{
 					drag = false;
 				}
-				return Event::None;
+				return Event::DontContinue;
 			}
 			mouse->Position = PointToClient(mouse->Position);
 		}

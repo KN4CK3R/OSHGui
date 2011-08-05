@@ -7,10 +7,10 @@ namespace OSHGui
 	{
 	public:
 		enum EventTypes { Mouse, Keyboard, System };
-		enum NextEventTypes { None, Invalidate, Continue };
+		enum NextEventTypes { DontContinue, Invalidate, Continue };
 
 		EventTypes Type;		
-	public:
+
 		Event(EventTypes Type)
 		{
 			this->Type = Type;

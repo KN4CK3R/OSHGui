@@ -217,7 +217,7 @@ namespace OSHGui
 	{
 		if (event == NULL || !visible || !enabled)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 		
 		if (!hasFocus && event->Type == Event::Mouse && ((MouseEvent*)event)->State == MouseEvent::LeftDown)
@@ -225,9 +225,9 @@ namespace OSHGui
 			//ParentPanel->RequestFocus(this);
 		}
 		
-		if (scrollBar.ProcessEvent(event) == Event::None)
+		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -291,13 +291,13 @@ namespace OSHGui
 					}
 				}
 			}
-			return Event::None;
+			return Event::DontContinue;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
 			if (items.IsEmpty())
 			{
-				return Event::None;
+				return Event::DontContinue;
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
@@ -351,7 +351,7 @@ namespace OSHGui
 							(*changeFunc)(this);
 						}
 					}
-					return Event::None;
+					return Event::DontContinue;
 			}
 		}
 		else if (event->Type == Event::System)

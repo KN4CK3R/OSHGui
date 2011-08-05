@@ -166,7 +166,7 @@ namespace OSHGui
 				(*clickFunc)(mouse);
 				if (mouse->Handled)
 				{
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			
@@ -193,7 +193,7 @@ namespace OSHGui
 				(*keyPressFunc)(keyboard);
 				if (keyboard->Handled)
 				{
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			
@@ -255,7 +255,7 @@ namespace OSHGui
 			}
 		}*/
 		
-		return Event::None;
+		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::Render(Drawing::IRenderer *renderer)

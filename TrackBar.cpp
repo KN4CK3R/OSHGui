@@ -87,7 +87,7 @@ namespace OSHGui
 	{	
 		if (event == NULL || !visible || !enabled)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -111,7 +111,7 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 
-					return Event::None;
+					return Event::DontContinue;
 				}
 
 				if (bounds.GetSize().Contains(mouse->Position))
@@ -133,7 +133,7 @@ namespace OSHGui
 					{
 						SetValueInternal(value - 1);
 					}
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
@@ -148,7 +148,7 @@ namespace OSHGui
 						(*changeFunc)(this);
 					}
 
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Move)
@@ -156,7 +156,7 @@ namespace OSHGui
 				if (pressed)
 				{
 					SetValueInternal(ValueFromPosition(mouse->Position.X/* - bounds.GetLeft() * 4 + dragOffset*/));
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			
@@ -170,24 +170,24 @@ namespace OSHGui
             {
                 case Key::Home:
                     SetValueInternal(min);
-                    return Event::None;
+                    return Event::DontContinue;
                 case Key::End:
                     SetValueInternal(max);
-                    return Event::None;
+                    return Event::DontContinue;
                 case Key::Left:
                 case Key::Down:
                     SetValueInternal(value - 1);
-                    return Event::None;
+                    return Event::DontContinue;
                 case Key::Right:
                 case Key::Up:
                     SetValueInternal(value + 1);
-                    return Event::None;
+                    return Event::DontContinue;
                 case Key::PageDown:
                     SetValueInternal(value - _max(10, (max - min) / 10));
-                    return Event::None;
+                    return Event::DontContinue;
                 case Key::PageUp:
                     SetValueInternal(value + _max(10, (max - min) / 10));
-                    return Event::None;
+                    return Event::DontContinue;
             }
 		}
 		

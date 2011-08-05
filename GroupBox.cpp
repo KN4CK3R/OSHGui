@@ -62,7 +62,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes GroupBox::ProcessMessage(Event *event)
 	{
-		return Event::None;
+		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)

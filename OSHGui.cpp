@@ -194,7 +194,7 @@ namespace OSHGui
 				#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 				#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-				MouseEvent mouse(MouseEvent::None, Drawing::Point(GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)), 0);
+				MouseEvent mouse(MouseEvent::DontContinue, Drawing::Point(GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)), 0);
 				
 				switch (msg->message)
 				{
@@ -226,7 +226,7 @@ namespace OSHGui
 						break;
 				}
 				
-				if (focusForm->ProcessEvent(&mouse) == Event::None)
+				if (focusForm->ProcessEvent(&mouse) == Event::DontContinue)
 				{
 					return true;
 				}
@@ -240,7 +240,7 @@ namespace OSHGui
 			case WM_CHAR:
 			{
 				KeyboardEvent keyboard;
-				keyboard.State = KeyboardEvent::None;
+				keyboard.State = KeyboardEvent::DontContinue;
 				keyboard.Control = GetKeyState(VK_CONTROL) & 0x8000;
 				keyboard.Shift = GetKeyState(VK_SHIFT) & 0x8000;
 				keyboard.Menu = GetKeyState(VK_MENU) & 0x8000;
@@ -257,7 +257,7 @@ namespace OSHGui
 				{
 					keyboard.State = KeyboardEvent::Character;
 				}
-				if (keyboard.State == KeyboardEvent::None)
+				if (keyboard.State == KeyboardEvent::DontContinue)
 				{
 					break;
 				}
@@ -301,7 +301,7 @@ namespace OSHGui
 						keyboard.KeyChar = (char)msg->wParam;
 				}
 			
-				if (focusForm->ProcessEvent(&keyboard) == Event::None)
+				if (focusForm->ProcessEvent(&keyboard) == Event::DontContinue)
 				{
 					return true;
 				}
@@ -325,7 +325,7 @@ namespace OSHGui
 						break;
 				}
 				
-				if (focusForm->ProcessEvent(&system) == Event::None)
+				if (focusForm->ProcessEvent(&system) == Event::DontContinue)
 				{
 					return true;
 				}

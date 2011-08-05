@@ -50,7 +50,7 @@ namespace OSHGui
 	{
 		if (event == NULL || !visible || !enabled)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -74,7 +74,7 @@ namespace OSHGui
 			}
 		}
 		
-		return Event::None;
+		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
 	void Label::Render(Drawing::IRenderer *renderer)

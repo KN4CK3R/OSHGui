@@ -42,7 +42,7 @@ namespace OSHGui
 	{
 		if (event == NULL || !visible || !enabled)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -59,7 +59,7 @@ namespace OSHGui
 					{
 						Parent->RequestFocus(this);
 					}
-					return Event::None;
+					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
@@ -72,7 +72,7 @@ namespace OSHGui
 							(*clickFunc)(this, mouse);
 						}
 					}
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 		}

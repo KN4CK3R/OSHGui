@@ -21,84 +21,13 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void Panel::AddControl(Control *control)
-	{
-		if (control != NULL)
-		{
-			//if (control->ParentForm != this)
-			//{
-			//	control->ParentForm = this;
-			//}
-			//Controls.Add(control);
-			Controls.push_back(control);
-		}
-	}
-	//---------------------------------------------------------------------------
-	void Panel::ClearRadioButtonGroup(int group)
-	{
-		for (unsigned int i = 0; i < Controls.size(); i++)
-		{
-			Control *control = Controls.at(i);
-
-			if (control->GetType() == CONTROL_RADIOBUTTON)
-			{
-				RadioButton *radioButton = (RadioButton*)control;
-
-				if (radioButton->GetGroup() == group)
-				{
-					radioButton->SetChecked(false);
-				}
-			}
-		}
-	}
-	//---------------------------------------------------------------------------
-	Control* Panel::FindControlAtPoint(const Drawing::Point &point)
-	{
-		for (unsigned int i = 0; i < Controls.size(); i++)
-		{
-			Control *control = Controls.at(i);
-
-			if (control == NULL)
-			{
-				continue;
-			}
-
-			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(point))
-			{
-				return control;
-			}
-		}
-
-		return NULL;
-	}
-	//---------------------------------------------------------------------------
-	Control* Panel::FindControlByName(const Misc::UnicodeString &name)
-	{
-		for (unsigned int i = 0; i < Controls.size(); i++)
-		{
-			Control *control = Controls.at(i);
-
-			if (control == NULL)
-			{
-				continue;
-			}
-			
-			if (control->GetName() == name)
-			{
-				return control;
-			}
-		}
-
-		return NULL;
-	}
-	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Panel::ProcessEvent(Event *event)
 	{
 		if (event == NULL)
 		{
-			return Event::None;
+			return Event::DontContinue;
 		}
 		
 		if (!visible || !enabled)
@@ -109,9 +38,9 @@ namespace OSHGui
 		//someone is focused, so let him handle the event expect the mouse
 		if (event->Type != Event::Mouse && focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
 		{
-			if (focusControl->ProcessEvent(event) == Event::None)
+			if (focusControl->ProcessEvent(event) == Event::DontContinue)
 			{
-				return Event::None;
+				return Event::DontContinue;
 			}
 		}		
 			
@@ -124,9 +53,9 @@ namespace OSHGui
 			//someone is capturing the mouse
 			if (captureControl != NULL)
 			{
-				if (captureControl->ProcessEvent(mouse) == Event::None)
+				if (captureControl->ProcessEvent(mouse) == Event::DontContinue)
 				{
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			
@@ -146,18 +75,18 @@ namespace OSHGui
 			//someone is focused
 			if (focusControl != NULL && focusControl->GetEnabled())
 			{
-				if (focusControl->ProcessEvent(mouse) == Event::None)
+				if (focusControl->ProcessEvent(mouse) == Event::DontContinue)
 				{
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			
 			//let mouseOverControl handle the mouse
 			if (mouseOverControl != NULL)
 			{
-				if (mouseOverControl->ProcessEvent(event) == Event::None)
+				if (mouseOverControl->ProcessEvent(event) == Event::DontContinue)
 				{
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 			
@@ -180,7 +109,7 @@ namespace OSHGui
 						focusControl->OnFocusOut();
 					}
 					
-					return Event::None;
+					return Event::DontContinue;
 				}
 			}
 		}
@@ -195,35 +124,15 @@ namespace OSHGui
 			return;
 		}
 	
-		/*//OK
-		if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-	
-			Drawing::Size size = bounds.GetSize();
-			
-			Drawing::ITexture *main = texture.Get(0);
-			
-			main->Create(size);
-			main->BeginUpdate();
-
-			main->FillGradient(Drawing::Color(0xFF3A3937), Drawing::Color(0xFF4D4B49));
-
-			main->EndUpdate();
-		}*/
-	
 		renderer->SetRenderColor(backColor);
 		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 	
 		Drawing::Rectangle rect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);
 	
-		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
+		for (unsigned int i = 0, len = controls.size(); i < len; i++)
 		{
-			Controls.at(i)->Render(renderer);
+			controls.at(i)->Render(renderer);
 		}
 		
 		renderer->SetRenderRectangle(bounds);
