@@ -22,10 +22,10 @@ namespace OSHGui
 			virtual IFont* CreateNewFont() = 0;
 			static IFont* GetDefaultFont() { return defaultFont; }
 			
-			void SetRenderColor(Color color) { this->color = color; }
-			Color GetRenderColor() { return color; }
-			void SetRenderRectangle(Rectangle &rect) { renderRect = rect; }
-			Rectangle GetRenderRectangle() { return renderRect; }
+			virtual void SetRenderColor(Color color) { this->color = color; }
+			virtual Color& GetRenderColor() { return color; }
+			virtual void SetRenderRectangle(Rectangle &rect) { renderRect = rect; }
+			virtual Rectangle& GetRenderRectangle() { return renderRect; }
 			
 			virtual void RenderTexture(ITexture *texture, const Point &point) = 0;
 			virtual void RenderTexture(ITexture *texture, int x, int y) = 0;

@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form() : Panel(this)
+	Form::Form() : Control(this)
 	{
 		type = CONTROL_FORM;
 		
@@ -43,17 +43,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Invalidate()
 	{
-		captionBar = bounds;
-		captionBar.Offset(1, 1);
-		captionBar.Inflate(-32, 0);
-		captionBar.SetHeight(17);
+		captionBar = Drawing::Rectangle(1, 1, bounds.GetWidth() - 40, 17);
 		
-		closeRect = Drawing::Rectangle(bounds.GetRight() - 22, bounds.GetTop() + 2, 17, 17);
-		minimizeRect = Drawing::Rectangle(bounds.GetRight() - 39, bounds.GetTop() + 2, 17, 17);
+		closeRect = Drawing::Rectangle(bounds.GetWidth() - 22, 2, 17, 17);
+		minimizeRect = Drawing::Rectangle(bounds.GetWidth() - 39, 2, 17, 17);
 		
-		clientArea = bounds;
-		clientArea.Offset(3, 20);
-		clientArea.Inflate(-6, -23);
+		clientArea = Drawing::Rectangle(3, 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);
+
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	void Form::Show()
@@ -64,7 +61,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Point Form::PointToClient(const Drawing::Point &point)
 	{
-		return Drawing::Point(point.Left, point.Top - clientArea.GetTop());
+		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Point Form::PointToScreen(const Drawing::Point &point)
@@ -76,10 +73,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Form::ProcessEvent(Event *event)
 	{
+		if (event == NULL)
+		{
+			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
+		{
+			return Event::Continue;
+		}
+
 		static Drawing::Point oldMousePosition;
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+
 			if (captionBar.Contains(mouse->Position) || drag)
 			{
 				if (mouse->State == MouseEvent::LeftUp)
@@ -100,13 +110,13 @@ namespace OSHGui
 
 				if (mouse->State == MouseEvent::Move && drag == true)
 				{
-					Drawing::Point delta = mouse->Position - oldMousePosition + bounds.GetPosition();
-					oldMousePosition = mouse->Position;
-					this->SetLocation(delta);
+					Drawing::Point delta = mousePositionBackup - oldMousePosition;
+					oldMousePosition = mousePositionBackup;
+					SetLocation(delta + GetLocation());
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
-					oldMousePosition = mouse->Position;
+					oldMousePosition = mousePositionBackup;
 					drag = true;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
@@ -115,10 +125,16 @@ namespace OSHGui
 				}
 				return Event::DontContinue;
 			}
-			mouse->Position = PointToClient(mouse->Position);
+
+			mouse->Position.Top -= captionBar.GetHeight();
 		}
 	
-		return Panel::ProcessEvent(event);
+		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		{
+			return Event::DontContinue;
+		}
+
+		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)
@@ -128,14 +144,17 @@ namespace OSHGui
 			return;
 		}
 
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(bounds);
+
 		Drawing::Point position = bounds.GetPosition();
 
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
-		renderer->Fill(bounds);
+		renderer->Fill(0, 0, bounds.GetWidth(), bounds.GetHeight());
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
+		renderer->FillGradient(1, 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(position.Left + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
+		renderer->Fill(5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
 		//renderer->FillGradient(clientArea, backColor);
 
 		renderer->SetRenderColor(foreColor);
@@ -149,15 +168,14 @@ namespace OSHGui
 			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 11 - i, 3, 1);
 		}
 		
-		Drawing::Rectangle rect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea);
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition());
 	
-		for (unsigned int i = 0, len = Controls.size(); i < len; i++)
+		for (unsigned int i = 0, len = controls.size(); i < len; i++)
 		{
-			Controls.at(i)->Render(renderer);
+			controls.at(i)->Render(renderer);
 		}
 		
-		renderer->SetRenderRectangle(rect);
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

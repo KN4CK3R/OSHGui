@@ -26,12 +26,12 @@ namespace OSHGui
 		mouseOver = false;
 		hasFocus = false;
 
-		font = Drawing::IRenderer::GetDefaultFont();
-		
 		focusControl = NULL;
 		mouseOverControl = NULL;
 		captureControl = NULL;
 
+		font = Drawing::IRenderer::GetDefaultFont();
+		
 		adjustColor = Drawing::Color(0, 20, 20, 20);
 	}
 	//---------------------------------------------------------------------------
@@ -54,10 +54,6 @@ namespace OSHGui
 	void Control::SetEnabled(bool enabled)
 	{
 		this->enabled = enabled;
-		if (!enabled)
-		{
-			Parent->ClearFocus();
-		}
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled()
@@ -303,7 +299,70 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::IsMouseOver(Control *control)
 	{
-		return control == mouseOverControl;
+		return false;//control == mouseOverControl;
+	}
+	//---------------------------------------------------------------------------
+	void Control::AddControl(Control *control)
+	{
+		if (control != NULL)
+		{
+			controls.push_back(control);
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::InvalidateChildren()
+	{
+		for (unsigned int i = 0; i < controls.size(); i++)
+		{
+			Control *control = controls.at(i);
+
+			if (control == NULL)
+			{
+				continue;
+			}
+
+			control->Invalidate();
+		}
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::FindControlAtPoint(const Drawing::Point &point)
+	{
+		for (unsigned int i = 0; i < controls.size(); i++)
+		{
+			Control *control = controls.at(i);
+
+			if (control == NULL)
+			{
+				continue;
+			}
+
+			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(point))
+			{
+				return control;
+			}
+		}
+
+		return NULL;
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::FindControlByName(const Misc::UnicodeString &name)
+	{
+		for (unsigned int i = 0; i < controls.size(); i++)
+		{
+			Control *control = controls.at(i);
+
+			if (control == NULL)
+			{
+				continue;
+			}
+			
+			if (control->GetName() == name)
+			{
+				return control;
+			}
+		}
+
+		return NULL;
 	}
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
@@ -353,6 +412,90 @@ namespace OSHGui
 	Event::NextEventTypes Control::ProcessEvent(Event *event)
 	{
 		return Event::DontContinue;
+	}
+	//---------------------------------------------------------------------------
+	Event::NextEventTypes Control::ProcessChildrenEvent(Event *event)
+	{
+		if (event == NULL)
+		{
+			return Event::DontContinue;
+		}
+		
+		//someone is focused, so let him handle the event expect the mouse
+		if (event->Type != Event::Mouse && focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
+		{
+			if (focusControl->ProcessEvent(event) == Event::DontContinue)
+			{
+				return Event::DontContinue;
+			}
+		}		
+			
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
+			
+			//someone is capturing the mouse
+			if (captureControl != NULL)
+			{
+				if (captureControl->ProcessEvent(mouse) == Event::DontContinue)
+				{
+					return Event::DontContinue;
+				}
+			}
+			
+			//find mouseOverControl
+			Control *control = FindControlAtPoint(mouse->Position);
+			if (control != mouseOverControl && mouseOverControl != NULL)
+			{
+				mouseOverControl->OnMouseLeave();
+			}
+
+			if (control != NULL)
+			{
+				mouseOverControl = control;
+				mouseOverControl->OnMouseEnter();
+			}
+			
+			//someone is focused
+			if (focusControl != NULL && focusControl->GetEnabled())
+			{
+				if (focusControl->ProcessEvent(mouse) == Event::DontContinue)
+				{
+					return Event::DontContinue;
+				}
+			}
+			
+			//let mouseOverControl handle the mouse
+			if (mouseOverControl != NULL)
+			{
+				if (mouseOverControl->ProcessEvent(event) == Event::DontContinue)
+				{
+					return Event::DontContinue;
+				}
+			}
+		}
+		else if (event->Type == Event::System)
+		{
+			SystemEvent *system = (SystemEvent*)event;
+			if (system->Type == SystemEvent::ActivateApp)
+			{
+				if (focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
+				{
+					if (system->Value)
+					{
+						focusControl->OnFocusIn();
+					}
+					else
+					{
+						focusControl->OnFocusOut();
+					}
+					
+					return Event::DontContinue;
+				}
+			}
+		}
+		
+		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Control::Render(Drawing::IRenderer *renderer)

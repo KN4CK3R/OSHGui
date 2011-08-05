@@ -1,11 +1,11 @@
 #ifndef __OSHGUI_FORM_H__
 #define __OSHGUI_FORM_H__
 
-#include "ControlContainer.h"
+#include "Control.h"
 
 namespace OSHGui
 {
-	class Form : public ControlContainer
+	class Form : public Control
 	{
 	public:
 		Form();
@@ -29,8 +29,7 @@ namespace OSHGui
 		Misc::UnicodeString text;
 		Drawing::Rectangle captionBar,
 						   closeRect,
-						   minimizeRect,
-						   clientArea;
+						   minimizeRect;
 		bool drag;
 	};
 }

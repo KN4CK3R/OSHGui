@@ -272,14 +272,14 @@ namespace OSHGui
 				{
 					int grow = (maxSize == 0) ? 16 : maxSize;
 
-					if ((UINT)maxSize + (UINT)grow > (UINT)0xFFFFFFFF)
+					if ((unsigned int)maxSize + (unsigned int)grow > (unsigned int)0xFFFFFFFF)
 					{
 						grow = 0xFFFFFFFF - maxSize;
 					}
 
 					newMaxSize = newMaxSize > maxSize + grow ? newMaxSize : maxSize + grow;
 
-					if (sizeof(T) > (UINT)0xFFFFFFFF / (UINT)newMaxSize)
+					if (sizeof(T) > (unsigned int)0xFFFFFFFF / (unsigned int)newMaxSize)
 					{
 						return false;
 					}

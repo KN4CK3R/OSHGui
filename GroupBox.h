@@ -2,11 +2,10 @@
 #define __OSHGUI_GROUPBOX_H__
 
 #include "Control.h"
-#include "ContainerControl.h"
 
 namespace OSHGui
 {
-	class GroupBox : public Control, ContainerControl
+	class GroupBox : public Control
 	{
 	public:
 		GroupBox(Control *parent = NULL);

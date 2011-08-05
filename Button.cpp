@@ -34,6 +34,7 @@ namespace OSHGui
 			size.Height += 10;
 			SetSize(size);
 		}
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -47,9 +48,11 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*) event;
+			MouseEvent *mouse = (MouseEvent*)event;
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
 			
-			if (bounds.GetSize().Contains(mouse->Position))
+			if (clientArea.Contains(mouse->Position))
 			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{
@@ -75,6 +78,8 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 			}
+
+			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -97,9 +102,10 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		Drawing::Point position = bounds.GetPosition();
-		
+
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
+			
 		Drawing::Color tempColor = backColor;
 
 		if (hasFocus || mouseOver)
@@ -108,18 +114,20 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(tempColor + Drawing::Color(0, 10, 10, 10));
-		renderer->Fill(position.Left + 1, position.Top, bounds.GetWidth() - 2, bounds.GetHeight() - 1);
-		renderer->Fill(position.Left, position.Top + 1, bounds.GetWidth(), bounds.GetHeight() - 3);
+		renderer->Fill(1, 0, clientArea.GetWidth() - 2, clientArea.GetHeight() - 1);
+		renderer->Fill(0, 1, bounds.GetWidth(), clientArea.GetHeight() - 3);
 		renderer->SetRenderColor(tempColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(position.Left + 1, position.Top + bounds.GetHeight() - 2, bounds.GetWidth() - 2, 2);
-		renderer->Fill(position.Left + bounds.GetWidth() - 1, position.Top + 1, 1, bounds.GetHeight() - 2);
+		renderer->Fill(1, clientArea.GetHeight() - 2, clientArea.GetWidth() - 2, 2);
+		renderer->Fill(clientArea.GetWidth() - 1,  1, 1, clientArea.GetHeight() - 2);
 
 		renderer->SetRenderColor(tempColor);
-		renderer->FillGradient(position.Left + 1, position.Top + 2, bounds.GetWidth() - 2, bounds.GetHeight() - 4, backColor - Drawing::Color(0, 20, 20, 20));
-		renderer->FillGradient(position.Left + 2, position.Top + 1, bounds.GetWidth() - 4, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
+		renderer->FillGradient(1, 2, clientArea.GetWidth() - 2, clientArea.GetHeight() - 4, backColor - Drawing::Color(0, 20, 20, 20));
+		renderer->FillGradient(2, 1, clientArea.GetWidth() - 4, clientArea.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, position.Left + 6, position.Top + 5, textHelper.GetText());
+		renderer->RenderText(font, 6, 5, clientArea.GetWidth() - 12, clientArea.GetHeight() - 10, textHelper.GetText());
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -30,6 +30,10 @@ namespace OSHGui
 			
 			bool operator == (const Rectangle &equal);
 			bool operator != (const Rectangle &equal);
+			Rectangle operator + (const Rectangle& add) const;
+			Rectangle operator + (const Point& add) const;
+			Rectangle operator - (const Rectangle& add) const;
+			Rectangle operator - (const Point& add) const;
 			
 			void Offset(int left, int top);
 			Rectangle OffsetEx(int left, int top);

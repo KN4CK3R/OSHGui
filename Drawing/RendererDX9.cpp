@@ -33,6 +33,15 @@ namespace OSHGui
 			sprite->Release();
 		}
 		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		void RendererDX9::SetRenderRectangle(Rectangle &rect)
+		{
+			IRenderer::SetRenderRectangle(rect);
+			/*RECT scissor = { rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight() };
+			device->SetScissorRect(&scissor);*/
+		}
+		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()

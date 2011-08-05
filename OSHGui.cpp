@@ -132,7 +132,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Gui::ShowMainForm(Form *form)
 	{
-		if (form == NULL || std::find(forms.begin(), forms.end(), form) == forms.end() /*!forms.Contains(form)*/)
+		if (form == NULL)
+		{
+			return;
+		}
+
+		bool found = false;
+		for (unsigned int i = 0; i < forms.size(); ++i)
+		{
+			if (forms.at(i) == form)
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
 		{
 			return;
 		}
@@ -194,7 +208,7 @@ namespace OSHGui
 				#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 				#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-				MouseEvent mouse(MouseEvent::DontContinue, Drawing::Point(GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)), 0);
+				MouseEvent mouse(MouseEvent::None, Drawing::Point(GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)), 0);
 				
 				switch (msg->message)
 				{
@@ -240,7 +254,7 @@ namespace OSHGui
 			case WM_CHAR:
 			{
 				KeyboardEvent keyboard;
-				keyboard.State = KeyboardEvent::DontContinue;
+				keyboard.State = KeyboardEvent::None;
 				keyboard.Control = GetKeyState(VK_CONTROL) & 0x8000;
 				keyboard.Shift = GetKeyState(VK_SHIFT) & 0x8000;
 				keyboard.Menu = GetKeyState(VK_MENU) & 0x8000;

@@ -32,6 +32,8 @@ namespace OSHGui
 
 			virtual ITexture* CreateNewTexture();
 			virtual IFont* CreateNewFont();
+
+			virtual void SetRenderRectangle(Rectangle &rect);
 			
 			virtual void RenderTexture(ITexture *texture, const Point &point);
 			virtual void RenderTexture(ITexture *texture, int x, int y);

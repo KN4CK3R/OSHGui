@@ -2,11 +2,10 @@
 #define __OSHGUI_PANEL_H__
 
 #include "Control.h"
-#include "ContainerControl.h"
 
 namespace OSHGui
 {
-	class Panel : public Control, ContainerControl
+	class Panel : public Control
 	{
 	public:
 		Panel(Control *parent = NULL);

@@ -50,6 +50,7 @@ namespace OSHGui
 			size.Height += 4;
 			SetSize(size);
 		}
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -67,7 +68,7 @@ namespace OSHGui
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
-			if (bounds.GetSize().Contains(mouse->Position))
+			if (clientArea.Contains(mouse->Position))
 			{			
 				if (mouse->State == MouseEvent::LeftDown)
 				{
@@ -114,24 +115,27 @@ namespace OSHGui
 			return;
 		}
 		
-		Drawing::Point position = bounds.GetPosition();
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(position.Left, position.Top, 17, 17);
+		renderer->Fill(0, 0, 17, 17);
 		renderer->SetRenderColor(foreColor);
-		renderer->FillGradient(position.Left + 1, position.Top + 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
+		renderer->FillGradient(1, 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(position.Left + 2, position.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(2, 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(foreColor);
 		
 		if (checked)
 		{
-			renderer->Fill(position.Left + 5, position.Top + 5, 7, 7);
-			renderer->FillGradient(position.Left + 6, position.Top + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
+			renderer->Fill(5, 5, 7, 7);
+			renderer->FillGradient(6, 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
 		}
 		
-		renderer->RenderText(font, position.Left + 20, position.Top + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
+		renderer->RenderText(font, 20, 2, clientArea.GetWidth() - 20, clientArea.GetHeight(), textHelper.GetText());
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

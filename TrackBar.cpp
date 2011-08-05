@@ -101,14 +101,14 @@ namespace OSHGui
 				if (sliderRect.Contains(mouse->Position))
 				{
 					pressed = true;
-					CaptureMouse(this);
+					//CaptureMouse(this);
 
 					dragX = mouse->Position.X;
 					dragOffset = sliderMiddle - dragX;
 
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						//Parent->RequestFocus(this);
 					}
 
 					return Event::DontContinue;
@@ -122,7 +122,7 @@ namespace OSHGui
 					
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						//Parent->RequestFocus(this);
 					}
 
 					if (mouse->Position.X > sliderMiddle + bounds.GetLeft())

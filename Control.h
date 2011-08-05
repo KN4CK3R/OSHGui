@@ -1,7 +1,7 @@
 #ifndef __OSHGUI_CONTROL_H__
 #define __OSHGUI_CONTROL_H__
 
-#include <windows.h>
+#include <vector>
 
 #include "Drawing\Point.h"
 #include "Drawing\Size.h"
@@ -110,14 +110,21 @@ namespace OSHGui
 		void SetOnChange(OnChangeFunc changeFunc);
 
 		virtual void Invalidate();
+		void InvalidateChildren();
 
-		bool IsMouseOver(Control *control);
+		void AddControl(Control *control);
+
 		void RequestFocus(Control *control);
 		void ClearFocus();
 		void CaptureMouse(Control *control);
 		void ReleaseCapture();
+		bool IsMouseOver(Control *control);
+		
+		Control* FindControlAtPoint(const Drawing::Point &point);
+		Control* FindControlByName(const Misc::UnicodeString &name);
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		Event::NextEventTypes ProcessChildrenEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 		Control* GetParent();
@@ -138,7 +145,8 @@ namespace OSHGui
 		void *tag;
 		
 		
-		Drawing::Rectangle bounds;
+		Drawing::Rectangle bounds,
+						   clientArea;
 		
 		OnClickFunc clickFunc;
 		OnKeyPressFunc keyPressFunc;
@@ -152,10 +160,16 @@ namespace OSHGui
 		
 		Drawing::IFont *font;
 
-		Control *Parent,
-				*focusControl,
+		Control *Parent;
+
+		Event::NextEventTypes ContainerProcessEvent(Event *event);
+
+		std::vector<Control*> controls;
+
+		Control *focusControl,
 				*captureControl,
 				*mouseOverControl;
+
 	public:
 		Misc::List<Drawing::ITexture*> texture;
 	};
