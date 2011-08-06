@@ -17,15 +17,20 @@ namespace OSHGui
 		int GetMax();
 		void SetPosition(unsigned int position);
 		int GetPosition();
-		
+		void SetBarColor(const Drawing::Color &color);
+		const Drawing::Color& GetBarColor();
+
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
+
+		virtual void Invalidate();
 	
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
 		void Adjust();
 	
+		Drawing::Color barColor;
 		unsigned int position,
 					 min,
 					 max;

@@ -5,12 +5,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(Control *parent) : Control(parent), textHelper(Drawing::IRenderer::GetDefaultFont())
+	Label::Label(Control *parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
-		//SetSize(Drawing::Size(10, font->GetSize()));
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA3A3A3));

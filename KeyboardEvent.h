@@ -15,8 +15,7 @@ namespace OSHGui
 		char KeyChar;
 		bool Menu,
 			 Control,
-			 Shift,
-			 IsAlphaNumeric;
+			 Shift;
 		bool Handled;
 		
 	public:
@@ -29,8 +28,6 @@ namespace OSHGui
 			KeyCode = Key::None;
 			KeyChar = 0;
 			Handled = false;
-			
-			IsAlphaNumeric = !Control && KeyChar != 0;
 		}
 	
 		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, char KeyChar) : Event(Event::Keyboard)
@@ -41,8 +38,6 @@ namespace OSHGui
 			this->KeyCode = KeyCode;
 			this->KeyChar = KeyChar;
 			Handled = false;
-			
-			IsAlphaNumeric = !Control && KeyChar != 0;
 		}
 		
 		char GetCharacter()
@@ -80,6 +75,11 @@ namespace OSHGui
 			}
 			
 			return '\0';
+		}
+
+		bool IsAlphaNumeric()
+		{
+			return KeyChar != 0;
 		}
 	};
 }

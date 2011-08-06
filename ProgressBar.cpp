@@ -13,8 +13,9 @@ namespace OSHGui
 		max = 100;
 		position = 0;
 
-		SetBackColor(Drawing::Color(0xFFF0F0F0));
-		SetForeColor(Drawing::Color(0xFFD1CFCD));
+		SetBackColor(Drawing::Color::Empty());
+		SetForeColor(Drawing::Color(0xFF5A5857));
+		SetBarColor(Drawing::Color(0xFF67AFF5));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -58,6 +59,16 @@ namespace OSHGui
 		return position;
 	}
 	//---------------------------------------------------------------------------
+	void ProgressBar::SetBarColor(const Drawing::Color &color)
+	{
+		barColor = color;
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Color& ProgressBar::GetBarColor()
+	{
+		return barColor;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ProgressBar::CanHaveFocus()
@@ -82,6 +93,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void ProgressBar::Invalidate()
+	{
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void ProgressBar::Render(Drawing::IRenderer *renderer)
@@ -90,30 +106,32 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		if (needRepaint)
+
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
+
+		if (backColor.A != 0)
 		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-
-			Drawing::Size size = bounds.GetSize();
-			
-			Drawing::ITexture *main = texture.Get(0);
-
-			main->Create(size);
-			main->BeginUpdate();
-
-			main->Fill(Drawing::Color(0xFF2D2F2E));
-
-			main->Fill(2, 2, position > 0 ? (int)(size.Width * ((float)(position - min) / (max - min)) - 4) : 0, size.Height - 4, Drawing::Color(0xFF5F5F5F));
-
-			main->EndUpdate();
+			renderer->SetRenderColor(backColor);
+			renderer->Fill(1, 0, clientArea.GetWidth() - 2, clientArea.GetHeight());
+			renderer->Fill(0, 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
 		}
 
-		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		renderer->SetRenderColor(foreColor);
+		renderer->Fill(1, 0, clientArea.GetWidth() - 2, 1);
+		renderer->Fill(1, clientArea.GetHeight() - 1, clientArea.GetWidth() - 2, 1);
+		renderer->Fill(0, 1, 1, clientArea.GetHeight() - 2);
+		renderer->Fill(clientArea.GetWidth() - 1, 1, 1, clientArea.GetHeight() - 2);
+
+		renderer->SetRenderColor(barColor);
+		for (int i = position / ((max - min) / ((clientArea.GetWidth() - 8) / 12)) - 1; i >= 0; --i)
+		{
+			renderer->Fill(4 + i * 12, 4, 8, 16);
+		}
+
+		renderer->RenderText(font, 0, 30, Misc::Format(L"%i", position));
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -26,6 +26,42 @@ namespace OSHGui
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
+		void TextHelper::Append(const UnicodeChar character)
+		{
+			text.append(1, character);
+			RefreshSize();
+		}
+		//---------------------------------------------------------------------------
+		void TextHelper::Append(const UnicodeString &text)
+		{
+			this->text.append(text);
+			RefreshSize();
+		}
+		//---------------------------------------------------------------------------
+		void TextHelper::Insert(int position, const UnicodeChar character)
+		{
+			text.insert(position, 1, character);
+			RefreshSize();
+		}
+		//---------------------------------------------------------------------------
+		void TextHelper::Insert(int position, const UnicodeString &text)
+		{
+			this->text.insert(position, text);
+			RefreshSize();
+		}
+		//---------------------------------------------------------------------------
+		void TextHelper::Clear()
+		{
+			text.clear();
+			RefreshSize();
+		}
+		//---------------------------------------------------------------------------
+		void TextHelper::Remove(int index, int length)
+		{
+			text.erase(index, length);
+			RefreshSize();
+		}
+		//---------------------------------------------------------------------------
 		int TextHelper::GetLength()
 		{
 			return text.length();
@@ -43,23 +79,38 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextHelper::RefreshSize()
 		{
-			size = font->MeasureText(text);
+			size = GetStringWidth(0);
 		}
 		//---------------------------------------------------------------------------
 		Drawing::Point TextHelper::GetCharacterPosition(int index)
 		{
 			if (GetLength() == 0 || index == 0)
 			{
-				return Drawing::Point(1, 0);
+				return Drawing::Point(0, 0);
 			}
 			
 			UnicodeString substring = text.substr(0, index);
 			Drawing::Size size = font->MeasureText(substring);
 			
-			return Drawing::Point(size.Width, size.Height >= font->GetSize() ? size.Height - font->GetSize() : size.Height);
+			return Drawing::Point(size.Width - 2, size.Height >= font->GetSize() ? size.Height - font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
-		int TextHelper::GetClosestCharacterIndex(Drawing::Point position)
+		Drawing::Size TextHelper::GetStringWidth(int index, int size)
+		{
+			if (GetLength() == 0 || size == 0)
+			{
+				return Drawing::Size(0, 0);
+			}
+			if (index >= GetLength())
+			{
+				index = GetLength() - 1;
+			}
+
+			UnicodeString substring = size == -1 ? text.substr(index) : text.substr(index, size);
+			return font->MeasureText(substring);
+		}
+		//---------------------------------------------------------------------------
+		int TextHelper::GetClosestCharacterIndex(const Drawing::Point &position)
 		{
 			int distance = 0xFFFF;
 			int result;

@@ -5,9 +5,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	GroupBox::GroupBox(Control *parent) : Control(parent)
+	GroupBox::GroupBox(Control *parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_GROUPBOX;
+
+		SetBackColor(Drawing::Color::Empty());
+		SetForeColor(Drawing::Color::White());
 	}
 	//---------------------------------------------------------------------------
 	GroupBox::~GroupBox()
@@ -25,12 +28,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void GroupBox::SetText(const Misc::UnicodeString &text)
 	{
-		this->text = text;
+		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::UnicodeString& GroupBox::GetText()
 	{
-		return text;
+		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -40,11 +43,42 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
+	void GroupBox::Invalidate()
+	{
+		renderBounds = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		clientArea = Drawing::Rectangle(3, 10, bounds.GetWidth() - 6, bounds.GetHeight() - 13);
+
+		InvalidateChildren();
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes GroupBox::ProcessMessage(Event *event)
+	Event::NextEventTypes GroupBox::ProcessEvent(Event *event)
 	{
-		//todo
+		if (event == NULL)
+		{
+			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
+		{
+			return Event::Continue;
+		}
+
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+
+			mouse->Position.Top -= clientArea.GetTop();
+		}
+	
+		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		{
+			return Event::DontContinue;
+		}
+
 		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
@@ -54,40 +88,33 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		if (needRepaint)
+
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(bounds + renderRect.GetPosition());
+
+		if (backColor.A != 0)
 		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-	
-			Drawing::Size size = bounds.GetSize();
-			
-			Drawing::ITexture *main = texture.Get(0);
-
-			main->Create(size);
-			main->BeginUpdate();
-
-			main->FillGradient(Drawing::Color(0xFF5A5655), Drawing::Color(0xFF383735));
-
-			main->EndUpdate();
+			renderer->SetRenderColor(backColor);
+			renderer->Fill(renderBounds);
 		}
 		
-		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
 		renderer->SetRenderColor(foreColor);
-		//renderer->RenderText(font, textRect, text);
+		renderer->RenderText(font, 5, -1, textHelper.GetText());
+
+		renderer->Fill(1, 5, 3, 1);
+		renderer->Fill(textHelper.GetSize().Width + 5, 5, renderBounds.GetWidth() - textHelper.GetSize().Width - 5, 1);
+		renderer->Fill(0, 6, 1, renderBounds.GetHeight() - 7);
+		renderer->Fill(renderBounds.GetWidth() - 1, 6, 1, renderBounds.GetHeight() - 7);
+		renderer->Fill(1, renderBounds.GetHeight() - 1, renderBounds.GetWidth() - 2, 1);
 		
-		Drawing::Rectangle rect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(bounds);
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
 	
 		for (unsigned int i = 0, len = controls.size(); i < len; i++)
 		{
 			controls.at(i)->Render(renderer);
 		}
 		
-		renderer->SetRenderRectangle(bounds);
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

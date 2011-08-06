@@ -17,6 +17,12 @@ namespace OSHGui
 			
 			void SetFont(Drawing::IFont *font);
 			void SetText(const UnicodeString &text);
+			void Append(const UnicodeChar character);
+			void Append(const UnicodeString &text);
+			void Insert(int position, const UnicodeChar character);
+			void Insert(int position, const UnicodeString &text);
+			void Clear();
+			void Remove(int index, int length = 1);
 			
 			int GetLength();
 			const UnicodeString& GetText();
@@ -25,7 +31,8 @@ namespace OSHGui
 			void RefreshSize();
 			
 			Drawing::Point GetCharacterPosition(int index);
-			int GetClosestCharacterIndex(Drawing::Point position);
+			Drawing::Size GetStringWidth(int index, int size = -1);
+			int GetClosestCharacterIndex(const Drawing::Point &position);
 			
 		private:
 			UnicodeString text;

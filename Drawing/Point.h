@@ -14,6 +14,10 @@ namespace OSHGui
 			
 			bool operator == (const Point &equal);
 			bool operator != (const Point &equal);
+			bool operator < (const Point &greater);
+			bool operator <= (const Point &greaterEqual);
+			bool operator > (const Point &lower);
+			bool operator >= (const Point &lowerEqual);
 			Point operator - (const Point &p);
 			void operator -= (const Point &p);
 			Point operator + (const Point &p);

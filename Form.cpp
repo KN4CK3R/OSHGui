@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form() : Control(this)
+	Form::Form() : Control(this), textHelper(font)
 	{
 		type = CONTROL_FORM;
 		
@@ -22,16 +22,29 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
+	Form::~Form()
+	{
+		for (unsigned int i = 0, len = controls.size(); i < len; i++)
+		{
+			Control *control = controls.at(i);
+			delete control;
+		}
+
+		controls.clear();
+
+		Control::~Control();
+	}
+	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void Form::SetText(const Misc::UnicodeString &text)
 	{
-		this->text = text;
+		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::UnicodeString& Form::GetText()
 	{
-		return text;
+		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -57,16 +70,6 @@ namespace OSHGui
 	{
 		visible = true;
 		enabled = true;
-	}
-	//---------------------------------------------------------------------------
-	Drawing::Point Form::PointToClient(const Drawing::Point &point)
-	{
-		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
-	}
-	//---------------------------------------------------------------------------
-	Drawing::Point Form::PointToScreen(const Drawing::Point &point)
-	{
-		return Drawing::Point();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -147,8 +150,6 @@ namespace OSHGui
 		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(bounds);
 
-		Drawing::Point position = bounds.GetPosition();
-
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
 		renderer->Fill(0, 0, bounds.GetWidth(), bounds.GetHeight());
 		renderer->SetRenderColor(backColor);
@@ -158,7 +159,7 @@ namespace OSHGui
 		//renderer->FillGradient(clientArea, backColor);
 
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, text);
+		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, textHelper.GetText());
 
 		for (int i = 0; i < 4; i++)
 		{

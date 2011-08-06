@@ -37,6 +37,26 @@ namespace OSHGui
 			return X != equal.X || Y != equal.Y;
 		}
 		//---------------------------------------------------------------------------
+		bool Point::operator < (const Point &greater)
+		{
+			return X < greater.X && Y < greater.Y;
+		}
+		//---------------------------------------------------------------------------
+		bool Point::operator <= (const Point &greaterEqual)
+		{
+			return X <= greaterEqual.X && Y <= greaterEqual.Y;
+		}
+		//---------------------------------------------------------------------------
+		bool Point::operator > (const Point &lower)
+		{
+			return X > lower.X && Y > lower.Y;
+		}
+		//---------------------------------------------------------------------------
+		bool Point::operator >= (const Point &lowerEqual)
+		{
+			return X >= lowerEqual.X && Y >= lowerEqual.Y;
+		}
+		//---------------------------------------------------------------------------
 		Point Point::operator - (const Point &p)
 		{
 			return OffsetEx(-p.X, -p.Y);

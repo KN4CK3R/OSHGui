@@ -2,6 +2,7 @@
 #define __OSHGUI_FORM_H__
 
 #include "Control.h"
+#include "Misc\TextHelper.h"
 
 namespace OSHGui
 {
@@ -9,6 +10,7 @@ namespace OSHGui
 	{
 	public:
 		Form();
+		virtual ~Form();
 
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
@@ -19,13 +21,11 @@ namespace OSHGui
 
 		virtual void Invalidate();
 
-		virtual Drawing::Point PointToClient(const Drawing::Point &point);
-		virtual Drawing::Point PointToScreen(const Drawing::Point &point);
-
 		Event::NextEventTypes ProcessEvent(Event *event);
 		void Render(Drawing::IRenderer *renderer);
 
-	protected:	
+	protected:
+		Misc::TextHelper textHelper;
 		Misc::UnicodeString text;
 		Drawing::Rectangle captionBar,
 						   closeRect,

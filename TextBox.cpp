@@ -5,13 +5,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TextBox::TextBox(Control *parent) : Control(parent)
+	TextBox::TextBox(Control *parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_TEXTBOX;
 
 		blinkTime = 0.4;
 		lastBlink = 0;//Gui::GlobalTime->GetAbsoluteTime();
-		firstVisibleCharacter = 0;
+		firstVisibleCharacter = 5;
 		caretPosition = 0;
 
 		SetBackColor(Drawing::Color(0xFF242321));
@@ -27,22 +27,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::SetText(const Misc::UnicodeString &text)
 	{
-		/*if (text != NULL)
-		{
-			buffer.SetText(text);
-			firstVisibleCharacter = 0;
-			PlaceCaret(buffer.GetLength());
-		}*/
+		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	Misc::UnicodeString& TextBox::GetText()
+	const Misc::UnicodeString& TextBox::GetText()
 	{
-		return Misc::UnicodeString();//buffer.GetBuffer();
-	}
-	//---------------------------------------------------------------------------
-	int TextBox::GetTextLength()
-	{
-		return buffer.GetLength();
+		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -57,70 +47,95 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::UpdateRects()
+	void TextBox::Invalidate()
 	{
 		if (bounds.GetHeight() > TEXTBOX_DEFAULT_HEIGHT)
 		{
 			bounds.SetHeight(TEXTBOX_DEFAULT_HEIGHT);
 		}
 	
-		textRect = bounds;
-		textRect.Offset(7, 7);
-		textRect.Inflate(-7, -7);
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		textRect = Drawing::Rectangle(7, 5, bounds.GetWidth() - 14, bounds.GetHeight() - 10);
+		caretRect = Drawing::Rectangle(0, 0, 1, textRect.GetHeight());
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::ClearText()
 	{
-		buffer.Clear();
+		textHelper.Clear();
 		firstVisibleCharacter = 0;
 		PlaceCaret(0);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PlaceCaret(int position)
 	{
-		caretPosition = position;
+		if (position < 0)
+		{
+			if (firstVisibleCharacter > 0)
+			{
+				--firstVisibleCharacter;
+			}
+			caretPosition = 0;
+			caretRect = Drawing::Rectangle(-1, 0, 1, textRect.GetHeight());
+		}
+		else if (position == 0)
+		{
+			caretPosition = 0;
+			caretRect = Drawing::Rectangle(-1, 0, 1, textRect.GetHeight());
+		}
+		else
+		{
+			static int lastWidth = -1;
+			static int lastFirstVisibleCharacter = -1;
 
-		int firstPos = CharacterToPosition(firstVisibleCharacter);
-		int caretPos = CharacterToPosition(position);
-		
-		if (caretPos < firstPos || caretPos > firstPos + textRect.GetWidth())
-		{
-			firstVisibleCharacter = position;
-		}
-	}
-	//---------------------------------------------------------------------------
-	int TextBox::CharacterToPosition(int charIndex)
-	{
-		const char *str = buffer.GetBuffer();
-		
-		int ret = 0;
-		
-		if (charIndex > 0) //todo
-		{
-			for (int i = 0; i < charIndex && str[i] != 0; i++)
+			Drawing::Point firstPos = textHelper.GetCharacterPosition(firstVisibleCharacter);
+			Drawing::Point caretPos = textHelper.GetCharacterPosition(position + firstVisibleCharacter);
+
+			if (caretPos.Left - firstPos.Left >= textRect.GetWidth())
 			{
-				//ret += font->MeasureCharacter(str[i]);
+				++firstVisibleCharacter;
+				caretPosition = --position;
+			}
+			else
+			{
+				caretPosition = position;
+			}
+			
+			Drawing::Size strWidth = textHelper.GetStringWidth(firstVisibleCharacter, caretPosition);
+
+			if (lastWidth == strWidth.Width && lastFirstVisibleCharacter == firstVisibleCharacter)
+			{
+				--caretPosition;
+			}
+			else
+			{
+				lastWidth = strWidth.Width;
+			}
+			lastFirstVisibleCharacter = firstVisibleCharacter;
+
+			caretRect = Drawing::Rectangle(strWidth.Width - 1, 0, 1, textRect.GetHeight());
+		}
+
+		/*if (caretPos <= firstPos)
+		{
+			if (firstVisibleCharacter > 0)
+			{
+				--firstVisibleCharacter;
+				++caretPosition;
+				caretRect = Drawing::Rectangle(-2, 0, 1, textRect.GetHeight());
 			}
 		}
-		
-		return ret;
-	}
-	//---------------------------------------------------------------------------
-	int TextBox::PositionToCharacterIndex(int position)
-	{
-		const char *str = buffer.GetBuffer();
-		
-		int ret = 0;
-		for (int i = 0; str[i] != 0; i++)
+		else if (caretPos.Left - firstPos.Left >= textRect.GetWidth())
 		{
-			//ret += font->MeasureCharacter(str[i]);
-			if (ret >= position)
-			{
-				return i;
-			}
+			++firstVisibleCharacter;
+			--caretPosition;
+			caretPos = textHelper.GetCharacterPosition(caretPosition);
+			caretRect = Drawing::Rectangle(caretPos.Left + 1, 0, 1, textRect.GetHeight());
 		}
-		
-		return 0;
+		else
+		{
+			caretPosition = position;
+			caretRect = Drawing::Rectangle(caretPos.Left - firstPos.Left + 1, 0, 1, textRect.GetHeight());
+		}*/
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PasteFromClipboard()
@@ -135,7 +150,7 @@ namespace OSHGui
 					char *data = (char*)GlobalLock(clipboard);
 					if (data != NULL)
 					{
-						if (buffer.InsertString(caretPosition, data))
+						//if (buffer.InsertString(caretPosition, data))
 						{
 							PlaceCaret(caretPosition + strlen(data));
 						}
@@ -152,7 +167,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
 	{
-		/*if (event == NULL || !enabled)
+		if (event == NULL || !enabled || !visible)
 		{
 			return Event::Continue;
 		}
@@ -160,61 +175,71 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*) event;
-			
-			if (clickFunc != NULL)
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+
+			if (clientArea.Contains(mouse->Position))
 			{
-				(*clickFunc)(mouse);
-				if (mouse->Handled)
+				if (clickFunc != NULL)
 				{
+					(*clickFunc)(this, mouse);
+					if (mouse->Handled)
+					{
+						return Event::DontContinue;
+					}
+				}
+			
+				if (mouse->State == MouseEvent::LeftDown)
+				{
+					if (!hasFocus)
+					{
+						Parent->RequestFocus(this);
+					}
+
+					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position) - 1);
+				
 					return Event::DontContinue;
 				}
 			}
-			
-			if (mouse->Button == MouseEvent::Left)
-			{
-				for (int i = drawPosition; i < text.size(); i++)
-				{
-				
-				}
-				
-				return Event::Invalidate;
-			}
+
+			mouse->Position = mousePositionBackup;
 		}
-		else if (mesage->Type == Event::Keyboard)
+		else if (event->Type == Event::Keyboard)
 		{
 			bool hasChanged = true;
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
-
-			if (keyboard 
 			
 			if (keyPressFunc != NULL)
 			{
-				(*keyPressFunc)(keyboard);
+				(*keyPressFunc)(this, keyboard);
 				if (keyboard->Handled)
 				{
 					return Event::DontContinue;
 				}
 			}
-			
-			if (keyboard->IsAlphaNumeric)
+
+			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{
-				text.append(keyboard->GetCharacter());
+				textHelper.Insert(caretPosition + firstVisibleCharacter, keyboard->KeyChar);
+				PlaceCaret(++caretPosition);
 			}
-			else
+			else if (keyboard->State == KeyboardEvent::Down)
 			{
 				switch (keyboard->KeyCode)
 				{
 					case Key::Back:
-						if (position > 0 && text.size() > 0)
+						if ((caretPosition > 0 || firstVisibleCharacter > 0) && textHelper.GetLength() > 0)
 						{
-							text.remove(position - 1, 1);
+							textHelper.Remove(caretPosition + firstVisibleCharacter - 1, 1);
+							PlaceCaret(caretPosition - 1);
 						}
 						break;
 					case Key::Delete:
-						if (position < text.size() - 1)
+						if (caretPosition < textHelper.GetLength())
 						{
-							text.remove(position, 1);
+							textHelper.Remove(caretPosition + firstVisibleCharacter, 1);
+							PlaceCaret(caretPosition);
 						}
 						break;
 					case Key::V:
@@ -224,38 +249,34 @@ namespace OSHGui
 						}
 					case Key::Insert:
 						PasteFromClipboard();
+						hasChanged = true;
 						break;
 					case Key::Left:
-						if (position > 0)
-						{
-							position--;
-							hasChanged = false;
-						}
+						PlaceCaret(caretPosition - 1);
+						hasChanged = false;
 						break;
 					case Key::Right:
-						if (position < text.size() - 1)
-						{
-							position++;
-							hasChanged = false;
-						}
+						PlaceCaret(caretPosition + 1);
+						hasChanged = false;
 						break;
 					default:
 						hasChanged = false;
+						break;
 				}
 			}
 			
 			if (hasChanged)
 			{
-				if (changedFunc != NULL)
+				if (changeFunc != NULL)
 				{
-					(*changedFunc)();
+					(*changeFunc)(this);
 				}
 			
-				return Event::Invalidate;
+				return Event::DontContinue;
 			}
-		}*/
+		}
 		
-		return Event::DontContinue;
+		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::Render(Drawing::IRenderer *renderer)
@@ -264,52 +285,35 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		//OK
-		/*if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
-			
-			Drawing::Size size = bounds.GetSize();
-			
-			Drawing::ITexture *main = texture.Get(0);
-			
-			main->Create(size);
-			main->BeginUpdate();
-			main->Clear();
 
-			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, 0xFF373634, 0xFF383735);
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
 			
-			Drawing::Color border(0x60FFFFFF);
-
-			main->Fill(1, 0, size.Width - 2, 1, border);
-			main->Fill(0, 1, 1, size.Height - 2, border);
-			main->Fill(1, size.Height - 1, size.Width - 2, 1, border);
-			main->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
-
-			main->Fill(1, 1, 1, 1, border);
-			main->Fill(size.Width - 2, 1, 1, 1, border);
-			main->Fill(1, size.Height - 2, 1, 1, border);
-			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
-
-			main->EndUpdate();
-		}*/
-		
 		Drawing::Point position = bounds.GetPosition();
 				
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 20, 20, 20));
-		renderer->Fill(position.Left, position.Top, bounds.GetWidth(), bounds.GetHeight());
+		renderer->Fill(0, 0, clientArea.GetWidth(), clientArea.GetHeight());
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(position.Left + 1, position.Top + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2);
+		renderer->Fill(1, 1, clientArea.GetWidth() - 2, clientArea.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
-		//renderer->RenderText(font, textRect, buffer.GetBuffer() + firstVisibleCharacter);
+		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
 		
-		//Carret
-		renderer->Fill(position.Left + 23, position.Top + 5, 1, 12);
+		if (hasFocus)
+		{
+			static DWORD time = GetTickCount();
+			static DWORD time2;
+			if (time + 700 > GetTickCount())
+			{
+				renderer->Fill(caretRect + textRect.GetPosition());
+				time2 = GetTickCount();
+			}
+			else
+				if (time2 + 700 < GetTickCount())
+					time = GetTickCount();
+		}
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

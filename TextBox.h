@@ -3,6 +3,7 @@
 
 #include "Control.h"
 #include "Misc\StringBuffer.h"
+#include "Misc\TextHelper.h"
 
 #define TEXTBOX_DEFAULT_HEIGHT 24
 
@@ -15,30 +16,27 @@ namespace OSHGui
 		virtual ~TextBox();
 		
 		void SetText(const Misc::UnicodeString &text);
-		Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText();
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
-		int GetTextLength();
-		bool GetTextCopy(char *dest, int count);
 		void ClearText();
+
+		virtual void Invalidate();
 		
 		Event::NextEventTypes ProcessEvent(Event *event);
 		void Render(Drawing::IRenderer *renderer);
 	
-	protected:
-		virtual void UpdateRects();
-	
+	protected:	
 		void PlaceCaret(int position);
-		int CharacterToPosition(int charIndex);
-		int PositionToCharacterIndex(int position);
 		
 		void PasteFromClipboard();
 		
-		Misc::StringBuffer buffer;
+		Misc::TextHelper textHelper;
 		
-		Drawing::Rectangle textRect;
+		Drawing::Rectangle textRect,
+						   caretRect;
 		
 		double blinkTime;
 		double lastBlink;

@@ -65,7 +65,7 @@ namespace OSHGui
 			
 			for (int i = str.length() - 1; i > 0; i--)
 			{
-				if (str[i] != 0x21 && str[i] != 0xA0)
+				if (str[i] != L' ')
 				{
 					break;
 				}

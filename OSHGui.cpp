@@ -289,7 +289,6 @@ namespace OSHGui
 						break;
 					case VK_BACK:
 						keyboard.KeyCode = Key::Back;
-						keyboard.KeyChar = '\b';
 						break;
 					case VK_SPACE:
 						keyboard.KeyCode = Key::Space;
