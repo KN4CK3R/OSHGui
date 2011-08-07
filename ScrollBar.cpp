@@ -10,7 +10,7 @@ namespace OSHGui
 		type = CONTROL_SCROLLBAR;
 		
 		drag = false;
-		showSlider = false;
+		showScrollBar = false;
 		
 		position = 0;
 		pageSize = 1;
@@ -19,8 +19,8 @@ namespace OSHGui
 		
 		delayTimestamp = 0;
 
-		SetBackColor(Drawing::Color(0xFFF0F0F0));
-		SetForeColor(Drawing::Color(0xFFD1CFCD));
+		SetBackColor(Drawing::Color(0xFF1E1E1E));
+		SetForeColor(Drawing::Color(0xFF373737));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -64,19 +64,14 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::UpdateRects()
+	void ScrollBar::Invalidate()
 	{
-		if (bounds.GetWidth() > SCROLLBAR_DEFAULT_BOUNDS_WIDTH)
-		{
-			bounds.SetWidth(SCROLLBAR_DEFAULT_BOUNDS_WIDTH);
-		}
-		
-		upButtonRect = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 2, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
-		downButtonRect = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetBottom() - 2 - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
-		trackRect = Drawing::Rectangle(upButtonRect.GetLeft(), upButtonRect.GetBottom() + 2, SCROLLBAR_DEFAULT_BUTTON_WIDTH, upButtonRect.GetBottom() - downButtonRect.GetTop() - 4);
-		sliderRect.SetLeft(upButtonRect.GetLeft());
-		sliderRect.SetWidth(SCROLLBAR_DEFAULT_BUTTON_WIDTH);
-		
+		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH - 3, 0, SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
+
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		upButtonRect = Drawing::Rectangle(0, 0, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
+		downButtonRect = Drawing::Rectangle(0, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
+				
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
@@ -84,22 +79,19 @@ namespace OSHGui
 	{
 		if (end - start > pageSize)
 		{
-			int sliderHeight = trackRect.GetHeight() * pageSize / (end - start);
+			int sliderHeight = (clientArea.GetHeight() - 2 * 22) * pageSize / (end - start);
 			if (sliderHeight < SCROLLBAR_MIN_SLIDER_HEIGHT)
 			{
 				sliderHeight = SCROLLBAR_MIN_SLIDER_HEIGHT;
 			}
 			int maxPosition = end - start - pageSize;
 			
-			sliderRect.SetTop(trackRect.GetTop() + (position - start) * ( trackRect.GetHeight() - sliderHeight) / maxPosition);
-			sliderRect.SetHeight(sliderHeight);
-			showSlider = true;
-
+			sliderRect = Drawing::Rectangle(0, SCROLLBAR_DEFAULT_BUTTON_HEIGHT + ((clientArea.GetHeight() - 2 * 22) / maxPosition) * position, SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderHeight);
+			showScrollBar = true;
 		}
 		else
 		{
-			sliderRect.SetHeight(0);
-			showSlider = false;
+			showScrollBar = false;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -252,108 +244,43 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Render(Drawing::IRenderer *renderer)
 	{
-		//OK
-		if (needRepaint)
+		if (!showScrollBar)
 		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture()); //up button
-				texture.Add(renderer->CreateNewTexture()); //track
-				texture.Add(renderer->CreateNewTexture()); //slider
-				texture.Add(renderer->CreateNewTexture()); //down button
-			}
-			
-			Drawing::ITexture *upButton = texture.Get(0);
-			{
-				upButton->Create(upButtonRect.GetSize());
-				upButton->BeginUpdate();
-				
-				upButton->Fill(Drawing::Color(0xFF6D6966));
-				upButton->Clear(0, 0, 1, 1);
-				upButton->Clear(12, 0, 1, 1);
-				upButton->Clear(0, 19, 1, 1);
-				upButton->Clear(12, 19, 1, 1);
-				
-				Drawing::Color border(0xFFBAB8B9);
+			return;
+		}
 
-				upButton->Fill(6, 7, 1, 1, border);
-				upButton->Fill(5, 8, 3, 1, border);
-				upButton->Fill(4, 9, 5, 1, border);
-				upButton->Fill(3, 10, 7, 1, border);
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		Drawing::Rectangle tmp = clientArea + bounds.GetPosition() + renderRect.GetPosition();
+		renderer->SetRenderRectangle(tmp);
 
-				upButton->EndUpdate();
-			}
-			
-			Drawing::ITexture *track = texture.Get(1);
-			{
-				Drawing::Size size = trackRect.GetSize();
-			
-				track->Create(size);
-				track->BeginUpdate();
-				
-				track->FillGradient(Drawing::Color(0xFF51504B), Drawing::Color(0xFF262523));
-
-				track->Clear(0, 0, 1, 1);
-				track->Clear(size.Width - 1, 0, 1, 1);
-				track->Clear(0, size.Height - 1, 1, 1);
-				track->Clear(size.Width - 1, size.Height - 1, 1, 1);
-
-				track->EndUpdate();
-			}
-			
-			Drawing::ITexture *slider = texture.Get(2);
-			{
-				Drawing::Size size = sliderRect.GetSize();
-			
-				slider->Create(size);
-				slider->BeginUpdate();
-				
-				slider->Fill(0xFF5F5E59);
-				slider->Clear(0, 0, 1, 1);
-				slider->Clear(size.Width - 1, 0, 1, 1);
-				slider->Clear(0, size.Height - 1, 1, 1);
-				slider->Clear(size.Width - 1, size.Height - 1, 1, 1);
-
-				int temp = size.Height / 2 - 3;
-				Drawing::Color point(0xFFE3E1E2);
-				for (int i = 0; i < 8; i += 2)
-				{
-					for (int j = 0; j < 8; j += 2)
-					{
-						slider->Fill(3 + j, temp + i, 1, 1, point);
-					}
-				}
-
-				slider->EndUpdate();
-			}
-			
-			Drawing::ITexture *downButton = texture.Get(3);
-			{
-				downButton->Create(downButtonRect.GetSize());
-				downButton->BeginUpdate();
-				
-				downButton->Fill(Drawing::Color(0xFF6D6966));
-				downButton->Clear(0, 0, 1, 1);
-				downButton->Clear(12, 0, 1, 1);
-				downButton->Clear(0, 19, 1, 1);
-				downButton->Clear(12, 19, 1, 1);
-				
-				Drawing::Color border(0xFFBAB8B9);
-
-				downButton->Fill(6, 12, 1, 1, border);
-				downButton->Fill(5, 11, 3, 1, border);
-				downButton->Fill(4, 10, 5, 1, border);
-				downButton->Fill(3, 9, 7, 1, border);
-
-				downButton->EndUpdate();
-			}
+		renderer->SetRenderColor(foreColor);
+		for (int i = 0; i < 4; ++i)
+		{
+			//upButton
+			renderer->Fill(6 - i, 8 + i, 1 + i * 2, 1);
+			//downButton
+			renderer->Fill(6 - i, clientArea.GetHeight() - 9 - i, 1 + i * 2, 1);
 		}
 		
+		renderer->SetRenderRectangle(tmp + sliderRect.GetPosition());
+
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), upButtonRect.GetPosition());
-		renderer->RenderTexture(texture.Get(1), trackRect.GetPosition());
-		renderer->RenderTexture(texture.Get(2), sliderRect.GetPosition());
-		renderer->RenderTexture(texture.Get(3), downButtonRect.GetPosition());
+		renderer->Fill(1, 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2);
+		renderer->SetRenderColor(foreColor);
+		renderer->Fill(0, 1, 1, sliderRect.GetHeight() - 3);
+		renderer->Fill(1, 0, sliderRect.GetWidth() - 3, 1);
+
+		int sliderHalfHeight = sliderRect.GetHeight() / 2 - 3;
+		for (int i = 0; i < 3; ++i)
+		{
+			renderer->Fill (5, sliderHalfHeight + i * 3, 5, 1);
+		}
+
+		renderer->SetRenderColor(foreColor - Drawing::Color(0, 50, 50, 50));
+		renderer->Fill(sliderRect.GetWidth() - 1, 1, 1, sliderRect.GetHeight() - 2);
+		renderer->Fill(1, sliderRect.GetHeight() - 1, sliderRect.GetWidth() - 2, 1);
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

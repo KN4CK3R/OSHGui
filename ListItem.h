@@ -2,13 +2,14 @@
 #define __OSHGUI_LISTITEM_H__
 
 #include "Drawing\Rectangle.h"
+#include "Misc\Strings.h"
 
 namespace OSHGui
 {
 	class ListItem
 	{
 	public:
-		char Text[256];
+		Misc::UnicodeString Text;
 		void *Data;
 		Drawing::Rectangle ItemRect;
 	};

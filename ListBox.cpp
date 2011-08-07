@@ -5,15 +5,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ListBox::ListBox(Control *parent) : Control(parent), scrollBar(parent)
+	ListBox::ListBox(Control *parent) : Control(parent), scrollBar(this)
 	{
 		type = CONTROL_LISTBOX;
 				
 		selectedIndex = -1;
 		drag = false;
 
-		SetBackColor(Drawing::Color(0xFFF0F0F0));
-		SetForeColor(Drawing::Color(0xFFD1CFCD));
+		SetBackColor(Drawing::Color(0xFF121212));
+		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
 	ListBox::~ListBox()
@@ -25,12 +25,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ListItem* ListBox::GetItem(int index)
 	{
-		if (index < 0 || index >= items.GetSize())
+		if (index < 0 || index >= items.size())
 		{
 			return NULL;
 		}
 
-		return items.Get(index);
+		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
 	int ListBox::GetSelectedIndex()
@@ -45,7 +45,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int ListBox::GetItemsCount()
 	{
-		return items.GetSize();
+		return items.size();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -60,98 +60,59 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::UpdateRects()
+	void ListBox::Invalidate()
 	{
-		itemsRect = bounds;
-		itemsRect.Offset(4, 4);
-		itemsRect.Inflate(-4 - scrollBar.GetBounds().GetWidth(), -4);
+		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
 		
-		scrollBar.SetLocation(Drawing::Point(itemsRect.GetRight(), bounds.GetTop()));
-		scrollBar.SetSize(Drawing::Size(-1, bounds.GetHeight()));
+		//ScrollBar can handle the bounds...
+		scrollBar.SetBounds(0, 0, 0, 0);
+
+		itemsRect = Drawing::Rectangle(2, 2, scrollBar.GetWidth() - 4, bounds.GetHeight() - 4);
+
 		scrollBar.SetPageSize(itemsRect.GetHeight() / LISTBOX_ITEM_HEIGHT);
 		scrollBar.ShowItem(selectedIndex);
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::AddItem(const char *text)
-	{
-		if (text == NULL)
-		{
-			return false;
-		}
-	
-		ListItem *newItem = new ListItem();
-		if (newItem == NULL)
-		{
-			return false;
-		}
-		
-		memset((void*)newItem, 0x00, sizeof(ListItem));
-		
-		strcpy_s(newItem->Text, 256, text);
-		
-		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
-
-		if (!items.Add(newItem))
-		{
-			delete newItem;
-			newItem = NULL;
-			return false;
-		}
-		else
-		{
-			scrollBar.SetRange(0, items.GetSize());
-			return true;
-		}
+	bool ListBox::AddItem(const Misc::UnicodeString &text)
+	{	
+		return InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::InsertItem(int index, const char *text)
-	{
-		if (text == NULL)
-		{
-			return false;
-		}
-	
+	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
+	{	
 		ListItem *newItem = new ListItem();
 		if (newItem == NULL)
 		{
 			return false;
 		}
 		
-		memset((void*)newItem, 0x00, sizeof(ListItem));
-
-		strcpy_s(newItem->Text, 256, text);
+		newItem->Text = text;
 		
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
-		if (!items.Insert(index, newItem))
-		{
-			delete newItem;
-			newItem = NULL;
-			return false;
-		}
-		else
-		{
-			scrollBar.SetRange(0, items.GetSize());
-			return true;
-		}
+		items.insert(items.begin() + index, newItem);
+
+		scrollBar.SetRange(0, items.size());
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::RemoveItem(int index)
 	{
-		if (index < 0 || index >= items.GetSize())
+		if (index < 0 || index >= items.size())
 		{
 			return false;
 		}
 
-		ListItem *item = items.Get(index);
+		ListItem *item = items.at(index);
 		delete item;
 		item = NULL;
 		
-		items.Remove(index);
-		scrollBar.SetRange(0, items.GetSize());
-		if (selectedIndex >= items.GetSize())
+		items.erase(items.begin() + index);
+
+		scrollBar.SetRange(0, items.size());
+		if (selectedIndex >= items.size())
 		{
-			selectedIndex = items.GetSize() - 1;
+			selectedIndex = items.size() - 1;
 			
 			if (changeFunc != NULL)
 			{
@@ -164,14 +125,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::Clear()
 	{
-		for (int i = 0; i < items.GetSize(); i++)
+		for (unsigned int i = 0; i < items.size(); i++)
 		{
-			ListItem *item = items.Get(i);
+			ListItem *item = items.at(i);
 			delete item;
 			item = NULL;
 		}
 
-		items.Clear();
+		items.clear();
 		
 		scrollBar.SetRange(0, 1);
 		
@@ -182,7 +143,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::SelectItem(int newIndex)
 	{
-		if (items.IsEmpty())
+		if (items.size() == 0)
 		{
 			return;
 		}
@@ -195,9 +156,9 @@ namespace OSHGui
 		{
 			selectedIndex = 0;
 		}
-		if (selectedIndex >= items.GetSize())
+		if (selectedIndex >= items.size())
 		{
-			selectedIndex = items.GetSize() - 1;
+			selectedIndex = items.size() - 1;
 		}
 
 		if (oldSelectedIndex != selectedIndex)
@@ -219,12 +180,22 @@ namespace OSHGui
 		{
 			return Event::DontContinue;
 		}
-		
-		if (!hasFocus && event->Type == Event::Mouse && ((MouseEvent*)event)->State == MouseEvent::LeftDown)
+
+		if (!hasFocus && event->Type == Event::Mouse)
 		{
-			//ParentPanel->RequestFocus(this);
+			MouseEvent *mouse = (MouseEvent*)event;
+			if (mouse->State == MouseEvent::LeftDown)
+			{
+				Drawing::Point mousePositionBackup = mouse->Position;
+				mouse->Position = PointToClient(mouse->Position);
+
+				if (clientArea.Contains(mouse->Position))
+				{
+					Parent->RequestFocus(this);
+				}
+			}
 		}
-		
+				
 		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
@@ -232,15 +203,15 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*) event;
+			MouseEvent *mouse = (MouseEvent*)event;
 			
-			if (!items.IsEmpty() && scrollBarRect.Contains(mouse->Position))
+			if (items.size() != 0 && scrollBarRect.Contains(mouse->Position))
 			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{
 					int itemIndex = scrollBar.GetPosition() + (mouse->Position.Y - itemsRect.GetTop()) / 12;
 
-					if (itemIndex >= scrollBar.GetPosition() && itemIndex < items.GetSize() && itemIndex < scrollBar.GetPosition() + scrollBar.GetPageSize())
+					if (itemIndex >= scrollBar.GetPosition() && itemIndex < items.size() && itemIndex < scrollBar.GetPosition() + scrollBar.GetPageSize())
 					{
 						drag = true;
 
@@ -257,7 +228,7 @@ namespace OSHGui
 					{
 						int itemIndex = scrollBar.GetPosition() + (mouse->Position.Y - itemsRect.GetTop()) / 12;
 
-						if (itemIndex >= scrollBar.GetPosition() && itemIndex < items.GetSize() && itemIndex < scrollBar.GetPosition() + scrollBar.GetPageSize())
+						if (itemIndex >= scrollBar.GetPosition() && itemIndex < items.size() && itemIndex < scrollBar.GetPosition() + scrollBar.GetPageSize())
 						{
 							selectedIndex = itemIndex;
 						}
@@ -270,9 +241,9 @@ namespace OSHGui
 						{
 							scrollBar.Scroll(1);
 							selectedIndex = scrollBar.GetPosition() + scrollBar.GetPageSize();
-							if (selectedIndex > items.GetSize())
+							if (selectedIndex > items.size())
 							{
-								selectedIndex = items.GetSize();
+								selectedIndex = items.size();
 							}
 							--selectedIndex;
 						}
@@ -295,7 +266,7 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			if (items.IsEmpty())
+			if (items.size() == 0)
 			{
 				return Event::DontContinue;
 			}
@@ -323,7 +294,7 @@ namespace OSHGui
 							selectedIndex = 0;
 							break;
 						case Key::End:
-							selectedIndex = items.GetSize() - 1;
+							selectedIndex = items.size() - 1;
 							break;
 						case Key::PageUp:
 							selectedIndex += scrollBar.GetPageSize() - 1;
@@ -337,9 +308,9 @@ namespace OSHGui
 					{
 						selectedIndex = 0;
 					}
-					if (selectedIndex >= items.GetSize())
+					if (selectedIndex >= items.size())
 					{
-						selectedIndex = items.GetSize() - 1;
+						selectedIndex = items.size() - 1;
 					}
 
 					if (oldSelectedIndex != selectedIndex)
@@ -373,7 +344,7 @@ namespace OSHGui
 			return;
 		}
 	
-		if (needRepaint)
+		/*if (needRepaint)
 		{
 			if (texture.IsEmpty())
 			{
@@ -403,15 +374,24 @@ namespace OSHGui
 			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
 			
 			main->EndUpdate();
-		}
+		}*/
+
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
 		
 		renderer->SetRenderColor(backColor);
-		renderer->RenderTexture(texture.Get(0), bounds.GetPosition());
+		renderer->Fill(1, 0, clientArea.GetWidth() - 2, clientArea.GetHeight());
+		renderer->Fill(0, 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
-		//renderer->RenderText(font, captionBar, text);
+		for (unsigned int i = 0; i < items.size(); ++i)
+		{
+			renderer->RenderText(font, 2, 2 + i * (font->GetSize() + 2), clientArea.GetWidth() - 4, font->GetSize() + 2, items[i]->Text);
+		}
 	
 		scrollBar.Render(renderer);
+
+		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

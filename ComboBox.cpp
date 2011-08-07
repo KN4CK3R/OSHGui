@@ -115,7 +115,7 @@ namespace OSHGui
 		
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 		
-		strcpy_s(newItem->Text, 256, itemText);
+		//strcpy_s(newItem->Text, 256, itemText);
 			
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
@@ -159,7 +159,7 @@ namespace OSHGui
 		
 		memset((void*)newItem, 0x00, sizeof(ListItem));
 
-		strcpy_s(newItem->Text, 256, itemText);
+		//strcpy_s(newItem->Text, 256, itemText);
 			
 		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
 
@@ -250,7 +250,7 @@ namespace OSHGui
 		{
 			ListItem *item = items.Get(i);
 
-			if (strcmp(item->Text, text) == 0)
+			//if (strcmp(item->Text, text) == 0)
 			{
 				return i;
 			}

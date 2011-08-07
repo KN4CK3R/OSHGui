@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_LISTBOX_H__
 #define __OSHGUI_LISTBOX_H__
 
+#include <vector>
 #include "Control.h"
 #include "Panel.h"
 #include "ScrollBar.h"
@@ -23,18 +24,18 @@ namespace OSHGui
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
-		bool AddItem(const char *text);
-		bool InsertItem(int index, const char *text);
+		bool AddItem(const Misc::UnicodeString &text);
+		bool InsertItem(int index, const Misc::UnicodeString &text);
 		bool RemoveItem(int index);
 		bool Clear();
 		void SelectItem(int newIndex);
 		
+		virtual void Invalidate();
+
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 	
-	protected:
-		virtual void UpdateRects();
-	
+	protected:	
 		ScrollBar scrollBar;
 		
 		int selectedIndex;
@@ -43,7 +44,7 @@ namespace OSHGui
 		Drawing::Rectangle scrollBarRect,
 						   itemsRect;
 		
-		Misc::List<ListItem*> items;
+		std::vector<ListItem*> items;
 	};
 }
 

@@ -3,10 +3,10 @@
 
 #include "Control.h"
 
-#define SCROLLBAR_MIN_SLIDER_HEIGHT 20
-#define SCROLLBAR_DEFAULT_BOUNDS_WIDTH 19
-#define SCROLLBAR_DEFAULT_BUTTON_WIDTH 13
-#define SCROLLBAR_DEFAULT_BUTTON_HEIGHT 19
+#define SCROLLBAR_MIN_SLIDER_HEIGHT 25
+#define SCROLLBAR_DEFAULT_BOUNDS_WIDTH 14
+#define SCROLLBAR_DEFAULT_BUTTON_WIDTH 14
+#define SCROLLBAR_DEFAULT_BUTTON_HEIGHT 18
 
 namespace OSHGui
 {
@@ -25,12 +25,13 @@ namespace OSHGui
 		
 		void Scroll(int delta);
 		void ShowItem(int index);
+
+		virtual void Invalidate();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 				
 	protected:
-		void UpdateRects();
 		void UpdateSliderRect();
 		void Capture();
 	
@@ -39,7 +40,7 @@ namespace OSHGui
 			position,
 			pageSize;
 		bool drag,
-			 showSlider;
+			 showScrollBar;
 		
 		Drawing::Rectangle upButtonRect,
 						   downButtonRect,
