@@ -13,17 +13,6 @@ namespace OSHGui
 		SetForeColor(Drawing::Color::Color(0xFF545454));
 	}
 	//---------------------------------------------------------------------------
-	GroupBox::~GroupBox()
-	{
-		for (unsigned int i = 0, len = controls.size(); i < len; i++)
-		{
-			Control *control = controls.at(i);
-			delete control;
-		}
-
-		controls.clear();
-	}
-	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void GroupBox::SetText(const Misc::UnicodeString &text)
@@ -78,7 +67,7 @@ namespace OSHGui
 			return Event::DontContinue;
 		}
 
-		return Event::DontContinue;
+		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)

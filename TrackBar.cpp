@@ -62,6 +62,8 @@ namespace OSHGui
 
 		sliderMiddle = (value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2;
 		sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), clientArea.GetTop(), TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
+
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
@@ -229,13 +231,18 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->Fill(sliderRect);
 
-		/*if (controls.size() > 0)
+		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			//renderChilds
+			
+			for (unsigned int i = 0, len = controls.size(); i < len; i++)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
 			renderer->SetRenderRectangle(renderRect);
-		}*/
+		}
 	}
 	//---------------------------------------------------------------------------
 }

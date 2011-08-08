@@ -50,6 +50,8 @@ namespace OSHGui
 			SetSize(size);
 		}
 		clientArea = bounds;
+
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -131,13 +133,18 @@ namespace OSHGui
 		
 		renderer->RenderText(font, bounds.GetLeft() + 20, bounds.GetTop() + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
-		/*if (controls.size() > 0)
+		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			//renderChilds
+			
+			for (unsigned int i = 0, len = controls.size(); i < len; i++)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
 			renderer->SetRenderRectangle(renderRect);
-		}*/
+		}
 	}
 	//---------------------------------------------------------------------------
 }

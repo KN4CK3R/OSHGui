@@ -43,6 +43,8 @@ namespace OSHGui
 		}
 
 		clientArea = bounds;
+
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -106,13 +108,18 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds, textHelper.GetText());
 
-		/*if (controls.size() > 0)
+		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			//renderChilds
+			
+			for (unsigned int i = 0, len = controls.size(); i < len; i++)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
 			renderer->SetRenderRectangle(renderRect);
-		}*/
+		}
 	}
 	//---------------------------------------------------------------------------
 }

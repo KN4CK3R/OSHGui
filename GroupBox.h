@@ -10,7 +10,6 @@ namespace OSHGui
 	{
 	public:
 		GroupBox(Control *parent = NULL);
-		virtual ~GroupBox();
 
 		void SetText(const Misc::UnicodeString &text);
 		const Misc::UnicodeString& GetText();

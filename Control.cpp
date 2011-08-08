@@ -37,11 +37,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		/*for (unisgned int i = 0; i < Controls.size(); ++i)
+		for (unsigned int i = 0, len = controls.size(); i < len; i++)
 		{
-			delete Controls.at(i);
+			Control *control = controls.at(i);
+			delete control;
 		}
-		Controls.clear();*/
+
+		controls.clear();
 	}
 	//---------------------------------------------------------------------------
 	CONTROL_TYPE Control::GetType() const

@@ -96,6 +96,8 @@ namespace OSHGui
 	void ProgressBar::Invalidate()
 	{
 		clientArea = bounds;
+
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -126,13 +128,18 @@ namespace OSHGui
 			renderer->Fill(bounds.GetLeft() + 4 + i * 12, bounds.GetTop() + 4, 8, 16);
 		}
 
-		/*if (controls.size() > 0)
+		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			//renderChilds
+			
+			for (unsigned int i = 0, len = controls.size(); i < len; i++)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
 			renderer->SetRenderRectangle(renderRect);
-		}*/
+		}
 	}
 	//---------------------------------------------------------------------------
 }

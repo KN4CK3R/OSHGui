@@ -34,6 +34,8 @@ namespace OSHGui
 			SetSize(size);
 		}
 		clientArea = bounds;
+
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
