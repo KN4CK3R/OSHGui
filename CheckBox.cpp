@@ -8,7 +8,7 @@ namespace OSHGui
 	CheckBox::CheckBox(Control *parent) : Label(parent)
 	{
 		type = CONTROL_CHECKBOX;
-				
+		
 		checked = false;
 
 		SetBackColor(Drawing::Color(0xFF222222));
@@ -69,7 +69,7 @@ namespace OSHGui
 			mouse->Position = PointToClient(mouse->Position);
 			
 			if (clientArea.Contains(mouse->Position))
-			{			
+			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{
 					pressed = true;

@@ -38,7 +38,8 @@ namespace OSHGui
 	protected:	
 		ScrollBar scrollBar;
 		
-		int selectedIndex;
+		int selectedIndex,
+			firstVisibleItemIndex;
 		bool drag;
 		
 		Drawing::Rectangle scrollBarRect,

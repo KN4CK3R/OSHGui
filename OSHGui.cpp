@@ -232,11 +232,8 @@ namespace OSHGui
 						mouse.State = MouseEvent::RightUp;
 						break;
 					case WM_MOUSEWHEEL:
-						mouse.State = MouseEvent::Wheel;
-						/*UINT lines;
-						SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &lines, 0);
-						mouse.Delta = lines * GET_WHEEL_DELTA_WPARAM(msg->wParam);*/
-						mouse.Delta = (short)HIWORD(msg->wParam);
+						mouse.State = MouseEvent::Scroll;
+						mouse.Delta = ((short)HIWORD(msg->wParam) / 120);
 						break;
 				}
 				

@@ -17,6 +17,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
+		virtual void SetCheckedInternal(bool checked);
+	
 		int group;		
 	};
 }

@@ -128,6 +128,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 		Control* GetParent();
+		const std::vector<Control*>& GetControls();
 		
 	protected:
 		CONTROL_TYPE type;

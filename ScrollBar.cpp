@@ -69,6 +69,7 @@ namespace OSHGui
 		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH - 3, 0, SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
 
 		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		trackRect = Drawing::Rectangle(0, SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2);
 		upButtonRect = Drawing::Rectangle(0, 0, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
 		downButtonRect = Drawing::Rectangle(0, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
 				
@@ -143,9 +144,7 @@ namespace OSHGui
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ScrollBar::ProcessEvent(Event *event)
-	{
-		static int SliderOffsetY;
-	
+	{	
 		if (event == NULL || !visible || !enabled)
 		{
 			return Event::DontContinue;
@@ -153,13 +152,18 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*) event;
+			MouseEvent *mouse = (MouseEvent*)event;
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
 				if (upButtonRect.Contains(mouse->Position))
 				{
-					if(position > start)
-						position--;
+					if (position > start)
+					{
+						--position;
+					}
 					
 					UpdateSliderRect();
 					
@@ -168,8 +172,10 @@ namespace OSHGui
 				
 				if (downButtonRect.Contains(mouse->Position))
 				{
-					if(position + pageSize < end)
+					if (position + pageSize < end)
+					{
 						position++;
+					}
 					
 					UpdateSliderRect();
 					
@@ -185,50 +191,67 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 
-				if (sliderRect.GetLeft() <= mouse->Position.X && sliderRect.GetRight() > mouse->Position.X)
+				if (trackRect.contains(mouse->Position))
 				{
-					if (sliderRect.GetTop() > mouse->Position.Y && trackRect.GetTop() <= mouse->Position.Y)
+					if (sliderRect.GetTop() > mouse->Position.Y)
 					{
 						Scroll(-(pageSize - 1));
 						
 						return Event::DontContinue;
 					}
-					else if (sliderRect.GetBottom() <= mouse->Position.Y && trackRect.GetBottom() > mouse->Position.Y)
+					else if (sliderRect.GetBottom() < mouse->Position.Y)
 					{
 						Scroll(pageSize - 1);
+						
 						return Event::DontContinue;
 					}
 				}
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
 			{
-				drag = false;
+				if (drag)
+				{
+					drag = false;
 
-				UpdateSliderRect();
+					UpdateSliderRect();
+					
+					return Event::DontContinue;
+				}
 			}
 			else if (mouse->State == MouseEvent::Move)
 			{
 				if (drag)
 				{
+					float valuePerPixel = (float)(end - start) / (trackRect.GetHeight() - sliderRect.GetHeight());
+					int value = (int)(0.5f + start + valuePerPixel * mouse->Position.Y);
 					
-					//m_rcThumb.bottom += slider.Get mouse->Position.Y - ThumbOffsetY - slider.GetTop();
-					sliderRect.SetTop(mouse->Position.Y - SliderOffsetY);
-					if (sliderRect.GetTop() < trackRect.GetTop())
+					if (value <= SCROLLBAR_DEFAULT_BUTTON_HEIGHT)
 					{
-						sliderRect.Offset(0, trackRect.GetTop() - sliderRect.GetTop());
+						value = SCROLLBAR_DEFAULT_BUTTON_HEIGHT + 1;
 					}
-					else if(sliderRect.GetBottom() > trackRect.GetBottom())
+					else if (value + sliderRect.GetHeight() + 1 >= trackRect.GetBottom())
 					{
-						sliderRect.Offset(0, trackRect.GetBottom() - sliderRect.GetBottom());
+						value = trackRect.GetBottom() - sliderRect.GetHeight() - 1;
 					}
-
-					int maxFirstItem = end - start - pageSize;
-					int maxSlider = trackRect.GetHeight() - sliderRect.GetHeight();
-
-					position = start + (sliderRect.GetTop() - trackRect.GetTop() + maxSlider / (maxFirstItem * 2)) * maxFirstItem / maxSlider;
+					
+					sliderRect.SetTop(value);
+					
+					position = start + valuePerPixel * value;
 				}
+				return Event::DontContinue;
 			}
-			return Event::DontContinue;
+			else if (mouse->State == MouseEvent::Scroll)
+			{
+				if (!drag)
+				{
+					Scroll(mouse->Delta);
+				}
+				
+				return Event::DontContinue;
+			}
+			mouse->Position = mousePositionBackup;
+			
+			return Event::Continue;
 		}
 		else if (event->Type == Event::System)
 		{

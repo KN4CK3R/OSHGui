@@ -8,7 +8,7 @@ namespace OSHGui
 	class MouseEvent : public Event
 	{
 	public:
-		enum MouseStates { None, Move, LeftDown, LeftUp, RightDown, RightUp, Wheel };
+		enum MouseStates { None, Move, LeftDown, LeftUp, RightDown, RightUp, Scroll };
 	
 		MouseStates State;
 		Drawing::Point Position;

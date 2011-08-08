@@ -10,6 +10,7 @@ namespace OSHGui
 		type = CONTROL_LISTBOX;
 				
 		selectedIndex = -1;
+		firstVisibleIndex = 0;
 		drag = false;
 
 		SetBackColor(Drawing::Color(0xFF121212));
@@ -64,8 +65,7 @@ namespace OSHGui
 	{
 		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
 		
-		//ScrollBar can handle the bounds...
-		scrollBar.SetBounds(0, 0, 0, 0);
+		scrollBar.Invalidate();
 
 		itemsRect = Drawing::Rectangle(2, 2, scrollBar.GetWidth() - 4, bounds.GetHeight() - 4);
 
@@ -198,12 +198,31 @@ namespace OSHGui
 				
 		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
 		{
+			selectedIndex = scrollBar.GetPosition();
+		
 			return Event::DontContinue;
 		}
 	
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
+			
+			if (items.size() != 0 && itemsRect.Contains(mouse->Position))
+			{
+				if (mouse->State == MouseEvent::LeftDown)
+				{
+					int itemIndex = mouse->Position.Y / LISTBOX_ITEM_HEIGHT + firstVisibleItemIndex;
+					
+					for (int i = 0; i < itemsRect.GetHeight() / LISTBOX_ITEM_HEIGHT; ++i)
+					{
+						if (i * LISTBOX_ITEM_HEIGHT + LISTBOX_ITEM_HEIGHT > mouse->Position.Y)
+						{
+							selectedIndex = i;
+							break;
+						}
+					}
+				}
+			}
 			
 			if (items.size() != 0 && scrollBarRect.Contains(mouse->Position))
 			{
@@ -217,10 +236,8 @@ namespace OSHGui
 
 						selectedIndex = itemIndex;
 					}
-				}
-				else if (mouse->State == MouseEvent::Wheel)
-				{
-					scrollBar.Scroll(-mouse->Delta);
+					
+					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
@@ -248,6 +265,8 @@ namespace OSHGui
 							--selectedIndex;
 						}
 					}
+					
+					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
@@ -260,9 +279,10 @@ namespace OSHGui
 							(*changeFunc)(this);
 						}
 					}
+					
+					return Event::DontContinue;
 				}
 			}
-			return Event::DontContinue;
 		}
 		else if (event->Type == Event::Keyboard)
 		{
@@ -332,6 +352,8 @@ namespace OSHGui
 			{
 				drag = false;
 			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;
@@ -384,7 +406,7 @@ namespace OSHGui
 		renderer->Fill(0, 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
-		for (unsigned int i = 0; i < items.size(); ++i)
+		for (unsigned int i = firstVisibleIndex; i < items.size(); ++i)
 		{
 			renderer->RenderText(font, 2, 2 + i * (font->GetSize() + 2), clientArea.GetWidth() - 4, font->GetSize() + 2, items[i]->Text);
 		}

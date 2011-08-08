@@ -192,24 +192,6 @@ namespace OSHGui
 		return name;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetFont(Drawing::IFont *font)
-	{
-		if (font != NULL)
-		{
-			this->font = font;
-		}
-	}
-	//---------------------------------------------------------------------------
-	Drawing::IFont* Control::GetFont()
-	{
-		return font;
-	}
-	//---------------------------------------------------------------------------
-	Control* Control::GetParent()
-	{
-		return Parent;
-	}
-	//---------------------------------------------------------------------------
 	void Control::SetForeColor(Drawing::Color color)
 	{
 		foreColor = color;
@@ -228,6 +210,19 @@ namespace OSHGui
 	Drawing::Color Control::GetBackColor()
 	{
 		return backColor;
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetFont(Drawing::IFont *font)
+	{
+		if (font != NULL)
+		{
+			this->font = font;
+		}
+	}
+	//---------------------------------------------------------------------------
+	Drawing::IFont* Control::GetFont()
+	{
+		return font;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetOnClick(OnClickFunc clickFunc)
@@ -253,6 +248,16 @@ namespace OSHGui
 	void Control::SetOnChange(OnChangeFunc changeFunc)
 	{
 		this->changeFunc = changeFunc;
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::GetParent()
+	{
+		return Parent;
+	}
+	//---------------------------------------------------------------------------
+	const std::vector<Control*>& Control::GetControls()
+	{
+		return controls;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions

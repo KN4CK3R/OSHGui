@@ -8,7 +8,7 @@ namespace OSHGui
 	TrackBar::TrackBar(Control *parent) : Control(parent)
 	{
 		type = CONTROL_TRACKBAR;
-				
+		
 		pressed = false;
 		
 		min = 1;
@@ -80,7 +80,7 @@ namespace OSHGui
 	int TrackBar::ValueFromPosition(int position)
 	{ 
 		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH);
-		return (int)(0.5f + min + valuePerPixel * position) ; 
+		return (int)(0.5f + min + valuePerPixel * position);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -119,7 +119,7 @@ namespace OSHGui
 				if (clientArea.Contains(mouse->Position))
 				{
 					dragX = mouse->Position.X;
-					dragOffset = 0;               
+					dragOffset = 0;
 					pressed = true;
 					
 					if (!hasFocus)
@@ -152,6 +152,7 @@ namespace OSHGui
 				if (pressed)
 				{
 					SetValueInternal(ValueFromPosition(mouse->Position.X));
+					
 					return Event::DontContinue;
 				}
 			}
@@ -221,7 +222,7 @@ namespace OSHGui
 			space = 5.0f;
 			range = (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space;
 		}
-				
+		
 		for (int i = 0; i < range; i++)
 		{
 			renderer->Fill(halfWidth + (i * space), 6, 1, 5);
