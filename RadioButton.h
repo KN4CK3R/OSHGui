@@ -14,6 +14,7 @@ namespace OSHGui
 		void SetGroup(int group);
 		int GetGroup();
 		
+		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:

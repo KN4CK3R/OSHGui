@@ -10,7 +10,7 @@ namespace OSHGui
 		type = CONTROL_GROUPBOX;
 
 		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color::White());
+		SetForeColor(Drawing::Color::Color(0xFF545454));
 	}
 	//---------------------------------------------------------------------------
 	GroupBox::~GroupBox()
@@ -45,8 +45,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void GroupBox::Invalidate()
 	{
-		renderBounds = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
-		clientArea = Drawing::Rectangle(3, 10, bounds.GetWidth() - 6, bounds.GetHeight() - 13);
+		clientArea = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 10, bounds.GetWidth() - 6, bounds.GetHeight() - 13);
 
 		InvalidateChildren();
 	}
@@ -71,7 +70,7 @@ namespace OSHGui
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
-			mouse->Position.Top -= clientArea.GetTop();
+			mouse->Position.Top -= (clientArea.GetTop() - bounds.GetTop());
 		}
 	
 		if (ProcessChildrenEvent(event) == Event::DontContinue)
@@ -89,32 +88,33 @@ namespace OSHGui
 			return;
 		}
 
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(bounds + renderRect.GetPosition());
-
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(renderBounds);
+			renderer->Fill(bounds);
 		}
 		
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, 5, -1, textHelper.GetText());
+		renderer->RenderText(font, bounds.GetLeft() + 5, bounds.GetTop() - 1, textHelper.GetText());
 
-		renderer->Fill(1, 5, 3, 1);
-		renderer->Fill(textHelper.GetSize().Width + 5, 5, renderBounds.GetWidth() - textHelper.GetSize().Width - 5, 1);
-		renderer->Fill(0, 6, 1, renderBounds.GetHeight() - 7);
-		renderer->Fill(renderBounds.GetWidth() - 1, 6, 1, renderBounds.GetHeight() - 7);
-		renderer->Fill(1, renderBounds.GetHeight() - 1, renderBounds.GetWidth() - 2, 1);
-		
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-	
-		for (unsigned int i = 0, len = controls.size(); i < len; i++)
+		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + 5, 3, 1);
+		renderer->Fill(bounds.GetLeft() + textHelper.GetSize().Width + 5, bounds.GetTop() + 5, bounds.GetWidth() - textHelper.GetSize().Width - 5, 1);
+		renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 6, 1, bounds.GetHeight() - 7);
+		renderer->Fill(bounds.GetLeft() + bounds.GetWidth() - 1, bounds.GetTop() + 6, 1, bounds.GetHeight() - 7);
+		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + bounds.GetHeight() - 1, bounds.GetWidth() - 2, 1);
+			
+		if (controls.size() > 0)
 		{
-			controls.at(i)->Render(renderer);
+			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			
+			for (unsigned int i = 0, len = controls.size(); i < len; i++)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
+			renderer->SetRenderRectangle(renderRect);
 		}
-		
-		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

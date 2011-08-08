@@ -41,6 +41,8 @@ namespace OSHGui
 		{
 			SetSize(textHelper.GetSize());
 		}
+
+		clientArea = bounds;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -55,22 +57,34 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			if (mouse->State == MouseEvent::LeftDown)
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+
+			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
-				pressed = true;
-			}
-			if (mouse->State == MouseEvent::LeftUp)
-			{
-				if (pressed && hasFocus)
+				if (mouse->State == MouseEvent::LeftDown)
 				{
-					pressed = false;
-					
-					if (clickFunc != NULL)
+					pressed = true;
+
+					return Event::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::LeftUp)
+				{
+					if (pressed && hasFocus)
 					{
-						(*clickFunc)(this, mouse);
+						pressed = false;
+					
+						if (clickFunc != NULL)
+						{
+							(*clickFunc)(this, mouse);
+						}
 					}
+
+					return Event::DontContinue;
 				}
 			}
+
+			mouse->Position = mousePositionBackup;
 		}
 		
 		return Event::DontContinue;
@@ -91,6 +105,14 @@ namespace OSHGui
 	
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds, textHelper.GetText());
+
+		/*if (controls.size() > 0)
+		{
+			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			//renderChilds
+			renderer->SetRenderRectangle(renderRect);
+		}*/
 	}
 	//---------------------------------------------------------------------------
 }

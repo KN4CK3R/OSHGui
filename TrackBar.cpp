@@ -53,10 +53,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::Invalidate()
 	{
-		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		if (bounds.GetHeight() != TRACKBAR_SLIDER_HEIGHT)
+		{
+			bounds.SetHeight(TRACKBAR_SLIDER_HEIGHT);
+		}
 
-		sliderMiddle = (value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH * 2) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2;
-		sliderRect = Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), 0, TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
+		clientArea = bounds;
+
+		sliderMiddle = (value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2;
+		sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), clientArea.GetTop(), TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
@@ -100,10 +105,9 @@ namespace OSHGui
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (sliderRect.Contains(mouse->Position))
+				if (Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), 0, TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT).Contains(mouse->Position)) //SliderRect
 				{
 					pressed = true;
-					//CaptureMouse(this);
 
 					dragX = mouse->Position.X;
 					dragOffset = sliderMiddle - dragX;
@@ -116,7 +120,7 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 
-				if (clientArea.Contains(mouse->Position))
+				if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
 				{
 					dragX = mouse->Position.X;
 					dragOffset = 0;
@@ -137,7 +141,6 @@ namespace OSHGui
 				if (pressed)
 				{
 					pressed = false;
-					ReleaseCapture();
 					
 					if (changeFunc != NULL)
 					{
@@ -201,37 +204,38 @@ namespace OSHGui
 			return;
 		}
 
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(clientArea);
+			renderer->Fill(bounds);
 		}
-
-		Drawing::Point position = bounds.GetPosition();
 
 		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
 		int halfWidth = TRACKBAR_SLIDER_WIDTH / 2;
-		float space = (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (float)range;
+		float space = (bounds.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (float)range;
 		if (space < 5.0f)
 		{
 			space = 5.0f;
-			range = (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space;
+			range = (bounds.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space;
 		}
 		
-		for (int i = 0; i < range; i++)
+		for (int i = 0; i < range + 1; i++)
 		{
-			renderer->Fill(halfWidth + (i * space), 6, 1, 5);
+			renderer->Fill(bounds.GetLeft() + halfWidth + (i * space), bounds.GetTop() + 6, 1, 5);
 		}
 
 		renderer->SetRenderColor(foreColor);
 		renderer->Fill(sliderRect);
 
-		renderer->SetRenderRectangle(renderRect);
+		/*if (controls.size() > 0)
+		{
+			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			//renderChilds
+			renderer->SetRenderRectangle(renderRect);
+		}*/
 	}
 	//---------------------------------------------------------------------------
 }

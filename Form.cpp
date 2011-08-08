@@ -14,7 +14,7 @@ namespace OSHGui
 		drag = false;
 
 		SetLocation(Drawing::Point(10, 10));
-		SetSize(Drawing::Size(364, 379));
+		SetSize(Drawing::Size(300, 300));
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color::White());
@@ -56,12 +56,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Invalidate()
 	{
-		captionBar = Drawing::Rectangle(1, 1, bounds.GetWidth() - 40, 17);
+		/*captionBar = Drawing::Rectangle(1, 1, bounds.GetWidth() - 40, 17);
 		
 		closeRect = Drawing::Rectangle(bounds.GetWidth() - 22, 2, 17, 17);
 		minimizeRect = Drawing::Rectangle(bounds.GetWidth() - 39, 2, 17, 17);
 		
-		clientArea = Drawing::Rectangle(3, 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);
+		clientArea = Drawing::Rectangle(3, 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);*/
+
+		captionBar = Drawing::Rectangle(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 40, 17);
+		minimizeRect = Drawing::Rectangle(captionBar.GetRight() + 1, bounds.GetTop() + 2, 17, 17);
+		closeRect = Drawing::Rectangle(minimizeRect.GetRight(), bounds.GetTop() + 2, 17, 17);
+
+		clientArea = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);
 
 		InvalidateChildren();
 	}
@@ -93,24 +99,8 @@ namespace OSHGui
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
-			if (captionBar.Contains(mouse->Position) || drag)
+			if (Drawing::Rectangle(1, 1, captionBar.GetWidth(), captionBar.GetHeight()).Contains(mouse->Position) || drag) //CaptionBar
 			{
-				if (mouse->State == MouseEvent::LeftUp)
-				{
-					if (closeRect.Contains(mouse->Position))
-					{
-						//close
-					
-						return Event::DontContinue;
-					}
-					else if (minimizeRect.Contains(mouse->Position))
-					{
-						//minimize
-					
-						return Event::DontContinue;
-					}
-				}
-
 				if (mouse->State == MouseEvent::Move && drag == true)
 				{
 					Drawing::Point delta = mousePositionBackup - oldMousePosition;
@@ -128,6 +118,22 @@ namespace OSHGui
 				}
 				return Event::DontContinue;
 			}
+			else if (mouse->State == MouseEvent::LeftUp)
+			{
+				if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, minimizeRect.GetWidth(), minimizeRect.GetHeight()).Contains(mouse->Position)) //MinimizeRect
+				{
+					//minimize
+					
+					return Event::DontContinue;
+				}
+				else if (Drawing::Rectangle(captionBar.GetWidth() + minimizeRect.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //CloseRect
+				{
+					visible = false;
+					
+					return Event::DontContinue;
+				}
+			}
+
 
 			mouse->Position.Top -= captionBar.GetHeight();
 		}
@@ -147,15 +153,12 @@ namespace OSHGui
 			return;
 		}
 
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(bounds);
-
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
-		renderer->Fill(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		renderer->Fill(bounds);
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(1, 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
+		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
+		renderer->Fill(bounds.GetLeft() + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
 		//renderer->FillGradient(clientArea, backColor);
 
 		renderer->SetRenderColor(foreColor);
@@ -169,9 +172,12 @@ namespace OSHGui
 			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 11 - i, 3, 1);
 		}
 		
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition());
+		//renderer->SetRenderRectangle(clientArea + bounds.GetPosition());
 	
-		for (unsigned int i = 0, len = controls.size(); i < len; i++)
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea);
+
+		for (unsigned int i = 0; i < controls.size(); i++)
 		{
 			controls.at(i)->Render(renderer);
 		}

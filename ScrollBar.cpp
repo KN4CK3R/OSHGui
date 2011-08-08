@@ -186,12 +186,12 @@ namespace OSHGui
 				{
 					drag = true;
 					
-					SliderOffsetY = mouse->Position.Y - sliderRect.GetTop();
+					//SliderOffsetY = mouse->Position.Y - sliderRect.GetTop();
 					
 					return Event::DontContinue;
 				}
 
-				if (trackRect.contains(mouse->Position))
+				if (trackRect.Contains(mouse->Position))
 				{
 					if (sliderRect.GetTop() > mouse->Position.Y)
 					{

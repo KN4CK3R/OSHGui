@@ -46,11 +46,10 @@ namespace OSHGui
 		if (autoSize)
 		{
 			Drawing::Size size = textHelper.GetSize();
-			size.Width += 20;
-			size.Height += 4;
+			size.Inflate(20, 4);
 			SetSize(size);
 		}
-		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		clientArea = bounds;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -68,7 +67,7 @@ namespace OSHGui
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
-			if (clientArea.Contains(mouse->Position))
+			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{
@@ -114,28 +113,31 @@ namespace OSHGui
 		{
 			return;
 		}
-		
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-		
+				
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(0, 0, 17, 17);
+		renderer->Fill(bounds.GetLeft(), bounds.GetTop(), 17, 17);
 		renderer->SetRenderColor(foreColor);
-		renderer->FillGradient(1, 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
+		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(2, 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(foreColor);
 		
 		if (checked)
 		{
-			renderer->Fill(5, 5, 7, 7);
-			renderer->FillGradient(6, 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
+			renderer->Fill(bounds.GetLeft() + 5, bounds.GetTop() + 5, 7, 7);
+			renderer->FillGradient(bounds.GetLeft() + 6, bounds.GetTop() + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
 		}
 		
-		renderer->RenderText(font, 20, 2, clientArea.GetWidth() - 20, clientArea.GetHeight(), textHelper.GetText());
+		renderer->RenderText(font, bounds.GetLeft() + 20, bounds.GetTop() + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
-		renderer->SetRenderRectangle(renderRect);
+		/*if (controls.size() > 0)
+		{
+			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			//renderChilds
+			renderer->SetRenderRectangle(renderRect);
+		}*/
 	}
 	//---------------------------------------------------------------------------
 }

@@ -10,7 +10,7 @@ namespace OSHGui
 		type = CONTROL_LISTBOX;
 				
 		selectedIndex = -1;
-		firstVisibleIndex = 0;
+		firstVisibleItemIndex = 0;
 		drag = false;
 
 		SetBackColor(Drawing::Color(0xFF121212));
@@ -406,7 +406,7 @@ namespace OSHGui
 		renderer->Fill(0, 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
-		for (unsigned int i = firstVisibleIndex; i < items.size(); ++i)
+		for (unsigned int i = firstVisibleItemIndex; i < items.size(); ++i)
 		{
 			renderer->RenderText(font, 2, 2 + i * (font->GetSize() + 2), clientArea.GetWidth() - 4, font->GetSize() + 2, items[i]->Text);
 		}

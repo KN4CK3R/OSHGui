@@ -24,8 +24,6 @@ namespace OSHGui
 		
 	protected:
 		Misc::TextHelper textHelper;
-
-		Drawing::Rectangle renderBounds;
 	};
 }
 

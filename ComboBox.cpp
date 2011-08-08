@@ -374,7 +374,7 @@ namespace OSHGui
 
 					//ParentPanel->ClearFocus();
 				}
-				else if (mouse->State == MouseEvent::Wheel)
+				else if (mouse->State == MouseEvent::Scroll)
 				{
 					if (opened)
 					{

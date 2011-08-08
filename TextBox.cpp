@@ -114,46 +114,24 @@ namespace OSHGui
 
 			caretRect = Drawing::Rectangle(strWidth.Width - 1, 0, 1, textRect.GetHeight());
 		}
-
-		/*if (caretPos <= firstPos)
-		{
-			if (firstVisibleCharacter > 0)
-			{
-				--firstVisibleCharacter;
-				++caretPosition;
-				caretRect = Drawing::Rectangle(-2, 0, 1, textRect.GetHeight());
-			}
-		}
-		else if (caretPos.Left - firstPos.Left >= textRect.GetWidth())
-		{
-			++firstVisibleCharacter;
-			--caretPosition;
-			caretPos = textHelper.GetCharacterPosition(caretPosition);
-			caretRect = Drawing::Rectangle(caretPos.Left + 1, 0, 1, textRect.GetHeight());
-		}
-		else
-		{
-			caretPosition = position;
-			caretRect = Drawing::Rectangle(caretPos.Left - firstPos.Left + 1, 0, 1, textRect.GetHeight());
-		}*/
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PasteFromClipboard()
 	{		
-		if (IsClipboardFormatAvailable(CF_TEXT))
+		if (IsClipboardFormatAvailable(CF_UNICODETEXT))
 		{
 			if (OpenClipboard(NULL))
 			{
-				HANDLE clipboard = GetClipboardData(CF_TEXT);
+				HANDLE clipboard = GetClipboardData(CF_UNICODETEXT);
 				if (clipboard != NULL)
 				{
-					char *data = (char*)GlobalLock(clipboard);
+					Misc::UnicodeChar *data = (Misc::UnicodeChar*)GlobalLock(clipboard);
 					if (data != NULL)
 					{
-						//if (buffer.InsertString(caretPosition, data))
-						{
-							PlaceCaret(caretPosition + strlen(data));
-						}
+						Misc::UnicodeString strData(data);
+
+						textHelper.Insert(caretPosition, strData);
+						PlaceCaret(caretPosition + strData.length());
 						
 						GlobalUnlock(clipboard);
 					}
@@ -232,7 +210,24 @@ namespace OSHGui
 						if ((caretPosition > 0 || firstVisibleCharacter > 0) && textHelper.GetLength() > 0)
 						{
 							textHelper.Remove(caretPosition + firstVisibleCharacter - 1, 1);
-							PlaceCaret(caretPosition - 1);
+							if (firstVisibleCharacter > 0)
+							{
+								if (caretPosition == 0)
+								{
+									int maxChange = firstVisibleCharacter > 3 ? 3 : firstVisibleCharacter;
+									firstVisibleCharacter -= maxChange;
+									PlaceCaret(caretPosition + maxChange);
+								}
+								else
+								{
+									--firstVisibleCharacter;
+									PlaceCaret(caretPosition);
+								}
+							}
+							else
+							{
+								PlaceCaret(caretPosition - 1);
+							}
 						}
 						break;
 					case Key::Delete:

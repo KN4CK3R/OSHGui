@@ -95,7 +95,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ProgressBar::Invalidate()
 	{
-		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		clientArea = bounds;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -107,31 +107,32 @@ namespace OSHGui
 			return;
 		}
 
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(1, 0, clientArea.GetWidth() - 2, clientArea.GetHeight());
-			renderer->Fill(0, 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
+			renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop(), bounds.GetWidth() - 2, bounds.GetHeight());
+			renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 1, bounds.GetWidth(), bounds.GetHeight() - 2);
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(1, 0, clientArea.GetWidth() - 2, 1);
-		renderer->Fill(1, clientArea.GetHeight() - 1, clientArea.GetWidth() - 2, 1);
-		renderer->Fill(0, 1, 1, clientArea.GetHeight() - 2);
-		renderer->Fill(clientArea.GetWidth() - 1, 1, 1, clientArea.GetHeight() - 2);
+		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop(), bounds.GetWidth() - 2, 1);
+		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + bounds.GetHeight() - 1, bounds.GetWidth() - 2, 1);
+		renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 1, 1, bounds.GetHeight() - 2);
+		renderer->Fill(bounds.GetLeft() + bounds.GetWidth() - 1, bounds.GetTop() + 1, 1, bounds.GetHeight() - 2);
 
 		renderer->SetRenderColor(barColor);
 		for (int i = position / ((max - min) / ((clientArea.GetWidth() - 8) / 12)) - 1; i >= 0; --i)
 		{
-			renderer->Fill(4 + i * 12, 4, 8, 16);
+			renderer->Fill(bounds.GetLeft() + 4 + i * 12, bounds.GetTop() + 4, 8, 16);
 		}
 
-		renderer->RenderText(font, 0, 30, Misc::Format(L"%i", position));
-
-		renderer->SetRenderRectangle(renderRect);
+		/*if (controls.size() > 0)
+		{
+			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			//renderChilds
+			renderer->SetRenderRectangle(renderRect);
+		}*/
 	}
 	//---------------------------------------------------------------------------
 }

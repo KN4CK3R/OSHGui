@@ -38,8 +38,8 @@ namespace OSHGui
 		void RendererDX9::SetRenderRectangle(Rectangle &rect)
 		{
 			IRenderer::SetRenderRectangle(rect);
-			/*RECT scissor = { rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight() };
-			device->SetScissorRect(&scissor);*/
+			//RECT scissor = { rect.GetLeft(), rect.GetTop(), rect.GetLeft() + rect.GetWidth(), rect.GetTop() + rect.GetHeight() };
+			//device->SetScissorRect(&scissor);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
@@ -51,6 +51,7 @@ namespace OSHGui
 			device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			//device->SetRenderState(D3DRS_SCISSORTESTENABLE, true);
 
 			device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 			device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
@@ -167,7 +168,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			((FontDX9*)font)->GetFont()->DrawTextW(NULL, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB); ///DT_NOCLIP
+			((FontDX9*)font)->GetFont()->DrawTextW(NULL, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)
