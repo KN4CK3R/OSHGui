@@ -54,8 +54,8 @@ namespace OSHGui
 			bounds.SetHeight(TEXTBOX_DEFAULT_HEIGHT);
 		}
 	
-		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
-		textRect = Drawing::Rectangle(7, 5, bounds.GetWidth() - 14, bounds.GetHeight() - 10);
+		clientArea = bounds;
+		textRect = Drawing::Rectangle(clientArea.GetLeft() + 7, clientArea.GetTop() + 5, clientArea.GetWidth() - 14, clientArea.GetHeight() - 10);
 		caretRect = Drawing::Rectangle(0, 0, 1, textRect.GetHeight());
 	}
 	//---------------------------------------------------------------------------
@@ -75,12 +75,12 @@ namespace OSHGui
 				--firstVisibleCharacter;
 			}
 			caretPosition = 0;
-			caretRect = Drawing::Rectangle(-1, 0, 1, textRect.GetHeight());
+			caretRect = Drawing::Rectangle(textRect.GetLeft() - 1, textRect.GetTop(), 1, textRect.GetHeight());
 		}
 		else if (position == 0)
 		{
 			caretPosition = 0;
-			caretRect = Drawing::Rectangle(-1, 0, 1, textRect.GetHeight());
+			caretRect = Drawing::Rectangle(textRect.GetLeft() - 1, textRect.GetTop(), 1, textRect.GetHeight());
 		}
 		else
 		{
@@ -112,7 +112,7 @@ namespace OSHGui
 			}
 			lastFirstVisibleCharacter = firstVisibleCharacter;
 
-			caretRect = Drawing::Rectangle(strWidth.Width - 1, 0, 1, textRect.GetHeight());
+			caretRect = Drawing::Rectangle(textRect.GetLeft() + strWidth.Width - 1, textRect.GetTop(), 1, textRect.GetHeight());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -156,7 +156,7 @@ namespace OSHGui
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
-			if (clientArea.Contains(mouse->Position))
+			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
 				if (clickFunc != NULL)
 				{
@@ -174,7 +174,7 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 
-					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position) - 1);
+					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + 7/*textRect padding*/) - 1);
 				
 					return Event::DontContinue;
 				}
@@ -280,16 +280,11 @@ namespace OSHGui
 		{
 			return;
 		}
-
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-			
-		Drawing::Point position = bounds.GetPosition();
-				
+		
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 20, 20, 20));
-		renderer->Fill(0, 0, clientArea.GetWidth(), clientArea.GetHeight());
+		renderer->Fill(bounds);
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(1, 1, clientArea.GetWidth() - 2, clientArea.GetHeight() - 2);
+		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
@@ -308,7 +303,18 @@ namespace OSHGui
 					time = GetTickCount();
 		}
 
-		renderer->SetRenderRectangle(renderRect);
+		if (controls.size() > 0)
+		{
+			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			
+			for (unsigned int i = controls.size(); i >= 0; --i)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
+			renderer->SetRenderRectangle(renderRect);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

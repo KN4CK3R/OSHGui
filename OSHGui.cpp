@@ -273,7 +273,7 @@ namespace OSHGui
 					break;
 				}
 			
-				switch ((char)msg->wParam)
+				switch ((Misc::UnicodeChar)msg->wParam)
 				{
 					case VK_CONTROL:
 						keyboard.KeyCode = Key::Control;
@@ -349,7 +349,88 @@ namespace OSHGui
 						keyboard.KeyCode = Key::None;
 						break;
 					default:
-						keyboard.KeyChar = (char)msg->wParam;
+						keyboard.KeyChar = (Misc::UnicodeChar)msg->wParam;
+						switch (keyboard.KeyChar >= L'A' && keyboard.KeyChar <= L'Z' ? keyboard.KeyChar + 0x20 : keyboard.KeyChar)
+						{
+							case L'a':
+								keyboard.KeyCode = Key::A;
+								break;
+							case L'b':
+								keyboard.KeyCode = Key::B;
+								break;
+							case L'c':
+								keyboard.KeyCode = Key::C;
+								break;
+							case L'd':
+								keyboard.KeyCode = Key::D;
+								break;
+							case L'e':
+								keyboard.KeyCode = Key::E;
+								break;
+							case L'f':
+								keyboard.KeyCode = Key::F;
+								break;
+							case L'g':
+								keyboard.KeyCode = Key::G;
+								break;
+							case L'h':
+								keyboard.KeyCode = Key::H;
+								break;
+							case L'i':
+								keyboard.KeyCode = Key::I;
+								break;
+							case L'j':
+								keyboard.KeyCode = Key::J;
+								break;
+							case L'k':
+								keyboard.KeyCode = Key::K;
+								break;
+							case L'l':
+								keyboard.KeyCode = Key::L;
+								break;
+							case L'm':
+								keyboard.KeyCode = Key::M;
+								break;
+							case L'n':
+								keyboard.KeyCode = Key::N;
+								break;
+							case L'o':
+								keyboard.KeyCode = Key::O;
+								break;
+							case L'p':
+								keyboard.KeyCode = Key::P;
+								break;
+							case L'q':
+								keyboard.KeyCode = Key::Q;
+								break;
+							case L'r':
+								keyboard.KeyCode = Key::R;
+								break;
+							case L's':
+								keyboard.KeyCode = Key::S;
+								break;
+							case L't':
+								keyboard.KeyCode = Key::T;
+								break;
+							case L'u':
+								keyboard.KeyCode = Key::U;
+								break;
+							case L'v':
+								keyboard.KeyCode = Key::V;
+								break;
+							case L'w':
+								keyboard.KeyCode = Key::W;
+								break;
+							case L'x':
+								keyboard.KeyCode = Key::X;
+								break;
+							case L'y':
+								keyboard.KeyCode = Key::Y;
+								break;
+							case L'z':
+								keyboard.KeyCode = Key::Z;
+								break;
+						}
 				}
 			
 				if (focusForm->ProcessEvent(&keyboard) == Event::DontContinue)

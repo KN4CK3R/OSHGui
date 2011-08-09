@@ -125,13 +125,18 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds.GetLeft() + 6, bounds.GetTop() + 5, bounds.GetWidth() - 12, bounds.GetHeight() - 10, textHelper.GetText());
 
-		/*if (controls.size() > 0)
+		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			//renderChilds
+			
+			for (unsigned int i = controls.size(); i >= 0; --i)
+			{
+				controls.at(i)->Render(renderer);
+			}
+			
 			renderer->SetRenderRectangle(renderRect);
-		}*/
+		}
 	}
 	//---------------------------------------------------------------------------
 }

@@ -56,13 +56,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Invalidate()
 	{
-		/*captionBar = Drawing::Rectangle(1, 1, bounds.GetWidth() - 40, 17);
-		
-		closeRect = Drawing::Rectangle(bounds.GetWidth() - 22, 2, 17, 17);
-		minimizeRect = Drawing::Rectangle(bounds.GetWidth() - 39, 2, 17, 17);
-		
-		clientArea = Drawing::Rectangle(3, 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);*/
-
 		captionBar = Drawing::Rectangle(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 40, 17);
 		minimizeRect = Drawing::Rectangle(captionBar.GetRight() + 1, bounds.GetTop() + 2, 17, 17);
 		closeRect = Drawing::Rectangle(minimizeRect.GetRight(), bounds.GetTop() + 2, 17, 17);
@@ -171,13 +164,11 @@ namespace OSHGui
 			renderer->Fill(closeRect.GetLeft() + 4 + i, closeRect.GetTop() + 11 - i, 3, 1);
 			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 11 - i, 3, 1);
 		}
-		
-		//renderer->SetRenderRectangle(clientArea + bounds.GetPosition());
-	
+			
 		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(clientArea);
 
-		for (unsigned int i = 0; i < controls.size(); i++)
+		for (unsigned int i = controls.size(); i >= 0; --i)
 		{
 			controls.at(i)->Render(renderer);
 		}

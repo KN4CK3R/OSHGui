@@ -151,7 +151,7 @@ namespace OSHGui
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
 			
-			for (unsigned int i = 0, len = controls.size(); i < len; i++)
+			for (unsigned int i = controls.size(); i >= 0; --i)
 			{
 				controls.at(i)->Render(renderer);
 			}
