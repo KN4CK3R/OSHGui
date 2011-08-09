@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_SYSTEMEVENT_H__
 #define __OSHGUI_SYSTEMEVENT_H__
 
+#include "Event.h"
+
 namespace OSHGui
 {
 	class SystemEvent : public Event

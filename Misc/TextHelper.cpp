@@ -115,7 +115,7 @@ namespace OSHGui
 			int distance = 0xFFFF;
 			int result;
 
-			for (unsigned int i = 0; i <= text.length(); ++i)
+			for (unsigned int i = 0; i < text.length(); ++i)
 			{
 				Drawing::Point charPosition = GetCharacterPosition(i);
 

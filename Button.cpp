@@ -71,10 +71,7 @@ namespace OSHGui
 					{
 						pressed = false;
 					
-						if (clickFunc != NULL)
-						{
-							(*clickFunc)(this, mouse);
-						}
+						clickEventHandler.Invoke(this, mouse);
 					}
 					return Event::DontContinue;
 				}
@@ -87,10 +84,7 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
 			if (keyboard->KeyCode == Key::Return || keyboard->KeyCode == Key::Space)
 			{
-				if (clickFunc != NULL)
-				{
-					(*clickFunc)(this, NULL);
-				}
+				clickEventHandler.Invoke(this, NULL);
 			}
 		}
 		
@@ -109,6 +103,7 @@ namespace OSHGui
 		if (hasFocus || mouseOver)
 		{
 			tempColor += adjustColor;
+			tempColor = Drawing::Color::Cyan();
 		}
 		
 		renderer->SetRenderColor(tempColor + Drawing::Color(0, 10, 10, 10));
@@ -130,7 +125,7 @@ namespace OSHGui
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
 			
-			for (unsigned int i = controls.size(); i >= 0; --i)
+			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
 				controls.at(i)->Render(renderer);
 			}

@@ -2,6 +2,7 @@
 #define __OSHGUI_MOUSEMESSAGE_H__
 
 #include "Drawing\Point.h"
+#include "Event.h"
 
 namespace OSHGui
 {

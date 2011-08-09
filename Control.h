@@ -11,10 +11,11 @@
 #include "Misc\List.h"
 #include "Misc\Strings.h"
 
-#include "Event.h"
+/*#include "Event.h"
 #include "MouseEvent.h"
-#include "KeyboardEvent.h"
+#include "KeyboardEvent.h"*/
 #include "SystemEvent.h"
+#include "EventHandler.h"
 
 namespace OSHGui
 {	
@@ -103,11 +104,11 @@ namespace OSHGui
 		void SetBackColor(Drawing::Color color);
 		Drawing::Color GetBackColor();
 
-		void SetOnClick(OnClickFunc clickFunc);
-		void SetOnKeyPress(OnKeyPressFunc keyPressFunc);
-		void SetOnEnter(OnEnterFunc enterFunc);
-		void SetOnLeave(OnLeaveFunc leaveFunc);
-		void SetOnChange(OnChangeFunc changeFunc);
+		ClickEventHandler& GetClickEventHandler();
+		KeyPressEventHandler& GetKeyPressEventHandler();
+		MouseEnterEventHandler& GetMouseEnterEventHandler();
+		MouseLeaveEventHandler& GetMouseLeaveEventHandler();
+		ChangeEventHandler& GetChangeEventHandler();
 
 		virtual void Invalidate();
 		void InvalidateChildren();
@@ -118,7 +119,6 @@ namespace OSHGui
 		void ClearFocus();
 		void CaptureMouse(Control *control);
 		void ReleaseCapture();
-		bool IsMouseOver(Control *control);
 		
 		Control* FindControlAtPoint(const Drawing::Point &point);
 		Control* FindControlByName(const Misc::UnicodeString &name);
@@ -149,6 +149,12 @@ namespace OSHGui
 		Drawing::Rectangle bounds,
 						   clientArea;
 		
+		ClickEventHandler clickEventHandler;
+		KeyPressEventHandler keyPressEventHandler;
+		MouseEnterEventHandler mouseEnterEventHandler;
+		MouseLeaveEventHandler mouseLeaveEventHandler;
+		ChangeEventHandler changeEventHandler;
+
 		OnClickFunc clickFunc;
 		OnKeyPressFunc keyPressFunc;
 		OnEnterFunc enterFunc;

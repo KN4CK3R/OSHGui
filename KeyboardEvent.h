@@ -2,6 +2,7 @@
 #define __OSHGUI_KEYBOARDEVENT_H__
 
 #include "Key.h"
+#include "Event.h"
 
 namespace OSHGui
 {

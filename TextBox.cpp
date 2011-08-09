@@ -157,16 +157,7 @@ namespace OSHGui
 			mouse->Position = PointToClient(mouse->Position);
 
 			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
-			{
-				if (clickFunc != NULL)
-				{
-					(*clickFunc)(this, mouse);
-					if (mouse->Handled)
-					{
-						return Event::DontContinue;
-					}
-				}
-			
+			{			
 				if (mouse->State == MouseEvent::LeftDown)
 				{
 					if (!hasFocus)
@@ -174,7 +165,9 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 
-					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + 7/*textRect padding*/) - 1);
+					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position - Drawing::Point(7, 0)/*textRect padding*/) - 1);
+
+					clickEventHandler.Invoke(this, mouse);
 				
 					return Event::DontContinue;
 				}
@@ -188,14 +181,7 @@ namespace OSHGui
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
 			
-			if (keyPressFunc != NULL)
-			{
-				(*keyPressFunc)(this, keyboard);
-				if (keyboard->Handled)
-				{
-					return Event::DontContinue;
-				}
-			}
+			keyPressEventHandler.Invoke(this, keyboard);
 
 			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{
@@ -226,7 +212,7 @@ namespace OSHGui
 							}
 							else
 							{
-								PlaceCaret(caretPosition - 1);
+								PlaceCaret(caretPosition);
 							}
 						}
 						break;
@@ -262,10 +248,7 @@ namespace OSHGui
 			
 			if (hasChanged)
 			{
-				if (changeFunc != NULL)
-				{
-					(*changeFunc)(this);
-				}
+				changeEventHandler.Invoke(this);
 			
 				return Event::DontContinue;
 			}
@@ -295,7 +278,7 @@ namespace OSHGui
 			static DWORD time2;
 			if (time + 700 > GetTickCount())
 			{
-				renderer->Fill(caretRect + textRect.GetPosition());
+				renderer->Fill(caretRect);
 				time2 = GetTickCount();
 			}
 			else
@@ -308,7 +291,7 @@ namespace OSHGui
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
 			
-			for (unsigned int i = controls.size(); i >= 0; --i)
+			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
 				controls.at(i)->Render(renderer);
 			}

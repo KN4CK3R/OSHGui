@@ -15,14 +15,7 @@ namespace OSHGui
 		SetVisible(true);
 		
 		SetTag(NULL);
-		
-		SetOnClick(NULL);
-		SetOnKeyPress(NULL);
-		SetOnEnter(NULL);
-		SetOnLeave(NULL);
-		SetOnChange(NULL);
-		//SetMouseOver(NULL);
-		
+				
 		mouseOver = false;
 		hasFocus = false;
 
@@ -227,29 +220,29 @@ namespace OSHGui
 		return font;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetOnClick(OnClickFunc clickFunc)
+	ClickEventHandler& Control::GetClickEventHandler()
 	{
-		this->clickFunc = clickFunc;
+		return clickEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetOnKeyPress(OnKeyPressFunc keyPressFunc)
+	KeyPressEventHandler& Control::GetKeyPressEventHandler()
 	{
-		this->keyPressFunc = keyPressFunc;
+		return keyPressEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetOnEnter(OnEnterFunc enterFunc)
+	MouseEnterEventHandler& Control::GetMouseEnterEventHandler()
 	{
-		this->enterFunc = enterFunc;
+		return mouseEnterEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetOnLeave(OnLeaveFunc leaveFunc)
+	MouseLeaveEventHandler& Control::GetMouseLeaveEventHandler()
 	{
-		this->leaveFunc = leaveFunc;
+		return mouseLeaveEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetOnChange(OnChangeFunc changeFunc)
+	ChangeEventHandler& Control::GetChangeEventHandler()
 	{
-		this->changeFunc = changeFunc;
+		return changeEventHandler;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent()
@@ -302,11 +295,6 @@ namespace OSHGui
 	void Control::OnMouseLeave()
 	{
 		mouseOver = false;
-	}
-	//---------------------------------------------------------------------------
-	bool Control::IsMouseOver(Control *control)
-	{
-		return false;//control == mouseOverControl;
 	}
 	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
@@ -374,34 +362,46 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
 	{
-		if (focusControl == control)
+		if (control == NULL || !control->CanHaveFocus())
 		{
 			return;
 		}
 
-		if (!control->CanHaveFocus())
+		//walk up parentStack
+		Control *baseParent = this;
+		while (baseParent->GetParent() != baseParent)
+		{
+			baseParent = baseParent->GetParent();
+		}
+
+		if (baseParent->focusControl == control)
 		{
 			return;
 		}
 
-		if (focusControl != NULL)
+		if (baseParent->focusControl != NULL)
 		{
-			focusControl->OnFocusOut();
+			baseParent->focusControl->OnFocusOut();
 		}
-
+		
 		control->OnFocusIn();
-		focusControl = control;
+		baseParent->focusControl = control;
 	}
 	//---------------------------------------------------------------------------
 	void Control::ClearFocus()
 	{
-		if (focusControl)
+		//walk up parentStack
+		Control *baseParent = this;
+		while (baseParent->GetParent() != baseParent)
 		{
-			focusControl->OnFocusOut();
-			focusControl = NULL;
+			baseParent = baseParent->GetParent();
 		}
 
-		ReleaseCapture();
+		if (baseParent->focusControl != NULL)
+		{
+			baseParent->focusControl->OnFocusOut();
+			baseParent->focusControl = NULL;
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::CaptureMouse(Control *control)
