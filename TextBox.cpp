@@ -56,7 +56,7 @@ namespace OSHGui
 	
 		clientArea = bounds;
 		textRect = Drawing::Rectangle(clientArea.GetLeft() + 7, clientArea.GetTop() + 5, clientArea.GetWidth() - 14, clientArea.GetHeight() - 10);
-		caretRect = Drawing::Rectangle(0, 0, 1, textRect.GetHeight());
+		PlaceCaret(caretPosition);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::ClearText()
@@ -92,7 +92,14 @@ namespace OSHGui
 		//if the new caretPosition is smaller than the textRect
 		if (newCaretPosition.Left <= firstVisibleCharacterPosition.Left)
 		{
-			firstVisibleCharacter = position;
+			if (position > 1)
+			{
+				firstVisibleCharacter = position - 2;
+			}
+			else
+			{
+				firstVisibleCharacter = position;
+			}
 		}
 		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is bigger than the textRect
 		{
@@ -191,18 +198,11 @@ namespace OSHGui
 				switch (keyboard->KeyCode)
 				{
 					case Key::Back:
-						if ((caretPosition > 0 || firstVisibleCharacter > 0) && textHelper.GetLength() > 0)
+						if (caretPosition > 0 && textHelper.GetLength() > 0)
 						{
 							textHelper.Remove(caretPosition - 1, 1);
-							if (firstVisibleCharacter > 0)
-							{
-								--firstVisibleCharacter;
-								PlaceCaret(caretPosition);
-							}
-							else
-							{
-								PlaceCaret(caretPosition - 1);
-							}
+							PlaceCaret(caretPosition - 1);
+							
 							hasChanged = true;
 						}
 						break;
@@ -229,7 +229,11 @@ namespace OSHGui
 					case Key::Right:
 						PlaceCaret(caretPosition + 1);
 						break;
+					case Key::Home:
+						PlaceCaret(0);
+						break;
 					case Key::End:
+						PlaceCaret(textHelper.GetLength());
 						break;
 				}
 			}

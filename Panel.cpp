@@ -10,8 +10,8 @@ namespace OSHGui
 	{
 		type = CONTROL_PANEL;
 		
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFD1CFCD));
+		SetBackColor(Drawing::Color::Black());
+		SetForeColor(Drawing::Color::Empty());
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -64,8 +64,13 @@ namespace OSHGui
 			return;
 		}
 	
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(bounds);
+		if (backColor.A != 0)
+		{
+			renderer->SetRenderColor(backColor);
+			renderer->Fill(bounds);
+			renderer->SetRenderColor(backColor + Drawing::Color(0, 58, 58, 58));
+			renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() / 2, backColor);
+		}
 	
 		if (controls.size() > 0)
 		{

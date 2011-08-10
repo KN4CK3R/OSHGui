@@ -10,7 +10,7 @@ namespace OSHGui
 		type = CONTROL_GROUPBOX;
 
 		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color::Color(0xFF545454));
+		SetForeColor(Drawing::Color(0xFFA3A3A3));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -87,7 +87,7 @@ namespace OSHGui
 		renderer->RenderText(font, bounds.GetLeft() + 5, bounds.GetTop() - 1, textHelper.GetText());
 
 		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + 5, 3, 1);
-		renderer->Fill(bounds.GetLeft() + textHelper.GetSize().Width + 5, bounds.GetTop() + 5, bounds.GetWidth() - textHelper.GetSize().Width - 5, 1);
+		renderer->Fill(bounds.GetLeft() + textHelper.GetSize().Width + 5, bounds.GetTop() + 5, bounds.GetWidth() - textHelper.GetSize().Width - 6, 1);
 		renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 6, 1, bounds.GetHeight() - 7);
 		renderer->Fill(bounds.GetLeft() + bounds.GetWidth() - 1, bounds.GetTop() + 6, 1, bounds.GetHeight() - 7);
 		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + bounds.GetHeight() - 1, bounds.GetWidth() - 2, 1);

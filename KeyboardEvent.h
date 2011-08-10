@@ -3,6 +3,7 @@
 
 #include "Key.h"
 #include "Event.h"
+#include "Misc\Strings.h"
 
 namespace OSHGui
 {
@@ -13,7 +14,7 @@ namespace OSHGui
 
 		KeyboardStates State;
 		Key::Keys KeyCode;
-		char KeyChar;
+		Misc::UnicodeChar KeyChar;
 		bool Menu,
 			 Control,
 			 Shift;

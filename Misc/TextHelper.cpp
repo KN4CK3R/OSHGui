@@ -120,7 +120,7 @@ namespace OSHGui
 		int TextHelper::GetClosestCharacterIndex(const Drawing::Point &position)
 		{
 			int distance = 0xFFFF;
-			int result;
+			int result = 0;
 
 			for (unsigned int i = 0; i < text.length(); ++i)
 			{

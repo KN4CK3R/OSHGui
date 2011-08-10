@@ -85,7 +85,14 @@ namespace OSHGui
 	void Control::SetBounds(Drawing::Rectangle &bounds)
 	{
 		this->bounds = bounds;
-		Invalidate();
+		
+		static bool isValid = true; //no recursive calls
+		if (isValid)
+		{
+			isValid = false;
+			Invalidate();
+			isValid = true;
+		}
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Rectangle Control::GetBounds()
@@ -102,7 +109,14 @@ namespace OSHGui
 	{
 		bounds.SetLeft(point.Left);
 		bounds.SetTop(point.Top);
-		Invalidate();
+		
+		static bool isValid = true; //no recursive calls
+		if (isValid)
+		{
+			isValid = false;
+			Invalidate();
+			isValid = true;
+		}
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Point Control::GetLocation()
@@ -119,6 +133,14 @@ namespace OSHGui
 		if (size.Height > -1)
 		{
 			bounds.SetHeight(size.Height);
+		}
+
+		static bool isValid = true; 
+		if (isValid)
+		{
+			isValid = false;
+			Invalidate();
+			isValid = true;
 		}
 	}
 	//---------------------------------------------------------------------------
