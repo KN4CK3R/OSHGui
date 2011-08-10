@@ -82,14 +82,21 @@ namespace OSHGui
 			size = GetStringWidth(0);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Point TextHelper::GetCharacterPosition(int index)
+		Drawing::Point TextHelper::GetCharacterPosition(int index, bool trailing)
 		{
-			if (GetLength() == 0 || index == 0)
+			if (GetLength() == 0)
 			{
 				return Drawing::Point(0, 0);
 			}
+			if (index == 0)
+			{
+				if (!trailing)
+				{
+					return Drawing::Point(0, 0);
+				}
+			}
 			
-			UnicodeString substring = text.substr(0, index);
+			UnicodeString substring = text.substr(0, trailing ? index + 1 : index);
 			Drawing::Size size = font->MeasureText(substring);
 			
 			return Drawing::Point(size.Width - 2, size.Height >= font->GetSize() ? size.Height - font->GetSize() : size.Height);

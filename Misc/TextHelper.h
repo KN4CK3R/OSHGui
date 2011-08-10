@@ -30,7 +30,7 @@ namespace OSHGui
 			
 			void RefreshSize();
 			
-			Drawing::Point GetCharacterPosition(int index);
+			Drawing::Point GetCharacterPosition(int index, bool trailing = false);
 			Drawing::Size GetStringWidth(int index, int size = -1);
 			int GetClosestCharacterIndex(const Drawing::Point &position);
 			

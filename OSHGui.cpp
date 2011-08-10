@@ -268,7 +268,7 @@ namespace OSHGui
 				{
 					keyboard.State = KeyboardEvent::Character;
 				}
-				if (keyboard.State == KeyboardEvent::DontContinue)
+				if (keyboard.State == KeyboardEvent::None)
 				{
 					break;
 				}
@@ -329,6 +329,7 @@ namespace OSHGui
 						keyboard.KeyCode = Key::Down;
 						break;
 					case 26:
+					case 1:
 					case 2:
 					case 14:
 					case 19:
@@ -342,6 +343,8 @@ namespace OSHGui
 					case 20:
 					case 25:
 					case 21:
+					case 22:
+					case 24:
 					case 15:
 					case 27:
 					case 29:
@@ -349,6 +352,10 @@ namespace OSHGui
 						keyboard.KeyCode = Key::None;
 						break;
 					default:
+						if (keyboard.Control && keyboard.State == KeyboardEvent::Character)
+						{
+							break;
+						}
 						keyboard.KeyChar = (Misc::UnicodeChar)msg->wParam;
 						switch (keyboard.KeyChar >= L'A' && keyboard.KeyChar <= L'Z' ? keyboard.KeyChar + 0x20 : keyboard.KeyChar)
 						{

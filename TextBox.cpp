@@ -11,7 +11,7 @@ namespace OSHGui
 
 		blinkTime = 0.4;
 		lastBlink = 0;//Gui::GlobalTime->GetAbsoluteTime();
-		firstVisibleCharacter = 5;
+		firstVisibleCharacter = 0;
 		caretPosition = 0;
 
 		SetBackColor(Drawing::Color(0xFF242321));
@@ -70,50 +70,46 @@ namespace OSHGui
 	{
 		if (position < 0)
 		{
-			if (firstVisibleCharacter > 0)
-			{
-				--firstVisibleCharacter;
-			}
-			caretPosition = 0;
-			caretRect = Drawing::Rectangle(textRect.GetLeft() - 1, textRect.GetTop(), 1, textRect.GetHeight());
+			position = 0;
 		}
-		else if (position == 0)
+		caretPosition = position;
+
+		Drawing::Point caretPositionTrail;
+		Drawing::Point firstVisibleCharacterPosition = textHelper.GetCharacterPosition(firstVisibleCharacter);
+		Drawing::Point newCaretPosition = textHelper.GetCharacterPosition(position);
+
+		//if the new caretPosition is bigger than the text length
+		if (position >= textHelper.GetLength())
 		{
-			caretPosition = 0;
-			caretRect = Drawing::Rectangle(textRect.GetLeft() - 1, textRect.GetTop(), 1, textRect.GetHeight());
+			caretPosition = position = textHelper.GetLength();
+			caretPositionTrail = newCaretPosition;
 		}
 		else
 		{
-			static int lastWidth = -1;
-			static int lastFirstVisibleCharacter = -1;
-
-			Drawing::Point firstPos = textHelper.GetCharacterPosition(firstVisibleCharacter);
-			Drawing::Point caretPos = textHelper.GetCharacterPosition(position + firstVisibleCharacter);
-
-			if (caretPos.Left - firstPos.Left >= textRect.GetWidth())
-			{
-				++firstVisibleCharacter;
-				caretPosition = --position;
-			}
-			else
-			{
-				caretPosition = position;
-			}
-			
-			Drawing::Size strWidth = textHelper.GetStringWidth(firstVisibleCharacter, caretPosition);
-
-			if (lastWidth == strWidth.Width && lastFirstVisibleCharacter == firstVisibleCharacter)
-			{
-				--caretPosition;
-			}
-			else
-			{
-				lastWidth = strWidth.Width;
-			}
-			lastFirstVisibleCharacter = firstVisibleCharacter;
-
-			caretRect = Drawing::Rectangle(textRect.GetLeft() + strWidth.Width - 1, textRect.GetTop(), 1, textRect.GetHeight());
+			caretPositionTrail = textHelper.GetCharacterPosition(position, true);
 		}
+
+		//if the new caretPosition is smaller than the textRect
+		if (newCaretPosition.Left <= firstVisibleCharacterPosition.Left)
+		{
+			firstVisibleCharacter = position;
+		}
+		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is bigger than the textRect
+		{
+			int newFirstVisibleCharacterPositionLeft = caretPositionTrail.Left - textRect.GetWidth();
+			int newFirstVisibleCharacter = textHelper.GetClosestCharacterIndex(Drawing::Point(newFirstVisibleCharacterPositionLeft, 0));
+
+			Drawing::Point newFirstVisibleCharacterPosition = textHelper.GetCharacterPosition(newFirstVisibleCharacter);
+			if (newFirstVisibleCharacterPosition.Left < newFirstVisibleCharacterPositionLeft)
+			{
+				++newFirstVisibleCharacter;
+			}
+
+			firstVisibleCharacter = newFirstVisibleCharacter;
+		}
+
+		Drawing::Size strWidth = textHelper.GetStringWidth(firstVisibleCharacter, caretPosition - firstVisibleCharacter);
+		caretRect = Drawing::Rectangle(textRect.GetLeft() + strWidth.Width, textRect.GetTop(), 1, textRect.GetHeight());
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PasteFromClipboard()
@@ -165,7 +161,8 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 
-					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position - Drawing::Point(7, 0)/*textRect padding*/) - 1);
+					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
+					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
 
 					clickEventHandler.Invoke(this, mouse);
 				
@@ -177,16 +174,17 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			bool hasChanged = true;
+			bool hasChanged = false;
 		
-			KeyboardEvent *keyboard = (KeyboardEvent*) event;
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			
 			keyPressEventHandler.Invoke(this, keyboard);
 
 			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{
-				textHelper.Insert(caretPosition + firstVisibleCharacter, keyboard->KeyChar);
+				textHelper.Insert(caretPosition, keyboard->KeyChar);
 				PlaceCaret(++caretPosition);
+				hasChanged = true;
 			}
 			else if (keyboard->State == KeyboardEvent::Down)
 			{
@@ -195,25 +193,17 @@ namespace OSHGui
 					case Key::Back:
 						if ((caretPosition > 0 || firstVisibleCharacter > 0) && textHelper.GetLength() > 0)
 						{
-							textHelper.Remove(caretPosition + firstVisibleCharacter - 1, 1);
+							textHelper.Remove(caretPosition - 1, 1);
 							if (firstVisibleCharacter > 0)
 							{
-								if (caretPosition == 0)
-								{
-									int maxChange = firstVisibleCharacter > 3 ? 3 : firstVisibleCharacter;
-									firstVisibleCharacter -= maxChange;
-									PlaceCaret(caretPosition + maxChange);
-								}
-								else
-								{
-									--firstVisibleCharacter;
-									PlaceCaret(caretPosition);
-								}
+								--firstVisibleCharacter;
+								PlaceCaret(caretPosition);
 							}
 							else
 							{
-								PlaceCaret(caretPosition);
+								PlaceCaret(caretPosition - 1);
 							}
+							hasChanged = true;
 						}
 						break;
 					case Key::Delete:
@@ -221,6 +211,7 @@ namespace OSHGui
 						{
 							textHelper.Remove(caretPosition + firstVisibleCharacter, 1);
 							PlaceCaret(caretPosition);
+							hasChanged = true;
 						}
 						break;
 					case Key::V:
@@ -234,14 +225,11 @@ namespace OSHGui
 						break;
 					case Key::Left:
 						PlaceCaret(caretPosition - 1);
-						hasChanged = false;
 						break;
 					case Key::Right:
 						PlaceCaret(caretPosition + 1);
-						hasChanged = false;
 						break;
-					default:
-						hasChanged = false;
+					case Key::End:
 						break;
 				}
 			}
