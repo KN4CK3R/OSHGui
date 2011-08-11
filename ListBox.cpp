@@ -91,8 +91,6 @@ namespace OSHGui
 		
 		newItem->Text = text;
 		
-		newItem->ItemRect = Drawing::Rectangle(0, 0, 0, 0);
-
 		items.insert(items.begin() + index, newItem);
 
 		scrollBar.SetRange(items.size());
@@ -230,7 +228,7 @@ namespace OSHGui
 				}
 			}
 		}
-				
+		
 		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
 		{
 			firstVisibleItemIndex = scrollBar.GetPosition();
@@ -244,7 +242,7 @@ namespace OSHGui
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (items.size() != 0 && Drawing::Rectangle(2, 2, clientArea.GetWidth() - scrollBar.GetWidth() - 4, clientArea.GetHeight() - 4).Contains(mouse->Position)) //itemsRect
+				if (items.size() != 0 && Drawing::Rectangle(4, 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
 				{	
 					int itemIndex = -1;
 					for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
@@ -259,6 +257,7 @@ namespace OSHGui
 					if (itemIndex != -1)
 					{
 						selectedIndex = itemIndex + firstVisibleItemIndex;
+						changeEventHandler.Invoke(this);
 					}
 				}
 

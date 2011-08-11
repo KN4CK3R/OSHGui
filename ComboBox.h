@@ -23,36 +23,34 @@ namespace OSHGui
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
-		bool AddItem(const char *itemText);
-		bool InsertItem(int index, const char *itemText);
+		bool AddItem( const Misc::UnicodeString &text);
+		bool InsertItem(int index, const Misc::UnicodeString &text);
 		bool RemoveItem(int index);
 		bool Clear();
-		bool Contains(const char *text);
-		int Find(const char *text);
 		void SelectItem(int newIndex);
+
+		virtual void Invalidate();
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
-		virtual void OnFocusOut();
 	
-	protected:
-		virtual void UpdateRects();
-	
+	protected:	
 		ScrollBar scrollBar;
 		
 		int dropdownHeight;
 		
 		int selectedIndex,
-			focusedIndex;
-		bool opened;
+			firstVisibleItemIndex,
+			mouseOverItemIndex;
+		bool open;
 		
 		Drawing::Rectangle buttonRect,
 						   textRect,
-						   dropdownRect,
+						   dropDownRect,
 						   scrollBarRect,
 						   itemsRect;
 		
-		Misc::List<ListItem*> items;
+		std::vector<ListItem*> items;
 	};
 }
 

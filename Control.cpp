@@ -304,11 +304,6 @@ namespace OSHGui
 		return;
 	}
 	//---------------------------------------------------------------------------
-	void Control::UpdateRects()
-	{
-		return;
-	}
-	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
 	{
 		if (control != NULL)

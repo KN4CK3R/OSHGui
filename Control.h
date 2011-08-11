@@ -132,7 +132,6 @@ namespace OSHGui
 		
 	protected:
 		CONTROL_TYPE type;
-		virtual void UpdateRects();
 		
 		Misc::UnicodeString name;
 	
