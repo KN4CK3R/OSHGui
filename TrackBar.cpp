@@ -108,9 +108,6 @@ namespace OSHGui
 				{
 					pressed = true;
 
-					dragX = mouse->Position.X;
-					dragOffset = sliderMiddle - dragX;
-
 					if (!hasFocus)
 					{
 						Parent->RequestFocus(this);
@@ -121,8 +118,6 @@ namespace OSHGui
 
 				if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
 				{
-					dragX = mouse->Position.X;
-					dragOffset = 0;
 					pressed = true;
 					
 					if (!hasFocus)

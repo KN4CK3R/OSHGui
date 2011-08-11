@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 		type = CONTROL_LISTBOX;
 				
-		selectedIndex = -1;
+		selectedIndex = 0;
 		firstVisibleItemIndex = 0;
 		drag = false;
 
@@ -63,14 +63,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::Invalidate()
 	{
-		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
+		clientArea = bounds;
 		
 		scrollBar.Invalidate();
 
-		itemsRect = Drawing::Rectangle(2, 2, scrollBar.GetWidth() - 4, bounds.GetHeight() - 4);
+		itemsRect = Drawing::Rectangle(clientArea.GetLeft() + 4, clientArea.GetTop() + 4, clientArea.GetWidth() - scrollBar.GetWidth() - 8, clientArea.GetHeight() - 8);
 
-		scrollBar.SetPageSize(itemsRect.GetHeight() / LISTBOX_ITEM_HEIGHT);
-		scrollBar.ShowItem(selectedIndex);
+		scrollBar.SetPageSize(itemsRect.GetHeight() / (font->GetSize() + 2));
+		if (scrollBar.ShowItem(selectedIndex))
+		{
+			firstVisibleItemIndex = scrollBar.GetPosition();
+		}
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::AddItem(const Misc::UnicodeString &text)
@@ -92,7 +95,7 @@ namespace OSHGui
 
 		items.insert(items.begin() + index, newItem);
 
-		scrollBar.SetRange(0, items.size());
+		scrollBar.SetRange(items.size());
 		return true;
 	}
 	//---------------------------------------------------------------------------
@@ -109,15 +112,12 @@ namespace OSHGui
 		
 		items.erase(items.begin() + index);
 
-		scrollBar.SetRange(0, items.size());
+		scrollBar.SetRange(items.size());
 		if (selectedIndex >= items.size())
 		{
 			selectedIndex = items.size() - 1;
 			
-			if (changeFunc != NULL)
-			{
-				(*changeFunc)(this);
-			}
+			changeEventHandler.Invoke(this);
 		}
 
 		return true;
@@ -134,7 +134,7 @@ namespace OSHGui
 
 		items.clear();
 		
-		scrollBar.SetRange(0, 1);
+		scrollBar.SetRange(1);
 		
 		selectedIndex = -1;
 
@@ -163,13 +163,18 @@ namespace OSHGui
 
 		if (oldSelectedIndex != selectedIndex)
 		{
-			scrollBar.ShowItem(selectedIndex);
-			
-			if (changeFunc != NULL)
+			if (scrollBar.ShowItem(selectedIndex))
 			{
-				(*changeFunc)(this);
+				firstVisibleItemIndex = scrollBar.GetPosition();
 			}
+			
+			changeEventHandler.Invoke(this);
 		}
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point ListBox::PointToClient(const Drawing::Point &point)
+	{
+		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -181,24 +186,42 @@ namespace OSHGui
 			return Event::DontContinue;
 		}
 
-		if (!hasFocus && event->Type == Event::Mouse)
+		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
+			Drawing::Point mousePositionBackup = mouse->Position;
+			mouse->Position = PointToClient(mouse->Position);
+
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				Drawing::Point mousePositionBackup = mouse->Position;
-				mouse->Position = PointToClient(mouse->Position);
-
-				if (clientArea.Contains(mouse->Position))
+				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //clientArea
 				{
-					Parent->RequestFocus(this);
+					if (!hasFocus)
+					{
+						Parent->RequestFocus(this);
+					}
+				}
+				else
+				{
+					mouse->Position = mousePositionBackup;
+
+					return Event::Continue;
+				}
+			}
+			else if (mouse->State == MouseEvent::Scroll)
+			{
+				if (!hasFocus)
+				{
+					mouse->Position = mousePositionBackup;
+
+					return Event::Continue;
 				}
 			}
 		}
 				
 		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
 		{
-			selectedIndex = scrollBar.GetPosition();
+			firstVisibleItemIndex = scrollBar.GetPosition();
 		
 			return Event::DontContinue;
 		}
@@ -207,81 +230,27 @@ namespace OSHGui
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			
-			if (items.size() != 0 && itemsRect.Contains(mouse->Position))
+			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (mouse->State == MouseEvent::LeftDown)
-				{
-					int itemIndex = mouse->Position.Y / LISTBOX_ITEM_HEIGHT + firstVisibleItemIndex;
-					
-					for (int i = 0; i < itemsRect.GetHeight() / LISTBOX_ITEM_HEIGHT; ++i)
+				if (items.size() != 0 && Drawing::Rectangle(2, 2, clientArea.GetWidth() - scrollBar.GetWidth() - 4, clientArea.GetHeight() - 4).Contains(mouse->Position)) //itemsRect
+				{	
+					int itemIndex = -1;
+					for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
 					{
-						if (i * LISTBOX_ITEM_HEIGHT + LISTBOX_ITEM_HEIGHT > mouse->Position.Y)
+						if (i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
 						{
-							selectedIndex = i;
+							itemIndex = i;
 							break;
 						}
 					}
-				}
-			}
-			
-			if (items.size() != 0 && scrollBarRect.Contains(mouse->Position))
-			{
-				if (mouse->State == MouseEvent::LeftDown)
-				{
-					int itemIndex = scrollBar.GetPosition() + (mouse->Position.Y - itemsRect.GetTop()) / 12;
 
-					if (itemIndex >= scrollBar.GetPosition() && itemIndex < items.size() && itemIndex < scrollBar.GetPosition() + scrollBar.GetPageSize())
+					if (itemIndex != -1)
 					{
-						drag = true;
-
-						selectedIndex = itemIndex;
+						selectedIndex = itemIndex + firstVisibleItemIndex;
 					}
-					
-					return Event::DontContinue;
 				}
-				else if (mouse->State == MouseEvent::Move)
-				{
-					if (drag)
-					{
-						int itemIndex = scrollBar.GetPosition() + (mouse->Position.Y - itemsRect.GetTop()) / 12;
 
-						if (itemIndex >= scrollBar.GetPosition() && itemIndex < items.size() && itemIndex < scrollBar.GetPosition() + scrollBar.GetPageSize())
-						{
-							selectedIndex = itemIndex;
-						}
-						else if (itemIndex < scrollBar.GetPosition())
-						{
-							scrollBar.Scroll(-1);
-							selectedIndex = scrollBar.GetPosition();
-						}
-						else if (itemIndex >= scrollBar.GetPosition() + scrollBar.GetPageSize())
-						{
-							scrollBar.Scroll(1);
-							selectedIndex = scrollBar.GetPosition() + scrollBar.GetPageSize();
-							if (selectedIndex > items.size())
-							{
-								selectedIndex = items.size();
-							}
-							--selectedIndex;
-						}
-					}
-					
-					return Event::DontContinue;
-				}
-				else if (mouse->State == MouseEvent::LeftUp)
-				{
-					drag = false;
-
-					if (selectedIndex != -1)
-					{
-						if (changeFunc != NULL)
-						{
-							(*changeFunc)(this);
-						}
-					}
-					
-					return Event::DontContinue;
-				}
+				return Event::DontContinue;
 			}
 		}
 		else if (event->Type == Event::Keyboard)
@@ -291,58 +260,61 @@ namespace OSHGui
 				return Event::DontContinue;
 			}
 		
-			KeyboardEvent *keyboard = (KeyboardEvent*) event;
-			switch (keyboard->KeyCode)
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			if (keyboard->State == KeyboardEvent::Down)
 			{
-				case Key::Up:
-				case Key::Down:
-				case Key::Home:
-				case Key::End:
-				case Key::PageUp:
-				case Key::PageDown:
-					int oldSelectedIndex = selectedIndex;
+				switch (keyboard->KeyCode)
+				{
+					case Key::Up:
+					case Key::Down:
+					case Key::Home:
+					case Key::End:
+					case Key::PageUp:
+					case Key::PageDown:
+						int oldSelectedIndex = selectedIndex;
 
-					switch (keyboard->KeyCode)
-					{
-						case Key::Up:
-							--selectedIndex;
-							break;
-						case Key::Down:
-							++selectedIndex;
-							break;
-						case Key::Home:
-							selectedIndex = 0;
-							break;
-						case Key::End:
-							selectedIndex = items.size() - 1;
-							break;
-						case Key::PageUp:
-							selectedIndex += scrollBar.GetPageSize() - 1;
-							break;
-						case Key::PageDown:
-							selectedIndex -= scrollBar.GetPageSize() - 1;
-							break;
-					}
-
-					if (selectedIndex < 0)
-					{
-						selectedIndex = 0;
-					}
-					if (selectedIndex >= items.size())
-					{
-						selectedIndex = items.size() - 1;
-					}
-
-					if (oldSelectedIndex != selectedIndex)
-					{
-						scrollBar.ShowItem(selectedIndex);
-						
-						if (changeFunc != NULL)
+						switch (keyboard->KeyCode)
 						{
-							(*changeFunc)(this);
+							case Key::Up:
+								--selectedIndex;
+								break;
+							case Key::Down:
+								++selectedIndex;
+								break;
+							case Key::Home:
+								selectedIndex = 0;
+								break;
+							case Key::End:
+								selectedIndex = items.size() - 1;
+								break;
+							case Key::PageUp:
+								selectedIndex += scrollBar.GetPageSize() - 1;
+								break;
+							case Key::PageDown:
+								selectedIndex -= scrollBar.GetPageSize() - 1;
+								break;
 						}
-					}
-					return Event::DontContinue;
+
+						if (selectedIndex < 0)
+						{
+							selectedIndex = 0;
+						}
+						if (selectedIndex >= items.size())
+						{
+							selectedIndex = items.size() - 1;
+						}
+
+						if (oldSelectedIndex != selectedIndex)
+						{
+							if (scrollBar.ShowItem(selectedIndex))
+							{
+								firstVisibleItemIndex = scrollBar.GetPosition();
+							}
+						
+							changeEventHandler.Invoke(this);
+						}
+						return Event::DontContinue;
+				}
 			}
 		}
 		else if (event->Type == Event::System)
@@ -365,54 +337,28 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		/*if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture());
-			}
 			
-			Drawing::Size size = bounds.GetSize();
-			
-			Drawing::ITexture *main = texture.Get(0);
-			
-			main->Create(size);
-			main->BeginUpdate();
-			main->Clear();
-			
-			main->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF353432), Drawing::Color(0xFF171614));
-
-			Drawing::Color border(0x804C4B47);
-			
-			main->Fill(0, 1, 1, size.Height - 2, border);
-			main->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
-			main->Fill(1, 0, size.Width - 2, 1, border);
-			main->Fill(1, size.Height - 1, size.Width - 2, 1, border);
-
-			main->Fill(1, 1, 1, 1, border);
-			main->Fill(size.Width - 2, 1, 1, 1, border);
-			main->Fill(1, size.Height - 2, 1, 1, border);
-			main->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
-			
-			main->EndUpdate();
-		}*/
-
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(1, 0, clientArea.GetWidth() - 2, clientArea.GetHeight());
-		renderer->Fill(0, 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
+		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetTop(), clientArea.GetWidth() - 2, clientArea.GetHeight());
+		renderer->Fill(clientArea.GetLeft(), clientArea.GetTop() + 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
-		for (unsigned int i = firstVisibleItemIndex; i < items.size(); ++i)
+		for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
 		{
-			renderer->RenderText(font, 2, 2 + i * (font->GetSize() + 2), clientArea.GetWidth() - 4, font->GetSize() + 2, items[i]->Text);
+			if (firstVisibleItemIndex + i == selectedIndex)
+			{
+				renderer->SetRenderColor(Drawing::Color::Orange());
+				renderer->Fill(itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2);
+				renderer->SetRenderColor(foreColor);
+			}
+
+			renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]->Text);
 		}
 	
 		scrollBar.Render(renderer);
 
+		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
+		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
 		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------

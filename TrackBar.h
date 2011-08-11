@@ -32,9 +32,7 @@ namespace OSHGui
 		int min,
 			max,
 			value,
-			sliderMiddle,
-			dragX,
-			dragOffset;
+			sliderMiddle;
 		bool pressed;
 		
 		Drawing::Rectangle sliderRect;

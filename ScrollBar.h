@@ -15,7 +15,7 @@ namespace OSHGui
 	public:
 		ScrollBar(Control *parent);
 		
-		void SetRange(int start, int end);
+		void SetRange(int range);
 		void SetPosition(int position);
 		int GetPosition();
 		void SetPageSize(int pageSize);
@@ -24,9 +24,11 @@ namespace OSHGui
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
 		void Scroll(int delta);
-		void ShowItem(int index);
+		bool ShowItem(int index);
 
 		virtual void Invalidate();
+
+		virtual Drawing::Point PointToClient(const Drawing::Point &point);
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
@@ -35,9 +37,8 @@ namespace OSHGui
 		void UpdateSliderRect();
 		void Capture();
 	
-		int start,
-			end,
-			position,
+		int position,
+			range,
 			pageSize;
 		bool drag,
 			 showScrollBar;

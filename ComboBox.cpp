@@ -127,7 +127,7 @@ namespace OSHGui
 		}
 		else
 		{
-			scrollBar.SetRange(0, items.GetSize());
+			scrollBar.SetRange(items.GetSize());
 			
 			if (GetItemsCount() == 1)
 			{
@@ -171,7 +171,7 @@ namespace OSHGui
 		}
 		else
 		{
-			scrollBar.SetRange(0, items.GetSize());
+			scrollBar.SetRange(items.GetSize());
 			
 			if (GetItemsCount() == 1)
 			{
@@ -200,7 +200,7 @@ namespace OSHGui
 		
 		items.Remove(index);
 		
-		scrollBar.SetRange(0, items.GetSize());
+		scrollBar.SetRange(items.GetSize());
 		
 		if (selectedIndex >= items.GetSize())
 		{
@@ -226,7 +226,7 @@ namespace OSHGui
 
 		items.Clear();
 		
-		scrollBar.SetRange(0, 1);
+		scrollBar.SetRange(1);
 		
 		selectedIndex = -1;
 		focusedIndex = -1;

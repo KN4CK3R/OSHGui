@@ -209,7 +209,7 @@ namespace OSHGui
 				#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
 				MouseEvent mouse(MouseEvent::None, Drawing::Point(GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)), 0);
-				
+
 				switch (msg->message)
 				{
 					case WM_MOUSEMOVE:
@@ -233,7 +233,7 @@ namespace OSHGui
 						break;
 					case WM_MOUSEWHEEL:
 						mouse.State = MouseEvent::Scroll;
-						mouse.Delta = ((short)HIWORD(msg->wParam) / 120);
+						mouse.Delta = -((short)HIWORD(msg->wParam) / 120) * 4/*number of lines to scroll*/;
 						break;
 				}
 				

@@ -127,7 +127,6 @@ namespace OSHGui
 				}
 			}
 
-
 			mouse->Position.Top -= captionBar.GetHeight();
 		}
 	

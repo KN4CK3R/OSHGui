@@ -7,8 +7,6 @@
 #include "ScrollBar.h"
 #include "ListItem.h"
 
-#define LISTBOX_ITEM_HEIGHT 14
-
 namespace OSHGui
 {
 	class ListBox : public Control
@@ -31,6 +29,8 @@ namespace OSHGui
 		void SelectItem(int newIndex);
 		
 		virtual void Invalidate();
+
+		virtual Drawing::Point PointToClient(const Drawing::Point &point);
 
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);

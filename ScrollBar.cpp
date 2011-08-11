@@ -13,9 +13,8 @@ namespace OSHGui
 		showScrollBar = false;
 		
 		position = 0;
+		range = 1;
 		pageSize = 1;
-		start = 0;
-		end = 1;
 		
 		delayTimestamp = 0;
 
@@ -25,10 +24,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetRange(int start, int end)
+	void ScrollBar::SetRange(int range)
 	{
-		this->start = start;
-		this->end = end;
+		this->range = range;
 		Capture();
 		UpdateSliderRect();
 	}
@@ -47,7 +45,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetPageSize(int pageSize)
 	{
-		pageSize = pageSize;
+		this->pageSize = pageSize;
 		Capture();
 		UpdateSliderRect();
 	}
@@ -66,28 +64,31 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Invalidate()
 	{
-		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH - 3, 0, SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
+		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetTop(), SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
 
-		clientArea = Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight());
-		trackRect = Drawing::Rectangle(0, SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2);
-		upButtonRect = Drawing::Rectangle(0, 0, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
-		downButtonRect = Drawing::Rectangle(0, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
+		clientArea = bounds;
+		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2);
+		upButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop(), SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
+		downButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
 				
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::UpdateSliderRect()
 	{
-		if (end - start > pageSize)
+		if (range > pageSize)
 		{
-			int sliderHeight = (clientArea.GetHeight() - 2 * 22) * pageSize / (end - start);
+			int sliderHeight = (trackRect.GetHeight() - 2) * (pageSize / (float)range);
 			if (sliderHeight < SCROLLBAR_MIN_SLIDER_HEIGHT)
 			{
 				sliderHeight = SCROLLBAR_MIN_SLIDER_HEIGHT;
 			}
-			int maxPosition = end - start - pageSize;
 			
-			sliderRect = Drawing::Rectangle(0, SCROLLBAR_DEFAULT_BUTTON_HEIGHT + ((clientArea.GetHeight() - 2 * 22) / maxPosition) * position, SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderHeight);
+			float positionPerPixel = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)range - pageSize);
+			int yPos = trackRect.GetTop() + 1 + positionPerPixel * (position);
+			
+			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderHeight);
+			
 			showScrollBar = true;
 		}
 		else
@@ -98,13 +99,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Capture()
 	{
-		if (position < start || end - start <= pageSize)
+		if (position < 0)
 		{
-			position = start;
+			position = 0;
 		}
-		else if (position + pageSize > end)
+		else if (position > range - pageSize)
 		{
-			position = end - pageSize;
+			position = range - pageSize;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -117,16 +118,21 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::ShowItem(int index)
+	bool ScrollBar::ShowItem(int index)
 	{
+		if (!showScrollBar)
+		{
+			return false;
+		}
+
 		if (index < 0)
 		{
 			index = 0;
 		}
 
-		if (index >= end)
+		if (index >= range)
 		{
-			index = end - 1;
+			index = range - 1;
 		}
 
 		if (position > index)
@@ -139,6 +145,13 @@ namespace OSHGui
 		}
 
 		UpdateSliderRect();
+
+		return true;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point ScrollBar::PointToClient(const Drawing::Point &point)
+	{
+		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -149,6 +162,11 @@ namespace OSHGui
 		{
 			return Event::DontContinue;
 		}
+
+		if (!showScrollBar)
+		{
+			return Event::Continue;
+		}
 	
 		if (event->Type == Event::Mouse)
 		{
@@ -158,9 +176,9 @@ namespace OSHGui
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (upButtonRect.Contains(mouse->Position))
+				if (Drawing::Rectangle(0, 0, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT).Contains(mouse->Position)) //upButton
 				{
-					if (position > start)
+					if (position > 0)
 					{
 						--position;
 					}
@@ -170,9 +188,9 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 				
-				if (downButtonRect.Contains(mouse->Position))
+				if (Drawing::Rectangle(0, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT).Contains(mouse->Position)) //downButton
 				{
-					if (position + pageSize < end)
+					if (position < range - pageSize)
 					{
 						position++;
 					}
@@ -182,24 +200,22 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 				
-				if (sliderRect.Contains(mouse->Position))
+				if (Drawing::Rectangle(0, sliderRect.GetTop() - clientArea.GetTop(), SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderRect.GetHeight()).Contains(mouse->Position)) //sliderRect
 				{
 					drag = true;
-					
-					//SliderOffsetY = mouse->Position.Y - sliderRect.GetTop();
 					
 					return Event::DontContinue;
 				}
 
-				if (trackRect.Contains(mouse->Position))
+				if (Drawing::Rectangle(0, SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2).Contains(mouse->Position)) //trackRect
 				{
-					if (sliderRect.GetTop() > mouse->Position.Y)
+					if (sliderRect.GetTop() - clientArea.GetTop() > mouse->Position.Y)
 					{
 						Scroll(-(pageSize - 1));
 						
 						return Event::DontContinue;
 					}
-					else if (sliderRect.GetBottom() < mouse->Position.Y)
+					else if (sliderRect.GetBottom() - clientArea.GetBottom() < mouse->Position.Y)
 					{
 						Scroll(pageSize - 1);
 						
@@ -222,23 +238,31 @@ namespace OSHGui
 			{
 				if (drag)
 				{
-					float valuePerPixel = (float)(end - start) / (trackRect.GetHeight() - sliderRect.GetHeight());
-					int value = (int)(0.5f + start + valuePerPixel * mouse->Position.Y);
-					
-					if (value <= SCROLLBAR_DEFAULT_BUTTON_HEIGHT)
+					float positionPerPixel = (float)range / (trackRect.GetHeight() - 2 - sliderRect.GetHeight());
+
+					int yPos = mouse->Position.Y - SCROLLBAR_DEFAULT_BUTTON_HEIGHT - sliderRect.GetHeight() / 2;
+					if (yPos < 0)
 					{
-						value = SCROLLBAR_DEFAULT_BUTTON_HEIGHT + 1;
+						yPos = 0;
 					}
-					else if (value + sliderRect.GetHeight() + 1 >= trackRect.GetBottom())
+					else if (yPos + sliderRect.GetHeight() > downButtonRect.GetTop() - clientArea.GetTop())
 					{
-						value = trackRect.GetBottom() - sliderRect.GetHeight() - 1;
+						yPos = downButtonRect.GetTop() - clientArea.GetTop() - 1;
 					}
-					
-					sliderRect.SetTop(value);
-					
-					position = start + valuePerPixel * value;
+
+					if (yPos > pageSize)
+					{
+						position = yPos * positionPerPixel - pageSize;
+					}
+					//else
+					{
+						position = yPos * positionPerPixel;
+					}
+										
+					sliderRect.SetTop(upButtonRect.GetBottom() + yPos + 1);
+
+					return Event::DontContinue;
 				}
-				return Event::DontContinue;
 			}
 			else if (mouse->State == MouseEvent::Scroll)
 			{
@@ -272,38 +296,34 @@ namespace OSHGui
 			return;
 		}
 
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		Drawing::Rectangle tmp = clientArea + bounds.GetPosition() + renderRect.GetPosition();
-		renderer->SetRenderRectangle(tmp);
+		renderer->SetRenderColor(Drawing::Color::Lime());
+		renderer->Fill(upButtonRect);
+		renderer->Fill(downButtonRect);
 
 		renderer->SetRenderColor(foreColor);
 		for (int i = 0; i < 4; ++i)
 		{
 			//upButton
-			renderer->Fill(6 - i, 8 + i, 1 + i * 2, 1);
+			renderer->Fill(upButtonRect.GetLeft() + 6 - i, upButtonRect.GetTop() + 8 + i, 1 + i * 2, 1);
 			//downButton
-			renderer->Fill(6 - i, clientArea.GetHeight() - 9 - i, 1 + i * 2, 1);
+			renderer->Fill(downButtonRect.GetLeft() + 6 - i, downButtonRect.GetBottom() - 9 - i, 1 + i * 2, 1);
 		}
-		
-		renderer->SetRenderRectangle(tmp + sliderRect.GetPosition());
 
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(1, 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2);
+		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop() + 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2);
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(0, 1, 1, sliderRect.GetHeight() - 3);
-		renderer->Fill(1, 0, sliderRect.GetWidth() - 3, 1);
+		renderer->Fill(sliderRect.GetLeft(), sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 3);
+		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop(), sliderRect.GetWidth() - 3, 1);
 
-		int sliderHalfHeight = sliderRect.GetHeight() / 2 - 3;
+		int sliderHalfHeight = sliderRect.GetTop() + sliderRect.GetHeight() / 2 - 3;
 		for (int i = 0; i < 3; ++i)
 		{
-			renderer->Fill (5, sliderHalfHeight + i * 3, 5, 1);
+			renderer->Fill(sliderRect.GetLeft() + 5, sliderHalfHeight + i * 3, 5, 1);
 		}
 
 		renderer->SetRenderColor(foreColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(sliderRect.GetWidth() - 1, 1, 1, sliderRect.GetHeight() - 2);
-		renderer->Fill(1, sliderRect.GetHeight() - 1, sliderRect.GetWidth() - 2, 1);
-
-		renderer->SetRenderRectangle(renderRect);
+		renderer->Fill(sliderRect.GetRight() - 1, sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
+		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetBottom() - 1, sliderRect.GetWidth() - 2, 1);
 	}
 	//---------------------------------------------------------------------------
 }
