@@ -42,9 +42,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Button::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !visible || !enabled)
+		if (event == NULL)
 		{
 			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
+		{
+			return Event::Continue;
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -102,8 +107,7 @@ namespace OSHGui
 
 		if (hasFocus || mouseOver)
 		{
-			tempColor += adjustColor;
-			tempColor = Drawing::Color::Cyan();
+			tempColor += mouseOverFocusColor;
 		}
 		
 		renderer->SetRenderColor(tempColor + Drawing::Color(0, 10, 10, 10));

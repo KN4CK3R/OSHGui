@@ -40,8 +40,7 @@ namespace OSHGui
 		int position,
 			range,
 			pageSize;
-		bool drag,
-			 showScrollBar;
+		bool drag;
 		
 		Drawing::Rectangle upButtonRect,
 						   downButtonRect,

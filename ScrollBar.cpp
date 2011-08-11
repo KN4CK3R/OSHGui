@@ -10,7 +10,7 @@ namespace OSHGui
 		type = CONTROL_SCROLLBAR;
 		
 		drag = false;
-		showScrollBar = false;
+		visible = false;
 		
 		position = 0;
 		range = 1;
@@ -89,11 +89,11 @@ namespace OSHGui
 			
 			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderHeight);
 			
-			showScrollBar = true;
+			visible = true;
 		}
 		else
 		{
-			showScrollBar = false;
+			visible = false;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -120,7 +120,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ScrollBar::ShowItem(int index)
 	{
-		if (!showScrollBar)
+		if (!visible)
 		{
 			return false;
 		}
@@ -158,12 +158,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ScrollBar::ProcessEvent(Event *event)
 	{	
-		if (event == NULL || !visible || !enabled)
+		if (event == NULL)
 		{
 			return Event::DontContinue;
 		}
 
-		if (!showScrollBar)
+		if (!visible || !enabled)
 		{
 			return Event::Continue;
 		}
@@ -238,27 +238,20 @@ namespace OSHGui
 			{
 				if (drag)
 				{
-					float positionPerPixel = (float)range / (trackRect.GetHeight() - 2 - sliderRect.GetHeight());
+					float positionPerPixel = (float)(range - pageSize) / (trackRect.GetHeight() - 2 - sliderRect.GetHeight());
 
 					int yPos = mouse->Position.Y - SCROLLBAR_DEFAULT_BUTTON_HEIGHT - sliderRect.GetHeight() / 2;
 					if (yPos < 0)
 					{
 						yPos = 0;
 					}
-					else if (yPos + sliderRect.GetHeight() > downButtonRect.GetTop() - clientArea.GetTop())
+					else if (yPos + sliderRect.GetHeight() + trackRect.GetTop() > downButtonRect.GetTop())
 					{
-						yPos = downButtonRect.GetTop() - clientArea.GetTop() - 1;
+						yPos = downButtonRect.GetTop() - sliderRect.GetHeight() - trackRect.GetTop() - 1;
 					}
 
-					if (yPos > pageSize)
-					{
-						position = yPos * positionPerPixel - pageSize;
-					}
-					//else
-					{
-						position = yPos * positionPerPixel;
-					}
-										
+					position = yPos * positionPerPixel;
+							
 					sliderRect.SetTop(upButtonRect.GetBottom() + yPos + 1);
 
 					return Event::DontContinue;
@@ -291,16 +284,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Render(Drawing::IRenderer *renderer)
 	{
-		if (!showScrollBar)
+		if (!visible)
 		{
 			return;
 		}
 
-		renderer->SetRenderColor(Drawing::Color::Lime());
-		renderer->Fill(upButtonRect);
-		renderer->Fill(downButtonRect);
-
 		renderer->SetRenderColor(foreColor);
+		renderer->Fill(clientArea.GetLeft() - 2, clientArea.GetTop(), 1, clientArea.GetHeight());
+
 		for (int i = 0; i < 4; ++i)
 		{
 			//upButton

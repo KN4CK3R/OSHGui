@@ -25,7 +25,7 @@ namespace OSHGui
 
 		font = Drawing::IRenderer::GetDefaultFont();
 		
-		adjustColor = Drawing::Color(0, 20, 20, 20);
+		mouseOverFocusColor = Drawing::Color(0, 20, 20, 20);
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
@@ -214,7 +214,7 @@ namespace OSHGui
 		foreColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetForeColor()
+	Drawing::Color& Control::GetForeColor()
 	{
 		return foreColor;
 	}
@@ -224,9 +224,19 @@ namespace OSHGui
 		backColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetBackColor()
+	Drawing::Color& Control::GetBackColor()
 	{
 		return backColor;
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetMouseOverFocusColor(Drawing::Color color)
+	{
+		mouseOverFocusColor = color;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Color& Control::GetMouseOverFocusColor()
+	{
+		return mouseOverFocusColor;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetFont(Drawing::IFont *font)
@@ -297,26 +307,6 @@ namespace OSHGui
 	void Control::UpdateRects()
 	{
 		return;
-	}
-	//---------------------------------------------------------------------------
-	void Control::OnFocusIn()
-	{
-		hasFocus = true;
-	}
-	//---------------------------------------------------------------------------
-	void Control::OnFocusOut()
-	{
-		hasFocus = false;
-	}
-	//---------------------------------------------------------------------------
-	void Control::OnMouseEnter()
-	{
-		mouseOver = true;
-	}
-	//---------------------------------------------------------------------------
-	void Control::OnMouseLeave()
-	{
-		mouseOver = false;
 	}
 	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
@@ -403,10 +393,12 @@ namespace OSHGui
 
 		if (baseParent->focusControl != NULL)
 		{
-			baseParent->focusControl->OnFocusOut();
+			baseParent->focusControl->hasFocus = false;
+			baseParent->focusControl->focusOutEventHandler.Invoke(this);
 		}
 		
-		control->OnFocusIn();
+		control->hasFocus = true;
+		control->focusInEventHandler.Invoke(this);
 		baseParent->focusControl = control;
 	}
 	//---------------------------------------------------------------------------
@@ -421,7 +413,8 @@ namespace OSHGui
 
 		if (baseParent->focusControl != NULL)
 		{
-			baseParent->focusControl->OnFocusOut();
+			baseParent->focusControl->hasFocus = false;
+			baseParent->focusControl->focusOutEventHandler.Invoke(this);
 			baseParent->focusControl = NULL;
 		}
 	}
@@ -476,13 +469,15 @@ namespace OSHGui
 			Control *control = FindControlAtPoint(mouse->Position);
 			if (control != mouseOverControl && mouseOverControl != NULL)
 			{
-				mouseOverControl->OnMouseLeave();
+				mouseOverControl->mouseOver = false;
+				mouseOverControl->mouseLeaveEventHandler.Invoke(this);
 			}
 
 			if (control != NULL)
 			{
 				mouseOverControl = control;
-				mouseOverControl->OnMouseEnter();
+				mouseOverControl->mouseOver = true;
+				mouseOverControl->mouseEnterEventHandler.Invoke(this);
 			}
 			
 			//someone is focused
@@ -512,11 +507,13 @@ namespace OSHGui
 				{
 					if (system->Value)
 					{
-						focusControl->OnFocusIn();
+						focusControl->hasFocus = true;
+						focusControl->focusInEventHandler.Invoke(this);
 					}
 					else
 					{
-						focusControl->OnFocusOut();
+						focusControl->hasFocus = false;
+						focusControl->focusOutEventHandler.Invoke(this);
 					}
 					
 					return Event::DontContinue;

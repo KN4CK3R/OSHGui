@@ -292,9 +292,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ComboBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !visible || !enabled)
+		if (event == NULL)
 		{
 			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
+		{
+			return Event::Continue;
 		}
 		
 		if (scrollBar.ProcessEvent(event) == Event::DontContinue)

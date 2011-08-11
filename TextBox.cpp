@@ -148,7 +148,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !enabled || !visible)
+		if (event == NULL)
+		{
+			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
 		{
 			return Event::Continue;
 		}

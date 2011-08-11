@@ -56,9 +56,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes CheckBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !visible || !enabled)
+		if (event == NULL)
 		{
 			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
+		{
+			return Event::Continue;
 		}
 	
 		if (event->Type == Event::Mouse)

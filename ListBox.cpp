@@ -67,7 +67,7 @@ namespace OSHGui
 		
 		scrollBar.Invalidate();
 
-		itemsRect = Drawing::Rectangle(clientArea.GetLeft() + 4, clientArea.GetTop() + 4, clientArea.GetWidth() - scrollBar.GetWidth() - 8, clientArea.GetHeight() - 8);
+		itemsRect = Drawing::Rectangle(clientArea.GetLeft() + 4, clientArea.GetTop() + 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8);
 
 		scrollBar.SetPageSize(itemsRect.GetHeight() / (font->GetSize() + 2));
 		if (scrollBar.ShowItem(selectedIndex))
@@ -96,6 +96,9 @@ namespace OSHGui
 		items.insert(items.begin() + index, newItem);
 
 		scrollBar.SetRange(items.size());
+
+		Invalidate();
+
 		return true;
 	}
 	//---------------------------------------------------------------------------
@@ -120,6 +123,8 @@ namespace OSHGui
 			changeEventHandler.Invoke(this);
 		}
 
+		Invalidate();
+
 		return true;
 	}
 	//---------------------------------------------------------------------------
@@ -137,6 +142,8 @@ namespace OSHGui
 		scrollBar.SetRange(1);
 		
 		selectedIndex = -1;
+
+		Invalidate();
 
 		return true;
 	}
@@ -181,9 +188,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ListBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !visible || !enabled)
+		if (event == NULL)
 		{
 			return Event::DontContinue;
+		}
+
+		if (!visible || !enabled)
+		{
+			return Event::Continue;
 		}
 
 		if (event->Type == Event::Mouse)

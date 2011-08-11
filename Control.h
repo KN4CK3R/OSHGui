@@ -62,10 +62,6 @@ namespace OSHGui
 		
 		virtual bool CanHaveFocus();
 		virtual bool ContainsPoint(const Drawing::Point &point);
-		virtual void OnFocusIn();
-		virtual void OnFocusOut();
-		virtual void OnMouseEnter();
-		virtual void OnMouseLeave();
 		
 		void SetEnabled(bool enabled);
 		bool GetEnabled();
@@ -100,15 +96,19 @@ namespace OSHGui
 		void SetFont(Drawing::IFont *font);
 		Drawing::IFont* GetFont();
 		void SetForeColor(Drawing::Color color);
-		Drawing::Color GetForeColor();
+		Drawing::Color& GetForeColor();
 		void SetBackColor(Drawing::Color color);
-		Drawing::Color GetBackColor();
+		Drawing::Color& GetBackColor();
+		void SetMouseOverFocusColor(Drawing::Color color);
+		Drawing::Color& GetMouseOverFocusColor();
 
 		ClickEventHandler& GetClickEventHandler();
 		KeyPressEventHandler& GetKeyPressEventHandler();
+		ChangeEventHandler& GetChangeEventHandler();
 		MouseEnterEventHandler& GetMouseEnterEventHandler();
 		MouseLeaveEventHandler& GetMouseLeaveEventHandler();
-		ChangeEventHandler& GetChangeEventHandler();
+		FocusInEventHandler& GetFocusInEventHandler();
+		FocusOutEventHandler& GetFocusOutEventHandler();
 
 		virtual void Invalidate();
 		void InvalidateChildren();
@@ -151,9 +151,11 @@ namespace OSHGui
 		
 		ClickEventHandler clickEventHandler;
 		KeyPressEventHandler keyPressEventHandler;
+		ChangeEventHandler changeEventHandler;
 		MouseEnterEventHandler mouseEnterEventHandler;
 		MouseLeaveEventHandler mouseLeaveEventHandler;
-		ChangeEventHandler changeEventHandler;
+		FocusInEventHandler focusInEventHandler;
+		FocusOutEventHandler focusOutEventHandler;
 
 		OnClickFunc clickFunc;
 		OnKeyPressFunc keyPressFunc;
@@ -163,7 +165,7 @@ namespace OSHGui
 		
 		Drawing::Color foreColor,
 					   backColor,
-					   adjustColor;
+					   mouseOverFocusColor;
 		
 		Drawing::IFont *font;
 

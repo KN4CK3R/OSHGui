@@ -174,25 +174,16 @@ namespace OSHGui
 	{
 
 	};
+
+	class FocusInEventHandler : public ChangeEventHandler
+	{
+
+	};
+
+	class FocusOutEventHandler : public ChangeEventHandler
+	{
+
+	};
 }
-/*class Test
-{
-public:
-	ClickEventHandler click;
-	int x;
 
-	Test()
-	{
-		x = 0;
-		click.Add(this, &Test::func);
-		click.Invoke(NULL, NULL); //x = 1
-		click.Invoke(NULL, NULL); //x = 2
-		click.Invoke(NULL, NULL); //x = 3
-	}
-
-	void func(Control *source, MouseEvent *mouse)
-	{
-		x++;
-	}
-};*/
 #endif
