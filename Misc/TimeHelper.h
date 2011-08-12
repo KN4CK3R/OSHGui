@@ -32,6 +32,8 @@ namespace OSHGui
 			LONGLONG lastElapsedTime;
 			LONGLONG baseTime;
 		};
+
+		extern TimeHelper GlobalTime;
 	}
 }
 

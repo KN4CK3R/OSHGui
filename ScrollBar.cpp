@@ -151,7 +151,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Point ScrollBar::PointToClient(const Drawing::Point &point)
 	{
-		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top);
+		return Drawing::Point(point.Left - (bounds.GetLeft() - Parent->GetLeft()), point.Top);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -251,6 +251,10 @@ namespace OSHGui
 					}
 
 					position = yPos * positionPerPixel;
+					if (position > range - pageSize)
+					{
+						position = range - pageSize;
+					}
 							
 					sliderRect.SetTop(upButtonRect.GetBottom() + yPos + 1);
 
@@ -269,14 +273,6 @@ namespace OSHGui
 			mouse->Position = mousePositionBackup;
 			
 			return Event::Continue;
-		}
-		else if (event->Type == Event::System)
-		{
-			SystemEvent *system = (SystemEvent*)event;
-			if (system->State == SystemEvent::CaptureChanged)
-			{
-				drag = false;
-			}
 		}
 		
 		return Event::Continue;

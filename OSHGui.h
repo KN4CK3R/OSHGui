@@ -7,34 +7,25 @@
 #include "Drawing\Size.h"
 #include "Drawing\Rectangle.h"
 
-#include "Misc\List.h"
-#include "Misc\HashTable.h"
 #include "Misc\TimeHelper.h"
 
-#include "Event.h"
-#include "MouseEvent.h"
-#include "KeyboardEvent.h"
-#include "SystemEvent.h"
-
-#include "Timer.h"
+#include "EventHandler.h"
 
 #include "Control.h"
-
-#include "Panel.h"
-#include "Form.h"
-
-//#include "ScrollBar.h"
-
 #include "Label.h"
 #include "LinkLabel.h"
 #include "Button.h"
 #include "CheckBox.h"
-//#include "RadioButton.h"
-//#include "ComboBox.h"
-
-//#include "ListBox.h"
+#include "RadioButton.h"
+#include "ComboBox.h"
+#include "Panel.h"
+#include "Form.h"
+#include "GroupBox.h"
+#include "ListBox.h"
+#include "ProgressBar.h"
 #include "TrackBar.h"
-//#include "ProgressBar.h"
+#include "TextBox.h"
+#include "Timer.h"
 
 namespace OSHGui
 {
@@ -58,8 +49,6 @@ namespace OSHGui
 
 		static LRESULT CALLBACK MsgProc(int code, WPARAM wParam, LPARAM lparam);
 		
-		static Misc::TimeHelper GlobalTime;
-
 	private:
 		static Gui *instance;
 		static HHOOK messageHook;
@@ -73,7 +62,6 @@ namespace OSHGui
 		Form *focusForm,
 			 *mainForm;
 		std::vector<Form*> forms;
-		//Misc::List<Form*> forms;
 	};
 }
 

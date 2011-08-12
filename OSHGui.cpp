@@ -6,7 +6,6 @@ namespace OSHGui
 	HHOOK Gui::messageHook = NULL;
 	Gui* Gui::instance = NULL;
 	Drawing::IFont* Gui::font = NULL;
-	Misc::TimeHelper Gui::GlobalTime;
 	Drawing::IFont* Drawing::IRenderer::defaultFont = NULL;
 
 	//---------------------------------------------------------------------------
@@ -475,30 +474,6 @@ namespace OSHGui
 				}
 			
 				if (focusForm->ProcessEvent(&keyboard) == Event::DontContinue)
-				{
-					return true;
-				}
-			
-				break;
-			}
-			case WM_ACTIVATEAPP:
-			case WM_CAPTURECHANGED:
-			{
-				SystemEvent system;
-				
-				switch (msg->lParam)
-				{
-					case WM_ACTIVATEAPP:
-						system.State = SystemEvent::ActivateApp;
-						system.Value = msg->message == 1;
-						break;
-					case WM_CAPTURECHANGED:
-						system.State = SystemEvent::CaptureChanged;
-						system.Value = true;
-						break;
-				}
-				
-				if (focusForm->ProcessEvent(&system) == Event::DontContinue)
 				{
 					return true;
 				}

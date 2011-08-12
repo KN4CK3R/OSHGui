@@ -8,13 +8,9 @@
 #include "Drawing\Rectangle.h"
 #include "Drawing\IRenderer.h"
 
-#include "Misc\List.h"
 #include "Misc\Strings.h"
+#include "Misc\TimeHelper.h"
 
-/*#include "Event.h"
-#include "MouseEvent.h"
-#include "KeyboardEvent.h"*/
-#include "SystemEvent.h"
 #include "EventHandler.h"
 
 namespace OSHGui
@@ -132,6 +128,8 @@ namespace OSHGui
 		
 	protected:
 		CONTROL_TYPE type;
+
+		virtual void SetFocus(bool focus);
 		
 		Misc::UnicodeString name;
 	
@@ -179,7 +177,7 @@ namespace OSHGui
 				*mouseOverControl;
 
 	public:
-		Misc::List<Drawing::ITexture*> texture;
+		//Misc::List<Drawing::ITexture*> texture;
 	};
 }
 

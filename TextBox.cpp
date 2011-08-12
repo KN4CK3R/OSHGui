@@ -1,4 +1,5 @@
 #include "TextBox.h"
+#include <Windows.h>
 
 namespace OSHGui
 {
@@ -20,7 +21,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TextBox::~TextBox()
 	{
-		
+		Control::~Control();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -271,16 +272,17 @@ namespace OSHGui
 		
 		if (hasFocus)
 		{
-			static DWORD time = GetTickCount();
-			static DWORD time2;
-			if (time + 700 > GetTickCount())
+			static double time = Misc::GlobalTime.GetAbsoluteTime();
+			static double time2;
+
+			if (time + 0.6 > Misc::GlobalTime.GetAbsoluteTime())
 			{
 				renderer->Fill(caretRect);
-				time2 = GetTickCount();
+				time2 = Misc::GlobalTime.GetAbsoluteTime();
 			}
 			else
-				if (time2 + 700 < GetTickCount())
-					time = GetTickCount();
+				if (time2 + 0.6 < Misc::GlobalTime.GetAbsoluteTime())
+					time = Misc::GlobalTime.GetAbsoluteTime();
 		}
 
 		if (controls.size() > 0)

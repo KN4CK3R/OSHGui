@@ -33,11 +33,10 @@ namespace OSHGui
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
-		
-	private:
-		void CloseOnLostFocus();
 	
 	protected:	
+		virtual void SetFocus(bool focus);
+
 		ScrollBar scrollBar;
 		
 		int dropdownHeight;

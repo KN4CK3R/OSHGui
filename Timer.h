@@ -2,7 +2,7 @@
 #define __OSHGUI_TIMER_H__
 
 #include <windows.h>
-#include "Misc\HashTable.h"
+#include <map>
 
 namespace OSHGui
 {
@@ -23,7 +23,7 @@ namespace OSHGui
 		void OnTimer();
 
 	protected:
-		static Misc::HashTable<UINT_PTR, Timer*> timerTable;
+		static std::map<UINT_PTR, Timer*> timerTable;
 		static void CALLBACK TimerCallback(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime);
 		UINT_PTR timerId;
 

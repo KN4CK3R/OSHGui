@@ -2,7 +2,6 @@
 #define __OSHGUI_TEXTBOX_H__
 
 #include "Control.h"
-#include "Misc\StringBuffer.h"
 #include "Misc\TextHelper.h"
 
 #define TEXTBOX_DEFAULT_HEIGHT 24

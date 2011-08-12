@@ -122,6 +122,11 @@ namespace OSHGui
 			int distance = 0xFFFF;
 			int result = 0;
 
+			if (position.Left >= size.Width)
+			{
+				return text.length() + 1;
+			}
+
 			for (unsigned int i = 0; i < text.length(); ++i)
 			{
 				Drawing::Point charPosition = GetCharacterPosition(i);

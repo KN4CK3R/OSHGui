@@ -2,7 +2,7 @@
 
 namespace OSHGui
 {
-	Misc::HashTable<UINT_PTR, Timer*> Timer::timerTable;
+	std::map<UINT_PTR, Timer*> Timer::timerTable;
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -29,11 +29,11 @@ namespace OSHGui
 				timerId = SetTimer(NULL, iid++, interval, (TIMERPROC)TimerCallback);
 
 				Timer *temp = (Timer*)this;
-				timerTable.Add(timerId, temp);
+				timerTable[timerId] = temp;
 			}
 			else
 			{
-				timerTable.Remove(timerId);
+				timerTable.erase(timerId);
 				KillTimer(NULL, timerId);
 			}
 			
@@ -73,7 +73,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void CALLBACK Timer::TimerCallback(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime)
 	{
-		if (timerTable.Contains(idTimer))
+		//if (timerTable.find(idTimer))
+		//if (timerTable.Contains(idTimer))
 		{
 			timerTable[idTimer]->OnTimer();
 		}

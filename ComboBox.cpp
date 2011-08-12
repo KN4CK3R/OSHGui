@@ -15,13 +15,12 @@ namespace OSHGui
 		mouseOverItemIndex = -1;
 		firstVisibleItemIndex = 0;
 		open = false;
-		
-		focusOutEventHandler.Add(this, &ComboBox::CloseOnLostFocus);
 
 		SetAutoSize(false);
 		SetSize(Drawing::Size(160, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
+		SetBackColor(Drawing::Color(0xFF121212));
 		SetForeColor(Drawing::Color::White());
 	}
 	//---------------------------------------------------------------------------
@@ -33,6 +32,15 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void ComboBox::SetFocus(bool focus)
+	{
+		Button::SetFocus(focus);
+		if (!hasFocus)
+		{
+			open = false;
+		}
+	}
 	//---------------------------------------------------------------------------
 	ListItem* ComboBox::GetItem(int index)
 	{
@@ -77,11 +85,6 @@ namespace OSHGui
 			return true;
 		}
 		return false;
-	}
-	//---------------------------------------------------------------------------
-	void ComboBox::CloseOnLostFocus()
-	{
-		open = false;
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::AddItem(const Misc::UnicodeString &text)
@@ -254,9 +257,14 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 				}
-				else
+				else if (!open || !Drawing::Rectangle(0, clientArea.GetHeight() + 1, dropDownRect.GetWidth(), dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //dropDownRect
 				{
 					mouse->Position = mousePositionBackup;
+
+					if (open)
+					{
+						open = false;
+					}
 
 					return Event::Continue;
 				}
@@ -270,20 +278,20 @@ namespace OSHGui
 					return Event::Continue;
 				}
 			}
-		}
-		
-		if (open)
-		{
-			mouse->Position.Y -= clientArea.GetHeight();
-			if (scrollBar.ProcessEvent(event) == Event::DontContinue)
-			{
-				firstVisibleItemIndex = scrollBar.GetPosition();
 
-				return Event::DontContinue;
+			if (open)
+			{
+				mouse->Position.Y -= clientArea.GetHeight();
+				if (scrollBar.ProcessEvent(event) == Event::DontContinue)
+				{
+					firstVisibleItemIndex = scrollBar.GetPosition();
+
+					return Event::DontContinue;
+				}
+				mouse->Position.Y += clientArea.GetHeight();
 			}
-			mouse->Position.Y += clientArea.GetHeight();
 		}
-	
+			
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
@@ -402,7 +410,7 @@ namespace OSHGui
 								mouseOverItemIndex = items.size() - 1;
 							}
 
-							if (oldSelectedIndex != mouseOverItemIndex)
+							if (oldMouseOverItemIndex != mouseOverItemIndex)
 							{
 								if (scrollBar.ShowItem(mouseOverItemIndex))
 								{
@@ -453,10 +461,7 @@ namespace OSHGui
 
 							if (oldSelectedIndex != selectedIndex)
 							{
-								if (scrollBar.ShowItem(selectedIndex))
-								{
-									firstVisibleItemIndex = scrollBar.GetPosition();
-								}
+								textHelper.SetText(GetSelectedItem()->Text);
 							
 								changeEventHandler.Invoke(this);
 							}
@@ -475,6 +480,8 @@ namespace OSHGui
 							if (selectedIndex != mouseOverItemIndex)
 							{
 								selectedIndex = mouseOverItemIndex;
+
+								textHelper.SetText(GetSelectedItem()->Text);
 								
 								changeEventHandler.Invoke(this);
 							}

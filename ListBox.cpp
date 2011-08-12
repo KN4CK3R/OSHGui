@@ -323,16 +323,6 @@ namespace OSHGui
 				}
 			}
 		}
-		else if (event->Type == Event::System)
-		{
-			SystemEvent *system = (SystemEvent*)event;
-			if (system->State == SystemEvent::CaptureChanged)
-			{
-				drag = false;
-			}
-			
-			return Event::DontContinue;
-		}
 		
 		return Event::Continue;
 	}

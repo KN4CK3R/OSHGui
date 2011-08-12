@@ -66,6 +66,11 @@ namespace OSHGui
 		return visible;
 	}
 	//---------------------------------------------------------------------------
+	void Control::SetFocus(bool focus)
+	{
+		hasFocus = focus;
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetAutoSize(bool autoSize)
 	{
 		this->autoSize = autoSize;
@@ -245,6 +250,14 @@ namespace OSHGui
 		{
 			this->font = font;
 		}
+
+		static bool isValid = true; 
+		if (isValid)
+		{
+			isValid = false;
+			Invalidate();
+			isValid = true;
+		}
 	}
 	//---------------------------------------------------------------------------
 	Drawing::IFont* Control::GetFont()
@@ -388,11 +401,11 @@ namespace OSHGui
 
 		if (baseParent->focusControl != NULL)
 		{
-			baseParent->focusControl->hasFocus = false;
+			baseParent->focusControl->SetFocus(false);
 			baseParent->focusControl->focusOutEventHandler.Invoke(this);
 		}
 		
-		control->hasFocus = true;
+		control->SetFocus(true);
 		control->focusInEventHandler.Invoke(this);
 		baseParent->focusControl = control;
 	}
@@ -408,7 +421,7 @@ namespace OSHGui
 
 		if (baseParent->focusControl != NULL)
 		{
-			baseParent->focusControl->hasFocus = false;
+			baseParent->focusControl->SetFocus(false);
 			baseParent->focusControl->focusOutEventHandler.Invoke(this);
 			baseParent->focusControl = NULL;
 		}
@@ -489,28 +502,6 @@ namespace OSHGui
 			{
 				if (mouseOverControl->ProcessEvent(event) == Event::DontContinue)
 				{
-					return Event::DontContinue;
-				}
-			}
-		}
-		else if (event->Type == Event::System)
-		{
-			SystemEvent *system = (SystemEvent*)event;
-			if (system->Type == SystemEvent::ActivateApp)
-			{
-				if (focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
-				{
-					if (system->Value)
-					{
-						focusControl->hasFocus = true;
-						focusControl->focusInEventHandler.Invoke(this);
-					}
-					else
-					{
-						focusControl->hasFocus = false;
-						focusControl->focusOutEventHandler.Invoke(this);
-					}
-					
 					return Event::DontContinue;
 				}
 			}
