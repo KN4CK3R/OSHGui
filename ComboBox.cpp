@@ -15,6 +15,8 @@ namespace OSHGui
 		mouseOverItemIndex = -1;
 		firstVisibleItemIndex = 0;
 		open = false;
+		
+		focusOutEventHandler.Add(this, &ComboBox::CloseOnLostFocus);
 
 		SetAutoSize(false);
 		SetSize(Drawing::Size(160, 24));
@@ -77,10 +79,10 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	/*void ComboBox::OnFocusOut()
+	void ComboBox::CloseOnLostFocus()
 	{
 		open = false;
-	}*/
+	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::AddItem(const Misc::UnicodeString &text)
 	{	
@@ -195,12 +197,6 @@ namespace OSHGui
 	{
 		Button::Invalidate();
 
-		buttonRect = bounds;
-		buttonRect.SetLeft(buttonRect.GetRight() - buttonRect.GetHeight());
-		
-		textRect = bounds;
-		textRect.Inflate(-buttonRect.GetLeft(), 0); //todo
-
 		dropDownRect = Drawing::Rectangle(bounds.GetLeft(), bounds.GetBottom() + 1, bounds.GetWidth(), 0);
 		if (items.size() == 0)
 		{
@@ -276,11 +272,16 @@ namespace OSHGui
 			}
 		}
 		
-		if (open && scrollBar.ProcessEvent(event) == Event::DontContinue)
+		if (open)
 		{
-			firstVisibleItemIndex = scrollBar.GetPosition();
+			mouse->Position.Y -= clientArea.GetHeight();
+			if (scrollBar.ProcessEvent(event) == Event::DontContinue)
+			{
+				firstVisibleItemIndex = scrollBar.GetPosition();
 
-			return Event::DontContinue;
+				return Event::DontContinue;
+			}
+			mouse->Position.Y += clientArea.GetHeight();
 		}
 	
 		if (event->Type == Event::Mouse)
@@ -301,36 +302,6 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 			}
-			/*else if (mouse->State == MouseEvent::Scroll)
-			{
-				if (open)
-				{
-					scrollBar.Scroll(-mouse->Delta);
-				}
-				else
-				{
-					if (mouse->Delta > 0 )
-					{
-						if (mouseOverItemIndex > 0)
-						{
-							mouseOverItemIndex--;
-							selectedIndex = mouseOverItemIndex;
-								
-							changeEventHandler.Invoke(this);
-						}
-					}
-					else
-					{
-						if (mouseOverItemIndex + 1 < GetItemsCount())
-						{
-							mouseOverItemIndex++;
-							selectedIndex = mouseOverItemIndex;
-
-							changeEventHandler.Invoke(this);
-						}
-					}
-				}
-			}*/
 			else if (mouse->State == MouseEvent::Move)
 			{
 				if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
@@ -386,48 +357,133 @@ namespace OSHGui
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			switch (keyboard->KeyCode)
+			if (keyboard->State == KeyboardEvent::Down)
 			{
-				case Key::Return:
-					if (open)
-                    {
-                        if (selectedIndex != mouseOverItemIndex)
-                        {
-                            selectedIndex = mouseOverItemIndex;
-                            
-							changeEventHandler.Invoke(this);
-                        }
-                        open = false;
-                        
-                        return Event::DontContinue;
-                    }
-                    break;
-				case Key::Down:
-				case Key::Left:
-                    if (mouseOverItemIndex > 0)
-                    {
-                        mouseOverItemIndex--;
-                        selectedIndex = mouseOverItemIndex;
+				if (open)
+				{
+					switch (keyboard->KeyCode)
+					{
+						case Key::Up:
+						case Key::Down:
+						case Key::Home:
+						case Key::End:
+						case Key::PageUp:
+						case Key::PageDown:
+							int oldMouseOverItemIndex = mouseOverItemIndex;
 
-                        if (!open)
-						{
-							changeEventHandler.Invoke(this);
-						}
-                    }
-                    return Event::DontContinue;
-                case Key::Right:
-                case Key::Up:
-                    if (mouseOverItemIndex + 1 < GetItemsCount())
-                    {
-                        mouseOverItemIndex++;
-                        selectedIndex = mouseOverItemIndex;
+							switch (keyboard->KeyCode)
+							{
+								case Key::Up:
+									--mouseOverItemIndex;
+									break;
+								case Key::Down:
+									++mouseOverItemIndex;
+									break;
+								case Key::Home:
+									mouseOverItemIndex = 0;
+									break;
+								case Key::End:
+									mouseOverItemIndex = items.size() - 1;
+									break;
+								case Key::PageUp:
+									mouseOverItemIndex += scrollBar.GetPageSize() - 1;
+									break;
+								case Key::PageDown:
+									mouseOverItemIndex -= scrollBar.GetPageSize() - 1;
+									break;
+							}
 
-                        if (!open)
+							if (mouseOverItemIndex < 0)
+							{
+								mouseOverItemIndex = 0;
+							}
+							if (mouseOverItemIndex >= items.size())
+							{
+								mouseOverItemIndex = items.size() - 1;
+							}
+
+							if (oldSelectedIndex != mouseOverItemIndex)
+							{
+								if (scrollBar.ShowItem(mouseOverItemIndex))
+								{
+									firstVisibleItemIndex = scrollBar.GetPosition();
+								}
+							}
+							return Event::DontContinue;
+					}
+				}
+				else
+				{
+					switch (keyboard->KeyCode)
+					{
+						case Key::Up:
+						case Key::Down:
+						case Key::Home:
+						case Key::End:
+						case Key::PageUp:
+						case Key::PageDown:
+							int oldSelectedIndex = selectedIndex;
+
+							switch (keyboard->KeyCode)
+							{
+								case Key::Up:
+									--selectedIndex;
+									break;
+								case Key::Down:
+									++selectedIndex;
+									break;
+								case Key::Home:
+								case Key::PageUp:
+									selectedIndex = 0;
+									break;
+								case Key::End:
+								case Key::PageDown:
+									selectedIndex = items.size() - 1;
+									break;
+							}
+
+							if (selectedIndex < 0)
+							{
+								selectedIndex = 0;
+							}
+							if (selectedIndex >= items.size())
+							{
+								selectedIndex = items.size() - 1;
+							}
+
+							if (oldSelectedIndex != selectedIndex)
+							{
+								if (scrollBar.ShowItem(selectedIndex))
+								{
+									firstVisibleItemIndex = scrollBar.GetPosition();
+								}
+							
+								changeEventHandler.Invoke(this);
+							}
+					}
+				}
+				
+				return Event::DontContinue;
+			}
+			else if (keyboard->State == KeyboardEvent::Up)
+			{
+				switch (keyboard->KeyCode)
+				{
+					case Key::Return:
+						if (open)
 						{
-							changeEventHandler.Invoke(this);
+							if (selectedIndex != mouseOverItemIndex)
+							{
+								selectedIndex = mouseOverItemIndex;
+								
+								changeEventHandler.Invoke(this);
+							}
+							open = false;
+							
+							return Event::DontContinue;
 						}
-                    }
-					return Event::DontContinue;
+						break;
+				}
 			}
 		}
 		
@@ -440,73 +496,6 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		/*//OK
-		if (needRepaint)
-		{
-			if (texture.IsEmpty())
-			{
-				texture.Add(renderer->CreateNewTexture()); //Button
-				texture.Add(renderer->CreateNewTexture()); //DropDown
-			}
-			
-			Drawing::Size size = bounds.GetSize();
-			Drawing::ITexture *button = texture.Get(0);
-			{
-				button->Create(size);
-				button->BeginUpdate();
-				button->Clear();
-
-				button->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF635F5B), Drawing::Color(0xFF4E4D4A));
-
-				Drawing::Color border(0x60FFFFFF);
-				
-				button->Fill(1, 0, size.Width - 2, 1, border);
-				button->Fill(0, 1, 1, size.Height - 2, border);
-				button->Fill(1, size.Height - 1, size.Width - 2, 1, border);
-				button->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
-
-				button->Fill(1, 1, 1, 1, border);
-				button->Fill(size.Width - 2, 1, 1, 1, border);
-				button->Fill(1, size.Height - 2, 1, 1, border);
-				button->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
-
-				button->Fill(size.Width - 20, 4, 1, 16, border);
-				
-				border = Drawing::Color(0xFFBAB8B9);
-
-				button->Fill(size.Width - 11, 14, 1, 1, border);
-				button->Fill(size.Width - 12, 13, 3, 1, border);
-				button->Fill(size.Width - 13, 12, 5, 1, border);
-				button->Fill(size.Width - 14, 11, 7, 1, border);
-
-				button->EndUpdate();
-			}
-
-			size = dropDownRect.GetSize();
-			Drawing::ITexture *dropdown = texture.Get(1);
-			{
-				dropdown->Create(size);
-				dropdown->BeginUpdate();
-				dropdown->Clear();
-				
-				dropdown->FillGradient(1, 1, size.Width - 2, size.Height - 2, Drawing::Color(0xFF625E5A), Drawing::Color(0xFF433F3E));
-
-				Drawing::Color border(0x8059595A);
-				
-				dropdown->Fill(0, 1, 1, size.Height - 2, border);
-				dropdown->Fill(size.Width - 1, 1, 1, size.Height - 2, border);
-				dropdown->Fill(1, 0, size.Width - 2, 1, border);
-				dropdown->Fill(1, size.Height - 1, size.Width - 2, 1, border);
-
-				dropdown->Fill(1, 1, 1, 1, border);
-				dropdown->Fill(size.Width - 2, 1, 1, 1, border);
-				dropdown->Fill(1, size.Height - 2, 1, 1, border);
-				dropdown->Fill(size.Width - 2, size.Height - 2, 1, 1, border);
-
-				dropdown->EndUpdate();
-			}
-		}*/
 		
 		Drawing::Color tempColor = backColor;
 

@@ -33,6 +33,9 @@ namespace OSHGui
 		
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
+		
+	private:
+		void CloseOnLostFocus();
 	
 	protected:	
 		ScrollBar scrollBar;
@@ -44,10 +47,7 @@ namespace OSHGui
 			mouseOverItemIndex;
 		bool open;
 		
-		Drawing::Rectangle buttonRect,
-						   textRect,
-						   dropDownRect,
-						   scrollBarRect,
+		Drawing::Rectangle dropDownRect,
 						   itemsRect;
 		
 		std::vector<ListItem*> items;

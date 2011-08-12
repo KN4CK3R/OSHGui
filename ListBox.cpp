@@ -177,11 +177,6 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point ListBox::PointToClient(const Drawing::Point &point)
-	{
-		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
-	}
-	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ListBox::ProcessEvent(Event *event)

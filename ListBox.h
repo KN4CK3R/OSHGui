@@ -30,8 +30,6 @@ namespace OSHGui
 		
 		virtual void Invalidate();
 
-		virtual Drawing::Point PointToClient(const Drawing::Point &point);
-
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		virtual void Render(Drawing::IRenderer *renderer);
 	
@@ -42,8 +40,7 @@ namespace OSHGui
 			firstVisibleItemIndex;
 		bool drag;
 		
-		Drawing::Rectangle scrollBarRect,
-						   itemsRect;
+		Drawing::Rectangle itemsRect;
 		
 		std::vector<ListItem*> items;
 	};
