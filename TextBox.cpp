@@ -10,8 +10,8 @@ namespace OSHGui
 	{
 		type = CONTROL_TEXTBOX;
 
-		blinkTime = 0.4;
-		lastBlink = 0;//Gui::GlobalTime->GetAbsoluteTime();
+		blinkTime = 0.5;
+		lastBlinkTime = Misc::GlobalTime.GetAbsoluteTime();
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
 
@@ -67,6 +67,12 @@ namespace OSHGui
 		PlaceCaret(0);
 	}
 	//---------------------------------------------------------------------------
+	void TextBox::ResetCaretBlink()
+	{
+		showCaret = true;
+		lastBlinkTime = Misc::GlobalTime.GetAbsoluteTime();
+	}
+	//---------------------------------------------------------------------------
 	void TextBox::PlaceCaret(int position)
 	{
 		if (position < 0)
@@ -118,6 +124,8 @@ namespace OSHGui
 
 		Drawing::Size strWidth = textHelper.GetStringWidth(firstVisibleCharacter, caretPosition - firstVisibleCharacter);
 		caretRect = Drawing::Rectangle(textRect.GetLeft() + strWidth.Width, textRect.GetTop(), 1, textRect.GetHeight());
+
+		ResetCaretBlink();
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PasteFromClipboard()
@@ -270,19 +278,15 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
 		
-		if (hasFocus)
+		if (Misc::GlobalTime.GetAbsoluteTime() - lastBlinkTime >= blinkTime)
 		{
-			static double time = Misc::GlobalTime.GetAbsoluteTime();
-			static double time2;
+			showCaret = !showCaret;
+			lastBlinkTime = Misc::GlobalTime.GetAbsoluteTime();
+		}
 
-			if (time + 0.6 > Misc::GlobalTime.GetAbsoluteTime())
-			{
-				renderer->Fill(caretRect);
-				time2 = Misc::GlobalTime.GetAbsoluteTime();
-			}
-			else
-				if (time2 + 0.6 < Misc::GlobalTime.GetAbsoluteTime())
-					time = Misc::GlobalTime.GetAbsoluteTime();
+		if (hasFocus && showCaret)
+		{
+			renderer->Fill(caretRect);
 		}
 
 		if (controls.size() > 0)

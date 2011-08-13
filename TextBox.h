@@ -27,7 +27,9 @@ namespace OSHGui
 		Event::NextEventTypes ProcessEvent(Event *event);
 		void Render(Drawing::IRenderer *renderer);
 	
-	protected:	
+	protected:
+		void ResetCaretBlink();
+
 		void PlaceCaret(int position);
 		
 		void PasteFromClipboard();
@@ -37,10 +39,11 @@ namespace OSHGui
 		Drawing::Rectangle textRect,
 						   caretRect;
 		
-		double blinkTime;
-		double lastBlink;
-		int caretPosition;
-		int firstVisibleCharacter;
+		bool showCaret;
+		double blinkTime,
+			   lastBlinkTime;
+		int caretPosition,
+			firstVisibleCharacter;
 	};
 }
 
