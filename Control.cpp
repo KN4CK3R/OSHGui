@@ -479,6 +479,7 @@ namespace OSHGui
 			{
 				mouseOverControl->mouseOver = false;
 				mouseOverControl->mouseLeaveEventHandler.Invoke(this);
+				mouseOverControl = NULL;
 			}
 
 			if (control != NULL)

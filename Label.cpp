@@ -94,7 +94,7 @@ namespace OSHGui
 			mouse->Position = mousePositionBackup;
 		}
 		
-		return Event::DontContinue;
+		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Label::Render(Drawing::IRenderer *renderer)

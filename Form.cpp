@@ -56,9 +56,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Invalidate()
 	{
-		captionBar = Drawing::Rectangle(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 40, 17);
-		minimizeRect = Drawing::Rectangle(captionBar.GetRight() + 1, bounds.GetTop() + 2, 17, 17);
-		closeRect = Drawing::Rectangle(minimizeRect.GetRight(), bounds.GetTop() + 2, 17, 17);
+		captionBar = Drawing::Rectangle(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 23, 17);
+		closeRect = Drawing::Rectangle(captionBar.GetRight(), bounds.GetTop() + 2, 17, 17);
 
 		clientArea = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);
 
@@ -86,10 +85,12 @@ namespace OSHGui
 		}
 
 		static Drawing::Point oldMousePosition;
+		Drawing::Point mousePositionBackup;
+
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
+			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
 			if (Drawing::Rectangle(1, 1, captionBar.GetWidth(), captionBar.GetHeight()).Contains(mouse->Position) || drag) //CaptionBar
@@ -99,27 +100,26 @@ namespace OSHGui
 					Drawing::Point delta = mousePositionBackup - oldMousePosition;
 					oldMousePosition = mousePositionBackup;
 					SetLocation(delta + GetLocation());
+
+					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
 					oldMousePosition = mousePositionBackup;
 					drag = true;
+
+					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					drag = false;
+
+					return Event::DontContinue;
 				}
-				return Event::DontContinue;
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
 			{
-				if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, minimizeRect.GetWidth(), minimizeRect.GetHeight()).Contains(mouse->Position)) //MinimizeRect
-				{
-					//minimize
-					
-					return Event::DontContinue;
-				}
-				else if (Drawing::Rectangle(captionBar.GetWidth() + minimizeRect.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //CloseRect
+				if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //coseRect
 				{
 					visible = false;
 					
@@ -135,7 +135,26 @@ namespace OSHGui
 			return Event::DontContinue;
 		}
 
-		return Event::DontContinue;
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
+
+			if (mouse->State != MouseEvent::LeftDown && mouse->State != MouseEvent::RightDown)
+			{
+				return Event::DontContinue;
+			}
+			else
+			{
+				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
+				{
+					return Event::DontContinue;
+				}
+			}
+
+			mouse->Position = mousePositionBackup;
+		}
+
+		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)

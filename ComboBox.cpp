@@ -318,7 +318,7 @@ namespace OSHGui
 					{
 						if (i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
 						{
-							mouseOverItemIndex = i;
+							mouseOverItemIndex = i + firstVisibleItemIndex;
 							break;
 						}
 					}
@@ -541,7 +541,7 @@ namespace OSHGui
 			renderer->SetRenderColor(foreColor);
 			for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
 			{
-				if (i == mouseOverItemIndex)
+				if (i + firstVisibleItemIndex == mouseOverItemIndex)
 				{
 					renderer->SetRenderColor(Drawing::Color::Orange());
 					renderer->Fill(itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2);

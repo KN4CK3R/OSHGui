@@ -28,8 +28,7 @@ namespace OSHGui
 		Misc::TextHelper textHelper;
 		Misc::UnicodeString text;
 		Drawing::Rectangle captionBar,
-						   closeRect,
-						   minimizeRect;
+						   closeRect;
 		bool drag;
 	};
 }
