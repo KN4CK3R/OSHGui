@@ -28,7 +28,7 @@ namespace OSHGui
 			throw "Can't create default font.";
 		}
 
-		mainForm = NULL;
+		focusForm = NULL;
 		focusForm = NULL;
 	}
 	//---------------------------------------------------------------------------
@@ -110,17 +110,16 @@ namespace OSHGui
 			if (forms.at(i) == form)
 			{
 				forms.erase(forms.begin() + i);
-				//forms.Remove(i);
 				
-				if (mainForm == form)
+				if (focusForm == form)
 				{
 					if (forms.size() > 0)
 					{
-						mainForm = forms.at(0);
+						focusForm = forms.at(0);
 					}
 					else
 					{
-						mainForm = NULL;
+						focusForm = NULL;
 					}
 				}
 				
@@ -150,10 +149,9 @@ namespace OSHGui
 			return;
 		}
 		
-		mainForm = form;
-		focusForm = mainForm;
+		focusForm = form;
 		
-		mainForm->Show();
+		focusForm->Show();
 	}
 	//---------------------------------------------------------------------------
 	void Gui::Render()
@@ -166,12 +164,12 @@ namespace OSHGui
 		for (unsigned int i = 0, len = forms.size(); i < len; i++)
 		{
 			Form *form = forms.at(i);
-			if (form != mainForm)
+			if (form != focusForm)
 			{
 				form->Render(renderer);
 			}
 		}
-		mainForm->Render(renderer);
+		focusForm->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -193,6 +191,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	LRESULT Gui::ProcessMessage(int code, WPARAM wParam, LPARAM lParam)
 	{
+		if (focusForm == NULL)
+		{
+			return CallNextHookEx(messageHook, code, wParam, lParam);
+		}
+
 		LPMSG msg = (LPMSG)lParam;
 		
 		switch (msg->message)
@@ -239,6 +242,22 @@ namespace OSHGui
 				if (focusForm->ProcessEvent(&mouse) == Event::DontContinue)
 				{
 					return true;
+				}
+				else
+				{
+					for (unsigned int i = 0, len = forms.size(); i < len; i++)
+					{
+						Form *form = forms.at(i);
+						if (form != focusForm)
+						{
+							if (form->ProcessEvent(&mouse) == Event::DontContinue)
+							{
+								focusForm = form;
+
+								return true;
+							}
+						}
+					}
 				}
 			
 				break;
