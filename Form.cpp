@@ -66,6 +66,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Show()
 	{
+		Application::RegisterForm(this);
+
 		visible = true;
 		enabled = true;
 	}
@@ -152,6 +154,11 @@ namespace OSHGui
 			}
 
 			mouse->Position = mousePositionBackup;
+		}
+		else if (event->Type == Event::Keyboard)
+		{
+			//swallow unhandled keyboard events
+			return Event::DontContinue;
 		}
 
 		return Event::Continue;

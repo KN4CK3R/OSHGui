@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Application.h"
+
 #include "Drawing\Point.h"
 #include "Drawing\Size.h"
 #include "Drawing\Rectangle.h"
