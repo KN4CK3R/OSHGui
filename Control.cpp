@@ -30,7 +30,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		for (unsigned int i = 0, len = controls.size(); i < len; i++)
+		for (unsigned int i = 0; i < controls.size(); i++)
 		{
 			Control *control = controls.at(i);
 			delete control;

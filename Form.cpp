@@ -119,11 +119,16 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 			}
-			else if (mouse->State == MouseEvent::LeftUp)
+			else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::LeftDown)
 			{
 				if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //coseRect
 				{
-					visible = false;
+					static bool pressed = mouse->State == MouseEvent::LeftDown;
+
+					if (pressed && mouse->State == MouseEvent::LeftUp)
+					{
+						Application::UnregisterForm(this);
+					}
 					
 					return Event::DontContinue;
 				}
