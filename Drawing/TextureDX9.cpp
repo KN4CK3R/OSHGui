@@ -41,7 +41,8 @@ namespace OSHGui
 		{
 			if (this->size == size)
 			{
-				//return true; //todo (Reset Problem)
+				Clear();
+				return true;
 			}
 			
 			SAFE_RELEASE(texture);
@@ -208,7 +209,7 @@ namespace OSHGui
 			{
 				return;
 			}
-					
+			
 			LPDIRECT3DTEXTURE9 temp;
 			D3DLOCKED_RECT tempLock;
 			
@@ -244,7 +245,7 @@ namespace OSHGui
 							{
 								int index = x * 4 + row,
 									tempIndex = tempRow + x * tempLock.Pitch;
-									
+								
 								tempRaw[tempIndex] = raw[index];
 								tempRaw[tempIndex + 1] = raw[index + 1];
 								tempRaw[tempIndex + 2] = raw[index + 2];
@@ -263,7 +264,7 @@ namespace OSHGui
 							{
 								int index = x * 4 + row,
 									tempIndex = (tempSize.Width - x) * 4 + tempRow;
-									
+								
 								tempRaw[tempIndex] = raw[index];
 								tempRaw[tempIndex + 1] = raw[index + 1];
 								tempRaw[tempIndex + 2] = raw[index + 2];
@@ -282,7 +283,7 @@ namespace OSHGui
 							{
 								int index = x * 4 + row,
 									tempIndex = tempRow + (tempSize.Width - x) * tempLock.Pitch;
-									
+								
 								tempRaw[tempIndex] = raw[index];
 								tempRaw[tempIndex + 1] = raw[index + 1];
 								tempRaw[tempIndex + 2] = raw[index + 2];
@@ -313,10 +314,10 @@ namespace OSHGui
 				float p3x = (size.Width * cosine); 
 				float p3y = (size.Width * sine); 
 
-				float minx = _min(0, _min(p1x, _min(p2x, p3x)));
-				float miny = _min(0, _min(p1y, _min(p2y, p3y)));
-				float maxx = _max(p1x, _max(p2x, p3x));
-				float maxy = _max(p1y, _max(p2y, p3y));
+				float minx = std::min(0, std::min(p1x, std::min(p2x, p3x)));
+				float miny = std::min(0, std::min(p1y, std::min(p2y, p3y)));
+				float maxx = std::max(p1x, std::max(p2x, p3x));
+				float maxy = std::max(p1y, std::max(p2y, p3y));
 
 				Drawing::Size tempSize((int)ceil(fabs(maxx) - minx), (int)ceil(fabs(maxy) - miny)),
 							  bckSize = size;

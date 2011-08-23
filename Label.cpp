@@ -103,7 +103,7 @@ namespace OSHGui
 		{
 			return;
 		}
-			
+		
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);

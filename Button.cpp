@@ -8,7 +8,7 @@ namespace OSHGui
 	Button::Button(Control *parent) : Label(parent)
 	{
 		type = CONTROL_BUTTON;
-				
+		
 		pressed = false;
 
 		SetAutoSize(false);
@@ -102,7 +102,7 @@ namespace OSHGui
 		{
 			return;
 		}
-			
+		
 		Drawing::Color tempColor = backColor;
 
 		if (hasFocus || mouseOver)

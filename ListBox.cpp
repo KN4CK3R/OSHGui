@@ -8,7 +8,7 @@ namespace OSHGui
 	ListBox::ListBox(Control *parent) : Control(parent), scrollBar(this)
 	{
 		type = CONTROL_LISTBOX;
-				
+		
 		selectedIndex = 0;
 		firstVisibleItemIndex = 0;
 		drag = false;
@@ -146,7 +146,7 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::SelectItem(int newIndex)
+	void ListBox::SelectItem(int index)
 	{
 		if (items.size() == 0)
 		{
@@ -155,7 +155,7 @@ namespace OSHGui
 
 		int oldSelectedIndex = selectedIndex;
 
-		selectedIndex = newIndex;
+		selectedIndex = index;
 
 		if (selectedIndex < 0)
 		{
@@ -333,7 +333,7 @@ namespace OSHGui
 		{
 			return;
 		}
-			
+		
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetTop(), clientArea.GetWidth() - 2, clientArea.GetHeight());
 		renderer->Fill(clientArea.GetLeft(), clientArea.GetTop() + 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);

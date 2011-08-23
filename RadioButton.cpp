@@ -8,7 +8,7 @@ namespace OSHGui
 	RadioButton::RadioButton(Control *parent) : CheckBox(parent)
 	{
 		type = CONTROL_RADIOBUTTON;
-				
+		
 		group = 0;
 	}
 	//---------------------------------------------------------------------------
@@ -40,7 +40,7 @@ namespace OSHGui
 	void RadioButton::SetCheckedInternal(bool checked)
 	{
 		if (this->checked != checked)
-		{			
+		{
 			this->checked = checked;
 			
 			changeEventHandler.Invoke(this);
@@ -123,7 +123,7 @@ namespace OSHGui
 		{
 			return;
 		}
-				
+		
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(bounds.GetLeft(), bounds.GetTop(), 17, 17);
 		renderer->SetRenderColor(foreColor);

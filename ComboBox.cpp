@@ -8,7 +8,7 @@ namespace OSHGui
 	ComboBox::ComboBox(Control *parent) : Button(parent), scrollBar(this)
 	{
 		type = CONTROL_COMBOBOX;
-				
+		
 		dropdownHeight = COMBOBOX_MAX_HEIGHT;
 		
 		selectedIndex = -1;
@@ -69,11 +69,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ComboBox::CanHaveFocus()
-	{
-		return visible && enabled;
-	}
-	//---------------------------------------------------------------------------
 	bool ComboBox::ContainsPoint(const Drawing::Point &point)
 	{
 		if (bounds.Contains(point))
@@ -88,7 +83,7 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::AddItem(const Misc::UnicodeString &text)
-	{	
+	{
 		return InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
@@ -107,7 +102,7 @@ namespace OSHGui
 		scrollBar.SetRange(items.size());
 
 		Invalidate();
-			
+		
 		if (GetItemsCount() == 1)
 		{
 			selectedIndex = 0;
@@ -291,7 +286,7 @@ namespace OSHGui
 				mouse->Position.Y += clientArea.GetHeight();
 			}
 		}
-			
+		
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;

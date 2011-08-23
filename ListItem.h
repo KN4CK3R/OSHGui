@@ -11,7 +11,6 @@ namespace OSHGui
 	public:
 		Misc::UnicodeString Text;
 		void *Data;
-		Drawing::Rectangle ItemRect;
 	};
 }
 

@@ -71,11 +71,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ProgressBar::CanHaveFocus()
-	{
-		return visible && enabled;
-	}
-	//---------------------------------------------------------------------------
 	bool ProgressBar::ContainsPoint(const Drawing::Point &point)
 	{
 		return bounds.Contains(point);

@@ -2,18 +2,12 @@
 #define __OSHGUI_DRAWING_ITEXTURE_H__
 
 #include <math.h>
+#include <algorithm>
 
 #include "Color.h"
 #include "Point.h"
 #include "Size.h"
 #include "Rectangle.h"
-
-#ifndef _max
-	#define _max(a, b) (a > b ? a : b)
-#endif
-#ifndef _min
-	#define _min(a, b) (a < b ? a : b)
-#endif
 
 namespace OSHGui
 {
@@ -21,7 +15,7 @@ namespace OSHGui
 	{
 		class ITexture
 		{
-		public:		
+		public:
 			const Size GetSize()
 			{
 				return size;

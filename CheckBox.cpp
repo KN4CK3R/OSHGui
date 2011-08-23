@@ -118,7 +118,7 @@ namespace OSHGui
 		{
 			return;
 		}
-				
+		
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(bounds.GetLeft(), bounds.GetTop(), 17, 17);
 		renderer->SetRenderColor(foreColor);

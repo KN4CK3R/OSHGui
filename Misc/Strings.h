@@ -42,6 +42,7 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString Format(const UnicodeChar *fmt, ...);
+		//---------------------------------------------------------------------------
 		AnsiString Format(const AnsiChar *fmt, ...);
 	}
 }

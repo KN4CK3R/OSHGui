@@ -20,7 +20,7 @@ namespace OSHGui
 			ClickHandler *source;
 			OnClickFunc function;
 		};
-			
+		
 		std::list<ClickHandler> handler;
 
 	public:
@@ -33,7 +33,7 @@ namespace OSHGui
 				
 			handler.push_back(clickHandler);
 		}
-			
+		
 		template <typename T>
 		void Remove(void *source, T function)
 		{
@@ -50,7 +50,7 @@ namespace OSHGui
 				}
 			}
 		}
-			
+		
 		void Invoke(Control *sender, MouseEvent *mouse)
 		{
 			for (std::list<ClickHandler>::iterator it = handler.begin(); it != handler.end(); it++)
@@ -72,7 +72,7 @@ namespace OSHGui
 			KeyPressHandler *source;
 			OnKeyPressFunc function;
 		};
-			
+		
 		std::list<KeyPressHandler> handler;
 
 	public:
@@ -85,7 +85,7 @@ namespace OSHGui
 				
 			handler.push_back(keyPressHandler);
 		}
-			
+		
 		template <typename T>
 		void Remove(void *source, T function)
 		{
@@ -102,7 +102,7 @@ namespace OSHGui
 				}
 			}
 		}
-			
+		
 		void Invoke(Control *sender, KeyboardEvent *keyboard)
 		{
 			for (std::list<KeyPressHandler>::iterator it = handler.begin(); it != handler.end(); it++)
@@ -124,7 +124,7 @@ namespace OSHGui
 			ChangeHandler *source;
 			OnChangeFunc function;
 		};
-			
+		
 		std::list<ChangeHandler> handler;
 
 	public:
@@ -137,7 +137,7 @@ namespace OSHGui
 				
 			handler.push_back(changeHandler);
 		}
-			
+		
 		template <typename T>
 		void Remove(void *source, T function)
 		{
@@ -154,7 +154,7 @@ namespace OSHGui
 				}
 			}
 		}
-			
+		
 		void Invoke(Control *sender)
 		{
 			for (std::list<ChangeHandler>::iterator it = handler.begin(); it != handler.end(); it++)
@@ -164,26 +164,14 @@ namespace OSHGui
 			}
 		}
 	};
-
-	class MouseEnterEventHandler : public ChangeEventHandler
-	{
-
-	};
-
-	class MouseLeaveEventHandler : public ChangeEventHandler
-	{
-
-	};
-
-	class FocusInEventHandler : public ChangeEventHandler
-	{
-
-	};
-
-	class FocusOutEventHandler : public ChangeEventHandler
-	{
-
-	};
+	
+	typedef ChangeEventHandler MouseEnterEventHandler;
+	
+	typedef ChangeEventHandler MouseLeaveEventHandler;
+	
+	typedef ChangeEventHandler FocusInEventHandler;
+	
+	typedef ChangeEventHandler FocusOutEventHandler;
 }
 
 #endif

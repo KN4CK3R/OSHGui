@@ -31,13 +31,6 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetPosition(int position)
-	{
-		this->position = position;
-		Capture();
-		UpdateSliderRect();
-	}
-	//---------------------------------------------------------------------------
 	int ScrollBar::GetPosition()
 	{
 		return position;
@@ -70,7 +63,7 @@ namespace OSHGui
 		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2);
 		upButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop(), SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
 		downButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
-				
+		
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
@@ -255,7 +248,7 @@ namespace OSHGui
 					{
 						position = range - pageSize;
 					}
-							
+					
 					sliderRect.SetTop(upButtonRect.GetBottom() + yPos + 1);
 
 					return Event::DontContinue;

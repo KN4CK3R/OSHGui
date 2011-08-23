@@ -68,8 +68,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
-		value = _max(value, min);
-		value = _min(value, max);
+		value = value < min ? min : value > max ? max : value;
 		
 		if (this->value != value)
 		{
@@ -181,10 +180,10 @@ namespace OSHGui
 						SetValueInternal(value + 1);
 						return Event::DontContinue;
 					case Key::PageDown:
-						SetValueInternal(value - _max(10, (max - min) / 10));
+						SetValueInternal(value - std::max(10, (max - min) / 10));
 						return Event::DontContinue;
 					case Key::PageUp:
-						SetValueInternal(value + _max(10, (max - min) / 10));
+						SetValueInternal(value + std::max(10, (max - min) / 10));
 						return Event::DontContinue;
 				}
 			}

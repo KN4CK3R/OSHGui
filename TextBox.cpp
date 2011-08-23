@@ -174,7 +174,7 @@ namespace OSHGui
 			mouse->Position = PointToClient(mouse->Position);
 
 			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
-			{			
+			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{
 					if (!hasFocus)

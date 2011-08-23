@@ -15,7 +15,7 @@ namespace OSHGui
 		SetVisible(true);
 		
 		SetTag(NULL);
-				
+		
 		mouseOver = false;
 		hasFocus = false;
 
@@ -458,8 +458,8 @@ namespace OSHGui
 			{
 				return Event::DontContinue;
 			}
-		}		
-			
+		}
+		
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;

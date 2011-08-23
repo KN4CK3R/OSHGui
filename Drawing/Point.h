@@ -5,11 +5,23 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		/**
+		 * Diese Klasse repräsentiert einen 2D Punkt.
+		 */
 		class Point
 		{			
 		public:
+			/**
+			 * Erstellt einen Punkt mit den Koordinaten 0/0.
+			 */
 			Point();
+			/**
+			 * Erstellt einen Punkt mit den Koordinaten X/Y.
+			 */
 			Point(int X, int Y);
+			/**
+			 * Kopiert einen Punkt.
+			 */
 			Point(const Point &p);
 			
 			bool operator == (const Point &equal);

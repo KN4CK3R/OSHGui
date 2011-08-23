@@ -189,7 +189,7 @@ namespace OSHGui
 			renderer->Fill(closeRect.GetLeft() + 4 + i, closeRect.GetTop() + 11 - i, 3, 1);
 			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 11 - i, 3, 1);
 		}
-			
+		
 		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(clientArea);
 

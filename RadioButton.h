@@ -5,22 +5,57 @@
 
 namespace OSHGui
 {
+	/**
+	 * Diese Klasse repräsentiert einen RadioButton.
+	 */
 	class RadioButton : public CheckBox
 	{	
 	public:
+		/**
+		 * Konstruktor der Klasse.
+		 *
+		 * @param parent das Elternsteuerelement
+		 */
 		RadioButton(Control *parent = NULL);
 		
+		/**
+		 * Legt den checked-Status fest und passt automatisch
+		 * andere RadioButtons in der gleichen Gruppe an.
+		 *
+		 * @param checked
+		 */
 		virtual void SetChecked(bool checked);
+		/**
+		 * Legt die Gruppe fest zu der dieser RadioButton gehört.
+		 *
+		 * @param group
+		 */
 		void SetGroup(int group);
+		/**
+		 * Gibt die Gruppe zurück zu der dieser RadioButton gehört.
+		 *
+		 * @return die Gruppe
+		 */
 		int GetGroup();
 		
+		/**
+		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
+		 *
+		 * @param event
+		 * @return NextEventTypes
+		 */
 		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		/**
+		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
+		 *
+		 * @param renderer
+		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
 		virtual void SetCheckedInternal(bool checked);
 	
-		int group;		
+		int group;
 	};
 }
 
