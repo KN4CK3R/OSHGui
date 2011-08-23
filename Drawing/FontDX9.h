@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_DRAWING_FONTDX9_H__
 #define __OSHGUI_DRAWING_FONTDX9_H__
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <d3dx9.h>
 #pragma comment(lib, "d3dx9.lib")
 

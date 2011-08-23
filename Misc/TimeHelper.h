@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_MISC_TIMER_H__
 #define __OSHGUI_MISC_TIMER_H__
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 
 namespace OSHGui

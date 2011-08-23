@@ -314,8 +314,8 @@ namespace OSHGui
 				float p3x = (size.Width * cosine); 
 				float p3y = (size.Width * sine); 
 
-				float minx = std::min(0, std::min(p1x, std::min(p2x, p3x)));
-				float miny = std::min(0, std::min(p1y, std::min(p2y, p3y)));
+				float minx = std::min(0.f, std::min(p1x, std::min(p2x, p3x)));
+				float miny = std::min(0.f, std::min(p1y, std::min(p2y, p3y)));
 				float maxx = std::max(p1x, std::max(p2x, p3x));
 				float maxy = std::max(p1y, std::max(p2y, p3y));
 
