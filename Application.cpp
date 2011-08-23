@@ -5,16 +5,39 @@ namespace OSHGui
 {
 	std::list<Form*> Application::forms;
 	Form *Application::focusForm = NULL;
+	Form *Application::mainForm = NULL;
 	bool Application::enabled = false;
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
 		enabled = true;
+
+		if (mainForm != NULL)
+		{
+			mainForm->Show();
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Application::Disable()
 	{
 		enabled = false;
+	}
+	//---------------------------------------------------------------------------
+	void Application::Run(Form *form)
+	{
+		if (form == NULL)
+		{
+			return;
+		}
+
+		if (mainForm != NULL)
+		{
+			return;
+		}
+
+		RegisterForm(form);
+
+		mainForm = form;
 	}
 	//---------------------------------------------------------------------------
 	void Application::RegisterForm(Form *form)
@@ -44,17 +67,24 @@ namespace OSHGui
 			return;
 		}
 
+		if (form == mainForm) //don't unregister mainForm
+		{
+			return;
+		}
+
 		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
 		{
 			if (*it == form)
 			{
 				it = forms.erase(it);
 
+				delete form;
+
 				if (focusForm == form)
 				{
 					if (forms.size() > 0)
 					{
-						focusForm = *(--it);
+						focusForm = *it;
 					}
 					else
 					{

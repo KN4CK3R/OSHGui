@@ -11,19 +11,24 @@ namespace OSHGui
 
 	class Application
 	{
+		friend Form;
+
 	public:
 		static void Enable();
 		static void Disable();
 
-		static void RegisterForm(Form *form);
-		static void UnregisterForm(Form *form);
+		static void Run(Form *form);
 
 		static Event::NextEventTypes ProcessEvent(Event *event);
 		static void Render(Drawing::IRenderer *renderer);
 
 	private:
+		static void RegisterForm(Form *form);
+		static void UnregisterForm(Form *form);
+
 		static std::list<Form*> forms;
-		static Form *focusForm;
+		static Form *focusForm,
+					*mainForm;
 		static bool enabled;
 	};
 }
