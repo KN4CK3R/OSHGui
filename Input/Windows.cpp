@@ -62,7 +62,7 @@ namespace OSHGui
 				case WM_CHAR:
 				{
 					KeyboardEvent keyboard;
-					keyboard.State = KeyboardEvent::None;
+					keyboard.State = KeyboardEvent::Unknown;
 					keyboard.Control = GetKeyState(VK_CONTROL) & 0x8000;
 					keyboard.Shift = GetKeyState(VK_SHIFT) & 0x8000;
 					keyboard.Menu = GetKeyState(VK_MENU) & 0x8000;
