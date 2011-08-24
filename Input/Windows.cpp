@@ -20,7 +20,7 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-					MouseEvent mouse(MouseEvent::None, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
+					MouseEvent mouse(MouseEvent::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
 					{
@@ -280,7 +280,7 @@ namespace OSHGui
 								break;
 						}
 					}
-					if (keyboard.State == KeyboardEvent::None)
+					if (keyboard.State == KeyboardEvent::Unknown)
 					{
 						break;
 					}

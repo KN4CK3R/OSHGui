@@ -35,7 +35,20 @@ namespace OSHGui
 			Point operator + (const Point &p);
 			void operator += (const Point &p);
 			
+			/**
+			 * Verschiebt den Punkt um X/Y.
+			 *
+			 * @param X
+			 * @param Y
+			 */
 			void Offset(int X, int Y);
+			/**
+			 * Kopiert den Punkt und verschiebt ihn um X/Y.
+			 *
+			 * @param X
+			 * @param Y
+			 * @return der neue Punkt
+			 */
 			const Point OffsetEx(int X, int Y);
 			
 			union

@@ -14,12 +14,34 @@ namespace OSHGui
 		friend Form;
 
 	public:
+		/**
+		 * Aktiviert das GUI.
+		 */
 		static void Enable();
+		/**
+		 * Deaktiviert das GUI.
+		 */
 		static void Disable();
 
+		/**
+		 * Legt die Hauptform des GUI fest.
+		 *
+		 * @param form
+		 */
 		static void Run(Form *form);
 
+		/**
+		 * Gibt ein Event an die geöffneten Formen weiter.
+		 *
+		 * @param event
+		 * @return NextEventTypes
+		 */
 		static Event::NextEventTypes ProcessEvent(Event *event);
+		/**
+		 * Zeichnet die geöffneten Formen.
+		 *
+		 * @param renderer
+		 */
 		static void Render(Drawing::IRenderer *renderer);
 
 	private:

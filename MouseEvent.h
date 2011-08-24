@@ -6,10 +6,43 @@
 
 namespace OSHGui
 {
+	/**
+	 * Mausevent
+	 */
 	class MouseEvent : public Event
 	{
 	public:
-		enum MouseStates { None, Move, LeftDown, LeftUp, RightDown, RightUp, Scroll };
+		enum MouseStates
+		{
+			/**
+			 * Unbekannt
+			 */
+			Unknown,
+			/**
+			 * Maus wurde bewegt.
+			 */
+			Move,
+			/**
+			 * Linke Maustaste wurde gedrückt.
+			 */
+			LeftDown,
+			/**
+			 * Linke Maustaste wurde losgelassen.
+			 */
+			LeftUp,
+			/**
+			 * Rechte Maustaste wurde gedrückt.
+			 */
+			RightDown,
+			/**
+			 * Rechte Maustaste wurde losgelassen.
+			 */
+			RightUp,
+			/**
+			 * Mausrad wurde gedreht.
+			 */
+			Scroll
+		};
 	
 		MouseStates State;
 		Drawing::Point Position;

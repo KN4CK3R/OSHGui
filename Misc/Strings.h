@@ -8,11 +8,29 @@ namespace OSHGui
 {
 	namespace Misc
 	{
+		/**
+		 * Unicode-Zeichenkette
+		 */
 		typedef std::wstring UnicodeString;
+		/**
+		 * Unicode-Zeichen
+		 */
 		typedef wchar_t UnicodeChar;
+		/**
+		 * Ansi-Zeichenkette
+		 */
 		typedef std::string AnsiString;
+		/**
+		 * Ansi-Zeichen
+		 */
 		typedef char AnsiChar;
-					
+		
+		/**
+		 * Wandelt einen AnsiString in einen UnicodeString um.
+		 *
+		 * @param ansi
+		 * @return unicode
+		 */
 		inline UnicodeString AnsiToUnicode(const AnsiString &ansi)
 		{
 			if (ansi.length() == 0)
@@ -26,7 +44,12 @@ namespace OSHGui
 
 			return out; 
 		}
-		//---------------------------------------------------------------------------
+		/**
+		 * Wandelt einen UnicodeString in einen AnsiString um.
+		 *
+		 * @param unicode
+		 * @return ansi
+		 */
 		inline AnsiString UnicodeToAnsi(const UnicodeString &unicode)
 		{
 			if (unicode.length() == 0)
@@ -40,9 +63,24 @@ namespace OSHGui
 
 			return out;
 		}
-		//---------------------------------------------------------------------------
+		
+		/**
+		 * Ersetzt das Formatelement in einer angegebenen Unicode-Zeichenfolge durch die
+		 * Zeichenfolgendarstellung eines entsprechenden Objekts.
+		 *
+		 * @param *fmt
+		 * @param ...
+		 * @return UnicodeString
+		 */
 		UnicodeString Format(const UnicodeChar *fmt, ...);
-		//---------------------------------------------------------------------------
+		/**
+		 * Ersetzt das Formatelement in einer angegebenen Ansi-Zeichenfolge durch die
+		 * Zeichenfolgendarstellung eines entsprechenden Objekts.
+		 *
+		 * @param *fmt
+		 * @param ...
+		 * @return AnsiString
+		 */
 		AnsiString Format(const AnsiChar *fmt, ...);
 	}
 }

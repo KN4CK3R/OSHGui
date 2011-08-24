@@ -87,6 +87,11 @@ namespace OSHGui
 		SetBounds(Drawing::Rectangle(x, y, w, h));
 	}
 	//---------------------------------------------------------------------------
+	void Control::SetBounds(Drawing::Point location, Drawing::Size &size)
+	{
+		SetBounds(Drawing::Rectangle(location.X, location.Y, size.Width, size.Height));
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetBounds(Drawing::Rectangle &bounds)
 	{
 		this->bounds = bounds;
@@ -110,7 +115,7 @@ namespace OSHGui
 		SetLocation(Drawing::Point(x, y));
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(Drawing::Point &point)
+	void Control::SetLocation(Drawing::Point &location)
 	{
 		bounds.SetLeft(point.Left);
 		bounds.SetTop(point.Top);
@@ -340,7 +345,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::FindControlAtPoint(const Drawing::Point &point)
+	Control* Control::GetChildAtPoint(const Drawing::Point &point)
 	{
 		for (unsigned int i = 0; i < controls.size(); i++)
 		{
@@ -360,7 +365,7 @@ namespace OSHGui
 		return NULL;
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::FindControlByName(const Misc::UnicodeString &name)
+	Control* Control::GetChildByName(const Misc::UnicodeString &name)
 	{
 		for (unsigned int i = 0; i < controls.size(); i++)
 		{
@@ -474,7 +479,7 @@ namespace OSHGui
 			}
 			
 			//find mouseOverControl
-			Control *control = FindControlAtPoint(mouse->Position);
+			Control *control = GetChildAtPoint(mouse->Position);
 			if (control != mouseOverControl && mouseOverControl != NULL)
 			{
 				mouseOverControl->mouseOver = false;

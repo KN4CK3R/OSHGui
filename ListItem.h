@@ -6,11 +6,13 @@
 
 namespace OSHGui
 {
+	/**
+	 * Diese Klasse repräsentiert einen Listeintrag.
+	 */
 	class ListItem
 	{
 	public:
 		Misc::UnicodeString Text;
-		void *Data;
 	};
 }
 

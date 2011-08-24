@@ -7,10 +7,31 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tastaturevent
+	 */
 	class KeyboardEvent : public Event
 	{
 	public:
-		enum KeyboardStates { None, Down, Character, Up };
+		enum KeyboardStates
+		{
+			/**
+			 * Unbekannt
+			 */
+			Unknown,
+			/**
+			 * Taste wurde gedrückt
+			 */
+			Down,
+			/**
+			 * enthält das Zeichen der gedrückten Taste
+			 */
+			Character,
+			/**
+			 * Taste wurde losgelassen
+			 */
+			Up
+		};
 
 		KeyboardStates State;
 		Key::Keys KeyCode;
@@ -23,7 +44,7 @@ namespace OSHGui
 	public:
 		KeyboardEvent() : Event(Event::Keyboard)
 		{
-			State = None;
+			State = Unknown;
 			Menu = false;
 			Control = false;
 			Shift = false;
@@ -79,6 +100,11 @@ namespace OSHGui
 			return '\0';
 		}
 
+		/**
+		 * Prüft, ob das Zeichen alphanumerisch ist.
+		 *
+		 * @return ja / nein
+		 */
 		bool IsAlphaNumeric()
 		{
 			return KeyChar != 0;
