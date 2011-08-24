@@ -41,10 +41,25 @@ namespace OSHGui
 
 	class Control;
 
+	/**
+	 * Tritt beim Klicken auf das Steuerelement ein.
+	 */
 	typedef void (*OnClickFunc)(Control *sender, MouseEvent *mouse);
+	/**
+	 * Tritt ein, wenn eine Taste gedrückt wird, während das Steuerelement den Fokus hat.
+	 */
 	typedef void (*OnKeyPressFunc)(Control *sender, KeyboardEvent *keyboard);
+	/**
+	 * Tritt ein, wenn der Mauszeiger den Bereich des Steuerelements betritt.
+	 */
 	typedef void (*OnEnterFunc)(Control *sender);
+	/**
+	 * Tritt ein, wenn der Mauszeiger den Bereich des Steuerelements verlässt.
+	 */
 	typedef void (*OnLeaveFunc)(Control *sender);
+	/**
+	 * Tritt ein, wenn der Wert des Steuerelements verändert wird.
+	 */
 	typedef void (*OnChangeFunc)(Control *sender);
 
 	/**
