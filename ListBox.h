@@ -10,7 +10,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine ListBox.
+	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */
 	class ListBox : public Control
 	{	

@@ -63,7 +63,7 @@ namespace OSHGui
 	typedef void (*OnChangeFunc)(Control *sender);
 
 	/**
-	 * Diese Klasse repräsentiert ein Steuerelement.
+	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.
 	 */
 	class Control
 	{

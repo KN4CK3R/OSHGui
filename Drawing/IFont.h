@@ -10,15 +10,31 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		/**
+		 * Definiert ein bestimmtes Format für Text, einschließlich der Attribute
+		 * für Schriftart, Schriftgrad und Schriftschnitt.
+		 */
 		class IFont
 		{
 		public:
 			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) = 0;
 			
-			Misc::UnicodeString& GetName() { return fontName; }
-			int GetSize() { return size; }
-			bool IsBold() { return bold; }
-			bool IsItalic() { return italic; }
+			Misc::UnicodeString& GetName()
+			{
+				return fontName;
+			}
+			int GetSize()
+			{
+				return size;
+			}
+			bool IsBold()
+			{
+				return bold;
+			}
+			bool IsItalic()
+			{
+				return italic;
+			}
 			
 			virtual Size MeasureText(const Misc::UnicodeString &str) = 0;
 						

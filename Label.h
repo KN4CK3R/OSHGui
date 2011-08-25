@@ -7,7 +7,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert ein Label.
+	 * Stellt ein Label-Steuerelement dar.
 	 */
 	class Label : public Control
 	{

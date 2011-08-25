@@ -6,8 +6,16 @@
 
 namespace OSHGui
 {
-	typedef void (*OnTick)();
+	/**
+	 * Tritt ein, wenn das angegebene Intervall für den Zeitgeber abgelaufen
+	 * und der Zeitgeber aktiviert ist.
+	 */
+	typedef void (*OnTick)(Control *sender);
 
+	/**
+	 * Implementiert einen Zeitgeber, der ein Ereignis in benutzerdefinierten
+	 * Intervallen auslöst.
+	 */
 	class Timer
 	{
 	public:

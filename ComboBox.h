@@ -11,7 +11,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine ComboBox.
+	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */
 	class ComboBox : public Button
 	{

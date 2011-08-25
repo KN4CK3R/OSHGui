@@ -13,16 +13,10 @@ namespace OSHGui
 			Height = 0;
 		}
 		//---------------------------------------------------------------------------
-		Size::Size(int Width, int Height)
+		Size::Size(int width, int height)
 		{
-			this->Width = Width;
-			this->Height = Height;
-		}
-		//---------------------------------------------------------------------------
-		Size::Size(const Size &s)
-		{
-			Width = s.Width;
-			Height = s.Height;
+			this->Width = width;
+			this->Height = height;
 		}
 		//---------------------------------------------------------------------------
 		//Operator
@@ -59,15 +53,15 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void Size::Inflate(int Width, int Height)
+		void Size::Inflate(int width, int height)
 		{
-			this->Width += Width;
-			this->Height += Height;
+			this->Width += width;
+			this->Height += height;
 		}
 		//---------------------------------------------------------------------------
-		Size Size::InflateEx(int Width, int Height)
+		Size Size::InflateEx(int width, int height)
 		{
-			return Size(this->Width + Width, this->Height + Height);
+			return Size(this->Width + width, this->Height + height);
 		}
 		//---------------------------------------------------------------------------
 		bool Size::Contains(const Point &point)

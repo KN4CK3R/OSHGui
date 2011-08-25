@@ -7,7 +7,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert ein Fenster.
+	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
 	 */
 	class Form : public Control
 	{

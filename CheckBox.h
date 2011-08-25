@@ -6,7 +6,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine CheckBox.
+	 * Stellt ein CheckBox-Steuerelement dar.
 	 */
 	class CheckBox : public Label
 	{

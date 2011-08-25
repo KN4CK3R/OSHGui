@@ -9,7 +9,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine Trackbar.
+	 * Stellt eine Standardtrackleiste dar.
 	 */
 	class TrackBar : public Control
 	{

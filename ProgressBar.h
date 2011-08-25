@@ -7,7 +7,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine ProgressBar.
+	 * Stellt ein Statusanzeige-Steuerlement dar.
 	 */
 	class ProgressBar : public Control
 	{	

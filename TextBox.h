@@ -9,7 +9,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine TextBox.
+	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
 	class TextBox : public Control
 	{

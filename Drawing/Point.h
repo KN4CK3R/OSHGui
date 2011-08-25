@@ -6,7 +6,8 @@ namespace OSHGui
 	namespace Drawing
 	{
 		/**
-		 * Diese Klasse repräsentiert einen 2D Punkt.
+		 * Stellt ein geordnetes Paar von x- und y-Koordinaten als ganze Zahlen dar,
+		 * das einen Punkt in einem zweidimensionalen Raum definiert.
 		 */
 		class Point
 		{			
@@ -18,11 +19,7 @@ namespace OSHGui
 			/**
 			 * Erstellt einen Punkt mit den Koordinaten X/Y.
 			 */
-			Point(int X, int Y);
-			/**
-			 * Kopiert einen Punkt.
-			 */
-			Point(const Point &p);
+			Point(int x, int y);
 			
 			bool operator == (const Point &equal);
 			bool operator != (const Point &equal);
@@ -38,18 +35,18 @@ namespace OSHGui
 			/**
 			 * Verschiebt den Punkt um X/Y.
 			 *
-			 * @param X
-			 * @param Y
+			 * @param x
+			 * @param y
 			 */
-			void Offset(int X, int Y);
+			void Offset(int x, int y);
 			/**
 			 * Kopiert den Punkt und verschiebt ihn um X/Y.
 			 *
-			 * @param X
-			 * @param Y
+			 * @param x
+			 * @param y
 			 * @return der neue Punkt
 			 */
-			const Point OffsetEx(int X, int Y);
+			const Point OffsetEx(int x, int y);
 			
 			union
 			{

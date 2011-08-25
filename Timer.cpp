@@ -21,7 +21,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Timer::SetEnabled(bool enabled)
 	{
-		static int iid = 0xF;
+		static unsigned long timerid = 0L;
+		
 		if (this->enabled != enabled)
 		{
 			if (enabled == true)

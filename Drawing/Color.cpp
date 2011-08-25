@@ -9,7 +9,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Color::Color()
 		{
-			A = 255;
+			A = 0;
 			R = 0;
 			G = 0;
 			B = 0;
@@ -38,7 +38,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//predefined colors
 		//---------------------------------------------------------------------------
-		Color Color::Empty() { return Color(0, 0, 0, 0); }
+		Color Color::Empty() { return Color(); }
 
 		Color Color::Red() { return Color(255, 255, 0, 0); }
 		Color Color::Lime() { return Color(255, 0, 255, 0); }

@@ -9,19 +9,19 @@ namespace OSHGui
 	namespace Misc
 	{
 		/**
-		 * Unicode-Zeichenkette
+		 * Stellt Text als eine Reihe von Unicode-Zeichen dar.
 		 */
 		typedef std::wstring UnicodeString;
 		/**
-		 * Unicode-Zeichen
+		 * Stellt ein Unicode-Zeichen dar.
 		 */
 		typedef wchar_t UnicodeChar;
 		/**
-		 * Ansi-Zeichenkette
+		 * Stellt Text als eine Reihe von Ansi-Zeichen dar.
 		 */
 		typedef std::string AnsiString;
 		/**
-		 * Ansi-Zeichen
+		 * Stellt ein Ansi-Zeichen dar.
 		 */
 		typedef char AnsiChar;
 		

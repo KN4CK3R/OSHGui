@@ -6,7 +6,8 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert einen RadioButton.
+	 * Ermöglicht Benutzern bei Verwendung weiterer RadioButton-Steuerelemete
+	 * die Auswahl einer Option aus mehreren Auswahlmöglichkeiten.
 	 */
 	class RadioButton : public CheckBox
 	{	

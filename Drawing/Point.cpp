@@ -13,16 +13,10 @@ namespace OSHGui
 			Y = 0;
 		}
 		//---------------------------------------------------------------------------
-		Point::Point(int X, int Y)
+		Point::Point(int x, int y)
 		{
-			this->X = X;
-			this->Y = Y;
-		}
-		//---------------------------------------------------------------------------
-		Point::Point(const Point &p)
-		{
-			X = p.X;
-			Y = p.Y;
+			this->X = x;
+			this->Y = y;
 		}
 		//---------------------------------------------------------------------------
 		//Operator
@@ -79,15 +73,15 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void Point::Offset(int X, int Y)
+		void Point::Offset(int x, int y)
 		{
-			this->X += X;
-			this->Y += Y;
+			this->X += x;
+			this->Y += y;
 		}
 		//---------------------------------------------------------------------------
-		const Point Point::OffsetEx(int X, int Y)
+		const Point Point::OffsetEx(int x, int y)
 		{
-			return Point(this->X + X, this->Y + Y);
+			return Point(this->X + x, this->Y + y);
 		}
 		//---------------------------------------------------------------------------
 	}

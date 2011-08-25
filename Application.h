@@ -9,6 +9,11 @@ namespace OSHGui
 {
 	class Form;
 
+	/**
+	 * Stellt static-Methoden und Eigenschaften für die Verwaltung einer
+	 * Anwendung zur Verfügung, z.B. Methoden zum Starten und Beenden einer
+	 * Anwendung sowie für das Abrufen von Informationen zu einer Anwendung.
+	 */
 	class Application
 	{
 		friend Form;

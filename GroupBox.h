@@ -7,7 +7,8 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert eine GroupBox.
+	 * Stellt ein Steuerelement dar, dass einen Rahmen um eine Gruppe
+	 * von Steuerlementen anzeigt, der eine Beschriftung enthalten kann.
 	 */
 	class GroupBox : public Control
 	{

@@ -6,7 +6,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert ein LinkLabel.
+	 * Stellt ein Label-Steuerelement dar, das Links anzeigen kann.
 	 */
 	class LinkLabel : public Label
 	{

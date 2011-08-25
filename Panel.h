@@ -6,7 +6,7 @@
 namespace OSHGui
 {
 	/**
-	 * Diese Klasse repräsentiert ein Panel.
+	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
 	 */
 	class Panel : public Control
 	{

@@ -7,12 +7,24 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		/**
+		 * Speichert ein geordnetes Paar von ganzen Zahlen, i. d. R. die Breite
+		 * und Höhe eines Rechtecks.
+		 */
 		class Size
-		{			
+		{
 		public:
+			/**
+			 * Erstellt ein Size-Objekt ohne Ausmaße.
+			 */
 			Size();
-			Size(int Width, int Height);
-			Size(const Size &s);
+			/**
+			 * Erstellt ein Size-Objekt mit der angegeben Breite und Höhe
+			 *
+			 * @param width
+			 * @param height
+			 */
+			Size(int width, int height);
 			
 			bool operator == (const Size &equal);
 			bool operator != (const Size &equal);
@@ -21,8 +33,21 @@ namespace OSHGui
 			Size operator + (const Size &s);
 			void operator += (const Size &s);
 			
-			void Inflate(int Width, int Height);
-			Size InflateEx(int Width, int Height);
+			/**
+			 * Erweitert das Size-Objekt um die angegebe Breite und Höhe.
+			 *
+			 * @param width
+			 * @param height
+			 */
+			void Inflate(int width, int height);
+			/**
+			 * Kopiert das Size-Objekt und erweitert es um die angegebe Breite und Höhe.
+			 *
+			 * @param width
+			 * @param height
+			 * @return size
+			 */
+			Size InflateEx(int width, int height);
 			
 			bool Contains(const Point &point);
 			

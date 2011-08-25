@@ -5,8 +5,13 @@
 #define NOMINMAX
 #include <windows.h>
 
+#include <sys/time.h>
+#include <map>
+
 namespace OSHGui
 {
+	class Timer;
+
 	namespace Misc
 	{
 		class TimeHelper
@@ -22,8 +27,11 @@ namespace OSHGui
 			double GetTime();
 			float GetElapsedTime();
 			bool IsStopped();
+			
+			void RegisterTimer(Timer *timer, unsigned long interval);
+			void UnregisterTimer(Timer *timer); 
 
-		protected:
+		private:
 			LARGE_INTEGER GetAdjustedCurrentTime();
 
 			bool usingQPF;
@@ -33,6 +41,14 @@ namespace OSHGui
 			LONGLONG stopTime;
 			LONGLONG lastElapsedTime;
 			LONGLONG baseTime;
+			
+			struct TimerInfo
+			{
+				Timer *timer;
+				unsigned long intervalInMicro;
+			}
+			
+			std::map<Timer*, TimerInfo> timers;
 		};
 
 		extern TimeHelper GlobalTime;

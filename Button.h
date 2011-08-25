@@ -6,7 +6,7 @@
 namespace OSHGui
 {
 	/**
-	 * Die Klasse repräsentiert einen Button.
+	 * Stellt ein Schaltflächen-Steuerelement dar.
 	 */
 	class Button : public Label
 	{	
