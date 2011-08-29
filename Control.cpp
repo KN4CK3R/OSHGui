@@ -117,8 +117,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(Drawing::Point &location)
 	{
-		bounds.SetLeft(point.Left);
-		bounds.SetTop(point.Top);
+		bounds.SetLeft(location.Left);
+		bounds.SetTop(location.Top);
 		
 		static bool isValid = true; //no recursive calls
 		if (isValid)

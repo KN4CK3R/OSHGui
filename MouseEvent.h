@@ -52,7 +52,7 @@ namespace OSHGui
 	public:
 		MouseEvent() : Event(Event::Mouse)
 		{
-			State = None;
+			State = Unknown;
 			Delta = 0;
 			Handled = false;
 		}

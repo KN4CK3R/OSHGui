@@ -5,6 +5,7 @@
 #include "Drawing\Rectangle.h"
 
 #include "Misc\TimeHelper.h"
+#include "Misc\DateTime.h"
 
 #include "EventHandler.h"
 
