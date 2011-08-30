@@ -111,7 +111,7 @@ namespace OSHGui
 
 		private:
 			DateTime(unsigned long long dateData);
-			DateTime(unsigned long long ticks, DateTimeKind kind, bool isAmbiguousDst);
+			DateTime(long long ticks, DateTimeKind kind, bool isAmbiguousDst);
 			
 			long long GetInternalTicks();
 			unsigned long long GetInternalKind();

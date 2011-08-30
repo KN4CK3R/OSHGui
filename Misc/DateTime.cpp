@@ -30,8 +30,8 @@ namespace OSHGui
 		const unsigned int DateTime::DaysTo1899 = DateTime::DaysPer400Years * 4 + DateTime::DaysPer100Years * 3 - 367;
 		const unsigned int DateTime::DaysTo10000 = DateTime::DaysPer400Years * 25 - 366;
 
-		const unsigned long long DateTime::MinTicks = 0ULL;
-		const unsigned long long DateTime::MaxTicks = DateTime::TicksPerDay * DateTime::DaysTo10000 - 1ULL;
+		const long long DateTime::MinTicks = 0ULL;
+		const long long DateTime::MaxTicks = DateTime::TicksPerDay * DateTime::DaysTo10000 - 1ULL;
 		const unsigned long long DateTime::MaxMillis = (unsigned long long)DateTime::DaysTo10000 * DateTime::MillisPerDay;
  
 		const unsigned long long DateTime::TimezoneOffset = DateTime::GetTimezoneOffset();
@@ -521,27 +521,27 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToString()
 		{
-			return Format(L"%02u.%02u.%04u %02u:%02u:%02u", GetDay(), GetMonth(), GetYear(), GetHour(), GetMinute(), GetSecond());
+			return String::Format(L"%02u.%02u.%04u %02u:%02u:%02u", GetDay(), GetMonth(), GetYear(), GetHour(), GetMinute(), GetSecond());
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToLongDateString()
 		{
-			return Format(L"%s, %02u. %s %04u", dayNames[(int)GetDayOfWeek()].c_str(), GetDay(), monthNames[(int)GetMonth() - 1].c_str(), GetYear());
+			return String::Format(L"%s, %02u. %s %04u", dayNames[(int)GetDayOfWeek()].c_str(), GetDay(), monthNames[(int)GetMonth() - 1].c_str(), GetYear());
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToLongTimeString()
 		{
-			return Format(L"%02u:%02u:%02u", GetHour(), GetMinute(), GetSecond());
+			return String::Format(L"%02u:%02u:%02u", GetHour(), GetMinute(), GetSecond());
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToShortDateString()
 		{
-			return Format(L"%02u.%02u.%04u", GetDay(), GetMonth(), GetYear());
+			return String::Format(L"%02u.%02u.%04u", GetDay(), GetMonth(), GetYear());
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToShortTimeString()
 		{
-			return Format(L"%02u:%02u", GetHour(), GetMinute());
+			return String::Format(L"%02u:%02u", GetHour(), GetMinute());
 		}
 		//---------------------------------------------------------------------------
 	}
