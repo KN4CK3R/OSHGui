@@ -10,6 +10,10 @@ namespace OSHGui
 		class DateTime
 		{
 		public:
+			/**
+			 * Gibt an, ob ein DateTime-Objekt eine lokale Zeit, eine koordinate Weltzeit
+			 * (UTC) angibt oder weder lokale Zeit noch UTC angegeben sind.
+			 */
 			enum DateTimeKind
 			{
 				Unspecified = 0,
@@ -17,6 +21,9 @@ namespace OSHGui
 				Local
 			};
 		
+			/**
+			 * Gibt den Wochentag an.
+			 */
 			enum DayOfWeek
 			{
 				Sunday = 0,
@@ -28,6 +35,7 @@ namespace OSHGui
 				Saturday
 			};
 
+		private:
 			enum DatePart
 			{
 				Year = 0,
@@ -35,8 +43,7 @@ namespace OSHGui
 				Month,
 				Day
 			};
-
-		private:
+		
 			//Number of 100ns ticks per time unit
 			static const unsigned long long TicksPerMillisecond;
 			static const unsigned long long TicksPerSecond;
@@ -66,8 +73,8 @@ namespace OSHGui
 			// Number of days from 1/1/0001 to 12/31/9999
 			static const unsigned int DaysTo10000;
 
-			static const unsigned long long MinTicks;
-			static const unsigned long long MaxTicks;
+			static const long long MinTicks;
+			static const long long MaxTicks;
 			static const unsigned long long MaxMillis;
  
 			static const unsigned long long TimezoneOffset;
@@ -93,7 +100,13 @@ namespace OSHGui
 			unsigned long long dateData;
 
 		public:
+			/**
+			 * Stellt den kleinstmöglichen Wert von DateTime dar.
+			 */
 			static const DateTime MinValue;
+			/**
+			 * Stellt den größtmöglichen Wert von DateTime dar.
+			 */
 			static const DateTime MaxValue;
 
 		private:
@@ -110,25 +123,141 @@ namespace OSHGui
 			
 			int GetDatePart(DatePart part);
 			
-			static bool TryCreate(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTime *result);
-
 		public:
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur als MinValue.
+			 */
+			DateTime();
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit der angegebenen Anzahl an Ticks.
+			 *
+			 * @param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
+			 */
 			DateTime(long long ticks);
-			DateTime(unsigned long long ticks, DateTimeKind kind);
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit der angegebenen Anzahl an Ticks
+			 * und koordinierter Weltzeit (UTC) oder lokaler Zeit.
+			 *
+			 * @param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
+			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 */
+			DateTime(long long ticks, DateTimeKind kind);
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat und Tag.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
+			 */
 			DateTime(int year, int month, int day);
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute und Sekunde.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * @param hour die Stunde (0 bis 23)
+			 * @param minute die Minute (0 bis 59)
+			 * @param second die Sekunde (0 bis 59)
+			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second);
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute, Sekunde
+			 * und koordinierter Weltzeit (UTC) oder lokaler Zeit.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * @param hour die Stunden (0 bis 23)
+			 * @param minute die Minuten (0 bis 59)
+			 * @param second die Sekunden (0 bis 59)
+			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second, DateTimeKind kind);
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute, Sekunde
+			 * und Milisekunden.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * @param hour die Stunden (0 bis 23)
+			 * @param minute die Minuten (0 bis 59)
+			 * @param second die Sekunden (0 bis 59)
+			 * @param millisecond die Millisekunden (0 bis 999)
+			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
+			/**
+			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute, Sekunde,
+			 * Milisekunden und koordinierter Weltzeit (UTC) oder lokaler Zeit.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * @param hour die Stunden (0 bis 23)
+			 * @param minute die Minuten (0 bis 59)
+			 * @param second die Sekunden (0 bis 59)
+			 * @param millisecond die Millisekunden (0 bis 999)
+			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTimeKind kind);
 			
-			DateTime AddDays(double value);
-			DateTime AddHours(double value);
-			DateTime AddMilliseconds(double value);
-			DateTime AddMinutes(double value);
-			DateTime AddMonths(int months);
-			DateTime AddSeconds(double value);
-			DateTime AddTicks(long long value);
+			/**
+			 * Addiert die angegebene Anzahl von Jahren zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Anzahl von Jahren. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
 			DateTime AddYears(int value);
+			/**
+			 * Addiert die angegebene Anzahl von Monaten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Anzahl von Monaten. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddMonths(int months);
+			/**
+			 * Addiert die angegebene Anzahl von Tagen zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Zahl, die aus ganzen Tagen und dem Bruchteil eines Tages besteht. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddDays(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Stunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Zahl, die aus ganzen Stunden und dem Bruchteil einer Stunde besteht. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddHours(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Minuten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Zahl, die aus ganzen Minuten und dem Bruchteil einer Minute besteht. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddMinutes(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Sekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Zahl, die aus ganzen Sekunden und dem Bruchteil einer Sekunde besteht. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddSeconds(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Millisekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Zahl, die aus ganzen Millisekunden und dem Bruchteil einer Millisekunde besteht. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddMilliseconds(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Ticks zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value Eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
+			 * @return die neue DateTime-Struktur
+			 */
+			DateTime AddTicks(long long value);
 			
 			bool operator == (DateTime &time);
 			bool operator != (DateTime &time);
@@ -137,36 +266,170 @@ namespace OSHGui
 			bool operator <= (DateTime &time);
 			bool operator >= (DateTime &time);
 			
+			/**
+			 * Ruft die Anzahl der Tage im angegeben Monat und Jahr ab.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @return die Anzahl der Tage
+			 */
 			static int DaysInMonth(int year, int month);
 			
+			/**
+			 * Erstellt ein neues DateTime-Objekt, das die gleiche Zeit wie die angegebene DateTime darstellt, aber entsprechend dem
+			 * DateTimeKind-Wert in Ortszeit, koordinierter Weltzeit (UTC) oder keinem von beidem angegeben ist.
+			 *
+			 * @param value die DateTime-Struktur
+			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 * @return die neue DateTime-Struktur
+			 */
 			static DateTime SpecifyKind(DateTime value, DateTimeKind kind);
 			
+			/**
+			 * Ruft ab, ob das angegebene Jahr ein Schaltjahr ist.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @return ja/nein
+			 */
 			static bool IsLeapYear(int year);
 			
+			/**
+			 * Ruft den Unterschied der aktuellen Zeitzone zur UTC ab.
+			 *
+			 * @return der Zeitzonenunterschied
+			 */
 			static unsigned long long GetTimezoneOffset();
 			
+			/**
+			 * Ruft die Datumskomponente dieser Instanz ab.
+			 *
+			 * @return die Datumskomponente
+			 */
 			DateTime GetDate();
+			/**
+			 * Ruft das Jahr ab, das durch diese Instanz dargestellt wird.
+			 *
+			 * @return das Jahr
+			 */
 			int GetYear();
+			/**
+			 * Ruft den Monat ab, der durch diese Instanz dargestellt wird.
+			 *
+			 * @return der Monat
+			 */
 			int GetMonth();
+			/**
+			 * Ruft den Tag des Monats ab, der durch diese Instanz dargestellt wird.
+			 *
+			 * @return der Tag
+			 */
 			int GetDay();
+			/**
+			 * Ruft den Wochentag ab, der durch diese Instanz dargestellt wird.
+			 *
+			 * @return der Wochentag
+			 */
 			DayOfWeek GetDayOfWeek();
+			/**
+			 * Ruft den Tag des Jahres ab, der durch diese Instanz dargestellt wird.
+			 *
+			 * @return der Tag
+			 */
 			int GetDayOfYear();
+			/**
+			 * Ruft die Komponente für die Stunden des Datums ab, das durch diese Instanz dargestellt wird.
+			 *
+			 * @return die Stunden
+			 */
 			int GetHour();
+			/**
+			 * Ruft die Komponente für die Minuten des Datums ab, das durch diese Instanz dargestellt wird.
+			 *
+			 * @return die Minuten
+			 */
 			int GetMinute();
+			/**
+			 * Ruft die Komponente für die Sekunden des Datums ab, das durch diese Instanz dargestellt wird.
+			 *
+			 * @return die Sekunden
+			 */
 			int GetSecond();
+			/**
+			 * Ruft die Komponente für die Millisekunden des Datums ab, das durch diese Instanz dargestellt wird.
+			 *
+			 * @return die Millisekunden
+			 */
 			int GetMillisecond();
+			/**
+			 * Ruft die Anzahl der Ticks ab, die Datum und Uhrzeit dieser Instanz dargestellen.
+			 *
+			 * @return der Tag
+			 */
 			long long GetTicks();
 			
+			/**
+			 * Ruft einen Wert ab, der angibt, ob die durch diese Instanz dargestellte Zeit
+			 * auf lokaler Zeit, koordinierter Weltzeit (UTC) oder keinem von beidem basiert.
+			 *
+			 * @return der DateTimeKind-Wert
+			 */
 			DateTimeKind GetKind();
 			
+			/**
+			 * Ruft ein DateTime-Objekt ab, das auf das aktuelle Datum und die aktuelle Zeit
+			 * auf dem lokalen Rechner als lokale Zeit festgelegt ist.
+			 *
+			 * @return das DateTime-Objekt
+			 */
 			static DateTime GetNow();
-			static DateTime GetUtcNow();			
+			/**
+			 * Ruft ein DateTime-Objekt ab, das auf das aktuelle Datum und die aktuelle Zeit
+			 * auf dem lokalen Rechner als lokale Zeit festgelegt ist.
+			 *
+			 * @return das DateTime-Objekt
+			 */
+			static DateTime GetUtcNow();
+			/**
+			 * Ruft das aktuelle Datum ab.
+			 *
+			 * @return das aktuelle Datum
+			 */
 			static DateTime GetToday();
 
+			/**
+			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
+			 * Format: d.m.Y H:i:s => 23.04.2011 02:23:48
+			 *
+			 * @return die Zeichenfolgendarstellung
+			 */
 			UnicodeString ToString();
+			/**
+			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
+			 * Format: l, d. F Y => Saturday, 23. April 2011
+			 *
+			 * @return die Zeichenfolgendarstellung
+			 */
 			UnicodeString ToLongDateString();
+			/**
+			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
+			 * Format: H:i:s => 02:23:48
+			 *
+			 * @return die Zeichenfolgendarstellung
+			 */
 			UnicodeString ToLongTimeString();
+			/**
+			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
+			 * Format: d.m.Y => 23.04.2011
+			 *
+			 * @return die Zeichenfolgendarstellung
+			 */
 			UnicodeString ToShortDateString();
+			/**
+			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
+			 * Format: H:i => 02:23
+			 *
+			 * @return die Zeichenfolgendarstellung
+			 */
 			UnicodeString ToShortTimeString();
 		};
 	}

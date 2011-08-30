@@ -64,6 +64,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
+		DateTime::DateTime()
+		{
+			dateData = (MinTicks | ((unsigned long long)Unspecified << KindShift));
+		}
+		//---------------------------------------------------------------------------
 		DateTime::DateTime(long long ticks)
 		{ 
 			if (ticks < MinTicks || ticks > MaxTicks)
@@ -79,7 +84,7 @@ namespace OSHGui
 			this->dateData = dateData;
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTime(unsigned long long ticks, DateTimeKind kind)
+		DateTime::DateTime(long long ticks, DateTimeKind kind)
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
@@ -90,17 +95,17 @@ namespace OSHGui
 				throw std::invalid_argument("Invalid argument: kind");
 			}
 
-			dateData = (ticks | ((unsigned long long)kind << KindShift));
+			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTime(unsigned long long ticks, DateTimeKind kind, bool isAmbiguousDst)
+		DateTime::DateTime(long long ticks, DateTimeKind kind, bool isAmbiguousDst)
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
 				throw std::out_of_range("Argument out of range: ticks");
 			}
 			
-			dateData = (ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
+			dateData = ((unsigned long long)ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(int year, int month, int day)
@@ -255,12 +260,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		DateTime DateTime::AddTicks(long long value)
 		{
-			unsigned long long ticks = (unsigned long long)GetInternalTicks() + value;
+			long long ticks = GetInternalTicks() + value;
 			if (ticks > MaxTicks || ticks < MinTicks)
 			{
 				throw std::out_of_range("Argument out of range: ticks");
 			}
-			return DateTime(ticks | GetInternalKind());
+			return DateTime((unsigned long long)ticks | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		bool DateTime::operator == (DateTime &time)
@@ -489,8 +494,7 @@ namespace OSHGui
 		DateTime DateTime::GetNow()
 		{
 			DateTime utc = GetUtcNow();
-			bool isAmbiguousLocalDst = false;
-			unsigned long long tick = utc.GetTicks() + TimezoneOffset;
+			long long tick = utc.GetTicks() + TimezoneOffset;
 			if (tick > MaxTicks)
 			{
 				return DateTime(MaxTicks, Local);
@@ -499,7 +503,7 @@ namespace OSHGui
 			{
 				return DateTime(MinTicks, Local);
 			}
-			return DateTime(tick, DateTime::Local, isAmbiguousLocalDst);
+			return DateTime(tick, DateTime::Local, false);
 		}
 		//---------------------------------------------------------------------------
 		DateTime DateTime::GetUtcNow()
@@ -513,38 +517,6 @@ namespace OSHGui
 		DateTime DateTime::GetToday()
 		{
 			return GetNow().GetDate();
-		}
-		//---------------------------------------------------------------------------
-		bool DateTime::TryCreate(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTime *result)
-		{
-			*result = MinValue;
-			if (year < 1 || year > 9999 || month < 1 || month > 12)
-			{
-				return false;
-			}
-			const int *days = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
-			if (day < 1 || day > days[month] - days[month - 1])
-			{
-				return false;
-			}
-			if (hour < 0 || hour >= 24 || minute < 0 || minute >= 60 || second < 0 || second >= 60)
-			{
-				return false;
-			}
-			if (millisecond < 0 || millisecond >= MillisPerSecond)
-			{
-				return false;
-			}
-			long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
-
-			ticks += millisecond * TicksPerMillisecond;
-			if (ticks < MinTicks || ticks > MaxTicks)
-			{
-				return false;
-			}
-			*result = DateTime(ticks, DateTime::Unspecified);
-			
-			return true;
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToString()
