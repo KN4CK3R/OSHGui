@@ -12,6 +12,7 @@
 #include "Drawing\IRenderer.h"
 
 #include "Misc\Strings.h"
+#include "Misc\Any.h"
 #include "Misc\TimeHelper.h"
 
 #include "EventHandler.h"
@@ -263,13 +264,13 @@ namespace OSHGui
 		 *
 		 * @param tag
 		 */
-		void SetTag(void *tag);
+		void SetTag(Misc::Any &tag);
 		/**
 		 * Gibt die mit dem Steuerelement verknüpften benutzerdefinierten Daten zurück.
 		 *
 		 * @return tag
 		 */
-		void* GetTag();
+		Misc::Any& GetTag();
 		
 		/**
 		 * Legt den zum Identifizieren des Steuerelements verwendeten Namen fest.
@@ -469,7 +470,7 @@ namespace OSHGui
 			 hasFocus,
 			 autoSize;
 			 
-		void *tag;
+		Misc::Any tag;
 		
 		
 		Drawing::Rectangle bounds,

@@ -13,9 +13,7 @@ namespace OSHGui
 		
 		SetEnabled(true);
 		SetVisible(true);
-		
-		SetTag(NULL);
-		
+				
 		mouseOver = false;
 		hasFocus = false;
 
@@ -199,12 +197,12 @@ namespace OSHGui
 		return bounds.GetHeight();
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetTag(void *tag)
+	void Control::SetTag(Misc::Any &tag)
 	{
 		this->tag = tag;
 	}
 	//---------------------------------------------------------------------------
-	void* Control::GetTag()
+	Misc::Any& Control::GetTag()
 	{
 		return tag;
 	}
