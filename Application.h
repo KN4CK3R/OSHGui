@@ -2,12 +2,15 @@
 #define __OSHGUI_APPLICATION_H__
 
 #include <list>
+#include <map>
 #include "Drawing\IRenderer.h"
+#include "Misc\DateTime.h"
 #include "Event.h"
 
 namespace OSHGui
 {
 	class Form;
+	class Timer;
 
 	/**
 	 * Stellt static-Methoden und Eigenschaften für die Verwaltung einer
@@ -17,6 +20,7 @@ namespace OSHGui
 	class Application
 	{
 		friend Form;
+		friend Timer;
 
 	public:
 		/**
@@ -50,6 +54,17 @@ namespace OSHGui
 		static void Render(Drawing::IRenderer *renderer);
 
 	private:
+		static void RegisterTimer(Timer *timer, Misc::TimeSpan &interval);
+		static void UnregisterTimer(Timer *timer);
+		struct TimerInfo
+		{
+			Timer *timer;
+			Misc::TimeSpan interval;
+			Misc::DateTime next;
+		};
+			
+		static std::map<Timer*, TimerInfo> timers;
+
 		static void RegisterForm(Form *form);
 		static void UnregisterForm(Form *form);
 
