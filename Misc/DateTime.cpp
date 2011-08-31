@@ -2,9 +2,13 @@
 #include <time.h>
 #include <stdexcept>
 
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
+#else //Unix
+#include <sys/time.h>
+#endif
 
 namespace OSHGui
 {
@@ -261,7 +265,16 @@ namespace OSHGui
 		DateTime DateTime::GetUtcNow()
 		{
 			long long ticks;
+#ifdef _WIN32
 			GetSystemTimeAsFileTime((LPFILETIME)&ticks);
+#else //Unix
+			timeval tv;
+			gettimeofday(&tv, NULL);
+			ticks = (long long)tv.tv_usec;
+			ticks += (long long)(tv.tv_sec / 0.000001);
+			ticks += 11644473600000000LL;
+			ticks *= 10LL;
+#endif
 			
 			return DateTime((unsigned long long)(ticks + FileTimeOffset) | DateTime::KindUtc);
 		}
@@ -490,7 +503,7 @@ namespace OSHGui
 			return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 		}
 		//---------------------------------------------------------------------------
-		unsigned long long DateTime::GetTimezoneOffset()
+		long long DateTime::GetTimezoneOffset()
 		{
 			time_t now;
 			struct tm local, utc;
@@ -501,7 +514,7 @@ namespace OSHGui
 			
 			int diff = local.tm_hour - utc.tm_hour;
 						
-			return TicksPerHour * diff;
+			return (long long)TicksPerHour * diff;
 		}
 		//---------------------------------------------------------------------------
 		int DateTime::GetDatePart(DatePart part) const

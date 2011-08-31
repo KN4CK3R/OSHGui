@@ -23,14 +23,6 @@ namespace OSHGui
 			SetHeight(height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle::Rectangle(const Rectangle &rect)
-		{
-			left = rect.left;
-			top = rect.top;
-			SetWidth(rect.width);
-			SetHeight(rect.height);
-		}
-		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Rectangle::SetLeft(int left)

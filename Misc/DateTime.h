@@ -412,7 +412,7 @@ namespace OSHGui
 			 *
 			 * @return der Zeitzonenunterschied
 			 */
-			static unsigned long long GetTimezoneOffset();
+			static long long GetTimezoneOffset();
 
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.

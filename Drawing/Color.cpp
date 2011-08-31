@@ -246,19 +246,5 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		unsigned long Color::Format(ColorFormat format)
-		{
-			switch (format)
-			{
-			case ColorFormat::COLOR_RGBA:
-
-
-			case ColorFormat::COLOR_ARGB:
-			case ColorFormat::COLOR_RGB:
-			default:
-				return ARGB;
-			}
-		}
-		//---------------------------------------------------------------------------
 	}
 }
