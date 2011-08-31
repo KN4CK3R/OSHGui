@@ -2,11 +2,12 @@
 #define __OSHGUI_MISC_DATETIME_H__
 
 #include "Strings.h"
+#include "TimeSpan.h"
 
 namespace OSHGui
 {
 	namespace Misc
-	{	
+	{
 		class DateTime
 		{
 		public:
@@ -203,109 +204,17 @@ namespace OSHGui
 			DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTimeKind kind);
 			
 			/**
-			 * Addiert die angegebene Anzahl von Jahren zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Anzahl von Jahren. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddYears(int value);
-			/**
-			 * Addiert die angegebene Anzahl von Monaten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Anzahl von Monaten. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddMonths(int months);
-			/**
-			 * Addiert die angegebene Anzahl von Tagen zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Zahl, die aus ganzen Tagen und dem Bruchteil eines Tages besteht. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddDays(double value);
-			/**
-			 * Addiert die angegebene Anzahl von Stunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Zahl, die aus ganzen Stunden und dem Bruchteil einer Stunde besteht. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddHours(double value);
-			/**
-			 * Addiert die angegebene Anzahl von Minuten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Zahl, die aus ganzen Minuten und dem Bruchteil einer Minute besteht. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddMinutes(double value);
-			/**
-			 * Addiert die angegebene Anzahl von Sekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Zahl, die aus ganzen Sekunden und dem Bruchteil einer Sekunde besteht. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddSeconds(double value);
-			/**
-			 * Addiert die angegebene Anzahl von Millisekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Zahl, die aus ganzen Millisekunden und dem Bruchteil einer Millisekunde besteht. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddMilliseconds(double value);
-			/**
-			 * Addiert die angegebene Anzahl von Ticks zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
-			 *
-			 * @param value Eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
-			 * @return die neue DateTime-Struktur
-			 */
-			DateTime AddTicks(long long value);
-			
-			bool operator == (DateTime &time);
-			bool operator != (DateTime &time);
-			bool operator < (DateTime &time);
-			bool operator > (DateTime &time);
-			bool operator <= (DateTime &time);
-			bool operator >= (DateTime &time);
-			
-			/**
-			 * Ruft die Anzahl der Tage im angegeben Monat und Jahr ab.
-			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @return die Anzahl der Tage
-			 */
-			static int DaysInMonth(int year, int month);
-			
-			/**
-			 * Erstellt ein neues DateTime-Objekt, das die gleiche Zeit wie die angegebene DateTime darstellt, aber entsprechend dem
-			 * DateTimeKind-Wert in Ortszeit, koordinierter Weltzeit (UTC) oder keinem von beidem angegeben ist.
-			 *
-			 * @param value die DateTime-Struktur
-			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
-			 * @return die neue DateTime-Struktur
-			 */
-			static DateTime SpecifyKind(DateTime value, DateTimeKind kind);
-			
-			/**
-			 * Ruft ab, ob das angegebene Jahr ein Schaltjahr ist.
-			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @return ja/nein
-			 */
-			static bool IsLeapYear(int year);
-			
-			/**
-			 * Ruft den Unterschied der aktuellen Zeitzone zur UTC ab.
-			 *
-			 * @return der Zeitzonenunterschied
-			 */
-			static unsigned long long GetTimezoneOffset();
-			
-			/**
 			 * Ruft die Datumskomponente dieser Instanz ab.
 			 *
 			 * @return die Datumskomponente
 			 */
 			DateTime GetDate();
+			/**
+			 * Ruft die Uhrzeit für diese Instanz ab.
+			 *
+			 * @return die Uhrzeit
+			 */
+			TimeSpan GetTimeOfDay()
 			/**
 			 * Ruft das Jahr ab, das durch diese Instanz dargestellt wird.
 			 *
@@ -395,6 +304,115 @@ namespace OSHGui
 			 * @return das aktuelle Datum
 			 */
 			static DateTime GetToday();
+			
+			/**
+			 * Addiert den Wert der angegebenen TimeSpan zum Wert dieser Instanz.
+			 *
+			 * @param value ein TimeSpan-Objekt, das ein positives oder negatives Zeitintervall darstellt
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime Add(TimeSpan value);
+			/**
+			 * Addiert die angegebene Anzahl von Jahren zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Anzahl von Jahren. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddYears(int value);
+			/**
+			 * Addiert die angegebene Anzahl von Monaten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Anzahl von Monaten. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddMonths(int months);
+			/**
+			 * Addiert die angegebene Anzahl von Tagen zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Zahl, die aus ganzen Tagen und dem Bruchteil eines Tages besteht. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddDays(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Stunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Zahl, die aus ganzen Stunden und dem Bruchteil einer Stunde besteht. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddHours(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Minuten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Zahl, die aus ganzen Minuten und dem Bruchteil einer Minute besteht. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddMinutes(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Sekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Zahl, die aus ganzen Sekunden und dem Bruchteil einer Sekunde besteht. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddSeconds(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Millisekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Zahl, die aus ganzen Millisekunden und dem Bruchteil einer Millisekunde besteht. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddMilliseconds(double value);
+			/**
+			 * Addiert die angegebene Anzahl von Ticks zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
+			 *
+			 * @param value eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
+			 * @return eine DateTime-Struktur
+			 */
+			DateTime AddTicks(long long value);
+			
+			bool operator == (DateTime &time);
+			bool operator != (DateTime &time);
+			bool operator < (DateTime &time);
+			bool operator > (DateTime &time);
+			bool operator <= (DateTime &time);
+			bool operator >= (DateTime &time);
+			const DateTime operator - (const TimeSpan &ts);
+			const DateTime operator + (const TimeSpan &ts);
+			const TimeSpan operator - (const DateTime &time);
+			const TimeSpan operator + (const DateTime &time);
+			
+			/**
+			 * Ruft die Anzahl der Tage im angegeben Monat und Jahr ab.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @param month der Monat (1 bis 12)
+			 * @return die Anzahl der Tage
+			 */
+			static int DaysInMonth(int year, int month);
+			
+			/**
+			 * Erstellt ein neues DateTime-Objekt, das die gleiche Zeit wie die angegebene DateTime darstellt, aber entsprechend dem
+			 * DateTimeKind-Wert in Ortszeit, koordinierter Weltzeit (UTC) oder keinem von beidem angegeben ist.
+			 *
+			 * @param value die DateTime-Struktur
+			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 * @return die neue DateTime-Struktur
+			 */
+			static DateTime SpecifyKind(DateTime value, DateTimeKind kind);
+			
+			/**
+			 * Ruft ab, ob das angegebene Jahr ein Schaltjahr ist.
+			 *
+			 * @param year das Jahr (1 bis 9999)
+			 * @return ja/nein
+			 */
+			static bool IsLeapYear(int year);
+			
+			/**
+			 * Ruft den Unterschied der aktuellen Zeitzone zur UTC ab.
+			 *
+			 * @return der Zeitzonenunterschied
+			 */
+			static unsigned long long GetTimezoneOffset();
 
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.

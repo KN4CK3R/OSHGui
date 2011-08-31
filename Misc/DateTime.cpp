@@ -167,6 +167,110 @@ namespace OSHGui
 			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
 		}
 		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		DateTime DateTime::GetDate()
+		{
+			long long ticks = GetInternalTicks();
+			return DateTime((unsigned long long)(ticks - ticks % TicksPerDay) | GetInternalKind());
+		}
+		//---------------------------------------------------------------------------
+		TimeSpan DateTime::GetTimeOfDay()
+		{
+			return TimeSpan(GetInternalTicks() % TicksPerDay);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetYear()
+		{
+			return GetDatePart(DateTime::Year);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetMonth()
+		{
+			return GetDatePart(DateTime::Month);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetDay()
+		{
+			return GetDatePart(DateTime::Day);
+		}
+		//---------------------------------------------------------------------------
+		DateTime::DayOfWeek DateTime::GetDayOfWeek()
+		{
+			return (DateTime::DayOfWeek)((GetInternalTicks() / TicksPerDay + 1) % 7);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetDayOfYear()
+		{
+			return GetDatePart(DateTime::DayOfYear);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetHour()
+		{
+			return (int)((GetInternalTicks() / TicksPerHour) % 24);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetMinute()
+		{
+			return (int)((GetInternalTicks() / TicksPerMinute) % 60);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetSecond()
+		{
+			return (int)((GetInternalTicks() / TicksPerSecond) % 60);
+		}
+		//---------------------------------------------------------------------------
+		int DateTime::GetMillisecond()
+		{
+			return (int)((GetInternalTicks()/ TicksPerMillisecond) % 1000);
+		}
+		//---------------------------------------------------------------------------
+		long long DateTime::GetTicks()
+		{
+			return GetInternalTicks();
+		}
+		//---------------------------------------------------------------------------
+		DateTime::DateTimeKind DateTime::GetKind()
+		{
+			switch (GetInternalKind())
+			{
+				case DateTime::KindUnspecified:
+					return DateTime::Unspecified;
+				case DateTime::KindUtc:
+					return DateTime::Utc;
+				default:
+					return DateTime::Local;
+			}
+		}
+		//---------------------------------------------------------------------------
+		DateTime DateTime::GetNow()
+		{
+			DateTime utc = GetUtcNow();
+			long long tick = utc.GetTicks() + TimezoneOffset;
+			if (tick > MaxTicks)
+			{
+				return DateTime(MaxTicks, Local);
+			}
+			if (tick < MinTicks)
+			{
+				return DateTime(MinTicks, Local);
+			}
+			return DateTime(tick, DateTime::Local, false);
+		}
+		//---------------------------------------------------------------------------
+		DateTime DateTime::GetUtcNow()
+		{
+			long long ticks;
+			GetSystemTimeAsFileTime((LPFILETIME)&ticks);
+			
+			return DateTime((unsigned long long)(ticks + FileTimeOffset) | DateTime::KindUtc);
+		}
+		//---------------------------------------------------------------------------
+		DateTime DateTime::GetToday()
+		{
+			return GetNow().GetDate();
+		}
+		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		long long DateTime::GetInternalTicks()
@@ -187,6 +291,11 @@ namespace OSHGui
 				throw std::out_of_range("Argument out of range: add value");
 			}
 			return AddTicks(millis * TicksPerMillisecond);
+		}
+		//---------------------------------------------------------------------------
+		DateTime DateTime::Add(TimeSpan value)
+		{
+			return AddTicks(value.GetTicks());
 		}
 		//---------------------------------------------------------------------------
 		DateTime DateTime::AddYears(int value)
@@ -296,6 +405,38 @@ namespace OSHGui
 		bool DateTime::operator >= (DateTime &time)
 		{		
 			return GetInternalTicks() >= time.GetInternalTicks(); 
+		}
+		//---------------------------------------------------------------------------
+		const DateTime DateTime::operator - (const TimeSpan &ts)
+		{
+			long long ticks = GetInternalTicks();
+			long long valueTicks = ts.GetTicks();
+			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
+			{
+				//throw new ArgumentOutOfRangeException("t", Environment.GetResourceString("ArgumentOutOfRange_DateArithmetic")); 
+			}
+			return new DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
+		}
+		//---------------------------------------------------------------------------
+		const DateTime DateTime::operator + (const TimeSpan &ts)
+		{
+			long long ticks = GetInternalTicks();
+			long long valueTicks = ts.GetTicks();
+			if (valueTicks > MaxTicks - ticks || valueTicks < MinTicks - ticks)
+			{
+				//throw new ArgumentOutOfRangeException("t", Environment.GetResourceString("ArgumentOutOfRange_DateArithmetic")); 
+			}
+			return new DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
+		}
+		//---------------------------------------------------------------------------
+		const TimeSpan DateTime::operator - (const DateTime &time)
+		{
+			return TimeSpan(GetInternalTicks() - time.GetInternalTicks());
+		}
+		//---------------------------------------------------------------------------
+		const TimeSpan DateTime::operator + (const DateTime &time)
+		{
+			return TimeSpan(GetInternalTicks() + time.GetInternalTicks());
 		}
 		//---------------------------------------------------------------------------
 		long long DateTime::DateToTicks(int year, int month, int day)
@@ -420,103 +561,6 @@ namespace OSHGui
 			}
 			// Return 1-based day-of-month
 			return n - days[m - 1] + 1;
-		}
-		//---------------------------------------------------------------------------
-		DateTime DateTime::GetDate()
-		{
-			long long ticks = GetInternalTicks();
-			return DateTime((unsigned long long)(ticks - ticks % TicksPerDay) | GetInternalKind());
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetYear()
-		{
-			return GetDatePart(DateTime::Year);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetMonth()
-		{
-			return GetDatePart(DateTime::Month);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetDay()
-		{
-			return GetDatePart(DateTime::Day);
-		}
-		//---------------------------------------------------------------------------
-		DateTime::DayOfWeek DateTime::GetDayOfWeek()
-		{
-			return (DateTime::DayOfWeek)((GetInternalTicks() / TicksPerDay + 1) % 7);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetDayOfYear()
-		{
-			return GetDatePart(DateTime::DayOfYear);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetHour()
-		{
-			return (int)((GetInternalTicks() / TicksPerHour) % 24);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetMinute()
-		{
-			return (int)((GetInternalTicks() / TicksPerMinute) % 60);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetSecond()
-		{
-			return (int)((GetInternalTicks() / TicksPerSecond) % 60);
-		}
-		//---------------------------------------------------------------------------
-		int DateTime::GetMillisecond()
-		{
-			return (int)((GetInternalTicks()/ TicksPerMillisecond) % 1000);
-		}
-		//---------------------------------------------------------------------------
-		long long DateTime::GetTicks()
-		{
-			return GetInternalTicks();
-		}
-		//---------------------------------------------------------------------------
-		DateTime::DateTimeKind DateTime::GetKind()
-		{
-			switch (GetInternalKind())
-			{
-				case DateTime::KindUnspecified:
-					return DateTime::Unspecified;
-				case DateTime::KindUtc:
-					return DateTime::Utc;
-				default:
-					return DateTime::Local;
-			}
-		}
-		//---------------------------------------------------------------------------
-		DateTime DateTime::GetNow()
-		{
-			DateTime utc = GetUtcNow();
-			long long tick = utc.GetTicks() + TimezoneOffset;
-			if (tick > MaxTicks)
-			{
-				return DateTime(MaxTicks, Local);
-			}
-			if (tick < MinTicks)
-			{
-				return DateTime(MinTicks, Local);
-			}
-			return DateTime(tick, DateTime::Local, false);
-		}
-		//---------------------------------------------------------------------------
-		DateTime DateTime::GetUtcNow()
-		{
-			long long ticks;
-			GetSystemTimeAsFileTime((LPFILETIME)&ticks);
-			
-			return DateTime((unsigned long long)(ticks + FileTimeOffset) | DateTime::KindUtc);
-		}
-		//---------------------------------------------------------------------------
-		DateTime DateTime::GetToday()
-		{
-			return GetNow().GetDate();
 		}
 		//---------------------------------------------------------------------------
 		UnicodeString DateTime::ToString()
