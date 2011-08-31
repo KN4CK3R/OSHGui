@@ -1,8 +1,8 @@
 #ifndef __OSHGUI_TIMER_H__
 #define __OSHGUI_TIMER_H__
 
-#include <windows.h>
-#include <map>
+#include "Control.h"
+#include "EventHandler.h"
 
 namespace OSHGui
 {
@@ -16,28 +16,31 @@ namespace OSHGui
 	 * Implementiert einen Zeitgeber, der ein Ereignis in benutzerdefinierten
 	 * Intervallen auslöst.
 	 */
-	class Timer
+	class Timer : public Control
 	{
+		friend Application;
+
 	public:
-		Timer();
+		Timer(Control *parent = NULL);
 		~Timer();
 		
 		void SetEnabled(bool enabled);
 		bool GetEnabled();
-		void SetInterval(int interval);
-		int GetInterval();
-		void SetOnTickFunc(OnTick onTickFunc);
+		void SetInterval(long interval);
+		long GetInterval();
 
-		void OnTimer();
+		/**
+		 * Ruft den FocusOutEventHandler für das Steuerelement ab.
+		 *
+		 * @return forcusOutEventHandler
+		 */
+		TickEventHandler& GetTickEventHandler();
 
 	protected:
-		static std::map<UINT_PTR, Timer*> timerTable;
-		static void CALLBACK TimerCallback(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime);
-		UINT_PTR timerId;
-
 		bool enabled;
-		int interval;
-		OnTick onTickFunc;
+		long interval;
+
+		TickEventHandler tickEventHandler;
 	};
 }
 

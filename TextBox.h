@@ -91,8 +91,8 @@ namespace OSHGui
 						   caretRect;
 		
 		bool showCaret;
-		double blinkTime,
-			   lastBlinkTime;
+		Misc::TimeSpan blinkTime;
+		Misc::DateTime nextBlinkTime;
 		int caretPosition,
 			firstVisibleCharacter;
 	};

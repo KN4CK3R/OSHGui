@@ -1,12 +1,13 @@
 #include "Timer.h"
+#include "Control.h"
+#include "Application.h"
 
 namespace OSHGui
 {
-	std::map<UINT_PTR, Timer*> Timer::timerTable;
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Timer::Timer()
+	Timer::Timer(Control *parent) : Control(parent)
 	{
 		enabled = false;
 		interval = 100;
@@ -20,22 +21,16 @@ namespace OSHGui
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void Timer::SetEnabled(bool enabled)
-	{
-		static unsigned long timerid = 0L;
-		
+	{	
 		if (this->enabled != enabled)
 		{
 			if (enabled == true)
 			{
-				timerId = SetTimer(NULL, iid++, interval, (TIMERPROC)TimerCallback);
-
-				Timer *temp = (Timer*)this;
-				timerTable[timerId] = temp;
+				Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
 			}
 			else
 			{
-				timerTable.erase(timerId);
-				KillTimer(NULL, timerId);
+				Application::UnregisterTimer(this);
 			}
 			
 			this->enabled = enabled;
@@ -47,38 +42,19 @@ namespace OSHGui
 		return enabled;
 	}
 	//---------------------------------------------------------------------------
-	void Timer::SetInterval(int interval)
+	void Timer::SetInterval(long interval)
 	{
 		this->interval = interval > 0 ? interval : 100;
 	}
 	//---------------------------------------------------------------------------
-	int Timer::GetInterval()
+	long Timer::GetInterval()
 	{
 		return interval;
 	}
 	//---------------------------------------------------------------------------
-	void Timer::SetOnTickFunc(OnTick onTickFunc)
+	TickEventHandler& Timer::GetTickEventHandler()
 	{
-		this->onTickFunc = onTickFunc;
-	}
-	//---------------------------------------------------------------------------
-	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	void Timer::OnTimer()
-	{
-		if (onTickFunc != NULL)
-		{
-			(*onTickFunc)();
-		}
-	}
-	//---------------------------------------------------------------------------
-	void CALLBACK Timer::TimerCallback(HWND hwnd, UINT message, UINT idTimer, DWORD dwTime)
-	{
-		//if (timerTable.find(idTimer))
-		//if (timerTable.Contains(idTimer))
-		{
-			timerTable[idTimer]->OnTimer();
-		}
+		return tickEventHandler;
 	}
 	//---------------------------------------------------------------------------
 }
