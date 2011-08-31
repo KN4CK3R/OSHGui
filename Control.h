@@ -470,8 +470,7 @@ namespace OSHGui
 			 hasFocus,
 			 autoSize;
 			 
-		Misc::Any tag;
-		
+		Misc::Any tag;		
 		
 		Drawing::Rectangle bounds,
 						   clientArea;
@@ -483,12 +482,6 @@ namespace OSHGui
 		MouseLeaveEventHandler mouseLeaveEventHandler;
 		FocusInEventHandler focusInEventHandler;
 		FocusOutEventHandler focusOutEventHandler;
-
-		OnClickFunc clickFunc;
-		OnKeyPressFunc keyPressFunc;
-		OnEnterFunc enterFunc;
-		OnLeaveFunc leaveFunc;
-		OnChangeFunc changeFunc;
 		
 		Drawing::Color foreColor,
 					   backColor,
