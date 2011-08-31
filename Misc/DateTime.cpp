@@ -169,68 +169,68 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		DateTime DateTime::GetDate()
+		DateTime DateTime::GetDate() const
 		{
 			long long ticks = GetInternalTicks();
 			return DateTime((unsigned long long)(ticks - ticks % TicksPerDay) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
-		TimeSpan DateTime::GetTimeOfDay()
+		TimeSpan DateTime::GetTimeOfDay() const
 		{
 			return TimeSpan(GetInternalTicks() % TicksPerDay);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetYear()
+		int DateTime::GetYear() const
 		{
 			return GetDatePart(DateTime::Year);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetMonth()
+		int DateTime::GetMonth() const
 		{
 			return GetDatePart(DateTime::Month);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetDay()
+		int DateTime::GetDay() const
 		{
 			return GetDatePart(DateTime::Day);
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DayOfWeek DateTime::GetDayOfWeek()
+		DateTime::DayOfWeek DateTime::GetDayOfWeek() const
 		{
 			return (DateTime::DayOfWeek)((GetInternalTicks() / TicksPerDay + 1) % 7);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetDayOfYear()
+		int DateTime::GetDayOfYear() const
 		{
 			return GetDatePart(DateTime::DayOfYear);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetHour()
+		int DateTime::GetHour() const
 		{
 			return (int)((GetInternalTicks() / TicksPerHour) % 24);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetMinute()
+		int DateTime::GetMinute() const
 		{
 			return (int)((GetInternalTicks() / TicksPerMinute) % 60);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetSecond()
+		int DateTime::GetSecond() const
 		{
 			return (int)((GetInternalTicks() / TicksPerSecond) % 60);
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetMillisecond()
+		int DateTime::GetMillisecond() const
 		{
 			return (int)((GetInternalTicks()/ TicksPerMillisecond) % 1000);
 		}
 		//---------------------------------------------------------------------------
-		long long DateTime::GetTicks()
+		long long DateTime::GetTicks() const
 		{
 			return GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTimeKind DateTime::GetKind()
+		DateTime::DateTimeKind DateTime::GetKind() const
 		{
 			switch (GetInternalKind())
 			{
@@ -273,12 +273,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		long long DateTime::GetInternalTicks()
+		long long DateTime::GetInternalTicks() const
 		{
 			return (long long)(dateData & TicksMask);
 		}
 		//---------------------------------------------------------------------------
-		unsigned long long DateTime::GetInternalKind()
+		unsigned long long DateTime::GetInternalKind() const
 		{
 			return (unsigned long long)(dateData & FlagsMask);
 		}
@@ -413,9 +413,9 @@ namespace OSHGui
 			long long valueTicks = ts.GetTicks();
 			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
 			{
-				//throw new ArgumentOutOfRangeException("t", Environment.GetResourceString("ArgumentOutOfRange_DateArithmetic")); 
+				throw std::out_of_range("Argument out of range: ticks"); 
 			}
-			return new DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
+			return DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		const DateTime DateTime::operator + (const TimeSpan &ts)
@@ -424,9 +424,9 @@ namespace OSHGui
 			long long valueTicks = ts.GetTicks();
 			if (valueTicks > MaxTicks - ticks || valueTicks < MinTicks - ticks)
 			{
-				//throw new ArgumentOutOfRangeException("t", Environment.GetResourceString("ArgumentOutOfRange_DateArithmetic")); 
+				throw std::out_of_range("Argument out of range: ticks");
 			}
-			return new DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
+			return DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		const TimeSpan DateTime::operator - (const DateTime &time)
@@ -504,62 +504,48 @@ namespace OSHGui
 			return TicksPerHour * diff;
 		}
 		//---------------------------------------------------------------------------
-		int DateTime::GetDatePart(DatePart part)
+		int DateTime::GetDatePart(DatePart part) const
 		{
 			long long ticks = GetInternalTicks();
-			// n = number of days since 1/1/0001
-			int n = (int)(ticks / TicksPerDay);
-			// y400 = number of whole 400-year periods since 1/1/0001
-			int y400 = n / DaysPer400Years;
-			// n = day number within 400-year period
-			n -= y400 * DaysPer400Years;
-			// y100 = number of whole 100-year periods within 400-year period
-			int y100 = n / DaysPer100Years;
-			// Last 100-year period has an extra day, so decrement result if 4
-			if (y100 == 4) y100 = 3;
-			// n = day number within 100-year period
-			n -= y100 * DaysPer100Years;
-			// y4 = number of whole 4-year periods within 100-year period
-			int y4 = n / DaysPer4Years;
-			// n = day number within 4-year period
-			n -= y4 * DaysPer4Years;
-			// y1 = number of whole years within 4-year period
-			int y1 = n / DaysPerYear;
-			// Last year has an extra day, so decrement result if 4
+			int n = (int)(ticks / TicksPerDay); //number of days since 1/1/0001
+			int y400 = n / DaysPer400Years; //number of whole 400-year periods since 1/1/0001
+			n -= y400 * DaysPer400Years; //day number within 400-year period
+			int y100 = n / DaysPer100Years; //number of whole 100-year periods within 400-year period
+			if (y100 == 4)
+			{
+				y100 = 3; //last 100-year period has an extra day, so decrement result if 4
+			}
+			n -= y100 * DaysPer100Years; //day number within 100-year period
+			int y4 = n / DaysPer4Years; //number of whole 4-year periods within 100-year period
+			n -= y4 * DaysPer4Years; //day number within 4-year period
+			int y1 = n / DaysPerYear; //number of whole years within 4-year period
 			if (y1 == 4)
 			{
-				y1 = 3;
+				y1 = 3; //last year has an extra day, so decrement result if 4
 			}
-			// If year was requested, compute and return it
 			if (part == DateTime::Year)
 			{
 				return y400 * 400 + y100 * 100 + y4 * 4 + y1 + 1;
 			}
-			// n = day number within year
-			n -= y1 * DaysPerYear;
-			// If day-of-year was requested, return it
+
+			n -= y1 * DaysPerYear; //day number within year
 			if (part == DateTime::DayOfYear)
 			{
 				return n + 1;
 			}
-			// Leap year calculation looks different from IsLeapYear since y1, y4,
-			// and y100 are relative to year 1, not year 0
+
 			bool leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
 			const int *days = leapYear ? DaysToMonth366 : DaysToMonth365;
-			// All months have less than 32 days, so n >> 5 is a good conservative
-			// estimate for the month
-			int m = n >> 5 + 1;
-			// m = 1-based month number
+			int m = n >> 5 + 1; //1-based month number
 			while (n >= days[m])
 			{
 				m++;
 			}
-			// If month was requested, return it
 			if (part == DateTime::Month)
 			{
 				return m;
 			}
-			// Return 1-based day-of-month
+
 			return n - days[m - 1] + 1;
 		}
 		//---------------------------------------------------------------------------

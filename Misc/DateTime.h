@@ -114,15 +114,15 @@ namespace OSHGui
 			DateTime(unsigned long long dateData);
 			DateTime(long long ticks, DateTimeKind kind, bool isAmbiguousDst);
 			
-			long long GetInternalTicks();
-			unsigned long long GetInternalKind();
+			long long GetInternalTicks() const;
+			unsigned long long GetInternalKind() const;
 			
 			DateTime Add(double value, int scale);
 			
 			static long long DateToTicks(int year, int month, int day);
 			static long long TimeToTicks(int hour, int minute, int second);
 			
-			int GetDatePart(DatePart part);
+			int GetDatePart(DatePart part) const;
 			
 		public:
 			/**
@@ -208,73 +208,73 @@ namespace OSHGui
 			 *
 			 * @return die Datumskomponente
 			 */
-			DateTime GetDate();
+			DateTime GetDate() const;
 			/**
 			 * Ruft die Uhrzeit für diese Instanz ab.
 			 *
 			 * @return die Uhrzeit
 			 */
-			TimeSpan GetTimeOfDay()
+			TimeSpan GetTimeOfDay() const;
 			/**
 			 * Ruft das Jahr ab, das durch diese Instanz dargestellt wird.
 			 *
 			 * @return das Jahr
 			 */
-			int GetYear();
+			int GetYear() const;
 			/**
 			 * Ruft den Monat ab, der durch diese Instanz dargestellt wird.
 			 *
 			 * @return der Monat
 			 */
-			int GetMonth();
+			int GetMonth() const;
 			/**
 			 * Ruft den Tag des Monats ab, der durch diese Instanz dargestellt wird.
 			 *
 			 * @return der Tag
 			 */
-			int GetDay();
+			int GetDay() const;
 			/**
 			 * Ruft den Wochentag ab, der durch diese Instanz dargestellt wird.
 			 *
 			 * @return der Wochentag
 			 */
-			DayOfWeek GetDayOfWeek();
+			DayOfWeek GetDayOfWeek() const;
 			/**
 			 * Ruft den Tag des Jahres ab, der durch diese Instanz dargestellt wird.
 			 *
 			 * @return der Tag
 			 */
-			int GetDayOfYear();
+			int GetDayOfYear() const;
 			/**
 			 * Ruft die Komponente für die Stunden des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
 			 * @return die Stunden
 			 */
-			int GetHour();
+			int GetHour() const;
 			/**
 			 * Ruft die Komponente für die Minuten des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
 			 * @return die Minuten
 			 */
-			int GetMinute();
+			int GetMinute() const;
 			/**
 			 * Ruft die Komponente für die Sekunden des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
 			 * @return die Sekunden
 			 */
-			int GetSecond();
+			int GetSecond() const;
 			/**
 			 * Ruft die Komponente für die Millisekunden des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
 			 * @return die Millisekunden
 			 */
-			int GetMillisecond();
+			int GetMillisecond() const;
 			/**
 			 * Ruft die Anzahl der Ticks ab, die Datum und Uhrzeit dieser Instanz dargestellen.
 			 *
 			 * @return der Tag
 			 */
-			long long GetTicks();
+			long long GetTicks() const;
 			
 			/**
 			 * Ruft einen Wert ab, der angibt, ob die durch diese Instanz dargestellte Zeit
@@ -282,7 +282,7 @@ namespace OSHGui
 			 *
 			 * @return der DateTimeKind-Wert
 			 */
-			DateTimeKind GetKind();
+			DateTimeKind GetKind() const;
 			
 			/**
 			 * Ruft ein DateTime-Objekt ab, das auf das aktuelle Datum und die aktuelle Zeit
