@@ -81,10 +81,7 @@ namespace OSHGui
 					{
 						pressed = false;
 					
-						if (clickFunc != NULL)
-						{
-							(*clickFunc)(this, mouse);
-						}
+						this->clickEventHandler.Invoke(this, mouse);
 					}
 
 					return Event::DontContinue;
