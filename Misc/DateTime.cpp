@@ -286,7 +286,7 @@ namespace OSHGui
 		DateTime DateTime::Add(double value, int scale)
 		{
 			long long millis = (long long)(value * scale + (value >= 0.0 ? 0.5 : -0.5));
-			if (millis <= (long long)-MaxMillis || millis >= (long long)MaxMillis)
+			if (millis <= -((long long)MaxMillis) || millis >= (long long)MaxMillis)
 			{
 				throw std::out_of_range("Argument out of range: add value");
 			}
@@ -536,7 +536,7 @@ namespace OSHGui
 
 			bool leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
 			const int *days = leapYear ? DaysToMonth366 : DaysToMonth365;
-			int m = n >> 5 + 1; //1-based month number
+			int m = (n >> 5) + 1; //1-based month number
 			while (n >= days[m])
 			{
 				m++;

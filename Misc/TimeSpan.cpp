@@ -73,11 +73,6 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		long long TimeSpan::GetTicks()
-		{
-			return ticks;
-		}
-		//---------------------------------------------------------------------------
 		int TimeSpan::GetDays()
 		{
 			return (int)(ticks / TicksPerDay);
@@ -88,11 +83,6 @@ namespace OSHGui
 			return (int)((ticks / TicksPerHour) % 24);
 		}
 		//---------------------------------------------------------------------------
-		int TimeSpan::GetMilliseconds()
-		{
-			return (int)((ticks / TicksPerMillisecond) % 1000);
-		}
-		//---------------------------------------------------------------------------
 		int TimeSpan::GetMinutes()
 		{
 			return (int)((ticks / TicksPerMinute) % 60);
@@ -101,6 +91,16 @@ namespace OSHGui
 		int TimeSpan::GetSeconds()
 		{
 			return (int)((ticks / TicksPerSecond) % 60);
+		}
+		//---------------------------------------------------------------------------
+		int TimeSpan::GetMilliseconds()
+		{
+			return (int)((ticks / TicksPerMillisecond) % 1000);
+		}
+		//---------------------------------------------------------------------------
+		long long TimeSpan::GetTicks() const
+		{
+			return ticks;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalDays()
@@ -290,11 +290,11 @@ namespace OSHGui
 			{
 				if (days != 0)
 				{
-					return Strings::Format("%u.%02u:%02u:%02u.%03u0000", days, GetHours(), GetMinutes(), GetSeconds(), milliseconds);
+					return String::Format(L"%u.%02u:%02u:%02u.%03u0000", days, GetHours(), GetMinutes(), GetSeconds(), milliseconds);
 				}
-				return Strings::Format("%02u:%02u:%02u.%03u0000", GetHours(), GetMinutes(), GetSeconds(), milliseconds);
+				return String::Format(L"%02u:%02u:%02u.%03u0000", GetHours(), GetMinutes(), GetSeconds(), milliseconds);
 			}
-			return Strings::Format("%02u:%02u:%02u", GetHours(), GetMinutes(), GetSeconds());
+			return String::Format(L"%02u:%02u:%02u", GetHours(), GetMinutes(), GetSeconds());
 		}
 		//---------------------------------------------------------------------------
 	}

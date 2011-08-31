@@ -1,7 +1,7 @@
 #ifndef __OSHGUI_MISC_TIMESPAN_H__
 #define __OSHGUI_MISC_TIMESPAN_H__
 
-#include "String.h"
+#include "Strings.h"
 
 namespace OSHGui
 {
@@ -189,7 +189,7 @@ namespace OSHGui
 			 *
 			 * @return die Tage
 			 */
-			long long GetTicks();
+			long long GetTicks() const;
 			
 			/**
 			 * Addiert die angegebene TimeSpan zu dieser Instanz.
