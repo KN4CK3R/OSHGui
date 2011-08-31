@@ -172,6 +172,8 @@ namespace OSHGui
 	typedef ChangeEventHandler FocusInEventHandler;
 	
 	typedef ChangeEventHandler FocusOutEventHandler;
+
+	typedef ChangeEventHandler TickEventHandler;
 }
 
 #endif
