@@ -62,17 +62,17 @@ namespace OSHGui
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		int TextHelper::GetLength()
+		int TextHelper::GetLength() const
 		{
 			return text.length();
 		}
 		//---------------------------------------------------------------------------
-		const UnicodeString& TextHelper::GetText()
+		const UnicodeString& TextHelper::GetText() const
 		{
 			return text;
 		}
 		//---------------------------------------------------------------------------
-		const Drawing::Size& TextHelper::GetSize()
+		const Drawing::Size& TextHelper::GetSize() const
 		{
 			return size;
 		}

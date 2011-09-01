@@ -33,7 +33,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText() const;
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.

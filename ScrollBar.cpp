@@ -31,7 +31,7 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetPosition()
+	int ScrollBar::GetPosition() const
 	{
 		return position;
 	}
@@ -43,7 +43,7 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetPageSize()
+	int ScrollBar::GetPageSize() const
 	{
 		return pageSize;
 	}

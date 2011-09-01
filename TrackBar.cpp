@@ -34,7 +34,7 @@ namespace OSHGui
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
-	int TrackBar::GetValue()
+	int TrackBar::GetValue() const
 	{
 		return value;
 	}

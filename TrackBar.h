@@ -53,7 +53,7 @@ namespace OSHGui
 		 *
 		 * @return der aktuelle Wert
 		 */
-		int GetValue();
+		int GetValue() const;
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

@@ -24,7 +24,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	ListItem* ListBox::GetItem(int index)
+	ListItem* ListBox::GetItem(int index) const
 	{
 		if (index < 0 || index >= items.size())
 		{
@@ -34,17 +34,17 @@ namespace OSHGui
 		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
-	int ListBox::GetSelectedIndex()
+	int ListBox::GetSelectedIndex() const
 	{
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ListBox::GetSelectedItem()
+	ListItem* ListBox::GetSelectedItem() const
 	{
 		return GetItem(GetSelectedIndex());
 	}
 	//---------------------------------------------------------------------------
-	int ListBox::GetItemsCount()
+	int ListBox::GetItemsCount() const
 	{
 		return items.size();
 	}

@@ -20,7 +20,7 @@ namespace OSHGui
 		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& GroupBox::GetText()
+	const Misc::UnicodeString& GroupBox::GetText() const
 	{
 		return textHelper.GetText();
 	}

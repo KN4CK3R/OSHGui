@@ -42,7 +42,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetItem(int index)
+	ListItem* ComboBox::GetItem(int index) const
 	{
 		if (index < 0 || index >= items.size())
 		{
@@ -52,17 +52,17 @@ namespace OSHGui
 		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::GetSelectedIndex()
+	int ComboBox::GetSelectedIndex() const
 	{
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetSelectedItem()
+	ListItem* ComboBox::GetSelectedItem() const
 	{
 		return GetItem(GetSelectedIndex());
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::GetItemsCount()
+	int ComboBox::GetItemsCount() const
 	{
 		return items.size();
 	}

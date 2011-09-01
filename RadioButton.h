@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * @return die Gruppe
 		 */
-		int GetGroup();
+		int GetGroup() const;
 		
 		/**
 		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.

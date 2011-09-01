@@ -27,7 +27,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool CheckBox::GetChecked()
+	bool CheckBox::GetChecked() const
 	{
 		return checked;
 	}

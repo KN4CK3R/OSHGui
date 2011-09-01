@@ -109,7 +109,7 @@ namespace OSHGui
 		 *
 		 * @return enabled
 		 */
-		bool GetEnabled();
+		bool GetEnabled() const;
 		/**
 		 * Legt fest, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
@@ -123,7 +123,7 @@ namespace OSHGui
 		 *
 		 * @return visible
 		 */
-		bool GetVisible();
+		bool GetVisible() const;
 		
 		/**
 		 * Legt fest, ob die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
@@ -136,7 +136,7 @@ namespace OSHGui
 		 *
 		 * @return autoSize
 		 */
-		virtual bool GetAutoSize();
+		virtual bool GetAutoSize() const;
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -168,7 +168,7 @@ namespace OSHGui
 		 *
 		 * @return bounds
 		 */
-		virtual Drawing::Rectangle GetBounds();
+		virtual Drawing::Rectangle GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
@@ -190,7 +190,7 @@ namespace OSHGui
 		 *
 		 * @return location
 		 */
-		virtual Drawing::Point GetLocation();
+		virtual Drawing::Point GetLocation() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -202,47 +202,47 @@ namespace OSHGui
 		 *
 		 * @return size
 		 */
-		virtual Drawing::Size GetSize();
+		virtual Drawing::Size GetSize() const;
 		/**
 		 * Ruft den Abstand zwischen dem linken Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return left
 		 */
-		virtual int GetLeft();
+		virtual int GetLeft() const;
 		/**
 		 * Ruft den Abstand zwischen dem oberen Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return top
 		 */
-		virtual int GetTop();
+		virtual int GetTop() const;
 		/**
 		 * Ruft den Abstand zwischen dem rechten Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return right
 		 */
-		virtual int GetRight();
+		virtual int GetRight() const;
 		/**
 		 * Ruft den Abstand zwischen dem unteren Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return bottom
 		 */
-		virtual int GetBottom();
+		virtual int GetBottom() const;
 		/**
 		 * Ruft die Breite des Steuerelements ab.
 		 *
 		 * @return width
 		 */
-		virtual int GetWidth();
+		virtual int GetWidth() const;
 		/**
 		 * Ruft die Höhe des Steuerelements ab.
 		 *
 		 * @return height
 		 */
-		virtual int GetHeight();
+		virtual int GetHeight() const;
 		
 		/**
 		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
@@ -270,7 +270,7 @@ namespace OSHGui
 		 *
 		 * @return tag
 		 */
-		Misc::Any& GetTag();
+		Misc::Any& GetTag() const;
 		
 		/**
 		 * Legt den zum Identifizieren des Steuerelements verwendeten Namen fest.
@@ -283,7 +283,7 @@ namespace OSHGui
 		 *
 		 * @return name
 		 */
-		Misc::UnicodeString& GetName();
+		Misc::UnicodeString& GetName() const;
 		
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
@@ -296,7 +296,7 @@ namespace OSHGui
 		 *
 		 * @return font
 		 */
-		Drawing::IFont* GetFont();
+		Drawing::IFont* GetFont() const;
 		
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
@@ -309,7 +309,7 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetForeColor();
+		Drawing::Color& GetForeColor() const;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
@@ -321,7 +321,7 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetBackColor();
+		Drawing::Color& GetBackColor() const;
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
@@ -333,7 +333,7 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetMouseOverFocusColor();
+		Drawing::Color& GetMouseOverFocusColor() const;
 
 		/**
 		 * Ruft den ClickEventHandler für das Steuerelement ab.
@@ -446,7 +446,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		Control* GetParent();
+		Control* GetParent() const;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *

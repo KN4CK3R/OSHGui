@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText() const;
 		
 		/**
 		 * Zeigt die Form an.

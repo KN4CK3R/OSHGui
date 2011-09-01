@@ -37,7 +37,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool Timer::GetEnabled()
+	bool Timer::GetEnabled() const
 	{
 		return enabled;
 	}
@@ -47,7 +47,7 @@ namespace OSHGui
 		this->interval = interval > 0 ? interval : 100;
 	}
 	//---------------------------------------------------------------------------
-	long Timer::GetInterval()
+	long Timer::GetInterval() const
 	{
 		return interval;
 	}

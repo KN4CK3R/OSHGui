@@ -30,7 +30,7 @@ namespace OSHGui
 		 *
 		 * @return der minimale Wert
 		 */
-		int GetMin();
+		int GetMin() const;
 		/**
 		 * Legt den maximalen Wert fest.
 		 *
@@ -42,7 +42,7 @@ namespace OSHGui
 		 *
 		 * @return der maximale Wert
 		 */
-		int GetMax();
+		int GetMax() const;
 		/**
 		 * Legt die aktuelle Position fest.
 		 *
@@ -54,7 +54,7 @@ namespace OSHGui
 		 *
 		 * @return die Position
 		 */
-		int GetPosition();
+		int GetPosition() const;
 		/**
 		 * Legt die Farbe des Fortschrittsbalken fest.
 		 *
@@ -66,7 +66,7 @@ namespace OSHGui
 		 *
 		 * @return die Farbe
 		 */
-		const Drawing::Color& GetBarColor();
+		const Drawing::Color& GetBarColor() const;
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

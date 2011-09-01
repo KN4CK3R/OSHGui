@@ -23,7 +23,7 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Label::GetText()
+	const Misc::UnicodeString& Label::GetText() const
 	{
 		return textHelper.GetText();
 	}

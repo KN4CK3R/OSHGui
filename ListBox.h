@@ -29,25 +29,25 @@ namespace OSHGui
 		 * @param index
 		 * @return NULL, falls der Index nicht existiert
 		 */
-		ListItem* GetItem(int index);
+		ListItem* GetItem(int index) const;
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
 		 * @return der ausgewählte Index
 		 */
-		int GetSelectedIndex();
+		int GetSelectedIndex() const;
 		/**
 		 * Gibt das ausgewählte ListItem zurück.
 		 *
 		 * @return NULL, falls kein ListItem ausgewählt wurde
 		 */
-		ListItem* GetSelectedItem();
+		ListItem* GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der ListItems zurück.
 		 *
 		 * @return Anzahl der ListItems
 		 */
-		int GetItemsCount();
+		int GetItemsCount() const;
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
