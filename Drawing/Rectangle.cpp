@@ -31,7 +31,7 @@ namespace OSHGui
 			right = left + width;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetLeft()
+		int Rectangle::GetLeft() const
 		{
 			return left;
 		}
@@ -42,7 +42,7 @@ namespace OSHGui
 			bottom = top + height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetTop()
+		int Rectangle::GetTop() const
 		{
 			return top;
 		}
@@ -53,7 +53,7 @@ namespace OSHGui
 			right = left + width;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetWidth()
+		int Rectangle::GetWidth() const
 		{
 			return width;
 		}
@@ -64,27 +64,27 @@ namespace OSHGui
 			bottom = top + height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetHeight()
+		int Rectangle::GetHeight() const
 		{
 			return height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetRight()
+		int Rectangle::GetRight() const
 		{
 			return right;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetBottom()
+		int Rectangle::GetBottom() const
 		{
 			return bottom;
 		}
 		//---------------------------------------------------------------------------
-		Point Rectangle::GetPosition()
+		Point Rectangle::GetPosition() const
 		{
 			return Point(left, top);
 		}
 		//---------------------------------------------------------------------------
-		Size Rectangle::GetSize()
+		Size Rectangle::GetSize() const
 		{
 			return Size(width, height);
 		}
@@ -101,22 +101,22 @@ namespace OSHGui
 			return left != equal.left || top != equal.top || width != equal.width || height != equal.height;
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator + (const Rectangle& add) const
+		const Rectangle Rectangle::operator + (const Rectangle& add) const
 		{
 			return Rectangle(left + add.left, top + add.top, width + add.width, height + add.height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator + (const Point& add) const
+		const Rectangle Rectangle::operator + (const Point& add) const
 		{
 			return Rectangle(left + add.Left, top + add.Top, width, height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator - (const Rectangle& add) const
+		const Rectangle Rectangle::operator - (const Rectangle& add) const
 		{
 			return Rectangle(left - add.left, top - add.top, width - add.width, height - add.height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator - (const Point& add) const
+		const Rectangle Rectangle::operator - (const Point& add) const
 		{
 			return Rectangle(left - add.Left, top - add.Top, width, height);
 		}

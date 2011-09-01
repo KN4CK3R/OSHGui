@@ -28,10 +28,10 @@ namespace OSHGui
 			
 			bool operator == (const Size &equal);
 			bool operator != (const Size &equal);
-			Size operator - (const Size &s);
-			void operator -= (const Size &s);
-			Size operator + (const Size &s);
-			void operator += (const Size &s);
+			const Size operator - (const Size &s);
+			Size& operator -= (const Size &s);
+			const Size operator + (const Size &s);
+			Size& operator += (const Size &s);
 			
 			/**
 			 * Erweitert das Size-Objekt um die angegebe Breite und Höhe.

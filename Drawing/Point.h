@@ -27,10 +27,10 @@ namespace OSHGui
 			bool operator <= (const Point &greaterEqual);
 			bool operator > (const Point &lower);
 			bool operator >= (const Point &lowerEqual);
-			Point operator - (const Point &p);
-			void operator -= (const Point &p);
-			Point operator + (const Point &p);
-			void operator += (const Point &p);
+			const Point operator - (const Point &p);
+			Point& operator -= (const Point &p);
+			const Point operator + (const Point &p);
+			Point& operator += (const Point &p);
 			
 			/**
 			 * Verschiebt den Punkt um X/Y.

@@ -51,24 +51,26 @@ namespace OSHGui
 			return X >= lowerEqual.X && Y >= lowerEqual.Y;
 		}
 		//---------------------------------------------------------------------------
-		Point Point::operator - (const Point &p)
+		const Point Point::operator - (const Point &p)
 		{
 			return OffsetEx(-p.X, -p.Y);
 		}
 		//---------------------------------------------------------------------------
-		void Point::operator -= (const Point &p)
+		Point& Point::operator -= (const Point &p)
 		{
 			Offset(-p.X, -p.Y);
+			return *this;
 		}
 		//---------------------------------------------------------------------------
-		Point Point::operator + (const Point &p)
+		const Point Point::operator + (const Point &p)
 		{
 			return OffsetEx(p.X, p.Y);
 		}
 		//---------------------------------------------------------------------------
-		void Point::operator += (const Point &p)
+		Point& Point::operator += (const Point &p)
 		{
 			Offset(p.X, p.Y);
+			return *this;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions

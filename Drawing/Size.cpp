@@ -31,22 +31,22 @@ namespace OSHGui
 			return Width != equal.Width || Height != equal.Height;
 		}
 		//---------------------------------------------------------------------------
-		Size Size::operator - (const Size &s)
+		const Size Size::operator - (const Size &s)
 		{
 			return InflateEx(-s.Width, -s.Height);
 		}
 		//---------------------------------------------------------------------------
-		void Size::operator -= (const Size &s)
+		Size& Size::operator -= (const Size &s)
 		{
 			Inflate(-s.Width, -s.Height);
 		}
 		//---------------------------------------------------------------------------
-		Size Size::operator + (const Size &s)
+		const Size Size::operator + (const Size &s)
 		{
 			return InflateEx(s.Width, s.Height);
 		}
 		//---------------------------------------------------------------------------
-		void Size::operator += (const Size &s)
+		Size& Size::operator += (const Size &s)
 		{
 			Inflate(s.Width, s.Height);
 		}
