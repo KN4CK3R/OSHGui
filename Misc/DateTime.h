@@ -8,6 +8,9 @@ namespace OSHGui
 {
 	namespace Misc
 	{
+		/**
+		 * Stellt einen Zeitpunkt dar, der durch Datum und Uhrzeit dargestellt wird.
+		 */
 		class DateTime
 		{
 		public:
