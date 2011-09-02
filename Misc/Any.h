@@ -65,6 +65,11 @@ namespace OSHGui
 				id = 0;
 				wrapper = 0;
 			}
+			~Any()
+			{
+				delete wrapper;
+			}
+
 			/**
 			 * Erzeugt ein Any-Objekt, das das angegebene Objekt enthält.
 			 *
@@ -96,9 +101,13 @@ namespace OSHGui
 				if (this != &any)
 				{
 					delete wrapper;
+					wrapper = 0;
 					
 					id = any.id;
-					wrapper = any.wrapper->Copy();
+					if (any.wrapper != 0)
+					{
+						wrapper = any.wrapper->Copy();
+					}
 				}
 				return *this;
 			}
@@ -107,14 +116,14 @@ namespace OSHGui
 			 */
 			operator void *() const
 			{
-				return (wrapper == 0 ? 0 : (void*)this);
+				return (id == 0 ? 0 : (void*)1);
 			}
-			
-			~Any()
+
+			static Any Empty()
 			{
-				delete wrapper;
+				return Any();
 			}
-			
+						
 			/**
 			 * Castet ein Any-Objekt zu dem in ihm befindlichen Datentyp. Falls ein falscher Datentyp angegeben wird,
 			 * wird eine Exception ausgelöst.

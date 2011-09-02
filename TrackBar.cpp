@@ -34,7 +34,7 @@ namespace OSHGui
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
-	int TrackBar::GetValue() const
+	int TrackBar::GetValue()
 	{
 		return value;
 	}
@@ -60,7 +60,7 @@ namespace OSHGui
 
 		clientArea = bounds;
 
-		sliderMiddle = (value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2;
+		sliderMiddle = (int)((value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2);
 		sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), clientArea.GetTop(), TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
 
 		InvalidateChildren();
@@ -213,12 +213,12 @@ namespace OSHGui
 		if (space < 5.0f)
 		{
 			space = 5.0f;
-			range = (bounds.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space;
+			range = (int)((bounds.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space);
 		}
 		
 		for (int i = 0; i < range + 1; i++)
 		{
-			renderer->Fill(bounds.GetLeft() + halfWidth + (i * space), bounds.GetTop() + 6, 1, 5);
+			renderer->Fill((int)(bounds.GetLeft() + halfWidth + (i * space)), bounds.GetTop() + 6, 1, 5);
 		}
 
 		renderer->SetRenderColor(foreColor);

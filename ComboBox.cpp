@@ -20,8 +20,8 @@ namespace OSHGui
 		SetSize(Drawing::Size(160, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
-		SetBackColor(Drawing::Color(0xFF121212));
-		SetForeColor(Drawing::Color::White());
+		SetDropDownColor(Drawing::Color(0xFF171614));
+		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
 	ComboBox::~ComboBox()
@@ -33,6 +33,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	void ComboBox::SetDropDownColor(const Drawing::Color &color)
+	{
+		dropDownColor = color;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Color ComboBox::GetDropDownColor()
+	{
+		return dropDownColor;
+	}
+	//---------------------------------------------------------------------------
 	void ComboBox::SetFocus(bool focus)
 	{
 		Button::SetFocus(focus);
@@ -42,9 +52,9 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetItem(int index) const
+	ListItem* ComboBox::GetItem(int index)
 	{
-		if (index < 0 || index >= items.size())
+		if (index < 0 || index >= (int)items.size())
 		{
 			return NULL;
 		}
@@ -52,17 +62,17 @@ namespace OSHGui
 		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::GetSelectedIndex() const
+	int ComboBox::GetSelectedIndex()
 	{
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetSelectedItem() const
+	ListItem* ComboBox::GetSelectedItem()
 	{
 		return GetItem(GetSelectedIndex());
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::GetItemsCount() const
+	int ComboBox::GetItemsCount()
 	{
 		return items.size();
 	}
@@ -82,12 +92,12 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::AddItem(const Misc::UnicodeString &text)
+	bool ComboBox::AddItem(const Misc::UnicodeString &text, Misc::Any &data)
 	{
-		return InsertItem(items.size() > 0 ? items.size() : 0, text);
+		return InsertItem(items.size() > 0 ? items.size() : 0, text, data);
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
+	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data)
 	{	
 		ListItem *newItem = new ListItem();
 		if (newItem == NULL)
@@ -96,6 +106,7 @@ namespace OSHGui
 		}
 		
 		newItem->Text = text;
+		newItem->Data = data;
 		
 		items.insert(items.begin() + index, newItem);
 
@@ -118,7 +129,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::RemoveItem(int index)
 	{
-		if (index < 0 || index >= items.size())
+		if (index < 0 || index >= (int)items.size())
 		{
 			return false;
 		}
@@ -131,7 +142,7 @@ namespace OSHGui
 		
 		scrollBar.SetRange(items.size());
 		
-		if (selectedIndex >= items.size())
+		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
 
@@ -145,7 +156,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::Clear()
 	{
-		for (int i = 0; i < items.size(); i++)
+		for (unsigned int i = 0; i < items.size(); i++)
 		{
 			ListItem *item = items.at(i);
 			delete item;
@@ -178,7 +189,7 @@ namespace OSHGui
 		{
 			selectedIndex = 0;
 		}
-		if (selectedIndex >= items.size())
+		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
 		}
@@ -252,7 +263,7 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 				}
-				else if (!open || !Drawing::Rectangle(0, clientArea.GetHeight() + 1, dropDownRect.GetWidth(), dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //dropDownRect
+				else if (!open || !Drawing::Rectangle(0, clientArea.GetHeight() + 1, dropDownRect.GetWidth(), dropDownRect.GetHeight()).Contains(mouse->Position)) //dropDownRect
 				{
 					mouse->Position = mousePositionBackup;
 
@@ -309,9 +320,9 @@ namespace OSHGui
 			{
 				if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
 				{
-					for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
+					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
 					{
-						if (i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
+						if ((int)i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
 						{
 							mouseOverItemIndex = i + firstVisibleItemIndex;
 							break;
@@ -326,9 +337,9 @@ namespace OSHGui
 				if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
 				{
 					int itemIndex = -1;
-					for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
+					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
 					{
-						if (i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
+						if ((int)i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
 						{
 							itemIndex = i;
 							break;
@@ -400,7 +411,7 @@ namespace OSHGui
 							{
 								mouseOverItemIndex = 0;
 							}
-							if (mouseOverItemIndex >= items.size())
+							if (mouseOverItemIndex >= (int)items.size())
 							{
 								mouseOverItemIndex = items.size() - 1;
 							}
@@ -449,7 +460,7 @@ namespace OSHGui
 							{
 								selectedIndex = 0;
 							}
-							if (selectedIndex >= items.size())
+							if (selectedIndex >= (int)items.size())
 							{
 								selectedIndex = items.size() - 1;
 							}
@@ -529,12 +540,12 @@ namespace OSHGui
 		{
 			renderer->SetRenderColor(Drawing::Color::Black());
 			renderer->Fill(dropDownRect);
-			renderer->SetRenderColor(backColor);
+			renderer->SetRenderColor(dropDownColor);
 			renderer->Fill(dropDownRect.GetLeft() + 1, dropDownRect.GetTop() + 1, dropDownRect.GetWidth() - 2, dropDownRect.GetHeight() - 2);
 			renderer->FillGradient(dropDownRect.GetLeft() + 2, dropDownRect.GetTop() + 2, dropDownRect.GetWidth() - 4, dropDownRect.GetHeight() - 4, backColor - Drawing::Color(0, 20, 20, 20));
 
 			renderer->SetRenderColor(foreColor);
-			for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
+			for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
 			{
 				if (i + firstVisibleItemIndex == mouseOverItemIndex)
 				{

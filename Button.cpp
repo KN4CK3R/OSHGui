@@ -15,7 +15,7 @@ namespace OSHGui
 		SetSize(Drawing::Size(92, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
-		SetForeColor(Drawing::Color::White());
+		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions

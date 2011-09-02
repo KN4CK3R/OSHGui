@@ -12,7 +12,7 @@ namespace OSHGui
 		SetAutoSize(true);
 		
 		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFA3A3A3));
+		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -23,7 +23,7 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Label::GetText() const
+	const Misc::UnicodeString& Label::GetText()
 	{
 		return textHelper.GetText();
 	}

@@ -13,7 +13,6 @@
 
 #include "Misc\Strings.h"
 #include "Misc\Any.h"
-#include "Misc\TimeHelper.h"
 
 #include "EventHandler.h"
 
@@ -109,7 +108,7 @@ namespace OSHGui
 		 *
 		 * @return enabled
 		 */
-		bool GetEnabled() const;
+		bool GetEnabled();
 		/**
 		 * Legt fest, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
@@ -123,7 +122,7 @@ namespace OSHGui
 		 *
 		 * @return visible
 		 */
-		bool GetVisible() const;
+		bool GetVisible();
 		
 		/**
 		 * Legt fest, ob die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
@@ -136,7 +135,7 @@ namespace OSHGui
 		 *
 		 * @return autoSize
 		 */
-		virtual bool GetAutoSize() const;
+		virtual bool GetAutoSize();
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -168,7 +167,7 @@ namespace OSHGui
 		 *
 		 * @return bounds
 		 */
-		virtual Drawing::Rectangle GetBounds() const;
+		virtual Drawing::Rectangle GetBounds();
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
@@ -190,7 +189,7 @@ namespace OSHGui
 		 *
 		 * @return location
 		 */
-		virtual Drawing::Point GetLocation() const;
+		virtual Drawing::Point GetLocation();
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -202,47 +201,47 @@ namespace OSHGui
 		 *
 		 * @return size
 		 */
-		virtual Drawing::Size GetSize() const;
+		virtual Drawing::Size GetSize();
 		/**
 		 * Ruft den Abstand zwischen dem linken Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return left
 		 */
-		virtual int GetLeft() const;
+		virtual int GetLeft();
 		/**
 		 * Ruft den Abstand zwischen dem oberen Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return top
 		 */
-		virtual int GetTop() const;
+		virtual int GetTop();
 		/**
 		 * Ruft den Abstand zwischen dem rechten Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return right
 		 */
-		virtual int GetRight() const;
+		virtual int GetRight();
 		/**
 		 * Ruft den Abstand zwischen dem unteren Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return bottom
 		 */
-		virtual int GetBottom() const;
+		virtual int GetBottom();
 		/**
 		 * Ruft die Breite des Steuerelements ab.
 		 *
 		 * @return width
 		 */
-		virtual int GetWidth() const;
+		virtual int GetWidth();
 		/**
 		 * Ruft die Höhe des Steuerelements ab.
 		 *
 		 * @return height
 		 */
-		virtual int GetHeight() const;
+		virtual int GetHeight();
 		
 		/**
 		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
@@ -266,11 +265,11 @@ namespace OSHGui
 		 */
 		void SetTag(Misc::Any &tag);
 		/**
-		 * Gibt die mit dem Steuerelement verknüpften benutzerdefinierten Daten zurück.
+		 * Ruft die mit dem Steuerelement verknüpften benutzerdefinierten Daten ab.
 		 *
 		 * @return tag
 		 */
-		Misc::Any& GetTag() const;
+		Misc::Any& GetTag();
 		
 		/**
 		 * Legt den zum Identifizieren des Steuerelements verwendeten Namen fest.
@@ -279,11 +278,11 @@ namespace OSHGui
 		 */
 		void SetName(Misc::UnicodeString &name);
 		/**
-		 * Gibt den zum Identifizieren des Steuerelements verwendeten Namen zurück.
+		 * Ruft den zum Identifizieren des Steuerelements verwendeten Namen ab.
 		 *
 		 * @return name
 		 */
-		Misc::UnicodeString& GetName() const;
+		Misc::UnicodeString& GetName();
 		
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
@@ -292,11 +291,11 @@ namespace OSHGui
 		 */
 		void SetFont(Drawing::IFont *font);
 		/**
-		 * Gibt die Schriftart des Texts im Steuerelement zurück.
+		 * Ruft die Schriftart des Texts im Steuerelement ab.
 		 *
 		 * @return font
 		 */
-		Drawing::IFont* GetFont() const;
+		Drawing::IFont* GetFont();
 		
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
@@ -305,11 +304,11 @@ namespace OSHGui
 		 */
 		void SetForeColor(Drawing::Color color);
 		/**
-		 * Gibt die Fordergrundfarbe des Steuerelements zurück.
+		 * Ruft die Fordergrundfarbe des Steuerelements ab.
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetForeColor() const;
+		Drawing::Color& GetForeColor();
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
@@ -317,11 +316,11 @@ namespace OSHGui
 		 */
 		void SetBackColor(Drawing::Color color);
 		/**
-		 * Gibt die Hintergrundfarbe des Steuerelements zurück.
+		 * Ruft die Hintergrundfarbe des Steuerelements ab.
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetBackColor() const;
+		Drawing::Color& GetBackColor();
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
@@ -329,11 +328,11 @@ namespace OSHGui
 		 */
 		void SetMouseOverFocusColor(Drawing::Color color);
 		/**
-		 * Gibt die Farbe für das fokusierte Steuerelement zurück.
+		 * Ruft die Farbe für das fokusierte Steuerelement ab.
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetMouseOverFocusColor() const;
+		Drawing::Color& GetMouseOverFocusColor();
 
 		/**
 		 * Ruft den ClickEventHandler für das Steuerelement ab.
@@ -446,7 +445,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		Control* GetParent() const;
+		Control* GetParent();
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *

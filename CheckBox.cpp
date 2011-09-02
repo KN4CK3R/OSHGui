@@ -12,7 +12,7 @@ namespace OSHGui
 		checked = false;
 
 		SetBackColor(Drawing::Color(0xFF222222));
-		SetForeColor(Drawing::Color::White());
+		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -27,7 +27,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool CheckBox::GetChecked() const
+	bool CheckBox::GetChecked()
 	{
 		return checked;
 	}
@@ -121,19 +121,21 @@ namespace OSHGui
 		
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(bounds.GetLeft(), bounds.GetTop(), 17, 17);
-		renderer->SetRenderColor(foreColor);
-		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
+
+		Drawing::Color white = Drawing::Color::White();
+		renderer->SetRenderColor(white);
+		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
 		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
-		renderer->SetRenderColor(foreColor);
-		
+		renderer->SetRenderColor(white);		
 		if (checked)
 		{
 			renderer->Fill(bounds.GetLeft() + 5, bounds.GetTop() + 5, 7, 7);
-			renderer->FillGradient(bounds.GetLeft() + 6, bounds.GetTop() + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
+			renderer->FillGradient(bounds.GetLeft() + 6, bounds.GetTop() + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
 		}
 		
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds.GetLeft() + 20, bounds.GetTop() + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
 		if (controls.size() > 0)

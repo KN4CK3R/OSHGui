@@ -10,7 +10,7 @@ namespace OSHGui
 		type = CONTROL_GROUPBOX;
 
 		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFA3A3A3));
+		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -20,7 +20,7 @@ namespace OSHGui
 		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& GroupBox::GetText() const
+	const Misc::UnicodeString& GroupBox::GetText()
 	{
 		return textHelper.GetText();
 	}

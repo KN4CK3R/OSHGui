@@ -77,19 +77,19 @@ namespace OSHGui
 			 *
 			 * @return length
 			 */
-			int GetLength() const;
+			int GetLength();
 			/**
 			 * Ruft die Zeichenkette ab.
 			 *
 			 * @return text
 			 */
-			const UnicodeString& GetText() const;
+			const UnicodeString& GetText();
 			/**
 			 * Ruft die Maﬂe der Zeichenkette in Pixel ab.
 			 *
 			 * @return size
 			 */
-			const Drawing::Size& GetSize() const;
+			const Drawing::Size& GetSize();
 			
 			/**
 			 * Berechnet die Maﬂe neu.

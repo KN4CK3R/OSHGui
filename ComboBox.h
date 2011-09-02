@@ -25,30 +25,42 @@ namespace OSHGui
 		virtual ~ComboBox();
 		
 		/**
+		 * Legt die Hintergrundfarbe des DropDown-Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		void SetDropDownColor(const Drawing::Color &color);
+		/**
+		 * Ruft die Hintergrundfarbe des DropDown-Steuerelements ab.
+		 *
+		 * @return color
+		 */
+		Drawing::Color GetDropDownColor();
+		/**
 		 * Gibt das ListItem an der Stelle index zurück.
 		 *
 		 * @param index
 		 * @return NULL, falls der Index nicht existiert
 		 */
-		ListItem* GetItem(int index) const;
+		ListItem* GetItem(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
 		 * @return der ausgewählte Index
 		 */
-		int GetSelectedIndex() const;
+		int GetSelectedIndex();
 		/**
 		 * Gibt das ausgewählte ListItem zurück.
 		 *
 		 * @return NULL, falls kein ListItem ausgewählt wurde
 		 */
-		ListItem* GetSelectedItem() const;
+		ListItem* GetSelectedItem();
 		/**
 		 * Gibt die Anzahl der ListItems zurück.
 		 *
 		 * @return Anzahl der ListItems
 		 */
-		int GetItemsCount() const;
+		int GetItemsCount();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -64,14 +76,14 @@ namespace OSHGui
 		 * @param text der Text des ListItems
 		 * @return im Fehlerfall false
 		 */
-		bool AddItem(const Misc::UnicodeString &text);
+		bool AddItem(const Misc::UnicodeString &text, Misc::Any &data = Misc::Any::Empty());
 		/**
 		 * Fügt ein neues ListItem am gewählten Index hinzu.
 		 *
 		 * @param text der Text des ListItems
 		 * @return im Fehlerfall false
 		 */
-		bool InsertItem(int index, const Misc::UnicodeString &text);
+		bool InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data = Misc::Any::Empty());
 		/**
 		 * Löscht das ListItem am gewählten Index.
 		 *
@@ -126,6 +138,7 @@ namespace OSHGui
 		
 		Drawing::Rectangle dropDownRect,
 						   itemsRect;
+		Drawing::Color dropDownColor;
 		
 		std::vector<ListItem*> items;
 	};

@@ -30,34 +30,34 @@ namespace OSHGui
 			Rectangle(int left, int top, int width, int height);
 			
 			void SetLeft(int left);
-			int GetLeft() const;
+			int GetLeft();
 			void SetTop(int top);
-			int GetTop() const;
+			int GetTop();
 			void SetWidth(int width);
-			int GetWidth() const;
+			int GetWidth();
 			void SetHeight(int height);
-			int GetHeight() const;
-			int GetRight() const;
-			int GetBottom() const;
+			int GetHeight();
+			int GetRight();
+			int GetBottom();
 			/**
 			 * Ruft die Position des Rechtecks ab.
 			 *
 			 * @return position
 			 */
-			Point GetPosition() const;
+			Point GetPosition();
 			/**
 			 * Ruft die Größe des Rechtecks ab.
 			 *
 			 * @return size
 			 */
-			Size GetSize() const;
+			Size GetSize();
 			
 			bool operator == (const Rectangle &equal);
 			bool operator != (const Rectangle &equal);
-			const Rectangle operator + (const Rectangle& add) const;
-			const Rectangle operator + (const Point& add) const;
-			const Rectangle operator - (const Rectangle& add) const;
-			const Rectangle operator - (const Point& add) const;
+			Rectangle operator + (const Rectangle& add) const;
+			Rectangle operator + (const Point& add) const;
+			Rectangle operator - (const Rectangle& add) const;
+			Rectangle operator - (const Point& add) const;
 			
 			/**
 			 * Verschiebt das Rechteck um X/Y.

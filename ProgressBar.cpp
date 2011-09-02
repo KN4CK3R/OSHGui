@@ -29,7 +29,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	int ProgressBar::GetMin() const
+	int ProgressBar::GetMin()
 	{
 		return min;
 	}
@@ -43,7 +43,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	int ProgressBar::GetMax() const
+	int ProgressBar::GetMax()
 	{
 		return max;
 	}
@@ -54,7 +54,7 @@ namespace OSHGui
 		Adjust();
 	}
 	//---------------------------------------------------------------------------
-	int ProgressBar::GetPosition() const
+	int ProgressBar::GetPosition()
 	{
 		return position;
 	}
@@ -64,7 +64,7 @@ namespace OSHGui
 		barColor = color;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& ProgressBar::GetBarColor() const
+	const Drawing::Color& ProgressBar::GetBarColor()
 	{
 		return barColor;
 	}

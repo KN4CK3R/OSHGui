@@ -39,6 +39,7 @@ namespace OSHGui
 		Size& Size::operator -= (const Size &s)
 		{
 			Inflate(-s.Width, -s.Height);
+			return *this;
 		}
 		//---------------------------------------------------------------------------
 		const Size Size::operator + (const Size &s)
@@ -49,6 +50,7 @@ namespace OSHGui
 		Size& Size::operator += (const Size &s)
 		{
 			Inflate(s.Width, s.Height);
+			return *this;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions

@@ -34,7 +34,7 @@ namespace OSHGui
 		 *
 		 * @return die Position
 		 */
-		int GetPosition() const;
+		int GetPosition();
 		/**
 		 * Legt die Größe des sichtbaren Ausschnitts fest.
 		 *
@@ -46,7 +46,7 @@ namespace OSHGui
 		 *
 		 * @return die Größe des sichtbaren Ausschnitts
 		 */
-		int GetPageSize() const;
+		int GetPageSize();
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

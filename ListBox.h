@@ -29,25 +29,25 @@ namespace OSHGui
 		 * @param index
 		 * @return NULL, falls der Index nicht existiert
 		 */
-		ListItem* GetItem(int index) const;
+		ListItem* GetItem(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
 		 * @return der ausgewählte Index
 		 */
-		int GetSelectedIndex() const;
+		int GetSelectedIndex();
 		/**
 		 * Gibt das ausgewählte ListItem zurück.
 		 *
 		 * @return NULL, falls kein ListItem ausgewählt wurde
 		 */
-		ListItem* GetSelectedItem() const;
+		ListItem* GetSelectedItem();
 		/**
 		 * Gibt die Anzahl der ListItems zurück.
 		 *
 		 * @return Anzahl der ListItems
 		 */
-		int GetItemsCount() const;
+		int GetItemsCount();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -69,14 +69,14 @@ namespace OSHGui
 		 * @param text der Text des ListItems
 		 * @return im Fehlerfall false
 		 */
-		bool AddItem(const Misc::UnicodeString &text);
+		bool AddItem(const Misc::UnicodeString &text, Misc::Any &data = Misc::Any::Empty());
 		/**
 		 * Fügt ein neues ListItem am gewählten Index hinzu.
 		 *
 		 * @param text der Text des ListItems
 		 * @return im Fehlerfall false
 		 */
-		bool InsertItem(int index, const Misc::UnicodeString &text);
+		bool InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data = Misc::Any::Empty());
 		/**
 		 * Löscht das ListItem am gewählten Index.
 		 *

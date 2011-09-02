@@ -13,7 +13,7 @@ namespace OSHGui
 		firstVisibleItemIndex = 0;
 		drag = false;
 
-		SetBackColor(Drawing::Color(0xFF121212));
+		SetBackColor(Drawing::Color(0xFF171614));
 		SetForeColor(Drawing::Color(0xFFB8B4B0));
 	}
 	//---------------------------------------------------------------------------
@@ -24,9 +24,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	ListItem* ListBox::GetItem(int index) const
+	ListItem* ListBox::GetItem(int index)
 	{
-		if (index < 0 || index >= items.size())
+		if (index < 0 || index >= (int)items.size())
 		{
 			return NULL;
 		}
@@ -34,17 +34,17 @@ namespace OSHGui
 		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
-	int ListBox::GetSelectedIndex() const
+	int ListBox::GetSelectedIndex()
 	{
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ListBox::GetSelectedItem() const
+	ListItem* ListBox::GetSelectedItem()
 	{
 		return GetItem(GetSelectedIndex());
 	}
 	//---------------------------------------------------------------------------
-	int ListBox::GetItemsCount() const
+	int ListBox::GetItemsCount()
 	{
 		return items.size();
 	}
@@ -76,12 +76,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::AddItem(const Misc::UnicodeString &text)
+	bool ListBox::AddItem(const Misc::UnicodeString &text, Misc::Any &data)
 	{	
-		return InsertItem(items.size() > 0 ? items.size() : 0, text);
+		return InsertItem(items.size() > 0 ? items.size() : 0, text, data);
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
+	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data)
 	{	
 		ListItem *newItem = new ListItem();
 		if (newItem == NULL)
@@ -90,6 +90,7 @@ namespace OSHGui
 		}
 		
 		newItem->Text = text;
+		newItem->Data = data;
 		
 		items.insert(items.begin() + index, newItem);
 
@@ -102,7 +103,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::RemoveItem(int index)
 	{
-		if (index < 0 || index >= items.size())
+		if (index < 0 || index >= (int)items.size())
 		{
 			return false;
 		}
@@ -114,7 +115,7 @@ namespace OSHGui
 		items.erase(items.begin() + index);
 
 		scrollBar.SetRange(items.size());
-		if (selectedIndex >= items.size())
+		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
 			
@@ -161,7 +162,7 @@ namespace OSHGui
 		{
 			selectedIndex = 0;
 		}
-		if (selectedIndex >= items.size())
+		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
 		}
@@ -240,9 +241,9 @@ namespace OSHGui
 				if (items.size() != 0 && Drawing::Rectangle(4, 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
 				{	
 					int itemIndex = -1;
-					for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
+					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
 					{
-						if (i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
+						if ((int)i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
 						{
 							itemIndex = i;
 							break;
@@ -305,7 +306,7 @@ namespace OSHGui
 						{
 							selectedIndex = 0;
 						}
-						if (selectedIndex >= items.size())
+						if (selectedIndex >= (int)items.size())
 						{
 							selectedIndex = items.size() - 1;
 						}
@@ -335,11 +336,16 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetTop(), clientArea.GetWidth() - 2, clientArea.GetHeight());
-		renderer->Fill(clientArea.GetLeft(), clientArea.GetTop() + 1, clientArea.GetWidth(), clientArea.GetHeight() - 2);
+		renderer->Fill(clientArea);
 		
+		renderer->SetRenderColor(backColor + Drawing::Color(0, 54, 53, 52));
+		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetTop(), clientArea.GetWidth() - 2, 1);
+		renderer->Fill(clientArea.GetLeft(), clientArea.GetTop() + 1, 1, clientArea.GetHeight() - 2);
+		renderer->Fill(clientArea.GetRight() - 1, clientArea.GetTop() + 1, 1, clientArea.GetHeight() - 2);
+		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetBottom() - 1, clientArea.GetWidth() - 2, 1);
+
 		renderer->SetRenderColor(foreColor);
-		for (unsigned int i = 0; i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
+		for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
 		{
 			if (firstVisibleItemIndex + i == selectedIndex)
 			{

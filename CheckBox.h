@@ -29,7 +29,7 @@ namespace OSHGui
 		 *
 		 * @return ja / nein
 		 */
-		virtual bool GetChecked() const;
+		virtual bool GetChecked();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.

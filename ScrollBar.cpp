@@ -18,8 +18,8 @@ namespace OSHGui
 		
 		delayTimestamp = 0;
 
-		SetBackColor(Drawing::Color(0xFF1E1E1E));
-		SetForeColor(Drawing::Color(0xFF373737));
+		SetBackColor(Drawing::Color(0xFF585552));
+		SetForeColor(Drawing::Color(0xFFAFADAD));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -31,7 +31,7 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetPosition() const
+	int ScrollBar::GetPosition()
 	{
 		return position;
 	}
@@ -43,7 +43,7 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetPageSize() const
+	int ScrollBar::GetPageSize()
 	{
 		return pageSize;
 	}
@@ -57,7 +57,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Invalidate()
 	{
-		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetTop(), SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
+		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH - 2, Parent->GetTop(), SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
 
 		clientArea = bounds;
 		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2);
@@ -71,14 +71,14 @@ namespace OSHGui
 	{
 		if (range > pageSize)
 		{
-			int sliderHeight = (trackRect.GetHeight() - 2) * (pageSize / (float)range);
+			int sliderHeight = (int)((trackRect.GetHeight() - 2) * (pageSize / (float)range));
 			if (sliderHeight < SCROLLBAR_MIN_SLIDER_HEIGHT)
 			{
 				sliderHeight = SCROLLBAR_MIN_SLIDER_HEIGHT;
 			}
 			
 			float positionPerPixel = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)range - pageSize);
-			int yPos = trackRect.GetTop() + 1 + positionPerPixel * (position);
+			int yPos = (int)(trackRect.GetTop() + 1 + positionPerPixel * (position));
 			
 			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderHeight);
 			
@@ -243,7 +243,7 @@ namespace OSHGui
 						yPos = downButtonRect.GetTop() - sliderRect.GetHeight() - trackRect.GetTop() - 1;
 					}
 
-					position = yPos * positionPerPixel;
+					position = (int)(yPos * positionPerPixel);
 					if (position > range - pageSize)
 					{
 						position = range - pageSize;
@@ -279,31 +279,26 @@ namespace OSHGui
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(clientArea.GetLeft() - 2, clientArea.GetTop(), 1, clientArea.GetHeight());
-
 		for (int i = 0; i < 4; ++i)
 		{
 			//upButton
-			renderer->Fill(upButtonRect.GetLeft() + 6 - i, upButtonRect.GetTop() + 8 + i, 1 + i * 2, 1);
+			renderer->Fill(upButtonRect.GetLeft() + 7 - i, upButtonRect.GetTop() + 8 + i, 1 + i * 2, 1);
 			//downButton
-			renderer->Fill(downButtonRect.GetLeft() + 6 - i, downButtonRect.GetBottom() - 9 - i, 1 + i * 2, 1);
+			renderer->Fill(downButtonRect.GetLeft() + 7 - i, downButtonRect.GetBottom() - 9 - i, 1 + i * 2, 1);
 		}
 
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop() + 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2);
+		renderer->Fill(sliderRect.GetRight() - 1, sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
+		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetBottom() - 1, sliderRect.GetWidth() - 2, 1);
+		renderer->Fill(sliderRect.GetLeft(), sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
+		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop(), sliderRect.GetWidth() - 2, 1);
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(sliderRect.GetLeft(), sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 3);
-		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop(), sliderRect.GetWidth() - 3, 1);
-
 		int sliderHalfHeight = sliderRect.GetTop() + sliderRect.GetHeight() / 2 - 3;
 		for (int i = 0; i < 3; ++i)
 		{
 			renderer->Fill(sliderRect.GetLeft() + 5, sliderHalfHeight + i * 3, 5, 1);
 		}
-
-		renderer->SetRenderColor(foreColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(sliderRect.GetRight() - 1, sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
-		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetBottom() - 1, sliderRect.GetWidth() - 2, 1);
 	}
 	//---------------------------------------------------------------------------
 }

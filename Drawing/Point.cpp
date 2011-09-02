@@ -62,7 +62,7 @@ namespace OSHGui
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		const Point Point::operator + (const Point &p)
+		Point Point::operator + (const Point &p)
 		{
 			return OffsetEx(p.X, p.Y);
 		}

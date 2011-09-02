@@ -49,7 +49,7 @@ namespace OSHGui
 		this->enabled = enabled;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::GetEnabled() const
+	bool Control::GetEnabled()
 	{
 		return enabled;
 	}
@@ -59,7 +59,7 @@ namespace OSHGui
 		this->visible = visible;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::GetVisible() const
+	bool Control::GetVisible()
 	{
 		return visible;
 	}
@@ -75,7 +75,7 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	bool Control::GetAutoSize() const
+	bool Control::GetAutoSize()
 	{
 		return autoSize;
 	}
@@ -103,7 +103,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Rectangle Control::GetBounds() const
+	Drawing::Rectangle Control::GetBounds()
 	{
 		return bounds;
 	}
@@ -127,7 +127,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point Control::GetLocation() const
+	Drawing::Point Control::GetLocation()
 	{
 		return bounds.GetPosition();
 	}
@@ -152,32 +152,32 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Size Control::GetSize() const
+	Drawing::Size Control::GetSize()
 	{
 		return bounds.GetSize();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetLeft() const
+	int Control::GetLeft()
 	{
 		return bounds.GetLeft();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetTop() const
+	int Control::GetTop()
 	{
 		return bounds.GetTop();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetRight() const
+	int Control::GetRight()
 	{
 		return bounds.GetRight();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetBottom() const
+	int Control::GetBottom()
 	{
 		return bounds.GetBottom();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetWidth() const
+	int Control::GetWidth()
 	{
 		return bounds.GetWidth();
 	}
@@ -192,7 +192,7 @@ namespace OSHGui
 		return Drawing::Point();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetHeight() const
+	int Control::GetHeight()
 	{
 		return bounds.GetHeight();
 	}
@@ -202,7 +202,7 @@ namespace OSHGui
 		this->tag = tag;
 	}
 	//---------------------------------------------------------------------------
-	Misc::Any& Control::GetTag() const
+	Misc::Any& Control::GetTag()
 	{
 		return tag;
 	}
@@ -212,7 +212,7 @@ namespace OSHGui
 		this->name = name;
 	}
 	//---------------------------------------------------------------------------
-	Misc::UnicodeString& Control::GetName() const
+	Misc::UnicodeString& Control::GetName()
 	{
 		return name;
 	}
@@ -222,7 +222,7 @@ namespace OSHGui
 		foreColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color& Control::GetForeColor() const
+	Drawing::Color& Control::GetForeColor()
 	{
 		return foreColor;
 	}
@@ -232,7 +232,7 @@ namespace OSHGui
 		backColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color& Control::GetBackColor() const
+	Drawing::Color& Control::GetBackColor()
 	{
 		return backColor;
 	}
@@ -242,7 +242,7 @@ namespace OSHGui
 		mouseOverFocusColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color& Control::GetMouseOverFocusColor() const
+	Drawing::Color& Control::GetMouseOverFocusColor()
 	{
 		return mouseOverFocusColor;
 	}
@@ -263,7 +263,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::IFont* Control::GetFont() const
+	Drawing::IFont* Control::GetFont()
 	{
 		return font;
 	}
@@ -293,7 +293,7 @@ namespace OSHGui
 		return changeEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::GetParent() const
+	Control* Control::GetParent()
 	{
 		return Parent;
 	}

@@ -52,7 +52,7 @@ namespace OSHGui
 		this->group = group;
 	}
 	//---------------------------------------------------------------------------
-	int RadioButton::GetGroup() const
+	int RadioButton::GetGroup()
 	{
 		return group;
 	}
@@ -126,8 +126,10 @@ namespace OSHGui
 		
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(bounds.GetLeft(), bounds.GetTop(), 17, 17);
-		renderer->SetRenderColor(foreColor);
-		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, 15, 15, foreColor - Drawing::Color(0, 137, 137, 137));
+
+		Drawing::Color white = Drawing::Color::White();
+		renderer->SetRenderColor(white);
+		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
 		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 			
@@ -137,16 +139,15 @@ namespace OSHGui
 			renderer->Fill(bounds.GetLeft() + 4, bounds.GetTop() + 6, 9, 5);
 			renderer->Fill(bounds.GetLeft() + 5, bounds.GetTop() + 5, 7, 7);
 			
-			renderer->SetRenderColor(foreColor - Drawing::Color(0, 128, 128, 128));
+			renderer->SetRenderColor(white - Drawing::Color(0, 128, 128, 128));
 			renderer->Fill(bounds.GetLeft() + 5, bounds.GetTop() + 7, 7, 3);
 			
-			renderer->SetRenderColor(foreColor);
-			renderer->FillGradient(bounds.GetLeft() + 7, bounds.GetTop() + 5, 3, 7, foreColor - Drawing::Color(0, 137, 137, 137));
-			renderer->FillGradient(bounds.GetLeft() + 6, bounds.GetTop() + 6, 5, 5, foreColor - Drawing::Color(0, 137, 137, 137));
+			renderer->SetRenderColor(white);
+			renderer->FillGradient(bounds.GetLeft() + 7, bounds.GetTop() + 5, 3, 7, white - Drawing::Color(0, 137, 137, 137));
+			renderer->FillGradient(bounds.GetLeft() + 6, bounds.GetTop() + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
 		}
 
-		renderer->SetRenderColor(foreColor);
-		
+		renderer->SetRenderColor(foreColor);		
 		renderer->RenderText(font, bounds.GetLeft() + 20, bounds.GetTop() + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
 		if (controls.size() > 0)

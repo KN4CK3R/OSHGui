@@ -73,7 +73,7 @@ namespace OSHGui
 			return Color(alpha, red, green, blue);
 		}
 		//---------------------------------------------------------------------------
-		void Color::operator += (const Color &color)
+		Color& Color::operator += (const Color &color)
 		{
 			unsigned int alpha = A + color.A;
 			A = (alpha > 255 ? 255 : alpha) & 0xFF;
@@ -83,6 +83,8 @@ namespace OSHGui
 			G = (green > 255 ? 255 : green) & 0xFF;
 			unsigned int blue = B + color.B;
 			B = (blue > 255 ? 255 : blue) & 0xFF;
+
+			return *this;
 		}
 		//---------------------------------------------------------------------------
 		Color Color::operator - (const Color &color) const
@@ -99,7 +101,7 @@ namespace OSHGui
 			return Color(alpha, red, green, blue);
 		}
 		//---------------------------------------------------------------------------
-		void Color::operator -= (const Color &color)
+		Color& Color::operator -= (const Color &color)
 		{
 			unsigned int alpha = A - color.A;
 			A = (alpha < 0 ? 0 : alpha) & 0xFF;
@@ -109,6 +111,8 @@ namespace OSHGui
 			G = (green < 0 ? 0 : green) & 0xFF;
 			unsigned int blue = B - color.B;
 			B = (blue < 0 ? 0 : blue) & 0xFF;
+
+			return *this;
 		}
 		//---------------------------------------------------------------------------
 		float Color::Hue()

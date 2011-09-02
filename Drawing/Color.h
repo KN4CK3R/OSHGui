@@ -52,9 +52,9 @@ namespace OSHGui
 			Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue);
 
 			Color operator + (const Color &color) const;
-			void operator += (const Color &color);
+			Color& operator += (const Color &color);
 			Color operator - (const Color &color) const;
-			void operator -= (const Color &color);
+			Color& operator -= (const Color &color);
 
 			/**
 			 * Gibt eine leere Farbe (ARGB = 0) zurück.
