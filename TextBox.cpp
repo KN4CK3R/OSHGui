@@ -133,13 +133,13 @@ namespace OSHGui
 	{		
 		if (IsClipboardFormatAvailable(CF_UNICODETEXT))
 		{
-			if (OpenClipboard(NULL))
+			if (OpenClipboard(0))
 			{
 				HANDLE clipboard = GetClipboardData(CF_UNICODETEXT);
-				if (clipboard != NULL)
+				if (clipboard != 0)
 				{
 					Misc::UnicodeChar *data = (Misc::UnicodeChar*)GlobalLock(clipboard);
-					if (data != NULL)
+					if (data != 0)
 					{
 						Misc::UnicodeString strData(data);
 
@@ -158,7 +158,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}

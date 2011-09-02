@@ -44,7 +44,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Timer::SetInterval(long interval)
 	{
-		this->interval = interval > 0 ? interval : 100;
+		if (this->interval != interval)
+		{
+			this->interval = interval > 0 ? interval : 100;
+			if (enabled)
+			{
+				Application::UnregisterTimer(this);
+				Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
+			}
+		}
 	}
 	//---------------------------------------------------------------------------
 	long Timer::GetInterval()

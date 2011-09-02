@@ -16,7 +16,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		CheckBox(Control *parent = NULL);
+		CheckBox(Control *parent = 0);
 		
 		/**
 		 * Legt den checked-Status fest.

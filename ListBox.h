@@ -20,14 +20,14 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ListBox(Control *parent = NULL);
+		ListBox(Control *parent = 0);
 		virtual ~ListBox();
 		
 		/**
 		 * Gibt das ListItem an der Stelle index zurück.
 		 *
 		 * @param index
-		 * @return NULL, falls der Index nicht existiert
+		 * @return 0, falls der Index nicht existiert
 		 */
 		ListItem* GetItem(int index);
 		/**
@@ -39,7 +39,7 @@ namespace OSHGui
 		/**
 		 * Gibt das ausgewählte ListItem zurück.
 		 *
-		 * @return NULL, falls kein ListItem ausgewählt wurde
+		 * @return 0, falls kein ListItem ausgewählt wurde
 		 */
 		ListItem* GetSelectedItem();
 		/**

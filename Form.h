@@ -45,6 +45,11 @@ namespace OSHGui
 		void Show();
 
 		/**
+		 * Schließt die Form.
+		 */
+		void Close();
+
+		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
 		 * Wird außerdem für alle Kindelemente aufgerufen.
 		 *

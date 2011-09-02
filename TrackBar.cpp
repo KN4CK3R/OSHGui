@@ -10,6 +10,8 @@ namespace OSHGui
 		type = CONTROL_TRACKBAR;
 		
 		pressed = false;
+
+		SetBounds(3, 3, 110, TRACKBAR_SLIDER_HEIGHT + 2);
 		
 		min = 1;
 		max = 10;
@@ -90,7 +92,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes TrackBar::ProcessEvent(Event *event)
 	{	
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}

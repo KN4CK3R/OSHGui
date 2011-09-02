@@ -12,7 +12,7 @@ namespace OSHGui
 		SetAutoSize(true);
 		
 		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFB8B4B0));
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -51,7 +51,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Label::ProcessEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}

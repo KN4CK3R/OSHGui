@@ -17,9 +17,9 @@ namespace OSHGui
 		mouseOver = false;
 		hasFocus = false;
 
-		focusControl = NULL;
-		mouseOverControl = NULL;
-		captureControl = NULL;
+		focusControl = 0;
+		mouseOverControl = 0;
+		captureControl = 0;
 
 		font = Drawing::IRenderer::GetDefaultFont();
 		
@@ -207,7 +207,7 @@ namespace OSHGui
 		return tag;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetName(Misc::UnicodeString &name)
+	void Control::SetName(const Misc::UnicodeString &name)
 	{
 		this->name = name;
 	}
@@ -249,7 +249,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetFont(Drawing::IFont *font)
 	{
-		if (font != NULL)
+		if (font != 0)
 		{
 			this->font = font;
 		}
@@ -322,7 +322,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
 	{
-		if (control != NULL)
+		if (control != 0)
 		{
 			controls.push_back(control);
 		}
@@ -334,7 +334,7 @@ namespace OSHGui
 		{
 			Control *control = controls.at(i);
 
-			if (control == NULL)
+			if (control == 0)
 			{
 				continue;
 			}
@@ -349,7 +349,7 @@ namespace OSHGui
 		{
 			Control *control = controls.at(i);
 
-			if (control == NULL)
+			if (control == 0)
 			{
 				continue;
 			}
@@ -360,7 +360,7 @@ namespace OSHGui
 			}
 		}
 
-		return NULL;
+		return 0;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildByName(const Misc::UnicodeString &name)
@@ -369,7 +369,7 @@ namespace OSHGui
 		{
 			Control *control = controls.at(i);
 
-			if (control == NULL)
+			if (control == 0)
 			{
 				continue;
 			}
@@ -380,12 +380,12 @@ namespace OSHGui
 			}
 		}
 
-		return NULL;
+		return 0;
 	}
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
 	{
-		if (control == NULL || !control->CanHaveFocus())
+		if (control == 0 || !control->CanHaveFocus())
 		{
 			return;
 		}
@@ -402,7 +402,7 @@ namespace OSHGui
 			return;
 		}
 
-		if (baseParent->focusControl != NULL)
+		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
 			baseParent->focusControl->focusOutEventHandler.Invoke(this);
@@ -422,11 +422,11 @@ namespace OSHGui
 			baseParent = baseParent->GetParent();
 		}
 
-		if (baseParent->focusControl != NULL)
+		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
 			baseParent->focusControl->focusOutEventHandler.Invoke(this);
-			baseParent->focusControl = NULL;
+			baseParent->focusControl = 0;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -437,7 +437,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::ReleaseCapture()
 	{
-		captureControl = NULL;
+		captureControl = 0;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -449,13 +449,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Control::ProcessChildrenEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}
 		
 		//someone is focused, so let him handle the event expect the mouse
-		if (event->Type != Event::Mouse && focusControl != NULL && focusControl->GetVisible() && focusControl->GetEnabled())
+		if (event->Type != Event::Mouse && focusControl != 0 && focusControl->GetVisible() && focusControl->GetEnabled())
 		{
 			if (focusControl->ProcessEvent(event) == Event::DontContinue)
 			{
@@ -468,7 +468,7 @@ namespace OSHGui
 			MouseEvent *mouse = (MouseEvent*)event;
 			
 			//someone is capturing the mouse
-			if (captureControl != NULL)
+			if (captureControl != 0)
 			{
 				if (captureControl->ProcessEvent(mouse) == Event::DontContinue)
 				{
@@ -478,14 +478,14 @@ namespace OSHGui
 			
 			//find mouseOverControl
 			Control *control = GetChildAtPoint(mouse->Position);
-			if (control != mouseOverControl && mouseOverControl != NULL)
+			if (control != mouseOverControl && mouseOverControl != 0)
 			{
 				mouseOverControl->mouseOver = false;
 				mouseOverControl->mouseLeaveEventHandler.Invoke(this);
-				mouseOverControl = NULL;
+				mouseOverControl = 0;
 			}
 
-			if (control != NULL)
+			if (control != 0)
 			{
 				mouseOverControl = control;
 				mouseOverControl->mouseOver = true;
@@ -493,7 +493,7 @@ namespace OSHGui
 			}
 			
 			//someone is focused
-			if (focusControl != NULL && focusControl->GetEnabled())
+			if (focusControl != 0 && focusControl->GetEnabled())
 			{
 				if (focusControl->ProcessEvent(mouse) == Event::DontContinue)
 				{
@@ -502,7 +502,7 @@ namespace OSHGui
 			}
 			
 			//let mouseOverControl handle the mouse
-			if (mouseOverControl != NULL)
+			if (mouseOverControl != 0)
 			{
 				if (mouseOverControl->ProcessEvent(event) == Event::DontContinue)
 				{

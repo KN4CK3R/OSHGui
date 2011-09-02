@@ -16,7 +16,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Button(Control *parent = NULL);
+		Button(Control *parent = 0);
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.

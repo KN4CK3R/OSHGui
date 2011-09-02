@@ -18,7 +18,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		GroupBox(Control *parent = NULL);
+		GroupBox(Control *parent = 0);
 
 		/**
 		 * Legt den Text fest.

@@ -1,7 +1,7 @@
 #include "FontDX9.h"
 
 #ifndef SAFE_RELEASE
-	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
+	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = 0; } }
 #endif
 
 namespace OSHGui
@@ -15,7 +15,7 @@ namespace OSHGui
 		{
 			this->device = device;
 						
-			font = NULL;
+			font = 0;
 		}
 		//---------------------------------------------------------------------------
 		FontDX9::~FontDX9()
@@ -46,8 +46,8 @@ namespace OSHGui
 			this->italic = italic;
 			
 			RECT rect = { 0, 0, 0, 0}, rect2 = { 0, 0, 0, 0 };
-			font->DrawTextW(NULL, L"_", -1, &rect, DT_CALCRECT, 0);
-			font->DrawTextW(NULL, L"_ _", -1, &rect2, DT_CALCRECT, 0);
+			font->DrawTextW(0, L"_", -1, &rect, DT_CALCRECT, 0);
+			font->DrawTextW(0, L"_ _", -1, &rect2, DT_CALCRECT, 0);
 			spaceWidth = rect2.right - rect.right * 2;
 
 			return true;
@@ -61,7 +61,7 @@ namespace OSHGui
 			}
 			
 			RECT rect = { 0, 0, 0, 0 };
-			font->DrawTextW(NULL, str.c_str(), -1, &rect, DT_CALCRECT, 0);
+			font->DrawTextW(0, str.c_str(), -1, &rect, DT_CALCRECT, 0);
 			
 			for (int i = str.length() - 1; i > 0; i--)
 			{

@@ -13,7 +13,7 @@ namespace OSHGui
 			
 			verticesNum = 0;
 
-			texture = NULL;
+			texture = 0;
 			D3DXCreateSprite(device, &sprite);
 
 			for (int i = 0; i < maxVertices; i++)
@@ -104,7 +104,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(ITexture *texture, int x, int y)
 		{
-			if (texture == NULL)
+			if (texture == 0)
 			{
 				return;
 			}
@@ -133,7 +133,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Size RendererDX9::MeasureText(IFont *font, const Misc::UnicodeString &text)
 		{
-			if (font == NULL)
+			if (font == 0)
 			{
 				return Size();
 			}
@@ -158,7 +158,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text)
 		{
-			if (font == NULL)
+			if (font == 0)
 			{
 				return;
 			}
@@ -168,7 +168,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			((FontDX9*)font)->GetFont()->DrawTextW(NULL, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB);
+			((FontDX9*)font)->GetFont()->DrawTextW(0, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)
@@ -188,11 +188,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(int x, int y, int w, int h)
 		{
-			if (texture != NULL)
+			if (texture != 0)
 			{
 				Flush();
-				device->SetTexture(0, NULL);
-				texture = NULL;
+				device->SetTexture(0, 0);
+				texture = 0;
 			}
 
 			x = x + renderRect.GetLeft();
@@ -223,11 +223,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::FillGradient(int x, int y, int w, int h, Color &to)
 		{
-			if (texture != NULL)
+			if (texture != 0)
 			{
 				Flush();
-				device->SetTexture(0, NULL);
-				texture = NULL;
+				device->SetTexture(0, 0);
+				texture = 0;
 			}
 
 			x = x + renderRect.GetLeft();

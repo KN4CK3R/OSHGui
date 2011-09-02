@@ -21,7 +21,7 @@ namespace OSHGui
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetDropDownColor(Drawing::Color(0xFF171614));
-		SetForeColor(Drawing::Color(0xFFB8B4B0));
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
 	ComboBox::~ComboBox()
@@ -56,7 +56,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			return NULL;
+			return 0;
 		}
 
 		return items.at(index);
@@ -100,7 +100,7 @@ namespace OSHGui
 	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data)
 	{	
 		ListItem *newItem = new ListItem();
-		if (newItem == NULL)
+		if (newItem == 0)
 		{
 			return false;
 		}
@@ -136,7 +136,7 @@ namespace OSHGui
 
 		ListItem *item = items.at(index);
 		delete item;
-		item = NULL;
+		item = 0;
 		
 		items.erase(items.begin() + index);
 		
@@ -160,7 +160,7 @@ namespace OSHGui
 		{
 			ListItem *item = items.at(i);
 			delete item;
-			item = NULL;
+			item = 0;
 		}
 
 		items.clear();
@@ -238,7 +238,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ComboBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}
@@ -549,11 +549,11 @@ namespace OSHGui
 			{
 				if (i + firstVisibleItemIndex == mouseOverItemIndex)
 				{
-					renderer->SetRenderColor(Drawing::Color::Orange());
-					renderer->Fill(itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2);
+					renderer->SetRenderColor(Drawing::Color::Black());
+					renderer->Fill(itemsRect.GetLeft() - 1, itemsRect.GetTop() + i * (font->GetSize() + 2) - 1, itemsRect.GetWidth() + 2, font->GetSize() + 4);
 					renderer->SetRenderColor(foreColor);
 				}
-
+				
 				renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]->Text);
 			}
 

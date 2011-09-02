@@ -19,7 +19,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TextBox(Control *parent = NULL);
+		TextBox(Control *parent = 0);
 		virtual ~TextBox();
 		
 		/**

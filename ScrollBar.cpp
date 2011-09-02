@@ -151,7 +151,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ScrollBar::ProcessEvent(Event *event)
 	{	
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}

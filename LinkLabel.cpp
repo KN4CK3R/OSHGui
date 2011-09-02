@@ -26,7 +26,7 @@ namespace OSHGui
 	
 		Label::Render(renderer);
 		
-		renderer->Fill(bounds.GetLeft(), bounds.GetBottom() + 1, bounds.GetWidth(), 1);
+		renderer->Fill(bounds.GetLeft(), bounds.GetBottom() - 1, bounds.GetWidth(), 1);
 	}
 	//---------------------------------------------------------------------------
 }

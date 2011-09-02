@@ -21,7 +21,7 @@ namespace OSHGui
 		friend Application;
 
 	public:
-		Timer(Control *parent = NULL);
+		Timer(Control *parent = 0);
 		~Timer();
 		
 		void SetEnabled(bool enabled);

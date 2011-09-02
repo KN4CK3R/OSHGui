@@ -73,7 +73,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Control(Control *parent = NULL);
+		Control(Control *parent = 0);
 		virtual ~Control();
 		
 		/**
@@ -276,7 +276,7 @@ namespace OSHGui
 		 *
 		 * @param name
 		 */
-		void SetName(Misc::UnicodeString &name);
+		void SetName(const Misc::UnicodeString &name);
 		/**
 		 * Ruft den zum Identifizieren des Steuerelements verwendeten Namen ab.
 		 *
@@ -408,14 +408,14 @@ namespace OSHGui
 		 * Koordinaten befindet.
 		 *
 		 * @param point
-		 * @return NULL, falls sich dort kein Steuerelement befindet
+		 * @return 0, falls sich dort kein Steuerelement befindet
 		 */
 		Control* GetChildAtPoint(const Drawing::Point &point);
 		/**
 		 * Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
 		 *
 		 * @param name
-		 * @return NULL, falls kein Steuerelement mit diesem Namen existiert
+		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
 		 */
 		Control* GetChildByName(const Misc::UnicodeString &name);
 		

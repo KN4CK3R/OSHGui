@@ -269,7 +269,7 @@ namespace OSHGui
 			GetSystemTimeAsFileTime((LPFILETIME)&ticks);
 #else //Unix
 			timeval tv;
-			gettimeofday(&tv, NULL);
+			gettimeofday(&tv, 0);
 			ticks = (long long)tv.tv_usec;
 			ticks += (long long)(tv.tv_sec / 0.000001);
 			ticks += 11644473600000000LL;

@@ -1,7 +1,7 @@
 #include "TextureDX9.h"
 
 #ifndef SAFE_RELEASE
-	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
+	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = 0; } }
 #endif
 
 namespace OSHGui
@@ -14,8 +14,8 @@ namespace OSHGui
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device)
 		{
 			this->device = device;
-			texture = NULL;
-			lock.pBits = NULL;
+			texture = 0;
+			lock.pBits = 0;
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::~TextureDX9()
@@ -32,7 +32,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TextureDX9::IsLocked()
 		{
-			return lock.pBits != NULL;
+			return lock.pBits != 0;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
@@ -46,7 +46,7 @@ namespace OSHGui
 			}
 			
 			SAFE_RELEASE(texture);
-			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, NULL)))
+			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 			{
 				this->size = size;
 				return true;
@@ -62,7 +62,7 @@ namespace OSHGui
 		void TextureDX9::EndUpdate()
 		{
 			texture->UnlockRect(0);
-			lock.pBits = NULL;
+			lock.pBits = 0;
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Clear()
@@ -224,7 +224,7 @@ namespace OSHGui
 					tempSize.Height = w;
 				}
 				
-				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &temp, NULL)))
+				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &temp, 0)))
 				{
 					size = tempSize;
 					tempSize.Inflate(-1, -1);
@@ -322,7 +322,7 @@ namespace OSHGui
 				Drawing::Size tempSize((int)ceil(fabs(maxx) - minx), (int)ceil(fabs(maxy) - miny)),
 							  bckSize = size;
 
-				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &temp, NULL)))
+				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &temp, 0)))
 				{
 					size = tempSize;
 
@@ -376,14 +376,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::Insert(int _x, int _y, Drawing::ITexture *texture)
 		{
-			if (texture == NULL || texture->IsLocked())
+			if (texture == 0 || texture->IsLocked())
 			{
 				return;
 			}
 		
 			LPDIRECT3DTEXTURE9 temp = ((TextureDX9*)texture)->GetTexture();
 			
-			if (temp == NULL)
+			if (temp == 0)
 			{
 				return;
 			}

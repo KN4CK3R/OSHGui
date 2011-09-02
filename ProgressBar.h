@@ -17,7 +17,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ProgressBar(Control *parent = NULL);
+		ProgressBar(Control *parent = 0);
 	
 		/**
 		 * Legt den minimalen Wert fest.

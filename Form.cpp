@@ -17,22 +17,14 @@ namespace OSHGui
 		SetSize(Drawing::Size(300, 300));
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
-		SetForeColor(Drawing::Color::White());
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Form::~Form()
 	{
-		for (unsigned int i = 0, len = controls.size(); i < len; i++)
-		{
-			Control *control = controls.at(i);
-			delete control;
-		}
 
-		controls.clear();
-
-		Control::~Control();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -72,11 +64,16 @@ namespace OSHGui
 		enabled = true;
 	}
 	//---------------------------------------------------------------------------
+	void Form::Close()
+	{
+		Application::UnregisterForm(this);
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Form::ProcessEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}
@@ -127,7 +124,7 @@ namespace OSHGui
 
 					if (pressed && mouse->State == MouseEvent::LeftUp)
 					{
-						Application::UnregisterForm(this);
+						Close();
 					}
 					
 					return Event::DontContinue;

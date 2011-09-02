@@ -6,15 +6,16 @@ namespace OSHGui
 {
 	std::map<Timer*, Application::TimerInfo> Application::timers;
 	std::list<Form*> Application::forms;
-	Form *Application::focusForm = NULL;
-	Form *Application::mainForm = NULL;
+	Form *Application::focusForm = 0;
+	Form *Application::mainForm = 0;
+	Form *Application::removeForm = 0;
 	bool Application::enabled = false;
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
 		enabled = true;
 
-		if (mainForm != NULL)
+		if (mainForm != 0)
 		{
 			mainForm->Show();
 		}
@@ -27,12 +28,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Run(Form *form)
 	{
-		if (form == NULL)
+		if (form == 0)
 		{
 			return;
 		}
 
-		if (mainForm != NULL)
+		if (mainForm != 0)
 		{
 			return;
 		}
@@ -65,7 +66,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::RegisterForm(Form *form)
 	{
-		if (form == NULL)
+		if (form == 0)
 		{
 			return;
 		}
@@ -85,7 +86,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::UnregisterForm(Form *form)
 	{
-		if (form == NULL)
+		if (form == 0)
 		{
 			return;
 		}
@@ -101,8 +102,6 @@ namespace OSHGui
 			{
 				it = forms.erase(it);
 
-				delete form;
-
 				if (focusForm == form)
 				{
 					if (forms.size() > 0)
@@ -111,9 +110,11 @@ namespace OSHGui
 					}
 					else
 					{
-						focusForm = NULL;
+						focusForm = 0;
 					}
 				}
+
+				removeForm = form;
 
 				return;
 			}
@@ -122,12 +123,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Application::ProcessEvent(Event *event)
 	{
-		if (event == NULL || !enabled)
+		if (event == 0 || !enabled)
 		{
 			return Event::Continue;
 		}
 		
-		if (focusForm != NULL && focusForm->ProcessEvent(event) == Event::DontContinue)
+		if (focusForm != 0 && focusForm->ProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}
@@ -152,9 +153,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Render(Drawing::IRenderer *renderer)
 	{
-		if (!enabled || renderer == NULL)
+		if (!enabled || renderer == 0)
 		{
 			return;
+		}
+
+		if (removeForm != 0)
+		{
+			delete removeForm;
+			removeForm = 0;
 		}
 
 		if (timers.size() > 0)
@@ -165,7 +172,7 @@ namespace OSHGui
 				TimerInfo &info = it->second;
 				if (info.next < now)
 				{
-					it->first->tickEventHandler.Invoke(NULL);
+					it->first->tickEventHandler.Invoke(0);
 					info.next = now.Add(info.interval);
 				}
 			}

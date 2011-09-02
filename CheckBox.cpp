@@ -12,7 +12,7 @@ namespace OSHGui
 		checked = false;
 
 		SetBackColor(Drawing::Color(0xFF222222));
-		SetForeColor(Drawing::Color(0xFFB8B4B0));
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -56,7 +56,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes CheckBox::ProcessEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}

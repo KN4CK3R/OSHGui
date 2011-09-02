@@ -19,14 +19,14 @@ namespace OSHGui
 			/**
 			 * Erstellt ein TextHelper-Objekt mit der entsprechenden Schriftart.
 			 *
-			 * @param font darf nicht NULL sein
+			 * @param font darf nicht 0 sein
 			 */
 			TextHelper(Drawing::IFont *font);
 			
 			/**
 			 * Legt die Schriftart fest.
 			 *
-			 * @param font darf nicht NULL sein
+			 * @param font darf nicht 0 sein
 			 */
 			void SetFont(Drawing::IFont *font);
 			/**

@@ -15,7 +15,7 @@ namespace OSHGui
 		SetSize(Drawing::Size(92, 24));
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
-		SetForeColor(Drawing::Color(0xFFB8B4B0));
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -42,7 +42,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes Button::ProcessEvent(Event *event)
 	{
-		if (event == NULL)
+		if (event == 0)
 		{
 			return Event::DontContinue;
 		}
@@ -89,7 +89,7 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
 			if (keyboard->KeyCode == Key::Return || keyboard->KeyCode == Key::Space)
 			{
-				clickEventHandler.Invoke(this, NULL);
+				clickEventHandler.Invoke(this, 0);
 			}
 		}
 		
