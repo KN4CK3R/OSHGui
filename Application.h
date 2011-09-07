@@ -70,8 +70,8 @@ namespace OSHGui
 
 		static std::list<Form*> forms;
 		static Form *focusForm,
-					*mainForm,
-					*removeForm;
+					*mainForm;
+		static std::list<Form*> removeForms;
 		static bool enabled;
 	};
 }

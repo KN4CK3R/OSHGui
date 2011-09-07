@@ -63,9 +63,9 @@ namespace OSHGui
 				{
 					KeyboardEvent keyboard;
 					keyboard.State = KeyboardEvent::Unknown;
-					keyboard.Control = GetKeyState(VK_CONTROL) & 0x8000;
-					keyboard.Shift = GetKeyState(VK_SHIFT) & 0x8000;
-					keyboard.Menu = GetKeyState(VK_MENU) & 0x8000;
+					keyboard.Control = (GetKeyState(VK_CONTROL) & 0x8000) > 0;
+					keyboard.Shift = (GetKeyState(VK_SHIFT) & 0x8000) > 0;
+					keyboard.Menu = (GetKeyState(VK_MENU) & 0x8000) > 0;
 
 					if (message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN || message->message == WM_KEYUP || message->message == WM_SYSKEYUP)
 					{

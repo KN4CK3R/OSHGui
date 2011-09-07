@@ -1,4 +1,5 @@
 #include "TextBox.h"
+#define NOMINMAX
 #include <Windows.h>
 
 namespace OSHGui
@@ -217,14 +218,13 @@ namespace OSHGui
 						{
 							textHelper.Remove(caretPosition - 1, 1);
 							PlaceCaret(caretPosition - 1);
-							
 							hasChanged = true;
 						}
 						break;
 					case Key::Delete:
 						if (caretPosition < textHelper.GetLength())
 						{
-							textHelper.Remove(caretPosition + firstVisibleCharacter, 1);
+							textHelper.Remove(caretPosition, 1);
 							PlaceCaret(caretPosition);
 							hasChanged = true;
 						}
@@ -278,7 +278,7 @@ namespace OSHGui
 		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
-		
+
 		if (Misc::DateTime::GetNow() > nextBlinkTime)
 		{
 			showCaret = !showCaret;

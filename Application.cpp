@@ -8,7 +8,7 @@ namespace OSHGui
 	std::list<Form*> Application::forms;
 	Form *Application::focusForm = 0;
 	Form *Application::mainForm = 0;
-	Form *Application::removeForm = 0;
+	std::list<Form*> Application::removeForms;
 	bool Application::enabled = false;
 	//---------------------------------------------------------------------------
 	void Application::Enable()
@@ -114,7 +114,7 @@ namespace OSHGui
 					}
 				}
 
-				removeForm = form;
+				removeForms.push_back(form);
 
 				return;
 			}
@@ -158,10 +158,13 @@ namespace OSHGui
 			return;
 		}
 
-		if (removeForm != 0)
+		if (removeForms.size() > 0)
 		{
-			delete removeForm;
-			removeForm = 0;
+			for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); it++)
+			{
+				delete *it;
+			}
+			removeForms.clear();
 		}
 
 		if (timers.size() > 0)

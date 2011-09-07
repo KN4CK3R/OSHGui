@@ -58,6 +58,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextHelper::Remove(int index, int length)
 		{
+			if (index + length > (int)text.length())
+			{
+				index = index;
+			}
 			text.erase(index, length);
 			RefreshSize();
 		}
