@@ -9,6 +9,8 @@ namespace OSHGui
 	{
 		type = CONTROL_GROUPBOX;
 
+		SetText(L"GroupBox");
+
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}

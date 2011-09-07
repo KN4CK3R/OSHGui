@@ -9,6 +9,8 @@ namespace OSHGui
 	{
 		type = CONTROL_CHECKBOX;
 		
+		SetText(L"CheckBox");
+
 		checked = false;
 
 		SetBackColor(Drawing::Color(0xFF222222));
@@ -45,9 +47,26 @@ namespace OSHGui
 		{
 			Drawing::Size size = textHelper.GetSize();
 			size.Inflate(20, 4);
+			if (size.Height < 17)
+			{
+				size.Height = 17;
+			}
 			SetSize(size);
 		}
 		clientArea = bounds;
+
+		if (font->GetSize() < 17)
+		{
+			checkBoxPosition = bounds.GetPosition();
+			int y = (int)(17 / 2.0f - font->GetSize() / 2.0f + 0.5f);
+			textPosition = Drawing::Point(bounds.GetLeft() + 20, bounds.GetTop() + y);
+		}
+		else
+		{
+			textPosition = bounds.GetPosition().OffsetEx(20, 0);
+			int y = (int)(font->GetSize() / 2.0f - 17 / 2.0f + 0.5f);
+			checkBoxPosition = Drawing::Point(bounds.GetLeft(), bounds.GetTop() + y);
+		}
 
 		InvalidateChildren();
 	}
@@ -120,23 +139,23 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(bounds.GetLeft(), bounds.GetTop(), 17, 17);
+		renderer->Fill(checkBoxPosition.Left, checkBoxPosition.Top, 17, 17);
 
 		Drawing::Color white = Drawing::Color::White();
 		renderer->SetRenderColor(white);
-		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
+		renderer->FillGradient(checkBoxPosition.Left + 1, checkBoxPosition.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(checkBoxPosition.Left + 2, checkBoxPosition.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(white);		
 		if (checked)
 		{
-			renderer->Fill(bounds.GetLeft() + 5, bounds.GetTop() + 5, 7, 7);
-			renderer->FillGradient(bounds.GetLeft() + 6, bounds.GetTop() + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
+			renderer->Fill(checkBoxPosition.Left + 5, checkBoxPosition.Top + 5, 7, 7);
+			renderer->FillGradient(checkBoxPosition.Left + 6, checkBoxPosition.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
 		}
 		
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, bounds.GetLeft() + 20, bounds.GetTop() + 2, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
+		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
 		if (controls.size() > 0)
 		{

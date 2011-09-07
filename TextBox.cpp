@@ -1,6 +1,4 @@
 #include "TextBox.h"
-#define NOMINMAX
-#include <Windows.h>
 
 namespace OSHGui
 {
@@ -52,10 +50,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::Invalidate()
 	{
-		if (bounds.GetHeight() > TEXTBOX_DEFAULT_HEIGHT)
-		{
-			bounds.SetHeight(TEXTBOX_DEFAULT_HEIGHT);
-		}
+		bounds.SetHeight(font->GetSize() + 10);
 	
 		clientArea = bounds;
 		textRect = Drawing::Rectangle(clientArea.GetLeft() + 7, clientArea.GetTop() + 5, clientArea.GetWidth() - 14, clientArea.GetHeight() - 10);
@@ -128,31 +123,6 @@ namespace OSHGui
 		caretRect = Drawing::Rectangle(textRect.GetLeft() + strWidth.Width, textRect.GetTop(), 1, textRect.GetHeight());
 
 		ResetCaretBlink();
-	}
-	//---------------------------------------------------------------------------
-	void TextBox::PasteFromClipboard()
-	{		
-		if (IsClipboardFormatAvailable(CF_UNICODETEXT))
-		{
-			if (OpenClipboard(0))
-			{
-				HANDLE clipboard = GetClipboardData(CF_UNICODETEXT);
-				if (clipboard != 0)
-				{
-					Misc::UnicodeChar *data = (Misc::UnicodeChar*)GlobalLock(clipboard);
-					if (data != 0)
-					{
-						Misc::UnicodeString strData(data);
-
-						textHelper.Insert(caretPosition, strData);
-						PlaceCaret(caretPosition + strData.length());
-						
-						GlobalUnlock(clipboard);
-					}
-				}
-				CloseClipboard();
-			}
-		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -228,15 +198,6 @@ namespace OSHGui
 							PlaceCaret(caretPosition);
 							hasChanged = true;
 						}
-						break;
-					case Key::V:
-						if (!keyboard->Control)
-						{
-							break;
-						}
-					case Key::Insert:
-						PasteFromClipboard();
-						hasChanged = true;
 						break;
 					case Key::Left:
 						PlaceCaret(caretPosition - 1);

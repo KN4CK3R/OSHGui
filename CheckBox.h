@@ -62,6 +62,8 @@ namespace OSHGui
 	
 	protected:
 		bool checked;
+		Drawing::Point checkBoxPosition,
+					   textPosition;
 	};
 }
 

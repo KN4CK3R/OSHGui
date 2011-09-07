@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 		type = CONTROL_PROGRESSBAR;
 
-		SetBounds(3, 3, 110, 24);
+		SetSize(Drawing::Size(110, 24));
 		
 		min = 0;
 		max = 100;
@@ -119,10 +119,11 @@ namespace OSHGui
 		renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 1, 1, bounds.GetHeight() - 2);
 		renderer->Fill(bounds.GetLeft() + bounds.GetWidth() - 1, bounds.GetTop() + 1, 1, bounds.GetHeight() - 2);
 
+		//TODO automatische höhe
 		renderer->SetRenderColor(barColor);
 		for (int i = (int)(position / ((max - min) / ((clientArea.GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
 		{
-			renderer->Fill(bounds.GetLeft() + 4 + i * 12, bounds.GetTop() + 4, 8, 16);
+			renderer->Fill(bounds.GetLeft() + 4 + i * 12, bounds.GetTop() + 4, 8, bounds.GetHeight() - 8);
 		}
 
 		if (controls.size() > 0)

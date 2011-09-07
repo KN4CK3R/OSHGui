@@ -8,6 +8,8 @@ namespace OSHGui
 	LinkLabel::LinkLabel(Control *parent) : Label(parent)
 	{
 		type = CONTROL_LINKLABEL;
+
+		SetText(L"LinkLabel");
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

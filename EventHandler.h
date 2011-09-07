@@ -8,41 +8,62 @@
 namespace OSHGui
 {
 	class Control;
-	
-	class ClickEventHandler
+	/**
+	 * Tritt beim Klicken auf das Steuerelement ein.
+	 */
+	typedef void (*OnClickFunc)(Control *sender, MouseEvent *mouse);
+	/**
+	 * Tritt ein, wenn eine Taste gedrückt wird, während das Steuerelement den Fokus hat.
+	 */
+	typedef void (*OnKeyPressFunc)(Control *sender, KeyboardEvent *keyboard);
+	/**
+	 * Tritt ein, wenn der Mauszeiger den Bereich des Steuerelements betritt.
+	 */
+	typedef void (*OnEnterFunc)(Control *sender);
+	/**
+	 * Tritt ein, wenn der Mauszeiger den Bereich des Steuerelements verlässt.
+	 */
+	typedef void (*OnLeaveFunc)(Control *sender);
+	/**
+	 * Tritt ein, wenn der Wert des Steuerelements verändert wird.
+	 */
+	typedef void (*OnChangeFunc)(Control *sender);
+
+	template <typename Type, typename Param1>
+	class EventHandlerOneParam
 	{
 	private:
-		class ClickHandler
+		class Handler
 		{
 		public:
-			typedef void (ClickHandler::*OnClickFunc)(Control *sender, MouseEvent *mouse);
+			typedef void (Handler::*Type)(Param1);
 			
-			ClickHandler *source;
-			OnClickFunc function;
+			Handler *source;
+			Type function;
 		};
 		
-		std::list<ClickHandler> handler;
+		std::list<Handler> handlers;
 
 	public:
 		template <typename T>
 		void Add(void *source, T function)
 		{
-			ClickHandler clickHandler;
-			clickHandler.source = reinterpret_cast<ClickHandler*>(source);
-			clickHandler.function = reinterpret_cast<ClickHandler::OnClickFunc>(function);
+			Handler handler;
+			handler.source = reinterpret_cast<Handler*>(source);
+			handler.function = reinterpret_cast<Handler::Type>(function);
 				
-			handler.push_back(clickHandler);
+			handlers.push_back(handler);
 		}
 		
 		template <typename T>
 		void Remove(void *source, T function)
 		{
-			for (std::list<ClickHandler>::iterator it = handler.begin(); it != handler.end();)
+			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end();)
 			{
-				ClickHandler &clickHandler = *it;
-				if (clickHandler.source == (ClickHandler*)source && clickHandler.function == reinterpret_cast<ClickHandler::OnClickFunc>(function))
+				Handler &handler = *it;
+				if (handler.source == (handler*)source && handler.function == reinterpret_cast<Handler::Type>(function))
 				{
-					it = handler.erase(it);
+					it = handlers.erase(it);
 				}
 				else
 				{
@@ -51,50 +72,51 @@ namespace OSHGui
 			}
 		}
 		
-		void Invoke(Control *sender, MouseEvent *mouse)
+		void Invoke(Param1 param1)
 		{
-			for (std::list<ClickHandler>::iterator it = handler.begin(); it != handler.end(); it++)
+			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); it++)
 			{
-				ClickHandler &clickHandler = *it;
-				(clickHandler.source->*clickHandler.function)(sender, mouse);
+				Handler &handler = *it;
+				(handler.source->*handler.function)(param1);
 			}
 		}
 	};
-	
-	class KeyPressEventHandler
+
+	template <typename Type, typename Param1, typename Param2>
+	class EventHandlerTwoParam
 	{
 	private:
-		class KeyPressHandler
+		class Handler
 		{
 		public:
-			typedef void (KeyPressHandler::*OnKeyPressFunc)(Control *sender, KeyboardEvent *mouse);
+			typedef void (Handler::*Type)(Param1, Param2);
 			
-			KeyPressHandler *source;
-			OnKeyPressFunc function;
+			Handler *source;
+			Type function;
 		};
 		
-		std::list<KeyPressHandler> handler;
+		std::list<Handler> handlers;
 
 	public:
 		template <typename T>
 		void Add(void *source, T function)
 		{
-			KeyPressHandler keyPressHandler;
-			keyPressHandler.source = reinterpret_cast<KeyPressHandler*>(source);
-			keyPressHandler.function = reinterpret_cast<KeyPressHandler::OnKeyPressFunc>(function);
+			Handler handler;
+			handler.source = reinterpret_cast<Handler*>(source);
+			handler.function = reinterpret_cast<Handler::Type>(function);
 				
-			handler.push_back(keyPressHandler);
+			handlers.push_back(handler);
 		}
 		
 		template <typename T>
 		void Remove(void *source, T function)
 		{
-			for (std::list<KeyPressHandler>::iterator it = handler.begin(); it != handler.end();)
+			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end();)
 			{
-				KeyPressHandler &keyPressHandler = *it;
-				if (keyPressHandler.source == (KeyPressHandler*)source && keyPressHandler.function == reinterpret_cast<KeyPressHandler::OnClickFunc>(function))
+				Handler &handler = *it;
+				if (handler.source == (handler*)source && handler.function == reinterpret_cast<Handler::Type>(function))
 				{
-					it = handler.erase(it);
+					it = handlers.erase(it);
 				}
 				else
 				{
@@ -103,77 +125,31 @@ namespace OSHGui
 			}
 		}
 		
-		void Invoke(Control *sender, KeyboardEvent *keyboard)
+		void Invoke(Param1 param1, Param2 param2)
 		{
-			for (std::list<KeyPressHandler>::iterator it = handler.begin(); it != handler.end(); it++)
+			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); it++)
 			{
-				KeyPressHandler &keyPressHandler = *it;
-				(keyPressHandler.source->*keyPressHandler.function)(sender, keyboard);
+				Handler &handler = *it;
+				(handler.source->*handler.function)(param1, param2);
 			}
 		}
 	};
 
-	class ChangeEventHandler
-	{
-	private:
-		class ChangeHandler
-		{
-		public:
-			typedef void (ChangeHandler::*OnChangeFunc)(Control *sender);
-			
-			ChangeHandler *source;
-			OnChangeFunc function;
-		};
-		
-		std::list<ChangeHandler> handler;
+	typedef EventHandlerTwoParam<OnClickFunc, Control*, MouseEvent*> ClickEventHandler;
+	
+	typedef EventHandlerTwoParam<OnKeyPressFunc, Control*, KeyboardEvent*> KeyPressEventHandler;
 
-	public:
-		template <typename T>
-		void Add(void *source, T function)
-		{
-			ChangeHandler changeHandler;
-			changeHandler.source = reinterpret_cast<ChangeHandler*>(source);
-			changeHandler.function = reinterpret_cast<ChangeHandler::OnChangeFunc>(function);
-				
-			handler.push_back(changeHandler);
-		}
-		
-		template <typename T>
-		void Remove(void *source, T function)
-		{
-			for (std::list<ClickHandler>::iterator it = handler.begin(); it != handler.end();)
-			{
-				ChangeHandler &changeHandler = *it;
-				if (changeHandler.source == (ChangeHandler*)source && changeHandler.function == reinterpret_cast<ChangeHandler::OnChangeFunc>(function))
-				{
-					it = handler.erase(it);
-				}
-				else
-				{
-					it++;
-				}
-			}
-		}
-		
-		void Invoke(Control *sender)
-		{
-			for (std::list<ChangeHandler>::iterator it = handler.begin(); it != handler.end(); it++)
-			{
-				ChangeHandler &changeHandler = *it;
-				(changeHandler.source->*changeHandler.function)(sender);
-			}
-		}
-	};
+	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> ChangeEventHandler;
 	
-	typedef ChangeEventHandler MouseEnterEventHandler;
+	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> MouseEnterEventHandler;
 	
-	typedef ChangeEventHandler MouseLeaveEventHandler;
+	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> MouseLeaveEventHandler;
 	
-	typedef ChangeEventHandler FocusInEventHandler;
+	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> FocusInEventHandler;
 	
-	typedef ChangeEventHandler FocusOutEventHandler;
+	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> FocusOutEventHandler;
 
-	typedef ChangeEventHandler TickEventHandler;
+	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> TickEventHandler;
 }
 
 #endif
