@@ -43,6 +43,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void CheckBox::Invalidate()
 	{
+		textHelper.SetFont(font);
 		if (autoSize)
 		{
 			Drawing::Size size = textHelper.GetSize();

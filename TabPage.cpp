@@ -1,50 +1,42 @@
-#include "Label.h"
+#include "TabPage.h"
+#include "TabControl.h"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(Control *parent) : Control(parent), textHelper(font)
+	TabPage::TabPage(TabControl *parent) : Panel(parent)
 	{
-		type = CONTROL_LABEL;
+		type = CONTROL_TABPAGE;
 		
-		SetAutoSize(true);
-
-		SetText(L"Label");
+		text = L"TabPage";
 		
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		SetBackColor(Drawing::Color::Black());
+		SetForeColor(Drawing::Color::Empty());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Label::SetText(const Misc::UnicodeString &text)
+	void TabPage::SetText(const Misc::UnicodeString &text)
 	{
-		textHelper.SetText(text);
-		Invalidate();
+		this->text = text;
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Label::GetText()
+	const Misc::UnicodeString& TabPage::GetText()
 	{
-		return textHelper.GetText();
+		return text;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Label::ContainsPoint(const Drawing::Point &point)
+	bool TabPage::ContainsPoint(const Drawing::Point &point)
 	{
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void Label::Invalidate()
+	void TabPage::Invalidate()
 	{
-		textHelper.SetFont(font);
-		if (autoSize)
-		{
-			SetSize(textHelper.GetSize());
-		}
-
 		clientArea = bounds;
 
 		InvalidateChildren();
@@ -52,7 +44,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Label::ProcessEvent(Event *event)
+	Event::NextEventTypes TabPage::ProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -63,56 +55,37 @@ namespace OSHGui
 		{
 			return Event::Continue;
 		}
-	
+
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
-
-			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
-			{
-				if (mouse->State == MouseEvent::LeftDown)
-				{
-					pressed = true;
-
-					return Event::DontContinue;
-				}
-				else if (mouse->State == MouseEvent::LeftUp)
-				{
-					if (pressed && hasFocus)
-					{
-						pressed = false;
-					
-						this->clickEventHandler.Invoke(this, mouse);
-					}
-
-					return Event::DontContinue;
-				}
-			}
-
-			mouse->Position = mousePositionBackup;
 		}
-		
+	
+		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		{
+			return Event::DontContinue;
+		}
+
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void Label::Render(Drawing::IRenderer *renderer)
+	void TabPage::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{
 			return;
 		}
-		
+	
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
 			renderer->Fill(bounds);
+			renderer->SetRenderColor(backColor + Drawing::Color(0, 58, 58, 58));
+			renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() / 2, backColor);
 		}
 	
-		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, bounds, textHelper.GetText());
-
 		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();

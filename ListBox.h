@@ -69,14 +69,15 @@ namespace OSHGui
 		 * @param text der Text des ListItems
 		 * @return im Fehlerfall false
 		 */
-		bool AddItem(const Misc::UnicodeString &text, Misc::Any &data = Misc::Any::Empty());
+		bool AddItem(const Misc::UnicodeString &text);
 		/**
 		 * Fügt ein neues ListItem am gewählten Index hinzu.
 		 *
+		 * @param index
 		 * @param text der Text des ListItems
 		 * @return im Fehlerfall false
 		 */
-		bool InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data = Misc::Any::Empty());
+		bool InsertItem(int index, const Misc::UnicodeString &text);
 		/**
 		 * Löscht das ListItem am gewählten Index.
 		 *

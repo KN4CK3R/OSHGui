@@ -26,7 +26,7 @@ namespace OSHGui
 		 */
 		void SetText(const Misc::UnicodeString &text);
 		/**
-		 * Gibt den Text zurück.
+		 * Ruft den Text ab.
 		 *
 		 * @return der Text
 		 */

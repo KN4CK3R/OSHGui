@@ -27,6 +27,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::Invalidate()
 	{
+		textHelper.SetFont(font);
 		if (autoSize)
 		{
 			Drawing::Size size = textHelper.GetSize();

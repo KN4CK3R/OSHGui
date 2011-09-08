@@ -62,15 +62,15 @@ namespace OSHGui
 			/**
 			 * Verschiebt das Rechteck um X/Y.
 			 *
-			 * @param x
-			 * @param y
+			 * @param left
+			 * @param top
 			 */
 			void Offset(int left, int top);
 			/**
 			 * Kopiert das Rechteck und verschiebt ihn um X/Y.
 			 *
-			 * @param x
-			 * @param y
+			 * @param left
+			 * @param top
 			 * @return rectangle
 			 */
 			Rectangle OffsetEx(int left, int top);

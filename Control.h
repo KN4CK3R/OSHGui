@@ -36,7 +36,10 @@ namespace OSHGui
 		CONTROL_PROGRESSBAR,
 		CONTROL_TRACKBAR,
 		CONTROL_COMBOBOX,
-		CONTROL_TEXTBOX
+		CONTROL_TEXTBOX,
+		CONTROL_TIMER,
+		CONTROL_TABCONTROL,
+		CONTROL_TABPAGE
 	};
 
 	/**
@@ -135,7 +138,7 @@ namespace OSHGui
 		 * @param x
 		 * @param y
 		 * @param w
-		 * @param z
+		 * @param h
 		 */
 		virtual void SetBounds(int x, int y, int w, int h);
 		/**

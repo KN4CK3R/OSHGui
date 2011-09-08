@@ -86,7 +86,7 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue TimeSpan mit der angegebenen Anzahl von Stunden, Minuten und Sekunden.
 			 *
-			 * @param hour Anzahl der Stunden
+			 * @param hours Anzahl der Stunden
 			 * @param minutes Anzahl der Minuten
 			 * @param seconds Anzahl der Sekunden
 			 */
@@ -96,7 +96,7 @@ namespace OSHGui
 			 * Minuten und Sekunden.
 			 *
 			 * @param days Anzahl der Tage
-			 * @param hour Anzahl der Stunden
+			 * @param hours Anzahl der Stunden
 			 * @param minutes Anzahl der Minuten
 			 * @param seconds Anzahl der Sekunden
 			 */
@@ -106,7 +106,7 @@ namespace OSHGui
 			 * Minuten, Sekunden und Millisekunden.
 			 *
 			 * @param days Anzahl der Tage
-			 * @param hour Anzahl der Stunden
+			 * @param hours Anzahl der Stunden
 			 * @param minutes Anzahl der Minuten
 			 * @param seconds Anzahl der Sekunden
 			 * @param milliseconds Anzahl der Millisekunden

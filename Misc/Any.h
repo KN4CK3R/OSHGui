@@ -119,11 +119,6 @@ namespace OSHGui
 				return (id == 0 ? 0 : (void*)1);
 			}
 
-			static Any Empty()
-			{
-				return Any();
-			}
-						
 			/**
 			 * Castet ein Any-Objekt zu dem in ihm befindlichen Datentyp. Falls ein falscher Datentyp angegeben wird,
 			 * wird eine Exception ausgelöst.

@@ -92,12 +92,12 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::AddItem(const Misc::UnicodeString &text, Misc::Any &data)
+	bool ComboBox::AddItem(const Misc::UnicodeString &text)
 	{
-		return InsertItem(items.size() > 0 ? items.size() : 0, text, data);
+		return InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data)
+	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{	
 		ListItem *newItem = new ListItem();
 		if (newItem == 0)
@@ -106,7 +106,6 @@ namespace OSHGui
 		}
 		
 		newItem->Text = text;
-		newItem->Data = data;
 		
 		items.insert(items.begin() + index, newItem);
 

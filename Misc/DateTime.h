@@ -325,7 +325,7 @@ namespace OSHGui
 			/**
 			 * Addiert die angegebene Anzahl von Monaten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Anzahl von Monaten. value kann negativ sein.
+			 * @param months eine Anzahl von Monaten. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
 			DateTime AddMonths(int months);

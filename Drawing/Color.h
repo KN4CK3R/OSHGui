@@ -32,7 +32,7 @@ namespace OSHGui
 			 *
 			 * @param argb
 			 */
-			Color(unsigned long ARGB);
+			Color(unsigned long argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *

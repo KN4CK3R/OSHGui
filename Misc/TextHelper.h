@@ -68,6 +68,7 @@ namespace OSHGui
 			/**
 			 * Löscht das Zeichen an der entsprechenden Stelle.
 			 *
+			 * @param index die Stelle ab der gelöscht werden soll
 			 * @param length Anzahl der zu löschenden Zeichen (default: 1)
 			 */
 			void Remove(int index, int length = 1);

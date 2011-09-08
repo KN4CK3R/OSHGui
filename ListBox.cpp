@@ -76,12 +76,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::AddItem(const Misc::UnicodeString &text, Misc::Any &data)
+	bool ListBox::AddItem(const Misc::UnicodeString &text)
 	{	
-		return InsertItem(items.size() > 0 ? items.size() : 0, text, data);
+		return InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text, Misc::Any &data)
+	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{	
 		ListItem *newItem = new ListItem();
 		if (newItem == 0)
@@ -90,7 +90,6 @@ namespace OSHGui
 		}
 		
 		newItem->Text = text;
-		newItem->Data = data;
 		
 		items.insert(items.begin() + index, newItem);
 
