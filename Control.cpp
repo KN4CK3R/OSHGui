@@ -347,9 +347,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point)
 	{
-		for (unsigned int i = 0; i < controls.size(); i++)
+		for (unsigned int i = 1; i <= controls.size(); ++i)
 		{
-			Control *control = controls.at(i);
+			Control *control = controls.at(controls.size() - i);
 
 			if (control == 0)
 			{

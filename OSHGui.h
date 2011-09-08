@@ -24,3 +24,5 @@
 #include "TrackBar.h"
 #include "TextBox.h"
 #include "Timer.h"
+#include "TabControl.h"
+#include "TabPage.h"

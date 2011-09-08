@@ -83,7 +83,7 @@ namespace OSHGui
 		Drawing::Point newCaretPosition = textHelper.GetCharacterPosition(position);
 
 		//if the new caretPosition is bigger than the text length
-		if (position >= textHelper.GetLength())
+		if (position > textHelper.GetLength())
 		{
 			caretPosition = position = textHelper.GetLength();
 			caretPositionTrail = newCaretPosition;

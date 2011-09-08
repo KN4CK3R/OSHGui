@@ -8,27 +8,12 @@
 namespace OSHGui
 {
 	class Control;
-	/**
-	 * Tritt beim Klicken auf das Steuerelement ein.
-	 */
-	typedef void (*OnClickFunc)(Control *sender, MouseEvent *mouse);
-	/**
-	 * Tritt ein, wenn eine Taste gedrückt wird, während das Steuerelement den Fokus hat.
-	 */
-	typedef void (*OnKeyPressFunc)(Control *sender, KeyboardEvent *keyboard);
-	/**
-	 * Tritt ein, wenn der Mauszeiger den Bereich des Steuerelements betritt.
-	 */
-	typedef void (*OnEnterFunc)(Control *sender);
-	/**
-	 * Tritt ein, wenn der Mauszeiger den Bereich des Steuerelements verlässt.
-	 */
-	typedef void (*OnLeaveFunc)(Control *sender);
-	/**
-	 * Tritt ein, wenn der Wert des Steuerelements verändert wird.
-	 */
-	typedef void (*OnChangeFunc)(Control *sender);
 
+	//VisualStudio 2010 doesn't support Variadic Templates :(
+
+	/**
+	 * EventHandler für Funktionen mit einem Parameter.
+	 */
 	template <typename Type, typename Param1>
 	class EventHandlerOneParam
 	{
@@ -45,6 +30,12 @@ namespace OSHGui
 		std::list<Handler> handlers;
 
 	public:
+		/**
+		 * Registriert eine Funktion im EventHandler.
+		 *
+		 * @param source Memberklasse
+		 * @param function Funktionszeiger
+		 */
 		template <typename T>
 		void Add(void *source, T function)
 		{
@@ -55,6 +46,12 @@ namespace OSHGui
 			handlers.push_back(handler);
 		}
 		
+		/**
+		 * Entfernt eine Funktion aus dem EventHandler.
+		 *
+		 * @param source Memberklasse
+		 * @param function Funktionszeiger
+		 */
 		template <typename T>
 		void Remove(void *source, T function)
 		{
@@ -72,6 +69,11 @@ namespace OSHGui
 			}
 		}
 		
+		/**
+		 * Ruft alle registrierten Funktionen auf.
+		 *
+		 * @param param1 Funktionsparameter
+		 */
 		void Invoke(Param1 param1)
 		{
 			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); it++)
@@ -98,6 +100,12 @@ namespace OSHGui
 		std::list<Handler> handlers;
 
 	public:
+		/**
+		 * Registriert eine Funktion im EventHandler.
+		 *
+		 * @param source Memberklasse
+		 * @param function Funktionszeiger
+		 */
 		template <typename T>
 		void Add(void *source, T function)
 		{
@@ -108,6 +116,12 @@ namespace OSHGui
 			handlers.push_back(handler);
 		}
 		
+		/**
+		 * Entfernt eine Funktion aus dem EventHandler.
+		 *
+		 * @param source Memberklasse
+		 * @param function Funktionszeiger
+		 */
 		template <typename T>
 		void Remove(void *source, T function)
 		{
@@ -125,6 +139,11 @@ namespace OSHGui
 			}
 		}
 		
+		/**
+		 * Ruft alle registrierten Funktionen auf.
+		 *
+		 * @param param1 Funktionsparameter
+		 */
 		void Invoke(Param1 param1, Param2 param2)
 		{
 			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); it++)
@@ -135,21 +154,21 @@ namespace OSHGui
 		}
 	};
 
-	typedef EventHandlerTwoParam<OnClickFunc, Control*, MouseEvent*> ClickEventHandler;
+	typedef EventHandlerTwoParam<void (*)(Control*, MouseEvent*), Control*, MouseEvent*> ClickEventHandler;
 	
-	typedef EventHandlerTwoParam<OnKeyPressFunc, Control*, KeyboardEvent*> KeyPressEventHandler;
+	typedef EventHandlerTwoParam<void (*)(Control*, KeyboardEvent*), Control*, KeyboardEvent*> KeyPressEventHandler;
 
-	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> ChangeEventHandler;
+	typedef EventHandlerOneParam<void (*)(Control*), Control*> ChangeEventHandler;
 	
-	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> MouseEnterEventHandler;
+	typedef EventHandlerOneParam<void (*)(Control*), Control*> MouseEnterEventHandler;
 	
-	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> MouseLeaveEventHandler;
+	typedef EventHandlerOneParam<void (*)(Control*), Control*> MouseLeaveEventHandler;
 	
-	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> FocusInEventHandler;
+	typedef EventHandlerOneParam<void (*)(Control*), Control*> FocusInEventHandler;
 	
-	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> FocusOutEventHandler;
+	typedef EventHandlerOneParam<void (*)(Control*), Control*> FocusOutEventHandler;
 
-	typedef EventHandlerOneParam<OnKeyPressFunc, Control*> TickEventHandler;
+	typedef EventHandlerOneParam<void (*)(Control*), Control*> TickEventHandler;
 }
 
 #endif

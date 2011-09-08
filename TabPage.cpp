@@ -12,8 +12,8 @@ namespace OSHGui
 		
 		text = L"TabPage";
 		
-		SetBackColor(Drawing::Color::Black());
-		SetForeColor(Drawing::Color::Empty());
+		SetBackColor(Drawing::Color(0xFF474747));
+		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -28,16 +28,9 @@ namespace OSHGui
 		return text;
 	}
 	//---------------------------------------------------------------------------
-	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool TabPage::ContainsPoint(const Drawing::Point &point)
-	{
-		return bounds.Contains(point);
-	}
-	//---------------------------------------------------------------------------
 	void TabPage::Invalidate()
 	{
-		clientArea = bounds;
+		clientArea = bounds.InflateEx(-4, -4).OffsetEx(2, 2);
 
 		InvalidateChildren();
 	}
@@ -50,18 +43,6 @@ namespace OSHGui
 		{
 			return Event::DontContinue;
 		}
-
-		if (!visible || !enabled)
-		{
-			return Event::Continue;
-		}
-
-		if (event->Type == Event::Mouse)
-		{
-			MouseEvent *mouse = (MouseEvent*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-		}
 	
 		if (ProcessChildrenEvent(event) == Event::DontContinue)
 		{
@@ -72,24 +53,19 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::Render(Drawing::IRenderer *renderer)
-	{
-		if (!visible)
-		{
-			return;
-		}
-	
+	{	
 		if (backColor.A != 0)
 		{
-			renderer->SetRenderColor(backColor);
+			renderer->SetRenderColor(backColor + Drawing::Color(0, 32, 32, 32));
 			renderer->Fill(bounds);
-			renderer->SetRenderColor(backColor + Drawing::Color(0, 58, 58, 58));
-			renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() / 2, backColor);
+			renderer->SetRenderColor(backColor);
+			renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 		}
 	
 		if (controls.size() > 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
+			renderer->SetRenderRectangle(clientArea.InflateEx(-4, -4).OffsetEx(2, 2) + renderRect.GetPosition());
 			
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{

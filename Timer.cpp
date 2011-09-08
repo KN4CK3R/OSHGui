@@ -9,6 +9,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Timer::Timer(Control *parent) : Control(parent)
 	{
+		type = CONTROL_TIMER;
+
 		enabled = false;
 		interval = 100;
 	}

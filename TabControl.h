@@ -1,16 +1,17 @@
-#ifndef __OSHGUI_TABPAGE_H__
-#define __OSHGUI_TABPAGE_H__
+#ifndef __OSHGUI_TABCONTROL_H__
+#define __OSHGUI_TABCONTROL_H__
 
-#include "Panel.h"
+#include "Control.h"
+#include <list>
 
 namespace OSHGui
 {
-	class TabControl;
+	class TabPage;
 
 	/**
-	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
+	 * Verwaltet eine Gruppe zusammengehöriger Registerkarten.
 	 */
-	class TabPage : public Panel
+	class TabControl : public Control
 	{
 	public:
 		/**
@@ -18,20 +19,21 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TabPage(TabControl *parent = 0);
+		TabControl(Control *parent = 0);
+
+		TabPage* GetTabPage(const Misc::UnicodeString &name);
+		TabPage* GetTabPage(int index);
+		void AddTabPage(TabPage *tabPage);
+		
+		void RemoveTabPage(TabPage *tabPage);
 		
 		/**
-		 * Legt den Text fest.
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param text
+		 * @param point
+		 * @return ja / nein
 		 */
-		void SetText(const Misc::UnicodeString &text);
-		/**
-		 * Ruft den Text ab.
-		 *
-		 * @return der Text
-		 */
-		const Misc::UnicodeString& GetText();
+		virtual bool ContainsPoint(const Drawing::Point &point);
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -55,9 +57,9 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 
-	protected:
-		
-		Misc::UnicodeString text;
+	private:
+		std::list<TabPage*> tabs;
+		TabPage *activeTab;
 	};
 }
 
