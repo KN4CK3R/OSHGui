@@ -10,6 +10,7 @@ namespace OSHGui
 	Form *Application::mainForm = 0;
 	std::list<Form*> Application::removeForms;
 	bool Application::enabled = false;
+	Drawing::IRenderer* Application::Renderer = 0;
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
@@ -151,9 +152,9 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Render(Drawing::IRenderer *renderer)
+	void Application::Render()
 	{
-		if (!enabled || renderer == 0)
+		if (!enabled || Renderer == 0)
 		{
 			return;
 		}
@@ -185,11 +186,11 @@ namespace OSHGui
 		{
 			if (*it != focusForm)
 			{
-				(*it)->Render(renderer);
+				(*it)->Render(Renderer);
 			}
 		}
 
-		focusForm->Render(renderer);
+		focusForm->Render(Renderer);
 	}
 	//---------------------------------------------------------------------------
 }

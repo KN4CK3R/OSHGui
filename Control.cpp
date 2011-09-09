@@ -23,7 +23,7 @@ namespace OSHGui
 		mouseOverControl = 0;
 		captureControl = 0;
 
-		font = Drawing::IRenderer::GetDefaultFont();
+		font = Application::Renderer->GetDefaultFont();
 		
 		mouseOverFocusColor = Drawing::Color(0, 20, 20, 20);
 	}

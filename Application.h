@@ -48,10 +48,8 @@ namespace OSHGui
 		static Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet die geöffneten Formen.
-		 *
-		 * @param renderer
 		 */
-		static void Render(Drawing::IRenderer *renderer);
+		static void Render();
 
 	private:
 		static void RegisterTimer(Timer *timer, Misc::TimeSpan &interval);
@@ -73,6 +71,9 @@ namespace OSHGui
 					*mainForm;
 		static std::list<Form*> removeForms;
 		static bool enabled;
+
+	public:
+		static Drawing::IRenderer* Renderer;
 	};
 }
 
