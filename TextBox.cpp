@@ -93,7 +93,7 @@ namespace OSHGui
 			caretPositionTrail = textHelper.GetCharacterPosition(position, true);
 		}
 
-		//if the new caretPosition is smaller than the textRect
+		//if the new caretPosition is outside left the textRect
 		if (newCaretPosition.Left <= firstVisibleCharacterPosition.Left)
 		{
 			if (position > 1)
@@ -105,7 +105,7 @@ namespace OSHGui
 				firstVisibleCharacter = position;
 			}
 		}
-		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is bigger than the textRect
+		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is outside right the textRect
 		{
 			int newFirstVisibleCharacterPositionLeft = caretPositionTrail.Left - textRect.GetWidth();
 			int newFirstVisibleCharacter = textHelper.GetClosestCharacterIndex(Drawing::Point(newFirstVisibleCharacterPositionLeft, 0));

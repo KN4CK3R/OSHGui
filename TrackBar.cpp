@@ -17,7 +17,7 @@ namespace OSHGui
 		max = 10;
 		value = 1;
 
-		SetBackColor(Drawing::Color::Empty());
+		SetBackColor(Drawing::Color(0xFF585858));
 		SetForeColor(Drawing::Color(0xFFA6A4A1));
 	}
 	//---------------------------------------------------------------------------
@@ -201,12 +201,6 @@ namespace OSHGui
 			return;
 		}
 
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
-		}
-
 		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
@@ -223,8 +217,13 @@ namespace OSHGui
 			renderer->Fill((int)(bounds.GetLeft() + halfWidth + (i * space)), bounds.GetTop() + 6, 1, 5);
 		}
 
-		renderer->SetRenderColor(foreColor);
+		renderer->SetRenderColor(backColor);
 		renderer->Fill(sliderRect);
+		renderer->SetRenderColor(foreColor);
+		renderer->FillGradient(sliderRect.GetLeft() + 1, sliderRect.GetTop() + 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2, backColor);
+		renderer->SetRenderColor(backColor - Drawing::Color(0, 30, 30, 30));
+		renderer->Fill(sliderRect.GetRight() - 1, sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
+		renderer->Fill(sliderRect.GetLeft(), sliderRect.GetBottom() - 1, sliderRect.GetWidth(), 1);
 
 		if (controls.size() > 0)
 		{

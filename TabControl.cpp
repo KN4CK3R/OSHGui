@@ -207,7 +207,7 @@ namespace OSHGui
 			else
 			{
 				renderer->SetRenderColor(borderInactive);
-				renderer->Fill(x, y, textSize.Width + 8, textSize.Height + 7);
+				renderer->Fill(x, y, textSize.Width + 8, textSize.Height + 8);
 				renderer->SetRenderColor(backInactive);
 				renderer->FillGradient(x + 1, y + 1, textSize.Width + 6, textSize.Height + 7, backInactiveGradient);
 			}
