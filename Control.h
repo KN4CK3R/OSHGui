@@ -348,13 +348,13 @@ namespace OSHGui
 		/**
 		 * Ruft den FocusInEventHandler für das Steuerelement ab.
 		 *
-		 * @return forcusInEventHandler
+		 * @return focusInEventHandler
 		 */
 		FocusInEventHandler& GetFocusInEventHandler();
 		/**
 		 * Ruft den FocusOutEventHandler für das Steuerelement ab.
 		 *
-		 * @return forcusOutEventHandler
+		 * @return focusOutEventHandler
 		 */
 		FocusOutEventHandler& GetFocusOutEventHandler();
 

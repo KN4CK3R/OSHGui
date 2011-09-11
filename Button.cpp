@@ -90,7 +90,7 @@ namespace OSHGui
 			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			if (keyboard->KeyCode == Key::Return || keyboard->KeyCode == Key::Space)
 			{
-				clickEventHandler.Invoke(shared_from_this(), 0);
+				clickEventHandler.Invoke(shared_from_this(), std::shared_ptr<MouseEvent>(new MouseEvent()));
 			}
 		}
 		
