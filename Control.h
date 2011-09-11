@@ -2,7 +2,6 @@
 #define __OSHGUI_CONTROL_H__
 
 #include <vector>
-#include <algorithm>
 #include <memory>
 
 #include "Application.h"

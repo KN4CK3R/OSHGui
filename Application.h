@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * @param form
 		 */
-		static void Run(std::shared_ptr<Form> &form);
+		static void Run(const std::shared_ptr<Form> &form);
 
 		/**
 		 * Gibt ein Event an die geöffneten Formen weiter.

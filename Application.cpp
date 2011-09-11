@@ -27,7 +27,7 @@ namespace OSHGui
 		enabled = false;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Run(std::shared_ptr<Form> &form)
+	void Application::Run(const std::shared_ptr<Form> &form)
 	{
 		if (form == 0)
 		{

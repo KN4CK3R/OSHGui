@@ -44,7 +44,7 @@ namespace OSHGui
 			Handler handler;
 			handler.source = reinterpret_cast<Handler*>(source);
 			handler.function = reinterpret_cast<Handler::Type>(function);
-				
+			
 			handlers.push_back(handler);
 		}
 		
@@ -114,7 +114,7 @@ namespace OSHGui
 			Handler handler;
 			handler.source = reinterpret_cast<Handler*>(source);
 			handler.function = reinterpret_cast<Handler::Type>(function);
-				
+			
 			handlers.push_back(handler);
 		}
 		

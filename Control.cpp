@@ -386,8 +386,8 @@ namespace OSHGui
 		}
 
 		//walk up parentStack
-		std::shared_ptr<Control> baseParent(this);
-		while (baseParent->GetParent() != baseParent)
+		std::shared_ptr<Control> baseParent = shared_from_this();
+		while (baseParent->GetParent() != 0)
 		{
 			baseParent = baseParent->GetParent();
 		}
@@ -411,8 +411,8 @@ namespace OSHGui
 	void Control::ClearFocus()
 	{
 		//walk up parentStack
-		std::shared_ptr<Control> baseParent(shared_from_this());
-		while (baseParent->GetParent() != baseParent)
+		std::shared_ptr<Control> baseParent = shared_from_this();
+		while (baseParent->GetParent() != 0)
 		{
 			baseParent = baseParent->GetParent();
 		}
