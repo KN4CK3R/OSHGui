@@ -34,7 +34,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index)
 	{
-		if (index > 0 && index < tabs.size())
+		if (index > 0 && index < (int)tabs.size())
 		{
 			std::list<TabPage*>::iterator it = tabs.begin();
 			for (int i = 0; i < index; i++)

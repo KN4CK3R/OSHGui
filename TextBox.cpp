@@ -50,6 +50,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::Invalidate()
 	{
+		textHelper.SetFont(font);
+
 		bounds.SetHeight(font->GetSize() + 10);
 	
 		clientArea = bounds;
