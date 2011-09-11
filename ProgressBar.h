@@ -17,7 +17,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ProgressBar(Control *parent = 0);
+		ProgressBar(const std::shared_ptr<Control> &parent = 0);
 	
 		/**
 		 * Legt den minimalen Wert fest.
@@ -89,7 +89,7 @@ namespace OSHGui
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
 		
 	protected:
 		void Adjust();

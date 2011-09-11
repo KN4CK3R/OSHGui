@@ -18,7 +18,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		GroupBox(Control *parent = 0);
+		GroupBox(const std::shared_ptr<Control> &parent = 0);
 
 		/**
 		 * Legt den Text fest.
@@ -55,13 +55,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
 		
 	protected:
 		Misc::TextHelper textHelper;

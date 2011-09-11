@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ComboBox::ComboBox(Control *parent) : Button(parent), scrollBar(this)
+	ComboBox::ComboBox(const std::shared_ptr<Control> &parent) : Button(parent), scrollBar(shared_from_this())
 	{
 		type = CONTROL_COMBOBOX;
 		
@@ -52,7 +52,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetItem(int index)
+	std::shared_ptr<ListItem> ComboBox::GetItem(int index)
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
@@ -67,7 +67,7 @@ namespace OSHGui
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetSelectedItem()
+	std::shared_ptr<ListItem> ComboBox::GetSelectedItem()
 	{
 		return GetItem(GetSelectedIndex());
 	}
@@ -99,7 +99,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{	
-		ListItem *newItem = new ListItem();
+		std::shared_ptr<ListItem> newItem(new ListItem());
 		if (newItem == 0)
 		{
 			return false;
@@ -120,7 +120,7 @@ namespace OSHGui
 			
 			textHelper.SetText(GetSelectedItem()->Text);
 
-			changeEventHandler.Invoke(this);
+			changeEventHandler.Invoke(shared_from_this());
 		}
 
 		return true;
@@ -132,10 +132,6 @@ namespace OSHGui
 		{
 			return false;
 		}
-
-		ListItem *item = items.at(index);
-		delete item;
-		item = 0;
 		
 		items.erase(items.begin() + index);
 		
@@ -147,7 +143,7 @@ namespace OSHGui
 
 			textHelper.SetText(GetSelectedItem()->Text);
 			
-			changeEventHandler.Invoke(this);
+			changeEventHandler.Invoke(shared_from_this());
 		}
 
 		return true;
@@ -155,13 +151,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::Clear()
 	{
-		for (unsigned int i = 0; i < items.size(); i++)
-		{
-			ListItem *item = items.at(i);
-			delete item;
-			item = 0;
-		}
-
 		items.clear();
 		
 		scrollBar.SetRange(1);
@@ -197,7 +186,7 @@ namespace OSHGui
 		{
 			textHelper.SetText(GetSelectedItem()->Text);
 
-			changeEventHandler.Invoke(this);
+			changeEventHandler.Invoke(shared_from_this());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -235,7 +224,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ComboBox::ProcessEvent(Event *event)
+	Event::NextEventTypes ComboBox::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -249,7 +238,7 @@ namespace OSHGui
 
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -259,7 +248,7 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 				}
 				else if (!open || !Drawing::Rectangle(0, clientArea.GetHeight() + 1, dropDownRect.GetWidth(), dropDownRect.GetHeight()).Contains(mouse->Position)) //dropDownRect
@@ -299,7 +288,7 @@ namespace OSHGui
 		
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
@@ -351,7 +340,7 @@ namespace OSHGui
 
 						textHelper.SetText(GetSelectedItem()->Text);
 
-						changeEventHandler.Invoke(this);
+						changeEventHandler.Invoke(shared_from_this());
 					}
 
 					open = false;
@@ -369,7 +358,7 @@ namespace OSHGui
 				return Event::DontContinue;
 			}
 		
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			if (keyboard->State == KeyboardEvent::Down)
 			{
 				if (open)
@@ -468,7 +457,7 @@ namespace OSHGui
 							{
 								textHelper.SetText(GetSelectedItem()->Text);
 							
-								changeEventHandler.Invoke(this);
+								changeEventHandler.Invoke(shared_from_this());
 							}
 					}
 				}
@@ -488,7 +477,7 @@ namespace OSHGui
 
 								textHelper.SetText(GetSelectedItem()->Text);
 								
-								changeEventHandler.Invoke(this);
+								changeEventHandler.Invoke(shared_from_this());
 							}
 							open = false;
 							
@@ -502,7 +491,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::Render(Drawing::IRenderer *renderer)
+	void ComboBox::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

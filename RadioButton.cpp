@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	RadioButton::RadioButton(Control *parent) : CheckBox(parent)
+	RadioButton::RadioButton(const std::shared_ptr<Control> &parent) : CheckBox(parent)
 	{
 		type = CONTROL_RADIOBUTTON;
 		
@@ -21,13 +21,13 @@ namespace OSHGui
 		if (this->checked != checked)
 		{
 			//uncheck other radiobuttons
-			const std::vector<Control*> &controls = Parent->GetControls();
+			const std::vector<std::shared_ptr<Control>> &controls = Parent->GetControls();
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
-				Control *control = controls.at(i);
+				std::shared_ptr<Control> control = controls.at(i);
 				if (control->GetType() == CONTROL_RADIOBUTTON)
 				{
-					RadioButton *radio = (RadioButton*)control;
+					std::shared_ptr<RadioButton> &radio = std::static_pointer_cast<RadioButton>(control);
 					if (radio->GetGroup() == group)
 					{
 						radio->SetCheckedInternal(false);
@@ -45,7 +45,7 @@ namespace OSHGui
 		{
 			this->checked = checked;
 			
-			changeEventHandler.Invoke(this);
+			changeEventHandler.Invoke(shared_from_this());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes RadioButton::ProcessEvent(Event *event)
+	Event::NextEventTypes RadioButton::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -75,7 +75,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> &mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
@@ -87,7 +87,7 @@ namespace OSHGui
 			
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 					return Event::DontContinue;
 				}
@@ -108,7 +108,7 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			std::shared_ptr<KeyboardEvent> &keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			if (keyboard->KeyCode == Key::Space)
 			{
 				SetChecked(!GetChecked());
@@ -119,7 +119,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void RadioButton::Render(Drawing::IRenderer *renderer)
+	void RadioButton::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

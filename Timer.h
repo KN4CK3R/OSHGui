@@ -7,12 +7,6 @@
 namespace OSHGui
 {
 	/**
-	 * Tritt ein, wenn das angegebene Intervall für den Zeitgeber abgelaufen
-	 * und der Zeitgeber aktiviert ist.
-	 */
-	typedef void (*OnTick)(Control *sender);
-
-	/**
 	 * Implementiert einen Zeitgeber, der ein Ereignis in benutzerdefinierten
 	 * Intervallen auslöst.
 	 */
@@ -21,7 +15,7 @@ namespace OSHGui
 		friend Application;
 
 	public:
-		Timer(Control *parent = 0);
+		Timer(const std::shared_ptr<Control> &parent = 0);
 		~Timer();
 		
 		void SetEnabled(bool enabled);

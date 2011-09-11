@@ -1,6 +1,8 @@
 #ifndef __OSHGUI_MISC_TEXTHELPER_H__
 #define __OSHGUI_MISC_TEXTHELPER_H__
 
+#include <memory>
+
 #include "Misc\Strings.h"
 #include "Drawing\IFont.h"
 #include "Drawing\Point.h"
@@ -21,14 +23,14 @@ namespace OSHGui
 			 *
 			 * @param font darf nicht 0 sein
 			 */
-			TextHelper(Drawing::IFont *font);
+			TextHelper(const std::shared_ptr<Drawing::IFont> &font);
 			
 			/**
 			 * Legt die Schriftart fest.
 			 *
 			 * @param font darf nicht 0 sein
 			 */
-			void SetFont(Drawing::IFont *font);
+			void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 			/**
 			 * Legt den Text fest.
 			 *
@@ -126,7 +128,7 @@ namespace OSHGui
 			
 			Drawing::Size size;
 			
-			Drawing::IFont *font;
+			std::shared_ptr<Drawing::IFont> font;
 		};
 	}
 }

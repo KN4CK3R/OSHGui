@@ -49,7 +49,7 @@ namespace OSHGui
 							break;
 					}
 
-					if (Application::ProcessEvent(&mouse) == Event::DontContinue)
+					if (Application::ProcessEvent(std::shared_ptr<Event>(&mouse)) == Event::DontContinue)
 					{
 						return true;
 					}			
@@ -285,7 +285,7 @@ namespace OSHGui
 						break;
 					}
 			
-					if (Application::ProcessEvent(&keyboard) == Event::DontContinue)
+					if (Application::ProcessEvent(std::shared_ptr<Event>(&keyboard)) == Event::DontContinue)
 					{
 						return true;
 					}

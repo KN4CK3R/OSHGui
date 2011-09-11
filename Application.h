@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * @param form
 		 */
-		static void Run(Form *form);
+		static void Run(std::shared_ptr<Form> &form);
 
 		/**
 		 * Gibt ein Event an die geöffneten Formen weiter.
@@ -45,35 +45,35 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		static Event::NextEventTypes ProcessEvent(Event *event);
+		static Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
 		static void Render();
 
 	private:
-		static void RegisterTimer(Timer *timer, Misc::TimeSpan &interval);
-		static void UnregisterTimer(Timer *timer);
+		static void RegisterTimer(const std::shared_ptr<Timer> &timer, Misc::TimeSpan &interval);
+		static void UnregisterTimer(const std::shared_ptr<Timer> &timer);
 		struct TimerInfo
 		{
-			Timer *timer;
+			std::shared_ptr<Timer> timer;
 			Misc::TimeSpan interval;
 			Misc::DateTime next;
 		};
 			
-		static std::map<Timer*, TimerInfo> timers;
+		static std::map<std::shared_ptr<Timer>, TimerInfo> timers;
 
-		static void RegisterForm(Form *form);
-		static void UnregisterForm(Form *form);
+		static void RegisterForm(const std::shared_ptr<Form> &form);
+		static void UnregisterForm(const std::shared_ptr<Form> &form);
 
-		static std::list<Form*> forms;
-		static Form *focusForm,
-					*mainForm;
-		static std::list<Form*> removeForms;
+		static std::list<std::shared_ptr<Form>> forms;
+		static std::shared_ptr<Form> focusForm,
+									 mainForm;
+		static std::list<std::shared_ptr<Form>> removeForms;
 		static bool enabled;
 
 	public:
-		static Drawing::IRenderer* Renderer;
+		static std::shared_ptr<Drawing::IRenderer> Renderer;
 	};
 }
 

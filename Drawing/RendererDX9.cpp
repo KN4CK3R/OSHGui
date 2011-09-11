@@ -85,31 +85,29 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		ITexture* RendererDX9::CreateNewTexture()
+		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture()
 		{
-			TextureDX9 *newTexture = new TextureDX9(device);
-			return newTexture;
+			return std::shared_ptr<TextureDX9>(new TextureDX9(device));
 		}
 		//---------------------------------------------------------------------------
-		IFont* RendererDX9::CreateNewFont()
+		std::shared_ptr<IFont> RendererDX9::CreateNewFont()
 		{
-			FontDX9 *newFont = new FontDX9(device);
-			return newFont;
+			return std::shared_ptr<FontDX9>(new FontDX9(device));
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTexture(ITexture *texture, const Point &point)
+		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point)
 		{
 			RenderTexture(texture, point.X, point.Y);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTexture(ITexture *texture, int x, int y)
+		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y)
 		{
 			if (texture == 0)
 			{
 				return;
 			}
 			
-			TextureDX9 *temp = (TextureDX9*)texture;
+			std::shared_ptr<TextureDX9> temp = std::static_pointer_cast<TextureDX9>(texture);
 			
 			if (this->texture != temp)
 			{
@@ -131,7 +129,7 @@ namespace OSHGui
 			AddVertex(x, y + size.Height, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
-		Size RendererDX9::MeasureText(IFont *font, const Misc::UnicodeString &text)
+		Size RendererDX9::MeasureText(const std::shared_ptr<IFont> &font, const Misc::UnicodeString &text)
 		{
 			if (font == 0)
 			{
@@ -141,22 +139,22 @@ namespace OSHGui
 			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, const Point &point, const Misc::UnicodeString &text)
+		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, const Point &point, const Misc::UnicodeString &text)
 		{
 			RenderText(font, point.X, point.Y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, int x, int y, const Misc::UnicodeString &text)
+		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::UnicodeString &text)
 		{
 			RenderText(font, x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, Rectangle &rectangle, const Misc::UnicodeString &text)
+		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, Rectangle &rectangle, const Misc::UnicodeString &text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text)
+		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::UnicodeString &text)
 		{
 			if (font == 0)
 			{
@@ -168,7 +166,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			((FontDX9*)font)->GetFont()->DrawTextW(0, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB);
+			((FontDX9*)font.get())->GetFont()->DrawTextW(0, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)

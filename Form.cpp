@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form() : Control(this), textHelper(font)
+	Form::Form() : Control(0), textHelper(font)
 	{
 		type = CONTROL_FORM;
 		
@@ -25,6 +25,11 @@ namespace OSHGui
 	Form::~Form()
 	{
 
+	}
+	//---------------------------------------------------------------------------
+	void Form::Dispose()
+	{
+		controls.clear();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -58,7 +63,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Show()
 	{
-		Application::RegisterForm(this);
+		Application::RegisterForm(std::static_pointer_cast<Form>(shared_from_this()));
 
 		visible = true;
 		enabled = true;
@@ -66,12 +71,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Close()
 	{
-		Application::UnregisterForm(this);
+		Application::UnregisterForm(std::static_pointer_cast<Form>(shared_from_this()));
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Form::ProcessEvent(Event *event)
+	Event::NextEventTypes Form::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -88,7 +93,7 @@ namespace OSHGui
 
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -141,7 +146,7 @@ namespace OSHGui
 
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 
 			if (mouse->State != MouseEvent::LeftDown && mouse->State != MouseEvent::RightDown)
 			{
@@ -166,7 +171,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void Form::Render(Drawing::IRenderer *renderer)
+	void Form::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

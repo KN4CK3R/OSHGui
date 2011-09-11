@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TextBox::TextBox(Control *parent) : Control(parent), textHelper(font)
+	TextBox::TextBox(const std::shared_ptr<Control> &parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_TEXTBOX;
 
@@ -129,7 +129,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
+	Event::NextEventTypes TextBox::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -143,7 +143,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*) event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -153,13 +153,13 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 
 					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
 					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
 
-					clickEventHandler.Invoke(this, mouse);
+					clickEventHandler.Invoke(shared_from_this(), mouse);
 				
 					return Event::DontContinue;
 				}
@@ -171,9 +171,9 @@ namespace OSHGui
 		{
 			bool hasChanged = false;
 		
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			
-			keyPressEventHandler.Invoke(this, keyboard);
+			keyPressEventHandler.Invoke(shared_from_this(), keyboard);
 
 			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{
@@ -218,7 +218,7 @@ namespace OSHGui
 			
 			if (hasChanged)
 			{
-				changeEventHandler.Invoke(this);
+				changeEventHandler.Invoke(shared_from_this());
 			
 				return Event::DontContinue;
 			}
@@ -227,7 +227,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::Render(Drawing::IRenderer *renderer)
+	void TextBox::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

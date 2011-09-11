@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <memory>
 
 #include "Application.h"
 
@@ -45,7 +46,7 @@ namespace OSHGui
 	/**
 	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.
 	 */
-	class Control
+	class Control : public std::enable_shared_from_this<Control>
 	{
 	public:
 		/**
@@ -53,7 +54,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Control(Control *parent = 0);
+		Control(const std::shared_ptr<Control> parent = 0);
 		virtual ~Control();
 		
 		/**
@@ -82,27 +83,27 @@ namespace OSHGui
 		 *
 		 * @param enabled
 		 */
-		void SetEnabled(bool enabled);
+		virtual void SetEnabled(bool enabled);
 		/**
 		 * Ruft ab, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
 		 * @return enabled
 		 */
-		bool GetEnabled();
+		virtual bool GetEnabled();
 		/**
 		 * Legt fest, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
 		 *
 		 * @param visible
 		 */
-		void SetVisible(bool visible);
+		virtual void SetVisible(bool visible);
 		/**
 		 * Ruft ab, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
 		 *
 		 * @return visible
 		 */
-		bool GetVisible();
+		virtual bool GetVisible();
 		
 		/**
 		 * Legt fest, ob die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
@@ -243,76 +244,76 @@ namespace OSHGui
 		 *
 		 * @param tag
 		 */
-		void SetTag(Misc::Any &tag);
+		virtual void SetTag(Misc::Any &tag);
 		/**
 		 * Ruft die mit dem Steuerelement verknüpften benutzerdefinierten Daten ab.
 		 *
 		 * @return tag
 		 */
-		Misc::Any& GetTag();
+		virtual Misc::Any& GetTag();
 		
 		/**
 		 * Legt den zum Identifizieren des Steuerelements verwendeten Namen fest.
 		 *
 		 * @param name
 		 */
-		void SetName(const Misc::UnicodeString &name);
+		virtual void SetName(const Misc::UnicodeString &name);
 		/**
 		 * Ruft den zum Identifizieren des Steuerelements verwendeten Namen ab.
 		 *
 		 * @return name
 		 */
-		Misc::UnicodeString& GetName();
+		virtual Misc::UnicodeString& GetName();
 		
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
 		 * @param font
 		 */
-		void SetFont(Drawing::IFont *font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
 		 * Ruft die Schriftart des Texts im Steuerelement ab.
 		 *
 		 * @return font
 		 */
-		Drawing::IFont* GetFont();
+		virtual std::shared_ptr<Drawing::IFont> GetFont();
 		
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		void SetForeColor(Drawing::Color color);
+		virtual void SetForeColor(Drawing::Color color);
 		/**
 		 * Ruft die Fordergrundfarbe des Steuerelements ab.
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetForeColor();
+		virtual Drawing::Color& GetForeColor();
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		void SetBackColor(Drawing::Color color);
+		virtual void SetBackColor(Drawing::Color color);
 		/**
 		 * Ruft die Hintergrundfarbe des Steuerelements ab.
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetBackColor();
+		virtual Drawing::Color& GetBackColor();
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
 		 * @param color
 		 */
-		void SetMouseOverFocusColor(Drawing::Color color);
+		virtual void SetMouseOverFocusColor(Drawing::Color color);
 		/**
 		 * Ruft die Farbe für das fokusierte Steuerelement ab.
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetMouseOverFocusColor();
+		virtual Drawing::Color& GetMouseOverFocusColor();
 
 		/**
 		 * Ruft den ClickEventHandler für das Steuerelement ab.
@@ -376,12 +377,10 @@ namespace OSHGui
 		 *
 		 * @param control
 		 */
-		void AddControl(Control *control);
+		virtual void AddControl(const std::shared_ptr<Control> &control);
 
-		void RequestFocus(Control *control);
-		void ClearFocus();
-		void CaptureMouse(Control *control);
-		void ReleaseCapture();
+		virtual void RequestFocus(const std::shared_ptr<Control> &control);
+		virtual void ClearFocus();
 		
 		/**
 		 * Ruft das untergeordnete Steuerelement ab, das sich an den angegebenen
@@ -390,14 +389,14 @@ namespace OSHGui
 		 * @param point
 		 * @return 0, falls sich dort kein Steuerelement befindet
 		 */
-		Control* GetChildAtPoint(const Drawing::Point &point);
+		std::shared_ptr<Control> GetChildAtPoint(const Drawing::Point &point);
 		/**
 		 * Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
 		 *
 		 * @param name
 		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
 		 */
-		Control* GetChildByName(const Misc::UnicodeString &name);
+		std::shared_ptr<Control> GetChildByName(const Misc::UnicodeString &name);
 		
 		/**
 		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
@@ -405,36 +404,36 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
 		/**
 		 * Wird von ProcessEvent verwendet, um Kindelemete Events verarbeiten zu lassen.
 		 *
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		Event::NextEventTypes ProcessChildrenEvent(Event *event);
+		Event::NextEventTypes ProcessChildrenEvent(const std::shared_ptr<Event> &event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
 		
 		/**
 		 * Gibt das übergeordnete Steuerelement zurück.
 		 *
 		 * @return parent
 		 */
-		Control* GetParent();
+		std::shared_ptr<Control> GetParent();
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
 		 * @return parent
 		 */
-		const std::vector<Control*>& GetControls();
+		const std::vector<std::shared_ptr<Control>>& GetControls();
 		
 	protected:
-		Event::NextEventTypes ContainerProcessEvent(Event *event);
+		Event::NextEventTypes ContainerProcessEvent(const std::shared_ptr<Event> &event);
 
 		virtual void SetFocus(bool focus);
 		
@@ -466,15 +465,14 @@ namespace OSHGui
 					   backColor,
 					   mouseOverFocusColor;
 		
-		Drawing::IFont *font;
+		std::shared_ptr<Drawing::IFont> font;
 
-		Control *Parent;
+		std::shared_ptr<Control> Parent;
 
-		std::vector<Control*> controls;
+		std::vector<std::shared_ptr<Control>> controls;
 
-		Control *focusControl,
-				*captureControl,
-				*mouseOverControl;
+		std::shared_ptr<Control> focusControl,
+								 mouseOverControl;
 	};
 }
 

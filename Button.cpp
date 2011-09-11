@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Button::Button(Control *parent) : Label(parent)
+	Button::Button(const std::shared_ptr<Control> &parent) : Label(parent)
 	{
 		type = CONTROL_BUTTON;
 		
@@ -41,7 +41,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Button::ProcessEvent(Event *event)
+	Event::NextEventTypes Button::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -55,7 +55,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
@@ -67,7 +67,7 @@ namespace OSHGui
 				
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 					return Event::DontContinue;
 				}
@@ -77,7 +77,7 @@ namespace OSHGui
 					{
 						pressed = false;
 					
-						clickEventHandler.Invoke(this, mouse);
+						clickEventHandler.Invoke(shared_from_this(), mouse);
 					}
 					return Event::DontContinue;
 				}
@@ -87,17 +87,17 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*) event;
+			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			if (keyboard->KeyCode == Key::Return || keyboard->KeyCode == Key::Space)
 			{
-				clickEventHandler.Invoke(this, 0);
+				clickEventHandler.Invoke(shared_from_this(), 0);
 			}
 		}
 		
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void Button::Render(Drawing::IRenderer *renderer)
+	void Button::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

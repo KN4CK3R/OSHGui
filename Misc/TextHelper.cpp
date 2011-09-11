@@ -4,12 +4,12 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		TextHelper::TextHelper(Drawing::IFont *font)
+		TextHelper::TextHelper(const std::shared_ptr<Drawing::IFont> &font)
 		{
 			SetFont(font);
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::SetFont(Drawing::IFont *font)
+		void TextHelper::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 		{
 			if (font == 0)
 			{

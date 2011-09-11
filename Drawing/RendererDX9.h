@@ -32,20 +32,20 @@ namespace OSHGui
 			virtual void Begin();
 			virtual void End();
 
-			virtual ITexture* CreateNewTexture();
-			virtual IFont* CreateNewFont();
+			virtual std::shared_ptr<ITexture> CreateNewTexture();
+			virtual std::shared_ptr<IFont> CreateNewFont();
 
 			virtual void SetRenderRectangle(Rectangle &rect);
 			
-			virtual void RenderTexture(ITexture *texture, const Point &point);
-			virtual void RenderTexture(ITexture *texture, int x, int y);
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point);
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y);
 
-			virtual Size MeasureText(IFont *font, const Misc::UnicodeString &text);
+			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::UnicodeString &text);
 
-			virtual void RenderText(IFont *font, const Point &point, const Misc::UnicodeString &text);
-			virtual void RenderText(IFont *font, int x, int y, const Misc::UnicodeString &text);
-			virtual void RenderText(IFont *font, Rectangle &rect, const Misc::UnicodeString &text);
-			virtual void RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &point, const Misc::UnicodeString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::UnicodeString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, Rectangle &rect, const Misc::UnicodeString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::UnicodeString &text);
 
 			virtual void Fill(const Point &point);
 			virtual void Fill(int x, int y);
@@ -65,7 +65,7 @@ namespace OSHGui
 			IDirect3DDevice9 *device;
 			LPD3DXSPRITE sprite;
 
-			ITexture *texture;
+			std::shared_ptr<ITexture> texture;
 			
 			static const int maxVertices = 1024;
 			int verticesNum;

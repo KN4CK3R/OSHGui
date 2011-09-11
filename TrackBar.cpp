@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TrackBar::TrackBar(Control *parent) : Control(parent)
+	TrackBar::TrackBar(const std::shared_ptr<Control> &parent) : Control(parent)
 	{
 		type = CONTROL_TRACKBAR;
 		
@@ -76,7 +76,7 @@ namespace OSHGui
 		{
 			this->value = value;
 			
-			changeEventHandler.Invoke(this);
+			changeEventHandler.Invoke(shared_from_this());
 		}
 
 		Invalidate();
@@ -90,7 +90,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TrackBar::ProcessEvent(Event *event)
+	Event::NextEventTypes TrackBar::ProcessEvent(const std::shared_ptr<Event> &event)
 	{	
 		if (event == 0)
 		{
@@ -104,7 +104,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
@@ -116,7 +116,7 @@ namespace OSHGui
 
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 
 					return Event::DontContinue;
@@ -128,7 +128,7 @@ namespace OSHGui
 					
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 
 					SetValueInternal(ValueFromPosition(mouse->Position.X));
@@ -142,7 +142,7 @@ namespace OSHGui
 				{
 					pressed = false;
 					
-					changeEventHandler.Invoke(this);
+					changeEventHandler.Invoke(shared_from_this());
 
 					return Event::DontContinue;
 				}
@@ -162,7 +162,7 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			if (keyboard->State == KeyboardEvent::Down)
 			{
 				switch (keyboard->KeyCode)
@@ -194,7 +194,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void TrackBar::Render(Drawing::IRenderer *renderer)
+	void TrackBar::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

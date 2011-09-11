@@ -20,7 +20,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ListBox(Control *parent = 0);
+		ListBox(const std::shared_ptr<Control> &parent = 0);
 		virtual ~ListBox();
 		
 		/**
@@ -29,7 +29,7 @@ namespace OSHGui
 		 * @param index
 		 * @return 0, falls der Index nicht existiert
 		 */
-		ListItem* GetItem(int index);
+		std::shared_ptr<ListItem> GetItem(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
@@ -41,7 +41,7 @@ namespace OSHGui
 		 *
 		 * @return 0, falls kein ListItem ausgewählt wurde
 		 */
-		ListItem* GetSelectedItem();
+		std::shared_ptr<ListItem> GetSelectedItem();
 		/**
 		 * Gibt die Anzahl der ListItems zurück.
 		 *
@@ -110,13 +110,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
 	
 	protected:
 		ScrollBar scrollBar;
@@ -127,7 +127,7 @@ namespace OSHGui
 		
 		Drawing::Rectangle itemsRect;
 		
-		std::vector<ListItem*> items;
+		std::vector<std::shared_ptr<ListItem>> items;
 	};
 }
 

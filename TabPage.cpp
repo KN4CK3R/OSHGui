@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TabPage::TabPage(TabControl *parent) : Panel(parent)
+	TabPage::TabPage(const std::shared_ptr<TabControl> &parent) : Panel(parent)
 	{
 		type = CONTROL_TABPAGE;
 		
@@ -37,7 +37,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TabPage::ProcessEvent(Event *event)
+	Event::NextEventTypes TabPage::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -52,7 +52,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void TabPage::Render(Drawing::IRenderer *renderer)
+	void TabPage::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{	
 		if (backColor.A != 0)
 		{

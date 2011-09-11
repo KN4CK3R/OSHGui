@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(Control *parent) : Control(parent), textHelper(font)
+	Label::Label(const std::shared_ptr<Control> &parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
@@ -52,7 +52,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Label::ProcessEvent(Event *event)
+	Event::NextEventTypes Label::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -66,7 +66,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -84,7 +84,7 @@ namespace OSHGui
 					{
 						pressed = false;
 					
-						this->clickEventHandler.Invoke(this, mouse);
+						this->clickEventHandler.Invoke(std::shared_ptr<Control>(this), mouse);
 					}
 
 					return Event::DontContinue;
@@ -97,7 +97,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void Label::Render(Drawing::IRenderer *renderer)
+	void Label::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

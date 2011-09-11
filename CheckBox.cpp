@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	CheckBox::CheckBox(Control *parent) : Label(parent)
+	CheckBox::CheckBox(const std::shared_ptr<Control> &parent) : Label(parent)
 	{
 		type = CONTROL_CHECKBOX;
 		
@@ -25,7 +25,7 @@ namespace OSHGui
 		{
 			this->checked = checked;
 			
-			changeEventHandler.Invoke(this);
+			changeEventHandler.Invoke(shared_from_this());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes CheckBox::ProcessEvent(Event *event)
+	Event::NextEventTypes CheckBox::ProcessEvent(const std::shared_ptr<Event> &event)
 	{
 		if (event == 0)
 		{
@@ -88,7 +88,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
@@ -100,7 +100,7 @@ namespace OSHGui
 			
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						Parent->RequestFocus(shared_from_this());
 					}
 					return Event::DontContinue;
 				}
@@ -121,7 +121,7 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
 			if (keyboard->KeyCode == Key::Space)
 			{
 				SetChecked(!GetChecked());
@@ -132,7 +132,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::Render(Drawing::IRenderer *renderer)
+	void CheckBox::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
 	{
 		if (!visible)
 		{

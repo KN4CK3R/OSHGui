@@ -17,7 +17,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		RadioButton(Control *parent = 0);
+		RadioButton(const std::shared_ptr<Control> &parent = 0);
 		
 		/**
 		 * Legt den checked-Status fest und passt automatisch
@@ -45,13 +45,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
 		
 	protected:
 		virtual void SetCheckedInternal(bool checked);

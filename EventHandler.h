@@ -1,9 +1,11 @@
 #ifndef __OSHGUI_EVENTHANDLER_H__
 #define __OSHGUI_EVENTHANDLER_H__
 
+#include <list>
+#include <memory>
+
 #include "MouseEvent.h"
 #include "KeyboardEvent.h"
-#include <list>
 
 namespace OSHGui
 {
@@ -154,21 +156,21 @@ namespace OSHGui
 		}
 	};
 
-	typedef EventHandlerTwoParam<void (*)(Control*, MouseEvent*), Control*, MouseEvent*> ClickEventHandler;
+	typedef EventHandlerTwoParam<void (*)(const std::shared_ptr<Control>&, const std::shared_ptr<MouseEvent>&), const std::shared_ptr<Control>&, const std::shared_ptr<MouseEvent>&> ClickEventHandler;
 	
-	typedef EventHandlerTwoParam<void (*)(Control*, KeyboardEvent*), Control*, KeyboardEvent*> KeyPressEventHandler;
+	typedef EventHandlerTwoParam<void (*)(const std::shared_ptr<Control>&, const std::shared_ptr<KeyboardEvent>&), const std::shared_ptr<Control>&, const std::shared_ptr<KeyboardEvent>&> KeyPressEventHandler;
 
-	typedef EventHandlerOneParam<void (*)(Control*), Control*> ChangeEventHandler;
+	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> ChangeEventHandler;
 	
-	typedef EventHandlerOneParam<void (*)(Control*), Control*> MouseEnterEventHandler;
+	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> MouseEnterEventHandler;
 	
-	typedef EventHandlerOneParam<void (*)(Control*), Control*> MouseLeaveEventHandler;
+	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> MouseLeaveEventHandler;
 	
-	typedef EventHandlerOneParam<void (*)(Control*), Control*> FocusInEventHandler;
+	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> FocusInEventHandler;
 	
-	typedef EventHandlerOneParam<void (*)(Control*), Control*> FocusOutEventHandler;
+	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> FocusOutEventHandler;
 
-	typedef EventHandlerOneParam<void (*)(Control*), Control*> TickEventHandler;
+	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> TickEventHandler;
 }
 
 #endif
