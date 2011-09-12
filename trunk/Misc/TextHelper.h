@@ -21,7 +21,7 @@ namespace OSHGui
 			/**
 			 * Erstellt ein TextHelper-Objekt mit der entsprechenden Schriftart.
 			 *
-			 * @param font darf nicht 0 sein
+			 * @param font
 			 */
 			TextHelper(const std::shared_ptr<Drawing::IFont> &font);
 			
@@ -30,7 +30,7 @@ namespace OSHGui
 			 *
 			 * @param font darf nicht 0 sein
 			 */
-			void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+			void SetFont(const std::shared_ptr<Drawing::IFont> &);
 			/**
 			 * Legt den Text fest.
 			 *

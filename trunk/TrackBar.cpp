@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TrackBar::TrackBar(const std::shared_ptr<Control> &parent) : Control(parent)
+	TrackBar::TrackBar(Control *parent) : Control(parent)
 	{
 		type = CONTROL_TRACKBAR;
 		
@@ -17,7 +17,7 @@ namespace OSHGui
 		max = 10;
 		value = 1;
 
-		SetBackColor(Drawing::Color(0xFF585858));
+		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA6A4A1));
 	}
 	//---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ namespace OSHGui
 		{
 			this->value = value;
 			
-			changeEventHandler.Invoke(shared_from_this());
+			changeEventHandler.Invoke(this);
 		}
 
 		Invalidate();
@@ -90,7 +90,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TrackBar::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes TrackBar::ProcessEvent(Event *event)
 	{	
 		if (event == 0)
 		{
@@ -104,7 +104,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
+			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
@@ -116,7 +116,7 @@ namespace OSHGui
 
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(shared_from_this());
+						Parent->RequestFocus(this);
 					}
 
 					return Event::DontContinue;
@@ -128,7 +128,7 @@ namespace OSHGui
 					
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(shared_from_this());
+						Parent->RequestFocus(this);
 					}
 
 					SetValueInternal(ValueFromPosition(mouse->Position.X));
@@ -142,7 +142,7 @@ namespace OSHGui
 				{
 					pressed = false;
 					
-					changeEventHandler.Invoke(shared_from_this());
+					changeEventHandler.Invoke(this);
 
 					return Event::DontContinue;
 				}
@@ -162,7 +162,7 @@ namespace OSHGui
 		}
 		else if (event->Type == Event::Keyboard)
 		{
-			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::Down)
 			{
 				switch (keyboard->KeyCode)
@@ -194,11 +194,17 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void TrackBar::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void TrackBar::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{
 			return;
+		}
+
+		if (backColor.A != 0)
+		{
+			renderer->SetRenderColor(backColor);
+			renderer->Fill(bounds);
 		}
 
 		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
@@ -217,13 +223,8 @@ namespace OSHGui
 			renderer->Fill((int)(bounds.GetLeft() + halfWidth + (i * space)), bounds.GetTop() + 6, 1, 5);
 		}
 
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(sliderRect);
 		renderer->SetRenderColor(foreColor);
-		renderer->FillGradient(sliderRect.GetLeft() + 1, sliderRect.GetTop() + 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2, backColor);
-		renderer->SetRenderColor(backColor - Drawing::Color(0, 30, 30, 30));
-		renderer->Fill(sliderRect.GetRight() - 1, sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
-		renderer->Fill(sliderRect.GetLeft(), sliderRect.GetBottom() - 1, sliderRect.GetWidth(), 1);
+		renderer->Fill(sliderRect);
 
 		if (controls.size() > 0)
 		{

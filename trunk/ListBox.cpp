@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ListBox::ListBox(const std::shared_ptr<Control> &parent) : Control(parent), scrollBar(shared_from_this())
+	ListBox::ListBox(Control *parent) : Control(parent), scrollBar(this)
 	{
 		type = CONTROL_LISTBOX;
 		
@@ -24,7 +24,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	std::shared_ptr<ListItem> ListBox::GetItem(int index)
+	ListItem* ListBox::GetItem(int index)
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
@@ -39,7 +39,7 @@ namespace OSHGui
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<ListItem> ListBox::GetSelectedItem()
+	ListItem* ListBox::GetSelectedItem()
 	{
 		return GetItem(GetSelectedIndex());
 	}
@@ -83,7 +83,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{	
-		std::shared_ptr<ListItem> newItem(new ListItem());
+		ListItem *newItem = new ListItem();
 		if (newItem == 0)
 		{
 			return false;
@@ -106,6 +106,10 @@ namespace OSHGui
 		{
 			return false;
 		}
+
+		ListItem *item = items.at(index);
+		delete item;
+		item = 0;
 		
 		items.erase(items.begin() + index);
 
@@ -114,7 +118,7 @@ namespace OSHGui
 		{
 			selectedIndex = items.size() - 1;
 			
-			changeEventHandler.Invoke(shared_from_this());
+			changeEventHandler.Invoke(this);
 		}
 
 		Invalidate();
@@ -124,6 +128,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::Clear()
 	{
+		for (unsigned int i = 0; i < items.size(); i++)
+		{
+			ListItem *item = items.at(i);
+			delete item;
+			item = 0;
+		}
+
 		items.clear();
 		
 		scrollBar.SetRange(1);
@@ -162,13 +173,13 @@ namespace OSHGui
 				firstVisibleItemIndex = scrollBar.GetPosition();
 			}
 			
-			changeEventHandler.Invoke(shared_from_this());
+			changeEventHandler.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ListBox::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes ListBox::ProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -182,7 +193,7 @@ namespace OSHGui
 
 		if (event->Type == Event::Mouse)
 		{
-			const std::shared_ptr<MouseEvent> &mouse = std::static_pointer_cast<MouseEvent>(event);
+			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -192,7 +203,7 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(shared_from_this());
+						Parent->RequestFocus(this);
 					}
 				}
 				else
@@ -222,7 +233,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			const std::shared_ptr<MouseEvent> &mouse = std::static_pointer_cast<MouseEvent>(event);
+			MouseEvent *mouse = (MouseEvent*)event;
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
@@ -241,7 +252,7 @@ namespace OSHGui
 					if (itemIndex != -1)
 					{
 						selectedIndex = itemIndex + firstVisibleItemIndex;
-						changeEventHandler.Invoke(shared_from_this());
+						changeEventHandler.Invoke(this);
 					}
 				}
 
@@ -255,7 +266,7 @@ namespace OSHGui
 				return Event::DontContinue;
 			}
 		
-			const std::shared_ptr<KeyboardEvent> &keyboard = std::static_pointer_cast<KeyboardEvent>(event);
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::Down)
 			{
 				switch (keyboard->KeyCode)
@@ -306,7 +317,7 @@ namespace OSHGui
 								firstVisibleItemIndex = scrollBar.GetPosition();
 							}
 						
-							changeEventHandler.Invoke(shared_from_this());
+							changeEventHandler.Invoke(this);
 						}
 						return Event::DontContinue;
 				}
@@ -316,7 +327,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void ListBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{

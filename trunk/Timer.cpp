@@ -7,7 +7,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Timer::Timer(const std::shared_ptr<Control> &parent) : Control(parent)
+	Timer::Timer(Control *parent) : Control(parent)
 	{
 		type = CONTROL_TIMER;
 
@@ -28,11 +28,11 @@ namespace OSHGui
 		{
 			if (enabled == true)
 			{
-				Application::RegisterTimer(std::static_pointer_cast<Timer>(shared_from_this()), Misc::TimeSpan::FromMilliseconds(interval));
+				Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
 			}
 			else
 			{
-				Application::UnregisterTimer(std::static_pointer_cast<Timer>(shared_from_this()));
+				Application::UnregisterTimer(this);
 			}
 			
 			this->enabled = enabled;
@@ -51,8 +51,8 @@ namespace OSHGui
 			this->interval = interval > 0 ? interval : 100;
 			if (enabled)
 			{
-				Application::UnregisterTimer(std::static_pointer_cast<Timer>(shared_from_this()));
-				Application::RegisterTimer(std::static_pointer_cast<Timer>(shared_from_this()), Misc::TimeSpan::FromMilliseconds(interval));
+				Application::UnregisterTimer(this);
+				Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
 			}
 		}
 	}

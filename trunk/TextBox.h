@@ -19,7 +19,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TextBox(const std::shared_ptr<Control> &parent = 0);
+		TextBox(Control *parent = 0);
 		virtual ~TextBox();
 		
 		/**
@@ -68,13 +68,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
+		Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
+		void Render(Drawing::IRenderer *renderer);
 	
 	protected:
 		void ResetCaretBlink();

@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	GroupBox::GroupBox(const std::shared_ptr<Control> &parent) : Control(parent), textHelper(font)
+	GroupBox::GroupBox(Control *parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_GROUPBOX;
 
@@ -43,7 +43,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes GroupBox::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes GroupBox::ProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -57,7 +57,7 @@ namespace OSHGui
 
 		if (event->Type == Event::Mouse)
 		{
-			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
+			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -72,7 +72,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void GroupBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{

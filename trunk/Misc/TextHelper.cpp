@@ -103,7 +103,7 @@ namespace OSHGui
 			UnicodeString substring = text.substr(0, trailing ? index + 1 : index);
 			Drawing::Size size = font->MeasureText(substring);
 			
-			return Drawing::Point(size.Width, 0);
+			return Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
 		Drawing::Size TextHelper::GetStringWidth(int index, int size)

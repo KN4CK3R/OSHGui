@@ -16,7 +16,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Panel(const std::shared_ptr<Control> &parent = 0);
+		Panel(Control *parent = 0);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -40,13 +40,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
+		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 	};
 }
 

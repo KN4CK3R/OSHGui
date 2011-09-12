@@ -1,9 +1,8 @@
 #ifndef __OSHGUI_TABCONTROL_H__
 #define __OSHGUI_TABCONTROL_H__
 
-#include <list>
-
 #include "Control.h"
+#include <list>
 
 namespace OSHGui
 {
@@ -20,13 +19,13 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TabControl(const std::shared_ptr<Control> &parent = 0);
+		TabControl(Control *parent = 0);
 
-		std::shared_ptr<TabPage> GetTabPage(const Misc::UnicodeString &name);
-		std::shared_ptr<TabPage> GetTabPage(int index);
-		void AddTabPage(const std::shared_ptr<TabPage> &tabPage);
+		TabPage* GetTabPage(const Misc::UnicodeString &name);
+		TabPage* GetTabPage(int index);
+		void AddTabPage(TabPage *tabPage);
 		
-		void RemoveTabPage(const std::shared_ptr<TabPage> &tabPage);
+		void RemoveTabPage(TabPage *tabPage);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -50,17 +49,17 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
+		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 
 	private:
-		std::list<std::shared_ptr<TabPage>> tabs;
-		std::shared_ptr<TabPage> activeTab;
+		std::list<TabPage*> tabs;
+		TabPage *activeTab;
 	};
 }
 

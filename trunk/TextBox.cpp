@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TextBox::TextBox(const std::shared_ptr<Control> &parent) : Control(parent), textHelper(font)
+	TextBox::TextBox(Control *parent) : Control(parent), textHelper(font)
 	{
 		type = CONTROL_TEXTBOX;
 
@@ -50,8 +50,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::Invalidate()
 	{
-		textHelper.SetFont(font);
-
 		bounds.SetHeight(font->GetSize() + 10);
 	
 		clientArea = bounds;
@@ -95,7 +93,7 @@ namespace OSHGui
 			caretPositionTrail = textHelper.GetCharacterPosition(position, true);
 		}
 
-		//if the new caretPosition is outside left the textRect
+		//if the new caretPosition is smaller than the textRect
 		if (newCaretPosition.Left <= firstVisibleCharacterPosition.Left)
 		{
 			if (position > 1)
@@ -107,7 +105,7 @@ namespace OSHGui
 				firstVisibleCharacter = position;
 			}
 		}
-		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is outside right the textRect
+		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is bigger than the textRect
 		{
 			int newFirstVisibleCharacterPositionLeft = caretPositionTrail.Left - textRect.GetWidth();
 			int newFirstVisibleCharacter = textHelper.GetClosestCharacterIndex(Drawing::Point(newFirstVisibleCharacterPositionLeft, 0));
@@ -129,7 +127,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TextBox::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -143,7 +141,7 @@ namespace OSHGui
 	
 		if (event->Type == Event::Mouse)
 		{
-			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
+			MouseEvent *mouse = (MouseEvent*) event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -153,13 +151,13 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(shared_from_this());
+						Parent->RequestFocus(this);
 					}
 
 					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
 					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
 
-					clickEventHandler.Invoke(shared_from_this(), mouse);
+					clickEventHandler.Invoke(this, mouse);
 				
 					return Event::DontContinue;
 				}
@@ -171,9 +169,9 @@ namespace OSHGui
 		{
 			bool hasChanged = false;
 		
-			std::shared_ptr<KeyboardEvent> keyboard = std::static_pointer_cast<KeyboardEvent>(event);
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			
-			keyPressEventHandler.Invoke(shared_from_this(), keyboard);
+			keyPressEventHandler.Invoke(this, keyboard);
 
 			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{
@@ -218,7 +216,7 @@ namespace OSHGui
 			
 			if (hasChanged)
 			{
-				changeEventHandler.Invoke(shared_from_this());
+				changeEventHandler.Invoke(this);
 			
 				return Event::DontContinue;
 			}
@@ -227,7 +225,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void TextBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{

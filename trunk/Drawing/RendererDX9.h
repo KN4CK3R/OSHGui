@@ -65,7 +65,7 @@ namespace OSHGui
 			IDirect3DDevice9 *device;
 			LPD3DXSPRITE sprite;
 
-			std::shared_ptr<ITexture> texture;
+			std::shared_ptr<TextureDX9> texture;
 			
 			static const int maxVertices = 1024;
 			int verticesNum;

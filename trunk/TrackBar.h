@@ -19,7 +19,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TrackBar(const std::shared_ptr<Control> &parent);
+		TrackBar(Control *parent);
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -69,13 +69,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
+		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 
 	protected:
 		virtual void SetValueInternal(int value);
