@@ -4,13 +4,13 @@
 
 namespace OSHGui
 {
-	std::map<std::shared_ptr<Timer>, Application::TimerInfo> Application::timers;
-	std::list<std::shared_ptr<Form>> Application::forms;
-	std::shared_ptr<Form> Application::focusForm = 0;
-	std::shared_ptr<Form> Application::mainForm = 0;
-	std::list<std::shared_ptr<Form>> Application::removeForms;
+	std::map<Timer*, Application::TimerInfo> Application::timers;
+	std::list<Form*> Application::forms;
+	Form *Application::focusForm = 0;
+	Form *Application::mainForm = 0;
+	std::list<Form*> Application::removeForms;
 	bool Application::enabled = false;
-	std::shared_ptr<Drawing::IRenderer> Application::Renderer = 0;
+	Drawing::IRenderer *Application::Renderer = 0;
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
@@ -27,7 +27,7 @@ namespace OSHGui
 		enabled = false;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Run(const std::shared_ptr<Form> &form)
+	void Application::Run(Form *form)
 	{
 		if (form == 0)
 		{
@@ -44,7 +44,7 @@ namespace OSHGui
 		mainForm = form;
 	}
 	//---------------------------------------------------------------------------
-	void Application::RegisterTimer(const std::shared_ptr<Timer> &timer, Misc::TimeSpan &interval)
+	void Application::RegisterTimer(Timer *timer, Misc::TimeSpan &interval)
 	{
 		if (timers.find(timer) == timers.end())
 		{
@@ -56,23 +56,23 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Application::UnregisterTimer(const std::shared_ptr<Timer> &timer)
+	void Application::UnregisterTimer(Timer *timer)
 	{
-		std::map<std::shared_ptr<Timer>, TimerInfo>::iterator it = timers.find(timer);
+		std::map<Timer*, TimerInfo>::iterator it = timers.find(timer);
 		if (it != timers.end())
 		{
 			timers.erase(it);
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Application::RegisterForm(const std::shared_ptr<Form> &form)
+	void Application::RegisterForm(Form *form)
 	{
 		if (form == 0)
 		{
 			return;
 		}
 
-		for (std::list<std::shared_ptr<Form>>::iterator it = forms.begin(); it != forms.end(); it++)
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
 		{
 			if (*it == form)
 			{
@@ -85,7 +85,7 @@ namespace OSHGui
 		focusForm = form;
 	}
 	//---------------------------------------------------------------------------
-	void Application::UnregisterForm(const std::shared_ptr<Form> &form)
+	void Application::UnregisterForm(Form *form)
 	{
 		if (form == 0)
 		{
@@ -97,7 +97,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::list<std::shared_ptr<Form>>::iterator it = forms.begin(); it != forms.end(); it++)
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
 		{
 			if (*it == form)
 			{
@@ -122,7 +122,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Application::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes Application::ProcessEvent(Event *event)
 	{
 		if (event == 0 || !enabled)
 		{
@@ -135,7 +135,7 @@ namespace OSHGui
 		}
 		else
 		{
-			for (std::list<std::shared_ptr<Form>>::iterator it = forms.begin(); it != forms.end(); it++)
+			for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
 			{
 				if (*it != focusForm)
 				{
@@ -161,9 +161,9 @@ namespace OSHGui
 
 		if (removeForms.size() > 0)
 		{
-			for (std::list<std::shared_ptr<Form>>::iterator it = removeForms.begin(); it != removeForms.end(); it++)
+			for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); it++)
 			{
-				(*it)->Dispose();
+				delete *it;
 			}
 			removeForms.clear();
 		}
@@ -171,7 +171,7 @@ namespace OSHGui
 		if (timers.size() > 0)
 		{
 			Misc::DateTime now = Misc::DateTime::GetNow();
-			for (std::map<std::shared_ptr<Timer>, TimerInfo>::iterator it = timers.begin(); it != timers.end(); it++)
+			for (std::map<Timer*, TimerInfo>::iterator it = timers.begin(); it != timers.end(); it++)
 			{
 				TimerInfo &info = it->second;
 				if (info.next < now)
@@ -182,7 +182,7 @@ namespace OSHGui
 			}
 		}
 
-		for (std::list<std::shared_ptr<Form>>::iterator it = forms.begin(); it != forms.end(); it++)
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
 		{
 			if (*it != focusForm)
 			{

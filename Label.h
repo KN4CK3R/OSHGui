@@ -17,7 +17,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Label(const std::shared_ptr<Control> &parent = 0);
+		Label(Control *parent = 0);
 		
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
@@ -54,13 +54,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
+		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
 		bool pressed;

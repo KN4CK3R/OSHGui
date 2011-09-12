@@ -5,11 +5,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Control::Control(const std::shared_ptr<Control> parent)
+	Control::Control(Control *parent)
 	{
 		type = CONTROL_BUTTON;
 
-		SetLocation(Drawing::Point(6, 6));
+		SetLocation(Drawing::Point(3, 3));
 
 		Parent = parent;
 		
@@ -29,6 +29,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
+		for (unsigned int i = 0; i < controls.size(); i++)
+		{
+			Control *control = controls.at(i);
+			delete control;
+		}
+
 		controls.clear();
 	}
 	//---------------------------------------------------------------------------
@@ -288,12 +294,12 @@ namespace OSHGui
 		return changeEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Control> Control::GetParent()
+	Control* Control::GetParent()
 	{
 		return Parent;
 	}
 	//---------------------------------------------------------------------------
-	const std::vector<std::shared_ptr<Control>>& Control::GetControls()
+	const std::vector<Control*>& Control::GetControls()
 	{
 		return controls;
 	}
@@ -315,7 +321,7 @@ namespace OSHGui
 		return;
 	}
 	//---------------------------------------------------------------------------
-	void Control::AddControl(const std::shared_ptr<Control> &control)
+	void Control::AddControl(Control *control)
 	{
 		if (control != 0)
 		{
@@ -327,7 +333,7 @@ namespace OSHGui
 	{
 		for (unsigned int i = 0; i < controls.size(); i++)
 		{
-			std::shared_ptr<Control> control = controls.at(i);
+			Control *control = controls.at(i);
 
 			if (control == 0)
 			{
@@ -338,11 +344,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Control> Control::GetChildAtPoint(const Drawing::Point &point)
+	Control* Control::GetChildAtPoint(const Drawing::Point &point)
 	{
 		for (unsigned int i = 1; i <= controls.size(); ++i)
 		{
-			std::shared_ptr<Control> control = controls.at(controls.size() - i);
+			Control *control = controls.at(controls.size() - i);
 
 			if (control == 0)
 			{
@@ -358,11 +364,11 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Control> Control::GetChildByName(const Misc::UnicodeString &name)
+	Control* Control::GetChildByName(const Misc::UnicodeString &name)
 	{
 		for (unsigned int i = 0; i < controls.size(); i++)
 		{
-			std::shared_ptr<Control> control = controls.at(i);
+			Control *control = controls.at(i);
 
 			if (control == 0)
 			{
@@ -378,7 +384,7 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	void Control::RequestFocus(const std::shared_ptr<Control> &control)
+	void Control::RequestFocus(Control *control)
 	{
 		if (control == 0 || !control->CanHaveFocus())
 		{
@@ -386,8 +392,8 @@ namespace OSHGui
 		}
 
 		//walk up parentStack
-		std::shared_ptr<Control> baseParent = shared_from_this();
-		while (baseParent->GetParent() != 0)
+		Control *baseParent = this;
+		while (baseParent->GetParent() != baseParent)
 		{
 			baseParent = baseParent->GetParent();
 		}
@@ -400,19 +406,19 @@ namespace OSHGui
 		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusOutEventHandler.Invoke(shared_from_this());
+			baseParent->focusControl->focusOutEventHandler.Invoke(this);
 		}
 		
 		control->SetFocus(true);
-		control->focusInEventHandler.Invoke(shared_from_this());
+		control->focusInEventHandler.Invoke(this);
 		baseParent->focusControl = control;
 	}
 	//---------------------------------------------------------------------------
 	void Control::ClearFocus()
 	{
 		//walk up parentStack
-		std::shared_ptr<Control> baseParent = shared_from_this();
-		while (baseParent->GetParent() != 0)
+		Control *baseParent = this;
+		while (baseParent->GetParent() != baseParent)
 		{
 			baseParent = baseParent->GetParent();
 		}
@@ -420,19 +426,19 @@ namespace OSHGui
 		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusOutEventHandler.Invoke(shared_from_this());
+			baseParent->focusControl->focusOutEventHandler.Invoke(this);
 			baseParent->focusControl = 0;
 		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Control::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes Control::ProcessEvent(Event *event)
 	{
 		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Control::ProcessChildrenEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes Control::ProcessChildrenEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -450,14 +456,14 @@ namespace OSHGui
 		
 		if (event->Type == Event::Mouse)
 		{
-			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
-						
+			MouseEvent *mouse = (MouseEvent*)event;
+			
 			//find mouseOverControl
-			std::shared_ptr<Control> control = GetChildAtPoint(mouse->Position);
+			Control *control = GetChildAtPoint(mouse->Position);
 			if (control != mouseOverControl && mouseOverControl != 0)
 			{
 				mouseOverControl->mouseOver = false;
-				mouseOverControl->mouseLeaveEventHandler.Invoke(shared_from_this());
+				mouseOverControl->mouseLeaveEventHandler.Invoke(this);
 				mouseOverControl = 0;
 			}
 
@@ -465,7 +471,7 @@ namespace OSHGui
 			{
 				mouseOverControl = control;
 				mouseOverControl->mouseOver = true;
-				mouseOverControl->mouseEnterEventHandler.Invoke(shared_from_this());
+				mouseOverControl->mouseEnterEventHandler.Invoke(this);
 			}
 			
 			//someone is focused
@@ -480,7 +486,7 @@ namespace OSHGui
 			//let mouseOverControl handle the mouse
 			if (mouseOverControl != 0)
 			{
-				if (mouseOverControl->ProcessEvent(mouse) == Event::DontContinue)
+				if (mouseOverControl->ProcessEvent(event) == Event::DontContinue)
 				{
 					return Event::DontContinue;
 				}
@@ -490,7 +496,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void Control::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void Control::Render(Drawing::IRenderer *renderer)
 	{
 		return;
 	}

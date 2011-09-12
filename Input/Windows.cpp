@@ -20,36 +20,36 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-					std::shared_ptr<MouseEvent> mouse(new MouseEvent(MouseEvent::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0));
+					MouseEvent mouse(MouseEvent::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
 					{
 						case WM_MOUSEMOVE:
-							mouse->State = MouseEvent::Move;
+							mouse.State = MouseEvent::Move;
 							break;
 						case WM_LBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse->State = MouseEvent::LeftDown;
+							mouse.State = MouseEvent::LeftDown;
 							break;
 						case WM_LBUTTONUP:
 							ReleaseCapture();
-							mouse->State = MouseEvent::LeftUp;
+							mouse.State = MouseEvent::LeftUp;
 							break;
 						case WM_RBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse->State = MouseEvent::RightDown;
+							mouse.State = MouseEvent::RightDown;
 							break;
 						case WM_RBUTTONUP:
 							ReleaseCapture();
-							mouse->State = MouseEvent::RightUp;
+							mouse.State = MouseEvent::RightUp;
 							break;
 						case WM_MOUSEWHEEL:
-							mouse->State = MouseEvent::Scroll;
-							mouse->Delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
+							mouse.State = MouseEvent::Scroll;
+							mouse.Delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
 							break;
 					}
 
-					if (Application::ProcessEvent(std::static_pointer_cast<Event>(mouse)) == Event::DontContinue)
+					if (Application::ProcessEvent(&mouse) == Event::DontContinue)
 					{
 						return true;
 					}			
@@ -61,70 +61,70 @@ namespace OSHGui
 				case WM_SYSKEYUP:
 				case WM_CHAR:
 				{
-					std::shared_ptr<KeyboardEvent> keyboard;
-					keyboard->State = KeyboardEvent::Unknown;
-					keyboard->Control = (GetKeyState(VK_CONTROL) & 0x8000) > 0;
-					keyboard->Shift = (GetKeyState(VK_SHIFT) & 0x8000) > 0;
-					keyboard->Menu = (GetKeyState(VK_MENU) & 0x8000) > 0;
+					KeyboardEvent keyboard;
+					keyboard.State = KeyboardEvent::Unknown;
+					keyboard.Control = (GetKeyState(VK_CONTROL) & 0x8000) > 0;
+					keyboard.Shift = (GetKeyState(VK_SHIFT) & 0x8000) > 0;
+					keyboard.Menu = (GetKeyState(VK_MENU) & 0x8000) > 0;
 
 					if (message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN || message->message == WM_KEYUP || message->message == WM_SYSKEYUP)
 					{
-						keyboard->State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardEvent::Down : KeyboardEvent::Up;
+						keyboard.State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardEvent::Down : KeyboardEvent::Up;
 
 						switch (message->wParam)
 						{
 							case VK_CONTROL:
-								keyboard->KeyCode = Key::Control;
+								keyboard.KeyCode = Key::Control;
 								break;
 							case VK_SHIFT:
-								keyboard->KeyCode = Key::Shift;
+								keyboard.KeyCode = Key::Shift;
 								break;
 							case VK_MENU:
-								keyboard->KeyCode = Key::Alt;
+								keyboard.KeyCode = Key::Alt;
 								break;
 							case VK_BACK:
-								keyboard->KeyCode = Key::Back;
+								keyboard.KeyCode = Key::Back;
 								break;
 							case VK_SPACE:
-								keyboard->KeyCode = Key::Space;
-								keyboard->KeyChar = ' ';
+								keyboard.KeyCode = Key::Space;
+								keyboard.KeyChar = ' ';
 								break;
 							case VK_TAB:
-								keyboard->KeyCode = Key::Tab;
+								keyboard.KeyCode = Key::Tab;
 								break;
 							case VK_CLEAR:
 							case VK_DELETE:
-								keyboard->KeyCode = Key::Delete;
+								keyboard.KeyCode = Key::Delete;
 								break;
 							case VK_INSERT:
-								keyboard->KeyCode = Key::Insert;
+								keyboard.KeyCode = Key::Insert;
 								break;
 							case VK_RETURN:
-								keyboard->KeyCode = Key::Return;
+								keyboard.KeyCode = Key::Return;
 								break;
 							case VK_PRIOR:
-								keyboard->KeyCode = Key::PageDown;
+								keyboard.KeyCode = Key::PageDown;
 								break;
 							case VK_NEXT:
-								keyboard->KeyCode = Key::PageUp;
+								keyboard.KeyCode = Key::PageUp;
 								break;
 							case VK_END:
-								keyboard->KeyCode = Key::End;
+								keyboard.KeyCode = Key::End;
 								break;
 							case VK_HOME:
-								keyboard->KeyCode = Key::Home;
+								keyboard.KeyCode = Key::Home;
 								break;
 							case VK_LEFT:
-								keyboard->KeyCode = Key::Left;
+								keyboard.KeyCode = Key::Left;
 								break;
 							case VK_UP:
-								keyboard->KeyCode = Key::Up;
+								keyboard.KeyCode = Key::Up;
 								break;
 							case VK_RIGHT:
-								keyboard->KeyCode = Key::Right;
+								keyboard.KeyCode = Key::Right;
 								break;
 							case VK_DOWN:
-								keyboard->KeyCode = Key::Down;
+								keyboard.KeyCode = Key::Down;
 								break;
 							case 26:
 							case 1:
@@ -147,18 +147,18 @@ namespace OSHGui
 							case 27:
 							case 29:
 							case 28:
-								keyboard->KeyCode = Key::None;
+								keyboard.KeyCode = Key::None;
 								break;
 						}
 					}
 					else if (message->message == WM_CHAR)
 					{
-						keyboard->State = KeyboardEvent::Character;
+						keyboard.State = KeyboardEvent::Character;
 
 						switch ((Misc::UnicodeChar)message->wParam)
 						{
 							case VK_BACK:
-								keyboard->KeyCode = Key::Back;
+								keyboard.KeyCode = Key::Back;
 								break;
 							case 24:        // Ctrl-X Cut
 							case VK_CANCEL: // Ctrl-C Copy
@@ -192,100 +192,100 @@ namespace OSHGui
 							case 28:  // Ctrl \ 
 								break;
 							default:
-								keyboard->KeyChar = (Misc::UnicodeChar)message->wParam;
-								switch (keyboard->KeyChar >= L'A' && keyboard->KeyChar <= L'Z' ? keyboard->KeyChar + 0x20 : keyboard->KeyChar)
+								keyboard.KeyChar = (Misc::UnicodeChar)message->wParam;
+								switch (keyboard.KeyChar >= L'A' && keyboard.KeyChar <= L'Z' ? keyboard.KeyChar + 0x20 : keyboard.KeyChar)
 								{
 									case L'a':
-										keyboard->KeyCode = Key::A;
+										keyboard.KeyCode = Key::A;
 										break;
 									case L'b':
-										keyboard->KeyCode = Key::B;
+										keyboard.KeyCode = Key::B;
 										break;
 									case L'c':
-										keyboard->KeyCode = Key::C;
+										keyboard.KeyCode = Key::C;
 										break;
 									case L'd':
-										keyboard->KeyCode = Key::D;
+										keyboard.KeyCode = Key::D;
 										break;
 									case L'e':
-										keyboard->KeyCode = Key::E;
+										keyboard.KeyCode = Key::E;
 										break;
 									case L'f':
-										keyboard->KeyCode = Key::F;
+										keyboard.KeyCode = Key::F;
 										break;
 									case L'g':
-										keyboard->KeyCode = Key::G;
+										keyboard.KeyCode = Key::G;
 										break;
 									case L'h':
-										keyboard->KeyCode = Key::H;
+										keyboard.KeyCode = Key::H;
 										break;
 									case L'i':
-										keyboard->KeyCode = Key::I;
+										keyboard.KeyCode = Key::I;
 										break;
 									case L'j':
-										keyboard->KeyCode = Key::J;
+										keyboard.KeyCode = Key::J;
 										break;
 									case L'k':
-										keyboard->KeyCode = Key::K;
+										keyboard.KeyCode = Key::K;
 										break;
 									case L'l':
-										keyboard->KeyCode = Key::L;
+										keyboard.KeyCode = Key::L;
 										break;
 									case L'm':
-										keyboard->KeyCode = Key::M;
+										keyboard.KeyCode = Key::M;
 										break;
 									case L'n':
-										keyboard->KeyCode = Key::N;
+										keyboard.KeyCode = Key::N;
 										break;
 									case L'o':
-										keyboard->KeyCode = Key::O;
+										keyboard.KeyCode = Key::O;
 										break;
 									case L'p':
-										keyboard->KeyCode = Key::P;
+										keyboard.KeyCode = Key::P;
 										break;
 									case L'q':
-										keyboard->KeyCode = Key::Q;
+										keyboard.KeyCode = Key::Q;
 										break;
 									case L'r':
-										keyboard->KeyCode = Key::R;
+										keyboard.KeyCode = Key::R;
 										break;
 									case L's':
-										keyboard->KeyCode = Key::S;
+										keyboard.KeyCode = Key::S;
 										break;
 									case L't':
-										keyboard->KeyCode = Key::T;
+										keyboard.KeyCode = Key::T;
 										break;
 									case L'u':
-										keyboard->KeyCode = Key::U;
+										keyboard.KeyCode = Key::U;
 										break;
 									case L'v':
-										keyboard->KeyCode = Key::V;
+										keyboard.KeyCode = Key::V;
 										break;
 									case L'w':
-										keyboard->KeyCode = Key::W;
+										keyboard.KeyCode = Key::W;
 										break;
 									case L'x':
-										keyboard->KeyCode = Key::X;
+										keyboard.KeyCode = Key::X;
 										break;
 									case L'y':
-										keyboard->KeyCode = Key::Y;
+										keyboard.KeyCode = Key::Y;
 										break;
 									case L'z':
-										keyboard->KeyCode = Key::Z;
+										keyboard.KeyCode = Key::Z;
 										break;
 									default:
-										keyboard->KeyCode = Key::None;
+										keyboard.KeyCode = Key::None;
 										break;
 								}
 								break;
 						}
 					}
-					if (keyboard->State == KeyboardEvent::Unknown)
+					if (keyboard.State == KeyboardEvent::Unknown)
 					{
 						break;
 					}
 			
-					if (Application::ProcessEvent(std::static_pointer_cast<Event>(keyboard)) == Event::DontContinue)
+					if (Application::ProcessEvent(&keyboard) == Event::DontContinue)
 					{
 						return true;
 					}

@@ -21,7 +21,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ComboBox(const std::shared_ptr<Control> &parent = 0);
+		ComboBox(Control *parent = 0);
 		virtual ~ComboBox();
 		
 		/**
@@ -42,7 +42,7 @@ namespace OSHGui
 		 * @param index
 		 * @return 0, falls der Index nicht existiert
 		 */
-		std::shared_ptr<ListItem> GetItem(int index);
+		ListItem* GetItem(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
@@ -54,7 +54,7 @@ namespace OSHGui
 		 *
 		 * @return 0, falls kein ListItem ausgewählt wurde
 		 */
-		std::shared_ptr<ListItem> GetSelectedItem();
+		ListItem* GetSelectedItem();
 		/**
 		 * Gibt die Anzahl der ListItems zurück.
 		 *
@@ -117,13 +117,13 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(const std::shared_ptr<Event> &event);
+		virtual Event::NextEventTypes ProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(const std::shared_ptr<Drawing::IRenderer> &renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 	
 	protected:
 		virtual void SetFocus(bool focus);
@@ -141,7 +141,7 @@ namespace OSHGui
 						   itemsRect;
 		Drawing::Color dropDownColor;
 		
-		std::vector<std::shared_ptr<ListItem>> items;
+		std::vector<ListItem*> items;
 	};
 }
 

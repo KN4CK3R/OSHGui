@@ -80,21 +80,21 @@ namespace OSHGui
 		}
 	};
 
-	typedef EventHandler<void(const std::shared_ptr<Control>&, const std::shared_ptr<MouseEvent>&)> ClickEventHandler;
+	typedef EventHandler<void(Control*, MouseEvent*)> ClickEventHandler;
 	
-	typedef EventHandler<void(const std::shared_ptr<Control>&, const std::shared_ptr<KeyboardEvent>&)> KeyPressEventHandler;
+	typedef EventHandler<void(Control*, KeyboardEvent*)> KeyPressEventHandler;
 
-	typedef EventHandler<void(const std::shared_ptr<Control>&)> ChangeEventHandler;
+	typedef EventHandler<void(Control*)> ChangeEventHandler;
 	
-	typedef EventHandler<void(const std::shared_ptr<Control>&)> MouseEnterEventHandler;
+	typedef EventHandler<void(Control*)> MouseEnterEventHandler;
 	
-	typedef EventHandler<void(const std::shared_ptr<Control>&)> MouseLeaveEventHandler;
+	typedef EventHandler<void(Control*)> MouseLeaveEventHandler;
 	
-	typedef EventHandler<void(const std::shared_ptr<Control>&)> FocusInEventHandler;
+	typedef EventHandler<void(Control*)> FocusInEventHandler;
 	
-	typedef EventHandler<void(const std::shared_ptr<Control>&)> FocusOutEventHandler;
+	typedef EventHandler<void(Control*)> FocusOutEventHandler;
 
-	typedef EventHandler<void(const std::shared_ptr<Control>&)> TickEventHandler;
+	typedef EventHandler<void(Control*)> TickEventHandler;
 }
 
 #endif

@@ -7,7 +7,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TabControl::TabControl(const std::shared_ptr<Control> &parent) : Control(parent)
+	TabControl::TabControl(Control *parent) : Control(parent)
 	{
 		type = CONTROL_TABCONTROL;
 
@@ -19,9 +19,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	std::shared_ptr<TabPage> TabControl::GetTabPage(const Misc::UnicodeString &text)
+	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text)
 	{
-		for (std::list<std::shared_ptr<TabPage>>::iterator it = tabs.begin(); it != tabs.end(); it++)
+		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
 		{
 			if ((*it)->GetText() == text)
 			{
@@ -32,11 +32,11 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<TabPage> TabControl::GetTabPage(int index)
+	TabPage* TabControl::GetTabPage(int index)
 	{
 		if (index > 0 && index < (int)tabs.size())
 		{
-			std::list<std::shared_ptr<TabPage>>::iterator it = tabs.begin();
+			std::list<TabPage*>::iterator it = tabs.begin();
 			for (int i = 0; i < index; i++)
 			{
 				it++;
@@ -48,7 +48,7 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::AddTabPage(const std::shared_ptr<TabPage> &tabPage)
+	void TabControl::AddTabPage(TabPage *tabPage)
 	{
 		if (tabPage == 0)
 		{
@@ -64,7 +64,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::RemoveTabPage(const std::shared_ptr<TabPage> &tabPage)
+	void TabControl::RemoveTabPage(TabPage *tabPage)
 	{
 		if (tabPage == 0)
 		{
@@ -106,7 +106,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TabControl::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes TabControl::ProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -122,19 +122,19 @@ namespace OSHGui
 
 		if (event->Type == Event::Mouse)
 		{
-			std::shared_ptr<MouseEvent> mouse = std::static_pointer_cast<MouseEvent>(event);
+			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
 			int x = 2;
 			Misc::TextHelper textHelper(font);
-			for (std::list<std::shared_ptr<TabPage>>::iterator it = tabs.begin(); it != tabs.end(); it++)
+			for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
 			{
 				textHelper.SetText((*it)->GetText());
 				Drawing::Size textSize = textHelper.GetSize();
 				if (Drawing::Rectangle(x, 0, textSize.Width + 8, textSize.Height + 8).Contains(mouse->Position))
 				{
-					static std::shared_ptr<TabPage> clicked = 0;
+					static TabPage *clicked = 0;
 					if (mouse->State == MouseEvent::LeftDown)
 					{
 						clicked = *it;
@@ -145,7 +145,7 @@ namespace OSHGui
 					{
 						if (clicked == *it)
 						{
-							Parent->RequestFocus(shared_from_this());
+							Parent->RequestFocus(this);
 							activeTab = clicked;
 							clicked = 0;
 							Invalidate();
@@ -173,7 +173,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void TabControl::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{
@@ -192,7 +192,7 @@ namespace OSHGui
 		Drawing::Color backInactiveGradient = backInactive - Drawing::Color(0, 20, 20, 20);
 		Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9,9);
 
-		for (std::list<std::shared_ptr<TabPage>>::iterator it = tabs.begin(); it != tabs.end(); it++)
+		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
 		{
 			textHelper.SetText((*it)->GetText());
 			Drawing::Size textSize = textHelper.GetSize();
@@ -207,7 +207,7 @@ namespace OSHGui
 			else
 			{
 				renderer->SetRenderColor(borderInactive);
-				renderer->Fill(x, y, textSize.Width + 8, textSize.Height + 8);
+				renderer->Fill(x, y, textSize.Width + 8, textSize.Height + 7);
 				renderer->SetRenderColor(backInactive);
 				renderer->FillGradient(x + 1, y + 1, textSize.Width + 6, textSize.Height + 7, backInactiveGradient);
 			}

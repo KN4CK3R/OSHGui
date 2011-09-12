@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ProgressBar::ProgressBar(const std::shared_ptr<Control> &parent) : Control(parent)
+	ProgressBar::ProgressBar(Control *parent) : Control(parent)
 	{
 		type = CONTROL_PROGRESSBAR;
 
@@ -99,7 +99,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	void ProgressBar::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void ProgressBar::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{

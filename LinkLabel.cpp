@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	LinkLabel::LinkLabel(const std::shared_ptr<Control> &parent) : Label(parent)
+	LinkLabel::LinkLabel(Control *parent) : Label(parent)
 	{
 		type = CONTROL_LINKLABEL;
 
@@ -14,12 +14,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes LinkLabel::ProcessEvent(const std::shared_ptr<Event> &event)
+	Event::NextEventTypes LinkLabel::ProcessEvent(Event *event)
 	{
 		return Label::ProcessEvent(event);
 	}
 	//---------------------------------------------------------------------------
-	void LinkLabel::Render(const std::shared_ptr<Drawing::IRenderer> &renderer)
+	void LinkLabel::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{
