@@ -3,6 +3,7 @@
 
 #include <list>
 #include <memory>
+#include <functional>
 
 #include "MouseEvent.h"
 #include "KeyboardEvent.h"
@@ -11,23 +12,14 @@ namespace OSHGui
 {
 	class Control;
 
-	//VisualStudio 2010 doesn't support Variadic Templates :(
-
 	/**
 	 * EventHandler für Funktionen mit einem Parameter.
 	 */
-	template <typename Type, typename Param1>
-	class EventHandlerOneParam
+	template <typename Signature>
+	class EventHandler
 	{
 	private:
-		class Handler
-		{
-		public:
-			typedef void (Handler::*Type)(Param1);
-			
-			Handler *source;
-			Type function;
-		};
+		typedef std::function<Signature> Handler;
 		
 		std::list<Handler> handlers;
 
@@ -35,32 +27,23 @@ namespace OSHGui
 		/**
 		 * Registriert eine Funktion im EventHandler.
 		 *
-		 * @param source Memberklasse
-		 * @param function Funktionszeiger
+		 * @param handler
 		 */
-		template <typename T>
-		void Add(void *source, T function)
-		{
-			Handler handler;
-			handler.source = reinterpret_cast<Handler*>(source);
-			handler.function = reinterpret_cast<Handler::Type>(function);
-			
+		void Add(Handler const& handler)
+		{		
 			handlers.push_back(handler);
 		}
 		
 		/**
 		 * Entfernt eine Funktion aus dem EventHandler.
 		 *
-		 * @param source Memberklasse
-		 * @param function Funktionszeiger
+		 * @param handler
 		 */
-		template <typename T>
-		void Remove(void *source, T function)
+		void Remove(Handler const& handler)
 		{
 			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end();)
 			{
-				Handler &handler = *it;
-				if (handler.source == (handler*)source && handler.function == reinterpret_cast<Handler::Type>(function))
+				if (*it == handler)
 				{
 					it = handlers.erase(it);
 				}
@@ -76,101 +59,42 @@ namespace OSHGui
 		 *
 		 * @param param1 Funktionsparameter
 		 */
-		void Invoke(Param1 param1)
+		template <typename T>
+		void Invoke(T&& param1)
 		{
-			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); it++)
+			for (auto it = handlers.begin(); it != handlers.end(); ++it)
 			{
 				Handler &handler = *it;
-				(handler.source->*handler.function)(param1);
+				handler(std::forward<T>(param1));
+			}
+		}
+
+		template <typename T, typename T2>
+		void Invoke(T&& param1, T2&& param2)
+		{
+			for (auto it = handlers.begin(); it != handlers.end(); ++it)
+			{
+				Handler &handler = *it;
+				handler(std::forward<T>(param1), std::forward<T2>(param2));
 			}
 		}
 	};
 
-	template <typename Type, typename Param1, typename Param2>
-	class EventHandlerTwoParam
-	{
-	private:
-		class Handler
-		{
-		public:
-			typedef void (Handler::*Type)(Param1, Param2);
-			
-			Handler *source;
-			Type function;
-		};
-		
-		std::list<Handler> handlers;
+	typedef EventHandler<void(const std::shared_ptr<Control>&, const std::shared_ptr<MouseEvent>&)> ClickEventHandler;
+	
+	typedef EventHandler<void(const std::shared_ptr<Control>&, const std::shared_ptr<KeyboardEvent>&)> KeyPressEventHandler;
 
-	public:
-		/**
-		 * Registriert eine Funktion im EventHandler.
-		 *
-		 * @param source Memberklasse
-		 * @param function Funktionszeiger
-		 */
-		template <typename T>
-		void Add(void *source, T function)
-		{
-			Handler handler;
-			handler.source = reinterpret_cast<Handler*>(source);
-			handler.function = reinterpret_cast<Handler::Type>(function);
-			
-			handlers.push_back(handler);
-		}
-		
-		/**
-		 * Entfernt eine Funktion aus dem EventHandler.
-		 *
-		 * @param source Memberklasse
-		 * @param function Funktionszeiger
-		 */
-		template <typename T>
-		void Remove(void *source, T function)
-		{
-			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end();)
-			{
-				Handler &handler = *it;
-				if (handler.source == (handler*)source && handler.function == reinterpret_cast<Handler::Type>(function))
-				{
-					it = handlers.erase(it);
-				}
-				else
-				{
-					it++;
-				}
-			}
-		}
-		
-		/**
-		 * Ruft alle registrierten Funktionen auf.
-		 *
-		 * @param param1 Funktionsparameter
-		 */
-		void Invoke(Param1 param1, Param2 param2)
-		{
-			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); it++)
-			{
-				Handler &handler = *it;
-				(handler.source->*handler.function)(param1, param2);
-			}
-		}
-	};
+	typedef EventHandler<void(const std::shared_ptr<Control>&)> ChangeEventHandler;
+	
+	typedef EventHandler<void(const std::shared_ptr<Control>&)> MouseEnterEventHandler;
+	
+	typedef EventHandler<void(const std::shared_ptr<Control>&)> MouseLeaveEventHandler;
+	
+	typedef EventHandler<void(const std::shared_ptr<Control>&)> FocusInEventHandler;
+	
+	typedef EventHandler<void(const std::shared_ptr<Control>&)> FocusOutEventHandler;
 
-	typedef EventHandlerTwoParam<void (*)(const std::shared_ptr<Control>&, const std::shared_ptr<MouseEvent>&), const std::shared_ptr<Control>&, const std::shared_ptr<MouseEvent>&> ClickEventHandler;
-	
-	typedef EventHandlerTwoParam<void (*)(const std::shared_ptr<Control>&, const std::shared_ptr<KeyboardEvent>&), const std::shared_ptr<Control>&, const std::shared_ptr<KeyboardEvent>&> KeyPressEventHandler;
-
-	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> ChangeEventHandler;
-	
-	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> MouseEnterEventHandler;
-	
-	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> MouseLeaveEventHandler;
-	
-	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> FocusInEventHandler;
-	
-	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> FocusOutEventHandler;
-
-	typedef EventHandlerOneParam<void (*)(const std::shared_ptr<Control>&), const std::shared_ptr<Control>&> TickEventHandler;
+	typedef EventHandler<void(const std::shared_ptr<Control>&)> TickEventHandler;
 }
 
 #endif

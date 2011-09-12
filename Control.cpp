@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 		type = CONTROL_BUTTON;
 
-		SetLocation(Drawing::Point(3, 3));
+		SetLocation(Drawing::Point(6, 6));
 
 		Parent = parent;
 		
