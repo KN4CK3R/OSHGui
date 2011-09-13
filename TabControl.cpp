@@ -17,6 +17,16 @@ namespace OSHGui
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
+	TabControl::~TabControl()
+	{
+		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
+		{
+			delete *it;
+		}
+
+		tabs.clear();
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text)

@@ -1,4 +1,5 @@
 #include "Control.h"
+#include <Windows.h>
 
 namespace OSHGui
 {

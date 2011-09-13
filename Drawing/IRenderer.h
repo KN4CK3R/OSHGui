@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_DRAWING_IRENDERER_H__
 #define __OSHGUI_DRAWING_IRENDERER_H__
 
+#include <memory>
 #include "Color.h"
 #include "Point.h"
 #include "Size.h"

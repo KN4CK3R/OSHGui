@@ -190,7 +190,10 @@ namespace OSHGui
 			}
 		}
 
-		focusForm->Render(Renderer);
+		if (focusForm != 0)
+		{
+			focusForm->Render(Renderer);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

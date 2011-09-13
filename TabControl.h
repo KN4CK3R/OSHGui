@@ -20,6 +20,7 @@ namespace OSHGui
 		 * @param parent das Elternsteuerelement
 		 */
 		TabControl(Control *parent = 0);
+		virtual ~TabControl();
 
 		TabPage* GetTabPage(const Misc::UnicodeString &name);
 		TabPage* GetTabPage(int index);
