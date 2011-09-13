@@ -21,6 +21,7 @@ namespace OSHGui
 		 * @param parent das Elternsteuerelement
 		 */
 		TabControl(const std::shared_ptr<Control> &parent = 0);
+		virtual ~TabControl();
 
 		std::shared_ptr<TabPage> GetTabPage(const Misc::UnicodeString &name);
 		std::shared_ptr<TabPage> GetTabPage(int index);
