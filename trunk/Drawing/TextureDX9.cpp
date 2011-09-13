@@ -1,4 +1,5 @@
 #include "TextureDX9.h"
+#include <D3dx9tex.h>
 
 #ifndef SAFE_RELEASE
 	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = 0; } }
@@ -49,6 +50,21 @@ namespace OSHGui
 			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 			{
 				this->size = size;
+				return true;
+			}
+			return false;
+		}
+		//---------------------------------------------------------------------------
+		bool TextureDX9::LoadFromFile(const Misc::UnicodeString &filename, const Size &size)
+		{
+			SAFE_RELEASE(texture);
+			if (!FAILED(D3DXCreateTextureFromFileW(device, filename.c_str(), &texture)))
+			{
+				//D3DSURFACE_DESC desc;
+				//texture->GetLevelDesc(0, &desc);
+				//size = Drawing::Size(desc.Width, desc.Height);
+				this->size = size;
+
 				return true;
 			}
 			return false;

@@ -1,9 +1,7 @@
 #ifndef __OSHGUI_DRAWING_ITEXTURE_H__
 #define __OSHGUI_DRAWING_ITEXTURE_H__
 
-#include <math.h>
-#include <algorithm>
-
+#include "../Misc/Strings.h"
 #include "Color.h"
 #include "Point.h"
 #include "Size.h"
@@ -23,6 +21,7 @@ namespace OSHGui
 			virtual bool IsLocked() = 0;
 
 			virtual bool Create(const Size &size) = 0;
+			virtual bool LoadFromFile(const Misc::UnicodeString &filename, const Size &size) = 0;
 		
 			virtual void BeginUpdate() = 0;
 			virtual void EndUpdate() = 0;
