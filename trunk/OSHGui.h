@@ -7,7 +7,7 @@
 #include "Misc\TimeSpan.h"
 #include "Misc\DateTime.h"
 
-#include "EventHandler.h"
+#include "Event\EventHandler.h"
 
 #include "Control.h"
 #include "Label.h"

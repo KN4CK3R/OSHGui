@@ -2,7 +2,7 @@
 #define __OSHGUI_TIMER_H__
 
 #include "Control.h"
-#include "EventHandler.h"
+#include "Event\EventHandler.h"
 
 namespace OSHGui
 {

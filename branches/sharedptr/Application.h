@@ -5,7 +5,7 @@
 #include <map>
 #include "Drawing\IRenderer.h"
 #include "Misc\DateTime.h"
-#include "Event.h"
+#include "Event\Event.h"
 
 namespace OSHGui
 {
