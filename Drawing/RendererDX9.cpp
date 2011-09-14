@@ -97,10 +97,22 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point)
 		{
-			RenderTexture(texture, point.X, point.Y);
+			Drawing::Size size = texture->GetSize();
+			RenderTexture(texture, point.X, point.Y, size.Width, size.Height);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y)
+		{
+			Drawing::Size size = texture->GetSize();
+			RenderTexture(texture, x, y, size.Width, size.Height);
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect)
+		{
+			RenderTexture(texture, rect.GetLeft(), rect.GetHeight(), rect.GetWidth(), rect.GetHeight());
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h)
 		{
 			if (texture == 0)
 			{
@@ -122,11 +134,11 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			AddVertex(x, y, 0.0f, 0.0f);
-			AddVertex(x + size.Width, y, 1.0f, 0.0f);
-			AddVertex(x, y + size.Height, 0.0f, 1.0f);
-			AddVertex(x + size.Width, y, 1.0f, 0.0f);
-			AddVertex(x + size.Width, y + size.Height, 1.0f, 1.0f);
-			AddVertex(x, y + size.Height, 0.0f, 1.0f);
+			AddVertex(x + w, y, 1.0f, 0.0f);
+			AddVertex(x, y + h, 0.0f, 1.0f);
+			AddVertex(x + w, y, 1.0f, 0.0f);
+			AddVertex(x + w, y + h, 1.0f, 1.0f);
+			AddVertex(x, y + h, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
 		Size RendererDX9::MeasureText(const std::shared_ptr<IFont> &font, const Misc::UnicodeString &text)

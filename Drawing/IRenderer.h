@@ -30,6 +30,8 @@ namespace OSHGui
 			
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point) = 0;
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y) = 0;
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect) = 0;
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h) = 0;
 
 			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::UnicodeString &text) = 0;
 

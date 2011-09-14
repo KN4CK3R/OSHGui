@@ -84,9 +84,7 @@ namespace OSHGui
 			 * Kopierkonstruktor
 			 */
 			Any(const Any &any)
-			{
-				delete wrapper;
-			
+			{			
 				id = any.id;
 				wrapper = any.wrapper->Copy();
 			}
