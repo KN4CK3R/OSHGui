@@ -109,7 +109,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect)
 		{
-			RenderTexture(texture, rect.GetLeft(), rect.GetHeight(), rect.GetWidth(), rect.GetHeight());
+			RenderTexture(texture, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h)
@@ -127,8 +127,6 @@ namespace OSHGui
 				device->SetTexture(0, temp->GetTexture());
 				this->texture = temp;
 			}
-
-			Size size = temp->GetSize();
 
 			x = x + renderRect.GetLeft();
 			y = y + renderRect.GetTop();
