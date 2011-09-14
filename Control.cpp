@@ -327,6 +327,8 @@ namespace OSHGui
 		if (control != 0)
 		{
 			controls.push_back(control);
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------

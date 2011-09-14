@@ -88,7 +88,8 @@ namespace OSHGui
 		
 		if (image != 0)
 		{
-			renderer->RenderTexture(image, bounds);
+			renderer->SetRenderColor(Drawing::Color::White());
+			renderer->RenderTexture(image, bounds.GetPosition());
 		}
 	
 		if (controls.size() > 0)

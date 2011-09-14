@@ -31,7 +31,7 @@ namespace OSHGui
 			right = left + width;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetLeft()
+		int Rectangle::GetLeft() const
 		{
 			return left;
 		}
@@ -42,7 +42,7 @@ namespace OSHGui
 			bottom = top + height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetTop()
+		int Rectangle::GetTop() const
 		{
 			return top;
 		}
@@ -53,7 +53,7 @@ namespace OSHGui
 			right = left + width;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetWidth()
+		int Rectangle::GetWidth() const
 		{
 			return width;
 		}
@@ -64,27 +64,27 @@ namespace OSHGui
 			bottom = top + height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetHeight()
+		int Rectangle::GetHeight() const
 		{
 			return height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetRight()
+		int Rectangle::GetRight() const
 		{
 			return right;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetBottom()
+		int Rectangle::GetBottom() const
 		{
 			return bottom;
 		}
 		//---------------------------------------------------------------------------
-		Point Rectangle::GetPosition()
+		Point Rectangle::GetPosition() const
 		{
 			return Point(left, top);
 		}
 		//---------------------------------------------------------------------------
-		Size Rectangle::GetSize()
+		Size Rectangle::GetSize() const
 		{
 			return Size(width, height);
 		}
