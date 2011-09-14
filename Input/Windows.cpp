@@ -1,5 +1,5 @@
 #include "Windows.h"
-#include "..\EventHandler.h"
+#include "..\Event\EventHandler.h"
 #include "..\Application.h"
 
 namespace OSHGui
