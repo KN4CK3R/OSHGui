@@ -23,11 +23,33 @@ namespace OSHGui
 		TabControl(const std::shared_ptr<Control> &parent = 0);
 		virtual ~TabControl();
 
-		std::shared_ptr<TabPage> GetTabPage(const Misc::UnicodeString &name);
-		std::shared_ptr<TabPage> GetTabPage(int index);
-		void AddTabPage(const std::shared_ptr<TabPage> &tabPage);
+		/**
+		 * Ruft die TabPage mit dem entsprechenden Namen ab.
+		 *
+		 * @param name der Name
+		 * @return im Fehlerfall 0
+		 */
+		TabPage* GetTabPage(const Misc::UnicodeString &name);
+		/**
+		 * Ruft die TabPage am entsprechenden Index ab.
+		 *
+		 * @param index
+		 * @return im Fehlerfall 0
+		 */
+		TabPage* GetTabPage(int index);
 		
-		void RemoveTabPage(const std::shared_ptr<TabPage> &tabPage);
+		/**
+		 * Fügt dem TabControl eine neue TabPage hinzu.
+		 *
+		 * @param tabPage
+		 */
+		void AddTabPage(TabPage *tabPage);
+		/**
+		 * Entfernt eine TabPage aus dem TabControl.
+		 *
+		 * @param tabPage
+		 */
+		void RemoveTabPage(TabPage *tabPage);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

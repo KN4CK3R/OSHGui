@@ -46,11 +46,38 @@ namespace OSHGui
 			}
 			
 			SAFE_RELEASE(texture);
+			
 			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 			{
 				this->size = size;
+				
 				return true;
 			}
+			
+			texture = 0;
+			
+			return false;
+		}
+		//---------------------------------------------------------------------------
+		bool TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
+		{
+			SAFE_RELEASE(texture);
+			
+			D3DXIMAGE_INFO info;
+			if (FAILED(D3DXGetImageInfoFromFileW(filename.c_str(), &info)))
+			{
+				return false;
+			}
+			
+			if (!FAILED(D3DXCreateTextureFromFileW(device, filename.c_str(), &texture)))
+			{
+				size = Drawing::Size(info.Width, info.Height);
+
+				return true;
+			}
+			
+			texture = 0;
+			
 			return false;
 		}
 		//---------------------------------------------------------------------------

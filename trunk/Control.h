@@ -14,7 +14,7 @@
 #include "Misc\Strings.h"
 #include "Misc\Any.h"
 
-#include "EventHandler.h"
+#include "Event\EventHandler.h"
 
 namespace OSHGui
 {

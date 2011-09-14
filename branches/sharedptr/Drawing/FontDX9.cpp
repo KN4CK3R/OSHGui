@@ -35,8 +35,11 @@ namespace OSHGui
 		bool FontDX9::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
 			SAFE_RELEASE(font);
+			
 			if (FAILED(D3DXCreateFontW(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
 			{
+				font = 0;
+			
 				return false;
 			}
 			

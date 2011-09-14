@@ -35,8 +35,11 @@ namespace OSHGui
 		bool FontDX9::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
 			SAFE_RELEASE(font);
+			
 			if (FAILED(D3DXCreateFontW(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
 			{
+				font = 0;
+			
 				return false;
 			}
 			
@@ -45,7 +48,8 @@ namespace OSHGui
 			this->bold = bold;
 			this->italic = italic;
 			
-			RECT rect = { 0, 0, 0, 0}, rect2 = { 0, 0, 0, 0 };
+			RECT rect = { 0, 0, 0, 0},
+				 rect2 = { 0, 0, 0, 0 };
 			font->DrawTextW(0, L"_", -1, &rect, DT_CALCRECT, 0);
 			font->DrawTextW(0, L"_ _", -1, &rect2, DT_CALCRECT, 0);
 			spaceWidth = rect2.right - rect.right * 2;

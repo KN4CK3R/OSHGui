@@ -22,7 +22,7 @@ namespace OSHGui
 			virtual bool IsLocked();
 
 			virtual bool Create(const Size &size);
-			virtual bool LoadFromFile(const Misc::UnicodeString &filename, const Size &size);
+			virtual bool LoadFromFile(const Misc::UnicodeString &filename);
 		
 			virtual void BeginUpdate();
 			virtual void EndUpdate();

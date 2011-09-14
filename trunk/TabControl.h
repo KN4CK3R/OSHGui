@@ -22,10 +22,32 @@ namespace OSHGui
 		TabControl(Control *parent = 0);
 		virtual ~TabControl();
 
+		/**
+		 * Ruft die TabPage mit dem entsprechenden Namen ab.
+		 *
+		 * @param name der Name
+		 * @return im Fehlerfall 0
+		 */
 		TabPage* GetTabPage(const Misc::UnicodeString &name);
+		/**
+		 * Ruft die TabPage am entsprechenden Index ab.
+		 *
+		 * @param index
+		 * @return im Fehlerfall 0
+		 */
 		TabPage* GetTabPage(int index);
-		void AddTabPage(TabPage *tabPage);
 		
+		/**
+		 * Fügt dem TabControl eine neue TabPage hinzu.
+		 *
+		 * @param tabPage
+		 */
+		void AddTabPage(TabPage *tabPage);
+		/**
+		 * Entfernt eine TabPage aus dem TabControl.
+		 *
+		 * @param tabPage
+		 */
 		void RemoveTabPage(TabPage *tabPage);
 		
 		/**
