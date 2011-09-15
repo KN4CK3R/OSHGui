@@ -6,9 +6,10 @@ namespace OSHGui
 {
 	std::map<Timer*, Application::TimerInfo> Application::timers;
 	std::list<Form*> Application::forms;
+	std::list<Application::ModalInfo> Application::modals;
+	std::list<Form*> Application::removeForms;
 	Form *Application::focusForm = 0;
 	Form *Application::mainForm = 0;
-	std::list<Form*> Application::removeForms;
 	bool Application::enabled = false;
 	Drawing::IRenderer *Application::Renderer = 0;
 	//---------------------------------------------------------------------------
@@ -65,11 +66,19 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Application::RegisterForm(Form *form)
+	void Application::RegisterForm(Form *form, const std::function<void()> &modalFunc)
 	{
 		if (form == 0)
 		{
 			return;
+		}
+
+		for (std::list<ModalInfo>::iterator it = modals.begin(); it != modals.end(); it++)
+		{
+			if (it->form == form)
+			{
+				return;
+			}
 		}
 
 		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
@@ -80,9 +89,19 @@ namespace OSHGui
 			}
 		}
 
-		forms.push_front(form);
+		if (form->IsModal())
+		{
+			ModalInfo info;
+			info.form = form;
+			info.func = modalFunc;
 
-		focusForm = form;
+			modals.push_front(info);
+		}
+		else
+		{
+			forms.push_front(form);
+			focusForm = form;
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Application::UnregisterForm(Form *form)
@@ -95,6 +114,23 @@ namespace OSHGui
 		if (form == mainForm) //don't unregister mainForm
 		{
 			return;
+		}
+
+		if (modals.size() > 0)
+		{
+			if (modals.front().form == form)
+			{
+				ModalInfo info = modals.front();
+				
+				removeForms.push_back(info.form);
+
+				if (info.func)
+				{
+					info.func();
+				}
+
+				modals.pop_front();
+			}
 		}
 
 		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
@@ -127,6 +163,12 @@ namespace OSHGui
 		if (event == 0 || !enabled)
 		{
 			return Event::Continue;
+		}
+
+		if (modals.size() != 0)
+		{
+			modals.front().form->ProcessEvent(event);
+			return Event::DontContinue;
 		}
 		
 		if (focusForm != 0 && focusForm->ProcessEvent(event) == Event::DontContinue)
@@ -193,6 +235,11 @@ namespace OSHGui
 		if (focusForm != 0)
 		{
 			focusForm->Render(Renderer);
+		}
+
+		if (modals.size() > 0)
+		{
+			modals.front().form->Render(Renderer);
 		}
 	}
 	//---------------------------------------------------------------------------
