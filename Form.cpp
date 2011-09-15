@@ -12,6 +12,7 @@ namespace OSHGui
 		visible = false;
 		enabled = false;
 		drag = false;
+		isModal = false;
 
 		SetLocation(Drawing::Point(10, 10));
 		SetSize(Drawing::Size(300, 300));
@@ -39,6 +40,11 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
+	bool Form::IsModal()
+	{
+		return isModal;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool Form::ContainsPoint(const Drawing::Point &point)
@@ -59,6 +65,16 @@ namespace OSHGui
 	void Form::Show()
 	{
 		Application::RegisterForm(this);
+
+		visible = true;
+		enabled = true;
+	}
+	//---------------------------------------------------------------------------
+	void Form::ShowModal(const std::function<void()> &func)
+	{
+		isModal = true;
+
+		Application::RegisterForm(this, func);
 
 		visible = true;
 		enabled = true;

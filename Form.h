@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_FORM_H__
 #define __OSHGUI_FORM_H__
 
+#include <functional>
 #include "Control.h"
 #include "Misc\TextHelper.h"
 
@@ -17,6 +18,8 @@ namespace OSHGui
 		 */
 		Form();
 		virtual ~Form();
+
+		bool IsModal();
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -43,6 +46,12 @@ namespace OSHGui
 		 * Zeigt die Form an.
 		 */
 		void Show();
+		/**
+		 * Zeigt die Form modal an.
+		 *
+		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird
+		 */
+		void ShowModal(const std::function<void()> &func = 0);
 
 		/**
 		 * Schließt die Form.
@@ -76,6 +85,7 @@ namespace OSHGui
 		Drawing::Rectangle captionBar,
 						   closeRect;
 		bool drag;
+		bool isModal;
 	};
 }
 

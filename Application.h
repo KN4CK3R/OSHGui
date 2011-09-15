@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_APPLICATION_H__
 #define __OSHGUI_APPLICATION_H__
 
+#include <functional>
 #include <list>
 #include <map>
 #include "Drawing\IRenderer.h"
@@ -59,12 +60,17 @@ namespace OSHGui
 			Timer *timer;
 			Misc::TimeSpan interval;
 			Misc::DateTime next;
-		};
-			
+		};			
 		static std::map<Timer*, TimerInfo> timers;
 
-		static void RegisterForm(Form *form);
+		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);
 		static void UnregisterForm(Form *form);
+		struct ModalInfo
+		{
+			Form *form;
+			std::function<void()> func;
+		};
+		static std::list<ModalInfo> modals; //we can't use std::stack here because we need an iterator
 
 		static std::list<Form*> forms;
 		static Form *focusForm,
