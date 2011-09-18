@@ -73,6 +73,15 @@ namespace OSHGui
 			return;
 		}
 
+		for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); it++)
+		{
+			if (*it == form)
+			{
+				removeForms.erase(it);
+				break;
+			}
+		}
+
 		for (std::list<ModalInfo>::iterator it = modals.begin(); it != modals.end(); it++)
 		{
 			if (it->form == form)
@@ -121,6 +130,7 @@ namespace OSHGui
 			if (modals.front().form == form)
 			{
 				ModalInfo info = modals.front();
+				modals.pop_front();
 				
 				removeForms.push_back(info.form);
 
@@ -128,8 +138,6 @@ namespace OSHGui
 				{
 					info.func();
 				}
-
-				modals.pop_front();
 			}
 		}
 
