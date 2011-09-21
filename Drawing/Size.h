@@ -26,11 +26,11 @@ namespace OSHGui
 			 */
 			Size(int width, int height);
 			
-			bool operator == (const Size &equal);
-			bool operator != (const Size &equal);
-			const Size operator - (const Size &s);
+			bool operator == (const Size &equal) const;
+			bool operator != (const Size &equal) const;
+			const Size operator - (const Size &s) const;
 			Size& operator -= (const Size &s);
-			const Size operator + (const Size &s);
+			const Size operator + (const Size &s) const;
 			Size& operator += (const Size &s);
 			
 			/**
@@ -47,9 +47,9 @@ namespace OSHGui
 			 * @param height
 			 * @return size
 			 */
-			Size InflateEx(int width, int height);
+			Size InflateEx(int width, int height) const;
 			
-			bool Contains(const Point &point);
+			bool Contains(const Point &point) const;
 			
 			int Width,
 				Height;

@@ -21,37 +21,37 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		bool Point::operator == (const Point &equal)
+		bool Point::operator == (const Point &equal) const
 		{
 			return X == equal.X && Y == equal.Y;
 		}
 		//---------------------------------------------------------------------------
-		bool Point::operator != (const Point &equal)
+		bool Point::operator != (const Point &equal) const
 		{
 			return X != equal.X || Y != equal.Y;
 		}
 		//---------------------------------------------------------------------------
-		bool Point::operator < (const Point &greater)
+		bool Point::operator < (const Point &greater) const
 		{
 			return X < greater.X && Y < greater.Y;
 		}
 		//---------------------------------------------------------------------------
-		bool Point::operator <= (const Point &greaterEqual)
+		bool Point::operator <= (const Point &greaterEqual) const
 		{
 			return X <= greaterEqual.X && Y <= greaterEqual.Y;
 		}
 		//---------------------------------------------------------------------------
-		bool Point::operator > (const Point &lower)
+		bool Point::operator > (const Point &lower) const
 		{
 			return X > lower.X && Y > lower.Y;
 		}
 		//---------------------------------------------------------------------------
-		bool Point::operator >= (const Point &lowerEqual)
+		bool Point::operator >= (const Point &lowerEqual) const
 		{
 			return X >= lowerEqual.X && Y >= lowerEqual.Y;
 		}
 		//---------------------------------------------------------------------------
-		const Point Point::operator - (const Point &p)
+		const Point Point::operator - (const Point &p) const
 		{
 			return OffsetEx(-p.X, -p.Y);
 		}
@@ -62,7 +62,7 @@ namespace OSHGui
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		Point Point::operator + (const Point &p)
+		const Point Point::operator + (const Point &p) const
 		{
 			return OffsetEx(p.X, p.Y);
 		}
@@ -81,7 +81,7 @@ namespace OSHGui
 			this->Y += y;
 		}
 		//---------------------------------------------------------------------------
-		const Point Point::OffsetEx(int x, int y)
+		const Point Point::OffsetEx(int x, int y) const
 		{
 			return Point(this->X + x, this->Y + y);
 		}

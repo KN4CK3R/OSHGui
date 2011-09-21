@@ -21,15 +21,15 @@ namespace OSHGui
 			 */
 			Point(int x, int y);
 			
-			bool operator == (const Point &equal);
-			bool operator != (const Point &equal);
-			bool operator < (const Point &greater);
-			bool operator <= (const Point &greaterEqual);
-			bool operator > (const Point &lower);
-			bool operator >= (const Point &lowerEqual);
-			const Point operator - (const Point &p);
+			bool operator == (const Point &equal) const;
+			bool operator != (const Point &equal) const;
+			bool operator < (const Point &greater) const;
+			bool operator <= (const Point &greaterEqual) const;
+			bool operator > (const Point &lower) const;
+			bool operator >= (const Point &lowerEqual) const;
+			const Point operator - (const Point &p) const;
 			Point& operator -= (const Point &p);
-			Point operator + (const Point &p);
+			const Point operator + (const Point &p) const;
 			Point& operator += (const Point &p);
 			
 			/**
@@ -46,7 +46,7 @@ namespace OSHGui
 			 * @param y
 			 * @return der neue Punkt
 			 */
-			const Point OffsetEx(int x, int y);
+			const Point OffsetEx(int x, int y) const;
 			
 			union
 			{

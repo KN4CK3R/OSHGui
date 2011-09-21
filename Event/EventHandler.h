@@ -60,9 +60,9 @@ namespace OSHGui
 		 * @param param1 Funktionsparameter
 		 */
 		template <typename T>
-		void Invoke(T&& param1) const
+		void Invoke(T&& param1)
 		{
-			for (auto it = handlers.begin(); it != handlers.end(); ++it)
+			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); ++it)
 			{
 				Handler &handler = *it;
 				handler(std::forward<T>(param1));
@@ -70,9 +70,9 @@ namespace OSHGui
 		}
 
 		template <typename T, typename T2>
-		void Invoke(T&& param1, T2&& param2) const
+		void Invoke(T&& param1, T2&& param2)
 		{
-			for (auto it = handlers.begin(); it != handlers.end(); ++it)
+			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); ++it)
 			{
 				Handler &handler = *it;
 				handler(std::forward<T>(param1), std::forward<T2>(param2));
