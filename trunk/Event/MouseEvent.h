@@ -56,6 +56,7 @@ namespace OSHGui
 			Delta = 0;
 			Handled = false;
 		}
+		
 		MouseEvent(MouseStates State, Drawing::Point Position, int Delta) : Event(Event::Mouse)
 		{
 			this->State = State;
