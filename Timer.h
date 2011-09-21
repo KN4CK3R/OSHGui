@@ -25,9 +25,9 @@ namespace OSHGui
 		~Timer();
 		
 		void SetEnabled(bool enabled);
-		bool GetEnabled();
+		bool GetEnabled() const;
 		void SetInterval(long interval);
-		long GetInterval();
+		long GetInterval() const;
 
 		/**
 		 * Ruft den FocusOutEventHandler für das Steuerelement ab.

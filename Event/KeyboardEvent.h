@@ -105,7 +105,7 @@ namespace OSHGui
 		 *
 		 * @return ja / nein
 		 */
-		bool IsAlphaNumeric()
+		bool IsAlphaNumeric() const
 		{
 			return KeyChar != 0;
 		}

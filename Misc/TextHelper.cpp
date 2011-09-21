@@ -66,17 +66,17 @@ namespace OSHGui
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		int TextHelper::GetLength()
+		int TextHelper::GetLength() const
 		{
 			return text.length();
 		}
 		//---------------------------------------------------------------------------
-		const UnicodeString& TextHelper::GetText()
+		const UnicodeString& TextHelper::GetText() const
 		{
 			return text;
 		}
 		//---------------------------------------------------------------------------
-		const Drawing::Size& TextHelper::GetSize()
+		const Drawing::Size& TextHelper::GetSize() const
 		{
 			return size;
 		}
@@ -86,7 +86,7 @@ namespace OSHGui
 			size = GetStringWidth(0);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Point TextHelper::GetCharacterPosition(int index, bool trailing)
+		Drawing::Point TextHelper::GetCharacterPosition(int index, bool trailing) const
 		{
 			if (GetLength() == 0)
 			{
@@ -106,7 +106,7 @@ namespace OSHGui
 			return Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size TextHelper::GetStringWidth(int index, int size)
+		Drawing::Size TextHelper::GetStringWidth(int index, int size) const
 		{
 			if (GetLength() == 0 || size == 0)
 			{
@@ -121,7 +121,7 @@ namespace OSHGui
 			return font->MeasureText(substring);
 		}
 		//---------------------------------------------------------------------------
-		int TextHelper::GetClosestCharacterIndex(const Drawing::Point &position)
+		int TextHelper::GetClosestCharacterIndex(const Drawing::Point &position) const
 		{
 			int distance = 0xFFFF;
 			int result = 0;

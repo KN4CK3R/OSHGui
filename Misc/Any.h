@@ -28,12 +28,12 @@ namespace OSHGui
 			public:
 				TypeWrapper(const T &object) : obj(object) { }
 				//---------------------------------------------------------------------------
-				TypeWrapper* Copy()
+				TypeWrapper* Copy() const
 				{
 					return new TypeWrapper<T>(obj);
 				}
 				//---------------------------------------------------------------------------
-				void* GetObject()
+				void* GetObject() const
 				{
 					return &obj;
 				}
@@ -42,14 +42,14 @@ namespace OSHGui
 			unsigned int id;
 			AnyTypeWrapper *wrapper;
 			//---------------------------------------------------------------------------
-			static unsigned int NextID()
+			static unsigned int NextID() const
 			{
 				static unsigned int id = 0;
 				++id;	
 				return id;
 			}
 			//---------------------------------------------------------------------------
-			template<class T> static unsigned int TypeID()
+			template<class T> static unsigned int TypeID() const
 			{
 				static unsigned int id = NextID();
 				return id;
@@ -123,7 +123,7 @@ namespace OSHGui
 			 *
 			 * @return das aufgenommene Objekt
 			 */
-			template<class T> T CastTo()
+			template<class T> T CastTo() const
 			{
 				if (TypeID<T>() == id)
 				{

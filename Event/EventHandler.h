@@ -60,7 +60,7 @@ namespace OSHGui
 		 * @param param1 Funktionsparameter
 		 */
 		template <typename T>
-		void Invoke(T&& param1)
+		void Invoke(T&& param1) const
 		{
 			for (auto it = handlers.begin(); it != handlers.end(); ++it)
 			{
@@ -70,7 +70,7 @@ namespace OSHGui
 		}
 
 		template <typename T, typename T2>
-		void Invoke(T&& param1, T2&& param2)
+		void Invoke(T&& param1, T2&& param2) const
 		{
 			for (auto it = handlers.begin(); it != handlers.end(); ++it)
 			{
