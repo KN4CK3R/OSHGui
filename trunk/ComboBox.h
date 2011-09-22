@@ -35,32 +35,32 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color GetDropDownColor();
+		Drawing::Color GetDropDownColor() const;
 		/**
-		 * Gibt das ListItem an der Stelle index zurück.
+		 * Gibt das Item an der Stelle index zurück.
 		 *
 		 * @param index
-		 * @return 0, falls der Index nicht existiert
+		 * @return das Item
 		 */
-		ListItem* GetItem(int index);
+		const Misc::UnicodeString& GetItem(int index) const;
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
 		 * @return der ausgewählte Index
 		 */
-		int GetSelectedIndex();
+		int GetSelectedIndex() const;
 		/**
-		 * Gibt das ausgewählte ListItem zurück.
+		 * Gibt das ausgewählte Item zurück.
 		 *
-		 * @return 0, falls kein ListItem ausgewählt wurde
+		 * @return das Item
 		 */
-		ListItem* GetSelectedItem();
+		const Misc::UnicodeString& GetSelectedItem() const;
 		/**
-		 * Gibt die Anzahl der ListItems zurück.
+		 * Gibt die Anzahl der Items zurück.
 		 *
-		 * @return Anzahl der ListItems
+		 * @return Anzahl der Items
 		 */
-		int GetItemsCount();
+		int GetItemsCount() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -141,7 +141,7 @@ namespace OSHGui
 						   itemsRect;
 		Drawing::Color dropDownColor;
 		
-		std::vector<ListItem*> items;
+		std::vector<Misc::UnicodeString> items;
 	};
 }
 

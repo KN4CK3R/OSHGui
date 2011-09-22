@@ -38,7 +38,7 @@ namespace OSHGui
 		dropDownColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ComboBox::GetDropDownColor()
+	Drawing::Color ComboBox::GetDropDownColor() const
 	{
 		return dropDownColor;
 	}
@@ -52,27 +52,27 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetItem(int index)
+	const Misc::UnicodeString& ComboBox::GetItem(int index) const
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			return 0;
+			throw 1;
 		}
 
 		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::GetSelectedIndex()
+	int ComboBox::GetSelectedIndex() const
 	{
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ComboBox::GetSelectedItem()
+	const Misc::UnicodeString& ComboBox::GetSelectedItem() const
 	{
 		return GetItem(GetSelectedIndex());
 	}
 	//---------------------------------------------------------------------------
-	int ComboBox::GetItemsCount()
+	int ComboBox::GetItemsCount() const
 	{
 		return items.size();
 	}
@@ -99,15 +99,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{	
-		ListItem *newItem = new ListItem();
-		if (newItem == 0)
-		{
-			return false;
-		}
-		
-		newItem->Text = text;
-		
-		items.insert(items.begin() + index, newItem);
+		items.insert(items.begin() + index, text);
 
 		scrollBar.SetRange(items.size());
 
@@ -132,10 +124,6 @@ namespace OSHGui
 		{
 			return false;
 		}
-
-		ListItem *item = items.at(index);
-		delete item;
-		item = 0;
 		
 		items.erase(items.begin() + index);
 		
@@ -155,13 +143,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::Clear()
 	{
-		for (unsigned int i = 0; i < items.size(); i++)
-		{
-			ListItem *item = items.at(i);
-			delete item;
-			item = 0;
-		}
-
 		items.clear();
 		
 		scrollBar.SetRange(1);
@@ -553,7 +534,7 @@ namespace OSHGui
 					renderer->SetRenderColor(foreColor);
 				}
 				
-				renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]->Text);
+				renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]);
 			}
 
 			scrollBar.Render(renderer);

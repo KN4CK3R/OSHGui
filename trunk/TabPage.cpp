@@ -23,7 +23,7 @@ namespace OSHGui
 		this->text = text;
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& TabPage::GetText()
+	const Misc::UnicodeString& TabPage::GetText() const
 	{
 		return text;
 	}

@@ -31,12 +31,18 @@ namespace OSHGui
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
+	void TrackBar::GetRange(int *min, int *max) const
+	{
+		*min = this->min;
+		*max = this->max;
+	}
+	//---------------------------------------------------------------------------
 	void TrackBar::SetValue(int value)
 	{
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
-	int TrackBar::GetValue()
+	int TrackBar::GetValue() const
 	{
 		return value;
 	}
@@ -82,7 +88,7 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	int TrackBar::ValueFromPosition(int position)
+	int TrackBar::ValueFromPosition(int position) const
 	{ 
 		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH);
 		return (int)(0.5f + min + valuePerPixel * position);

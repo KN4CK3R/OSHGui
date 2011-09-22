@@ -32,7 +32,7 @@ namespace OSHGui
 		 *
 		 * @return das Bild
 		 */
-		std::shared_ptr<Drawing::ITexture> GetImage();
+		std::shared_ptr<Drawing::ITexture> GetImage() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

@@ -19,7 +19,7 @@ namespace OSHGui
 		Form();
 		virtual ~Form();
 
-		bool IsModal();
+		bool IsModal() const;
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText() const;
 		
 		/**
 		 * Zeigt die Form an.
