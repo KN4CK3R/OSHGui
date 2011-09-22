@@ -6,6 +6,7 @@
 #include <functional>
 
 #include "MouseEvent.h"
+#include "MouseEventArgs.h"
 #include "KeyboardEvent.h"
 
 namespace OSHGui
@@ -86,6 +87,8 @@ namespace OSHGui
 
 	typedef EventHandler<void(Control*)> ChangeEventHandler;
 	
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEventHandler;
+	
 	typedef EventHandler<void(Control*)> MouseEnterEventHandler;
 	
 	typedef EventHandler<void(Control*)> MouseLeaveEventHandler;
@@ -93,8 +96,6 @@ namespace OSHGui
 	typedef EventHandler<void(Control*)> FocusInEventHandler;
 	
 	typedef EventHandler<void(Control*)> FocusOutEventHandler;
-
-	typedef EventHandler<void(Control*)> TickEventHandler;
 }
 
 #endif

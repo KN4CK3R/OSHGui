@@ -45,7 +45,7 @@ namespace OSHGui
 		{
 			this->checked = checked;
 			
-			changeEventHandler.Invoke(this);
+			checkedChangedEventHandler.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -96,6 +96,10 @@ namespace OSHGui
 					if (pressed && hasFocus)
 					{
 						SetChecked(true);
+						
+						//clickEventHandler.Invoke
+						
+						//mouseClickEventHandler.Invoke
 					
 						pressed = false;
 					}
@@ -112,6 +116,9 @@ namespace OSHGui
 			if (keyboard->KeyCode == Key::Space)
 			{
 				SetChecked(!GetChecked());
+				
+				//clickEventHandler.Invoke
+				
 				return Event::DontContinue;
 			}
 		}
