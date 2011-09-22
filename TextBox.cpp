@@ -36,6 +36,11 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
+	TextChangedEventHandler& TextBox::GetTextChangedEventHandler()
+	{
+		return textChangedEventHandler;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool TextBox::CanHaveFocus()
@@ -55,13 +60,6 @@ namespace OSHGui
 		clientArea = bounds;
 		textRect = Drawing::Rectangle(clientArea.GetLeft() + 7, clientArea.GetTop() + 5, clientArea.GetWidth() - 14, clientArea.GetHeight() - 10);
 		PlaceCaret(caretPosition);
-	}
-	//---------------------------------------------------------------------------
-	void TextBox::ClearText()
-	{
-		textHelper.Clear();
-		firstVisibleCharacter = 0;
-		PlaceCaret(0);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::ResetCaretBlink()
@@ -157,7 +155,10 @@ namespace OSHGui
 					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
 					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
 
-					clickEventHandler.Invoke(this, mouse);
+					clickEventHandler.Invoke(this);
+
+					MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
+					mouseClickEventHandler.Invoke(this, args);
 				
 					return Event::DontContinue;
 				}
@@ -216,7 +217,7 @@ namespace OSHGui
 			
 			if (hasChanged)
 			{
-				changeEventHandler.Invoke(this);
+				textChangedEventHandler.Invoke(this);
 			
 				return Event::DontContinue;
 			}

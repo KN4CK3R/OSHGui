@@ -34,7 +34,7 @@ namespace OSHGui
 		return checked;
 	}
 	//---------------------------------------------------------------------------
-	CheckedChangedEventHandler& Control::GetCheckedChangedEventHandler()
+	CheckedChangedEventHandler& CheckBox::GetCheckedChangedEventHandler()
 	{
 		return checkedChangedEventHandler;
 	}
@@ -115,9 +115,10 @@ namespace OSHGui
 					{
 						SetChecked(!GetChecked());
 						
-						//clickEventHandler.Invoke
+						clickEventHandler.Invoke(this);
 						
-						//mouseClickEventHandler.Invoke
+						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
+						mouseClickEventHandler.Invoke(this, args);
 						
 						pressed = false;
 					}
@@ -125,7 +126,6 @@ namespace OSHGui
 				}
 			}
 
-			//restore PointToClient (alternatively call PointToScreen)
 			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
@@ -135,7 +135,7 @@ namespace OSHGui
 			{
 				SetChecked(!GetChecked());
 				
-				//clickEventHandler.Invoke
+				clickEventHandler.Invoke(this);
 				
 				return Event::DontContinue;
 			}

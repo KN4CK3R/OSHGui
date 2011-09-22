@@ -60,6 +60,11 @@ namespace OSHGui
 			return false;
 		}
 		//---------------------------------------------------------------------------
+		bool TextureDX9::Create(int width, int height)
+		{
+			return Create(Size(width, height));
+		}
+		//---------------------------------------------------------------------------
 		bool TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
 		{
 			SAFE_RELEASE(texture);
@@ -98,17 +103,17 @@ namespace OSHGui
 			Fill(0, 0, size.Width, size.Height, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
+		void TextureDX9::Clear(const Point &point)
+		{
+			Fill(point.X, point.Y, 1, 1, Color::Empty());
+		}
+		//---------------------------------------------------------------------------
 		void TextureDX9::Clear(int x, int y)
 		{
 			Fill(x, y, 1, 1, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Clear(const Drawing::Point &point)
-		{
-			Fill(point.X, point.Y, 1, 1, Color::Empty());
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Clear(Drawing::Rectangle &rect)
+		void TextureDX9::Clear(const Rectangle &rect)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), Color::Empty());
 		}
@@ -118,27 +123,27 @@ namespace OSHGui
 			Fill(x, y, w, h, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(Drawing::Color color)
+		void TextureDX9::Fill(Color color)
 		{
 			Fill(0, 0, size.Width, size.Height, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int x, int y, Drawing::Color color)
-		{
-			Fill(x, y, 1, 1, color);
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(const Drawing::Point &point, Drawing::Color color)
+		void TextureDX9::Fill(const Point &point, Color color)
 		{
 			Fill(point.X, point.Y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(Drawing::Rectangle &rect, Drawing::Color color)
+		void TextureDX9::Fill(int x, int y, Color color)
+		{
+			Fill(x, y, 1, 1, color);
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::Fill(const Rectangle &rect, Color color)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int _x, int _y, int _w, int _h, Drawing::Color _color)
+		void TextureDX9::Fill(int _x, int _y, int _w, int _h, Color _color)
 		{
 			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
 		
@@ -146,11 +151,11 @@ namespace OSHGui
 			int rangeY = _h - _y;
 
 			BYTE *raw = (BYTE*)lock.pBits;
-			for (int y = 0; y < rangeY; y++)
+			for (int y = 0; y < _h; y++)
 			{
 				int row = (_y + y) * lock.Pitch;
 				
-				for (int x = 0; x < rangeX; x++)
+				for (int x = 0; x < _w; x++)
 				{
 					int index = (_x + x) * 4 + row;
 					
@@ -162,17 +167,17 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(Drawing::Color from, Drawing::Color to, bool updown)
+		void TextureDX9::FillGradient(Color from, Color to, bool updown)
 		{
 			FillGradient(0, 0, size.Width, size.Height, from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(Drawing::Rectangle &rect, Drawing::Color from, Drawing::Color to, bool updown)
+		void TextureDX9::FillGradient(const Rectangle &rect, Color from, Color to, bool updown)
 		{
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(int _x, int _y, int _w, int _h, Drawing::Color from, Drawing::Color to, bool updown)
+		void TextureDX9::FillGradient(int _x, int _y, int _w, int _h, Color from, Color to, bool updown)
 		{
 			BYTE color[4] = { from.B, from.G, from.R, from.A };
 			float step[4];
@@ -397,12 +402,12 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Insert(const Drawing::Point &point, Drawing::TextureDX9 *texture)
+		void TextureDX9::Insert(const Point &point, ITexture *texture)
 		{
 			Insert(point.X, point.Y, texture);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Insert(int _x, int _y, Drawing::ITexture *texture)
+		void TextureDX9::Insert(int _x, int _y, ITexture *texture)
 		{
 			if (texture == 0 || texture->IsLocked())
 			{

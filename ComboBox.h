@@ -3,13 +3,14 @@
 
 #include "Button.h"
 #include "ScrollBar.h"
-#include "ListItem.h"
 
 #define COMBOBOX_ITEM_HEIGHT 22
 #define COMBOBOX_MAX_HEIGHT 220
 
 namespace OSHGui
 {
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
+
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */
@@ -61,6 +62,12 @@ namespace OSHGui
 		 * @return Anzahl der Items
 		 */
 		int GetItemsCount() const;
+		/**
+		 * Ruft den SelectedIndexEventHandler für das Steuerelement ab.
+		 *
+		 * @return selectedIndexEventHandler
+		 */
+		SelectedIndexChangedEventHandler& GetSelectedIndexChangedEventHandler();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -142,6 +149,8 @@ namespace OSHGui
 		Drawing::Color dropDownColor;
 		
 		std::vector<Misc::UnicodeString> items;
+
+		SelectedIndexChangedEventHandler selectedIndexChangedEventHandler;
 	};
 }
 

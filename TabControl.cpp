@@ -27,11 +27,11 @@ namespace OSHGui
 		tabs.clear();
 	}
 	//---------------------------------------------------------------------------
-	//Runtime-Functions
+	//Getter/Setter
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text) const
 	{
-		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
+		for (std::list<TabPage*>::const_iterator it = tabs.begin(); it != tabs.end(); it++)
 		{
 			if ((*it)->GetText() == text)
 			{
@@ -46,7 +46,7 @@ namespace OSHGui
 	{
 		if (index > 0 && index < (int)tabs.size())
 		{
-			std::list<TabPage*>::iterator it = tabs.begin();
+			std::list<TabPage*>::const_iterator it = tabs.begin();
 			for (int i = 0; i < index; i++)
 			{
 				it++;
@@ -57,6 +57,13 @@ namespace OSHGui
 
 		return 0;
 	}
+	//---------------------------------------------------------------------------
+	SelectedIndexChangedEventHandler& TabControl::GetSelectedIndexChangedEventHandler()
+	{
+		return selectedIndexChangedEventHandler;
+	}
+	//---------------------------------------------------------------------------
+	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void TabControl::AddTabPage(TabPage *tabPage)
 	{
@@ -138,7 +145,7 @@ namespace OSHGui
 
 			int x = 2;
 			Misc::TextHelper textHelper(font);
-			for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
+			for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
 			{
 				textHelper.SetText((*it)->GetText());
 				Drawing::Size textSize = textHelper.GetSize();
@@ -159,6 +166,8 @@ namespace OSHGui
 							activeTab = clicked;
 							clicked = 0;
 							Invalidate();
+
+							selectedIndexChangedEventHandler.Invoke(this);
 						}
 
 						return Event::DontContinue;
@@ -168,6 +177,54 @@ namespace OSHGui
 			}
 
 			mouse->Position.Top -= font->GetSize() + 8;
+		}
+		else if (event->Type == Event::Keyboard)
+		{
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+
+			if (keyboard->State == KeyboardEvent::Character)
+			{
+				if (keyboard->KeyCode == Key::Left)
+				{
+					if (activeTab != *tabs.begin())
+					{
+						for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
+						{
+							if (*it == activeTab)
+							{
+								--it;
+								activeTab = *it;
+
+								selectedIndexChangedEventHandler.Invoke(this);
+
+								break;
+							}
+						}
+
+						return Event::DontContinue;
+					}
+				}
+				else if (keyboard->KeyCode == Key::Right)
+				{
+					if (activeTab != *tabs.end())
+					{
+						for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
+						{
+							if (*it == activeTab)
+							{
+								++it;
+								activeTab = *it;
+
+								selectedIndexChangedEventHandler.Invoke(this);
+
+								break;
+							}
+						}
+
+						return Event::DontContinue;
+					}
+				}
+			}
 		}
 	
 		if (ProcessChildrenEvent(event) == Event::DontContinue)

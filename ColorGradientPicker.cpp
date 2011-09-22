@@ -18,19 +18,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ColorGradientPicker::~ColorGradientPicker()
 	{
-		delete gradient;
+	
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	Color ColorGradientPicker::GetColor()
+	Drawing::Color ColorGradientPicker::GetColor() const
 	{
 		return color;
 	}
 	//---------------------------------------------------------------------------
-	Color ColorGradientPicker::GetColorAtPoint(int x, int y)
+	Drawing::Color ColorGradientPicker::GetColorAtPoint(int x, int y) const
 	{
-		Color tmpColor;
+		Drawing::Color tmpColor;
 		
 		double hue = (1.0 / bounds.GetWidth()) * x;
 		hue = hue - (int)hue;
@@ -53,7 +53,7 @@ namespace OSHGui
 		double t = brightness * (1.0 - (saturation * (1.0 - f)));
 		if (h < 1)
 		{
-			tmpColor = Color(
+			tmpColor = Drawing::Color(
 							(int)(brightness * 255),
 							(int)(t * 255),
 							(int)(p * 255)
@@ -61,7 +61,7 @@ namespace OSHGui
 		}
 		else if (h < 2)
 		{
-			tmpColor = Color(
+			tmpColor = Drawing::Color(
 							(int)(q * 255),
 							(int)(brightness * 255),
 							(int)(p * 255)
@@ -69,7 +69,7 @@ namespace OSHGui
 		}
 		else if (h < 3)
 		{
-			tmpColor = Color(
+			tmpColor = Drawing::Color(
 							(int)(p * 255),
 							(int)(brightness * 255),
 							(int)(t * 255)
@@ -77,7 +77,7 @@ namespace OSHGui
 		}
 		else if (h < 4)
 		{
-			tmpColor = Color(
+			tmpColor = Drawing::Color(
 							(int)(p * 255),
 							(int)(q * 255),
 							(int)(brightness * 255)
@@ -85,7 +85,7 @@ namespace OSHGui
 		}
 		else if (h < 5)
 		{
-			tmpColor = Color(
+			tmpColor = Drawing::Color(
 							(int)(t * 255),
 							(int)(p * 255),
 							(int)(brightness * 255)
@@ -93,7 +93,7 @@ namespace OSHGui
 		}
 		else
 		{
-			tmpColor = Color(
+			tmpColor = Drawing::Color(
 							(int)(brightness * 255),
 							(int)(p * 255),
 							(int)(q * 255)
@@ -103,10 +103,16 @@ namespace OSHGui
 		return tmpColor;
 	}
 	//---------------------------------------------------------------------------
-	Color ColorGradientPicker::GetColorAtPoint(const Drawing::Point &point)
+	Drawing::Color ColorGradientPicker::GetColorAtPoint(const Drawing::Point &point) const
 	{
 		return GetColorAtPoint(point.X, point.Y);
 	}
+	//---------------------------------------------------------------------------
+	ColorChangeEventHandler& ColorGradientPicker::GetColorChangeEventHandler()
+	{
+		return colorChangeEventHandler;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ColorGradientPicker::ContainsPoint(const Drawing::Point &point)
@@ -130,6 +136,7 @@ namespace OSHGui
 	{
 		gradient->Create(bounds.GetWidth(), bounds.GetHeight());
 	
+		gradient->BeginUpdate();
 		for (int y = 0; y < bounds.GetHeight(); ++y)
 		{
 			for(int x = 0; x < bounds.GetWidth(); ++x)
@@ -137,6 +144,7 @@ namespace OSHGui
 				gradient->Fill(x, y, GetColorAtPoint(x, y));
 			}
 		}
+		gradient->EndUpdate();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -166,6 +174,8 @@ namespace OSHGui
 				{
 					color = GetColorAtPoint(mouse->Position);
 
+					colorChangeEventHandler.Invoke(this);
+
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
@@ -177,9 +187,15 @@ namespace OSHGui
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					drag = false;
+
+					color = GetColorAtPoint(mouse->Position);
+
+					colorChangeEventHandler.Invoke(this);
+
+					clickEventHandler.Invoke(this);
 					
 					MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-					clickEventHandler.Invoke(this, args);
+					mouseClickEventHandler.Invoke(this, args);
 
 					return Event::DontContinue;
 				}

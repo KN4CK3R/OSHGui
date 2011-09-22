@@ -6,6 +6,8 @@
 
 namespace OSHGui
 {
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
+
 	class TabPage;
 
 	/**
@@ -36,6 +38,12 @@ namespace OSHGui
 		 * @return im Fehlerfall 0
 		 */
 		TabPage* GetTabPage(int index) const;
+		/**
+		 * Ruft den SelectedIndexEventHandler für das Steuerelement ab.
+		 *
+		 * @return selectedIndexEventHandler
+		 */
+		SelectedIndexChangedEventHandler& GetSelectedIndexChangedEventHandler();
 		
 		/**
 		 * Fügt dem TabControl eine neue TabPage hinzu.
@@ -83,6 +91,8 @@ namespace OSHGui
 	private:
 		std::list<TabPage*> tabs;
 		TabPage *activeTab;
+
+		SelectedIndexChangedEventHandler selectedIndexChangedEventHandler;
 	};
 }
 

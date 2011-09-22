@@ -5,10 +5,11 @@
 #include "Control.h"
 #include "Panel.h"
 #include "ScrollBar.h"
-#include "ListItem.h"
 
 namespace OSHGui
 {
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
+
 	/**
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */
@@ -48,6 +49,12 @@ namespace OSHGui
 		 * @return Anzahl der Items
 		 */
 		int GetItemsCount() const;
+		/**
+		 * Ruft den SelectedIndexEventHandler für das Steuerelement ab.
+		 *
+		 * @return selectedIndexEventHandler
+		 */
+		SelectedIndexChangedEventHandler& GetSelectedIndexChangedEventHandler();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -128,6 +135,8 @@ namespace OSHGui
 		Drawing::Rectangle itemsRect;
 		
 		std::vector<Misc::UnicodeString> items;
+
+		SelectedIndexChangedEventHandler selectedIndexChangedEventHandler;
 	};
 }
 

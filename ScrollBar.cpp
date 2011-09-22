@@ -16,8 +16,6 @@ namespace OSHGui
 		range = 1;
 		pageSize = 1;
 		
-		delayTimestamp = 0;
-
 		SetBackColor(Drawing::Color(0xFF585552));
 		SetForeColor(Drawing::Color(0xFFAFADAD));
 	}
@@ -31,7 +29,7 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::GetRange() const
+	int ScrollBar::GetRange() const
 	{
 		return range;
 	}

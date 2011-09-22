@@ -115,7 +115,7 @@ namespace OSHGui
 		SetLocation(Drawing::Point(x, y));
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(Drawing::Point &location)
+	void Control::SetLocation(const Drawing::Point &location)
 	{
 		bounds.SetLeft(location.Left);
 		bounds.SetTop(location.Top);
@@ -265,7 +265,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Drawing::IFont> Control::GetFont() const
+	const std::shared_ptr<Drawing::IFont> Control::GetFont() const
 	{
 		return font;
 	}
@@ -290,9 +290,9 @@ namespace OSHGui
 		return mouseLeaveEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	ChangeEventHandler& Control::GetChangeEventHandler()
+	MouseClickEventHandler& Control::GetMouseClickEventHandler()
 	{
-		return changeEventHandler;
+		return mouseClickEventHandler;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const

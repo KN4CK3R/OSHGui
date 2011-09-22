@@ -27,3 +27,4 @@
 #include "TabControl.h"
 #include "TabPage.h"
 #include "PictureBox.h"
+#include "ColorGradientPicker.h"

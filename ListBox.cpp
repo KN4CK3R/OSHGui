@@ -49,6 +49,11 @@ namespace OSHGui
 		return items.size();
 	}
 	//---------------------------------------------------------------------------
+	SelectedIndexChangedEventHandler& ListBox::GetSelectedIndexChangedEventHandler()
+	{
+		return selectedIndexChangedEventHandler;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ListBox::CanHaveFocus()
@@ -106,7 +111,7 @@ namespace OSHGui
 		{
 			selectedIndex = items.size() - 1;
 			
-			changeEventHandler.Invoke(this);
+			selectedIndexChangedEventHandler.Invoke(this);
 		}
 
 		Invalidate();
@@ -154,7 +159,7 @@ namespace OSHGui
 				firstVisibleItemIndex = scrollBar.GetPosition();
 			}
 			
-			changeEventHandler.Invoke(this);
+			selectedIndexChangedEventHandler.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -233,7 +238,7 @@ namespace OSHGui
 					if (itemIndex != -1)
 					{
 						selectedIndex = itemIndex + firstVisibleItemIndex;
-						changeEventHandler.Invoke(this);
+						selectedIndexChangedEventHandler.Invoke(this);
 					}
 				}
 
@@ -298,7 +303,7 @@ namespace OSHGui
 								firstVisibleItemIndex = scrollBar.GetPosition();
 							}
 						
-							changeEventHandler.Invoke(this);
+							selectedIndexChangedEventHandler.Invoke(this);
 						}
 						return Event::DontContinue;
 				}

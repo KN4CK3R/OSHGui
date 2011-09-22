@@ -110,9 +110,9 @@ namespace OSHGui
 			selectedIndex = 0;
 			mouseOverItemIndex = -1;
 			
-			textHelper.SetText(GetSelectedItem()->Text);
+			textHelper.SetText(GetSelectedItem());
 
-			changeEventHandler.Invoke(this);
+			selectedIndexChangedEventHandler.Invoke(this);
 		}
 
 		return true;
@@ -133,9 +133,9 @@ namespace OSHGui
 		{
 			selectedIndex = items.size() - 1;
 
-			textHelper.SetText(GetSelectedItem()->Text);
+			textHelper.SetText(GetSelectedItem());
 			
-			changeEventHandler.Invoke(this);
+			selectedIndexChangedEventHandler.Invoke(this);
 		}
 
 		return true;
@@ -176,9 +176,9 @@ namespace OSHGui
 
 		if (oldSelectedIndex != selectedIndex)
 		{
-			textHelper.SetText(GetSelectedItem()->Text);
+			textHelper.SetText(GetSelectedItem());
 
-			changeEventHandler.Invoke(this);
+			selectedIndexChangedEventHandler.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -330,9 +330,9 @@ namespace OSHGui
 					{
 						selectedIndex = itemIndex + firstVisibleItemIndex;
 
-						textHelper.SetText(GetSelectedItem()->Text);
+						textHelper.SetText(GetSelectedItem());
 
-						changeEventHandler.Invoke(this);
+						selectedIndexChangedEventHandler.Invoke(this);
 					}
 
 					open = false;
@@ -447,9 +447,9 @@ namespace OSHGui
 
 							if (oldSelectedIndex != selectedIndex)
 							{
-								textHelper.SetText(GetSelectedItem()->Text);
+								textHelper.SetText(GetSelectedItem());
 							
-								changeEventHandler.Invoke(this);
+								selectedIndexChangedEventHandler.Invoke(this);
 							}
 					}
 				}
@@ -467,9 +467,9 @@ namespace OSHGui
 							{
 								selectedIndex = mouseOverItemIndex;
 
-								textHelper.SetText(GetSelectedItem()->Text);
+								textHelper.SetText(GetSelectedItem());
 								
-								changeEventHandler.Invoke(this);
+								selectedIndexChangedEventHandler.Invoke(this);
 							}
 							open = false;
 							
