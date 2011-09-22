@@ -78,6 +78,8 @@ namespace OSHGui
 						pressed = false;
 					
 						clickEventHandler.Invoke(this, mouse);
+						
+						//mouseClickEventHandler.Invoke
 					}
 					return Event::DontContinue;
 				}

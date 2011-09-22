@@ -25,13 +25,18 @@ namespace OSHGui
 		{
 			this->checked = checked;
 			
-			changeEventHandler.Invoke(this);
+			checkedChangedEventHandler.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
 	bool CheckBox::GetChecked() const
 	{
 		return checked;
+	}
+	//---------------------------------------------------------------------------
+	CheckedChangedEventHandler& Control::GetCheckedChangedEventHandler()
+	{
+		return checkedChangedEventHandler;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -109,7 +114,11 @@ namespace OSHGui
 					if (pressed && hasFocus)
 					{
 						SetChecked(!GetChecked());
-					
+						
+						//clickEventHandler.Invoke
+						
+						//mouseClickEventHandler.Invoke
+						
 						pressed = false;
 					}
 					return Event::DontContinue;
@@ -125,6 +134,9 @@ namespace OSHGui
 			if (keyboard->KeyCode == Key::Space)
 			{
 				SetChecked(!GetChecked());
+				
+				//clickEventHandler.Invoke
+				
 				return Event::DontContinue;
 			}
 		}

@@ -1,10 +1,13 @@
 #ifndef __OSHGUI_CHECKBOX_H__
 #define __OSHGUI_CHECKBOX_H__
 
+#include "Event\EventHandler.h"
 #include "Label.h"
 
 namespace OSHGui
 {
+	typedef EventHandler<void(Control*)> CheckedChangedEventHandler;
+
 	/**
 	 * Stellt ein CheckBox-Steuerelement dar.
 	 */
@@ -64,6 +67,8 @@ namespace OSHGui
 		bool checked;
 		Drawing::Point checkBoxPosition,
 					   textPosition;
+					   
+		CheckedChangedEventHandler checkedChangedEventHandler;
 	};
 }
 
