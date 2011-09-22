@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * @return die Position
 		 */
-		int GetPosition();
+		int GetPosition() const;
 		/**
 		 * Legt die Größe des sichtbaren Ausschnitts fest.
 		 *
@@ -113,8 +113,6 @@ namespace OSHGui
 						   downButtonRect,
 						   trackRect,
 						   sliderRect;
-				  
-		long delayTimestamp;
 	};
 }
 

@@ -9,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Mausevent
 	 */
-	class MouseEventArgs : public Event
+	class MouseEventArgs
 	{
 	public:	
 		MouseEvent::MouseStates State;
@@ -18,7 +18,7 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
-		MouseEvent(MouseEvent::MouseStates State, Drawing::Point Position, int Delta)
+		MouseEventArgs(MouseEvent::MouseStates State, Drawing::Point Position, int Delta)
 		{
 			this->State = State;
 			this->Position = Position;

@@ -77,9 +77,10 @@ namespace OSHGui
 					{
 						pressed = false;
 					
-						clickEventHandler.Invoke(this, mouse);
+						clickEventHandler.Invoke(this);
 						
-						//mouseClickEventHandler.Invoke
+						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
+						mouseClickEventHandler.Invoke(this, args);
 					}
 					return Event::DontContinue;
 				}
@@ -92,7 +93,7 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
 			if (keyboard->KeyCode == Key::Return || keyboard->KeyCode == Key::Space)
 			{
-				clickEventHandler.Invoke(this, (MouseEvent*)0);
+				clickEventHandler.Invoke(this);
 			}
 		}
 		

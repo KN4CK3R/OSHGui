@@ -8,6 +8,8 @@
 
 namespace OSHGui
 {
+	typedef EventHandler<void(Control*)> TextChangedEventHandler;
+
 	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
@@ -34,6 +36,12 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::UnicodeString& GetText() const;
+		/**
+		 * Ruft den TextChangedEventHandler für das Steuerelement ab.
+		 *
+		 * @return textChangedEventHandler
+		 */
+		TextChangedEventHandler& GetTextChangedEventHandler();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -49,11 +57,6 @@ namespace OSHGui
 		 */
 		virtual bool ContainsPoint(const Drawing::Point &point);
 		
-		/**
-		 * Löscht den Text.
-		 */
-		void ClearText();
-
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
 		 * Wird außerdem für alle Kindelemente aufgerufen.
@@ -91,6 +94,8 @@ namespace OSHGui
 		Misc::DateTime nextBlinkTime;
 		int caretPosition,
 			firstVisibleCharacter;
+
+		TextChangedEventHandler textChangedEventHandler;
 	};
 }
 

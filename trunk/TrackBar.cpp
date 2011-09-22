@@ -21,6 +21,11 @@ namespace OSHGui
 		SetForeColor(Drawing::Color(0xFFA6A4A1));
 	}
 	//---------------------------------------------------------------------------
+	TrackBar::~TrackBar()
+	{
+
+	}
+	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void TrackBar::SetRange(int min, int max)
@@ -45,6 +50,11 @@ namespace OSHGui
 	int TrackBar::GetValue() const
 	{
 		return value;
+	}
+	//---------------------------------------------------------------------------
+	ScrollEventHandler& TrackBar::GetScrollEventHandler()
+	{
+		return scrollEventHandler;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -82,7 +92,7 @@ namespace OSHGui
 		{
 			this->value = value;
 			
-			changeEventHandler.Invoke(this);
+			scrollEventHandler.Invoke(this);
 		}
 
 		Invalidate();
@@ -148,7 +158,7 @@ namespace OSHGui
 				{
 					pressed = false;
 					
-					changeEventHandler.Invoke(this);
+					scrollEventHandler.Invoke(this);
 
 					return Event::DontContinue;
 				}
@@ -163,7 +173,6 @@ namespace OSHGui
 				}
 			}
 			
-			//restore PointToClient (alternatively call PointToScreen)
 			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)

@@ -156,7 +156,7 @@ namespace OSHGui
 		 *
 		 * @param location
 		 */
-		virtual void SetLocation(Drawing::Point &location);
+		virtual void SetLocation(const Drawing::Point &location);
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
@@ -329,11 +329,11 @@ namespace OSHGui
 		 */
 		KeyPressEventHandler& GetKeyPressEventHandler();
 		/**
-		 * Ruft den ChangeEventHandler für das Steuerelement ab.
+		 * Ruft den MouseClickEventHandler für das Steuerelement ab.
 		 *
-		 * @return changeEventHandler
+		 * @return mouseClickEventHandler
 		 */
-		ChangeEventHandler& GetChangeEventHandler();
+		MouseClickEventHandler& GetMouseClickEventHandler();
 		/**
 		 * Ruft den MouseEnterEventHandler für das Steuerelement ab.
 		 *
@@ -458,7 +458,7 @@ namespace OSHGui
 		
 		ClickEventHandler clickEventHandler;
 		KeyPressEventHandler keyPressEventHandler;
-		ChangeEventHandler changeEventHandler;
+		MouseClickEventHandler mouseClickEventHandler;
 		MouseEnterEventHandler mouseEnterEventHandler;
 		MouseLeaveEventHandler mouseLeaveEventHandler;
 		FocusInEventHandler focusInEventHandler;

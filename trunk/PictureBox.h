@@ -8,7 +8,7 @@
 namespace OSHGui
 {
 	/**
-	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
+	 * Wird zum Anzeigen eines Bildes verwendet.
 	 */
 	class PictureBox : public Control
 	{

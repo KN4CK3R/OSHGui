@@ -9,6 +9,11 @@
 namespace OSHGui
 {
 	/**
+	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
+	 */
+	typedef EventHandler<void(Control*)> ScrollEventHandler;
+
+	/**
 	 * Stellt eine Standardtrackleiste dar.
 	 */
 	class TrackBar : public Control
@@ -20,21 +25,8 @@ namespace OSHGui
 		 * @param parent das Elternsteuerelement
 		 */
 		TrackBar(Control *parent);
-		
-		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus();
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool ContainsPoint(const Drawing::Point &point);
-		
+		~TrackBar();
+
 		/**
 		 * Legt den Wertebereich (min - max) fest.
 		 *
@@ -61,6 +53,21 @@ namespace OSHGui
 		 * @return der aktuelle Wert
 		 */
 		int GetValue() const;
+		ScrollEventHandler& GetScrollEventHandler();
+		
+		/**
+		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
+		 *
+		 * @return ja / nein
+		 */
+		virtual bool CanHaveFocus();
+		/**
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 *
+		 * @param point
+		 * @return ja / nein
+		 */
+		virtual bool ContainsPoint(const Drawing::Point &point);
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -95,6 +102,8 @@ namespace OSHGui
 		bool pressed;
 		
 		Drawing::Rectangle sliderRect;
+
+		ScrollEventHandler scrollEventHandler;
 	};
 }
 

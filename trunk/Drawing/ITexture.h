@@ -14,7 +14,7 @@ namespace OSHGui
 		class ITexture
 		{
 		public:
-			const Size GetSize()
+			const Size& GetSize() const
 			{
 				return size;
 			}
@@ -28,19 +28,24 @@ namespace OSHGui
 			virtual void EndUpdate() = 0;
 			
 			virtual void Clear() = 0;
-			virtual void Clear(int x, int y);
+			virtual void Clear(const Point &point) = 0;
+			virtual void Clear(int x, int y) = 0;
+			virtual void Clear(const Rectangle &rect) = 0;
 			virtual void Clear(int x, int y, int w, int h) = 0;
 
 			virtual void Fill(Color color) = 0;
+			virtual void Fill(const Point &point, Color color) = 0;
 			virtual void Fill(int x, int y, Color color) = 0;
+			virtual void Fill(const Rectangle &rect, Color color) = 0;
 			virtual void Fill(int x, int y, int w, int h, Color color) = 0;
 
 			virtual void FillGradient(Color from, Color to, bool updown = true) = 0;
-			virtual void FillGradient(Rectangle &rect, Color from, Color to, bool updown = true) = 0;
+			virtual void FillGradient(const Rectangle &rect, Color from, Color to, bool updown = true) = 0;
 			virtual void FillGradient(int x, int y, int w, int h, Color from, Color to, bool updown = true) = 0;
 			
 			virtual void Rotate(int degrees) = 0;
 
+			virtual void Insert(const Point &point, ITexture *texture) = 0;
 			virtual void Insert(int x, int y, ITexture *texture) = 0;
 		
 		protected:
