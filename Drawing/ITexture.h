@@ -21,15 +21,18 @@ namespace OSHGui
 			virtual bool IsLocked() = 0;
 
 			virtual bool Create(const Size &size) = 0;
+			virtual bool Create(int width, int height) = 0;
 			virtual bool LoadFromFile(const Misc::UnicodeString &filename) = 0;
 		
 			virtual void BeginUpdate() = 0;
 			virtual void EndUpdate() = 0;
 			
 			virtual void Clear() = 0;
+			virtual void Clear(int x, int y);
 			virtual void Clear(int x, int y, int w, int h) = 0;
 
 			virtual void Fill(Color color) = 0;
+			virtual void Fill(int x, int y, Color color) = 0;
 			virtual void Fill(int x, int y, int w, int h, Color color) = 0;
 
 			virtual void FillGradient(Color from, Color to, bool updown = true) = 0;
