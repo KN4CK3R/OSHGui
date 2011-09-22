@@ -40,7 +40,8 @@ namespace OSHGui
 		CONTROL_TIMER,
 		CONTROL_TABCONTROL,
 		CONTROL_TABPAGE,
-		CONTROL_PICTUREBOX
+		CONTROL_PICTUREBOX,
+		CONTROL_COLORGRADIENTPICKER
 	};
 
 	/**
@@ -89,7 +90,7 @@ namespace OSHGui
 		 *
 		 * @return enabled
 		 */
-		bool GetEnabled();
+		bool GetEnabled() const;
 		/**
 		 * Legt fest, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
@@ -103,7 +104,7 @@ namespace OSHGui
 		 *
 		 * @return visible
 		 */
-		bool GetVisible();
+		bool GetVisible() const;
 		
 		/**
 		 * Legt fest, ob die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
@@ -230,14 +231,14 @@ namespace OSHGui
 		 * @param point
 		 * @return der neue Punkt
 		 */
-		virtual Drawing::Point PointToClient(const Drawing::Point &point);
+		virtual Drawing::Point PointToClient(const Drawing::Point &point) const;
 		/**
 		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
 		 *
 		 * @param point
 		 * @return der neue Punkt
 		 */
-		virtual Drawing::Point PointToScreen(const Drawing::Point &point);
+		virtual Drawing::Point PointToScreen(const Drawing::Point &point) const;
 		
 		/**
 		 * Legt die mit dem Steuerelement verknüpften benutzerdefinierten Daten fest.
@@ -263,7 +264,7 @@ namespace OSHGui
 		 *
 		 * @return name
 		 */
-		Misc::UnicodeString& GetName();
+		const Misc::UnicodeString& GetName() const;
 		
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
@@ -276,7 +277,7 @@ namespace OSHGui
 		 *
 		 * @return font
 		 */
-		std::shared_ptr<Drawing::IFont> GetFont();
+		const std::shared_ptr<Drawing::IFont> GetFont() const;
 		
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
@@ -289,7 +290,7 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetForeColor();
+		const Drawing::Color& GetForeColor() const;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
@@ -301,7 +302,7 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetBackColor();
+		const Drawing::Color& GetBackColor() const;
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
@@ -313,7 +314,7 @@ namespace OSHGui
 		 *
 		 * @return color
 		 */
-		Drawing::Color& GetMouseOverFocusColor();
+		const Drawing::Color& GetMouseOverFocusColor() const;
 
 		/**
 		 * Ruft den ClickEventHandler für das Steuerelement ab.
@@ -391,14 +392,14 @@ namespace OSHGui
 		 * @param point
 		 * @return 0, falls sich dort kein Steuerelement befindet
 		 */
-		Control* GetChildAtPoint(const Drawing::Point &point);
+		Control* GetChildAtPoint(const Drawing::Point &point) const;
 		/**
 		 * Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
 		 *
 		 * @param name
 		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
 		 */
-		Control* GetChildByName(const Misc::UnicodeString &name);
+		Control* GetChildByName(const Misc::UnicodeString &name) const;
 		
 		/**
 		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
@@ -426,13 +427,13 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		Control* GetParent();
+		Control* GetParent() const;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
 		 * @return parent
 		 */
-		const std::vector<Control*>& GetControls();
+		const std::vector<Control*>& GetControls() const;
 		
 	protected:
 		Event::NextEventTypes ContainerProcessEvent(Event *event);

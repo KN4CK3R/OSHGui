@@ -51,7 +51,7 @@ namespace OSHGui
 		this->enabled = enabled;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::GetEnabled()
+	bool Control::GetEnabled() const
 	{
 		return enabled;
 	}
@@ -61,7 +61,7 @@ namespace OSHGui
 		this->visible = visible;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::GetVisible()
+	bool Control::GetVisible() const
 	{
 		return visible;
 	}
@@ -184,12 +184,12 @@ namespace OSHGui
 		return bounds.GetWidth();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point Control::PointToClient(const Drawing::Point &point)
+	Drawing::Point Control::PointToClient(const Drawing::Point &point) const
 	{
 		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point Control::PointToScreen(const Drawing::Point &point)
+	Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
 	{
 		return Drawing::Point();
 	}
@@ -214,7 +214,7 @@ namespace OSHGui
 		this->name = name;
 	}
 	//---------------------------------------------------------------------------
-	Misc::UnicodeString& Control::GetName()
+	const Misc::UnicodeString& Control::GetName() const
 	{
 		return name;
 	}
@@ -224,7 +224,7 @@ namespace OSHGui
 		foreColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color& Control::GetForeColor()
+	const Drawing::Color& Control::GetForeColor() const
 	{
 		return foreColor;
 	}
@@ -234,7 +234,7 @@ namespace OSHGui
 		backColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color& Control::GetBackColor()
+	const Drawing::Color& Control::GetBackColor() const
 	{
 		return backColor;
 	}
@@ -244,7 +244,7 @@ namespace OSHGui
 		mouseOverFocusColor = color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color& Control::GetMouseOverFocusColor()
+	const Drawing::Color& Control::GetMouseOverFocusColor() const
 	{
 		return mouseOverFocusColor;
 	}
@@ -265,7 +265,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Drawing::IFont> Control::GetFont()
+	std::shared_ptr<Drawing::IFont> Control::GetFont() const
 	{
 		return font;
 	}
@@ -295,12 +295,12 @@ namespace OSHGui
 		return changeEventHandler;
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::GetParent()
+	Control* Control::GetParent() const
 	{
 		return Parent;
 	}
 	//---------------------------------------------------------------------------
-	const std::vector<Control*>& Control::GetControls()
+	const std::vector<Control*>& Control::GetControls() const
 	{
 		return controls;
 	}
@@ -347,7 +347,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::GetChildAtPoint(const Drawing::Point &point)
+	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
 	{
 		for (unsigned int i = 1; i <= controls.size(); ++i)
 		{
@@ -367,7 +367,7 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::GetChildByName(const Misc::UnicodeString &name)
+	Control* Control::GetChildByName(const Misc::UnicodeString &name) const
 	{
 		for (unsigned int i = 0; i < controls.size(); i++)
 		{
