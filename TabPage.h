@@ -31,7 +31,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText() const;
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

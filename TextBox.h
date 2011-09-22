@@ -33,7 +33,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText() const;
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -80,9 +80,7 @@ namespace OSHGui
 		void ResetCaretBlink();
 
 		void PlaceCaret(int position);
-		
-		void PasteFromClipboard();
-		
+			
 		Misc::TextHelper textHelper;
 		
 		Drawing::Rectangle textRect,

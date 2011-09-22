@@ -28,14 +28,14 @@ namespace OSHGui
 		 * @param name der Name
 		 * @return im Fehlerfall 0
 		 */
-		TabPage* GetTabPage(const Misc::UnicodeString &name);
+		TabPage* GetTabPage(const Misc::UnicodeString &name) const;
 		/**
 		 * Ruft die TabPage am entsprechenden Index ab.
 		 *
 		 * @param index
 		 * @return im Fehlerfall 0
 		 */
-		TabPage* GetTabPage(int index);
+		TabPage* GetTabPage(int index) const;
 		
 		/**
 		 * Fügt dem TabControl eine neue TabPage hinzu.

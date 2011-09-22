@@ -31,7 +31,12 @@ namespace OSHGui
 		UpdateSliderRect();
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetPosition()
+	void ScrollBar::GetRange() const
+	{
+		return range;
+	}
+	//---------------------------------------------------------------------------
+	int ScrollBar::GetPosition() const
 	{
 		return position;
 	}

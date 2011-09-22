@@ -31,7 +31,7 @@ namespace OSHGui
 		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& TextBox::GetText()
+	const Misc::UnicodeString& TextBox::GetText() const
 	{
 		return textHelper.GetText();
 	}

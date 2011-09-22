@@ -54,7 +54,7 @@ namespace OSHGui
 		this->group = group;
 	}
 	//---------------------------------------------------------------------------
-	int RadioButton::GetGroup()
+	int RadioButton::GetGroup() const
 	{
 		return group;
 	}

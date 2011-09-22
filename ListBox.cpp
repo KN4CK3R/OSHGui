@@ -24,27 +24,27 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	ListItem* ListBox::GetItem(int index)
+	const Misc::UnicodeString& ListBox::GetItem(int index) const
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			return 0;
+			throw 1;
 		}
 
 		return items.at(index);
 	}
 	//---------------------------------------------------------------------------
-	int ListBox::GetSelectedIndex()
+	int ListBox::GetSelectedIndex() const
 	{
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	ListItem* ListBox::GetSelectedItem()
+	const Misc::UnicodeString& ListBox::GetSelectedItem() const
 	{
 		return GetItem(GetSelectedIndex());
 	}
 	//---------------------------------------------------------------------------
-	int ListBox::GetItemsCount()
+	int ListBox::GetItemsCount() const
 	{
 		return items.size();
 	}
@@ -82,16 +82,8 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
-	{	
-		ListItem *newItem = new ListItem();
-		if (newItem == 0)
-		{
-			return false;
-		}
-		
-		newItem->Text = text;
-		
-		items.insert(items.begin() + index, newItem);
+	{			
+		items.insert(items.begin() + index, text);
 
 		scrollBar.SetRange(items.size());
 
@@ -106,10 +98,6 @@ namespace OSHGui
 		{
 			return false;
 		}
-
-		ListItem *item = items.at(index);
-		delete item;
-		item = 0;
 		
 		items.erase(items.begin() + index);
 
@@ -128,13 +116,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::Clear()
 	{
-		for (unsigned int i = 0; i < items.size(); i++)
-		{
-			ListItem *item = items.at(i);
-			delete item;
-			item = 0;
-		}
-
 		items.clear();
 		
 		scrollBar.SetRange(1);
@@ -353,7 +334,7 @@ namespace OSHGui
 				renderer->SetRenderColor(foreColor);
 			}
 
-			renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]->Text);
+			renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]);
 		}
 	
 		scrollBar.Render(renderer);

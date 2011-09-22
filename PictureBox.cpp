@@ -25,7 +25,7 @@ namespace OSHGui
 		this->image = image;
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Drawing::ITexture> PictureBox::GetImage()
+	std::shared_ptr<Drawing::ITexture> PictureBox::GetImage() const
 	{
 		return image;
 	}

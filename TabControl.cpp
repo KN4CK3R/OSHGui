@@ -29,7 +29,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text)
+	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text) const
 	{
 		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
 		{
@@ -42,7 +42,7 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	TabPage* TabControl::GetTabPage(int index)
+	TabPage* TabControl::GetTabPage(int index) const
 	{
 		if (index > 0 && index < (int)tabs.size())
 		{

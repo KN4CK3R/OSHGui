@@ -31,7 +31,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::UnicodeString& GetText() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

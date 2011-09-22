@@ -30,6 +30,12 @@ namespace OSHGui
 		 */
 		void SetRange(int range);
 		/**
+		 * Ruft die Anzahl der scrollbaren Elemente ab.
+		 *
+		 * @return range
+		 */
+		int GetRange() const;
+		/**
 		 * Gibt die aktuelle Position des ScrollButtons zurück.
 		 *
 		 * @return die Position

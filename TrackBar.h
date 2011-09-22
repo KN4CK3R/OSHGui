@@ -43,6 +43,13 @@ namespace OSHGui
 		 */
 		void SetRange(int min, int max);
 		/**
+		 * Ruft den Wertebereich ab.
+		 *
+		 * @param min
+		 * @param max
+		 */
+		void GetRange(int *min, int *max) const;
+		/**
 		 * Legt den aktuellen Wert fest.
 		 *
 		 * @param value
@@ -53,7 +60,7 @@ namespace OSHGui
 		 *
 		 * @return der aktuelle Wert
 		 */
-		int GetValue();
+		int GetValue() const;
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -79,7 +86,7 @@ namespace OSHGui
 
 	protected:
 		virtual void SetValueInternal(int value);
-		virtual int ValueFromPosition(int position);
+		virtual int ValueFromPosition(int position) const;
 	
 		int min,
 			max,

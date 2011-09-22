@@ -35,12 +35,12 @@ namespace OSHGui
 		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Form::GetText()
+	const Misc::UnicodeString& Form::GetText() const
 	{
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
-	bool Form::IsModal()
+	bool Form::IsModal() const
 	{
 		return isModal;
 	}
