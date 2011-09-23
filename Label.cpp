@@ -32,7 +32,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Label::ContainsPoint(const Drawing::Point &point)
+	bool Label::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

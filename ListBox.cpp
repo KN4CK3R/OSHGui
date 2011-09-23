@@ -56,12 +56,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ListBox::CanHaveFocus()
+	bool ListBox::CanHaveFocus() const
 	{
 		return visible && enabled;
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::ContainsPoint(const Drawing::Point &point)
+	bool ListBox::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

@@ -73,7 +73,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ProgressBar::ContainsPoint(const Drawing::Point &point)
+	bool ProgressBar::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

@@ -59,12 +59,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool TrackBar::CanHaveFocus()
+	bool TrackBar::CanHaveFocus() const
 	{
 		return enabled && visible;
 	}
 	//---------------------------------------------------------------------------
-	bool TrackBar::ContainsPoint(const Drawing::Point &point)
+	bool TrackBar::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

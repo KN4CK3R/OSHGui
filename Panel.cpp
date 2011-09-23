@@ -16,7 +16,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Panel::ContainsPoint(const Drawing::Point &point)
+	bool Panel::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

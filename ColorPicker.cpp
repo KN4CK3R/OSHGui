@@ -1,13 +1,13 @@
-#include "ColorGradientPicker.h"
+#include "ColorPicker.h"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ColorGradientPicker::ColorGradientPicker(Control *parent) : Control(parent)
+	ColorPicker::ColorPicker(Control *parent) : Control(parent)
 	{
-		type = CONTROL_PICTUREBOX;
+		type = CONTROL_COLORPICKER;
 		
 		gradient = Application::Renderer->CreateNewTexture();
 		drag = false;
@@ -16,19 +16,19 @@ namespace OSHGui
 		SetForeColor(Drawing::Color::Empty());
 	}
 	//---------------------------------------------------------------------------
-	ColorGradientPicker::~ColorGradientPicker()
+	ColorPicker::~ColorPicker()
 	{
 	
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorGradientPicker::GetColor() const
+	Drawing::Color ColorPicker::GetColor() const
 	{
 		return color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorGradientPicker::GetColorAtPoint(int x, int y) const
+	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
 	{
 		Drawing::Color tmpColor;
 		
@@ -103,36 +103,35 @@ namespace OSHGui
 		return tmpColor;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorGradientPicker::GetColorAtPoint(const Drawing::Point &point) const
+	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::Point &point) const
 	{
 		return GetColorAtPoint(point.X, point.Y);
 	}
 	//---------------------------------------------------------------------------
-	ColorChangeEventHandler& ColorGradientPicker::GetColorChangeEventHandler()
+	ColorChangeEventHandler& ColorPicker::GetColorChangeEventHandler()
 	{
 		return colorChangeEventHandler;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ColorGradientPicker::ContainsPoint(const Drawing::Point &point)
+	bool ColorPicker::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	void ColorGradientPicker::Invalidate()
+	void ColorPicker::Invalidate()
 	{
 		if (clientArea != bounds)
 		{
 			clientArea = bounds;
 			
 			CreateGradientTexture();
-
-			InvalidateChildren();
 		}
+		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
-	void ColorGradientPicker::CreateGradientTexture()
+	void ColorPicker::CreateGradientTexture()
 	{
 		gradient->Create(bounds.GetWidth(), bounds.GetHeight());
 	
@@ -140,7 +139,7 @@ namespace OSHGui
 		for (int y = 0; y < bounds.GetHeight(); ++y)
 		{
 			for(int x = 0; x < bounds.GetWidth(); ++x)
-			{			
+			{
 				gradient->Fill(x, y, GetColorAtPoint(x, y));
 			}
 		}
@@ -149,7 +148,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ColorGradientPicker::ProcessEvent(Event *event)
+	Event::NextEventTypes ColorPicker::ProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{
@@ -163,7 +162,7 @@ namespace OSHGui
 		
 		Drawing::Point mousePositionBackup;
 		if (event->Type == Event::Mouse)
-		{			
+		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
@@ -208,7 +207,7 @@ namespace OSHGui
 		}
 		
 		if (event->Type == Event::Mouse)
-		{			
+		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mouse->Position = mousePositionBackup;
 		}
@@ -216,7 +215,7 @@ namespace OSHGui
 		return Event::Continue;
 	}
 	//---------------------------------------------------------------------------
-	void ColorGradientPicker::Render(Drawing::IRenderer *renderer)
+	void ColorPicker::Render(Drawing::IRenderer *renderer)
 	{
 		if (!visible)
 		{

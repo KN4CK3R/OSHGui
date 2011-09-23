@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * @return ja / nein
 		 */
-		virtual bool CanHaveFocus();
+		virtual bool CanHaveFocus() const;
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
