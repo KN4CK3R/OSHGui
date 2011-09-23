@@ -6,7 +6,7 @@
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> TickEventHandler;
+	typedef EventHandler<void(Control*)> TickEvent;
 
 	/**
 	 * Implementiert einen Zeitgeber, der ein Ereignis in benutzerdefinierten
@@ -26,17 +26,17 @@ namespace OSHGui
 		long GetInterval() const;
 
 		/**
-		 * Ruft den FocusOutEventHandler für das Steuerelement ab.
+		 * Ruft das TickEvent für das Steuerelement ab.
 		 *
-		 * @return forcusOutEventHandler
+		 * @return tickEvent
 		 */
-		TickEventHandler& GetTickEventHandler();
+		TickEvent& GetTickEvent();
 
 	protected:
 		bool enabled;
 		long interval;
 
-		TickEventHandler tickEventHandler;
+		TickEvent tickEvent;
 	};
 }
 

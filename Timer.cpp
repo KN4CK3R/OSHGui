@@ -62,9 +62,9 @@ namespace OSHGui
 		return interval;
 	}
 	//---------------------------------------------------------------------------
-	TickEventHandler& Timer::GetTickEventHandler()
+	TickEvent& Timer::GetTickEvent()
 	{
-		return tickEventHandler;
+		return tickEvent;
 	}
 	//---------------------------------------------------------------------------
 }

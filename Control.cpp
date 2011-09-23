@@ -270,29 +270,29 @@ namespace OSHGui
 		return font;
 	}
 	//---------------------------------------------------------------------------
-	ClickEventHandler& Control::GetClickEventHandler()
+	ClickEvent& Control::GetClickEvent()
 	{
-		return clickEventHandler;
+		return clickEvent;
 	}
 	//---------------------------------------------------------------------------
-	KeyPressEventHandler& Control::GetKeyPressEventHandler()
+	KeyPressEvent& Control::GetKeyPressEvent()
 	{
-		return keyPressEventHandler;
+		return keyPressEvent;
 	}
 	//---------------------------------------------------------------------------
-	MouseEnterEventHandler& Control::GetMouseEnterEventHandler()
+	MouseEnterEvent& Control::GetMouseEnterEvent()
 	{
-		return mouseEnterEventHandler;
+		return mouseEnterEvent;
 	}
 	//---------------------------------------------------------------------------
-	MouseLeaveEventHandler& Control::GetMouseLeaveEventHandler()
+	MouseLeaveEvent& Control::GetMouseLeaveEvent()
 	{
-		return mouseLeaveEventHandler;
+		return mouseLeaveEvent;
 	}
 	//---------------------------------------------------------------------------
-	MouseClickEventHandler& Control::GetMouseClickEventHandler()
+	MouseClickEvent& Control::GetMouseClickEvent()
 	{
-		return mouseClickEventHandler;
+		return mouseClickEvent;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const
@@ -409,11 +409,11 @@ namespace OSHGui
 		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusOutEventHandler.Invoke(this);
+			baseParent->focusControl->focusOutEvent.Invoke(this);
 		}
 		
 		control->SetFocus(true);
-		control->focusInEventHandler.Invoke(this);
+		control->focusInEvent.Invoke(this);
 		baseParent->focusControl = control;
 	}
 	//---------------------------------------------------------------------------
@@ -429,7 +429,7 @@ namespace OSHGui
 		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusOutEventHandler.Invoke(this);
+			baseParent->focusControl->focusOutEvent.Invoke(this);
 			baseParent->focusControl = 0;
 		}
 	}
@@ -466,7 +466,7 @@ namespace OSHGui
 			if (control != mouseOverControl && mouseOverControl != 0)
 			{
 				mouseOverControl->mouseOver = false;
-				mouseOverControl->mouseLeaveEventHandler.Invoke(this);
+				mouseOverControl->mouseLeaveEvent.Invoke(this);
 				mouseOverControl = 0;
 			}
 
@@ -474,7 +474,7 @@ namespace OSHGui
 			{
 				mouseOverControl = control;
 				mouseOverControl->mouseOver = true;
-				mouseOverControl->mouseEnterEventHandler.Invoke(this);
+				mouseOverControl->mouseEnterEvent.Invoke(this);
 			}
 			
 			//someone is focused

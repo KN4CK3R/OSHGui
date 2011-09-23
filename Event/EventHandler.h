@@ -81,19 +81,19 @@ namespace OSHGui
 		}
 	};
 
-	typedef EventHandler<void(Control*)> ClickEventHandler;
+	typedef EventHandler<void(Control*)> ClickEvent;
 	
-	typedef EventHandler<void(Control*, KeyboardEvent*)> KeyPressEventHandler;
+	typedef EventHandler<void(Control*, KeyboardEvent*)> KeyPressEvent;
 	
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEventHandler;
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEvent;
 	
-	typedef EventHandler<void(Control*)> MouseEnterEventHandler;
+	typedef EventHandler<void(Control*)> MouseEnterEvent;
 	
-	typedef EventHandler<void(Control*)> MouseLeaveEventHandler;
+	typedef EventHandler<void(Control*)> MouseLeaveEvent;
 	
-	typedef EventHandler<void(Control*)> FocusInEventHandler;
+	typedef EventHandler<void(Control*)> FocusInEvent;
 	
-	typedef EventHandler<void(Control*)> FocusOutEventHandler;
+	typedef EventHandler<void(Control*)> FocusOutEvent;
 }
 
 #endif

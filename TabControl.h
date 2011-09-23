@@ -1,12 +1,13 @@
 #ifndef __OSHGUI_TABCONTROL_H__
 #define __OSHGUI_TABCONTROL_H__
 
+#include "Event\EventHandler.h"
 #include "Control.h"
 #include <list>
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
 
 	class TabPage;
 
@@ -39,11 +40,11 @@ namespace OSHGui
 		 */
 		TabPage* GetTabPage(int index) const;
 		/**
-		 * Ruft den SelectedIndexEventHandler für das Steuerelement ab.
+		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEventHandler
+		 * @return selectedIndexEvent
 		 */
-		SelectedIndexChangedEventHandler& GetSelectedIndexChangedEventHandler();
+		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		
 		/**
 		 * Fügt dem TabControl eine neue TabPage hinzu.
@@ -92,7 +93,7 @@ namespace OSHGui
 		std::list<TabPage*> tabs;
 		TabPage *activeTab;
 
-		SelectedIndexChangedEventHandler selectedIndexChangedEventHandler;
+		SelectedIndexChangedEvent selectedIndexChangedEvent;
 	};
 }
 

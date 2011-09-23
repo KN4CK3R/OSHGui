@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_TEXTBOX_H__
 #define __OSHGUI_TEXTBOX_H__
 
+#include "Event\EventHandler.h"
 #include "Control.h"
 #include "Misc\TextHelper.h"
 
@@ -8,7 +9,7 @@
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> TextChangedEventHandler;
+	typedef EventHandler<void(Control*)> TextChangedEvent;
 
 	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
@@ -37,11 +38,11 @@ namespace OSHGui
 		 */
 		const Misc::UnicodeString& GetText() const;
 		/**
-		 * Ruft den TextChangedEventHandler für das Steuerelement ab.
+		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
-		 * @return textChangedEventHandler
+		 * @return textChangedEvent
 		 */
-		TextChangedEventHandler& GetTextChangedEventHandler();
+		TextChangedEvent& GetTextChangedEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -95,7 +96,7 @@ namespace OSHGui
 		int caretPosition,
 			firstVisibleCharacter;
 
-		TextChangedEventHandler textChangedEventHandler;
+		TextChangedEvent textChangedEvent;
 	};
 }
 

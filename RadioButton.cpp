@@ -45,7 +45,7 @@ namespace OSHGui
 		{
 			this->checked = checked;
 			
-			checkedChangedEventHandler.Invoke(this);
+			checkedChangedEvent.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -97,10 +97,10 @@ namespace OSHGui
 					{
 						SetChecked(true);
 						
-						clickEventHandler.Invoke(this);
+						clickEvent.Invoke(this);
 						
 						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-						mouseClickEventHandler.Invoke(this, args);
+						mouseClickEvent.Invoke(this, args);
 					
 						pressed = false;
 					}
@@ -117,7 +117,7 @@ namespace OSHGui
 			{
 				SetChecked(!GetChecked());
 				
-				clickEventHandler.Invoke(this);
+				clickEvent.Invoke(this);
 				
 				return Event::DontContinue;
 			}

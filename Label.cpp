@@ -84,10 +84,10 @@ namespace OSHGui
 					{
 						pressed = false;
 					
-						clickEventHandler.Invoke(this);
+						clickEvent.Invoke(this);
 
 						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-						mouseClickEventHandler.Invoke(this, args);
+						mouseClickEvent.Invoke(this, args);
 					}
 
 					return Event::DontContinue;

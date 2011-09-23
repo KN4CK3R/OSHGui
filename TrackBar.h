@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_TRACKBAR_H__
 #define __OSHGUI_TRACKBAR_H__
 
+#include "Event\EventHandler.h"
 #include "Control.h"
 
 #define TRACKBAR_SLIDER_WIDTH 8
@@ -11,7 +12,7 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
 	 */
-	typedef EventHandler<void(Control*)> ScrollEventHandler;
+	typedef EventHandler<void(Control*)> ScrollEvent;
 
 	/**
 	 * Stellt eine Standardtrackleiste dar.
@@ -53,7 +54,12 @@ namespace OSHGui
 		 * @return der aktuelle Wert
 		 */
 		int GetValue() const;
-		ScrollEventHandler& GetScrollEventHandler();
+		/**
+		 * Ruft das ScrollEvent für das Steuerelement ab.
+		 *
+		 * @return scrollEvent
+		 */
+		ScrollEvent& GetScrollEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -103,7 +109,7 @@ namespace OSHGui
 		
 		Drawing::Rectangle sliderRect;
 
-		ScrollEventHandler scrollEventHandler;
+		ScrollEvent scrollEvent;
 	};
 }
 

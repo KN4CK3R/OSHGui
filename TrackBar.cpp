@@ -52,9 +52,9 @@ namespace OSHGui
 		return value;
 	}
 	//---------------------------------------------------------------------------
-	ScrollEventHandler& TrackBar::GetScrollEventHandler()
+	ScrollEvent& TrackBar::GetScrollEvent()
 	{
-		return scrollEventHandler;
+		return scrollEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -92,7 +92,7 @@ namespace OSHGui
 		{
 			this->value = value;
 			
-			scrollEventHandler.Invoke(this);
+			scrollEvent.Invoke(this);
 		}
 
 		Invalidate();
@@ -158,7 +158,7 @@ namespace OSHGui
 				{
 					pressed = false;
 					
-					scrollEventHandler.Invoke(this);
+					scrollEvent.Invoke(this);
 
 					return Event::DontContinue;
 				}

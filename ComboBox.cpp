@@ -112,7 +112,7 @@ namespace OSHGui
 			
 			textHelper.SetText(GetSelectedItem());
 
-			selectedIndexChangedEventHandler.Invoke(this);
+			selectedIndexChangedEvent.Invoke(this);
 		}
 
 		return true;
@@ -135,7 +135,7 @@ namespace OSHGui
 
 			textHelper.SetText(GetSelectedItem());
 			
-			selectedIndexChangedEventHandler.Invoke(this);
+			selectedIndexChangedEvent.Invoke(this);
 		}
 
 		return true;
@@ -178,7 +178,7 @@ namespace OSHGui
 		{
 			textHelper.SetText(GetSelectedItem());
 
-			selectedIndexChangedEventHandler.Invoke(this);
+			selectedIndexChangedEvent.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -332,7 +332,7 @@ namespace OSHGui
 
 						textHelper.SetText(GetSelectedItem());
 
-						selectedIndexChangedEventHandler.Invoke(this);
+						selectedIndexChangedEvent.Invoke(this);
 					}
 
 					open = false;
@@ -449,7 +449,7 @@ namespace OSHGui
 							{
 								textHelper.SetText(GetSelectedItem());
 							
-								selectedIndexChangedEventHandler.Invoke(this);
+								selectedIndexChangedEvent.Invoke(this);
 							}
 					}
 				}
@@ -469,7 +469,7 @@ namespace OSHGui
 
 								textHelper.SetText(GetSelectedItem());
 								
-								selectedIndexChangedEventHandler.Invoke(this);
+								selectedIndexChangedEvent.Invoke(this);
 							}
 							open = false;
 							
