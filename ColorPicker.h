@@ -9,6 +9,9 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt auf, wenn sich der Wert der Color-Eigenschaft ändert.
+	 */
 	typedef EventHandler<void(Control*)> ColorChangeEvent;
 
 	/**

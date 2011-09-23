@@ -17,6 +17,14 @@ namespace OSHGui
 		 * @param parent das Elternsteuerelement
 		 */
 		Button(Control *parent = 0);
+		virtual ~Button();
+		
+		/**
+		 * Ruft das KeyPressEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyPressEvent& GetKeyPressEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -46,6 +54,9 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
+		
+	protected:
+		KeyPressEvent keyPressEvent;
 	};
 }
 

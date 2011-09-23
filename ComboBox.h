@@ -10,6 +10,9 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
+	 */
 	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
 
 	/**
@@ -79,33 +82,33 @@ namespace OSHGui
 		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		
 		/**
-		 * Fügt ein neues ListItem hinzu.
+		 * Fügt ein neues Item hinzu.
 		 *
-		 * @param text der Text des ListItems
+		 * @param text der Text des Items
 		 * @return im Fehlerfall false
 		 */
 		bool AddItem(const Misc::UnicodeString &text);
 		/**
-		 * Fügt ein neues ListItem am gewählten Index hinzu.
+		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
 		 * @param index
-		 * @param text der Text des ListItems
+		 * @param text der Text des Items
 		 * @return im Fehlerfall false
 		 */
 		bool InsertItem(int index, const Misc::UnicodeString &text);
 		/**
-		 * Löscht das ListItem am gewählten Index.
+		 * Löscht das Item am gewählten Index.
 		 *
 		 * @param index
 		 * @return im Fehlerfall false
 		 */
 		bool RemoveItem(int index);
 		/**
-		 * Löscht alle ListItems.
+		 * Löscht alle Items.
 		 */
 		bool Clear();
 		/**
-		 * Selektiert ein ListItem.
+		 * Selektiert ein Item.
 		 *
 		 * @param newIndex
 		 */

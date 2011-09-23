@@ -324,12 +324,6 @@ namespace OSHGui
 		 */
 		ClickEvent& GetClickEvent();
 		/**
-		 * Ruft das KeyPressEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyPressEvent& GetKeyPressEvent();
-		/**
 		 * Ruft das MouseClickEvent für das Steuerelement ab.
 		 *
 		 * @return mouseClickEvent
@@ -458,7 +452,6 @@ namespace OSHGui
 						   clientArea;
 		
 		ClickEvent clickEvent;
-		KeyPressEvent keyPressEvent;
 		MouseClickEvent mouseClickEvent;
 		MouseEnterEvent mouseEnterEvent;
 		MouseLeaveEvent mouseLeaveEvent;
