@@ -30,7 +30,7 @@ namespace OSHGui
 			 *
 			 * @param font darf nicht 0 sein
 			 */
-			void SetFont(const std::shared_ptr<Drawing::IFont> &);
+			void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 			/**
 			 * Legt den Text fest.
 			 *

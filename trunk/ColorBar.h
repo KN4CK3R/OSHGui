@@ -9,6 +9,9 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
+	 */
 	typedef EventHandler<void(Control*)> ColorChangeEvent;
 
 	/**
@@ -70,7 +73,7 @@ namespace OSHGui
 	
 		bool drag[3];
 		Drawing::Color color;
-		std::vector<std::shared_ptr<Drawing::ITexture>> bars;
+		std::vector<std::shared_ptr<Drawing::ITexture> > bars;
 		std::vector<Drawing::Rectangle> barRects;
 		std::vector<Drawing::Point> barSliders;
 

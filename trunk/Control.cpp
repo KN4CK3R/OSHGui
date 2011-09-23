@@ -275,11 +275,6 @@ namespace OSHGui
 		return clickEvent;
 	}
 	//---------------------------------------------------------------------------
-	KeyPressEvent& Control::GetKeyPressEvent()
-	{
-		return keyPressEvent;
-	}
-	//---------------------------------------------------------------------------
 	MouseEnterEvent& Control::GetMouseEnterEvent()
 	{
 		return mouseEnterEvent;
