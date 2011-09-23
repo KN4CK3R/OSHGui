@@ -41,7 +41,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool CheckBox::CanHaveFocus()
+	bool CheckBox::CanHaveFocus() const
 	{
 		return visible && enabled;
 	}

@@ -39,7 +39,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point);
+		virtual bool ContainsPoint(const Drawing::Point &point) const;
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

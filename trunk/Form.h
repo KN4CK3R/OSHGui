@@ -27,7 +27,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point);
+		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		
 		/**
 		 * Legt den Text fest.

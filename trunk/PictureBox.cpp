@@ -32,7 +32,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool PictureBox::ContainsPoint(const Drawing::Point &point)
+	bool PictureBox::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

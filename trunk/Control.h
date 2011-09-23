@@ -41,7 +41,8 @@ namespace OSHGui
 		CONTROL_TABCONTROL,
 		CONTROL_TABPAGE,
 		CONTROL_PICTUREBOX,
-		CONTROL_COLORGRADIENTPICKER
+		CONTROL_COLORPICKER,
+		CONTROL_COLORBAR
 	};
 
 	/**
@@ -70,14 +71,14 @@ namespace OSHGui
 		 *
 		 * @return ja / nein
 		 */
-		virtual bool CanHaveFocus();
+		virtual bool CanHaveFocus() const;
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point);
+		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
@@ -117,7 +118,7 @@ namespace OSHGui
 		 *
 		 * @return autoSize
 		 */
-		virtual bool GetAutoSize();
+		virtual bool GetAutoSize() const;
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -149,7 +150,7 @@ namespace OSHGui
 		 *
 		 * @return bounds
 		 */
-		virtual Drawing::Rectangle GetBounds();
+		virtual Drawing::Rectangle GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.

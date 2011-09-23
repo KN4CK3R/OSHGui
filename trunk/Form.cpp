@@ -47,7 +47,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Form::ContainsPoint(const Drawing::Point &point)
+	bool Form::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

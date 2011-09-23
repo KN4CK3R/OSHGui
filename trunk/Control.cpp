@@ -77,7 +77,7 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	bool Control::GetAutoSize()
+	bool Control::GetAutoSize() const
 	{
 		return autoSize;
 	}
@@ -105,7 +105,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Rectangle Control::GetBounds()
+	Drawing::Rectangle Control::GetBounds() const
 	{
 		return bounds;
 	}
@@ -307,12 +307,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Control::CanHaveFocus()
+	bool Control::CanHaveFocus() const
 	{
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ContainsPoint(const Drawing::Point &point)
+	bool Control::ContainsPoint(const Drawing::Point &point) const
 	{
 		return false;
 	}

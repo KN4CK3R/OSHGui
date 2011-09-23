@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_COLORGRADIENTPICKER_H__
-#define __OSHGUI_COLORGRADIENTPICKER_H__
+#ifndef __OSHGUI_COLORPICKER_H__
+#define __OSHGUI_COLORPICKER_H__
 
 #include <memory>
 #include "Control.h"
@@ -13,7 +13,7 @@ namespace OSHGui
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
 	 */
-	class ColorGradientPicker : public Control
+	class ColorPicker : public Control
 	{
 	public:
 		/**
@@ -21,8 +21,8 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ColorGradientPicker(Control *parent = 0);
-		virtual ~ColorGradientPicker();
+		ColorPicker(Control *parent = 0);
+		virtual ~ColorPicker();
 		
 		Drawing::Color GetColor() const;
 		Drawing::Color GetColorAtPoint(int x, int y) const;
@@ -36,7 +36,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point);
+		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

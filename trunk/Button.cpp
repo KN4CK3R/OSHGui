@@ -20,7 +20,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Button::CanHaveFocus()
+	bool Button::CanHaveFocus() const
 	{
 		return visible && enabled;
 	}

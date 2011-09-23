@@ -43,12 +43,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool TextBox::CanHaveFocus()
+	bool TextBox::CanHaveFocus() const
 	{
 		return enabled && visible;
 	}
 	//---------------------------------------------------------------------------
-	bool TextBox::ContainsPoint(const Drawing::Point &point)
+	bool TextBox::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

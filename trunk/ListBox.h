@@ -61,14 +61,14 @@ namespace OSHGui
 		 *
 		 * @return ja / nein
 		 */
-		virtual bool CanHaveFocus();
+		virtual bool CanHaveFocus() const;
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point);
+		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		
 		/**
 		 * Fügt ein neues ListItem hinzu.

@@ -53,7 +53,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ScrollBar::ContainsPoint(const Drawing::Point &point)
+	bool ScrollBar::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}
