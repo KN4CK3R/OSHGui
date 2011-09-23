@@ -318,47 +318,47 @@ namespace OSHGui
 		const Drawing::Color& GetMouseOverFocusColor() const;
 
 		/**
-		 * Ruft den ClickEventHandler für das Steuerelement ab.
+		 * Ruft das ClickEvent für das Steuerelement ab.
 		 *
-		 * @return clickEventHandler
+		 * @return clickEvent
 		 */
-		ClickEventHandler& GetClickEventHandler();
+		ClickEvent& GetClickEvent();
 		/**
-		 * Ruft den KeyPressEventHandler für das Steuerelement ab.
+		 * Ruft das KeyPressEvent für das Steuerelement ab.
 		 *
-		 * @return keyPressEventHandler
+		 * @return keyPressEvent
 		 */
-		KeyPressEventHandler& GetKeyPressEventHandler();
+		KeyPressEvent& GetKeyPressEvent();
 		/**
-		 * Ruft den MouseClickEventHandler für das Steuerelement ab.
+		 * Ruft das MouseClickEvent für das Steuerelement ab.
 		 *
-		 * @return mouseClickEventHandler
+		 * @return mouseClickEvent
 		 */
-		MouseClickEventHandler& GetMouseClickEventHandler();
+		MouseClickEvent& GetMouseClickEvent();
 		/**
-		 * Ruft den MouseEnterEventHandler für das Steuerelement ab.
+		 * Ruft das MouseEnterEvent für das Steuerelement ab.
 		 *
-		 * @return mouseEnterEventHandler
+		 * @return mouseEnterEvent
 		 */
-		MouseEnterEventHandler& GetMouseEnterEventHandler();
+		MouseEnterEvent& GetMouseEnterEvent();
 		/**
-		 * Ruft den MouseLeaveEventHandler für das Steuerelement ab.
+		 * Ruft das MouseLeaveEvent für das Steuerelement ab.
 		 *
-		 * @return mouseLeaveEventHandler
+		 * @return mouseLeaveEvent
 		 */
-		MouseLeaveEventHandler& GetMouseLeaveEventHandler();
+		MouseLeaveEvent& GetMouseLeaveEvent();
 		/**
-		 * Ruft den FocusInEventHandler für das Steuerelement ab.
+		 * Ruft das FocusInEvent für das Steuerelement ab.
 		 *
-		 * @return forcusInEventHandler
+		 * @return forcusInEvent
 		 */
-		FocusInEventHandler& GetFocusInEventHandler();
+		FocusInEvent& GetFocusInEvent();
 		/**
-		 * Ruft den FocusOutEventHandler für das Steuerelement ab.
+		 * Ruft das FocusOutEvent für das Steuerelement ab.
 		 *
-		 * @return forcusOutEventHandler
+		 * @return forcusOutEvent
 		 */
-		FocusOutEventHandler& GetFocusOutEventHandler();
+		FocusOutEvent& GetFocusOutEvent();
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -457,13 +457,13 @@ namespace OSHGui
 		Drawing::Rectangle bounds,
 						   clientArea;
 		
-		ClickEventHandler clickEventHandler;
-		KeyPressEventHandler keyPressEventHandler;
-		MouseClickEventHandler mouseClickEventHandler;
-		MouseEnterEventHandler mouseEnterEventHandler;
-		MouseLeaveEventHandler mouseLeaveEventHandler;
-		FocusInEventHandler focusInEventHandler;
-		FocusOutEventHandler focusOutEventHandler;
+		ClickEvent clickEvent;
+		KeyPressEvent keyPressEvent;
+		MouseClickEvent mouseClickEvent;
+		MouseEnterEvent mouseEnterEvent;
+		MouseLeaveEvent mouseLeaveEvent;
+		FocusInEvent focusInEvent;
+		FocusOutEvent focusOutEvent;
 		
 		Drawing::Color foreColor,
 					   backColor,

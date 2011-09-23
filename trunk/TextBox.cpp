@@ -36,9 +36,9 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
-	TextChangedEventHandler& TextBox::GetTextChangedEventHandler()
+	TextChangedEvent& TextBox::GetTextChangedEvent()
 	{
-		return textChangedEventHandler;
+		return textChangedEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -155,10 +155,10 @@ namespace OSHGui
 					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
 					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
 
-					clickEventHandler.Invoke(this);
+					clickEvent.Invoke(this);
 
 					MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-					mouseClickEventHandler.Invoke(this, args);
+					mouseClickEvent.Invoke(this, args);
 				
 					return Event::DontContinue;
 				}
@@ -172,7 +172,7 @@ namespace OSHGui
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			
-			keyPressEventHandler.Invoke(this, keyboard);
+			keyPressEvent.Invoke(this, keyboard);
 
 			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{
@@ -217,7 +217,7 @@ namespace OSHGui
 			
 			if (hasChanged)
 			{
-				textChangedEventHandler.Invoke(this);
+				textChangedEvent.Invoke(this);
 			
 				return Event::DontContinue;
 			}

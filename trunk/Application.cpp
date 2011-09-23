@@ -226,7 +226,7 @@ namespace OSHGui
 				TimerInfo &info = it->second;
 				if (info.next < now)
 				{
-					it->first->tickEventHandler.Invoke(it->first);
+					it->first->tickEvent.Invoke(it->first);
 					info.next = now.Add(info.interval);
 				}
 			}

@@ -58,9 +58,9 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	SelectedIndexChangedEventHandler& TabControl::GetSelectedIndexChangedEventHandler()
+	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
 	{
-		return selectedIndexChangedEventHandler;
+		return selectedIndexChangedEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -167,7 +167,7 @@ namespace OSHGui
 							clicked = 0;
 							Invalidate();
 
-							selectedIndexChangedEventHandler.Invoke(this);
+							selectedIndexChangedEvent.Invoke(this);
 						}
 
 						return Event::DontContinue;
@@ -195,7 +195,7 @@ namespace OSHGui
 								--it;
 								activeTab = *it;
 
-								selectedIndexChangedEventHandler.Invoke(this);
+								selectedIndexChangedEvent.Invoke(this);
 
 								break;
 							}
@@ -215,7 +215,7 @@ namespace OSHGui
 								++it;
 								activeTab = *it;
 
-								selectedIndexChangedEventHandler.Invoke(this);
+								selectedIndexChangedEvent.Invoke(this);
 
 								break;
 							}

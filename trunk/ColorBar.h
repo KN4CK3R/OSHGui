@@ -2,13 +2,14 @@
 #define __OSHGUI_COLORBAR_H__
 
 #include <memory>
+#include "Event\EventHandler.h"
 #include "Control.h"
 #include "Drawing\Color.h"
 #include "Drawing\ITexture.h"
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> ColorChangeEventHandler;
+	typedef EventHandler<void(Control*)> ColorChangeEvent;
 
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
@@ -27,7 +28,12 @@ namespace OSHGui
 		void SetColor(Drawing::Color color);
 		Drawing::Color GetColor() const;
 		
-		ColorChangeEventHandler& GetColorChangeEventHandler();
+		/**
+		 * Ruft das ColorChangeEvent für das Steuerelement ab.
+		 *
+		 * @return colorChangeEvent
+		 */
+		ColorChangeEvent& GetColorChangeEvent();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -68,7 +74,7 @@ namespace OSHGui
 		std::vector<Drawing::Rectangle> barRects;
 		std::vector<Drawing::Point> barSliders;
 
-		ColorChangeEventHandler colorChangeEventHandler;
+		ColorChangeEvent colorChangeEvent;
 	};
 }
 

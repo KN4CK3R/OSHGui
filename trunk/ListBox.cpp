@@ -49,9 +49,9 @@ namespace OSHGui
 		return items.size();
 	}
 	//---------------------------------------------------------------------------
-	SelectedIndexChangedEventHandler& ListBox::GetSelectedIndexChangedEventHandler()
+	SelectedIndexChangedEvent& ListBox::GetSelectedIndexChangedEvent()
 	{
-		return selectedIndexChangedEventHandler;
+		return selectedIndexChangedEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -111,7 +111,7 @@ namespace OSHGui
 		{
 			selectedIndex = items.size() - 1;
 			
-			selectedIndexChangedEventHandler.Invoke(this);
+			selectedIndexChangedEvent.Invoke(this);
 		}
 
 		Invalidate();
@@ -159,7 +159,7 @@ namespace OSHGui
 				firstVisibleItemIndex = scrollBar.GetPosition();
 			}
 			
-			selectedIndexChangedEventHandler.Invoke(this);
+			selectedIndexChangedEvent.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -238,7 +238,7 @@ namespace OSHGui
 					if (itemIndex != -1)
 					{
 						selectedIndex = itemIndex + firstVisibleItemIndex;
-						selectedIndexChangedEventHandler.Invoke(this);
+						selectedIndexChangedEvent.Invoke(this);
 					}
 				}
 
@@ -303,7 +303,7 @@ namespace OSHGui
 								firstVisibleItemIndex = scrollBar.GetPosition();
 							}
 						
-							selectedIndexChangedEventHandler.Invoke(this);
+							selectedIndexChangedEvent.Invoke(this);
 						}
 						return Event::DontContinue;
 				}

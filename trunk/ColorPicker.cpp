@@ -108,9 +108,9 @@ namespace OSHGui
 		return GetColorAtPoint(point.X, point.Y);
 	}
 	//---------------------------------------------------------------------------
-	ColorChangeEventHandler& ColorPicker::GetColorChangeEventHandler()
+	ColorChangeEvent& ColorPicker::GetColorChangeEvent()
 	{
-		return colorChangeEventHandler;
+		return colorChangeEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -173,7 +173,7 @@ namespace OSHGui
 				{
 					color = GetColorAtPoint(mouse->Position);
 
-					colorChangeEventHandler.Invoke(this);
+					colorChangeEvent.Invoke(this);
 
 					return Event::DontContinue;
 				}
@@ -189,12 +189,12 @@ namespace OSHGui
 
 					color = GetColorAtPoint(mouse->Position);
 
-					colorChangeEventHandler.Invoke(this);
+					colorChangeEvent.Invoke(this);
 
-					clickEventHandler.Invoke(this);
+					clickEvent.Invoke(this);
 					
 					MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-					mouseClickEventHandler.Invoke(this, args);
+					mouseClickEvent.Invoke(this, args);
 
 					return Event::DontContinue;
 				}

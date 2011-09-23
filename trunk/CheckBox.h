@@ -6,7 +6,7 @@
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> CheckedChangedEventHandler;
+	typedef EventHandler<void(Control*)> CheckedChangedEvent;
 
 	/**
 	 * Stellt ein CheckBox-Steuerelement dar.
@@ -33,7 +33,12 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool GetChecked() const;
-		CheckedChangedEventHandler& GetCheckedChangedEventHandler();
+		/**
+		 * Ruft das CheckedChangeEvent für das Steuerelement ab.
+		 *
+		 * @return checkedChangeEvent
+		 */
+		CheckedChangedEvent& GetCheckedChangedEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -69,7 +74,7 @@ namespace OSHGui
 		Drawing::Point checkBoxPosition,
 					   textPosition;
 					   
-		CheckedChangedEventHandler checkedChangedEventHandler;
+		CheckedChangedEvent checkedChangedEvent;
 	};
 }
 

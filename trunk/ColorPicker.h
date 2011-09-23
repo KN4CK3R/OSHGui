@@ -2,13 +2,14 @@
 #define __OSHGUI_COLORPICKER_H__
 
 #include <memory>
+#include "Event\EventHandler.h"
 #include "Control.h"
 #include "Drawing\Color.h"
 #include "Drawing\ITexture.h"
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> ColorChangeEventHandler;
+	typedef EventHandler<void(Control*)> ColorChangeEvent;
 
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
@@ -28,7 +29,12 @@ namespace OSHGui
 		Drawing::Color GetColorAtPoint(int x, int y) const;
 		Drawing::Color GetColorAtPoint(const Drawing::Point &point) const;
 
-		ColorChangeEventHandler& GetColorChangeEventHandler();
+		/**
+		 * Ruft das ColorChangeEvent für das Steuerelement ab.
+		 *
+		 * @return colorChangeEvent
+		 */
+		ColorChangeEvent& GetColorChangeEvent();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -67,7 +73,7 @@ namespace OSHGui
 		Drawing::Color color;
 		std::shared_ptr<Drawing::ITexture> gradient;
 
-		ColorChangeEventHandler colorChangeEventHandler;
+		ColorChangeEvent colorChangeEvent;
 	};
 }
 

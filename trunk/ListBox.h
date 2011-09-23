@@ -2,13 +2,14 @@
 #define __OSHGUI_LISTBOX_H__
 
 #include <vector>
+#include "Event\EventHandler.h"
 #include "Control.h"
 #include "Panel.h"
 #include "ScrollBar.h"
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
 
 	/**
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
@@ -50,11 +51,11 @@ namespace OSHGui
 		 */
 		int GetItemsCount() const;
 		/**
-		 * Ruft den SelectedIndexEventHandler für das Steuerelement ab.
+		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEventHandler
+		 * @return selectedIndexEvent
 		 */
-		SelectedIndexChangedEventHandler& GetSelectedIndexChangedEventHandler();
+		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -136,7 +137,7 @@ namespace OSHGui
 		
 		std::vector<Misc::UnicodeString> items;
 
-		SelectedIndexChangedEventHandler selectedIndexChangedEventHandler;
+		SelectedIndexChangedEvent selectedIndexChangedEvent;
 	};
 }
 

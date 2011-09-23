@@ -40,9 +40,9 @@ namespace OSHGui
 		return color;
 	}
 	//---------------------------------------------------------------------------
-	ColorChangeEventHandler& ColorBar::GetColorChangeEventHandler()
+	ColorChangeEvent& ColorBar::GetColorChangeEvent()
 	{
-		return colorChangeEventHandler;
+		return colorChangeEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -143,7 +143,7 @@ namespace OSHGui
 						
 						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * (barSliders[i].Left - clientArea.GetLeft());
 
-						colorChangeEventHandler.Invoke(this);
+						colorChangeEvent.Invoke(this);
 
 						return Event::DontContinue;
 					}
@@ -164,12 +164,12 @@ namespace OSHGui
 						
 						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * (barSliders[i].Left - clientArea.GetLeft());
 
-						colorChangeEventHandler.Invoke(this);
+						colorChangeEvent.Invoke(this);
 
-						clickEventHandler.Invoke(this);
+						clickEvent.Invoke(this);
 						
 						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-						mouseClickEventHandler.Invoke(this, args);
+						mouseClickEvent.Invoke(this, args);
 
 						return Event::DontContinue;
 					}
