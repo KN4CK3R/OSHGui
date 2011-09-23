@@ -7,7 +7,7 @@
 namespace OSHGui
 {
 	/**
-	 * Mausevent
+	 * Stellt Daten für MouseEvents bereit.
 	 */
 	class MouseEventArgs
 	{
