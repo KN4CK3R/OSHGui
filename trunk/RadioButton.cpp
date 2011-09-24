@@ -89,6 +89,15 @@ namespace OSHGui
 					{
 						Parent->RequestFocus(this);
 					}
+
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					return Event::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::Move)
+				{
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
@@ -99,8 +108,9 @@ namespace OSHGui
 						
 						clickEvent.Invoke(this);
 						
-						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-						mouseClickEvent.Invoke(this, args);
+						mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+						mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 					
 						pressed = false;
 					}

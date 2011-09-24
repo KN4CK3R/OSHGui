@@ -58,16 +58,46 @@ namespace OSHGui
 			return Event::Continue;
 		}
 
+		Drawing::Point mousePositionBackup;
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
+			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 		}
 	
 		if (ProcessChildrenEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
+		}
+
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
+
+			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
+			{
+				if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightDown)
+				{
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					return Event::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::Move)
+				{
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					return Event::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
+				{
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					return Event::DontContinue;
+				}
+			}
+
+			mouse->Position = mousePositionBackup;
 		}
 
 		return Event::Continue;

@@ -191,6 +191,8 @@ namespace OSHGui
 					{
 						Parent->RequestFocus(this);
 					}
+
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 				}
 				else
 				{
@@ -240,9 +242,30 @@ namespace OSHGui
 						selectedIndex = itemIndex + firstVisibleItemIndex;
 						selectedIndexChangedEvent.Invoke(this);
 					}
+
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 				}
 
 				return Event::DontContinue;
+			}
+			else if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
+			{
+				if (mouse->State == MouseEvent::Move)
+				{
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					return Event::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightUp)
+				{
+					clickEvent.Invoke(this);
+
+					mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					return Event::DontContinue;
+				}
 			}
 		}
 		else if (event->Type == Event::Keyboard)

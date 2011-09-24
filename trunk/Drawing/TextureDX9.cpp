@@ -157,17 +157,19 @@ namespace OSHGui
 		{
 			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
 		
-			int rangeX = _w - _x;
-			int rangeY = _h - _y;
+			int fromX = _w < 0 ? _x - _w : _x;
+			int fromY = _h < 0 ? _y - _h : _y;
+			int toX = std::abs(_w);
+			int toY = std::abs(_h);
 
 			BYTE *raw = (BYTE*)lock.pBits;
-			for (int y = 0; y < _h; y++)
+			for (int y = 0; y < toY; y++)
 			{
-				int row = (_y + y) * lock.Pitch;
+				int row = (fromY + y) * lock.Pitch;
 				
-				for (int x = 0; x < _w; x++)
+				for (int x = 0; x < toX; x++)
 				{
-					int index = (_x + x) * 4 + row;
+					int index = (fromX + x) * 4 + row;
 					
 					raw[index] = color[0];
 					raw[index + 1] = color[1];

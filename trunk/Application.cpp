@@ -11,6 +11,7 @@ namespace OSHGui
 	Form *Application::focusForm = 0;
 	Form *Application::mainForm = 0;
 	bool Application::enabled = false;
+	Drawing::Point Application::mouse;
 	Drawing::IRenderer *Application::Renderer = 0;
 	//---------------------------------------------------------------------------
 	void Application::Enable()

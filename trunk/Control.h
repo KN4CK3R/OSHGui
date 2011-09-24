@@ -330,6 +330,24 @@ namespace OSHGui
 		 */
 		MouseClickEvent& GetMouseClickEvent();
 		/**
+		 * Ruft das MouseClickEvent für das Steuerelement ab.
+		 *
+		 * @return mouseClickEvent
+		 */
+		MouseDownEvent& GetMouseDownEvent();
+		/**
+		 * Ruft das MouseClickEvent für das Steuerelement ab.
+		 *
+		 * @return mouseClickEvent
+		 */
+		MouseMoveEvent& GetMouseMoveEvent();
+		/**
+		 * Ruft das MouseClickEvent für das Steuerelement ab.
+		 *
+		 * @return mouseClickEvent
+		 */
+		MouseUpEvent& GetMouseUpEvent();
+		/**
 		 * Ruft das MouseEnterEvent für das Steuerelement ab.
 		 *
 		 * @return mouseEnterEvent
@@ -453,6 +471,9 @@ namespace OSHGui
 		
 		ClickEvent clickEvent;
 		MouseClickEvent mouseClickEvent;
+		MouseDownEvent mouseDownEvent;
+		MouseMoveEvent mouseMoveEvent;
+		MouseUpEvent mouseUpEvent;
 		MouseEnterEvent mouseEnterEvent;
 		MouseLeaveEvent mouseLeaveEvent;
 		FocusInEvent focusInEvent;

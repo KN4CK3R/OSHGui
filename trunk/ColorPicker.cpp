@@ -180,11 +180,20 @@ namespace OSHGui
 
 					colorChangeEvent.Invoke(this);
 
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
 					drag = true;
+
+					if (!hasFocus)
+					{
+						Parent->RequestFocus(this);
+					}
+
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 
 					return Event::DontContinue;
 				}
@@ -198,8 +207,9 @@ namespace OSHGui
 
 					clickEvent.Invoke(this);
 					
-					MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-					mouseClickEvent.Invoke(this, args);
+					mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 
 					return Event::DontContinue;
 				}

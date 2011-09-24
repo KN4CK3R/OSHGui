@@ -12,12 +12,12 @@ namespace OSHGui
 		SetText(L"LinkLabel");
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	Event::NextEventTypes LinkLabel::ProcessEvent(Event *event)
+	LinkLabel::~LinkLabel()
 	{
-		return Label::ProcessEvent(event);
+
 	}
+	//---------------------------------------------------------------------------
+	//Event-Handling
 	//---------------------------------------------------------------------------
 	void LinkLabel::Render(Drawing::IRenderer *renderer)
 	{
