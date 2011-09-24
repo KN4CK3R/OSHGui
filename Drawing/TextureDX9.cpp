@@ -42,7 +42,13 @@ namespace OSHGui
 		{
 			if (this->size == size)
 			{
+				if (!IsLocked())
+				{
+					BeginUpdate();
+				}
 				Clear();
+				EndUpdate();
+
 				return true;
 			}
 			
@@ -67,6 +73,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
 		{
+			if (IsLocked())
+			{
+				EndUpdate();
+			}
 			SAFE_RELEASE(texture);
 			
 			D3DXIMAGE_INFO info;

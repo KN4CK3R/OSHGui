@@ -52,8 +52,8 @@ namespace OSHGui
 			 */
 			Size GetSize() const;
 			
-			bool operator == (const Rectangle &equal);
-			bool operator != (const Rectangle &equal);
+			bool operator == (const Rectangle &equal) const;
+			bool operator != (const Rectangle &equal) const;
 			Rectangle operator + (const Rectangle& add) const;
 			Rectangle operator + (const Point& add) const;
 			Rectangle operator - (const Rectangle& add) const;
@@ -73,7 +73,7 @@ namespace OSHGui
 			 * @param top
 			 * @return rectangle
 			 */
-			Rectangle OffsetEx(int left, int top);
+			Rectangle OffsetEx(int left, int top) const;
 			/**
 			 * Erweitert das Rectangle-Objekt um die angegebe Breite und Höhe.
 			 *
@@ -88,7 +88,7 @@ namespace OSHGui
 			 * @param height
 			 * @return rectangle
 			 */
-			Rectangle InflateEx(int width, int height);
+			Rectangle InflateEx(int width, int height) const;
 			
 			/**
 			 * Gibt zurück, ob der Punkt innerhalb des Rechtecks liegt.
@@ -96,7 +96,7 @@ namespace OSHGui
 			 * @param point
 			 * @return ja/nein
 			 */
-			bool Contains(const Point &point);
+			bool Contains(const Point &point) const;
 
 		private:
 			int left,

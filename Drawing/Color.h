@@ -51,6 +51,8 @@ namespace OSHGui
 			 */
 			Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue);
 
+			bool operator == (const Color &color) const;
+			bool operator != (const Color &color) const;
 			Color operator + (const Color &color) const;
 			Color& operator += (const Color &color);
 			Color operator - (const Color &color) const;
