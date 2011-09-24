@@ -39,6 +39,12 @@ namespace OSHGui
 		ColorChangeEvent& GetColorChangeEvent();
 		
 		/**
+		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
+		 *
+		 * @return ja / nein
+		 */
+		virtual bool CanHaveFocus() const;
+		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
@@ -70,11 +76,11 @@ namespace OSHGui
 		
 	protected:
 		void CreateBarTexture(int index);
+		void UpdateBars();
 	
 		bool drag[3];
 		Drawing::Color color;
 		std::vector<std::shared_ptr<Drawing::ITexture> > bars;
-		std::vector<Drawing::Rectangle> barRects;
 		std::vector<Drawing::Point> barSliders;
 
 		ColorChangeEvent colorChangeEvent;

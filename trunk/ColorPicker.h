@@ -40,6 +40,12 @@ namespace OSHGui
 		ColorChangeEvent& GetColorChangeEvent();
 		
 		/**
+		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
+		 *
+		 * @return ja / nein
+		 */
+		virtual bool CanHaveFocus() const;
+		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point

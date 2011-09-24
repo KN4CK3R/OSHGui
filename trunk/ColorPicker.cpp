@@ -115,6 +115,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
+	bool ColorPicker::CanHaveFocus() const
+	{
+		return enabled && visible;
+	}
+	//---------------------------------------------------------------------------
 	bool ColorPicker::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);

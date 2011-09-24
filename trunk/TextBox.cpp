@@ -172,7 +172,7 @@ namespace OSHGui
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			
-			keyPressEvent.Invoke(this, keyboard);
+			//keyPressEvent.Invoke(this, keyboard);
 
 			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
 			{

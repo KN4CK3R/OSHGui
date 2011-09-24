@@ -91,12 +91,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		bool Rectangle::operator == (const Rectangle &equal)
+		bool Rectangle::operator == (const Rectangle &equal) const
 		{
 			return left == equal.left && top == equal.top && width == equal.width && height == equal.height;
 		}
 		//---------------------------------------------------------------------------
-		bool Rectangle::operator != (const Rectangle &equal)
+		bool Rectangle::operator != (const Rectangle &equal) const
 		{
 			return left != equal.left || top != equal.top || width != equal.width || height != equal.height;
 		}
@@ -129,7 +129,7 @@ namespace OSHGui
 			SetTop(this->top + top);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::OffsetEx(int left, int top)
+		Rectangle Rectangle::OffsetEx(int left, int top) const
 		{
 			return Rectangle(this->left + left, this->top + top, width, height);
 		}
@@ -140,12 +140,12 @@ namespace OSHGui
 			SetHeight(this->height + height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::InflateEx(int width, int height)
+		Rectangle Rectangle::InflateEx(int width, int height) const
 		{
 			return Rectangle(left, top, this->width + width, this->height + height);
 		}
 		//---------------------------------------------------------------------------
-		bool Rectangle::Contains(const Point &point)
+		bool Rectangle::Contains(const Point &point) const
 		{
 			return (left <= point.Left && point.Left <= right) && (top <= point.Top && point.Top <= bottom);
 		}

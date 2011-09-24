@@ -59,6 +59,16 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
+		bool Color::operator == (const Color &color) const
+		{
+			return ARGB == color.ARGB;
+		}
+		//---------------------------------------------------------------------------
+		bool Color::operator != (const Color &color) const
+		{
+			return ARGB != color.ARGB;
+		}
+		//---------------------------------------------------------------------------
 		Color Color::operator + (const Color &color) const
 		{
 			unsigned int alpha = A + color.A;
