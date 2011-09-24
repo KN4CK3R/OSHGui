@@ -80,6 +80,7 @@ namespace OSHGui
 
 	public:
 		static Drawing::IRenderer *Renderer;
+		static Drawing::Point mouse;
 	};
 }
 

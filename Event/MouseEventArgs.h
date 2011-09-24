@@ -14,16 +14,12 @@ namespace OSHGui
 	public:	
 		MouseEvent::MouseStates State;
 		Drawing::Point Position;
-		int Delta;
-		bool Handled;
 		
 	public:
-		MouseEventArgs(MouseEvent::MouseStates State, Drawing::Point Position, int Delta)
+		MouseEventArgs(MouseEvent::MouseStates State, Drawing::Point Position)
 		{
 			this->State = State;
 			this->Position = Position;
-			this->Delta = Delta;
-			Handled = false;
 		}
 	};
 }

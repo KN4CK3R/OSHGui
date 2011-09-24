@@ -86,6 +86,12 @@ namespace OSHGui
 	typedef EventHandler<void(Control*, KeyboardEvent*)> KeyPressEvent;
 	
 	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEvent;
+
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseDownEvent;
+
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseMoveEvent;
+
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseUpEvent;
 	
 	typedef EventHandler<void(Control*)> MouseEnterEvent;
 	

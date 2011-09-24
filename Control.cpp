@@ -275,6 +275,26 @@ namespace OSHGui
 		return clickEvent;
 	}
 	//---------------------------------------------------------------------------
+	MouseClickEvent& Control::GetMouseClickEvent()
+	{
+		return mouseClickEvent;
+	}
+	//---------------------------------------------------------------------------
+	MouseDownEvent& Control::GetMouseDownEvent()
+	{
+		return mouseDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	MouseMoveEvent& Control::GetMouseMoveEvent()
+	{
+		return mouseMoveEvent;
+	}
+	//---------------------------------------------------------------------------
+	MouseUpEvent& Control::GetMouseUpEvent()
+	{
+		return mouseUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	MouseEnterEvent& Control::GetMouseEnterEvent()
 	{
 		return mouseEnterEvent;
@@ -283,11 +303,6 @@ namespace OSHGui
 	MouseLeaveEvent& Control::GetMouseLeaveEvent()
 	{
 		return mouseLeaveEvent;
-	}
-	//---------------------------------------------------------------------------
-	MouseClickEvent& Control::GetMouseClickEvent()
-	{
-		return mouseClickEvent;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const

@@ -163,13 +163,15 @@ namespace OSHGui
 
 						colorChangeEvent.Invoke(this);
 
+						mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
 						return Event::DontContinue;
 					}
 					else if (mouse->State == MouseEvent::LeftUp)
 					{
 						drag[i] = false;
 
-						barSliders[i].Left = mouse->Position.Left < 0 ? 0 : mouse->Position.Left > clientArea.GetWidth() - 2 ? clientArea.GetRight() - 2 : mouse->Position.Left;
+						barSliders[i].Left = mouse->Position.Left < 0 ? 0 : mouse->Position.Left > clientArea.GetWidth() - 2 ? clientArea.GetWidth() - 2 : mouse->Position.Left;
 						barSliders[i].Top = i * 15 + 11;
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
@@ -181,10 +183,11 @@ namespace OSHGui
 						colorChangeEvent.Invoke(this);
 
 						clickEvent.Invoke(this);
-						
-						MouseEventArgs args(mouse->State, mouse->Position, mouse->Delta);
-						mouseClickEvent.Invoke(this, args);
 
+						mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+						mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+						
 						return Event::DontContinue;
 					}
 				}
@@ -198,6 +201,8 @@ namespace OSHGui
 						{
 							Parent->RequestFocus(this);
 						}
+
+						mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 
 						return Event::DontContinue;
 					}

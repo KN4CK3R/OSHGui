@@ -116,6 +116,8 @@ namespace OSHGui
 					oldMousePosition = mousePositionBackup;
 					SetLocation(delta + GetLocation());
 
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
@@ -123,11 +125,19 @@ namespace OSHGui
 					oldMousePosition = mousePositionBackup;
 					drag = true;
 
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					drag = false;
+
+					clickEvent.Invoke(this);
+
+					mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
 
 					return Event::DontContinue;
 				}
