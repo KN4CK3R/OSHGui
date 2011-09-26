@@ -2,6 +2,8 @@
 
 namespace OSHGui
 {
+	const int TrackBar::trackbarSliderWidth = 8;
+	const int TrackBar::trackbarSliderHeight = 16;
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -10,9 +12,6 @@ namespace OSHGui
 		type = CONTROL_TRACKBAR;
 		
 		pressed = false;
-		
-		trackbarSliderWidth = 8;
-		trackbarSliderHeight = 16;
 		
 		SetBounds(6, 6, 110, trackbarSliderHeight + 2);
 		
@@ -70,6 +69,11 @@ namespace OSHGui
 	bool TrackBar::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
+	}
+	//---------------------------------------------------------------------------
+	Drawing::Point TrackBar::PointToClient(const Drawing::Point &point) const
+	{
+		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::Invalidate()
@@ -189,7 +193,7 @@ namespace OSHGui
 		else if (event->Type == Event::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::Down)
+			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
 				switch (keyboard->KeyCode)
 				{

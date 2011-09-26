@@ -489,6 +489,9 @@ namespace OSHGui
 
 		Control *focusControl,
 				*mouseOverControl;
+
+	public:
+		Drawing::Point mousepos;
 	};
 }
 

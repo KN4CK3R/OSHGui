@@ -131,11 +131,11 @@ namespace OSHGui
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
 			
-			static Key::Keys oldKeyCode == Key::None;
+			static Key::Keys oldKeyCode = Key::None;
 			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
 				oldKeyCode = keyboard->KeyCode;
-				keydownEvent.Invoke(this, KeyEventArgs(keyboard));
+				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
 			else if (keyboard->State == KeyboardEvent::Character)
 			{
@@ -145,7 +145,7 @@ namespace OSHGui
 				}
 				else if (hasFocus)
 				{
-					keyPressEvent.Invoke(this, KeyPressEventArgs(keyboard);
+					keyPressEvent.Invoke(this, KeyPressEventArgs(keyboard));
 				}
 			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)

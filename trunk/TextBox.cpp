@@ -193,7 +193,7 @@ namespace OSHGui
 				PlaceCaret(++caretPosition);
 				hasChanged = true;
 			}
-			else if (keyboard->State == KeyboardEvent::Down)
+			else if (keyboard->State == KeyboardEvent::KeyDown)
 			{
 				switch (keyboard->KeyCode)
 				{

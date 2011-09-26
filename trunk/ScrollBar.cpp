@@ -2,6 +2,10 @@
 
 namespace OSHGui
 {
+	const int ScrollBar::scrollbarMinSliderHeight = 25;
+	const int ScrollBar::scrollbarDefaultBoundsWidth = 14;
+	const int ScrollBar::scrollbarDefaultButtonWidth = 14;
+	const int ScrollBar::scrollbarDefaultButtonHeight = 18;
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -11,12 +15,7 @@ namespace OSHGui
 		
 		drag = false;
 		visible = false;
-		
-		scrollbarMinSliderHeight = 25;
-		scrollbarDefaultBoundsWidth = 14;
-		scrollbarDefaultButtonWdith = 14;
-		scrollbarDefaultButtonHeight = 18;
-		
+				
 		position = 0;
 		range = 1;
 		pageSize = 1;

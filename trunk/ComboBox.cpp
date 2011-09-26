@@ -363,7 +363,7 @@ namespace OSHGui
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::Down)
+			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
 				if (open)
 				{
@@ -468,7 +468,7 @@ namespace OSHGui
 				
 				return Event::DontContinue;
 			}
-			else if (keyboard->State == KeyboardEvent::Up)
+			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{
 				switch (keyboard->KeyCode)
 				{

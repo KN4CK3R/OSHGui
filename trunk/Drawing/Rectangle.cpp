@@ -147,7 +147,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool Rectangle::Contains(const Point &point) const
 		{
-			return (left <= point.Left && point.Left <= right) && (top <= point.Top && point.Top <= bottom);
+			return (left <= point.Left && point.Left < right) && (top <= point.Top && point.Top < bottom);
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -147,7 +147,8 @@ namespace OSHGui
 				}
 			}
 
-			mouse->Position.Top -= captionBar.GetHeight();
+			mouse->Position -= clientArea.GetPosition() - bounds.GetPosition();
+
 		}
 	
 		if (ProcessChildrenEvent(event) == Event::DontContinue)
@@ -200,6 +201,8 @@ namespace OSHGui
 
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
 		renderer->Fill(bounds);
+		renderer->SetRenderColor(Drawing::Color::Red());
+		renderer->Fill(bounds.GetPosition());
 		renderer->SetRenderColor(backColor);
 		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));

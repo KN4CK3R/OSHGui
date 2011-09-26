@@ -51,6 +51,13 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool ContainsPoint(const Drawing::Point &point) const;
+		/**
+		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
+		 *
+		 * @param point
+		 * @return der neue Punkt
+		 */
+		virtual Drawing::Point PointToClient(const Drawing::Point &point) const;
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

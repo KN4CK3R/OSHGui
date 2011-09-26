@@ -2,6 +2,8 @@
 #define __OSHGUI_BUTTON_H__
 
 #include "Label.h"
+#include "Event\KeyEventArgs.h"
+#include "Event\KeyPressEventArgs.h"
 
 namespace OSHGui
 {

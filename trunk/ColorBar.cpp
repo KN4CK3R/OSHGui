@@ -63,6 +63,11 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
+	Drawing::Point ColorBar::PointToClient(const Drawing::Point &point) const
+	{
+		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
+	}
+	//---------------------------------------------------------------------------
 	void ColorBar::Invalidate()
 	{
 		if (bounds.GetHeight() != 45)
@@ -218,6 +223,12 @@ namespace OSHGui
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
+
+			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
+			{
+				return Event::DontContinue;
+			}
+
 			mouse->Position = mousePositionBackup;
 		}
 
