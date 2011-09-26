@@ -12,6 +12,11 @@ namespace OSHGui
 		drag = false;
 		visible = false;
 		
+		scrollbarMinSliderHeight = 25;
+		scrollbarDefaultBoundsWidth = 14;
+		scrollbarDefaultButtonWdith = 14;
+		scrollbarDefaultButtonHeight = 18;
+		
 		position = 0;
 		range = 1;
 		pageSize = 1;
@@ -60,12 +65,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Invalidate()
 	{
-		bounds = Drawing::Rectangle(Parent->GetRight() - SCROLLBAR_DEFAULT_BOUNDS_WIDTH - 2, Parent->GetTop(), SCROLLBAR_DEFAULT_BOUNDS_WIDTH, Parent->GetHeight());
+		bounds = Drawing::Rectangle(Parent->GetRight() - scrollbarDefaultBoundsWidth - 2, Parent->GetTop(), scrollbarDefaultBoundsWidth, Parent->GetHeight());
 
 		clientArea = bounds;
-		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2);
-		upButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop(), SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
-		downButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT);
+		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, clientArea.GetHeight() - scrollbarDefaultButtonHeight * 2);
+		upButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop(), scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight);
+		downButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + clientArea.GetHeight() - scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight);
 		
 		UpdateSliderRect();
 	}
@@ -75,15 +80,15 @@ namespace OSHGui
 		if (range > pageSize)
 		{
 			int sliderHeight = (int)((trackRect.GetHeight() - 2) * (pageSize / (float)range));
-			if (sliderHeight < SCROLLBAR_MIN_SLIDER_HEIGHT)
+			if (sliderHeight < scrollbarMinSliderHeight)
 			{
-				sliderHeight = SCROLLBAR_MIN_SLIDER_HEIGHT;
+				sliderHeight = scrollbarMinSliderHeight;
 			}
 			
 			float positionPerPixel = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)range - pageSize);
 			int yPos = (int)(trackRect.GetTop() + 1 + positionPerPixel * (position));
 			
-			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderHeight);
+			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, scrollbarDefaultButtonWidth, sliderHeight);
 			
 			visible = true;
 		}
@@ -172,7 +177,7 @@ namespace OSHGui
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (Drawing::Rectangle(0, 0, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT).Contains(mouse->Position)) //upButton
+				if (Drawing::Rectangle(0, 0, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight).Contains(mouse->Position)) //upButton
 				{
 					if (position > 0)
 					{
@@ -184,7 +189,7 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 				
-				if (Drawing::Rectangle(0, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, SCROLLBAR_DEFAULT_BUTTON_HEIGHT).Contains(mouse->Position)) //downButton
+				if (Drawing::Rectangle(0, clientArea.GetHeight() - scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight).Contains(mouse->Position)) //downButton
 				{
 					if (position < range - pageSize)
 					{
@@ -196,14 +201,14 @@ namespace OSHGui
 					return Event::DontContinue;
 				}
 				
-				if (Drawing::Rectangle(0, sliderRect.GetTop() - clientArea.GetTop(), SCROLLBAR_DEFAULT_BUTTON_WIDTH, sliderRect.GetHeight()).Contains(mouse->Position)) //sliderRect
+				if (Drawing::Rectangle(0, sliderRect.GetTop() - clientArea.GetTop(), scrollbarDefaultButtonWidth, sliderRect.GetHeight()).Contains(mouse->Position)) //sliderRect
 				{
 					drag = true;
 					
 					return Event::DontContinue;
 				}
 
-				if (Drawing::Rectangle(0, SCROLLBAR_DEFAULT_BUTTON_HEIGHT, SCROLLBAR_DEFAULT_BUTTON_WIDTH, clientArea.GetHeight() - SCROLLBAR_DEFAULT_BUTTON_HEIGHT * 2).Contains(mouse->Position)) //trackRect
+				if (Drawing::Rectangle(0, scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, clientArea.GetHeight() - scrollbarDefaultButtonHeight * 2).Contains(mouse->Position)) //trackRect
 				{
 					if (sliderRect.GetTop() - clientArea.GetTop() > mouse->Position.Y)
 					{
@@ -236,7 +241,7 @@ namespace OSHGui
 				{
 					float positionPerPixel = (float)(range - pageSize) / (trackRect.GetHeight() - 2 - sliderRect.GetHeight());
 
-					int yPos = mouse->Position.Y - SCROLLBAR_DEFAULT_BUTTON_HEIGHT - sliderRect.GetHeight() / 2;
+					int yPos = mouse->Position.Y - scrollbarDefaultButtonHeight - sliderRect.GetHeight() / 2;
 					if (yPos < 0)
 					{
 						yPos = 0;

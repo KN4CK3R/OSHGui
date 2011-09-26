@@ -29,15 +29,65 @@ namespace OSHGui
 			 */
 			Rectangle(int left, int top, int width, int height);
 			
+			/**
+			 * Legt die Position des linken Rands fest.
+			 *
+			 * @param left
+			 */
 			void SetLeft(int left);
+			/**
+			 * Ruft die Position des linken Rands ab.
+			 *
+			 * @return linker Rand
+			 */
 			int GetLeft() const;
+			/**
+			 * Legt die Position des oberen Rands fest.
+			 *
+			 * @param left
+			 */
 			void SetTop(int top);
+			/**
+			 * Ruft die Position des oberen Rands ab.
+			 *
+			 * @return oberer Rand
+			 */
 			int GetTop() const;
+			/**
+			 * Legt die Breite des Rechtecks fest.
+			 *
+			 * @param left
+			 */
 			void SetWidth(int width);
+			/**
+			 * Ruft die Breite des Rechtecks ab.
+			 *
+			 * @return die Breite
+			 */
 			int GetWidth() const;
+			/**
+			 * Legt die Höhe des Rechtecks fest.
+			 *
+			 * @param left
+			 */
 			void SetHeight(int height);
+			/**
+			 * Ruft die Höhe des Rechtecks ab.
+			 *
+			 * @return die Höhe
+			 */
 			int GetHeight() const;
+			/**
+			 * Ruft die Position des rechten Rands ab.
+			 *
+			 * @return rechter Rand
+			 */
 			int GetRight() const;
+			/**
+			 * Ruft die Position des unteren Rands ab.
+			 *
+			 * @return unterer Rand
+			 */
 			int GetBottom() const;
 			/**
 			 * Ruft die Position des Rechtecks ab.
@@ -54,10 +104,10 @@ namespace OSHGui
 			
 			bool operator == (const Rectangle &equal) const;
 			bool operator != (const Rectangle &equal) const;
-			Rectangle operator + (const Rectangle& add) const;
-			Rectangle operator + (const Point& add) const;
-			Rectangle operator - (const Rectangle& add) const;
-			Rectangle operator - (const Point& add) const;
+			const Rectangle operator + (const Rectangle& add) const;
+			const Rectangle operator + (const Point& add) const;
+			const Rectangle operator - (const Rectangle& add) const;
+			const Rectangle operator - (const Point& add) const;
 			
 			/**
 			 * Verschiebt das Rechteck um X/Y.

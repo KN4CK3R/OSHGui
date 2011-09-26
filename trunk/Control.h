@@ -60,7 +60,7 @@ namespace OSHGui
 		virtual ~Control();
 		
 		/**
-		 * Gibt den CONTROL_TYPE des Steuerelemts zurück.
+		 * Ruft den CONTROL_TYPE des Steuerelemts ab.
 		 *
 		 * @return der Typ
 		 */
@@ -395,8 +395,6 @@ namespace OSHGui
 
 		void RequestFocus(Control *control);
 		void ClearFocus();
-		void CaptureMouse(Control *control);
-		void ReleaseCapture();
 		
 		/**
 		 * Ruft das untergeordnete Steuerelement ab, das sich an den angegebenen

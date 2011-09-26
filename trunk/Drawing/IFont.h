@@ -11,33 +11,49 @@ namespace OSHGui
 	namespace Drawing
 	{
 		/**
-		 * Definiert ein bestimmtes Format für Text, einschließlich der Attribute
+		 * Definiert ein bestimmtes abstraktes Format für Text, einschließlich der Attribute
 		 * für Schriftart, Schriftgrad und Schriftschnitt.
 		 */
 		class IFont
 		{
 		public:
+			/**
+			 * Erzeugt eine neue Schriftart.
+			 *
+			 * @param fontName der Name der Schriftart
+			 * @param size die Schriftgröße
+			 * @param bold fettgedruckt
+			 * @param italic kursiv
+			 */
 			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) = 0;
 			
-			Misc::UnicodeString& GetName()
-			{
-				return fontName;
-			}
-			int GetSize()
-			{
-				return size;
-			}
-			bool IsBold()
-			{
-				return bold;
-			}
-			bool IsItalic()
-			{
-				return italic;
-			}
+			/**
+			 * Ruft den Namen der Schriftart ab.
+			 *
+			 * @return der Name
+			 */
+			const Misc::UnicodeString& GetName() const { return fontName; }
+			/**
+			 * Ruft die Schriftgröße ab.
+			 */
+			int GetSize() const { return size; }
+			/**
+			 * Ruft ab, ob die Schrift fettgedruckt dargestellt wird.
+			 */
+			bool IsBold() const { return bold; }
+			/**
+			 * Ruft ab, ob die Schrift kursiv dargestellt wird.
+			 */
+			bool IsItalic() const { return italic; }
 			
-			virtual Size MeasureText(const Misc::UnicodeString &str) = 0;
-						
+			/**
+			 * Ruft die Maße des Texts mit dieser Schriftart ab.
+			 *
+			 * @param text der Text
+			 * @return die Maße
+			 */
+			virtual Size MeasureText(const Misc::UnicodeString &text) = 0;
+			
 		protected:
 			Misc::UnicodeString fontName;
 			int size;

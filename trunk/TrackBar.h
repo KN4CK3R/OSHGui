@@ -4,9 +4,6 @@
 #include "Event\EventHandler.h"
 #include "Control.h"
 
-#define TRACKBAR_SLIDER_WIDTH 8
-#define TRACKBAR_SLIDER_HEIGHT 16
-
 namespace OSHGui
 {
 	/**
@@ -100,6 +97,9 @@ namespace OSHGui
 	protected:
 		virtual void SetValueInternal(int value);
 		virtual int ValueFromPosition(int position) const;
+	
+		static const int trackbarSliderWidth;
+		static const int trackbarSliderHeight;
 	
 		int min,
 			max,
