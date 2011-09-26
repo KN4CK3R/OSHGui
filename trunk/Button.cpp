@@ -25,9 +25,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	KeyDownEvent& Button::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
 	KeyPressEvent& Button::GetKeyPressEvent()
 	{
 		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& Button::GetKeyUpEvent()
+	{
+		return keyUpEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -82,17 +92,23 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+
+					return Event::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::RightDown)
+				{
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
-				else if (mouse->State == MouseEvent::LeftUp)
+				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
 					if (pressed && hasFocus)
 					{
@@ -100,10 +116,11 @@ namespace OSHGui
 					
 						clickEvent.Invoke(this);
 						
-						mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
-
-						mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+						mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
 					}
+					
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+					
 					return Event::DontContinue;
 				}
 			}
@@ -113,10 +130,35 @@ namespace OSHGui
 		else if (event->Type == Event::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
-			if (keyboard->KeyCode == Key::Return || keyboard->KeyCode == Key::Space)
+			
+			static Key::Keys oldKeyCode == Key::None;
+			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
-				clickEvent.Invoke(this);
+				oldKeyCode = keyboard->KeyCode;
+				keydownEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
+			else if (keyboard->State == KeyboardEvent::Character)
+			{
+				if (keyboard->KeyCode == Key::Return)
+				{
+					clickEvent.Invoke(this);
+				}
+				else if (hasFocus)
+				{
+					keyPressEvent.Invoke(this, KeyPressEventArgs(keyboard);
+				}
+			}
+			else if (keyboard->State == KeyboardEvent::KeyUp)
+			{
+				if (keyboard->KeyCode == Key::Space && oldKeyCode == keyboard->KeyCode)
+				{
+					clickEvent.Invoke(this);
+				}
+				
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;

@@ -16,10 +16,10 @@ namespace OSHGui
 		Drawing::Point Position;
 		
 	public:
-		MouseEventArgs(MouseEvent::MouseStates State, Drawing::Point Position)
+		MouseEventArgs(MouseEvent *mouseEvent)
 		{
-			this->State = State;
-			this->Position = Position;
+			State = mouseEvent->State;
+			Position = mouseEvent->Position);
 		}
 	};
 }

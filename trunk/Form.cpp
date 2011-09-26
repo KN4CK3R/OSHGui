@@ -116,8 +116,6 @@ namespace OSHGui
 					oldMousePosition = mousePositionBackup;
 					SetLocation(delta + GetLocation());
 
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
-
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
@@ -125,26 +123,18 @@ namespace OSHGui
 					oldMousePosition = mousePositionBackup;
 					drag = true;
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
-
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					drag = false;
 
-					clickEvent.Invoke(this);
-
-					mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
-
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
-
 					return Event::DontContinue;
 				}
 			}
-			else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::LeftDown)
+			else if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //closeRect
 			{
-				if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //coseRect
+				if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::LeftDown)
 				{
 					static bool pressed = mouse->State == MouseEvent::LeftDown;
 
@@ -169,19 +159,28 @@ namespace OSHGui
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 
-			if (mouse->State != MouseEvent::LeftDown && mouse->State != MouseEvent::RightDown)
+			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
-				return Event::DontContinue;
-			}
-			else
-			{
-				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
+				if (mouse->State == MouseEvent::LeftDown && mouse->State == MouseEvent::RightDown)
 				{
-					return Event::DontContinue;
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+				}
+				else if (mouse->State == MouseEvent::Move)
+				{
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+				}
+				else if (mouse->State == MouseEvent::LeftUp && mouse->State == MouseEvent::RightUp)
+				{
+					clickEvent.Invoke(this);
+
+					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
+
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 			}
-
-			mouse->Position = mousePositionBackup;
+			
+			return Event::DontContinue;
+			//mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == Event::Keyboard)
 		{

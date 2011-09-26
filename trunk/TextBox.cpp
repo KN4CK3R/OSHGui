@@ -157,21 +157,21 @@ namespace OSHGui
 
 					clickEvent.Invoke(this);
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 				
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
-					mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}

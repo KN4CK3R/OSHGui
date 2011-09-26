@@ -22,7 +22,7 @@ namespace OSHGui
 			/**
 			 * Taste wurde gedrückt
 			 */
-			Down,
+			KeyDown,
 			/**
 			 * enthält das Zeichen der gedrückten Taste
 			 */
@@ -30,7 +30,7 @@ namespace OSHGui
 			/**
 			 * Taste wurde losgelassen
 			 */
-			Up
+			KeyUp
 		};
 
 		KeyboardStates State;
@@ -39,7 +39,6 @@ namespace OSHGui
 		bool Menu,
 			 Control,
 			 Shift;
-		bool Handled;
 		
 	public:
 		KeyboardEvent() : Event(Event::Keyboard)
@@ -49,55 +48,16 @@ namespace OSHGui
 			Control = false;
 			Shift = false;
 			KeyCode = Key::None;
-			KeyChar = 0;
-			Handled = false;
+			KeyChar = L'\0';
 		}
 	
-		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, char KeyChar) : Event(Event::Keyboard)
+		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::UnicodeChar KeyChar) : Event(Event::Keyboard)
 		{
 			this->Menu = Menu;
 			this->Control = Control;
 			this->Shift = Shift;
 			this->KeyCode = KeyCode;
 			this->KeyChar = KeyChar;
-			Handled = false;
-		}
-		
-		char GetCharacter()
-		{
-			if (Key::D0 <= KeyCode && KeyCode <= Key::D9)
-			{
-				return '0' + KeyCode;
-			}
-			if (Key::A <= KeyCode && KeyCode <= Key::Z)
-			{
-				if (Shift)
-				{
-					return 'A' + KeyCode;
-				}
-				else
-				{
-					return 'a' + KeyCode;
-				}
-			}
-			if (Key::Space == KeyCode)
-			{
-				return ' ';
-			}
-			
-			switch (KeyCode)
-			{
-				case Key::Divide:
-					return '/';
-				case Key::Multiply:
-					return '*';
-				case Key::Substract:
-					return '-';
-				case Key::Add:
-					return '+';
-			}
-			
-			return '\0';
 		}
 
 		/**

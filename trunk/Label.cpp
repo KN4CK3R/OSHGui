@@ -64,39 +64,49 @@ namespace OSHGui
 			return Event::Continue;
 		}
 	
+		Drawing::Point mousePositionBackup;
 		if (event->Type == Event::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
+			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
-
+		}	
+		
+		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		{
+			return Event::DontContinue;
+		}
+		
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
+			
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
-				if (mouse->State == MouseEvent::LeftDown)
+				if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightDown)
 				{
 					pressed = true;
-
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 				}
-				else if (mouse->State == MouseEvent::LeftUp)
+				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
-					if (pressed && hasFocus)
+					if (pressed)
 					{
 						pressed = false;
 					
 						clickEvent.Invoke(this);
 
-						MouseEventArgs args(mouse->State, mouse->Position);
-						mouseClickEvent.Invoke(this, args);
+						mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
 					}
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
