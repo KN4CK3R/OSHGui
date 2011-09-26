@@ -71,7 +71,7 @@ namespace OSHGui
 
 					if (message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN || message->message == WM_KEYUP || message->message == WM_SYSKEYUP)
 					{
-						keyboard.State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardEvent::Down : KeyboardEvent::Up;
+						keyboard.State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardEvent::KeyDown : KeyboardEvent::KeyUp;
 
 						switch (message->wParam)
 						{

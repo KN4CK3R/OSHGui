@@ -158,23 +158,23 @@ namespace OSHGui
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int j, int i, int w, int h, Color _color)
+		void TextureDX9::Fill(int x, int y, int w, int h, Color _color)
 		{
 			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
 		
-			int fromX = w < 0 ? j + w : j;
-			int fromY = h < 0 ? i + h : i;
+			int fromX = w < 0 ? x + w : x;
+			int fromY = h < 0 ? y + h : y;
 			int toX = std::abs(w);
 			int toY = std::abs(h);
 
 			BYTE *raw = (BYTE*)lock.pBits;
-			for (int y = 0; y < toY; y++)
+			for (int j = 0; j < toY; j++)
 			{
-				int row = (fromY + y) * lock.Pitch;
+				int row = (fromY + j) * lock.Pitch;
 				
-				for (int x = 0; x < toX; x++)
+				for (int i = 0; i < toX; i++)
 				{
-					int index = (fromX + x) * 4 + row;
+					int index = (fromX + i) * 4 + row;
 					
 					raw[index] = color[0];
 					raw[index + 1] = color[1];
@@ -417,19 +417,19 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Insert(const Point &point, ITexture *texture)
+		void TextureDX9::Insert(const Point &point, const std::shared_ptr<ITexture> &texture)
 		{
 			Insert(point.X, point.Y, texture);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Insert(int j, int i, ITexture *texture)
+		void TextureDX9::Insert(int j, int i, const std::shared_ptr<ITexture> &texture)
 		{
 			if (texture == 0 || texture->IsLocked())
 			{
 				return;
 			}
 		
-			LPDIRECT3DTEXTURE9 temp = ((TextureDX9*)texture)->GetTexture();
+			LPDIRECT3DTEXTURE9 temp = std::static_pointer_cast<TextureDX9>(texture)->GetTexture();
 			
 			if (temp == 0)
 			{

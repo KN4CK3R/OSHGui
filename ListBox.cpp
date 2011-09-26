@@ -276,7 +276,7 @@ namespace OSHGui
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::Down)
+			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
 				switch (keyboard->KeyCode)
 				{

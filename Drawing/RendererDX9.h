@@ -57,7 +57,7 @@ namespace OSHGui
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void SetRenderRectangle(Rectangle &rect);
+			virtual void SetRenderRectangle(const Rectangle &rect);
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.
@@ -125,7 +125,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, Rectangle &rect, const Misc::UnicodeString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rect, const Misc::UnicodeString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -156,7 +156,7 @@ namespace OSHGui
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void Fill(Rectangle &rect);
+			virtual void Fill(const Rectangle &rect);
 			/**
 			 * Füllt das Rechteck.
 			 *
@@ -173,7 +173,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(Rectangle &rect, Color &to);
+			virtual void FillGradient(const Rectangle &rect, Color &to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *

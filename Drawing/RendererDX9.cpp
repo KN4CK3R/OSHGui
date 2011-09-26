@@ -35,7 +35,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		void RendererDX9::SetRenderRectangle(Rectangle &rect)
+		void RendererDX9::SetRenderRectangle(const Rectangle &rect)
 		{
 			IRenderer::SetRenderRectangle(rect);
 			//RECT scissor = { rect.GetLeft(), rect.GetTop(), rect.GetLeft() + rect.GetWidth(), rect.GetTop() + rect.GetHeight() };
@@ -159,7 +159,7 @@ namespace OSHGui
 			RenderText(font, x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, Rectangle &rectangle, const Misc::UnicodeString &text)
+		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rectangle, const Misc::UnicodeString &text)
 		{
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
@@ -190,7 +190,7 @@ namespace OSHGui
 			Fill(x, y, 1, 1);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::Fill(Rectangle &rect)
+		void RendererDX9::Fill(const Rectangle &rect)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}

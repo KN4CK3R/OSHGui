@@ -1,15 +1,15 @@
 #ifndef __OSHGUI_KEYEVENTARGS_H__
 #define __OSHGUI_KEYEVENTARGS_H__
 
-#include "Misc\String.h"
-#include "KeyBoardEvent."
+#include "Misc\Strings.h"
+#include "KeyboardEvent.h"
 
 namespace OSHGui
 {
 	/**
-	 * Stellt Daten für das KeyPressEvent bereit.
+	 * Stellt Daten für das KeyUpEvent/KeyDownEvent bereit.
 	 */
-	class KeyPressEventArgs
+	class KeyEventArgs
 	{
 	public:
 		Key::Keys KeyCode;
@@ -20,7 +20,7 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
-		KeyPressEventArgs(KeyboardEvent *keyboardEvent)
+		KeyEventArgs(KeyboardEvent *keyboardEvent)
 		{
 			KeyCode = keyboardEvent->KeyCode;
 			KeyChar = keyboardEvent->KeyChar;

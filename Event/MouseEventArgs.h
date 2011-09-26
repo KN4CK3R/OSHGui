@@ -19,7 +19,7 @@ namespace OSHGui
 		MouseEventArgs(MouseEvent *mouseEvent)
 		{
 			State = mouseEvent->State;
-			Position = mouseEvent->Position);
+			Position = mouseEvent->Position;
 		}
 	};
 }

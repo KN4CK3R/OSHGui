@@ -106,7 +106,7 @@ namespace OSHGui
 	
 		static const int scrollbarMinSliderHeight;
 		static const int scrollbarDefaultBoundsWidth;
-		static const int scrollbarDefaultButtonWdith;
+		static const int scrollbarDefaultButtonWidth;
 		static const int scrollbarDefaultButtonHeight;
 	
 		int position,

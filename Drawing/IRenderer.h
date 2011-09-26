@@ -59,7 +59,7 @@ namespace OSHGui
 			 *
 			 * @return die Farbe
 			 */
-			virtual Color& GetRenderColor() const { return color; }
+			virtual const Color& GetRenderColor() const { return color; }
 			/**
 			 * Legt das Rechteck fest, in dem gezeichnet wird.
 			 *
@@ -71,7 +71,7 @@ namespace OSHGui
 			 *
 			 * @return das Rechteck
 			 */
-			virtual Rectangle& GetRenderRectangle() const { return renderRect; }
+			virtual const Rectangle& GetRenderRectangle() const { return renderRect; }
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.

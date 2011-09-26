@@ -8,9 +8,14 @@ namespace OSHGui
 	ColorPicker::ColorPicker(Control *parent) : Control(parent)
 	{
 		type = CONTROL_COLORPICKER;
-		
+
 		gradient = Application::Renderer->CreateNewTexture();
+
+		SetBounds(6, 6, 100, 150);
+		
 		drag = false;
+
+		color = Drawing::Color::White();
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());

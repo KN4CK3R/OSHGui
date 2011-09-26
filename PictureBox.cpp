@@ -8,6 +8,8 @@ namespace OSHGui
 	PictureBox::PictureBox(Control *parent) : Control(parent)
 	{
 		type = CONTROL_PICTUREBOX;
+
+		SetBounds(6, 6, 100, 100);
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
@@ -39,7 +41,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void PictureBox::Invalidate()
 	{
-		clientArea = bounds;
+		if (clientArea != bounds)
+		{
+			clientArea = bounds;
+
+			std::shared_ptr<Drawing::ITexture> newImage = Application::Renderer->CreateNewTexture();
+			newImage->Create(GetSize());
+			newImage->BeginUpdate();
+			newImage->Insert(0, 0, image);
+			newImage->EndUpdate();
+
+			image = newImage;
+		}
 
 		InvalidateChildren();
 	}

@@ -184,7 +184,7 @@ namespace OSHGui
 			 * @param point der Ursprung
 			 * @param texture die Textur
 			 */
-			virtual void Insert(const Point &point, ITexture *texture);
+			virtual void Insert(const Point &point, const std::shared_ptr<ITexture> &texture);
 			/**
 			 * Fügt eine Textur am angegebenen Punkt in diese Textur ein.
 			 *
@@ -192,7 +192,7 @@ namespace OSHGui
 			 * @param y
 			 * @param texture die Textur
 			 */
-			virtual void Insert(int x, int y, ITexture *texture);
+			virtual void Insert(int x, int y, const std::shared_ptr<ITexture> &texture);
 			
 		private:
 			IDirect3DDevice9 *device;

@@ -1,8 +1,8 @@
 #ifndef __OSHGUI_KEYPRESSEVENTARGS_H__
 #define __OSHGUI_KEYPRESSEVENTARGS_H__
 
-#include "Misc\String.h"
-#include "KeyBoardEvent."
+#include "Misc\Strings.h"
+#include "KeyboardEvent.h"
 
 namespace OSHGui
 {
