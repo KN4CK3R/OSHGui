@@ -243,7 +243,7 @@ namespace OSHGui
 						Parent->RequestFocus(this);
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 				else if (!open || !Drawing::Rectangle(0, clientArea.GetHeight() + 1, dropDownRect.GetWidth(), dropDownRect.GetHeight()).Contains(mouse->Position)) //dropDownRect
 				{
@@ -295,7 +295,7 @@ namespace OSHGui
 						open = !open;
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
@@ -313,7 +313,7 @@ namespace OSHGui
 						}
 					}
 
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
@@ -345,9 +345,9 @@ namespace OSHGui
 
 					clickEvent.Invoke(this);
 
-					mouseClickEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse->State, mouse->Position));
+					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return Event::DontContinue;
 				}
