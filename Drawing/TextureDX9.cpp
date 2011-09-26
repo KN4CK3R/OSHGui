@@ -21,6 +21,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		TextureDX9::~TextureDX9()
 		{
+			if (IsLocked())
+			{
+				EndUpdate();
+			}
+		
 			SAFE_RELEASE(texture);
 		}
 		//---------------------------------------------------------------------------
@@ -153,14 +158,14 @@ namespace OSHGui
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int _x, int _y, int _w, int _h, Color _color)
+		void TextureDX9::Fill(int j, int i, int w, int h, Color _color)
 		{
 			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
 		
-			int fromX = _w < 0 ? _x - _w : _x;
-			int fromY = _h < 0 ? _y - _h : _y;
-			int toX = std::abs(_w);
-			int toY = std::abs(_h);
+			int fromX = w < 0 ? j + w : j;
+			int fromY = h < 0 ? i + h : i;
+			int toX = std::abs(w);
+			int toY = std::abs(h);
 
 			BYTE *raw = (BYTE*)lock.pBits;
 			for (int y = 0; y < toY; y++)
@@ -189,30 +194,31 @@ namespace OSHGui
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(int _x, int _y, int _w, int _h, Color from, Color to, bool updown)
+		void TextureDX9::FillGradient(int j, int i, int w, int h, Color from, Color to, bool updown)
 		{
 			BYTE color[4] = { from.B, from.G, from.R, from.A };
 			float step[4];
 		
 			BYTE *raw = (BYTE*)lock.pBits;
+			int fromX = w < 0 ? j + w : j;
+			int fromY = h < 0 ? i + h : i;
+			int toX = std::abs(w);
+			int toY = std::abs(h);
 			
 			if (updown)
 			{
-				int rangeX = _w - _x;
-				int rangeY = _h - _y;
-
-				step[0] = (to.B - color[0]) / (float)(rangeY - 1);
-				step[1] = (to.G - color[1]) / (float)(rangeY - 1);
-				step[2] = (to.R - color[2]) / (float)(rangeY - 1);
-				step[3] = (to.A - color[3]) / (float)(rangeY - 1);
+				step[0] = (to.B - color[0]) / (float)toY;
+				step[1] = (to.G - color[1]) / (float)toY;
+				step[2] = (to.R - color[2]) / (float)toY;
+				step[3] = (to.A - color[3]) / (float)toY;
 				
-				for (int y = 0; y < rangeY; y++)
+				for (int y = 0; y < toY; y++)
 				{
-					int row = (_y + y) * lock.Pitch;
+					int row = (fromY + y) * lock.Pitch;
 					
-					for (int x = 0; x < rangeX; x++)
+					for (int x = 0; x < toX; x++)
 					{
-						int index = (_x + x) * 4 + row;
+						int index = (fromX + x) * 4 + row;
 						
 						raw[index] = color[0] + (BYTE)(y * step[0]);
 						raw[index + 1] = color[1] + (BYTE)(y * step[1]);
@@ -223,21 +229,18 @@ namespace OSHGui
 			}
 			else
 			{
-				int rangeX = _w - _x;
-				int rangeY = _h - _y;
-
-				step[0] = (to.B - color[0]) / (float)(rangeX - 1);
-				step[1] = (to.G - color[1]) / (float)(rangeX - 1);
-				step[2] = (to.R - color[2]) / (float)(rangeX - 1);
-				step[3] = (to.A - color[3]) / (float)(rangeX - 1);
+				step[0] = (to.B - color[0]) / (float)toX;
+				step[1] = (to.G - color[1]) / (float)toX;
+				step[2] = (to.R - color[2]) / (float)toX;
+				step[3] = (to.A - color[3]) / (float)toX;
 			
-				for (int y = 0; y < rangeY; y++)
+				for (int y = 0; y < toY; y++)
 				{
-					int row = (_y + y) * lock.Pitch;
+					int row = (fromY + y) * lock.Pitch;
 					
-					for (int x = 0; x < rangeX; x++)
+					for (int x = 0; x < toX; x++)
 					{
-						int index = (_x + x) * 4 + row;
+						int index = (fromX + x) * 4 + row;
 						
 						raw[index] = color[0] + (BYTE)(x * step[0]);
 						raw[index + 1] = color[1] + (BYTE)(x * step[1]);
@@ -419,7 +422,7 @@ namespace OSHGui
 			Insert(point.X, point.Y, texture);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Insert(int _x, int _y, ITexture *texture)
+		void TextureDX9::Insert(int j, int i, ITexture *texture)
 		{
 			if (texture == 0 || texture->IsLocked())
 			{
@@ -435,9 +438,13 @@ namespace OSHGui
 			
 			Drawing::Size tempSize = texture->GetSize();
 			
-			if (tempSize.Width + _x > size.Width || tempSize.Height + _y > size.Height)
+			if (tempSize.Width + j > size.Width)
 			{
-				return;
+				tempSize.Width = size.Width - j;
+			}
+			if (tempSize.Height + i > size.Height)
+			{
+				tempSize.Height = size.Height - i;
 			}
 			
 			D3DLOCKED_RECT tempLock;
@@ -448,12 +455,12 @@ namespace OSHGui
 			
 			for (int y = 0; y < tempSize.Height; y++)
 			{
-				int row = (y + _y) * lock.Pitch,
+				int row = (y + i) * lock.Pitch,
 					tempRow = y * tempLock.Pitch;
 			
 				for (int x = 0; x < tempSize.Width; x++)
 				{
-					int index = (x + _x) * 4 + row,
+					int index = (x + j) * 4 + row,
 						tempIndex = x * 4 + tempRow;
 						
 					if (tempRaw[tempIndex + 3] > 0)

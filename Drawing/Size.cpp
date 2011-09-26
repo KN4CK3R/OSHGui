@@ -66,10 +66,5 @@ namespace OSHGui
 			return Size(this->Width + width, this->Height + height);
 		}
 		//---------------------------------------------------------------------------
-		bool Size::Contains(const Point &point) const
-		{
-			return (0 <= point.Left && point.Left <= Width) && (0 <= point.Top && point.Top <= Height);
-		}
-		//---------------------------------------------------------------------------
 	}
 }

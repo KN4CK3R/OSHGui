@@ -49,8 +49,6 @@ namespace OSHGui
 			 */
 			Size InflateEx(int width, int height) const;
 			
-			bool Contains(const Point &point) const;
-			
 			int Width,
 				Height;
 		};

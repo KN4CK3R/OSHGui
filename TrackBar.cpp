@@ -10,8 +10,11 @@ namespace OSHGui
 		type = CONTROL_TRACKBAR;
 		
 		pressed = false;
-
-		SetBounds(3, 3, 110, TRACKBAR_SLIDER_HEIGHT + 2);
+		
+		trackbarSliderWidth = 8;
+		trackbarSliderHeight = 16;
+		
+		SetBounds(6, 6, 110, trackbarSliderHeight + 2);
 		
 		min = 1;
 		max = 10;
@@ -71,15 +74,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::Invalidate()
 	{
-		if (bounds.GetHeight() != TRACKBAR_SLIDER_HEIGHT)
+		if (bounds.GetHeight() != trackbarSliderHeight + 2)
 		{
-			bounds.SetHeight(TRACKBAR_SLIDER_HEIGHT);
+			bounds.SetHeight(trackbarSliderHeight + 2);
 		}
 
 		clientArea = bounds;
 
-		sliderMiddle = (int)((value - min) * (float)(clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (max - min) + TRACKBAR_SLIDER_WIDTH / 2);
-		sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), clientArea.GetTop(), TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT);
+		sliderMiddle = (int)((value - min) * (float)(clientArea.GetWidth() - trackbarSliderWidth) / (max - min) + trackbarSliderWidth / 2);
+		sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (trackbarSliderWidth / 2), clientArea.GetTop(), trackbarSliderWidth, trackbarSliderHeight);
 
 		InvalidateChildren();
 	}
@@ -100,7 +103,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int TrackBar::ValueFromPosition(int position) const
 	{ 
-		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - TRACKBAR_SLIDER_WIDTH);
+		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - trackbarSliderWidth);
 		return (int)(0.5f + min + valuePerPixel * position);
 	}
 	//---------------------------------------------------------------------------
@@ -126,7 +129,7 @@ namespace OSHGui
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
-				if (Drawing::Rectangle(sliderMiddle - (TRACKBAR_SLIDER_WIDTH / 2), 0, TRACKBAR_SLIDER_WIDTH, TRACKBAR_SLIDER_HEIGHT).Contains(mouse->Position)) //SliderRect
+				if (Drawing::Rectangle(sliderMiddle - (trackbarSliderWidth / 2), 0, trackbarSliderWidth, trackbarSliderHeight).Contains(mouse->Position)) //SliderRect
 				{
 					pressed = true;
 
@@ -233,12 +236,12 @@ namespace OSHGui
 		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
-		int halfWidth = TRACKBAR_SLIDER_WIDTH / 2;
-		float space = (bounds.GetWidth() - TRACKBAR_SLIDER_WIDTH) / (float)range;
+		int halfWidth = trackbarSliderWidth / 2;
+		float space = (bounds.GetWidth() - trackbarSliderWidth) / (float)range;
 		if (space < 5.0f)
 		{
 			space = 5.0f;
-			range = (int)((bounds.GetWidth() - TRACKBAR_SLIDER_WIDTH) / space);
+			range = (int)((bounds.GetWidth() - trackbarSliderWidth) / space);
 		}
 		
 		for (int i = 0; i < range + 1; i++)

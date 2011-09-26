@@ -170,6 +170,7 @@ namespace OSHGui
 			{
 				return;
 			}
+			
 			Flush();
 
 			x = x + renderRect.GetLeft();
@@ -214,17 +215,7 @@ namespace OSHGui
 			AddVertex(x, y + h);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(const Point &point, Color &to)
-		{
-			Fill(point.X, point.Y, 1, 1);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(int x, int y, Color &to)
-		{
-			Fill(x, y, 1, 1);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(Rectangle &rect, Color &to)
+		void RendererDX9::FillGradient(const Rectangle &rect, Color &to)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}

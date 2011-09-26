@@ -15,13 +15,35 @@ namespace OSHGui
 		class FontDX9 : public IFont
 		{
 		public:
+			/**
+			 * Konstruktor der Klasse.
+			 *
+			 * @device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 */
 			FontDX9(IDirect3DDevice9 *device);
 			~FontDX9();
-
+			
+			/**
+			 * Ruft das zugrundeliegende IDirect3DFont-Objekt ab.
+			 */
 			LPD3DXFONT GetFont();
 
+			/**
+			 * Erzeugt eine neue Schriftart.
+			 *
+			 * @param fontName der Name der Schriftart
+			 * @param size die Schriftgrˆﬂe
+			 * @param bold fettgedruckt
+			 * @param italic kursiv
+			 */
 			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
 			
+			/**
+			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
+			 *
+			 * @param text der Text
+			 * @return die Maﬂe
+			 */
 			virtual Size MeasureText(const Misc::UnicodeString &str);
 
 		protected:

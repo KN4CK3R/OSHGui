@@ -101,22 +101,22 @@ namespace OSHGui
 			return left != equal.left || top != equal.top || width != equal.width || height != equal.height;
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator + (const Rectangle& add) const
+		const Rectangle Rectangle::operator + (const Rectangle& add) const
 		{
 			return Rectangle(left + add.left, top + add.top, width + add.width, height + add.height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator + (const Point& add) const
+		const Rectangle Rectangle::operator + (const Point& add) const
 		{
 			return Rectangle(left + add.Left, top + add.Top, width, height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator - (const Rectangle& add) const
+		const Rectangle Rectangle::operator - (const Rectangle& add) const
 		{
 			return Rectangle(left - add.left, top - add.top, width - add.width, height - add.height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::operator - (const Point& add) const
+		const Rectangle Rectangle::operator - (const Point& add) const
 		{
 			return Rectangle(left - add.Left, top - add.Top, width, height);
 		}

@@ -13,41 +13,190 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		/**
+		 * Abstrakte Klasse, die Zeichenmethoden bereitstellt.
+		 */
 		class IRenderer
 		{
 		public:
+			/**
+			 * Leitet das Zeichnen ein.
+			 */
 			virtual void Begin() = 0;
+			/**
+			 * Schließt das Zeichnen ab.
+			 */
 			virtual void End() = 0;
 
+			/**
+			 * Erzeugt eine neue Textur.
+			 *
+			 * @return eine neue Textur
+			 */
 			virtual std::shared_ptr<ITexture> CreateNewTexture() = 0;
+			/**
+			 * Erzeugt eine neue Schriftart.
+			 *
+			 * @return eine neue Schriftart
+			 */
 			virtual std::shared_ptr<IFont> CreateNewFont() = 0;
+			
+			/**
+			 * Ruft die Standard-Schrift ab.
+			 *
+			 * @return die Standard-Schrift
+			 */
 			std::shared_ptr<IFont> GetDefaultFont() { return defaultFont; }
 			
+			/**
+			 * Legt die Farbe zum Zeichnen fest.
+			 *
+			 * @param color die Farbe
+			 */
 			virtual void SetRenderColor(Color color) { this->color = color; }
-			virtual Color& GetRenderColor() { return color; }
-			virtual void SetRenderRectangle(Rectangle &rect) { renderRect = rect; }
-			virtual Rectangle& GetRenderRectangle() { return renderRect; }
+			/**
+			 * Ruft die Farbe zum Zeichnen ab.
+			 *
+			 * @return die Farbe
+			 */
+			virtual Color& GetRenderColor() const { return color; }
+			/**
+			 * Legt das Rechteck fest, in dem gezeichnet wird.
+			 *
+			 * @param rect das Rechteck
+			 */
+			virtual void SetRenderRectangle(const Rectangle &rect) { renderRect = rect; }
+			/**
+			 * Ruft das Rechteck fest, in dem gezeichnet wird.
+			 *
+			 * @return das Rechteck
+			 */
+			virtual Rectangle& GetRenderRectangle() const { return renderRect; }
 			
+			/**
+			 * Zeichnet eine Textur am entsprechenden Punkt.
+			 *
+			 * @param texture die Textur
+			 * @param point der Ursprung
+			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point) = 0;
+			/**
+			 * Zeichnet eine Textur an deb entsprechenden Koordinaten.
+			 *
+			 * @param texture die Textur
+			 * @param x
+			 * @param y
+			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y) = 0;
+			/**
+			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
+			 *
+			 * @param texture die Textur
+			 * @param rect das Rechteck
+			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect) = 0;
+			/**
+			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
+			 *
+			 * @param texture die Textur
+			 * @param x
+			 * @param y
+			 * @param w
+			 * @param h
+			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h) = 0;
 
+			/**
+			 * Ruft die Maße des übergebenen Texts unter Verwendung der entsprechenden Schriftart ab.
+			 *
+			 * @param font die Schriftart
+			 * @param text der Text
+			 * @return size
+			 */
 			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::UnicodeString &text) = 0;
 
+			/**
+			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
+			 *
+			 * @param font die Schriftart
+			 * @param point der Ursprung
+			 * @param text der Text
+			 */
 			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &point, const Misc::UnicodeString &text) = 0;
+			/**
+			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
+			 *
+			 * @param font die Schriftart
+			 * @param x
+			 * @param y
+			 * @param text der Text
+			 */
 			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::UnicodeString &text) = 0;
-			virtual void RenderText(const std::shared_ptr<IFont> &font, Rectangle &rect, const Misc::UnicodeString &text) = 0;
+			/**
+			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
+			 *
+			 * @param font die Schriftart
+			 * @param rect das Rechteck
+			 * @param text der Text
+			 */
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rect, const Misc::UnicodeString &text) = 0;
+			/**
+			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
+			 *
+			 * @param font die Schriftart
+			 * @param x
+			 * @param y
+			 * @param w
+			 * @param h
+			 * @param text der Text
+			 */
 			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::UnicodeString &text) = 0;
-					
+			
+			/**
+			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
+			 *
+			 * @param point der Punkt
+			 */
 			virtual void Fill(const Point &point) = 0;
+			/**
+			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
+			 *
+			 * @param x
+			 * @param y
+			 */
 			virtual void Fill(int x, int y) = 0;
-			virtual void Fill(Rectangle &rect) = 0;
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param rect das Rechteck
+			 */
+			virtual void Fill(const Rectangle &rect) = 0;
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param x
+			 * @param y
+			 * @param w
+			 * @param h
+			 */
 			virtual void Fill(int x, int y, int w, int h) = 0;
 			
-			virtual void FillGradient(const Point &point, Color &to) = 0;
-			virtual void FillGradient(int x, int y, Color &to) = 0;
-			virtual void FillGradient(Rectangle &rect, Color &to) = 0;
+			/**
+			 * Füllt das Rechteck mit einem Farbverlauf.
+			 *
+			 * @param rect das Rechteck
+			 * @param to die Endfarbe
+			 */
+			virtual void FillGradient(const Rectangle &rect, Color &to) = 0;
+			/**
+			 * Füllt das Rechteck mit einem Farbverlauf.
+			 *
+			 * @param x
+			 * @param y
+			 * @param w
+			 * @param h
+			 * @param to die Endfarbe
+			 */
 			virtual void FillGradient(int x, int y, int w, int h, Color &to) = 0;
 
 		protected:
