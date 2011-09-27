@@ -10,7 +10,7 @@ namespace OSHGui
 	 * die Auswahl einer Option aus mehreren Auswahlmöglichkeiten.
 	 */
 	class RadioButton : public CheckBox
-	{	
+	{
 	public:
 		/**
 		 * Konstruktor der Klasse.

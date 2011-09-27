@@ -23,7 +23,7 @@ namespace OSHGui
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void Timer::SetEnabled(bool enabled)
-	{	
+	{
 		if (this->enabled != enabled)
 		{
 			if (enabled == true)

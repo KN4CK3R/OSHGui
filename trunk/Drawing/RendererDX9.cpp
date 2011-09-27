@@ -16,7 +16,7 @@ namespace OSHGui
 			texture = 0;
 			D3DXCreateSprite(device, &sprite);
 
-			for (int i = 0; i < maxVertices; i++)
+			for (int i = 0; i < maxVertices; ++i)
 			{
 				vertices[i].z = 0.0f;
 				vertices[i].rhw = 1.0f;
@@ -260,7 +260,7 @@ namespace OSHGui
 			vertices[verticesNum].y = (float)y;
 			vertices[verticesNum].color = color.ARGB;
 
-			verticesNum++;
+			++verticesNum;
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::AddVertex(int x, int y, float u, float v)
@@ -276,7 +276,7 @@ namespace OSHGui
 			vertices[verticesNum].v = v;
 			vertices[verticesNum].color = color.ARGB;
 
-			verticesNum++;
+			++verticesNum;
 		}
 		//---------------------------------------------------------------------------
 	}

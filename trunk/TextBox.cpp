@@ -149,7 +149,7 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);

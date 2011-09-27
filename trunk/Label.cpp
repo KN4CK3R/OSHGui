@@ -70,9 +70,9 @@ namespace OSHGui
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
-		}	
+		}
 		
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}

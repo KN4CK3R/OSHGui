@@ -31,7 +31,7 @@ namespace OSHGui
 		 * @param handler
 		 */
 		void Add(Handler const& handler)
-		{		
+		{
 			handlers.push_back(handler);
 		}
 		
@@ -50,7 +50,7 @@ namespace OSHGui
 				}
 				else
 				{
-					it++;
+					++it;
 				}
 			}
 		}

@@ -74,7 +74,7 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(long long ticks)
-		{ 
+		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
 				throw std::out_of_range("Argument out of range: ticks");
@@ -84,7 +84,7 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(unsigned long long dateData)
-		{ 
+		{
 			this->dateData = dateData;
 		}
 		//---------------------------------------------------------------------------
@@ -412,12 +412,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool DateTime::operator <= (DateTime &time)
 		{
-			return GetInternalTicks() <= time.GetInternalTicks(); 
+			return GetInternalTicks() <= time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
 		bool DateTime::operator >= (DateTime &time)
-		{		
-			return GetInternalTicks() >= time.GetInternalTicks(); 
+		{
+			return GetInternalTicks() >= time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
 		const DateTime DateTime::operator - (const TimeSpan &ts)
@@ -426,7 +426,7 @@ namespace OSHGui
 			long long valueTicks = ts.GetTicks();
 			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
 			{
-				throw std::out_of_range("Argument out of range: ticks"); 
+				throw std::out_of_range("Argument out of range: ticks");
 			}
 			return DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
 		}
@@ -471,7 +471,7 @@ namespace OSHGui
 		{
 			if (hour >= 0 && hour < 24 && minute >= 0 && minute < 60 && second >=0 && second < 60)
 			{
-				long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second; 
+				long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
 				return totalSeconds * TicksPerSecond;
 			}
 			throw std::out_of_range("Argument out of range: hour, minute, second");
@@ -552,7 +552,7 @@ namespace OSHGui
 			int m = (n >> 5) + 1; //1-based month number
 			while (n >= days[m])
 			{
-				m++;
+				++m;
 			}
 			if (part == DateTime::Month)
 			{

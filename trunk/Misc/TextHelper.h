@@ -109,7 +109,7 @@ namespace OSHGui
 			Drawing::Point GetCharacterPosition(int index, bool trailing = false) const;
 			/**
 			 * Gibt die Weite eines Teilstrings zurück.
-			 * 
+			 *
 			 * @param index der Startindex
 			 * @param size die Länge der Zeichenkette. -1 = bis zum Ende (default: -1)
 			 * @return die Größe

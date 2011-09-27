@@ -11,7 +11,7 @@ namespace OSHGui
 	 */
 	class KeyPressEventArgs
 	{
-	public:	
+	public:
 		Misc::UnicodeChar KeyChar;
 		bool Handled;
 		

@@ -106,7 +106,7 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::ValueFromPosition(int position) const
-	{ 
+	{
 		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - trackbarSliderWidth);
 		return (int)(0.5f + min + valuePerPixel * position);
 	}
@@ -114,7 +114,7 @@ namespace OSHGui
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes TrackBar::ProcessEvent(Event *event)
-	{	
+	{
 		if (event == 0)
 		{
 			return Event::DontContinue;
@@ -139,7 +139,7 @@ namespace OSHGui
 
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -153,7 +153,7 @@ namespace OSHGui
 					
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					SetValueInternal(ValueFromPosition(mouse->Position.X));
@@ -248,7 +248,7 @@ namespace OSHGui
 			range = (int)((bounds.GetWidth() - trackbarSliderWidth) / space);
 		}
 		
-		for (int i = 0; i < range + 1; i++)
+		for (int i = 0; i < range + 1; ++i)
 		{
 			renderer->Fill((int)(bounds.GetLeft() + halfWidth + (i * space)), bounds.GetTop() + 6, 1, 5);
 		}

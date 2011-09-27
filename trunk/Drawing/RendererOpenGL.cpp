@@ -6,7 +6,7 @@ namespace OSHGui
 	{
 		RendererOpenGL::RendererOpenGL()
 		{
-			for (int i = 0; i < maxVertices; i++)
+			for (int i = 0; i < maxVertices; ++i)
 			{
 				verticesLoc[i].z = 0.5f;
 				//verticesLoc[i].w = 1.0f;
@@ -42,8 +42,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererOpenGL::End()
 		{
-			glPopMatrix();										
-			glMatrixMode(GL_PROJECTION);						
+			glPopMatrix();
+			glMatrixMode(GL_PROJECTION);
 			glPopMatrix();
 			glPopAttrib();
 		}
@@ -152,7 +152,7 @@ namespace OSHGui
 			verticesLoc[verticesNum].y = (float)y;
 			verticesColor[verticesNum] = color.ARGB;
 
-			verticesNum++;
+			++verticesNum;
 		}
 		//---------------------------------------------------------------------------
 	}

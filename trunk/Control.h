@@ -23,6 +23,7 @@ namespace OSHGui
 	 */
 	enum CONTROL_TYPE
 	{
+		CONTROL_ROOT,
 		CONTROL_PANEL,
 		CONTROL_FORM,
 		CONTROL_GROUPBOX,
@@ -150,7 +151,7 @@ namespace OSHGui
 		 *
 		 * @return bounds
 		 */
-		virtual Drawing::Rectangle GetBounds() const;
+		virtual const Drawing::Rectangle GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
@@ -172,7 +173,7 @@ namespace OSHGui
 		 *
 		 * @return location
 		 */
-		virtual Drawing::Point GetLocation();
+		virtual const Drawing::Point GetLocation() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -184,63 +185,47 @@ namespace OSHGui
 		 *
 		 * @return size
 		 */
-		virtual Drawing::Size GetSize();
+		virtual const Drawing::Size GetSize() const;
 		/**
 		 * Ruft den Abstand zwischen dem linken Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return left
 		 */
-		virtual int GetLeft();
+		virtual int GetLeft() const;
 		/**
 		 * Ruft den Abstand zwischen dem oberen Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return top
 		 */
-		virtual int GetTop();
+		virtual int GetTop() const;
 		/**
 		 * Ruft den Abstand zwischen dem rechten Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return right
 		 */
-		virtual int GetRight();
+		virtual int GetRight() const;
 		/**
 		 * Ruft den Abstand zwischen dem unteren Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
 		 * @return bottom
 		 */
-		virtual int GetBottom();
+		virtual int GetBottom() const;
 		/**
 		 * Ruft die Breite des Steuerelements ab.
 		 *
 		 * @return width
 		 */
-		virtual int GetWidth();
+		virtual int GetWidth() const;
 		/**
 		 * Ruft die Höhe des Steuerelements ab.
 		 *
 		 * @return height
 		 */
-		virtual int GetHeight();
-		
-		/**
-		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
-		 *
-		 * @param point
-		 * @return der neue Punkt
-		 */
-		virtual Drawing::Point PointToClient(const Drawing::Point &point) const;
-		/**
-		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
-		 *
-		 * @param point
-		 * @return der neue Punkt
-		 */
-		virtual Drawing::Point PointToScreen(const Drawing::Point &point) const;
-		
+		virtual int GetHeight() const;
 		/**
 		 * Legt die mit dem Steuerelement verknüpften benutzerdefinierten Daten fest.
 		 *
@@ -253,7 +238,6 @@ namespace OSHGui
 		 * @return tag
 		 */
 		Misc::Any& GetTag();
-		
 		/**
 		 * Legt den zum Identifizieren des Steuerelements verwendeten Namen fest.
 		 *
@@ -266,7 +250,6 @@ namespace OSHGui
 		 * @return name
 		 */
 		const Misc::UnicodeString& GetName() const;
-		
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -279,7 +262,6 @@ namespace OSHGui
 		 * @return font
 		 */
 		const std::shared_ptr<Drawing::IFont> GetFont() const;
-		
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
@@ -316,7 +298,6 @@ namespace OSHGui
 		 * @return color
 		 */
 		const Drawing::Color& GetMouseOverFocusColor() const;
-
 		/**
 		 * Ruft das ClickEvent für das Steuerelement ab.
 		 *
@@ -392,10 +373,20 @@ namespace OSHGui
 		 * @param control
 		 */
 		void AddControl(Control *control);
-
-		void RequestFocus(Control *control);
-		void ClearFocus();
-		
+		/**
+		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
+		 *
+		 * @param point
+		 * @return der neue Punkt
+		 */
+		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
+		/**
+		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
+		 *
+		 * @param point
+		 * @return der neue Punkt
+		 */
+		virtual const Drawing::Point PointToScreen(const Drawing::Point &point) const;
 		/**
 		 * Ruft das untergeordnete Steuerelement ab, das sich an den angegebenen
 		 * Koordinaten befindet.
@@ -411,6 +402,16 @@ namespace OSHGui
 		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
 		 */
 		Control* GetChildByName(const Misc::UnicodeString &name) const;
+		/**
+		 * Legt das übergebene Control als fokusiert fest.
+		 *
+		 * @param control
+		 */
+		void RequestFocus(Control *control);
+		/**
+		 * Löst den Fokus.
+		 */
+		void ClearFocus();
 		
 		/**
 		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
@@ -425,7 +426,7 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		Event::NextEventTypes ProcessChildrenEvent(Event *event);
+		Event::NextEventTypes ChildProcessEvent(Event *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -444,8 +445,8 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		const std::vector<Control*>& GetControls() const;
-		
+		const std::vector<Control*>& GetControls() const;	
+	
 	protected:
 		Event::NextEventTypes ContainerProcessEvent(Event *event);
 
@@ -462,7 +463,7 @@ namespace OSHGui
 			 hasFocus,
 			 autoSize;
 			 
-		Misc::Any tag;		
+		Misc::Any tag;
 		
 		Drawing::Rectangle bounds,
 						   clientArea;
@@ -483,15 +484,17 @@ namespace OSHGui
 		
 		std::shared_ptr<Drawing::IFont> font;
 
-		Control *Parent;
+		Control *parent;
 
 		std::vector<Control*> controls;
 
 		Control *focusControl,
 				*mouseOverControl;
 
-	public:
-		Drawing::Point mousepos;
+	private:
+		//copying prohibited
+		Control(const Control&);
+		void operator = (const Control&);
 	};
 }
 
