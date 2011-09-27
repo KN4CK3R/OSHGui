@@ -29,7 +29,7 @@ namespace OSHGui
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		bool FontOpenGL::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
-		{			
+		{
 			this->fontName = fontName;
 			this->size = size;
 			this->bold = bold;

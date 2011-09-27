@@ -19,7 +19,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabControl::~TabControl()
 	{
-		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
+		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
 		{
 			delete *it;
 		}
@@ -31,7 +31,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text) const
 	{
-		for (std::list<TabPage*>::const_iterator it = tabs.begin(); it != tabs.end(); it++)
+		for (std::list<TabPage*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
 		{
 			if ((*it)->GetText() == text)
 			{
@@ -47,9 +47,9 @@ namespace OSHGui
 		if (index > 0 && index < (int)tabs.size())
 		{
 			std::list<TabPage*>::const_iterator it = tabs.begin();
-			for (int i = 0; i < index; i++)
+			for (int i = 0; i < index; ++i)
 			{
-				it++;
+				++it;
 			}
 
 			return *it;
@@ -162,7 +162,7 @@ namespace OSHGui
 					{
 						if (clicked == *it)
 						{
-							Parent->RequestFocus(this);
+							parent->RequestFocus(this);
 							activeTab = clicked;
 							clicked = 0;
 							Invalidate();
@@ -227,7 +227,7 @@ namespace OSHGui
 			}
 		}
 	
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}
@@ -259,7 +259,7 @@ namespace OSHGui
 		Drawing::Color backInactiveGradient = backInactive - Drawing::Color(0, 20, 20, 20);
 		Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9,9);
 
-		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); it++)
+		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
 		{
 			textHelper.SetText((*it)->GetText());
 			Drawing::Size textSize = textHelper.GetSize();

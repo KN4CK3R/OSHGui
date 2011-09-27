@@ -21,7 +21,7 @@ namespace OSHGui
 		if (this->checked != checked)
 		{
 			//uncheck other radiobuttons
-			const std::vector<Control*> &controls = Parent->GetControls();
+			const std::vector<Control*> &controls = parent->GetControls();
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
 				Control *control = controls.at(i);
@@ -87,7 +87,7 @@ namespace OSHGui
 			
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -123,14 +123,27 @@ namespace OSHGui
 		else if (event->Type == Event::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->KeyCode == Key::Space)
+			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
-				SetChecked(!GetChecked());
-				
-				clickEvent.Invoke(this);
-				
-				return Event::DontContinue;
+				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
+			else if (keyboard->State == KeyboardEvent::Character)
+			{
+				keyPressEventArgs.Invoke(this, KeyPressEventArgs(keyboard));
+			}
+			else if (keyboard->State == KeyboardEvent::KeyUp)
+			{
+				if (keyboard->KeyCode == Key::Space)
+				{
+					SetChecked(!GetChecked());
+					
+					clickEvent.Invoke(this);
+				}
+				
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;
@@ -166,7 +179,7 @@ namespace OSHGui
 			renderer->FillGradient(checkBoxPosition.Left + 6, checkBoxPosition.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
 		}
 
-		renderer->SetRenderColor(foreColor);		
+		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
 		if (controls.size() > 0)

@@ -89,7 +89,7 @@ namespace OSHGui
 				
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -173,7 +173,7 @@ namespace OSHGui
 		
 		Drawing::Color tempColor = backColor;
 
-		if (hasFocus || mouseOver)
+		if ((hasFocus || mouseOver) && !(hasFocus && pressed))
 		{
 			tempColor += mouseOverFocusColor;
 		}

@@ -13,7 +13,7 @@ namespace OSHGui
 		 * eines Rechtecks angeben.
 		 */
 		class Rectangle
-		{			
+		{
 		public:
 			/**
 			 * Erstellt ein Rechteck ohne Ausmaﬂe.

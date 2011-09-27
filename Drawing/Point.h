@@ -10,7 +10,7 @@ namespace OSHGui
 		 * das einen Punkt in einem zweidimensionalen Raum definiert.
 		 */
 		class Point
-		{			
+		{
 		public:
 			/**
 			 * Erstellt einen Punkt mit den Koordinaten 0/0.

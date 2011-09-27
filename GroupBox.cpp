@@ -65,7 +65,7 @@ namespace OSHGui
 			mouse->Position.Top -= (clientArea.GetTop() - bounds.GetTop());
 		}
 	
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}

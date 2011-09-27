@@ -45,7 +45,7 @@ namespace OSHGui
 			static unsigned int NextID()
 			{
 				static unsigned int id = 0;
-				++id;	
+				++id;
 				return id;
 			}
 			//---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ namespace OSHGui
 			 * Kopierkonstruktor
 			 */
 			Any(const Any &any)
-			{			
+			{
 				id = any.id;
 				wrapper = any.wrapper->Copy();
 			}

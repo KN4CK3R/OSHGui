@@ -18,7 +18,7 @@ namespace OSHGui
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */
 	class ListBox : public Control
-	{	
+	{
 	public:
 		/**
 		 * Konstruktor der Klasse.

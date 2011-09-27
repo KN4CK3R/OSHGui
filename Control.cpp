@@ -8,11 +8,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::Control(Control *parent)
 	{
-		type = CONTROL_BUTTON;
+		type = CONTROL_ROOT;
+		
+		this->parent = parent;
 
 		SetLocation(Drawing::Point(3, 3));
-
-		Parent = parent;
 		
 		SetEnabled(true);
 		SetVisible(true);
@@ -30,7 +30,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		for (unsigned int i = 0; i < controls.size(); i++)
+		for (unsigned int i = 0; i < controls.size(); ++i)
 		{
 			Control *control = controls.at(i);
 			delete control;
@@ -154,47 +154,37 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Size Control::GetSize()
+	const Drawing::Size Control::GetSize() const
 	{
 		return bounds.GetSize();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetLeft()
+	int Control::GetLeft() const
 	{
 		return bounds.GetLeft();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetTop()
+	int Control::GetTop() const
 	{
 		return bounds.GetTop();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetRight()
+	int Control::GetRight() const
 	{
 		return bounds.GetRight();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetBottom()
+	int Control::GetBottom() const
 	{
 		return bounds.GetBottom();
 	}
 	//---------------------------------------------------------------------------
-	int Control::GetWidth()
+	int Control::GetWidth() const
 	{
 		return bounds.GetWidth();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point Control::PointToClient(const Drawing::Point &point) const
-	{
-		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
-	}
-	//---------------------------------------------------------------------------
-	Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
-	{
-		return Drawing::Point();
-	}
-	//---------------------------------------------------------------------------
-	int Control::GetHeight()
+	int Control::GetHeight() const
 	{
 		return bounds.GetHeight();
 	}
@@ -307,7 +297,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const
 	{
-		return Parent;
+		return parent;
 	}
 	//---------------------------------------------------------------------------
 	const std::vector<Control*>& Control::GetControls() const
@@ -336,6 +326,14 @@ namespace OSHGui
 	{
 		if (control != 0)
 		{
+			for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+			{
+				if (control == *it)
+				{
+					return;
+				}
+			}
+		
 			controls.push_back(control);
 
 			Invalidate();
@@ -344,9 +342,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::InvalidateChildren()
 	{
-		for (unsigned int i = 0; i < controls.size(); i++)
+		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
-			Control *control = controls.at(i);
+			Control *control = *it;
 
 			if (control == 0)
 			{
@@ -357,11 +355,21 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
+	{
+		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
+	{
+		return Drawing::Point();
+	}
+	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
 	{
-		for (unsigned int i = 1; i <= controls.size(); ++i)
+		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
-			Control *control = controls.at(controls.size() - i);
+			Control *control = *it;
 
 			if (control == 0)
 			{
@@ -379,9 +387,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildByName(const Misc::UnicodeString &name) const
 	{
-		for (unsigned int i = 0; i < controls.size(); i++)
+		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
-			Control *control = controls.at(i);
+			Control *control = *it;
 
 			if (control == 0)
 			{
@@ -451,7 +459,7 @@ namespace OSHGui
 		return Event::DontContinue;
 	}
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Control::ProcessChildrenEvent(Event *event)
+	Event::NextEventTypes Control::ChildProcessEvent(Event *event)
 	{
 		if (event == 0)
 		{

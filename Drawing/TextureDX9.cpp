@@ -168,11 +168,11 @@ namespace OSHGui
 			int toY = std::abs(h);
 
 			BYTE *raw = (BYTE*)lock.pBits;
-			for (int j = 0; j < toY; j++)
+			for (int j = 0; j < toY; ++j)
 			{
 				int row = (fromY + j) * lock.Pitch;
 				
-				for (int i = 0; i < toX; i++)
+				for (int i = 0; i < toX; ++i)
 				{
 					int index = (fromX + i) * 4 + row;
 					
@@ -212,11 +212,11 @@ namespace OSHGui
 				step[2] = (to.R - color[2]) / (float)toY;
 				step[3] = (to.A - color[3]) / (float)toY;
 				
-				for (int y = 0; y < toY; y++)
+				for (int y = 0; y < toY; ++y)
 				{
 					int row = (fromY + y) * lock.Pitch;
 					
-					for (int x = 0; x < toX; x++)
+					for (int x = 0; x < toX; ++x)
 					{
 						int index = (fromX + x) * 4 + row;
 						
@@ -234,11 +234,11 @@ namespace OSHGui
 				step[2] = (to.R - color[2]) / (float)toX;
 				step[3] = (to.A - color[3]) / (float)toX;
 			
-				for (int y = 0; y < toY; y++)
+				for (int y = 0; y < toY; ++y)
 				{
 					int row = (fromY + y) * lock.Pitch;
 					
-					for (int x = 0; x < toX; x++)
+					for (int x = 0; x < toX; ++x)
 					{
 						int index = (fromX + x) * 4 + row;
 						
@@ -284,12 +284,12 @@ namespace OSHGui
 					
 					if (degrees == 90)
 					{
-						for (int y = 0; y < bckSize.Height; y++)
+						for (int y = 0; y < bckSize.Height; ++y)
 						{
 							int row = y * lock.Pitch,
 								tempRow = (tempSize.Width - y) * 4;
 								
-							for (int x = 0; x < bckSize.Width; x++)
+							for (int x = 0; x < bckSize.Width; ++x)
 							{
 								int index = x * 4 + row,
 									tempIndex = tempRow + x * tempLock.Pitch;
@@ -303,12 +303,12 @@ namespace OSHGui
 					}
 					else if (degrees == 180)
 					{
-						for (int y = 0; y < bckSize.Height; y++)
+						for (int y = 0; y < bckSize.Height; ++y)
 						{
 							int row = y * lock.Pitch,
 								tempRow = (tempSize.Height - y) * tempLock.Pitch;
 								
-							for (int x = 0; x < bckSize.Width; x++)
+							for (int x = 0; x < bckSize.Width; ++x)
 							{
 								int index = x * 4 + row,
 									tempIndex = (tempSize.Width - x) * 4 + tempRow;
@@ -322,12 +322,12 @@ namespace OSHGui
 					}
 					else if (degrees == 270)
 					{
-						for (int y = 0; y < bckSize.Height; y++)
+						for (int y = 0; y < bckSize.Height; ++y)
 						{
 							int row = y * lock.Pitch,
 								tempRow = y * 4;
 								
-							for (int x = 0; x < bckSize.Width; x++)
+							for (int x = 0; x < bckSize.Width; ++x)
 							{
 								int index = x * 4 + row,
 									tempIndex = tempRow + (tempSize.Width - x) * tempLock.Pitch;
@@ -350,17 +350,17 @@ namespace OSHGui
 			}
 			else
 			{
-				float radians = (2 * 3.1416f * degrees) / 360; 
+				float radians = (2 * 3.1416f * degrees) / 360;
 
-				float cosine = (float)cos(radians); 
-				float sine = (float)sin(radians); 
+				float cosine = (float)cos(radians);
+				float sine = (float)sin(radians);
 
-				float p1x = (-size.Height * sine); 
-				float p1y = (size.Height * cosine); 
-				float p2x = (size.Width * cosine - size.Height * sine); 
-				float p2y = (size.Height * cosine + size.Width * sine); 
-				float p3x = (size.Width * cosine); 
-				float p3y = (size.Width * sine); 
+				float p1x = (-size.Height * sine);
+				float p1y = (size.Height * cosine);
+				float p2x = (size.Width * cosine - size.Height * sine);
+				float p2y = (size.Height * cosine + size.Width * sine);
+				float p3x = (size.Width * cosine);
+				float p3y = (size.Width * sine);
 
 				float minx = std::min(0.f, std::min(p1x, std::min(p2x, p3x)));
 				float miny = std::min(0.f, std::min(p1y, std::min(p2y, p3y)));
@@ -379,19 +379,19 @@ namespace OSHGui
 					BYTE *raw = (BYTE*)lock.pBits;
 					BYTE *tempRaw = (BYTE*)tempLock.pBits;
 					
-					for(int x = 0; x < tempSize.Width; x++) 
+					for(int x = 0; x < tempSize.Width; ++x)
 					{
-						for(int y = 0; y < tempSize.Height; y++) 
-						{ 
-							int srcX = (int)((x + minx) * cosine + (y + miny) * sine); 
-							int srcY = (int)((y + miny) * cosine - (x + minx) * sine); 
+						for(int y = 0; y < tempSize.Height; ++y)
+						{
+							int srcX = (int)((x + minx) * cosine + (y + miny) * sine);
+							int srcY = (int)((y + miny) * cosine - (x + minx) * sine);
 							
 							int tempIndex = x * 4 + y * tempLock.Pitch;
 
-							if (srcX >=0 && srcX < bckSize.Width && srcY >= 0 && srcY < bckSize.Height) 
+							if (srcX >=0 && srcX < bckSize.Width && srcY >= 0 && srcY < bckSize.Height)
 							{
 								int index = srcX * 4 + srcY * lock.Pitch;
-									
+								
 								tempRaw[tempIndex] = raw[index];
 								tempRaw[tempIndex + 1] = raw[index + 1];
 								tempRaw[tempIndex + 2] = raw[index + 2];
@@ -453,12 +453,12 @@ namespace OSHGui
 			BYTE *raw = (BYTE*)lock.pBits;
 			BYTE *tempRaw = (BYTE*)tempLock.pBits;
 			
-			for (int y = 0; y < tempSize.Height; y++)
+			for (int y = 0; y < tempSize.Height; ++y)
 			{
 				int row = (y + i) * lock.Pitch,
 					tempRow = y * tempLock.Pitch;
 			
-				for (int x = 0; x < tempSize.Width; x++)
+				for (int x = 0; x < tempSize.Width; ++x)
 				{
 					int index = (x + j) * 4 + row,
 						tempIndex = x * 4 + tempRow;

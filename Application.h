@@ -60,7 +60,7 @@ namespace OSHGui
 			Timer *timer;
 			Misc::TimeSpan interval;
 			Misc::DateTime next;
-		};			
+		};
 		static std::map<Timer*, TimerInfo> timers;
 
 		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);

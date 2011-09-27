@@ -27,8 +27,6 @@ namespace OSHGui
 	ComboBox::~ComboBox()
 	{
 		Clear();
-
-		Button::~Button();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -98,7 +96,7 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
-	{	
+	{
 		items.insert(items.begin() + index, text);
 
 		scrollBar.SetRange(items.size());
@@ -240,7 +238,7 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -365,6 +363,8 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
+				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
+			
 				if (open)
 				{
 					switch (keyboard->KeyCode)
@@ -468,8 +468,37 @@ namespace OSHGui
 				
 				return Event::DontContinue;
 			}
+			else if (keyboard->State == KeyboardEvent::Character)
+			{
+				KeyPressEventArgs args(keyboard);
+				keyPressEvent.Invoke(this, args);
+				if (args.Handled == false)
+				{			
+					int foundIndex = 0;
+					for (std::vector<Misc::UnicodeString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+					{
+						if (*it[0] == keyboard->KeyChar && foundIndex != selectedIndex)
+						{
+							break;
+						}
+					}
+					
+					if (foundIndex < (int)items.size())
+					{
+						selectedIndex = foundIndex;
+						
+						scrollBar.ShowItem(selectedIndex);
+						
+						textHelper.SetText(GetSelectedItem());
+						
+						selectedIndexChangedEvent.Invoke(this);
+					}
+				}
+			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+			
 				switch (keyboard->KeyCode)
 				{
 					case Key::Return:

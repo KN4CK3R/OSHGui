@@ -126,7 +126,7 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		float Color::Hue()
-		{ 
+		{
 			if (R == G && G == B)
 			{
 				return 0.0f;
@@ -142,30 +142,30 @@ namespace OSHGui
 			float hue = 0.0f;
 
 			if (r == max)
-			{ 
+			{
 				hue = (g - b) / delta;
-			} 
+			}
 			else if (g == max)
-			{ 
+			{
 				hue = 2 + (b - r) / delta;
-			} 
+			}
 			else if (b == max)
 			{
 				hue = 4 + (r - g) / delta;
 			}
-			hue *= 60; 
+			hue *= 60;
 
 			if (hue < 0.0f)
-			{ 
-				hue += 360.0f; 
+			{
+				hue += 360.0f;
 			}
-			return hue; 
+			return hue;
 		}
 		//---------------------------------------------------------------------------
 		float Color::Saturation()
 		{
 			float r = R / 255.0f;
-			float g = G / 255.0f; 
+			float g = G / 255.0f;
 			float b = B / 255.0f;
 
 			float max = r > g ? r : g > b ? g : b,
@@ -175,23 +175,23 @@ namespace OSHGui
 
 			if (max != min)
 			{
-				l = (max + min) / 2; 
+				l = (max + min) / 2;
 
 				if (l <= 0.5f)
-				{ 
-					s = (max - min) / (max + min); 
+				{
+					s = (max - min) / (max + min);
 				}
 				else
-				{ 
+				{
 					s = (max - min) / (2 - max - min);
 				}
 			}
 			
-			return s; 
+			return s;
 		}
 		//---------------------------------------------------------------------------
 		float Color::Brightness()
-		{ 
+		{
 			float r = R / 255.0f;
 			float g = G / 255.0f;
 			float b = B / 255.0f;
@@ -199,7 +199,7 @@ namespace OSHGui
 			float max = r > g ? r : g > b ? g : b,
 				  min = r < g ? r : g < b ? g : b;
 
-			return (max + min) / 2; 
+			return (max + min) / 2;
 		}
 		//---------------------------------------------------------------------------
 		Color Color::FromHSB(float hue, float saturation, float brightness)

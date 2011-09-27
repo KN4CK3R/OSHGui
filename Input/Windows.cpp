@@ -20,8 +20,6 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-					Application::mouse = Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam));
-
 					MouseEvent mouse(MouseEvent::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
@@ -54,7 +52,7 @@ namespace OSHGui
 					if (Application::ProcessEvent(&mouse) == Event::DontContinue)
 					{
 						return true;
-					}			
+					}
 					break;
 				}
 				case WM_KEYDOWN:
@@ -191,7 +189,7 @@ namespace OSHGui
 							case 16:  // Ctrl P
 							case 27:  // Ctrl [
 							case 29:  // Ctrl ]
-							case 28:  // Ctrl \ 
+							case 28:  // Ctrl \
 								break;
 							default:
 								keyboard.KeyChar = (Misc::UnicodeChar)message->wParam;

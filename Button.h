@@ -24,7 +24,7 @@ namespace OSHGui
 	 * Stellt ein Schaltflächen-Steuerelement dar.
 	 */
 	class Button : public Label
-	{	
+	{
 	public:
 		/**
 		 * Konstruktor der Klasse.

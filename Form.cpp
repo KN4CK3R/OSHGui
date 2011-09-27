@@ -151,7 +151,7 @@ namespace OSHGui
 
 		}
 	
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}
@@ -212,7 +212,7 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, textHelper.GetText());
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; ++i)
 		{
 			renderer->Fill(closeRect.GetLeft() + 4 + i, closeRect.GetTop() + 4 + i, 3, 1);
 			renderer->Fill(closeRect.GetLeft() + 10 - i, closeRect.GetTop() + 4 + i, 3, 1);

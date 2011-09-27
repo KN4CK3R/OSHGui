@@ -55,7 +55,7 @@ namespace OSHGui
 			static const unsigned long long TicksPerHour;
 			static const unsigned long long TicksPerDay;
 
-			// Number of milliseconds per time unit 
+			// Number of milliseconds per time unit
 			static const unsigned int MillisPerSecond;
 			static const unsigned int MillisPerMinute;
 			static const unsigned int MillisPerHour;

@@ -64,7 +64,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Invalidate()
 	{
-		bounds = Drawing::Rectangle(Parent->GetRight() - scrollbarDefaultBoundsWidth - 2, Parent->GetTop(), scrollbarDefaultBoundsWidth, Parent->GetHeight());
+		bounds = Drawing::Rectangle(parent->GetRight() - scrollbarDefaultBoundsWidth - 2, parent->GetTop(), scrollbarDefaultBoundsWidth, parent->GetHeight());
 
 		clientArea = bounds;
 		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, clientArea.GetHeight() - scrollbarDefaultButtonHeight * 2);
@@ -151,13 +151,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Point ScrollBar::PointToClient(const Drawing::Point &point)
 	{
-		return Drawing::Point(point.Left - (bounds.GetLeft() - Parent->GetLeft()), point.Top);
+		return Drawing::Point(point.Left - (bounds.GetLeft() - parent->GetLeft()), point.Top);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	Event::NextEventTypes ScrollBar::ProcessEvent(Event *event)
-	{	
+	{
 		if (event == 0)
 		{
 			return Event::DontContinue;
@@ -192,7 +192,7 @@ namespace OSHGui
 				{
 					if (position < range - pageSize)
 					{
-						position++;
+						++position;
 					}
 					
 					UpdateSliderRect();

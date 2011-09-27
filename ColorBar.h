@@ -85,6 +85,7 @@ namespace OSHGui
 		void CreateBarTexture(int index);
 		void UpdateBars();
 	
+		int barIndex;
 		bool drag[3];
 		Drawing::Color color;
 		std::vector<std::shared_ptr<Drawing::ITexture> > bars;

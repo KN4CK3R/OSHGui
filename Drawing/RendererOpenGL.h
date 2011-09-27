@@ -15,7 +15,7 @@
 namespace OSHGui
 {
 	namespace Drawing
-	{	
+	{
 		class RendererOpenGL : public IRenderer
 		{
 		public:

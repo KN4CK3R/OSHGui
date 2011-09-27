@@ -44,7 +44,7 @@ namespace OSHGui
 
 				std::use_facet<std::ctype<UnicodeChar>>(std::locale()).widen(&ansi[0], &ansi[0] + ansi.length(), &out[0]);
 
-				return out; 
+				return out;
 			}
 			/**
 			 * Wandelt einen UnicodeString in einen AnsiString um.

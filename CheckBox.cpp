@@ -39,6 +39,21 @@ namespace OSHGui
 		return checkedChangedEvent;
 	}
 	//---------------------------------------------------------------------------
+	KeyDownEvent& CheckBox::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyPressEvent& CheckBox::GetKeyPressEvent()
+	{
+		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& CheckBox::GetKeyUpEvent()
+	{
+		return keyUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool CheckBox::CanHaveFocus() const
@@ -105,7 +120,7 @@ namespace OSHGui
 			
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -141,14 +156,27 @@ namespace OSHGui
 		else if (event->Type == Event::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->KeyCode == Key::Space)
+			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
-				SetChecked(!GetChecked());
-				
-				clickEvent.Invoke(this);
-				
-				return Event::DontContinue;
+				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
+			else if (keyboard->State == KeyboardEvent::Character)
+			{
+				keyPressEventArgs.Invoke(this, KeyPressEventArgs(keyboard));
+			}
+			else if (keyboard->State == KeyboardEvent::KeyUp)
+			{
+				if (keyboard->KeyCode == Key::Space)
+				{
+					SetChecked(!GetChecked());
+					
+					clickEvent.Invoke(this);
+				}
+				
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;
@@ -170,7 +198,7 @@ namespace OSHGui
 		renderer->SetRenderColor(backColor);
 		renderer->FillGradient(checkBoxPosition.Left + 2, checkBoxPosition.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
-		renderer->SetRenderColor(white);		
+		renderer->SetRenderColor(white);
 		if (checked)
 		{
 			renderer->Fill(checkBoxPosition.Left + 5, checkBoxPosition.Top + 5, 7, 7);

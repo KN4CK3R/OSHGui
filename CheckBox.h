@@ -6,7 +6,22 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt ein, wenn der Checked-Status verändert wird.
+	 */
 	typedef EventHandler<void(Control*)> CheckedChangedEvent;
+	/**
+	 * Tritt ein, wenn eine Taste gedrückt wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
+	/**
+	 * Tritt ein, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
+	/**
+	 * Tritt ein, wenn eine Taste losgelassen wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
 
 	/**
 	 * Stellt ein CheckBox-Steuerelement dar.
@@ -39,6 +54,24 @@ namespace OSHGui
 		 * @return checkedChangeEvent
 		 */
 		CheckedChangedEvent& GetCheckedChangedEvent();
+		/**
+		 * Ruft das KeyDownEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyDownEvent& GetKeyDownEvent();
+		/**
+		 * Ruft das KeyPressEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyPressEvent& GetKeyPressEvent();
+		/**
+		 * Ruft das KeyUpEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyUpEvent& GetKeyUpEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -75,6 +108,9 @@ namespace OSHGui
 					   textPosition;
 					   
 		CheckedChangedEvent checkedChangedEvent;
+		KeyDownEvent keyDownEvent;
+		KeyPressEvent keyPressEvent;
+		KeyUpEvent keyUpEvent;
 	};
 }
 

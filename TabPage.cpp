@@ -44,7 +44,7 @@ namespace OSHGui
 			return Event::DontContinue;
 		}
 	
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}
@@ -80,7 +80,7 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::Render(Drawing::IRenderer *renderer)
-	{	
+	{
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor + Drawing::Color(0, 32, 32, 32));

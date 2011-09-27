@@ -9,6 +9,8 @@ namespace OSHGui
 	{
 		type = CONTROL_COLORBAR;
 		
+		barIndex = 0;
+		
 		for (int i = 0; i < 3; ++i)
 		{
 			bars.push_back(Application::Renderer->CreateNewTexture());
@@ -17,6 +19,8 @@ namespace OSHGui
 		}
 		
 		color = Drawing::Color::White();
+		
+		SetBounds(6, 6, 150, 45);
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -124,9 +128,9 @@ namespace OSHGui
 		{
 			CreateBarTexture(i);
 			
-			float multi = (clientArea.GetWidth() - 2) / 255.0f;				
+			float multi = (clientArea.GetWidth() - 2) / 255.0f;
 			barSliders[i].Left = (i == 0 ? color.R : i == 1 ? color.G : color.B) * multi;
-			barSliders[i].Top = i * 15 + 9;				
+			barSliders[i].Top = i * 15 + 9;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -150,6 +154,16 @@ namespace OSHGui
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
+		}
+	
+		if (ChildProcessEvent(event) == Event::DontContinue)
+		{
+			return Event::DontContinue;
+		}
+		
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
 			
 			for (int i = 0; i < 3; ++i)
 			{
@@ -200,11 +214,13 @@ namespace OSHGui
 				{
 					if (mouse->State == MouseEvent::LeftDown)
 					{
+						barIndex = i;
+					
 						drag[i] = true;
 
 						if (!hasFocus)
 						{
-							Parent->RequestFocus(this);
+							parent->RequestFocus(this);
 						}
 
 						mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -213,16 +229,6 @@ namespace OSHGui
 					}
 				}
 			}
-		}
-	
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
-		{
-			return Event::DontContinue;
-		}
-		
-		if (event->Type == Event::Mouse)
-		{
-			MouseEvent *mouse = (MouseEvent*)event;
 
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
@@ -230,6 +236,45 @@ namespace OSHGui
 			}
 
 			mouse->Position = mousePositionBackup;
+		}
+		else if (event->Type == Event::Keyboard)
+		{
+			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			if (keyboard->State == KeyboardEvent::KeyDown)
+			{
+				KeyEventArgs args(keyboard);
+				keyDownEvent.Invoke(this, args);
+				if (args.Handled == false)
+				{
+					if (keyboard->KeyCode == Key::Left || keyboard->KeyCode == Key::Right)
+					{
+						barSliders[barIndex].Left += keyboard->KeyCode == Key::Left ? -1 : 1;
+						
+						if (barSliders[barIndex].Left < 0)
+						{
+							barSliders[barIndex].Left = 0;
+						}
+						if (barSliders[barIndex].Left >= clientArea.GetWidth() - 2)
+						{
+							barSliders[barIndex].Left = clientArea.GetWidth() - 2;
+						}
+					
+						float multi = 255.0f / (clientArea.GetWidth() - 2);
+						
+						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = multi * barSliders[barIndex].Left;
+
+						UpdateBars();
+
+						colorChangeEvent.Invoke(this);
+					}
+				}
+			}
+			else if (keyboard->State == KeyboardEvent::KeyUp)
+			{
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+			}
+			
+			return Event::DontContinue;
 		}
 
 		return Event::Continue;

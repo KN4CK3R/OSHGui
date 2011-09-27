@@ -74,7 +74,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); it++)
+		for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
 		{
 			if (*it == form)
 			{
@@ -83,7 +83,7 @@ namespace OSHGui
 			}
 		}
 
-		for (std::list<ModalInfo>::iterator it = modals.begin(); it != modals.end(); it++)
+		for (std::list<ModalInfo>::iterator it = modals.begin(); it != modals.end(); ++it)
 		{
 			if (it->form == form)
 			{
@@ -91,7 +91,7 @@ namespace OSHGui
 			}
 		}
 
-		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
 			if (*it == form)
 			{
@@ -142,7 +142,7 @@ namespace OSHGui
 			}
 		}
 
-		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
 			if (*it == form)
 			{
@@ -186,7 +186,7 @@ namespace OSHGui
 		}
 		else
 		{
-			for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
+			for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
 			{
 				if (*it != focusForm)
 				{
@@ -212,7 +212,7 @@ namespace OSHGui
 
 		if (removeForms.size() > 0)
 		{
-			for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); it++)
+			for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
 			{
 				delete *it;
 			}
@@ -222,7 +222,7 @@ namespace OSHGui
 		if (timers.size() > 0)
 		{
 			Misc::DateTime now = Misc::DateTime::GetNow();
-			for (std::map<Timer*, TimerInfo>::iterator it = timers.begin(); it != timers.end(); it++)
+			for (std::map<Timer*, TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
 			{
 				TimerInfo &info = it->second;
 				if (info.next < now)
@@ -233,7 +233,7 @@ namespace OSHGui
 			}
 		}
 
-		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); it++)
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
 			if (*it != focusForm)
 			{

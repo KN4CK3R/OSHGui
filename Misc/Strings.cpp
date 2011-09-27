@@ -11,7 +11,7 @@ namespace OSHGui
 				UnicodeChar strOut[4096];
 
 				va_list s;
-				va_start(s, fmt); 
+				va_start(s, fmt);
 					vswprintf(strOut, sizeof(strOut) / sizeof(UnicodeChar), fmt, s);
 				va_end(s);
 
@@ -24,7 +24,7 @@ namespace OSHGui
 				AnsiChar strOut[4096];
 
 				va_list s;
-				va_start(s, fmt); 
+				va_start(s, fmt);
 					vsnprintf(strOut, sizeof(strOut) / sizeof(AnsiChar), fmt, s);
 				va_end(s);
 

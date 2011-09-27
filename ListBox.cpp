@@ -82,12 +82,12 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::AddItem(const Misc::UnicodeString &text)
-	{	
+	{
 		return InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
-	{			
+	{
 		items.insert(items.begin() + index, text);
 
 		scrollBar.SetRange(items.size());
@@ -189,7 +189,7 @@ namespace OSHGui
 				{
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -226,7 +226,7 @@ namespace OSHGui
 			if (mouse->State == MouseEvent::LeftDown)
 			{
 				if (items.size() != 0 && Drawing::Rectangle(4, 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
-				{	
+				{
 					int itemIndex = -1;
 					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
 					{
@@ -278,6 +278,8 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
+				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
+			
 				switch (keyboard->KeyCode)
 				{
 					case Key::Up:
@@ -328,9 +330,18 @@ namespace OSHGui
 						
 							selectedIndexChangedEvent.Invoke(this);
 						}
-						return Event::DontContinue;
 				}
 			}
+			else if (keyboard->State == KeyboardEvent::Character)
+			{
+				keyPressEvent.Invoke(this, KeyPressEventArgs(keyboard));
+			}
+			else if (keyboard->State == KeyboardEvent::KeyUp)
+			{
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;

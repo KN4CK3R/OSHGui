@@ -195,7 +195,7 @@ namespace OSHGui
 
 					if (!hasFocus)
 					{
-						Parent->RequestFocus(this);
+						parent->RequestFocus(this);
 					}
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
@@ -221,7 +221,7 @@ namespace OSHGui
 			}
 		}
 	
-		if (ProcessChildrenEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == Event::DontContinue)
 		{
 			return Event::DontContinue;
 		}

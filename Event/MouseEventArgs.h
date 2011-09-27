@@ -11,7 +11,7 @@ namespace OSHGui
 	 */
 	class MouseEventArgs
 	{
-	public:	
+	public:
 		MouseEvent::MouseStates State;
 		Drawing::Point Position;
 		

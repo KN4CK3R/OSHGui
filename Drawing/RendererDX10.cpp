@@ -65,7 +65,7 @@ namespace OSHGui
 				return;
 			}
 		}
-		//---------------------------------------------------------------------------		
+		//---------------------------------------------------------------------------
 		void RendererDX10::Fill(const Drawing::Point &point, D3DCOLOR color)
 		{
 			Fill(point.X, point.Y, 1, 1, color);
