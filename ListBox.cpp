@@ -54,6 +54,21 @@ namespace OSHGui
 		return selectedIndexChangedEvent;
 	}
 	//---------------------------------------------------------------------------
+	KeyDownEvent& ListBox::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyPressEvent& ListBox::GetKeyPressEvent()
+	{
+		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& ListBox::GetKeyUpEvent()
+	{
+		return keyUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ListBox::CanHaveFocus() const

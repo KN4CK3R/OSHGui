@@ -77,7 +77,7 @@ namespace OSHGui
 		 * @param point
 		 * @return der neue Punkt
 		 */
-		virtual Drawing::Point PointToClient(const Drawing::Point &point) const;
+		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

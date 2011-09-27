@@ -75,6 +75,26 @@ namespace OSHGui
 		return items.size();
 	}
 	//---------------------------------------------------------------------------
+	SelectedIndexChangedEvent& ComboBox::GetSelectedIndexChangedEvent()
+	{
+		return selectedIndexChangedEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyDownEvent& ComboBox::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyPressEvent& ComboBox::GetKeyPressEvent()
+	{
+		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& ComboBox::GetKeyUpEvent()
+	{
+		return keyUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ComboBox::ContainsPoint(const Drawing::Point &point) const
@@ -477,7 +497,7 @@ namespace OSHGui
 					int foundIndex = 0;
 					for (std::vector<Misc::UnicodeString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
 					{
-						if (*it[0] == keyboard->KeyChar && foundIndex != selectedIndex)
+						if ((*it)[0] == keyboard->KeyChar && foundIndex != selectedIndex)
 						{
 							break;
 						}

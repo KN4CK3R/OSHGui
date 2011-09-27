@@ -105,7 +105,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Rectangle Control::GetBounds() const
+	const Drawing::Rectangle Control::GetBounds() const
 	{
 		return bounds;
 	}
@@ -129,7 +129,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point Control::GetLocation()
+	const Drawing::Point Control::GetLocation() const
 	{
 		return bounds.GetPosition();
 	}
@@ -367,7 +367,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
 	{
-		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		for (std::vector<Control*>::const_reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control *control = *it;
 
@@ -387,7 +387,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildByName(const Misc::UnicodeString &name) const
 	{
-		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+		for (std::vector<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 		{
 			Control *control = *it;
 

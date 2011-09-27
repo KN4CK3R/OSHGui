@@ -55,6 +55,16 @@ namespace OSHGui
 		return colorChangeEvent;
 	}
 	//---------------------------------------------------------------------------
+	KeyDownEvent& ColorBar::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& ColorBar::GetKeyUpEvent()
+	{
+		return keyUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ColorBar::CanHaveFocus() const
@@ -67,7 +77,7 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point ColorBar::PointToClient(const Drawing::Point &point) const
+	const Drawing::Point ColorBar::PointToClient(const Drawing::Point &point) const
 	{
 		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
 	}
@@ -129,7 +139,7 @@ namespace OSHGui
 			CreateBarTexture(i);
 			
 			float multi = (clientArea.GetWidth() - 2) / 255.0f;
-			barSliders[i].Left = (i == 0 ? color.R : i == 1 ? color.G : color.B) * multi;
+			barSliders[i].Left = (i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f;
 			barSliders[i].Top = i * 15 + 9;
 		}
 	}
@@ -261,7 +271,7 @@ namespace OSHGui
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
 						
-						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = multi * barSliders[barIndex].Left;
+						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = multi * barSliders[barIndex].Left + 0.5f;
 
 						UpdateBars();
 

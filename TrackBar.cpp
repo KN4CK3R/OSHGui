@@ -71,7 +71,7 @@ namespace OSHGui
 		return bounds.Contains(point);
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point TrackBar::PointToClient(const Drawing::Point &point) const
+	const Drawing::Point TrackBar::PointToClient(const Drawing::Point &point) const
 	{
 		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
 	}
