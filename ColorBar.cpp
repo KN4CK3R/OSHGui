@@ -186,7 +186,7 @@ namespace OSHGui
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
 						
-						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * barSliders[i].Left;
+						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * barSliders[i].Left + 0.5f;
 
 						UpdateBars();
 
@@ -205,7 +205,7 @@ namespace OSHGui
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
 						
-						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * barSliders[i].Left;
+						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * barSliders[i].Left + 0.5f;
 
 						UpdateBars();
 
