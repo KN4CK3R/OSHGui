@@ -177,7 +177,7 @@ namespace OSHGui
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
-			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position) || drag) //ClientArea
+			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
 				if (mouse->State == MouseEvent::Move && drag == true)
 				{
@@ -202,11 +202,14 @@ namespace OSHGui
 
 					return Event::DontContinue;
 				}
-				else if (mouse->State == MouseEvent::LeftUp)
+			}
+			if (mouse->State == MouseEvent::LeftUp)
+			{
+				if (drag)
 				{
 					drag = false;
 
-					color = GetColorAtPoint(mouse->Position);
+					color = GetColorAtPoint(mouse->Position); //todo, maus posi einsperren
 
 					colorChangeEvent.Invoke(this);
 
@@ -215,9 +218,9 @@ namespace OSHGui
 					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
 
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
-
-					return Event::DontContinue;
 				}
+
+				return Event::DontContinue;
 			}
 		}
 	
