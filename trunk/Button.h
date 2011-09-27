@@ -10,11 +10,11 @@ namespace OSHGui
 	/**
 	 * Tritt ein, wenn eine Taste gedrückt wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
 	/**
 	 * Tritt ein, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
+	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
 	/**
 	 * Tritt ein, wenn eine Taste losgelassen wird.
 	 */

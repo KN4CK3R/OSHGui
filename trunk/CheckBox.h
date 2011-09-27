@@ -1,8 +1,10 @@
 #ifndef __OSHGUI_CHECKBOX_H__
 #define __OSHGUI_CHECKBOX_H__
 
-#include "Event\EventHandler.h"
 #include "Label.h"
+#include "Event\EventHandler.h"
+#include "Event\KeyEventArgs.h"
+#include "Event\KeyPressEventArgs.h"
 
 namespace OSHGui
 {
@@ -13,11 +15,11 @@ namespace OSHGui
 	/**
 	 * Tritt ein, wenn eine Taste gedrückt wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
 	/**
 	 * Tritt ein, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
+	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
 	/**
 	 * Tritt ein, wenn eine Taste losgelassen wird.
 	 */

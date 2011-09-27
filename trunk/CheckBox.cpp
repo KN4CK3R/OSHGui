@@ -162,7 +162,7 @@ namespace OSHGui
 			}
 			else if (keyboard->State == KeyboardEvent::Character)
 			{
-				keyPressEventArgs.Invoke(this, KeyPressEventArgs(keyboard));
+				keyPressEvent.Invoke(this, KeyPressEventArgs(keyboard));
 			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{

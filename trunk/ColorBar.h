@@ -3,6 +3,8 @@
 
 #include <memory>
 #include "Event\EventHandler.h"
+#include "Event\KeyEventArgs.h"
+#include "Event\KeyPressEventArgs.h"
 #include "Control.h"
 #include "Drawing\Color.h"
 #include "Drawing\ITexture.h"
@@ -13,6 +15,14 @@ namespace OSHGui
 	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
 	 */
 	typedef EventHandler<void(Control*)> ColorChangeEvent;
+	/**
+	 * Tritt ein, wenn eine Taste gedrückt wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
+	/**
+	 * Tritt ein, wenn eine Taste losgelassen wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
 
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
@@ -30,13 +40,24 @@ namespace OSHGui
 		
 		void SetColor(Drawing::Color color);
 		Drawing::Color GetColor() const;
-		
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
 		 *
 		 * @return colorChangeEvent
 		 */
 		ColorChangeEvent& GetColorChangeEvent();
+		/**
+		 * Ruft das KeyDownEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyDownEvent& GetKeyDownEvent();
+		/**
+		 * Ruft das KeyUpEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyUpEvent& GetKeyUpEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -57,7 +78,7 @@ namespace OSHGui
 		 * @param point
 		 * @return der neue Punkt
 		 */
-		virtual Drawing::Point PointToClient(const Drawing::Point &point) const;
+		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -92,6 +113,8 @@ namespace OSHGui
 		std::vector<Drawing::Point> barSliders;
 
 		ColorChangeEvent colorChangeEvent;
+		KeyDownEvent keyDownEvent;
+		KeyUpEvent keyUpEvent;
 	};
 }
 
