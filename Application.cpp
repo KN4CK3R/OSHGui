@@ -11,8 +11,8 @@ namespace OSHGui
 	Form *Application::focusForm = 0;
 	Form *Application::mainForm = 0;
 	bool Application::enabled = false;
-	Drawing::Point Application::mouse;
 	Drawing::IRenderer *Application::Renderer = 0;
+	Application::MouseInfo Application::Mouse;
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
@@ -174,6 +174,13 @@ namespace OSHGui
 			return Event::Continue;
 		}
 
+		if (event->Type == Event::Mouse)
+		{
+			MouseEvent *mouse = (MouseEvent*)event;
+			//grab mouse position here for cursor rendering
+			Mouse.Position = mouse->Position;
+		}
+
 		if (modals.size() != 0)
 		{
 			modals.front().form->ProcessEvent(event);
@@ -250,6 +257,8 @@ namespace OSHGui
 		{
 			modals.front().form->Render(Renderer);
 		}
+
+		Mouse.Cursor->Render(Renderer, Mouse.Position);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -9,6 +9,8 @@
 
 #include "Event\EventHandler.h"
 
+#include "Cursor\Cursors.h"
+
 #include "Control.h"
 #include "Label.h"
 #include "LinkLabel.h"

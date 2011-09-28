@@ -71,6 +71,11 @@ namespace OSHGui
 		hasFocus = focus;
 	}
 	//---------------------------------------------------------------------------
+	void Control::SetMouseOver(bool mouseOver)
+	{
+		this->mouseOver = mouseOver;
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetAutoSize(bool autoSize)
 	{
 		this->autoSize = autoSize;
@@ -483,7 +488,7 @@ namespace OSHGui
 			Control *control = GetChildAtPoint(mouse->Position);
 			if (control != mouseOverControl && mouseOverControl != 0)
 			{
-				mouseOverControl->mouseOver = false;
+				mouseOverControl->SetMouseOver(false);
 				mouseOverControl->mouseLeaveEvent.Invoke(this);
 				mouseOverControl = 0;
 			}
@@ -491,7 +496,7 @@ namespace OSHGui
 			if (control != 0)
 			{
 				mouseOverControl = control;
-				mouseOverControl->mouseOver = true;
+				mouseOverControl->SetMouseOver(true);
 				mouseOverControl->mouseEnterEvent.Invoke(this);
 			}
 			

@@ -9,6 +9,8 @@ namespace OSHGui
 	{
 		type = CONTROL_TEXTBOX;
 
+		SetBounds(6, 6, 100, font->GetSize() + 10);
+
 		blinkTime = Misc::TimeSpan::FromMilliseconds(500);
 		nextBlinkTime = Misc::DateTime::GetNow();
 
@@ -38,9 +40,37 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
+	KeyDownEvent& TextBox::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyPressEvent& TextBox::GetKeyPressEvent()
+	{
+		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& TextBox::GetKeyUpEvent()
+	{
+		return keyUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	TextChangedEvent& TextBox::GetTextChangedEvent()
 	{
 		return textChangedEvent;
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::SetMouseOver(bool mouseOver)
+	{
+		if (mouseOver)
+		{
+			Application::Mouse.Cursor = Cursors::Get(Cursors::IBeam);
+		}
+		else
+		{
+			Application::Mouse.Cursor = Cursors::Get(Cursors::Default);
+		}
+		Control::SetMouseOver(mouseOver);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -189,7 +219,7 @@ namespace OSHGui
 				keyPressEvent.Invoke(this, args);
 				if (!args.Handled)
 				{
-					if (keyoard->KeyCode == Key::Back)
+					if (keyboard->KeyCode == Key::Back)
 					{
 						if (caretPosition > 0 && textHelper.GetLength() > 0)
 						{

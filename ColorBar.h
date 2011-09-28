@@ -96,9 +96,9 @@ namespace OSHGui
 		std::vector<std::shared_ptr<Drawing::ITexture> > bars;
 		std::vector<Drawing::Point> barSliders;
 
-		ColorChangeEvent colorChangeEvent;
 		KeyDownEvent keyDownEvent;
 		KeyUpEvent keyUpEvent;
+		ColorChangeEvent colorChangeEvent;
 	};
 }
 

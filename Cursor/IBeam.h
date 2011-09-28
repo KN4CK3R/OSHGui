@@ -1,17 +1,15 @@
-#ifndef __OSHGUI_IBEAM_H__
-#define __OSHGUI_IBEAM_H__
+#ifndef __OSHGUI_IBEAMCURSOR_H__
+#define __OSHGUI_IBEAMCURSOR_H__
 
 #include "Cursor.h"
 
 namespace OSHGui
 {
-	class IBeam : public Cursor
+	class IBeamCursor : public Cursor
 	{
 	public:
-		IBeam();
-		virtual ~IBeam();
-	
-		virtual void Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorPosition);
+		IBeamCursor();
+		virtual ~IBeamCursor();
 		
 	protected:
 		virtual void CreateCursor();

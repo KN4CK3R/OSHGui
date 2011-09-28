@@ -18,7 +18,8 @@ namespace OSHGui
 		
 	protected:
 		virtual void CreateCursor();
-	
+
+		Drawing::Point offset;
 		std::shared_ptr<Drawing::ITexture> cursor;
 	};
 }

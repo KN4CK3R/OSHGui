@@ -21,6 +21,8 @@
 #include "Event\KeyPressEventArgs.h"
 #include "Event\MouseEventArgs.h"
 
+#include "Cursor\Cursors.h"
+
 namespace OSHGui
 {
 	/**
@@ -530,6 +532,7 @@ namespace OSHGui
 		Event::NextEventTypes ContainerProcessEvent(Event *event);
 
 		virtual void SetFocus(bool focus);
+		virtual void SetMouseOver(bool mouseOver);
 		
 		CONTROL_TYPE type;
 		

@@ -121,6 +121,19 @@ namespace OSHGui
 		return colorChangeEvent;
 	}
 	//---------------------------------------------------------------------------
+	void ColorPicker::SetMouseOver(bool mouseOver)
+	{
+		if (mouseOver)
+		{
+			Application::Mouse.Cursor = Cursors::Get(Cursors::Pipette);
+		}
+		else
+		{
+			Application::Mouse.Cursor = Cursors::Get(Cursors::Default);
+		}
+		Control::SetMouseOver(mouseOver);
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ColorPicker::CanHaveFocus() const
