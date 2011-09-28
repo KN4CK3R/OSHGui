@@ -1,7 +1,6 @@
 #ifndef __OSHGUI_COMBOBOX_H__
 #define __OSHGUI_COMBOBOX_H__
 
-#include "Event\EventHandler.h"
 #include "Button.h"
 #include "ScrollBar.h"
 
@@ -10,23 +9,6 @@
 
 namespace OSHGui
 {
-	/**
-	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
-	 */
-	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
-	/**
-	 * Tritt ein, wenn eine Taste gedrückt wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
-	/**
-	 * Tritt ein, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
-	/**
-	 * Tritt ein, wenn eine Taste losgelassen wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
-
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */

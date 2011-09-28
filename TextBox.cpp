@@ -29,6 +29,8 @@ namespace OSHGui
 	void TextBox::SetText(const Misc::UnicodeString &text)
 	{
 		textHelper.SetText(text);
+		
+		textChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::UnicodeString& TextBox::GetText() const
@@ -158,23 +160,19 @@ namespace OSHGui
 					clickEvent.Invoke(this);
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
-				
-					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
-
-					return Event::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
 
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
-
-					return Event::DontContinue;
 				}
+				
+				return Event::DontContinue;
 			}
 
 			mouse->Position = mousePositionBackup;
@@ -184,56 +182,72 @@ namespace OSHGui
 			bool hasChanged = false;
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			
-			//keyPressEvent.Invoke(this, keyboard);
 
-			if (keyboard->State == KeyboardEvent::Character && keyboard->IsAlphaNumeric())
+			if (keyboard->State == KeyboardEvent::Character)
 			{
-				textHelper.Insert(caretPosition, keyboard->KeyChar);
-				PlaceCaret(++caretPosition);
-				hasChanged = true;
-			}
-			else if (keyboard->State == KeyboardEvent::KeyDown)
-			{
-				switch (keyboard->KeyCode)
+				KeyPressEventArgs args(keyboard);
+				keyPressEvent.Invoke(this, args);
+				if (!args.Handled)
 				{
-					case Key::Back:
+					if (keyoard->KeyCode == Key::Back)
+					{
 						if (caretPosition > 0 && textHelper.GetLength() > 0)
 						{
 							textHelper.Remove(caretPosition - 1, 1);
 							PlaceCaret(caretPosition - 1);
 							hasChanged = true;
 						}
-						break;
-					case Key::Delete:
-						if (caretPosition < textHelper.GetLength())
-						{
-							textHelper.Remove(caretPosition, 1);
-							PlaceCaret(caretPosition);
-							hasChanged = true;
-						}
-						break;
-					case Key::Left:
-						PlaceCaret(caretPosition - 1);
-						break;
-					case Key::Right:
-						PlaceCaret(caretPosition + 1);
-						break;
-					case Key::Home:
-						PlaceCaret(0);
-						break;
-					case Key::End:
-						PlaceCaret(textHelper.GetLength());
-						break;
+					}
+					else if (keyboard->IsAlphaNumeric())
+					{
+						textHelper.Insert(caretPosition, keyboard->KeyChar);
+						PlaceCaret(++caretPosition);
+						hasChanged = true;
+					}
 				}
+			}
+			else if (keyboard->State == KeyboardEvent::KeyDown)
+			{
+				KeyEventArgs args(keyboard);
+				keyDownEvent.Invoke(this, args);
+				if (!args.Handled)
+				{
+					switch (keyboard->KeyCode)
+					{
+						case Key::Delete:
+							if (caretPosition < textHelper.GetLength())
+							{
+								textHelper.Remove(caretPosition, 1);
+								PlaceCaret(caretPosition);
+								hasChanged = true;
+							}
+							break;
+						case Key::Left:
+							PlaceCaret(caretPosition - 1);
+							break;
+						case Key::Right:
+							PlaceCaret(caretPosition + 1);
+							break;
+						case Key::Home:
+							PlaceCaret(0);
+							break;
+						case Key::End:
+							PlaceCaret(textHelper.GetLength());
+							break;
+					}
+				}
+			}
+			else if (keyboard->State == KeyboardEvent::KeyUp)
+			{
+				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
 			
 			if (hasChanged)
 			{
 				textChangedEvent.Invoke(this);
-			
-				return Event::DontContinue;
 			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;

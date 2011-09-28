@@ -5,14 +5,8 @@
 #include <memory>
 #include <functional>
 
-#include "MouseEvent.h"
-#include "MouseEventArgs.h"
-#include "KeyboardEvent.h"
-
 namespace OSHGui
 {
-	class Control;
-
 	/**
 	 * EventHandler für Funktionen mit einem Parameter.
 	 */
@@ -80,24 +74,6 @@ namespace OSHGui
 			}
 		}
 	};
-
-	typedef EventHandler<void(Control*)> ClickEvent;
-		
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEvent;
-
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseDownEvent;
-
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseMoveEvent;
-
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseUpEvent;
-	
-	typedef EventHandler<void(Control*)> MouseEnterEvent;
-	
-	typedef EventHandler<void(Control*)> MouseLeaveEvent;
-	
-	typedef EventHandler<void(Control*)> FocusInEvent;
-	
-	typedef EventHandler<void(Control*)> FocusOutEvent;
 }
 
 #endif

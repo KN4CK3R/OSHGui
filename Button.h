@@ -2,24 +2,9 @@
 #define __OSHGUI_BUTTON_H__
 
 #include "Label.h"
-#include "Event\KeyEventArgs.h"
-#include "Event\KeyPressEventArgs.h"
 
 namespace OSHGui
 {
-	/**
-	 * Tritt ein, wenn eine Taste gedrückt wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
-	/**
-	 * Tritt ein, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
-	/**
-	 * Tritt ein, wenn eine Taste losgelassen wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
-
 	/**
 	 * Stellt ein Schaltflächen-Steuerelement dar.
 	 */

@@ -2,32 +2,11 @@
 #define __OSHGUI_LISTBOX_H__
 
 #include <vector>
-#include "Event\EventHandler.h"
-#include "Event\KeyEventArgs.h"
-#include "Event\KeyPressEventArgs.h"
 #include "Control.h"
-//#include "Panel.h"
 #include "ScrollBar.h"
 
 namespace OSHGui
 {
-	/**
-	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
-	 */
-	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
-	/**
-	 * Tritt ein, wenn eine Taste gedrückt wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
-	/**
-	 * Tritt ein, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
-	/**
-	 * Tritt ein, wenn eine Taste losgelassen wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
-
 	/**
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */

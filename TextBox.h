@@ -9,8 +9,6 @@
 
 namespace OSHGui
 {
-	typedef EventHandler<void(Control*)> TextChangedEvent;
-
 	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
