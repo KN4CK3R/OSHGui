@@ -54,6 +54,21 @@ namespace OSHGui
 		return value;
 	}
 	//---------------------------------------------------------------------------
+	KeyDownEvent& TrackBar::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyPressEvent& TrackBar::GetKeyPressEvent()
+	{
+		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& TrackBar::GetKeyUpEvent()
+	{
+		return keyUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	ScrollEvent& TrackBar::GetScrollEvent()
 	{
 		return scrollEvent;

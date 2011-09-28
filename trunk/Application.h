@@ -6,6 +6,7 @@
 #include <map>
 #include "Drawing\IRenderer.h"
 #include "Misc\DateTime.h"
+#include "Cursor\Cursor.h"
 #include "Event\Event.h"
 
 namespace OSHGui
@@ -79,8 +80,17 @@ namespace OSHGui
 		static bool enabled;
 
 	public:
+		/**
+		 *
+		 */
 		static Drawing::IRenderer *Renderer;
-		static Drawing::Point mouse;
+
+		typedef struct
+		{
+			Drawing::Point Position;
+			std::shared_ptr<Cursor> Cursor;
+		} MouseInfo;
+		static MouseInfo Mouse;
 	};
 }
 

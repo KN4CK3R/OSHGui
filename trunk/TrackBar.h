@@ -47,6 +47,24 @@ namespace OSHGui
 		 */
 		int GetValue() const;
 		/**
+		 * Ruft das KeyDownEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyDownEvent& GetKeyDownEvent();
+		/**
+		 * Ruft das KeyPressEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyPressEvent& GetKeyPressEvent();
+		/**
+		 * Ruft das KeyUpEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyUpEvent& GetKeyUpEvent();
+		/**
 		 * Ruft das ScrollEvent für das Steuerelement ab.
 		 *
 		 * @return scrollEvent
@@ -111,6 +129,9 @@ namespace OSHGui
 		
 		Drawing::Rectangle sliderRect;
 
+		KeyDownEvent keyDownEvent;
+		KeyPressEvent keyPressEvent;
+		KeyUpEvent keyUpEvent;
 		ScrollEvent scrollEvent;
 	};
 }

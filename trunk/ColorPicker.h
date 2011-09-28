@@ -70,6 +70,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
+		virtual void SetMouseOver(bool mouseOver);
+
 		void CreateGradientTexture();
 	
 		bool drag;

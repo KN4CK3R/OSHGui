@@ -1,1 +1,30 @@
-#ifndef __OSHGUI_CURSORS_H__#define __OSHGUI_CURSORS_H__#include <vector>#include <memory>namespace OSHGui{	/**	 * Stellt Tastencodes bereit.	 */	class Cursors	{	public:		static Cursor Default();		static Cursor IBeam();			private:		static vector<std::shared_ptr<Cursor> > cursors;	};}#endif
+#ifndef __OSHGUI_CURSORS_H__
+#define __OSHGUI_CURSORS_H__
+
+#include <map>
+#include <memory>
+#include "Cursor.h"
+
+namespace OSHGui
+{
+	/**
+	 * Stellt Tastencodes bereit.
+	 */
+	class Cursors
+	{
+	public:
+		enum CursorType
+		{
+			Default,
+			IBeam,
+			Pipette
+		};
+
+		static const std::shared_ptr<Cursor> Get(CursorType cursorType);
+
+	private:
+		static std::map<int, std::shared_ptr<Cursor> > Cursors::cursors;
+	};
+}
+
+#endif

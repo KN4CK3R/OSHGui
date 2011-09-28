@@ -119,13 +119,13 @@ namespace OSHGui
 			switch (index)
 			{
 				case 0:
-					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(x * multi, this->color.G, this->color.B));
+					bar->Fill(x + 1, 1, 1, 8, Drawing::Color((unsigned int)(x * multi), this->color.G, this->color.B));
 					break;
 				case 1:
-					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(this->color.R, x * multi, this->color.B));
+					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(this->color.R, (unsigned int)(x * multi), this->color.B));
 					break;
 				case 2:
-					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(this->color.R, this->color.G, x * multi));
+					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(this->color.R, this->color.G, (unsigned int)(x * multi)));
 					break;
 			}
 		}
@@ -139,7 +139,7 @@ namespace OSHGui
 			CreateBarTexture(i);
 			
 			float multi = (clientArea.GetWidth() - 2) / 255.0f;
-			barSliders[i].Left = (i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f;
+			barSliders[i].Left = (int)((i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f);
 			barSliders[i].Top = i * 15 + 9;
 		}
 	}
@@ -186,7 +186,7 @@ namespace OSHGui
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
 						
-						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * barSliders[i].Left + 0.5f;
+						(i == 0 ? color.R : i == 1 ? color.G : color.B) =  (unsigned char)(multi * barSliders[i].Left + 0.5f);
 
 						UpdateBars();
 
@@ -205,7 +205,7 @@ namespace OSHGui
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
 						
-						(i == 0 ? color.R : i == 1 ? color.G : color.B) = multi * barSliders[i].Left + 0.5f;
+						(i == 0 ? color.R : i == 1 ? color.G : color.B) =  (unsigned char)(multi * barSliders[i].Left + 0.5f);
 
 						UpdateBars();
 
@@ -271,7 +271,7 @@ namespace OSHGui
 					
 						float multi = 255.0f / (clientArea.GetWidth() - 2);
 						
-						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = multi * barSliders[barIndex].Left + 0.5f;
+						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliders[barIndex].Left + 0.5f);
 
 						UpdateBars();
 
