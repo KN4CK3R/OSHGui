@@ -7,11 +7,6 @@
 namespace OSHGui
 {
 	/**
-	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
-	 */
-	typedef EventHandler<void(Control*)> ScrollEvent;
-
-	/**
 	 * Stellt eine Standardtrackleiste dar.
 	 */
 	class TrackBar : public Control

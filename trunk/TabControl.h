@@ -7,11 +7,6 @@
 
 namespace OSHGui
 {
-	/**
-	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
-	 */
-	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
-
 	class TabPage;
 
 	/**

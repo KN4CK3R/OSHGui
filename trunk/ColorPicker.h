@@ -2,18 +2,12 @@
 #define __OSHGUI_COLORPICKER_H__
 
 #include <memory>
-#include "Event\EventHandler.h"
 #include "Control.h"
 #include "Drawing\Color.h"
 #include "Drawing\ITexture.h"
 
 namespace OSHGui
 {
-	/**
-	 * Tritt auf, wenn sich der Wert der Color-Eigenschaft ändert.
-	 */
-	typedef EventHandler<void(Control*)> ColorChangeEvent;
-
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
 	 */

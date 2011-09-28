@@ -435,7 +435,7 @@ namespace OSHGui
 									firstVisibleItemIndex = scrollBar.GetPosition();
 								}
 							}
-							return Event::DontContinue;
+							break;
 					}
 				}
 				else
@@ -483,17 +483,16 @@ namespace OSHGui
 							
 								selectedIndexChangedEvent.Invoke(this);
 							}
+							break;
 					}
 				}
-				
-				return Event::DontContinue;
 			}
 			else if (keyboard->State == KeyboardEvent::Character)
 			{
 				KeyPressEventArgs args(keyboard);
 				keyPressEvent.Invoke(this, args);
-				if (args.Handled == false)
-				{			
+				if (!args.Handled && keyboard->KeyChar != L'\0')
+				{
 					int foundIndex = 0;
 					for (std::vector<Misc::UnicodeString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
 					{
@@ -533,12 +532,12 @@ namespace OSHGui
 								selectedIndexChangedEvent.Invoke(this);
 							}
 							open = false;
-							
-							return Event::DontContinue;
 						}
 						break;
 				}
 			}
+			
+			return Event::DontContinue;
 		}
 		
 		return Event::Continue;

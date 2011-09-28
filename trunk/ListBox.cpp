@@ -349,7 +349,31 @@ namespace OSHGui
 			}
 			else if (keyboard->State == KeyboardEvent::Character)
 			{
-				keyPressEvent.Invoke(this, KeyPressEventArgs(keyboard));
+				KeyPressEventArgs args(keyboard);
+				keyPressEvent.Invoke(this, args);
+				if (!args.Handled && keyboard->KeyChar != L'\0')
+				{
+					int foundIndex = 0;
+					for (std::vector<Misc::UnicodeString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+					{
+						if ((*it)[0] == keyboard->KeyChar && foundIndex != selectedIndex)
+						{
+							break;
+						}
+					}
+					
+					if (foundIndex < (int)items.size())
+					{
+						selectedIndex = foundIndex;
+						
+						if (scrollBar.ShowItem(selectedIndex))
+						{
+							firstVisibleItemIndex = scrollBar.GetPosition();
+						}
+						
+						selectedIndexChangedEvent.Invoke(this);
+					}
+				}
 			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{

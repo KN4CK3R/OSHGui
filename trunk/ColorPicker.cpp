@@ -35,6 +35,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
 	{
+		x = std::max(0, std::min(x, bounds.GetWidth() - 1));
+		y = std::max(0, std::min(y, bounds.GetHeight() - 1));
+	
 		Drawing::Color tmpColor;
 		
 		double hue = (1.0 / bounds.GetWidth()) * x;
@@ -209,7 +212,7 @@ namespace OSHGui
 				{
 					drag = false;
 
-					color = GetColorAtPoint(mouse->Position); //todo, maus posi einsperren
+					color = GetColorAtPoint(mouse->Position);
 
 					colorChangeEvent.Invoke(this);
 

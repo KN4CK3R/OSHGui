@@ -195,28 +195,33 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
-				switch (keyboard->KeyCode)
+				KeyEventArgs args(keyboard);
+				keyDownEvent.Invoke(this, args);
+				if (!args.Handled)
 				{
-					case Key::Home:
-						SetValueInternal(min);
-						return Event::DontContinue;
-					case Key::End:
-						SetValueInternal(max);
-						return Event::DontContinue;
-					case Key::Left:
-					case Key::Down:
-						SetValueInternal(value - 1);
-						return Event::DontContinue;
-					case Key::Right:
-					case Key::Up:
-						SetValueInternal(value + 1);
-						return Event::DontContinue;
-					case Key::PageDown:
-						SetValueInternal(value - std::max(10, (max - min) / 10));
-						return Event::DontContinue;
-					case Key::PageUp:
-						SetValueInternal(value + std::max(10, (max - min) / 10));
-						return Event::DontContinue;
+					switch (keyboard->KeyCode)
+					{
+						case Key::Home:
+							SetValueInternal(min);
+							return Event::DontContinue;
+						case Key::End:
+							SetValueInternal(max);
+							return Event::DontContinue;
+						case Key::Left:
+						case Key::Down:
+							SetValueInternal(value - 1);
+							return Event::DontContinue;
+						case Key::Right:
+						case Key::Up:
+							SetValueInternal(value + 1);
+							return Event::DontContinue;
+						case Key::PageDown:
+							SetValueInternal(value - std::max(10, (max - min) / 10));
+							return Event::DontContinue;
+						case Key::PageUp:
+							SetValueInternal(value + std::max(10, (max - min) / 10));
+							return Event::DontContinue;
+					}
 				}
 			}
 		}

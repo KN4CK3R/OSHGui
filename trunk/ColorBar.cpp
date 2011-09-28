@@ -254,7 +254,7 @@ namespace OSHGui
 			{
 				KeyEventArgs args(keyboard);
 				keyDownEvent.Invoke(this, args);
-				if (args.Handled == false)
+				if (!args.Handled)
 				{
 					if (keyboard->KeyCode == Key::Left || keyboard->KeyCode == Key::Right)
 					{

@@ -14,7 +14,12 @@
 #include "Misc\Strings.h"
 #include "Misc\Any.h"
 
+#include "Event\KeyboardEvent.h"
+#include "Event\MouseEvent.h"
 #include "Event\EventHandler.h"
+#include "Event\KeyEventArgs.h"
+#include "Event\KeyPressEventArgs.h"
+#include "Event\MouseEventArgs.h"
 
 namespace OSHGui
 {
@@ -45,6 +50,81 @@ namespace OSHGui
 		CONTROL_COLORPICKER,
 		CONTROL_COLORBAR
 	};
+	
+	class Control;
+	
+	/**
+	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
+	 */
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
+	/**
+	 * Tritt auf, wenn sich der Wert der Color-Eigenschaft ändert.
+	 */
+	typedef EventHandler<void(Control*)> ColorChangeEvent;
+	/**
+	 * Tritt auf, wenn sich der Wert der Checked-Eigenschaft ändert.
+	 */
+	typedef EventHandler<void(Control*)> CheckedChangedEvent;
+	/**
+	 * Tritt auf, wenn sich der Wert der Text-Eigenschaft ändert.
+	 */
+	typedef EventHandler<void(Control*)> TextChangedEvent;
+	/**
+	 * Tritt auf, wenn das angegebene Intervall verstrichen ist.
+	 */
+	typedef EventHandler<void(Control*)> TickEvent;
+	/**
+	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
+	 */
+	typedef EventHandler<void(Control*)> ScrollEvent;
+	/**
+	 * Tritt auf, wenn eine Taste gedrückt wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
+	/**
+	 * Tritt auf, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
+	/**
+	 * Tritt auf, wenn eine Taste losgelassen wird.
+	 */
+	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
+	/**
+	 * Tritt auf, wenn auf das Steuerelement geklickt wurde.
+	 */
+	typedef EventHandler<void(Control*)> ClickEvent;
+	/**
+	 * Tritt auf, wenn mit der Maus auf das Steuerelement geklickt wurde.
+	 */
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEvent;
+	/**
+	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste gedrückt wurde.
+	 */
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseDownEvent;
+	/**
+	 * Tritt auf, wenn der Mauszeiger über das Steuerlement bewegt wird.
+	 */
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseMoveEvent;
+	/**
+	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste losgelassen wurde.
+	 */
+	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseUpEvent;
+	/**
+	 * Tritt auf, wenn die Maus in den Bereich des Steuerlements bewegt wird.
+	 */
+	typedef EventHandler<void(Control*)> MouseEnterEvent;
+	/**
+	 * Tritt auf, wenn die Maus den Bereich des Steuerlements verlässt.
+	 */
+	typedef EventHandler<void(Control*)> MouseLeaveEvent;
+	/**
+	 * Tritt auf, wenn das Steuerelement zu dem aktiven Steuerelement auf dem Formular wird.
+	 */
+	typedef EventHandler<void(Control*)> FocusInEvent;
+	/**
+	 * Tritt auf, wenn das Steuerelement nicht mehr das aktive Steuerelement auf dem Formular ist.
+	 */
+	typedef EventHandler<void(Control*)> FocusOutEvent;
 
 	/**
 	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.
@@ -66,20 +146,6 @@ namespace OSHGui
 		 * @return der Typ
 		 */
 		CONTROL_TYPE GetType() const;
-		
-		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
@@ -353,6 +419,19 @@ namespace OSHGui
 		 */
 		FocusOutEvent& GetFocusOutEvent();
 
+		/**
+		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
+		 *
+		 * @return ja / nein
+		 */
+		virtual bool CanHaveFocus() const;
+		/**
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 *
+		 * @param point
+		 * @return ja / nein
+		 */
+		virtual bool ContainsPoint(const Drawing::Point &point) const;
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
 		 * Wird außerdem für alle Kindelemente aufgerufen.

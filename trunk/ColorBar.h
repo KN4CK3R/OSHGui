@@ -2,28 +2,12 @@
 #define __OSHGUI_COLORBAR_H__
 
 #include <memory>
-#include "Event\EventHandler.h"
-#include "Event\KeyEventArgs.h"
-#include "Event\KeyPressEventArgs.h"
 #include "Control.h"
 #include "Drawing\Color.h"
 #include "Drawing\ITexture.h"
 
 namespace OSHGui
 {
-	/**
-	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
-	 */
-	typedef EventHandler<void(Control*)> ColorChangeEvent;
-	/**
-	 * Tritt ein, wenn eine Taste gedrückt wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
-	/**
-	 * Tritt ein, wenn eine Taste losgelassen wird.
-	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
-
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
 	 */
