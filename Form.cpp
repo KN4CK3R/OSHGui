@@ -87,22 +87,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Form::ProcessEvent(Event *event)
+	IEvent::NextEventTypes Form::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
 		static Drawing::Point oldMousePosition;
 		Drawing::Point mousePositionBackup;
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
@@ -116,20 +116,20 @@ namespace OSHGui
 					oldMousePosition = mousePositionBackup;
 					SetLocation(delta + GetLocation());
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
 					oldMousePosition = mousePositionBackup;
 					drag = true;
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					drag = false;
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //closeRect
@@ -143,7 +143,7 @@ namespace OSHGui
 						Close();
 					}
 					
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 
@@ -151,12 +151,12 @@ namespace OSHGui
 
 		}
 	
-		if (ChildProcessEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 
@@ -180,16 +180,16 @@ namespace OSHGui
 				}
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 			//mouse->Position = mousePositionBackup;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			//swallow unhandled keyboard events
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)

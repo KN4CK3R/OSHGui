@@ -6,7 +6,7 @@ namespace OSHGui
 	/**
 	 * Basisklasse für alle Eventtypen.
 	 */
-	class Event
+	class IEvent
 	{
 	public:
 		enum EventTypes { Mouse, Keyboard };
@@ -24,7 +24,7 @@ namespace OSHGui
 
 		EventTypes Type;
 
-		Event(EventTypes Type)
+		IEvent(EventTypes Type)
 		{
 			this->Type = Type;
 		}

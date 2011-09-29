@@ -43,20 +43,20 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes GroupBox::ProcessEvent(Event *event)
+	IEvent::NextEventTypes GroupBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
 		Drawing::Point mousePositionBackup;
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -65,12 +65,12 @@ namespace OSHGui
 			mouse->Position.Top -= (clientArea.GetTop() - bounds.GetTop());
 		}
 	
-		if (ChildProcessEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mouse->Position = mousePositionBackup;
@@ -81,24 +81,24 @@ namespace OSHGui
 				{
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)

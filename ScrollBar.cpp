@@ -156,19 +156,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ScrollBar::ProcessEvent(Event *event)
+	IEvent::NextEventTypes ScrollBar::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 	
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -185,7 +185,7 @@ namespace OSHGui
 					
 					UpdateSliderRect();
 					
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				
 				if (Drawing::Rectangle(0, clientArea.GetHeight() - scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight).Contains(mouse->Position)) //downButton
@@ -197,14 +197,14 @@ namespace OSHGui
 					
 					UpdateSliderRect();
 					
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				
 				if (Drawing::Rectangle(0, sliderRect.GetTop() - clientArea.GetTop(), scrollbarDefaultButtonWidth, sliderRect.GetHeight()).Contains(mouse->Position)) //sliderRect
 				{
 					drag = true;
 					
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 
 				if (Drawing::Rectangle(0, scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, clientArea.GetHeight() - scrollbarDefaultButtonHeight * 2).Contains(mouse->Position)) //trackRect
@@ -213,13 +213,13 @@ namespace OSHGui
 					{
 						Scroll(-(pageSize - 1));
 						
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 					else if (sliderRect.GetBottom() - clientArea.GetBottom() < mouse->Position.Y)
 					{
 						Scroll(pageSize - 1);
 						
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 			}
@@ -231,7 +231,7 @@ namespace OSHGui
 
 					UpdateSliderRect();
 					
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Move)
@@ -258,7 +258,7 @@ namespace OSHGui
 					
 					sliderRect.SetTop(upButtonRect.GetBottom() + yPos + 1);
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Scroll)
@@ -268,14 +268,14 @@ namespace OSHGui
 					Scroll(mouse->Delta);
 				}
 				
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 			mouse->Position = mousePositionBackup;
 			
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::Render(Drawing::IRenderer *renderer)

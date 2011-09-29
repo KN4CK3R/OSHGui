@@ -500,14 +500,14 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual Event::NextEventTypes ProcessEvent(Event *event);
+		virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
 		/**
 		 * Wird von ProcessEvent verwendet, um Kindelemete Events verarbeiten zu lassen.
 		 *
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		Event::NextEventTypes ChildProcessEvent(Event *event);
+		IEvent::NextEventTypes ChildProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -529,7 +529,7 @@ namespace OSHGui
 		const std::vector<Control*>& GetControls() const;	
 	
 	protected:
-		Event::NextEventTypes ContainerProcessEvent(Event *event);
+		IEvent::NextEventTypes ContainerProcessEvent(IEvent *event);
 
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);

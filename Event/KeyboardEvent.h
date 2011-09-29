@@ -2,7 +2,7 @@
 #define __OSHGUI_KEYBOARDEVENT_H__
 
 #include "Key.h"
-#include "Event.h"
+#include "IEvent.h"
 #include "Misc\Strings.h"
 
 namespace OSHGui
@@ -10,7 +10,7 @@ namespace OSHGui
 	/**
 	 * Tastaturevent
 	 */
-	class KeyboardEvent : public Event
+	class KeyboardEvent : public IEvent
 	{
 	public:
 		enum KeyboardStates
@@ -41,7 +41,7 @@ namespace OSHGui
 			 Shift;
 		
 	public:
-		KeyboardEvent() : Event(Event::Keyboard)
+		KeyboardEvent() : IEvent(IEvent::Keyboard)
 		{
 			State = Unknown;
 			Menu = false;
@@ -51,7 +51,7 @@ namespace OSHGui
 			KeyChar = L'\0';
 		}
 	
-		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::UnicodeChar KeyChar) : Event(Event::Keyboard)
+		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::UnicodeChar KeyChar) : IEvent(IEvent::Keyboard)
 		{
 			this->Menu = Menu;
 			this->Control = Control;

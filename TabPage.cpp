@@ -37,19 +37,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TabPage::ProcessEvent(Event *event)
+	IEvent::NextEventTypes TabPage::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 	
-		if (ChildProcessEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 
@@ -68,11 +68,11 @@ namespace OSHGui
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 				
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::Render(Drawing::IRenderer *renderer)

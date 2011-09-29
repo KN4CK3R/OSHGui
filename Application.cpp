@@ -167,14 +167,14 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Application::ProcessEvent(Event *event)
+	IEvent::NextEventTypes Application::ProcessEvent(IEvent *event)
 	{
 		if (event == 0 || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			//grab mouse position here for cursor rendering
@@ -184,12 +184,12 @@ namespace OSHGui
 		if (modals.size() != 0)
 		{
 			modals.front().form->ProcessEvent(event);
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
-		if (focusForm != 0 && focusForm->ProcessEvent(event) == Event::DontContinue)
+		if (focusForm != 0 && focusForm->ProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		else
 		{
@@ -197,17 +197,17 @@ namespace OSHGui
 			{
 				if (*it != focusForm)
 				{
-					if ((*it)->ProcessEvent(event) == Event::DontContinue)
+					if ((*it)->ProcessEvent(event) == IEvent::DontContinue)
 					{
 						focusForm = *it;
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 			}
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Render()

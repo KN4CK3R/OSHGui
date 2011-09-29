@@ -180,19 +180,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ListBox::ProcessEvent(Event *event)
+	IEvent::NextEventTypes ListBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -213,7 +213,7 @@ namespace OSHGui
 				{
 					mouse->Position = mousePositionBackup;
 
-					return Event::Continue;
+					return IEvent::Continue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Scroll)
@@ -222,19 +222,19 @@ namespace OSHGui
 				{
 					mouse->Position = mousePositionBackup;
 
-					return Event::Continue;
+					return IEvent::Continue;
 				}
 			}
 		}
 		
-		if (scrollBar.ProcessEvent(event) == Event::DontContinue)
+		if (scrollBar.ProcessEvent(event) == IEvent::DontContinue)
 		{
 			firstVisibleItemIndex = scrollBar.GetPosition();
 		
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 	
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			
@@ -261,7 +261,7 @@ namespace OSHGui
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 			else if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
 			{
@@ -269,7 +269,7 @@ namespace OSHGui
 				{
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightUp)
 				{
@@ -279,15 +279,15 @@ namespace OSHGui
 
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			if (items.size() == 0)
 			{
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
@@ -380,10 +380,10 @@ namespace OSHGui
 				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::Render(Drawing::IRenderer *renderer)

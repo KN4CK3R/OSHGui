@@ -234,19 +234,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ComboBox::ProcessEvent(Event *event)
+	IEvent::NextEventTypes ComboBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -272,7 +272,7 @@ namespace OSHGui
 						open = false;
 					}
 
-					return Event::Continue;
+					return IEvent::Continue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Scroll && open)
@@ -281,24 +281,24 @@ namespace OSHGui
 				{
 					mouse->Position = mousePositionBackup;
 
-					return Event::Continue;
+					return IEvent::Continue;
 				}
 			}
 
 			if (open)
 			{
 				mouse->Position.Y -= clientArea.GetHeight();
-				if (scrollBar.ProcessEvent(event) == Event::DontContinue)
+				if (scrollBar.ProcessEvent(event) == IEvent::DontContinue)
 				{
 					firstVisibleItemIndex = scrollBar.GetPosition();
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				mouse->Position.Y += clientArea.GetHeight();
 			}
 		}
 		
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			
@@ -315,7 +315,7 @@ namespace OSHGui
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Move)
@@ -333,7 +333,7 @@ namespace OSHGui
 
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
@@ -367,17 +367,17 @@ namespace OSHGui
 
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			if (items.size() == 0)
 			{
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
@@ -537,10 +537,10 @@ namespace OSHGui
 				}
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::Render(Drawing::IRenderer *renderer)
