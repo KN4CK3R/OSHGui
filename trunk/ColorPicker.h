@@ -22,6 +22,7 @@ namespace OSHGui
 		ColorPicker(Control *parent = 0);
 		virtual ~ColorPicker();
 		
+		void SetColor(Drawing::Color color);
 		Drawing::Color GetColor() const;
 		Drawing::Color GetColorAtPoint(int x, int y) const;
 		Drawing::Color GetColorAtPoint(const Drawing::Point &point) const;
@@ -70,12 +71,11 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
-		virtual void SetMouseOver(bool mouseOver);
-
 		void CreateGradientTexture();
 	
 		bool drag;
 		Drawing::Color color;
+		Drawing::Point colorPosition;
 		std::shared_ptr<Drawing::ITexture> gradient;
 
 		ColorChangeEvent colorChangeEvent;

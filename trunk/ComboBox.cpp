@@ -17,7 +17,7 @@ namespace OSHGui
 		open = false;
 
 		SetAutoSize(false);
-		SetSize(Drawing::Size(160, 24));
+		SetSize(160, 24);
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetDropDownColor(Drawing::Color(0xFF171614));

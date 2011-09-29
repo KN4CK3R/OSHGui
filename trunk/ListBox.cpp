@@ -12,6 +12,8 @@ namespace OSHGui
 		selectedIndex = 0;
 		firstVisibleItemIndex = 0;
 		drag = false;
+		
+		SetBounds(6, 6, 120, 95);
 
 		SetBackColor(Drawing::Color(0xFF171614));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));

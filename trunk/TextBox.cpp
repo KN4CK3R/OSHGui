@@ -12,10 +12,12 @@ namespace OSHGui
 		SetBounds(6, 6, 100, font->GetSize() + 10);
 
 		blinkTime = Misc::TimeSpan::FromMilliseconds(500);
-		nextBlinkTime = Misc::DateTime::GetNow();
+		nextBlinkTime = Application::Now;
 
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
+		
+		cursor = Cursors::Get(Cursors::IBeam);
 
 		SetBackColor(Drawing::Color(0xFF242321));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -60,19 +62,6 @@ namespace OSHGui
 		return textChangedEvent;
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::SetMouseOver(bool mouseOver)
-	{
-		if (mouseOver)
-		{
-			Application::Mouse.Cursor = Cursors::Get(Cursors::IBeam);
-		}
-		else
-		{
-			Application::Mouse.Cursor = Cursors::Get(Cursors::Default);
-		}
-		Control::SetMouseOver(mouseOver);
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool TextBox::CanHaveFocus() const
@@ -97,7 +86,7 @@ namespace OSHGui
 	void TextBox::ResetCaretBlink()
 	{
 		showCaret = true;
-		nextBlinkTime = Misc::DateTime::GetNow().Add(blinkTime);
+		nextBlinkTime = Application::Now.Add(blinkTime);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PlaceCaret(int position)
@@ -298,10 +287,10 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
 
-		if (Misc::DateTime::GetNow() > nextBlinkTime)
+		if (Application::Now > nextBlinkTime)
 		{
 			showCaret = !showCaret;
-			nextBlinkTime = Misc::DateTime::GetNow().Add(blinkTime);
+			nextBlinkTime = Application::Now.Add(blinkTime);
 		}
 
 		if (hasFocus && showCaret)

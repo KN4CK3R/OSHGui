@@ -12,7 +12,7 @@ namespace OSHGui
 		pressed = false;
 
 		SetAutoSize(false);
-		SetSize(Drawing::Size(92, 24));
+		SetSize(92, 24);
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));

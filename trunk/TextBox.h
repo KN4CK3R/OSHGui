@@ -97,8 +97,6 @@ namespace OSHGui
 		void Render(Drawing::IRenderer *renderer);
 	
 	protected:
-		virtual void SetMouseOver(bool mouseOver);
-
 		void ResetCaretBlink();
 		void PlaceCaret(int position);
 			

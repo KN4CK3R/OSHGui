@@ -11,8 +11,6 @@ namespace OSHGui
 		type = CONTROL_ROOT;
 		
 		this->parent = parent;
-
-		SetLocation(Drawing::Point(3, 3));
 		
 		SetEnabled(true);
 		SetVisible(true);
@@ -24,6 +22,8 @@ namespace OSHGui
 		mouseOverControl = 0;
 
 		font = Application::Renderer->GetDefaultFont();
+		
+		cursor = Cursors::Get(Cursors::Default);
 		
 		mouseOverFocusColor = Drawing::Color(0, 20, 20, 20);
 	}
@@ -74,6 +74,15 @@ namespace OSHGui
 	void Control::SetMouseOver(bool mouseOver)
 	{
 		this->mouseOver = mouseOver;
+		
+		if (mouseOver)
+		{
+			Application::Mouse.Cursor = cursor;
+		}
+		else
+		{
+			Application::Mouse.Cursor = Cursors::Get(Cursors::Default);
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetAutoSize(bool autoSize)
@@ -115,12 +124,12 @@ namespace OSHGui
 		return bounds;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(int x, int y)
+	void Control::SetLocation(const Drawing::Point &location)
 	{
-		SetLocation(Drawing::Point(x, y));
+		SetLocation(location.Left, location.Top);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(const Drawing::Point &location)
+	void Control::SetLocation(int x, int y)
 	{
 		bounds.SetLeft(location.Left);
 		bounds.SetTop(location.Top);
@@ -141,13 +150,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetSize(const Drawing::Size &size)
 	{
-		if (size.Width > -1)
+		SetSize(size.Width, size.Height);
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetSize(int width, int height)
+	{
+		if (width > -1)
 		{
-			bounds.SetWidth(size.Width);
+			bounds.SetWidth(width);
 		}
-		if (size.Height > -1)
+		if (height > -1)
 		{
-			bounds.SetHeight(size.Height);
+			bounds.SetHeight(height);
 		}
 
 		static bool isValid = true; 
@@ -263,6 +277,16 @@ namespace OSHGui
 	const std::shared_ptr<Drawing::IFont> Control::GetFont() const
 	{
 		return font;
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetCursor(const std::shared_ptr<Cursor> &cursor)
+	{
+		this->cursor = cursor;
+	}
+	//---------------------------------------------------------------------------
+	const std::shared_ptr<Cursor> Control::GetCursor() const
+	{
+		return cursor;
 	}
 	//---------------------------------------------------------------------------
 	ClickEvent& Control::GetClickEvent()

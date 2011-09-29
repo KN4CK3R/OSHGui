@@ -14,8 +14,7 @@ namespace OSHGui
 		drag = false;
 		isModal = false;
 
-		SetLocation(Drawing::Point(10, 10));
-		SetSize(Drawing::Size(300, 300));
+		SetBounds(10, 10, 300, 300);
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));

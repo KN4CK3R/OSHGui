@@ -84,6 +84,8 @@ namespace OSHGui
 		 *
 		 */
 		static Drawing::IRenderer *Renderer;
+		
+		static Misc::DateTime Now;
 
 		typedef struct
 		{

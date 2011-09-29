@@ -1,5 +1,4 @@
 #include "Pipette.h"
-#include "../Application.h"
 
 namespace OSHGui
 {

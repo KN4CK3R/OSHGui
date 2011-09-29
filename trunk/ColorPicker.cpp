@@ -17,6 +17,8 @@ namespace OSHGui
 
 		color = Drawing::Color::White();
 		
+		cursor = Cursors::Get(Cursors::Pipette);
+		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
 	}
@@ -27,6 +29,51 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void ColorPicker::SetColor(Drawing::Color color)
+	{
+		this->color = color;
+		
+		float red = color.R / 255.0f;
+		float green = color.G / 255.0f;
+		float blue = color.B / 255.0f;
+	
+		float max = blue;
+		if (max > green)
+			max = green;
+		if (max > red)
+			max = red;
+		
+		float min = blue;
+		if (min < green)
+			min = green;
+		if (min < red)
+			min = red;
+		
+		if (max == min)
+		{
+			colorPosition.Left = 0;
+			colorPosition.Top = max > 0 ? 0 : bounds.GetHeight() - 1;
+		}
+		else
+		{
+			float f = max == red ? green - blue : max == green ? blue - red : red - green;
+			float i = max == red ? 3 : max == green ? 5 : 1;
+			int hue = (int)floor((i - f / (min - max)) * 60) % 360;
+			int sat = (int)floor(((min - max) / min) * 100);
+			int val = (int)floor(min * 100);
+		 
+			colorPosition.Left = (int)(hue * (w / 360.0f));
+			if (val == 100 && sat != 100)
+			{
+				colorPosition.Top = (int)((h / 2.0f) - ((100 - sat) * (h / 200.0f)));
+			}
+			else
+			{
+				colorPosition.Top = (int)(h - (val * (h / 200.0f)));
+			}
+		}
+	}
 	//---------------------------------------------------------------------------
 	Drawing::Color ColorPicker::GetColor() const
 	{
@@ -121,19 +168,6 @@ namespace OSHGui
 		return colorChangeEvent;
 	}
 	//---------------------------------------------------------------------------
-	void ColorPicker::SetMouseOver(bool mouseOver)
-	{
-		if (mouseOver)
-		{
-			Application::Mouse.Cursor = Cursors::Get(Cursors::Pipette);
-		}
-		else
-		{
-			Application::Mouse.Cursor = Cursors::Get(Cursors::Default);
-		}
-		Control::SetMouseOver(mouseOver);
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ColorPicker::CanHaveFocus() const
@@ -197,7 +231,9 @@ namespace OSHGui
 			{
 				if (mouse->State == MouseEvent::Move && drag == true)
 				{
-					color = GetColorAtPoint(mouse->Position);
+					colorPosition = mouse->Position;
+				
+					color = GetColorAtPoint(colorPosition);
 
 					colorChangeEvent.Invoke(this);
 
@@ -224,8 +260,10 @@ namespace OSHGui
 				if (drag)
 				{
 					drag = false;
+					
+					colorPosition = mouse->Position;
 
-					color = GetColorAtPoint(mouse->Position);
+					color = GetColorAtPoint(colorPosition);
 
 					colorChangeEvent.Invoke(this);
 
@@ -265,6 +303,11 @@ namespace OSHGui
 		{
 			renderer->SetRenderColor(Drawing::Color::White());
 			renderer->RenderTexture(gradient, bounds.GetPosition());
+			
+			renderer->SetRenderColor(Drawing::Color::Black());
+			renderer->Fill(colorPosition.Left, colorPosition.Top, 4, 4);
+			renderer->SetRenderColor(Drawing::Color::White());
+			renderer->Fill(colorPosition.Left + 1, colorPosition.Top + 1, 2, 2);
 		}
 	
 		if (controls.size() > 0)

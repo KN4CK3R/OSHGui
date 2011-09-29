@@ -12,7 +12,7 @@ namespace OSHGui
 		auto it = cursors.find((int)cursorType);
 		if (it == cursors.end())
 		{
-			std::shared_ptr<Cursor> cursor(new Cursor()); //Cursors::Default no switch case
+			std::shared_ptr<Cursor> cursor;
 			switch (cursorType)
 			{
 				case Cursors::IBeam:
@@ -20,6 +20,18 @@ namespace OSHGui
 					break;
 				case Cursors::Pipette:
 					cursor = std::shared_ptr<Cursor>(new PipetteCursor());
+					break;
+				case Cursors::Hand:
+					cursor = std::shared_ptr<Cursor>(new HandCursor());
+					break;
+				case Cursors::Circle:
+					cursor = std::shared_ptr<Cursor>(new CircleCursor());
+					break;
+				case Cursors::Wait:
+					cursor = std::shared_ptr<Cursor>(new WaitCursor());
+					break;
+				default:
+					cursor = std::shared_ptr<Cursor>(new Cursor());
 					break;
 			}
 			cursors.insert(std::pair<int, std::shared_ptr<Cursor> >((int)cursorType, cursor));

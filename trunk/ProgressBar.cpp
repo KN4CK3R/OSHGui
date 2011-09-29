@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 		type = CONTROL_PROGRESSBAR;
 
-		SetSize(Drawing::Size(110, 24));
+		SetBounds(6, 6, 110, 24);
 		
 		min = 0;
 		max = 100;

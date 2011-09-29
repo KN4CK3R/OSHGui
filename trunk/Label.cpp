@@ -10,6 +10,8 @@ namespace OSHGui
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
+		
+		SetLocation(6, 6);
 
 		SetText(L"Label");
 		
