@@ -146,32 +146,32 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes ColorBar::ProcessEvent(Event *event)
+	IEvent::NextEventTypes ColorBar::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 		
 		Drawing::Point mousePositionBackup;
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 		}
 	
-		if (ChildProcessEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			
@@ -194,7 +194,7 @@ namespace OSHGui
 
 						mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 					else if (mouse->State == MouseEvent::LeftUp)
 					{
@@ -217,7 +217,7 @@ namespace OSHGui
 
 						mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 						
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 				else if (Drawing::Rectangle(0, i * 15, clientArea.GetWidth(), 12).Contains(mouse->Position))
@@ -235,19 +235,19 @@ namespace OSHGui
 
 						mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 			}
 
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 
 			mouse->Position = mousePositionBackup;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
@@ -284,10 +284,10 @@ namespace OSHGui
 				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void ColorBar::Render(Drawing::IRenderer *renderer)

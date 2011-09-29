@@ -72,7 +72,7 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		Event::NextEventTypes ProcessEvent(Event *event);
+		IEvent::NextEventTypes ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *

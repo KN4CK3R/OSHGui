@@ -63,19 +63,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Button::ProcessEvent(Event *event)
+	IEvent::NextEventTypes Button::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 	
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -94,19 +94,19 @@ namespace OSHGui
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::RightDown)
 				{
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
@@ -121,13 +121,13 @@ namespace OSHGui
 					
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 					
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 
 			mouse->Position = mousePositionBackup;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*) event;
 			
@@ -158,10 +158,10 @@ namespace OSHGui
 				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Button::Render(Drawing::IRenderer *renderer)

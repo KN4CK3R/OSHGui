@@ -157,19 +157,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TextBox::ProcessEvent(Event *event)
+	IEvent::NextEventTypes TextBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 	
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*) event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -202,12 +202,12 @@ namespace OSHGui
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 				
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 
 			mouse->Position = mousePositionBackup;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			bool hasChanged = false;
 		
@@ -277,10 +277,10 @@ namespace OSHGui
 				textChangedEvent.Invoke(this);
 			}
 			
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::Render(Drawing::IRenderer *renderer)

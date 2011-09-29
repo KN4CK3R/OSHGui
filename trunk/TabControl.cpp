@@ -123,21 +123,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TabControl::ProcessEvent(Event *event)
+	IEvent::NextEventTypes TabControl::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
 		Drawing::Point mousePositionBackup;
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
@@ -156,7 +156,7 @@ namespace OSHGui
 					{
 						clicked = *it;
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 					else if (mouse->State == MouseEvent::LeftUp)
 					{
@@ -170,7 +170,7 @@ namespace OSHGui
 							selectedIndexChangedEvent.Invoke(this);
 						}
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 				x += textSize.Width + 11;
@@ -178,7 +178,7 @@ namespace OSHGui
 
 			mouse->Position.Top -= font->GetSize() + 8;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 
@@ -201,7 +201,7 @@ namespace OSHGui
 							}
 						}
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 				else if (keyboard->KeyCode == Key::Right)
@@ -221,15 +221,15 @@ namespace OSHGui
 							}
 						}
 
-						return Event::DontContinue;
+						return IEvent::DontContinue;
 					}
 				}
 			}
 		}
 	
-		if (ChildProcessEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (activeTab != 0)
@@ -237,7 +237,7 @@ namespace OSHGui
 			activeTab->ProcessEvent(event);
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::Render(Drawing::IRenderer *renderer)

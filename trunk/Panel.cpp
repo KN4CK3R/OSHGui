@@ -30,32 +30,32 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Panel::ProcessEvent(Event *event)
+	IEvent::NextEventTypes Panel::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 
 		Drawing::Point mousePositionBackup;
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 		}
 	
-		if (ChildProcessEvent(event) == Event::DontContinue)
+		if (ChildProcessEvent(event) == IEvent::DontContinue)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			mouse->Position = mousePositionBackup;
@@ -75,11 +75,11 @@ namespace OSHGui
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 				
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 		}
 
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Panel::Render(Drawing::IRenderer *renderer)

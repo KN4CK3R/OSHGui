@@ -7,7 +7,7 @@
 #include "Drawing\IRenderer.h"
 #include "Misc\DateTime.h"
 #include "Cursor\Cursor.h"
-#include "Event\Event.h"
+#include "Event\IEvent.h"
 
 namespace OSHGui
 {
@@ -42,12 +42,12 @@ namespace OSHGui
 		static void Run(Form *form);
 
 		/**
-		 * Gibt ein Event an die geöffneten Formen weiter.
+		 * Gibt ein IEvent an die geöffneten Formen weiter.
 		 *
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		static Event::NextEventTypes ProcessEvent(Event *event);
+		static IEvent::NextEventTypes ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */

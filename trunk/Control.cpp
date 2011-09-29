@@ -459,28 +459,28 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Control::ProcessEvent(Event *event)
+	IEvent::NextEventTypes Control::ProcessEvent(IEvent *event)
 	{
-		return Event::DontContinue;
+		return IEvent::DontContinue;
 	}
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes Control::ChildProcessEvent(Event *event)
+	IEvent::NextEventTypes Control::ChildProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 		
 		//someone is focused, so let him handle the event expect the mouse
-		if (event->Type != Event::Mouse && focusControl != 0 && focusControl->GetVisible() && focusControl->GetEnabled())
+		if (event->Type != IEvent::Mouse && focusControl != 0 && focusControl->GetVisible() && focusControl->GetEnabled())
 		{
-			if (focusControl->ProcessEvent(event) == Event::DontContinue)
+			if (focusControl->ProcessEvent(event) == IEvent::DontContinue)
 			{
-				return Event::DontContinue;
+				return IEvent::DontContinue;
 			}
 		}
 		
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			
@@ -503,23 +503,23 @@ namespace OSHGui
 			//someone is focused
 			if (focusControl != 0 && focusControl->GetEnabled())
 			{
-				if (focusControl->ProcessEvent(mouse) == Event::DontContinue)
+				if (focusControl->ProcessEvent(mouse) == IEvent::DontContinue)
 				{
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			
 			//let mouseOverControl handle the mouse
 			if (mouseOverControl != 0)
 			{
-				if (mouseOverControl->ProcessEvent(event) == Event::DontContinue)
+				if (mouseOverControl->ProcessEvent(event) == IEvent::DontContinue)
 				{
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void Control::Render(Drawing::IRenderer *renderer)

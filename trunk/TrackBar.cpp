@@ -128,19 +128,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	Event::NextEventTypes TrackBar::ProcessEvent(Event *event)
+	IEvent::NextEventTypes TrackBar::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
-			return Event::DontContinue;
+			return IEvent::DontContinue;
 		}
 
 		if (!visible || !enabled)
 		{
-			return Event::Continue;
+			return IEvent::Continue;
 		}
 	
-		if (event->Type == Event::Mouse)
+		if (event->Type == IEvent::Mouse)
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
@@ -159,7 +159,7 @@ namespace OSHGui
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 
 				if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
@@ -175,7 +175,7 @@ namespace OSHGui
 
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::Move)
@@ -186,7 +186,7 @@ namespace OSHGui
 					
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
@@ -199,13 +199,13 @@ namespace OSHGui
 
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
 
-					return Event::DontContinue;
+					return IEvent::DontContinue;
 				}
 			}
 			
 			mouse->Position = mousePositionBackup;
 		}
-		else if (event->Type == Event::Keyboard)
+		else if (event->Type == IEvent::Keyboard)
 		{
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
@@ -218,30 +218,30 @@ namespace OSHGui
 					{
 						case Key::Home:
 							SetValueInternal(min);
-							return Event::DontContinue;
+							return IEvent::DontContinue;
 						case Key::End:
 							SetValueInternal(max);
-							return Event::DontContinue;
+							return IEvent::DontContinue;
 						case Key::Left:
 						case Key::Down:
 							SetValueInternal(value - 1);
-							return Event::DontContinue;
+							return IEvent::DontContinue;
 						case Key::Right:
 						case Key::Up:
 							SetValueInternal(value + 1);
-							return Event::DontContinue;
+							return IEvent::DontContinue;
 						case Key::PageDown:
 							SetValueInternal(value - std::max(10, (max - min) / 10));
-							return Event::DontContinue;
+							return IEvent::DontContinue;
 						case Key::PageUp:
 							SetValueInternal(value + std::max(10, (max - min) / 10));
-							return Event::DontContinue;
+							return IEvent::DontContinue;
 					}
 				}
 			}
 		}
 		
-		return Event::Continue;
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::Render(Drawing::IRenderer *renderer)
