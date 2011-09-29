@@ -10,6 +10,8 @@ namespace OSHGui
 	{
 		type = CONTROL_PANEL;
 		
+		SetBounds(6, 6, 200, 100);
+		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
 	}

@@ -249,6 +249,13 @@ namespace OSHGui
 		 */
 		virtual void SetSize(const Drawing::Size &size);
 		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param width
+		 * @param height
+		 */
+		virtual void SetSize(int width, int height);
+		/**
 		 * Ruft die Höhe und Breite des Steuerelements ab.
 		 *
 		 * @return size
@@ -330,6 +337,8 @@ namespace OSHGui
 		 * @return font
 		 */
 		const std::shared_ptr<Drawing::IFont> GetFont() const;
+		void SetCursor(const std::shared_ptr<Cursor> &cursor);
+		const std::shared_ptr<Cursor> GetCursor() const;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
@@ -565,6 +574,7 @@ namespace OSHGui
 					   mouseOverFocusColor;
 		
 		std::shared_ptr<Drawing::IFont> font;
+		std::shared_ptr<Cursor> cursor;
 
 		Control *parent;
 

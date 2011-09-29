@@ -13,6 +13,7 @@ namespace OSHGui
 	bool Application::enabled = false;
 	Drawing::IRenderer *Application::Renderer = 0;
 	Application::MouseInfo Application::Mouse;
+	Misc::DateTime Application::Now = Misc::DateTime::GetNow();
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
@@ -53,7 +54,7 @@ namespace OSHGui
 			TimerInfo info;
 			info.timer = timer;
 			info.interval = interval;
-			info.next = Misc::DateTime::GetNow().Add(interval);
+			info.next = Now.Add(interval);
 			timers[timer] = info;
 		}
 	}
@@ -216,6 +217,8 @@ namespace OSHGui
 		{
 			return;
 		}
+		
+		Now = Misc::DateTime::GetNow();
 
 		if (removeForms.size() > 0)
 		{
@@ -228,14 +231,13 @@ namespace OSHGui
 
 		if (timers.size() > 0)
 		{
-			Misc::DateTime now = Misc::DateTime::GetNow();
 			for (std::map<Timer*, TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
 			{
 				TimerInfo &info = it->second;
-				if (info.next < now)
+				if (info.next < Now)
 				{
 					it->first->tickEvent.Invoke(it->first);
-					info.next = now.Add(info.interval);
+					info.next = Now.Add(info.interval);
 				}
 			}
 		}

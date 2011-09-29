@@ -10,6 +10,8 @@ namespace OSHGui
 		type = CONTROL_LINKLABEL;
 
 		SetText(L"LinkLabel");
+		
+		cursor = Cursors::Get(Cursors::Hand);
 	}
 	//---------------------------------------------------------------------------
 	LinkLabel::~LinkLabel()

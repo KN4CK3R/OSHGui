@@ -17,7 +17,10 @@ namespace OSHGui
 		{
 			Default,
 			IBeam,
-			Pipette
+			Pipette,
+			Hand,
+			Circle,
+			Wait
 		};
 
 		static const std::shared_ptr<Cursor> Get(CursorType cursorType);

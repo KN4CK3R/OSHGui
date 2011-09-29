@@ -13,6 +13,8 @@ namespace OSHGui
 
 		activeTab = 0;
 		
+		SetBounds(6, 6, 200, 100);
+		
 		SetBackColor(Drawing::Color(0xFF737373));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
