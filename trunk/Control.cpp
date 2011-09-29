@@ -77,11 +77,10 @@ namespace OSHGui
 		
 		if (mouseOver)
 		{
-			Application::Mouse.Cursor = cursor;
-		}
-		else
-		{
-			Application::Mouse.Cursor = Cursors::Get(Cursors::Default);
+			if (Application::Mouse.Cursor != cursor)
+			{
+				Application::Mouse.Cursor = cursor;
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -131,8 +130,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(int x, int y)
 	{
-		bounds.SetLeft(location.Left);
-		bounds.SetTop(location.Top);
+		bounds.SetLeft(x);
+		bounds.SetTop(y);
 		
 		static bool isValid = true; //no recursive calls
 		if (isValid)

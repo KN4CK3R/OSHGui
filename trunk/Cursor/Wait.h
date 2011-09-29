@@ -21,7 +21,7 @@ namespace OSHGui
 	private:
 		std::vector<std::shared_ptr<Drawing::ITexture> > frames;
 		int totalFrames;
-		static const long interval;
+		static const Misc::TimeSpan interval;
 		Misc::DateTime nextFrameTime;
 		int nextFrame;
 	};

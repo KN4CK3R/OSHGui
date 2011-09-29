@@ -190,7 +190,7 @@ namespace OSHGui
 							case 16:  // Ctrl P
 							case 27:  // Ctrl [
 							case 29:  // Ctrl ]
-							case 28:  // Ctrl \
+							case 28:  // Ctrl \ 
 								break;
 							default:
 								keyboard.KeyChar = (Misc::UnicodeChar)message->wParam;

@@ -32,45 +32,48 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::SetColor(Drawing::Color color)
 	{
-		this->color = color;
+		if (this->color != color)
+		{
+			this->color = color;
 		
-		float red = color.R / 255.0f;
-		float green = color.G / 255.0f;
-		float blue = color.B / 255.0f;
+			float red = color.R / 255.0f;
+			float green = color.G / 255.0f;
+			float blue = color.B / 255.0f;
 	
-		float max = blue;
-		if (max > green)
-			max = green;
-		if (max > red)
-			max = red;
+			float max = blue;
+			if (max > green)
+				max = green;
+			if (max > red)
+				max = red;
 		
-		float min = blue;
-		if (min < green)
-			min = green;
-		if (min < red)
-			min = red;
+			float min = blue;
+			if (min < green)
+				min = green;
+			if (min < red)
+				min = red;
 		
-		if (max == min)
-		{
-			colorPosition.Left = 0;
-			colorPosition.Top = max > 0 ? 0 : bounds.GetHeight() - 1;
-		}
-		else
-		{
-			float f = max == red ? green - blue : max == green ? blue - red : red - green;
-			float i = max == red ? 3 : max == green ? 5 : 1;
-			int hue = (int)floor((i - f / (min - max)) * 60) % 360;
-			int sat = (int)floor(((min - max) / min) * 100);
-			int val = (int)floor(min * 100);
-		 
-			colorPosition.Left = (int)(hue * (w / 360.0f));
-			if (val == 100 && sat != 100)
+			if (max == min)
 			{
-				colorPosition.Top = (int)((h / 2.0f) - ((100 - sat) * (h / 200.0f)));
+				colorPosition.Left = 2;
+				colorPosition.Top = max > 0 ? 2 : bounds.GetHeight() - 2;
 			}
 			else
 			{
-				colorPosition.Top = (int)(h - (val * (h / 200.0f)));
+				float f = max == red ? green - blue : max == green ? blue - red : red - green;
+				float i = max == red ? 3.0f : max == green ? 5.0f : 1.0f;
+				int hue = (int)floor((i - f / (min - max)) * 60) % 360;
+				int sat = (int)floor(((min - max) / min) * 100);
+				int val = (int)floor(min * 100);
+		 
+				colorPosition.Left = (int)(hue * (bounds.GetWidth() / 360.0f));
+				if (val == 100 && sat != 100)
+				{
+					colorPosition.Top = (int)((bounds.GetHeight() / 2.0f) - ((100 - sat) * (bounds.GetHeight() / 200.0f)));
+				}
+				else
+				{
+					colorPosition.Top = (int)(bounds.GetHeight() - (val * (bounds.GetHeight() / 200.0f)));
+				}
 			}
 		}
 	}
@@ -229,13 +232,16 @@ namespace OSHGui
 
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
-				if (mouse->State == MouseEvent::Move && drag == true)
+				if (mouse->State == MouseEvent::Move)
 				{
-					colorPosition = mouse->Position;
+					if (drag)
+					{
+						colorPosition = mouse->Position;
 				
-					color = GetColorAtPoint(colorPosition);
+						color = GetColorAtPoint(colorPosition);
 
-					colorChangeEvent.Invoke(this);
+						colorChangeEvent.Invoke(this);
+					}
 
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
@@ -304,10 +310,11 @@ namespace OSHGui
 			renderer->SetRenderColor(Drawing::Color::White());
 			renderer->RenderTexture(gradient, bounds.GetPosition());
 			
+			Drawing::Point tmpPosition = (bounds.GetPosition() + colorPosition).OffsetEx(-2, -2);
 			renderer->SetRenderColor(Drawing::Color::Black());
-			renderer->Fill(colorPosition.Left, colorPosition.Top, 4, 4);
+			renderer->Fill(tmpPosition.Left, tmpPosition.Top, 4, 4);
 			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->Fill(colorPosition.Left + 1, colorPosition.Top + 1, 2, 2);
+			renderer->Fill(tmpPosition.Left + 1, tmpPosition.Top + 1, 2, 2);
 		}
 	
 		if (controls.size() > 0)
