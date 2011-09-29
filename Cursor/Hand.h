@@ -11,7 +11,7 @@ namespace OSHGui
 		HandCursor();
 		virtual ~HandCursor();
 		
-	protected:
+	private:
 		virtual void CreateCursor();
 	};
 }

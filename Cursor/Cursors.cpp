@@ -2,6 +2,9 @@
 #include "Cursor.h"
 #include "IBeam.h"
 #include "Pipette.h"
+#include "Hand.h"
+#include "Circle.h"
+#include "Wait.h"
 
 namespace OSHGui
 {

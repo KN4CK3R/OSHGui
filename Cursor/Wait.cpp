@@ -3,7 +3,7 @@
 
 namespace OSHGui
 {
-	const long WaitCursor::interval = 125L;
+	const Misc::TimeSpan WaitCursor::interval = Misc::TimeSpan::FromMilliseconds(125);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void WaitCursor::CreateCursor()
 	{
-		int[][][] data =
+		int data[][6][2] =
 		{
 			{
 				{ 0, 0 },
@@ -149,22 +149,39 @@ namespace OSHGui
 			}
 		};
 		
-		Drawing::Color colors[] = {
+		/*Drawing::Color colors[] = {
 			Drawing::Color(114, 114, 114),
 			Drawing::Color(130, 130, 130),
 			Drawing::Color(168, 168, 168),
 			Drawing::Color(188, 188, 188),
 			Drawing::Color(206, 206, 206),
 			Drawing::Color(222, 222, 222)
+		};*/
+		Drawing::Color colors[] = {
+			Drawing::Color(201, 201, 201),
+			Drawing::Color(185, 185, 185),
+			Drawing::Color(147, 147, 147),
+			Drawing::Color(127, 127, 127),
+			Drawing::Color(109, 109, 109),
+			Drawing::Color(93, 93, 93)
 		};
 	
 		for (int frameNum = 0; frameNum < totalFrames; ++frameNum)
 		{
 			std::shared_ptr<Drawing::ITexture> frame = frames[frameNum];
 		
-			frameNum ->BeginUpdate();
-			frameNum ->Clear();
+			frame->BeginUpdate();
+			frame->Clear();
 			
+			//loading
+			frame->Fill(0, 8, 16, 8, Drawing::Color::White());
+			frame->Fill(1, 9, 14, 6, Drawing::Color::Black());
+			
+			for (int bar = 0; bar < 6; ++bar)
+			{
+				frame->Fill(1 + data[frameNum][bar][0], 9, 1, 6, colors[data[frameNum][bar][1]]);
+			}
+
 			//Cursor
 			frame->Fill(0, 0, 1, 12, Drawing::Color::White());
 			frame->Fill(1, 0, 1, 11, Drawing::Color::White());
@@ -187,17 +204,8 @@ namespace OSHGui
 			frame->Fill(5, 5, 1, 3, Drawing::Color::Black());
 			frame->Fill(6, 6, 1, 2, Drawing::Color::Black());
 			frame->Fill(7, 7, 1, 1, Drawing::Color::Black());
-
-			//loading
-			frame->Fill(0, 8, 16, 8, Drawing::Color::Black());
-			frame->Fill(1, 9, 14, 6, Drawing::Color::White());
 			
-			for (int bar = 0; bar < 6; ++bar)
-			{
-				frame->Fill(1 + data[frameNum][bar][0], 9, 1, 6, colors[data[frameNum][bar][1]]);
-			}
-			
-			frameNum ->EndUpdate();
+			frame->EndUpdate();
 		}
 	}
 	//---------------------------------------------------------------------------

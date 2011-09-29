@@ -296,11 +296,6 @@ namespace OSHGui
 				}
 				mouse->Position.Y += clientArea.GetHeight();
 			}
-		}
-		
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseEvent *mouse = (MouseEvent*)event;
 			
 			if (mouse->State == MouseEvent::LeftDown)
 			{
@@ -331,6 +326,12 @@ namespace OSHGui
 						}
 					}
 
+					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+
+					return IEvent::DontContinue;
+				}
+				else if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
+				{
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return IEvent::DontContinue;
@@ -371,7 +372,7 @@ namespace OSHGui
 				}
 			}
 			
-			return IEvent::DontContinue;
+			return IEvent::Continue;
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{

@@ -167,6 +167,8 @@ namespace OSHGui
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
+					SetMouseOver(true);
+
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 				}
 				else if (mouse->State == MouseEvent::LeftUp && mouse->State == MouseEvent::RightUp)

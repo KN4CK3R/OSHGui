@@ -35,7 +35,7 @@ namespace OSHGui
 			cursor->Fill(3 + i, 13 - i, 1, 1, Drawing::Color::Black());
 
 			cursor->Fill(2 + i, 11 - i, 1, 1, Drawing::Color::White());
-			cursor->Fill(1 + i, 12 - i, 1, 1, Drawing::Color::White());
+			cursor->Fill(3 + i, 12 - i, 1, 1, Drawing::Color::White());
 			cursor->Fill(2 + i, 12 - i, 1, 1, Drawing::Color::White());
 		}
 		cursor->Fill(8, 6, 1, 1, Drawing::Color::Black());
