@@ -85,12 +85,12 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture()
+		std::shared_ptr<TextureDX9> RendererDX9::CreateNewTexture()
 		{
 			return std::shared_ptr<TextureDX9>(new TextureDX9(device));
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<IFont> RendererDX9::CreateNewFont()
+		std::shared_ptr<FontDX9> RendererDX9::CreateNewFont()
 		{
 			return std::shared_ptr<FontDX9>(new FontDX9(device));
 		}
