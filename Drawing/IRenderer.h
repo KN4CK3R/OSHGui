@@ -8,6 +8,7 @@
 #include "Rectangle.h"
 #include "ITexture.h"
 #include "IFont.h"
+#include "..\Misc\TimeSpan.h"
 
 namespace OSHGui
 {
@@ -28,13 +29,13 @@ namespace OSHGui
 			 */
 			virtual void End() = 0;
 
-			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1) = 0;
+			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1) = 0;
+			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *

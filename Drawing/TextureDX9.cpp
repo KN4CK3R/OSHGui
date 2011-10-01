@@ -12,20 +12,20 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount)
+		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			this->device = device;
 			lock.pBits = 0;
-			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
+			this->frameChangeInterval = frameChangeInterval;
 
 			Create(size, frameCount);
 		}
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount)
+		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			this->device = device;
 			lock.pBits = 0;
-			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
+			this->frameChangeInterval = frameChangeInterval;
 
 			Create(Size(width, height), frameCount);
 		}

@@ -15,8 +15,15 @@ namespace OSHGui
 		class TextureAnimator
 		{
 		public:
+			enum ReplayMode
+			{
+				Loop,
+				Bounce,
+				Once
+			};
+
 			static bool CanAnimate(const std::shared_ptr<ITexture> &texture);
-			static void Animate(const std::shared_ptr<ITexture> &texture);
+			static void Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode);
 			static void StopAnimate(const std::shared_ptr<ITexture> &texture);
 			static void UpdateFrames();
 
@@ -26,7 +33,7 @@ namespace OSHGui
 			class TextureInfo
 			{
 			public:
-				TextureInfo(const std::shared_ptr<ITexture> &texture);
+				TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode);
 
 				const std::shared_ptr<ITexture>& GetTexture() const;
 				bool IsAnimated() const;
@@ -34,6 +41,7 @@ namespace OSHGui
 				void SetFrame(int frame);
 				int GetFrame() const;
 				int GetFrameCount() const;
+				ReplayMode GetReplayMode() const;
 				const Misc::TimeSpan& GetFrameChangeInterval() const;
 				const Misc::DateTime& GetNextFrameChangeTime() const;
 
@@ -47,6 +55,7 @@ namespace OSHGui
 				int frameCount;
 				Misc::TimeSpan frameChangeInterval;
 				Misc::DateTime nextFrameChangeTime;
+				ReplayMode replayMode;
 			};
 			static std::list<TextureInfo> textureInfoList;
 		};

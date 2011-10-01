@@ -44,13 +44,13 @@ namespace OSHGui
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1);
+			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1);
+			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Erzeugt eine neue Textur.
 			 *

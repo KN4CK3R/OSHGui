@@ -85,14 +85,14 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount)
+		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			return std::shared_ptr<TextureDX9>(new TextureDX9(device, size, frameCount));
+			return std::shared_ptr<TextureDX9>(new TextureDX9(device, size, frameCount, frameChangeInterval));
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount)
+		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			return std::shared_ptr<TextureDX9>(new TextureDX9(device, width, height, frameCount));
+			return std::shared_ptr<TextureDX9>(new TextureDX9(device, width, height, frameCount, frameChangeInterval));
 		}
 		//---------------------------------------------------------------------------
 		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Misc::UnicodeString &filename)

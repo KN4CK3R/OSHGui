@@ -4,15 +4,12 @@
 
 namespace OSHGui
 {
-	const Misc::TimeSpan WaitCursor::interval = Misc::TimeSpan::FromMilliseconds(125);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	WaitCursor::WaitCursor()
 	{
-		totalFrames = 14;
-
-		cursor = Application::Renderer->CreateNewTexture(16, 16, totalFrames);
+		cursor = Application::Renderer->CreateNewTexture(16, 16, 14);
 	
 		CreateCursor();
 
@@ -161,7 +158,7 @@ namespace OSHGui
 			Drawing::Color(93, 93, 93)
 		};
 	
-		for (int frameNum = 0; frameNum < totalFrames; ++frameNum)
+		for (int frameNum = 0; frameNum < 14; ++frameNum)
 		{
 			cursor->SelectActiveFrame(frameNum);
 		
@@ -202,13 +199,6 @@ namespace OSHGui
 			
 			cursor->EndUpdate();
 		}
-	}
-	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void WaitCursor::Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorPosition)
-	{
-		Cursor::Render(renderer, cursorPosition);
 	}
 	//---------------------------------------------------------------------------
 }
