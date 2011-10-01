@@ -28,12 +28,19 @@ namespace OSHGui
 			 */
 			virtual void End() = 0;
 
+			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1) = 0;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture() = 0;
+			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1) = 0;
+			/**
+			 * Erzeugt eine neue Textur.
+			 *
+			 * @return eine neue Textur
+			 */
+			virtual std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename) = 0;
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *

@@ -13,7 +13,7 @@ namespace OSHGui
 		
 		for (int i = 0; i < 3; ++i)
 		{
-			bars.push_back(Application::Renderer->CreateNewTexture());
+			bars.push_back(Application::Renderer->CreateNewTexture(150, 10));
 			barSliders.push_back(Drawing::Point());
 			drag[i] = false;
 		}
@@ -107,7 +107,7 @@ namespace OSHGui
 		
 		int width = clientArea.GetWidth();
 		
-		bar->Create(width, 10);
+		//bar->Create(width, 10);
 	
 		width -= 2;
 		float multi = 255.0f / width;

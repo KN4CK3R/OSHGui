@@ -13,6 +13,7 @@ namespace OSHGui
 		{
 			frameDirty = false;
 			this->texture = texture;
+			frame = 0;
             animated = TextureAnimator::CanAnimate(texture);
 
             if (animated)

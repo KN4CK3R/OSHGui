@@ -44,7 +44,6 @@ namespace OSHGui
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture();
 			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1);
 			/**
 			 * Erzeugt eine neue Textur.
