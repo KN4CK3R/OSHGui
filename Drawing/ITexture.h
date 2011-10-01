@@ -29,29 +29,6 @@ namespace OSHGui
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
 			virtual bool IsLocked() = 0;
-
-			/**
-			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
-			 *
-			 * @param size die Größe
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual bool Create(const Size &size) = 0;
-			/**
-			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
-			 *
-			 * @param width
-			 * @param height
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual bool Create(int width, int height) = 0;
-			/**
-			 * Lädt eine Textur aus einer Datei.
-			 *
-			 * @param filename der Dateipfad
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual bool LoadFromFile(const Misc::UnicodeString &filename) = 0;
 		
 			/**
 			 * Sperrt die Textur, damit sie verändert werden kann.
@@ -204,8 +181,23 @@ namespace OSHGui
 			 * @param frame der Frame Index zwischen 0 und GetFrameCount()
 			 */
 			virtual void SelectActiveFrame(int frame) = 0;
-		
+
 		protected:
+			/**
+			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
+			 *
+			 * @param size die Größe
+			 * @return gibt den Status der Operation zurück
+			 */
+			virtual bool Create(const Size &size, int frameCount = 1) = 0;
+			/**
+			 * Lädt eine Textur aus einer Datei.
+			 *
+			 * @param filename der Dateipfad
+			 * @return gibt den Status der Operation zurück
+			 */
+			virtual bool LoadFromFile(const Misc::UnicodeString &filename) = 0;
+		
 			Size size;
 		};
 	}

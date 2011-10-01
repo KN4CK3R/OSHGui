@@ -45,8 +45,7 @@ namespace OSHGui
 		{
 			clientArea = bounds;
 
-			std::shared_ptr<Drawing::ITexture> newImage = Application::Renderer->CreateNewTexture();
-			newImage->Create(GetSize());
+			std::shared_ptr<Drawing::ITexture> newImage = Application::Renderer->CreateNewTexture(GetSize());
 			newImage->BeginUpdate();
 			newImage->Insert(0, 0, image);
 			newImage->EndUpdate();

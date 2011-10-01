@@ -12,11 +12,31 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device)
+		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount)
 		{
 			this->device = device;
-			texture = 0;
 			lock.pBits = 0;
+			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
+
+			Create(size, frameCount);
+		}
+		//---------------------------------------------------------------------------
+		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount)
+		{
+			this->device = device;
+			lock.pBits = 0;
+			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
+
+			Create(Size(width, height), frameCount);
+		}
+		//---------------------------------------------------------------------------
+		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename)
+		{
+			this->device = device;
+			lock.pBits = 0;
+			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
+
+			LoadFromFile(filename);
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::~TextureDX9()
@@ -46,53 +66,31 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool TextureDX9::Create(const Size &size)
+		bool TextureDX9::Create(const Size &size, int frameCount)
 		{
-			if (this->size == size)
+			if (frameCount < 1)
 			{
-				if (!IsLocked())
-				{
-					BeginUpdate();
-				}
-				Clear();
-				EndUpdate();
+				frameCount = 1;
+			}
 
-				return true;
+			for (int i = 0; i < frameCount; ++i)
+			{			
+				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
+				{
+					return false;
+				}
+				frames.push_back(texture);
 			}
+
+			this->size = size;
 			
-			if (texture != 0)
-			{
-				texture->Release();
-			}
+			texture = frames[0];
 			
-			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
-			{
-				this->size = size;
-				
-				return true;
-			}
-			
-			texture = 0;
-			
-			return false;
-		}
-		//---------------------------------------------------------------------------
-		bool TextureDX9::Create(int width, int height)
-		{
-			return Create(Size(width, height));
+			return true;
 		}
 		//---------------------------------------------------------------------------
 		bool TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
-		{
-			if (IsLocked())
-			{
-				EndUpdate();
-			}
-			if (texture != 0)
-			{
-				texture->Release();
-			}
-			
+		{			
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileW(filename.c_str(), &info)))
 			{

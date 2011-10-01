@@ -1,6 +1,7 @@
 #ifndef __OSHGUI_DRAWING_TEXTUREDX9_H__
 #define __OSHGUI_DRAWING_TEXTUREDX9_H__
 
+#include <vector>
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <d3d9.h>
@@ -19,8 +20,27 @@ namespace OSHGui
 			 * Konstruktor der Klasse.
 			 *
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 * @param size die Größe
+			 * @param frameCount die Anzahl der Frames (default: 1)
 			 */
-			TextureDX9(IDirect3DDevice9 *device);
+			TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount = 1);
+			/**
+			 * Konstruktor der Klasse.
+			 *
+			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 * @param width
+			 * @param height
+			 * @param frameCount die Anzahl der Frames (default: 1)
+			 */
+			TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount = 1);
+			/**
+			 * Konstruktor der Klasse.
+			 *
+			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 * @param size die Größe
+			 * @param frameCount die Anzahl der Frames (default: 1)
+			 */
+			TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename);
 			virtual ~TextureDX9();
 		
 			/**
@@ -33,29 +53,6 @@ namespace OSHGui
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
 			virtual bool IsLocked();
-
-			/**
-			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
-			 *
-			 * @param size die Größe
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual bool Create(const Size &size);
-			/**
-			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
-			 *
-			 * @param width
-			 * @param height
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual bool Create(int width, int height);
-			/**
-			 * Lädt eine Textur aus einer Datei.
-			 *
-			 * @param filename der Dateipfad
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual bool LoadFromFile(const Misc::UnicodeString &filename);
 		
 			/**
 			 * Sperrt die Textur, damit sie verändert werden kann.
@@ -200,21 +197,49 @@ namespace OSHGui
 			 *
 			 * @return Anzahl der Frames
 			 */
-			virtual int GetFrameCount() { return 0; }
-			virtual const Misc::TimeSpan& GetFrameChangeInterval() { return Misc::TimeSpan(); }
+			virtual int GetFrameCount() { return frames.size(); }
+			virtual const Misc::TimeSpan& GetFrameChangeInterval() { return frameChangeInterval; }
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
 			 *
 			 * @param frame der Frame Index zwischen 0 und GetFrameCount()
 			 */
-			virtual void SelectActiveFrame(int frame) { }
+			virtual void SelectActiveFrame(int frame)
+			{
+				if (frame < 0 || frame >= GetFrameCount())
+				{
+					frame = 0;
+				}
+
+				texture = frames[frame];
+			}
 			
+		protected:
+			/**
+			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
+			 *
+			 * @param size die Größe
+			 * @return gibt den Status der Operation zurück
+			 */
+			virtual bool Create(const Size &size, int frameCount = 1);
+			/**
+			 * Lädt eine Textur aus einer Datei.
+			 *
+			 * @param filename der Dateipfad
+			 * @return gibt den Status der Operation zurück
+			 */
+			virtual bool LoadFromFile(const Misc::UnicodeString &filename);
+
 		private:
 			IDirect3DDevice9 *device;
 			
 			D3DLOCKED_RECT lock;
 			
 			IDirect3DTexture9 *texture;
+
+			//Animation
+			Misc::TimeSpan frameChangeInterval;
+			std::vector<IDirect3DTexture9*> frames;
 		};
 	}
 }
