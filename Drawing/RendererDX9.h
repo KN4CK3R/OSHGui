@@ -44,13 +44,27 @@ namespace OSHGui
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<TextureDX9> CreateNewTexture();
+			virtual std::shared_ptr<ITexture> CreateNewTexture();
+			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1);
+			/**
+			 * Erzeugt eine neue Textur.
+			 *
+			 * @return eine neue Textur
+			 */
+			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1);
+			/**
+			 * Erzeugt eine neue Textur.
+			 *
+			 * @return eine neue Textur
+			 */
+			virtual std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename);
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *
 			 * @return eine neue Schriftart
 			 */
-			virtual std::shared_ptr<FontDX9> CreateNewFont();
+			virtual std::shared_ptr<IFont> CreateNewFont();
+
 
 			/**
 			 * Legt das Rechteck fest, in dem gezeichnet wird.
