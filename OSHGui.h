@@ -11,6 +11,8 @@
 
 #include "Cursor\Cursors.h"
 
+#include "Drawing\TextureAnimator.h"
+
 #include "Control.h"
 #include "Label.h"
 #include "LinkLabel.h"

@@ -196,24 +196,24 @@ namespace OSHGui
 			 *
 			 * @return eine TimeSpan
 			 */
-			TimeSpan Add(TimeSpan ts);
+			const TimeSpan Add(TimeSpan ts) const;
 			/**
 			 * Subtrahiert die angegebene TimeSpan von dieser Instanz.
 			 *
 			 * @return eine TimeSpan
 			 */
-			TimeSpan Subtract(TimeSpan ts);
+			const TimeSpan Subtract(TimeSpan ts) const;
 			
-			bool operator == (const TimeSpan &ts);
-			bool operator != (const TimeSpan &ts);
-			bool operator < (const TimeSpan &ts);
-			bool operator > (const TimeSpan &ts);
-			bool operator <= (const TimeSpan &ts);
-			bool operator >= (const TimeSpan &ts);
-			TimeSpan operator - () const;
-			TimeSpan operator + () const;
-			const TimeSpan operator - (const TimeSpan &ts);
-			const TimeSpan operator + (const TimeSpan &ts);
+			bool operator == (const TimeSpan &ts) const;
+			bool operator != (const TimeSpan &ts) const;
+			bool operator < (const TimeSpan &ts) const;
+			bool operator > (const TimeSpan &ts) const;
+			bool operator <= (const TimeSpan &ts) const;
+			bool operator >= (const TimeSpan &ts) const;
+			const TimeSpan operator - () const;
+			const TimeSpan operator + () const;
+			const TimeSpan operator - (const TimeSpan &ts) const;
+			const TimeSpan operator + (const TimeSpan &ts) const;
 			
 			/**
 			 * Gibt eine TimeSpan zurück, deren Wert der absoluten Wert dieser Instanz ist.

@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "../Misc/Strings.h"
+#include "../Misc/TimeSpan.h"
 #include "Color.h"
 #include "Point.h"
 #include "Size.h"
@@ -188,6 +189,21 @@ namespace OSHGui
 			 * @param texture die Textur
 			 */
 			virtual void Insert(int x, int y, const std::shared_ptr<ITexture> &texture) = 0;
+
+			//Animation
+			/**
+			 * Ruft ab, wieviele Frames die Textur beinhaltet.
+			 *
+			 * @return Anzahl der Frames
+			 */
+			virtual int GetFrameCount() = 0;
+			virtual const Misc::TimeSpan& GetFrameChangeInterval() = 0;
+			/**
+			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
+			 *
+			 * @param frame der Frame Index zwischen 0 und GetFrameCount()
+			 */
+			virtual void SelectActiveFrame(int frame) = 0;
 		
 		protected:
 			Size size;
