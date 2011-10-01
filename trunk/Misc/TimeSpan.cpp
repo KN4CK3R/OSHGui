@@ -139,7 +139,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		TimeSpan TimeSpan::Add(TimeSpan ts)
+		const TimeSpan TimeSpan::Add(TimeSpan ts) const
 		{
 			long long result = ticks + ts.ticks;
 			if ((ticks >> 63 == ts.ticks >> 63) && (ticks >> 63 != result >> 63))
@@ -149,7 +149,7 @@ namespace OSHGui
 			return TimeSpan(result);
 		}
 		//---------------------------------------------------------------------------
-		TimeSpan TimeSpan::Subtract(TimeSpan ts)
+		const TimeSpan TimeSpan::Subtract(TimeSpan ts) const
 		{
 			long long result = ticks - ts.ticks;
 			if ((ticks >> 63 != ts.ticks >> 63) && (ticks >> 63 != result >> 63))
@@ -159,52 +159,52 @@ namespace OSHGui
 			return TimeSpan(result);
 		}
 		//---------------------------------------------------------------------------
-		bool TimeSpan::operator==(const TimeSpan &ts)
+		bool TimeSpan::operator == (const TimeSpan &ts) const
 		{
 			return ticks == ts.ticks;
 		}
 		//---------------------------------------------------------------------------
-		bool TimeSpan::operator!=(const TimeSpan &ts)
+		bool TimeSpan::operator != (const TimeSpan &ts) const
 		{
 			return ticks != ts.ticks;
 		}
 		//---------------------------------------------------------------------------
-		bool TimeSpan::operator<(const TimeSpan &ts)
+		bool TimeSpan::operator < (const TimeSpan &ts) const
 		{
 			return ticks < ts.ticks;
 		}
 		//---------------------------------------------------------------------------
-		bool TimeSpan::operator>(const TimeSpan &ts)
+		bool TimeSpan::operator > (const TimeSpan &ts) const
 		{
 			return ticks > ts.ticks;
 		}
 		//---------------------------------------------------------------------------
-		bool TimeSpan::operator<=(const TimeSpan &ts)
+		bool TimeSpan::operator <= (const TimeSpan &ts) const
 		{
 			return ticks <= ts.ticks;
 		}
 		//---------------------------------------------------------------------------
-		bool TimeSpan::operator>=(const TimeSpan &ts)
+		bool TimeSpan::operator >= (const TimeSpan &ts) const
 		{
 			return ticks >= ts.ticks;
 		}
 		//---------------------------------------------------------------------------
-		TimeSpan TimeSpan::operator-() const
+		const TimeSpan TimeSpan::operator-() const
 		{
 			return TimeSpan(-ticks);
 		}
 		//---------------------------------------------------------------------------
-		TimeSpan TimeSpan::operator+() const
+		const TimeSpan TimeSpan::operator+() const
 		{
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::operator-(const TimeSpan &ts)
+		const TimeSpan TimeSpan::operator-(const TimeSpan &ts) const
 		{
 			return Subtract(ts);
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::operator+(const TimeSpan &ts)
+		const TimeSpan TimeSpan::operator+(const TimeSpan &ts) const
 		{
 			return Add(ts);
 		}

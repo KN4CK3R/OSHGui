@@ -28,7 +28,7 @@ namespace OSHGui
 			 *
 			 * @return texture
 			 */
-			LPDIRECT3DTEXTURE9 GetTexture();
+			IDirect3DTexture9* GetTexture();
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
@@ -193,13 +193,28 @@ namespace OSHGui
 			 * @param texture die Textur
 			 */
 			virtual void Insert(int x, int y, const std::shared_ptr<ITexture> &texture);
+
+			//Animation
+			/**
+			 * Ruft ab, wieviele Frames die Textur beinhaltet.
+			 *
+			 * @return Anzahl der Frames
+			 */
+			virtual int GetFrameCount() { return 0; }
+			virtual const Misc::TimeSpan& GetFrameChangeInterval() { return Misc::TimeSpan(); }
+			/**
+			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
+			 *
+			 * @param frame der Frame Index zwischen 0 und GetFrameCount()
+			 */
+			virtual void SelectActiveFrame(int frame) { }
 			
 		private:
 			IDirect3DDevice9 *device;
 			
 			D3DLOCKED_RECT lock;
 			
-			LPDIRECT3DTEXTURE9 texture;
+			IDirect3DTexture9 *texture;
 		};
 	}
 }

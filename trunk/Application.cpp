@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Form.h"
 #include "Timer.h"
+#include "Drawing\TextureAnimator.h"
 
 namespace OSHGui
 {
@@ -219,6 +220,8 @@ namespace OSHGui
 		}
 		
 		Now = Misc::DateTime::GetNow();
+
+		Drawing::TextureAnimator::UpdateFrames();
 
 		if (removeForms.size() > 0)
 		{

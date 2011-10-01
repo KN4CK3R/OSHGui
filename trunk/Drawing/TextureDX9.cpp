@@ -26,12 +26,15 @@ namespace OSHGui
 				EndUpdate();
 			}
 		
-			SAFE_RELEASE(texture);
+			if (texture != 0)
+			{
+				texture->Release();
+			}
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		LPDIRECT3DTEXTURE9 TextureDX9::GetTexture()
+		IDirect3DTexture9* TextureDX9::GetTexture()
 		{
 			return texture;
 		}
@@ -57,7 +60,10 @@ namespace OSHGui
 				return true;
 			}
 			
-			SAFE_RELEASE(texture);
+			if (texture != 0)
+			{
+				texture->Release();
+			}
 			
 			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 			{
@@ -82,7 +88,10 @@ namespace OSHGui
 			{
 				EndUpdate();
 			}
-			SAFE_RELEASE(texture);
+			if (texture != 0)
+			{
+				texture->Release();
+			}
 			
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileW(filename.c_str(), &info)))
@@ -342,7 +351,10 @@ namespace OSHGui
 					
 					texture->UnlockRect(0);
 					temp->UnlockRect(0);
-					SAFE_RELEASE(texture);
+					if (texture != 0)
+					{
+						texture->Release();
+					}
 					
 					texture = temp;
 					texture->LockRect(0, &lock, 0, 0);
@@ -409,7 +421,10 @@ namespace OSHGui
 					
 					texture->UnlockRect(0);
 					temp->UnlockRect(0);
-					SAFE_RELEASE(texture);
+					if (texture != 0)
+					{
+						texture->Release();
+					}
 					
 					texture = temp;
 					texture->LockRect(0, &lock, 0, 0);
@@ -429,8 +444,7 @@ namespace OSHGui
 				return;
 			}
 		
-			LPDIRECT3DTEXTURE9 temp = std::static_pointer_cast<TextureDX9>(texture)->GetTexture();
-			
+			IDirect3DTexture9 *temp = std::static_pointer_cast<TextureDX9>(texture)->GetTexture();
 			if (temp == 0)
 			{
 				return;

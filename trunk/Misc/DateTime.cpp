@@ -390,37 +390,37 @@ namespace OSHGui
 			return DateTime((unsigned long long)ticks | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
-		bool DateTime::operator == (DateTime &time)
+		bool DateTime::operator == (const DateTime &time) const
 		{
 			return GetInternalTicks() == time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		bool DateTime::operator != (DateTime &time)
+		bool DateTime::operator != (const DateTime &time) const
 		{
 			return GetInternalTicks() != time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		bool DateTime::operator < (DateTime &time)
+		bool DateTime::operator < (const DateTime &time) const
 		{
 			return GetInternalTicks() < time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		bool DateTime::operator > (DateTime &time)
+		bool DateTime::operator > (const DateTime &time) const
 		{
 			return GetInternalTicks() > time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		bool DateTime::operator <= (DateTime &time)
+		bool DateTime::operator <= (const DateTime &time) const
 		{
 			return GetInternalTicks() <= time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		bool DateTime::operator >= (DateTime &time)
+		bool DateTime::operator >= (const DateTime &time) const
 		{
 			return GetInternalTicks() >= time.GetInternalTicks();
 		}
 		//---------------------------------------------------------------------------
-		const DateTime DateTime::operator - (const TimeSpan &ts)
+		const DateTime DateTime::operator - (const TimeSpan &ts) const
 		{
 			long long ticks = GetInternalTicks();
 			long long valueTicks = ts.GetTicks();
@@ -431,7 +431,7 @@ namespace OSHGui
 			return DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
-		const DateTime DateTime::operator + (const TimeSpan &ts)
+		const DateTime DateTime::operator + (const TimeSpan &ts) const
 		{
 			long long ticks = GetInternalTicks();
 			long long valueTicks = ts.GetTicks();
@@ -442,12 +442,12 @@ namespace OSHGui
 			return DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan DateTime::operator - (const DateTime &time)
+		const TimeSpan DateTime::operator - (const DateTime &time) const
 		{
 			return TimeSpan(GetInternalTicks() - time.GetInternalTicks());
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan DateTime::operator + (const DateTime &time)
+		const TimeSpan DateTime::operator + (const DateTime &time) const
 		{
 			return TimeSpan(GetInternalTicks() + time.GetInternalTicks());
 		}

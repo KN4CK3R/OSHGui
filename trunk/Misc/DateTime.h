@@ -372,16 +372,16 @@ namespace OSHGui
 			 */
 			DateTime AddTicks(long long value);
 			
-			bool operator == (DateTime &time);
-			bool operator != (DateTime &time);
-			bool operator < (DateTime &time);
-			bool operator > (DateTime &time);
-			bool operator <= (DateTime &time);
-			bool operator >= (DateTime &time);
-			const DateTime operator - (const TimeSpan &ts);
-			const DateTime operator + (const TimeSpan &ts);
-			const TimeSpan operator - (const DateTime &time);
-			const TimeSpan operator + (const DateTime &time);
+			bool operator == (const DateTime &time) const;
+			bool operator != (const DateTime &time) const;
+			bool operator < (const DateTime &time) const;
+			bool operator > (const DateTime &time) const;
+			bool operator <= (const DateTime &time) const;
+			bool operator >= (const DateTime &time) const;
+			const DateTime operator - (const TimeSpan &ts) const;
+			const DateTime operator + (const TimeSpan &ts) const;
+			const TimeSpan operator - (const DateTime &time) const;
+			const TimeSpan operator + (const DateTime &time) const;
 			
 			/**
 			 * Ruft die Anzahl der Tage im angegeben Monat und Jahr ab.
