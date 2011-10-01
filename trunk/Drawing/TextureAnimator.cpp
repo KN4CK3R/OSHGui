@@ -9,8 +9,9 @@ namespace OSHGui
 		std::list<TextureAnimator::TextureInfo> TextureAnimator::textureInfoList;
 		bool TextureAnimator::anyFrameDirty = false;
 
-		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture)
+		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode)
 		{
+			this->replayMode = replayMode;
 			frameDirty = false;
 			this->texture = texture;
 			frame = 0;
@@ -69,6 +70,11 @@ namespace OSHGui
 			return frameCount;
 		}
 		//---------------------------------------------------------------------------
+		TextureAnimator::ReplayMode TextureAnimator::TextureInfo::GetReplayMode() const
+		{
+			return replayMode;
+		}
+		//---------------------------------------------------------------------------
 		const Misc::TimeSpan& TextureAnimator::TextureInfo::GetFrameChangeInterval() const
 		{
 			return frameChangeInterval;
@@ -114,6 +120,13 @@ namespace OSHGui
 
 				if (textureInfo.GetNextFrameChangeTime() < Application::Now)
 				{
+					switch (textureInfo.GetReplayMode())
+					{
+						case Once:
+							break;
+						case Loop:
+							break;
+					}
 					int nextFrame = textureInfo.GetFrame() + 1;
 					if (nextFrame < textureInfo.GetFrameCount())
 					{
@@ -142,14 +155,14 @@ namespace OSHGui
 			}
         }
 		//---------------------------------------------------------------------------
-		void TextureAnimator::Animate(const std::shared_ptr<ITexture> &texture)
+		void TextureAnimator::Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode)
 		{
 			if (texture == 0)
 			{
 				return;
 			}
 
-			TextureInfo textureInfo(texture);
+			TextureInfo textureInfo(texture, replayMode);
 
 			StopAnimate(texture);
 

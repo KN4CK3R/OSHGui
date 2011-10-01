@@ -23,7 +23,7 @@ namespace OSHGui
 			 * @param size die Größe
 			 * @param frameCount die Anzahl der Frames (default: 1)
 			 */
-			TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount = 1);
+			TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
@@ -32,7 +32,7 @@ namespace OSHGui
 			 * @param height
 			 * @param frameCount die Anzahl der Frames (default: 1)
 			 */
-			TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount = 1);
+			TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
