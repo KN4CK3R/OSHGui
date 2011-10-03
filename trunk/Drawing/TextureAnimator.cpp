@@ -12,6 +12,7 @@ namespace OSHGui
 		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode)
 		{
 			this->replayMode = replayMode;
+			bounceBackwards = false;
 			frameDirty = false;
 			this->texture = texture;
 			frame = 0;
@@ -65,6 +66,60 @@ namespace OSHGui
 			return frame;
 		}
 		//---------------------------------------------------------------------------
+		int TextureAnimator::TextureInfo::GetNextFrame() const
+		{
+			switch (replayMode)
+			{
+				case Once:
+					if (frame + 1 < GetFrameCount())
+					{
+						return frame + 1;
+					}
+					else
+					{
+						return -1;
+					}
+					break;
+				case Loop:
+					if (frame + 1 < GetFrameCount())
+					{
+						return frame + 1;
+					}
+					else
+					{
+						return 0;
+					}
+					break;
+				case Bounce:
+					if (bounceBackwards)
+					{
+						if (frame - 1 >= 0)
+						{
+							return frame - 1;
+						}
+						else
+						{
+							bounceBackwards = false;
+							return frame + 1;
+						}
+					}
+					else
+					{
+						if (frame + 1 < GetFrameCount())
+						{
+							return frame + 1;
+						}
+						else
+						{
+							bounceBackwards = true;
+							return frame - 1;
+						}
+					}
+			}
+
+			return 0;
+		}
+		//---------------------------------------------------------------------------
 		int TextureAnimator::TextureInfo::GetFrameCount() const
 		{
 			return frameCount;
@@ -114,39 +169,22 @@ namespace OSHGui
 				return;
 			}
 
-			for (std::list<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
+			std::list<TextureInfo>::iterator it = textureInfoList.begin();
+			while (it != textureInfoList.end())
 			{
 				TextureInfo &textureInfo = *it;
 
 				if (textureInfo.GetNextFrameChangeTime() < Application::Now)
 				{
-					int currentFrame = textureInfo.GetFrame();
-					switch (textureInfo.GetReplayMode())
+					int nextFrame = textureInfo.GetNextFrame();
+					if (nextFrame != -1)
 					{
-						case Once:
-							++currentFrame;
-							if (currentFrame < textureInfo.GetFrameCount())
-							{
-								textureInfo.SetFrame(currentFrame);
-							}
-							else
-							{
-								StopAnimate(textureInfo.GetTexture());
-							}
-							break;
-						case Loop:
-							++currentFrame;
-							if (currentFrame < textureInfo.GetFrameCount())
-							{
-								textureInfo.SetFrame(currentFrame);
-							}
-							else
-							{
-								textureInfo.SetFrame(0);
-							}
-							break;
-						case Bounce:
-							break;
+						textureInfo.SetFrame(nextFrame);
+					}
+					else
+					{
+						it = textureInfoList.erase(it);
+						continue;
 					}
 
 					if (textureInfo.IsFrameDirty())
@@ -154,6 +192,8 @@ namespace OSHGui
 						anyFrameDirty = true;
 					}
    				}
+
+				++it;
 			}
 
 			if (!anyFrameDirty)

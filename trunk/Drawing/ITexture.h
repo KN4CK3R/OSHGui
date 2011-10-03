@@ -173,8 +173,9 @@ namespace OSHGui
 			 *
 			 * @return Anzahl der Frames
 			 */
-			virtual int GetFrameCount() = 0;
-			virtual const Misc::TimeSpan& GetFrameChangeInterval() = 0;
+			virtual int GetFrameCount() const = 0;
+			virtual const Misc::TimeSpan& GetFrameChangeInterval() const = 0;
+			virtual void AddFrame(const std::shared_ptr<ITexture> &frame) = 0;
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
 			 *
