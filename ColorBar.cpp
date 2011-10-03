@@ -89,9 +89,13 @@ namespace OSHGui
 			bounds.SetHeight(45);
 		}
 	
-		clientArea = bounds.OffsetEx(4, 0).InflateEx(-8, 0);
-		
-		UpdateBars();
+		Drawing::Rectangle newClientArea = bounds.OffsetEx(4, 0).InflateEx(-8, 0);
+		if (newClientArea != clientArea)
+		{
+			clientArea = newClientArea;
+
+			UpdateBars();
+		}
 
 		InvalidateChildren();
 	}
@@ -107,7 +111,11 @@ namespace OSHGui
 		
 		int width = clientArea.GetWidth();
 		
-		//bar->Create(width, 10);
+		if (width != bar->GetSize().Width)
+		{
+			bar = Application::Renderer->CreateNewTexture(width, 10);
+			bars[index] = bar;
+		}
 	
 		width -= 2;
 		float multi = 255.0f / width;
@@ -119,12 +127,15 @@ namespace OSHGui
 			switch (index)
 			{
 				case 0:
+					//bar->FillGradient(1, 1, width, 8, Drawing::Color(0, color.G, color.B), Drawing::Color(255, color.G, color.B), false);
 					bar->Fill(x + 1, 1, 1, 8, Drawing::Color((unsigned int)(x * multi), this->color.G, this->color.B));
 					break;
 				case 1:
+					//bar->FillGradient(1, 1, width, 8, Drawing::Color(color.R, 0, color.B), Drawing::Color(color.R, 255, color.B), false);
 					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(this->color.R, (unsigned int)(x * multi), this->color.B));
 					break;
 				case 2:
+					//bar->FillGradient(1, 1, width, 8, Drawing::Color(color.R, color.G, 0), Drawing::Color(color.R, color.G, 255), false);
 					bar->Fill(x + 1, 1, 1, 8, Drawing::Color(this->color.R, this->color.G, (unsigned int)(x * multi)));
 					break;
 			}

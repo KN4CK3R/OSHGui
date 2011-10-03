@@ -40,6 +40,7 @@ namespace OSHGui
 				bool IsFrameDirty() const;
 				void SetFrame(int frame);
 				int GetFrame() const;
+				int GetNextFrame() const;
 				int GetFrameCount() const;
 				ReplayMode GetReplayMode() const;
 				const Misc::TimeSpan& GetFrameChangeInterval() const;
@@ -51,6 +52,7 @@ namespace OSHGui
 				std::shared_ptr<ITexture> texture;
 				bool animated;
 				bool frameDirty;
+				mutable bool bounceBackwards;
 				int frame;
 				int frameCount;
 				Misc::TimeSpan frameChangeInterval;

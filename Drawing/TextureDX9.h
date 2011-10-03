@@ -197,22 +197,15 @@ namespace OSHGui
 			 *
 			 * @return Anzahl der Frames
 			 */
-			virtual int GetFrameCount() { return frames.size(); }
-			virtual const Misc::TimeSpan& GetFrameChangeInterval() { return frameChangeInterval; }
+			virtual int GetFrameCount() const;
+			virtual const Misc::TimeSpan& GetFrameChangeInterval() const;
+			virtual void AddFrame(const std::shared_ptr<ITexture> &frame);
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
 			 *
 			 * @param frame der Frame Index zwischen 0 und GetFrameCount()
 			 */
-			virtual void SelectActiveFrame(int frame)
-			{
-				if (frame < 0 || frame >= GetFrameCount())
-				{
-					frame = 0;
-				}
-
-				texture = frames[frame];
-			}
+			virtual void SelectActiveFrame(int frame);
 			
 		protected:
 			/**

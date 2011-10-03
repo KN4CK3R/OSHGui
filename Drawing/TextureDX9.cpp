@@ -222,15 +222,22 @@ namespace OSHGui
 				for (int y = 0; y < toY; ++y)
 				{
 					int row = (fromY + y) * lock.Pitch;
+
+					BYTE newColor[4] = {
+						color[0] + (BYTE)(y * step[0]),
+						color[1] + (BYTE)(y * step[1]),
+						color[2] + (BYTE)(y * step[2]),
+						color[3] + (BYTE)(y * step[3])
+					};
 					
 					for (int x = 0; x < toX; ++x)
 					{
 						int index = (fromX + x) * 4 + row;
 						
-						raw[index] = color[0] + (BYTE)(y * step[0]);
-						raw[index + 1] = color[1] + (BYTE)(y * step[1]);
-						raw[index + 2] = color[2] + (BYTE)(y * step[2]);
-						raw[index + 3] = color[3] + (BYTE)(y * step[3]);
+						raw[index] = newColor[0];
+						raw[index + 1] = newColor[1];
+						raw[index + 2] = newColor[2];
+						raw[index + 3] = newColor[3];
 					}
 				}
 			}
@@ -240,8 +247,30 @@ namespace OSHGui
 				step[1] = (to.G - color[1]) / (float)toX;
 				step[2] = (to.R - color[2]) / (float)toX;
 				step[3] = (to.A - color[3]) / (float)toX;
+
+				for (int x = 0; x < toX; ++x)
+				{
+					int line = (fromX + x) * 4;
+
+					BYTE newColor[4] = {
+						color[0] + (BYTE)(x * step[0]),
+						color[1] + (BYTE)(x * step[1]),
+						color[2] + (BYTE)(x * step[2]),
+						color[3] + (BYTE)(x * step[3])
+					};
+
+					for (int y = 0; y < toY; ++y)
+					{
+						int index = (fromY + y) * lock.Pitch + line;
+
+						raw[index] = newColor[0];
+						raw[index + 1] = newColor[1];
+						raw[index + 2] = newColor[2];
+						raw[index + 3] = newColor[3];
+					}
+				}
 			
-				for (int y = 0; y < toY; ++y)
+				/*for (int y = 0; y < toY; ++y)
 				{
 					int row = (fromY + y) * lock.Pitch;
 					
@@ -254,7 +283,7 @@ namespace OSHGui
 						raw[index + 2] = color[2] + (BYTE)(x * step[2]);
 						raw[index + 3] = color[3] + (BYTE)(x * step[3]);
 					}
-				}
+				}*/
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -486,6 +515,72 @@ namespace OSHGui
 			}
 			
 			temp->UnlockRect(0);
+		}
+		//---------------------------------------------------------------------------
+		int TextureDX9::GetFrameCount() const
+		{
+			return frames.size();
+		}
+		//---------------------------------------------------------------------------
+		const Misc::TimeSpan& TextureDX9::GetFrameChangeInterval() const
+		{
+			return frameChangeInterval;
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::AddFrame(const std::shared_ptr<ITexture> &frame)
+		{
+			if (frame->GetSize() != GetSize())
+			{
+				throw 1;
+			}
+
+			IDirect3DTexture9 *source = std::static_pointer_cast<TextureDX9>(frame)->GetTexture();
+			if (source == 0)
+			{
+				throw 1;
+			}
+
+			IDirect3DTexture9 *copy;
+			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &copy, 0)))
+			{
+				D3DLOCKED_RECT copyLock;
+				copy->LockRect(0, &copyLock, 0, 0);
+				BYTE *copyRaw = (BYTE*)copyLock.pBits;
+				
+				D3DLOCKED_RECT sourceLock;
+				source->LockRect(0, &sourceLock, 0, 0);
+				BYTE *sourceRaw = (BYTE*)sourceLock.pBits;
+					
+				for (int y = 0; y < size.Height; ++y)
+				{
+					int row = y * lock.Pitch;
+								
+					for (int x = 0; x < size.Width; ++x)
+					{
+						int index = x * 4 + row;
+								
+						copyRaw[index] = sourceRaw[index];
+						copyRaw[index + 1] = sourceRaw[index + 1];
+						copyRaw[index + 2] = sourceRaw[index + 2];
+						copyRaw[index + 3] = sourceRaw[index + 3];
+					}
+				}
+
+				source->UnlockRect(0);
+				copy->UnlockRect(0);
+
+				frames.push_back(copy);
+			}
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::SelectActiveFrame(int frame)
+		{
+			if (frame < 0 || frame >= GetFrameCount())
+			{
+				frame = 0;
+			}
+
+			texture = frames[frame];
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -1,4 +1,5 @@
 #include "PictureBox.h"
+#include "Drawing\TextureAnimator.h"
 
 namespace OSHGui
 {
@@ -24,7 +25,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
 	{
+		Drawing::TextureAnimator::StopAnimate(this->image);
 		this->image = image;
+		Drawing::TextureAnimator::Animate(this->image, Drawing::TextureAnimator::Loop);
 	}
 	//---------------------------------------------------------------------------
 	std::shared_ptr<Drawing::ITexture> PictureBox::GetImage() const
