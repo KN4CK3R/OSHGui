@@ -13,7 +13,7 @@ namespace OSHGui
 	
 		CreateCursor();
 
-		Drawing::TextureAnimator::Animate(cursor);
+		Drawing::TextureAnimator::Animate(cursor, Drawing::TextureAnimator::ReplayMode::Loop);
 	}
 	//---------------------------------------------------------------------------
 	WaitCursor::~WaitCursor()

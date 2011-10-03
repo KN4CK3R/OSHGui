@@ -120,21 +120,33 @@ namespace OSHGui
 
 				if (textureInfo.GetNextFrameChangeTime() < Application::Now)
 				{
+					int currentFrame = textureInfo.GetFrame();
 					switch (textureInfo.GetReplayMode())
 					{
 						case Once:
+							++currentFrame;
+							if (currentFrame < textureInfo.GetFrameCount())
+							{
+								textureInfo.SetFrame(currentFrame);
+							}
+							else
+							{
+								StopAnimate(textureInfo.GetTexture());
+							}
 							break;
 						case Loop:
+							++currentFrame;
+							if (currentFrame < textureInfo.GetFrameCount())
+							{
+								textureInfo.SetFrame(currentFrame);
+							}
+							else
+							{
+								textureInfo.SetFrame(0);
+							}
 							break;
-					}
-					int nextFrame = textureInfo.GetFrame() + 1;
-					if (nextFrame < textureInfo.GetFrameCount())
-					{
-						textureInfo.SetFrame(nextFrame);
-					}
-					else
-					{
-						textureInfo.SetFrame(0);
+						case Bounce:
+							break;
 					}
 
 					if (textureInfo.IsFrameDirty())
