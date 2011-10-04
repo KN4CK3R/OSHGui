@@ -13,7 +13,7 @@ namespace OSHGui
 		
 		for (int i = 0; i < 3; ++i)
 		{
-			bars.push_back(Application::Renderer->CreateNewTexture(150, 10));
+			bars.push_back(Application::GetRenderer()->CreateNewTexture(150, 10));
 			barSliders.push_back(Drawing::Point());
 			drag[i] = false;
 		}
@@ -113,7 +113,7 @@ namespace OSHGui
 		
 		if (width != bar->GetSize().Width)
 		{
-			bar = Application::Renderer->CreateNewTexture(width, 10);
+			bar = Application::GetRenderer()->CreateNewTexture(width, 10);
 			bars[index] = bar;
 		}
 	

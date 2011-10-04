@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_MOUSEMESSAGE_H__
-#define __OSHGUI_MOUSEMESSAGE_H__
+#ifndef OSHGUI_EVENT_MOUSEEVENT_H_
+#define OSHGUI_EVENT_MOUSEEVENT_H_
 
 #include "Drawing\Point.h"
 #include "IEvent.h"

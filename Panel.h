@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_PANEL_H__
-#define __OSHGUI_PANEL_H__
+#ifndef OSHGUI_PANEL_H_
+#define OSHGUI_PANEL_H_
 
 #include "Control.h"
 

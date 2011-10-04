@@ -21,7 +21,7 @@ namespace OSHGui
 		focusControl = 0;
 		mouseOverControl = 0;
 
-		font = Application::Renderer->GetDefaultFont();
+		font = Application::GetRenderer()->GetDefaultFont();
 		
 		cursor = Cursors::Get(Cursors::Default);
 		

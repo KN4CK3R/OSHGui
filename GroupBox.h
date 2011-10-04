@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_GROUPBOX_H__
-#define __OSHGUI_GROUPBOX_H__
+#ifndef OSHGUI_GROUPBOX_H_
+#define OSHGUI_GROUPBOX_H_
 
 #include "Control.h"
 #include "Misc\TextHelper.h"

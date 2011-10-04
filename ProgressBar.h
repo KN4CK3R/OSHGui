@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_PROGRESSBAR_H__
-#define __OSHGUI_PROGRESSBAR_H__
+#ifndef OSHGUI_PROGRESSBAR_H_
+#define OSHGUI_PROGRESSBAR_H_
 
 #include "Control.h"
 #include "Panel.h"

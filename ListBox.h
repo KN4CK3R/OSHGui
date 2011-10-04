@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_LISTBOX_H__
-#define __OSHGUI_LISTBOX_H__
+#ifndef OSHGUI_LISTBOX_H_
+#define OSHGUI_LISTBOX_H_
 
 #include <vector>
 #include "Control.h"

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_MISC_ANY_H__
-#define __OSHGUI_MISC_ANY_H__
+#ifndef OSHGUI_MISC_ANY_H_
+#define OSHGUI_MISC_ANY_H_
 
 namespace OSHGui
 {

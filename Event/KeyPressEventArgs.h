@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_KEYPRESSEVENTARGS_H__
-#define __OSHGUI_KEYPRESSEVENTARGS_H__
+#ifndef OSHGUI_EVENT_KEYPRESSEVENTARGS_H_
+#define OSHGUI_EVENT_KEYPRESSEVENTARGS_H_
 
 #include "Misc\Strings.h"
 #include "KeyboardEvent.h"

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_MISC_TEXTHELPER_H__
-#define __OSHGUI_MISC_TEXTHELPER_H__
+#ifndef OSHGUI_MISC_TEXTHELPER_H_
+#define OSHGUI_MISC_TEXTHELPER_H_
 
 #include <memory>
 

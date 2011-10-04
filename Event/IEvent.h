@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_EVENT_H__
-#define __OSHGUI_EVENT_H__
+#ifndef OSHGUI_EVENT_IEVENT_H_
+#define OSHGUI_EVENT_IEVENT_H_
 
 namespace OSHGui
 {

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_POINT_H__
-#define __OSHGUI_DRAWING_POINT_H__
+#ifndef OSHGUI_DRAWING_POINT_H_
+#define OSHGUI_DRAWING_POINT_H_
 
 namespace OSHGui
 {

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_RENDEREROPENGL_H__
-#define __OSHGUI_DRAWING_RENDEREROPENGL_H__
+#ifndef OSHGUI_DRAWING_RENDEREROPENGL_H_
+#define OSHGUI_DRAWING_RENDEREROPENGL_H_
 
 #include <windows.h>
 #include <stdio.h>

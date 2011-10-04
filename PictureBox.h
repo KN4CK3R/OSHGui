@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_PICTUREBOX_H__
-#define __OSHGUI_PICTUREBOX_H__
+#ifndef OSHGUI_PICTUREBOX_H_
+#define OSHGUI_PICTUREBOX_H_
 
 #include <memory>
 #include "Control.h"

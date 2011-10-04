@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_TABCONTROL_H__
-#define __OSHGUI_TABCONTROL_H__
+#ifndef OSHGUI_TABCONTROL_H_
+#define OSHGUI_TABCONTROL_H_
 
 #include "Event\EventHandler.h"
 #include "Control.h"

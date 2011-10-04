@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_CURSORS_H__
-#define __OSHGUI_CURSORS_H__
+#ifndef OSHGUI_CURSOR_CURSORS_H_
+#define OSHGUI_CURSOR_CURSORS_H_
 
 #include <map>
 #include <memory>

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_FORM_H__
-#define __OSHGUI_FORM_H__
+#ifndef OSHGUI_FORM_H_
+#define OSHGUI_FORM_H_
 
 #include <functional>
 #include "Control.h"

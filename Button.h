@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_BUTTON_H__
-#define __OSHGUI_BUTTON_H__
+#ifndef OSHGUI_BUTTON_H_
+#define OSHGUI_BUTTON_H_
 
 #include "Label.h"
 

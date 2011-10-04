@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_HANDCURSOR_H__
-#define __OSHGUI_HANDCURSOR_H__
+#ifndef OSHGUI_CURSOR_HAND_H_
+#define OSHGUI_CURSOR_HAND_H_
 
 #include "Cursor.h"
 

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_IMAGEANIMATOR_H__
-#define __OSHGUI_DRAWING_IMAGEANIMATOR_H__
+#ifndef OSHGUI_DRAWING_IMAGEANIMATOR_H_
+#define OSHGUI_DRAWING_IMAGEANIMATOR_H_
 
 #include <list>
 #include <memory>
