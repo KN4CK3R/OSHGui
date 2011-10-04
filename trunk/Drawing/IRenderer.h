@@ -20,6 +20,8 @@ namespace OSHGui
 		class IRenderer
 		{
 		public:
+			virtual const Size& GetRenderDimension() const;
+		
 			/**
 			 * Leitet das Zeichnen ein.
 			 */
@@ -29,17 +31,29 @@ namespace OSHGui
 			 */
 			virtual void End() = 0;
 
+			/**
+			 * Erzeugt eine neue Textur mit der angebenen Größe, Anzahl der Frames und deren Wechselinterval.
+			 *
+			 * @param size die Größe
+			 * @param frameCount Anzahl der Frames (optional für animierte Texturen)
+			 * @param frameChangeInterval Interval der Framewechsel (optional für animierte Texturen)
+			 * @return die Textur
+			 */
 			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
-			 * Erzeugt eine neue Textur.
+			 * Erzeugt eine neue Textur mit der angebenen Größe, Anzahl der Frames und deren Wechselinterval.
 			 *
-			 * @return eine neue Textur
+			 * @param width die Breite
+			 * @param height die Höhe
+			 * @param frameCount Anzahl der Frames (optional für animierte Texturen)
+			 * @param frameChangeInterval Interval der Framewechsel (optional für animierte Texturen)
+			 * @return die Textur
 			 */
 			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
-			 * Erzeugt eine neue Textur.
+			 * Lädt eine Textur aus einer Datei.
 			 *
-			 * @return eine neue Textur
+			 * @return die Textur
 			 */
 			virtual std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename) = 0;
 			/**

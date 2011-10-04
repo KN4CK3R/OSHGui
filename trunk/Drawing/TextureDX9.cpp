@@ -16,6 +16,7 @@ namespace OSHGui
 		{
 			this->device = device;
 			lock.pBits = 0;
+			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
 			Create(size, frameCount);
@@ -25,6 +26,7 @@ namespace OSHGui
 		{
 			this->device = device;
 			lock.pBits = 0;
+			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
 			Create(Size(width, height), frameCount);
@@ -34,6 +36,7 @@ namespace OSHGui
 		{
 			this->device = device;
 			lock.pBits = 0;
+			frame = 0;
 			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
 
 			LoadFromFile(filename);
@@ -97,16 +100,24 @@ namespace OSHGui
 				return false;
 			}
 			
-			if (!FAILED(D3DXCreateTextureFromFileW(device, filename.c_str(), &texture)))
+			size = Drawing::Size(info.Width, info.Height);
+			
+			if (frames[frame] != 0)
 			{
-				size = Drawing::Size(info.Width, info.Height);
-
-				return true;
+				frames[frame]->Release();
 			}
 			
-			texture = 0;
+			if (FAILED(D3DXCreateTextureFromFileW(device, filename.c_str(), &frames[frame])))
+			{
+				frames[frame] = 0;
+				texture = 0;
+				
+				return false;
+			}
 			
-			return false;
+			texture = frames[frame];
+			
+			return true;
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::BeginUpdate()
@@ -579,8 +590,10 @@ namespace OSHGui
 			{
 				frame = 0;
 			}
+			
+			this->frame = frame;
 
-			texture = frames[frame];
+			texture = frames[this->frame];
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -16,6 +16,16 @@ namespace OSHGui
 	Application::MouseInfo Application::Mouse;
 	Misc::DateTime Application::now = Misc::DateTime::GetNow();
 	//---------------------------------------------------------------------------
+	void Application::Create(Drawing::IRenderer *renderer)
+	{
+		if (renderer == 0)
+		{
+			throw 1;
+		}
+		
+		Application::renderer = renderer;
+	}
+	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
 		enabled = true;
@@ -169,6 +179,14 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void Application::BringToFront(Form *form)
+	{
+		if (form != 0)
+		{
+			focusForm = form;
+		}
+	}
+	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Application::ProcessEvent(IEvent *event)
 	{
 		if (event == 0 || !enabled)
@@ -262,7 +280,24 @@ namespace OSHGui
 		{
 			modals.front().form->Render(Renderer);
 		}
-
+		
+		//render startbar
+		renderer->SetRenderColor(Drawing::Color(0x5C5C5C));
+		Drawing::Size size = renderer->GetDeviceSize();
+		renderer->Fill(0, size.Height - 40, size.Width, 2);
+		renderer->SetRenderColor(Drawing::Color(0x2D2D2D));
+		renderer->FillGradient(0, size.Height - 38, size.Width, 38, Drawing::Color(0x121212));
+		renderer->SetRenderColor(Drawing::Color(0x2F2F2F));
+		renderer->Fill(54, size.Height - 40, 1, 40);
+		
+		int tabWidth = (size.Width - 55) / forms.size();
+		int tabPos = 55;
+		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it, tabPos += tabWidth)
+		{
+			renderer->RenderText(renderer->GetDefaultFont(), tabPos, size.Height - 40, tabWidth, 40, (*it)->GetText());
+			renderer->Fill(tabPos, size.Height - 40, 1, 40);
+		}
+		
 		Mouse.Cursor->Render(Renderer, Mouse.Position);
 	}
 	//---------------------------------------------------------------------------

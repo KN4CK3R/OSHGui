@@ -12,7 +12,8 @@ namespace OSHGui
 		visible = false;
 		enabled = false;
 		drag = false;
-		isModal = false;
+		modalParent = 0;
+		modalChild = 0;
 
 		SetBounds(10, 10, 300, 300);
 
@@ -41,7 +42,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Form::IsModal() const
 	{
-		return isModal;
+		return modalParent != 0;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -69,10 +70,16 @@ namespace OSHGui
 		enabled = true;
 	}
 	//---------------------------------------------------------------------------
-	void Form::ShowModal(const std::function<void()> &func)
+	void Form::ShowModal(Form *parent, const std::function<void()> &func)
 	{
-		isModal = true;
+		if (parent == 0)
+		{
+			return;
+		}
 
+		modalParent = parent;
+		modalParent->modalChild = this;
+		
 		Application::RegisterForm(this, func);
 
 		visible = true;
@@ -81,6 +88,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Close()
 	{
+		if (modalParent != 0)
+		{
+			modalParent->modalChild = 0;
+		}
 		Application::UnregisterForm(this);
 	}
 	//---------------------------------------------------------------------------
@@ -96,6 +107,11 @@ namespace OSHGui
 		if (!visible || !enabled)
 		{
 			return IEvent::Continue;
+		}
+		
+		if (modalChild != 0)
+		{
+			return modalChild->ProcessEvent(event);
 		}
 
 		static Drawing::Point oldMousePosition;
@@ -147,7 +163,6 @@ namespace OSHGui
 			}
 
 			mouse->Position -= clientArea.GetPosition() - bounds.GetPosition();
-
 		}
 	
 		if (ChildProcessEvent(event) == IEvent::DontContinue)
@@ -208,7 +223,6 @@ namespace OSHGui
 		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
 		renderer->Fill(bounds.GetLeft() + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
-		//renderer->FillGradient(clientArea, backColor);
 
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, textHelper.GetText());
@@ -230,6 +244,11 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderRectangle(renderRect);
+		
+		if (modalChild != 0)
+		{
+			modalChild->Render(renderer);
+		}
 	}
 	//---------------------------------------------------------------------------
 }
