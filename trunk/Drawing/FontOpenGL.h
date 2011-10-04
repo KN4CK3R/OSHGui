@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_FONTOPENGL_H__
-#define __OSHGUI_DRAWING_FONTOPENGL_H__
+#ifndef OSHGUI_DRAWING_FONTOPENGL_H_
+#define OSHGUI_DRAWING_FONTOPENGL_H_
 
 #include <windows.h>
 #include <gl\GL.h>

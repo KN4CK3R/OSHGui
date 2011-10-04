@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_MOUSEEVENTARGS_H__
-#define __OSHGUI_MOUSEEVENTARGS_H__
+#ifndef OSHGUI_EVENT_MOUSEEVENTARGS_H_
+#define OSHGUI_EVENT_MOUSEEVENTARGS_H_
 
 #include "Drawing\Point.h"
 #include "MouseEvent.h"

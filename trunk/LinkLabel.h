@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_LINKLABEL_H__
-#define __OSHGUI_LINKLABEL_H__
+#ifndef OSHGUI_LINKLABEL_H_
+#define OSHGUI_LINKLABEL_H_
 
 #include "Label.h"
 

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_CURSOR_H__
-#define __OSHGUI_CURSOR_H__
+#ifndef OSHGUI_CURSOR_CURSOR_H_
+#define OSHGUI_CURSOR_CURSOR_H_
 
 #include <memory>
 #include "../Drawing/Point.h"

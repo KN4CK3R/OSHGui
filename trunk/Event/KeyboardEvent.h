@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_KEYBOARDEVENT_H__
-#define __OSHGUI_KEYBOARDEVENT_H__
+#ifndef OSHGUI_EVENT_KEYBOARDEVENT_H_
+#define OSHGUI_EVENT_KEYBOARDEVENT_H_
 
 #include "Key.h"
 #include "IEvent.h"

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_TEXTBOX_H__
-#define __OSHGUI_TEXTBOX_H__
+#ifndef OSHGUI_TEXTBOX_H_
+#define OSHGUI_TEXTBOX_H_
 
 #include "Event\EventHandler.h"
 #include "Control.h"

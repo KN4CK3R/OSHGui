@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_PIPETTECURSOR_H__
-#define __OSHGUI_PIPETTECURSOR_H__
+#ifndef OSHGUI_CURSOR_PIPETTE_H_
+#define OSHGUI_CURSOR_PIPETTE_H_
 
 #include "Cursor.h"
 

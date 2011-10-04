@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_COLORBAR_H__
-#define __OSHGUI_COLORBAR_H__
+#ifndef OSHGUI_COLORBAR_H_
+#define OSHGUI_COLORBAR_H_
 
 #include <memory>
 #include "Control.h"

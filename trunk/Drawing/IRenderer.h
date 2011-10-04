@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_IRENDERER_H__
-#define __OSHGUI_DRAWING_IRENDERER_H__
+#ifndef OSHGUI_DRAWING_IRENDERER_H_
+#define OSHGUI_DRAWING_IRENDERER_H_
 
 #include <memory>
 #include "Color.h"

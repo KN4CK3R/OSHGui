@@ -9,7 +9,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	WaitCursor::WaitCursor()
 	{
-		cursor = Application::Renderer->CreateNewTexture(16, 16, 14);
+		cursor = Application::GetRenderer()->CreateNewTexture(16, 16, 14);
 	
 		CreateCursor();
 

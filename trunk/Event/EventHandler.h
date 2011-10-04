@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_EVENTHANDLER_H__
-#define __OSHGUI_EVENTHANDLER_H__
+#ifndef OSHGUI_EVENT_EVENTHANDLER_H_
+#define OSHGUI_EVENT_EVENTHANDLER_H_
 
 #include <list>
 #include <memory>

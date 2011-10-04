@@ -12,9 +12,9 @@ namespace OSHGui
 	Form *Application::focusForm = 0;
 	Form *Application::mainForm = 0;
 	bool Application::enabled = false;
-	Drawing::IRenderer *Application::Renderer = 0;
+	Drawing::IRenderer *Application::renderer = 0;
 	Application::MouseInfo Application::Mouse;
-	Misc::DateTime Application::Now = Misc::DateTime::GetNow();
+	Misc::DateTime Application::now = Misc::DateTime::GetNow();
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{

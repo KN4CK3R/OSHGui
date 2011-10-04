@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_CHECKBOX_H__
-#define __OSHGUI_CHECKBOX_H__
+#ifndef OSHGUI_CHECKBOX_H_
+#define OSHGUI_CHECKBOX_H_
 
 #include "Label.h"
 

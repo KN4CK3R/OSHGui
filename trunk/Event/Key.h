@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_KEY_H__
-#define __OSHGUI_KEY_H__
+#ifndef OSHGUI_EVENT_KEY_H_
+#define OSHGUI_EVENT_KEY_H_
 
 namespace OSHGui
 {

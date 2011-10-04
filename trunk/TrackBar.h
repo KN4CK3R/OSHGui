@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_TRACKBAR_H__
-#define __OSHGUI_TRACKBAR_H__
+#ifndef OSHGUI_TRACKBAR_H_
+#define OSHGUI_TRACKBAR_H_
 
 #include "Event\EventHandler.h"
 #include "Control.h"

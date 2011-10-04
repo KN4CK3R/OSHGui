@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_FONTDX11_H__
-#define __OSHGUI_DRAWING_FONTDX11_H__
+#ifndef OSHGUI_DRAWING_FONTDX11_H_
+#define OSHGUI_DRAWING_FONTDX11_H_
 
 #include <d3dx11.h>
 

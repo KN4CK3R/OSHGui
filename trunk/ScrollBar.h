@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_SCROLLBAR_H__
-#define __OSHGUI_SCROLLBAR_H__
+#ifndef OSHGUI_SCROLLBAR_H_
+#define OSHGUI_SCROLLBAR_H_
 
 #include "Control.h"
 

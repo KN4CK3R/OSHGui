@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_MISC_TIMESPAN_H__
-#define __OSHGUI_MISC_TIMESPAN_H__
+#ifndef OSHGUI_MISC_TIMESPAN_H_
+#define OSHGUI_MISC_TIMESPAN_H_
 
 #include "Strings.h"
 

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_DRAWING_IFONT_H__
-#define __OSHGUI_DRAWING_IFONT_H__
+#ifndef OSHGUI_DRAWING_IFONT_H_
+#define OSHGUI_DRAWING_IFONT_H_
 
 #include "Point.h"
 #include "Size.h"

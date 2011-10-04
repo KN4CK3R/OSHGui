@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_LABEL_H__
-#define __OSHGUI_LABEL_H__
+#ifndef OSHGUI_LABEL_H_
+#define OSHGUI_LABEL_H_
 
 #include "Control.h"
 #include "Misc\TextHelper.h"

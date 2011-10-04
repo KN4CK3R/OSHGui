@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_APPLICATION_H__
-#define __OSHGUI_APPLICATION_H__
+#ifndef OSHGUI_APPLICATION_H_
+#define OSHGUI_APPLICATION_H_
 
 #include <functional>
 #include <list>
@@ -26,6 +26,26 @@ namespace OSHGui
 
 	public:
 		/**
+		 * Initialisiert die Application-Klasse.
+		 *
+		 * @param renderer Instanz des verwendeten Renderers
+		 */
+		static void Create(Drawing::IRenderer *renderer);
+		
+		/**
+		 * Ruft die aktuelle Uhrzeit ab.
+		 *
+		 * @return DateTime::Now
+		 */
+		static const Misc::DateTime& GetNow() const;
+		/**
+		 * Ruft den verwendeten Renderer ab.
+		 *
+		 * @return renderer
+		 */
+		static Drawing::IRenderer GetRenderer() const;
+	
+		/**
 		 * Aktiviert das GUI.
 		 */
 		static void Enable();
@@ -33,14 +53,12 @@ namespace OSHGui
 		 * Deaktiviert das GUI.
 		 */
 		static void Disable();
-
 		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
 		 * @param form
 		 */
 		static void Run(Form *form);
-
 		/**
 		 * Gibt ein IEvent an die geöffneten Formen weiter.
 		 *
@@ -79,20 +97,16 @@ namespace OSHGui
 		static std::list<Form*> removeForms;
 		static bool enabled;
 
-	public:
-		/**
-		 *
-		 */
-		static Drawing::IRenderer *Renderer;
+		static Drawing::IRenderer *renderer;
 		
-		static Misc::DateTime Now;
+		static Misc::DateTime now;
 
 		typedef struct
 		{
 			Drawing::Point Position;
 			std::shared_ptr<Cursor> Cursor;
 		} MouseInfo;
-		static MouseInfo Mouse;
+		static MouseInfo mouse;
 	};
 }
 

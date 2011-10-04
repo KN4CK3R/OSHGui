@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_TABPAGE_H__
-#define __OSHGUI_TABPAGE_H__
+#ifndef OSHGUI_TABPAGE_H_
+#define OSHGUI_TABPAGE_H_
 
 #include "Panel.h"
 

@@ -1,5 +1,5 @@
-#ifndef __OSHGUI_TIMER_H__
-#define __OSHGUI_TIMER_H__
+#ifndef OSHGUI_TIMER_H_
+#define OSHGUI_TIMER_H_
 
 #include "Control.h"
 #include "Event\EventHandler.h"

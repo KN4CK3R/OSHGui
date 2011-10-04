@@ -146,7 +146,7 @@ namespace OSHGui
 			{
 				texture->SelectActiveFrame(frame);
 
-				nextFrameChangeTime = Application::Now.Add(frameChangeInterval);
+				nextFrameChangeTime = Application::GetNow().Add(frameChangeInterval);
 
 				frameDirty = false;
 			}
@@ -174,7 +174,7 @@ namespace OSHGui
 			{
 				TextureInfo &textureInfo = *it;
 
-				if (textureInfo.GetNextFrameChangeTime() < Application::Now)
+				if (textureInfo.GetNextFrameChangeTime() < Application::GetNow())
 				{
 					int nextFrame = textureInfo.GetNextFrame();
 					if (nextFrame != -1)
