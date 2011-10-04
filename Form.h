@@ -16,7 +16,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		Form();
+		Form(Form *form);
 		virtual ~Form();
 
 		bool IsModal() const;
@@ -85,7 +85,8 @@ namespace OSHGui
 		Drawing::Rectangle captionBar,
 						   closeRect;
 		bool drag;
-		bool isModal;
+		Form *modalChild,
+			 *modalParent;
 	};
 }
 

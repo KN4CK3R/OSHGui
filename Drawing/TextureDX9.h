@@ -209,9 +209,10 @@ namespace OSHGui
 			
 		protected:
 			/**
-			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
+			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe und der Anzahl der Frames.
 			 *
 			 * @param size die Größe
+			 * @param frameCount die Anzahl der Frames
 			 * @return gibt den Status der Operation zurück
 			 */
 			virtual bool Create(const Size &size, int frameCount = 1);
@@ -233,6 +234,7 @@ namespace OSHGui
 			//Animation
 			Misc::TimeSpan frameChangeInterval;
 			std::vector<IDirect3DTexture9*> frames;
+			int frame;
 		};
 	}
 }

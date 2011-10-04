@@ -84,17 +84,18 @@ namespace OSHGui
 
 		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);
 		static void UnregisterForm(Form *form);
+		static void BringtToFront(Form *form);
 		struct ModalInfo
 		{
 			Form *form;
 			std::function<void()> func;
 		};
 		static std::list<ModalInfo> modals; //we can't use std::stack here because we need an iterator
-
 		static std::list<Form*> forms;
 		static Form *focusForm,
 					*mainForm;
 		static std::list<Form*> removeForms;
+		
 		static bool enabled;
 
 		static Drawing::IRenderer *renderer;
