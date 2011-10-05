@@ -1,4 +1,5 @@
 #include "CheckBox.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -98,7 +99,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)

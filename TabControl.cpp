@@ -1,6 +1,7 @@
 #include "TabControl.h"
 #include "TabPage.h"
 #include "Misc\TextHelper.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -41,7 +42,7 @@ namespace OSHGui
 			}
 		}
 
-		return 0;
+		throw ArgumentOutOfRangeException(L"index");
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
@@ -57,7 +58,7 @@ namespace OSHGui
 			return *it;
 		}
 
-		return 0;
+		throw ArgumentOutOfRangeException(L"index");
 	}
 	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
@@ -71,7 +72,7 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
-			return;
+			throw ArgumentNullException(L"tabPage");
 		}
 
 		tabs.push_back(tabPage);
@@ -87,7 +88,7 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
-			return;
+			throw ArgumentNullException(L"tabPage");
 		}
 
 		tabs.remove(tabPage);
@@ -129,7 +130,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)

@@ -1,6 +1,7 @@
 #include "Timer.h"
 #include "Control.h"
 #include "Application.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -12,7 +13,7 @@ namespace OSHGui
 		type = CONTROL_TIMER;
 
 		enabled = false;
-		interval = 100;
+		interval = 100L;
 	}
 	//---------------------------------------------------------------------------
 	Timer::~Timer()
@@ -48,11 +49,18 @@ namespace OSHGui
 	{
 		if (this->interval != interval)
 		{
-			this->interval = interval > 0 ? interval : 100;
-			if (enabled)
+			if (interval > 0)
 			{
-				Application::UnregisterTimer(this);
-				Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
+				this->interval = interval;
+				if (enabled)
+				{
+					Application::UnregisterTimer(this);
+					Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
+				}
+			}
+			else
+			{
+				throw new ArgumentOutOfRangeException(L"interval");
 			}
 		}
 	}

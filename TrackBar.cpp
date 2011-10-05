@@ -1,4 +1,5 @@
 #include "TrackBar.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -108,7 +109,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
-		value = value < min ? min : value > max ? max : value;
+		if (value < min || value > max)
+		{
+			throw ArgumentOutOfRangeException(L"value");
+		}
 		
 		if (this->value != value)
 		{
@@ -132,7 +136,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)

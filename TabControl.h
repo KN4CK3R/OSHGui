@@ -1,9 +1,8 @@
 #ifndef OSHGUI_TABCONTROL_H_
 #define OSHGUI_TABCONTROL_H_
 
-#include "Event\EventHandler.h"
-#include "Control.h"
 #include <list>
+#include "Control.h"
 
 namespace OSHGui
 {
@@ -27,14 +26,14 @@ namespace OSHGui
 		 * Ruft die TabPage mit dem entsprechenden Namen ab.
 		 *
 		 * @param name der Name
-		 * @return im Fehlerfall 0
+		 * @return Zeiger zur TabPage
 		 */
 		TabPage* GetTabPage(const Misc::UnicodeString &name) const;
 		/**
 		 * Ruft die TabPage am entsprechenden Index ab.
 		 *
 		 * @param index
-		 * @return im Fehlerfall 0
+		 * @return Zeiger zur TabPage
 		 */
 		TabPage* GetTabPage(int index) const;
 		/**

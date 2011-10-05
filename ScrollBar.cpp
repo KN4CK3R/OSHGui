@@ -1,4 +1,5 @@
 #include "ScrollBar.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -125,14 +126,9 @@ namespace OSHGui
 			return false;
 		}
 
-		if (index < 0)
+		if (index < 0 || index >= range)
 		{
-			index = 0;
-		}
-
-		if (index >= range)
-		{
-			index = range - 1;
+			throw ArgumentOutOfRangeException(L"index");
 		}
 
 		if (position > index)
@@ -160,7 +156,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)

@@ -1,5 +1,6 @@
 #include "PictureBox.h"
 #include "Drawing\TextureAnimator.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -48,12 +49,15 @@ namespace OSHGui
 		{
 			clientArea = bounds;
 
-			std::shared_ptr<Drawing::ITexture> newImage = Application::GetRenderer()->CreateNewTexture(GetSize());
-			newImage->BeginUpdate();
-			newImage->Insert(0, 0, image);
-			newImage->EndUpdate();
+			if (image != 0)
+			{
+				std::shared_ptr<Drawing::ITexture> newImage = Application::GetRenderer()->CreateNewTexture(GetSize());
+				newImage->BeginUpdate();
+				newImage->Insert(0, 0, image);
+				newImage->EndUpdate();
 
-			image = newImage;
+				image = newImage;
+			}
 		}
 
 		InvalidateChildren();
@@ -65,7 +69,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)
