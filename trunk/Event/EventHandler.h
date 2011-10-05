@@ -64,6 +64,12 @@ namespace OSHGui
 			}
 		}
 
+		/**
+		 * Ruft alle registrierten Funktionen auf.
+		 *
+		 * @param param1 Funktionsparameter
+		 * @param param2 Funktionsparameter
+		 */
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)
 		{

@@ -1,9 +1,6 @@
 #include "TextureDX9.h"
 #include <D3dx9tex.h>
-
-#ifndef SAFE_RELEASE
-	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = 0; } }
-#endif
+#include "..\Exceptions.h"
 
 namespace OSHGui
 {
@@ -19,7 +16,10 @@ namespace OSHGui
 			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
-			Create(size, frameCount);
+			if (!Create(size, frameCount))
+			{
+				throw Exception(L"Cannot create Texture.");
+			}
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
@@ -29,7 +29,10 @@ namespace OSHGui
 			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
-			Create(Size(width, height), frameCount);
+			if (!Create(Size(width, height), frameCount))
+			{
+				throw Exception(L"Cannot create Texture.");
+			}
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename)
@@ -39,7 +42,10 @@ namespace OSHGui
 			frame = 0;
 			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
 
-			LoadFromFile(filename);
+			if (!LoadFromFile(filename))
+			{
+				throw Exception(L"Cannot load Texture.");
+			}
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::~TextureDX9()
