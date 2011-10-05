@@ -1,4 +1,5 @@
 #include "ListBox.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -30,10 +31,10 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw 1;
+			throw ArgumentOutOfRangeException(L"index");
 		}
 
-		return items.at(index);
+		return items[index];
 	}
 	//---------------------------------------------------------------------------
 	int ListBox::GetSelectedIndex() const
@@ -98,27 +99,25 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::AddItem(const Misc::UnicodeString &text)
+	void ListBox::AddItem(const Misc::UnicodeString &text)
 	{
-		return InsertItem(items.size() > 0 ? items.size() : 0, text);
+		InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::InsertItem(int index, const Misc::UnicodeString &text)
+	void ListBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{
 		items.insert(items.begin() + index, text);
 
 		scrollBar.SetRange(items.size());
 
 		Invalidate();
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::RemoveItem(int index)
+	void ListBox::RemoveItem(int index)
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			return false;
+			throw ArgumentOutOfRangeException(L"index");
 		}
 		
 		items.erase(items.begin() + index);
@@ -136,7 +135,7 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::Clear()
+	void ListBox::Clear()
 	{
 		items.clear();
 		
@@ -145,8 +144,6 @@ namespace OSHGui
 		selectedIndex = -1;
 
 		Invalidate();
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::SelectItem(int index)

@@ -324,7 +324,7 @@ namespace OSHGui
 			
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
-				controls.at(i)->Render(renderer);
+				controls[i]->Render(renderer);
 			}
 			
 			renderer->SetRenderRectangle(renderRect);

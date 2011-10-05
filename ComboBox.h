@@ -97,28 +97,25 @@ namespace OSHGui
 		 * Fügt ein neues Item hinzu.
 		 *
 		 * @param text der Text des Items
-		 * @return im Fehlerfall false
 		 */
-		bool AddItem(const Misc::UnicodeString &text);
+		void AddItem(const Misc::UnicodeString &text);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
 		 * @param index
 		 * @param text der Text des Items
-		 * @return im Fehlerfall false
 		 */
-		bool InsertItem(int index, const Misc::UnicodeString &text);
+		void InsertItem(int index, const Misc::UnicodeString &text);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *
 		 * @param index
-		 * @return im Fehlerfall false
 		 */
-		bool RemoveItem(int index);
+		void RemoveItem(int index);
 		/**
 		 * Löscht alle Items.
 		 */
-		bool Clear();
+		void Clear();
 		/**
 		 * Selektiert ein Item.
 		 *
