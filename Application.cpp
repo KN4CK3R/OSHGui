@@ -13,7 +13,7 @@ namespace OSHGui
 	Form *Application::mainForm = 0;
 	bool Application::enabled = false;
 	Drawing::IRenderer *Application::renderer = 0;
-	Application::MouseInfo Application::Mouse;
+	Application::MouseInfo Application::mouse;
 	Misc::DateTime Application::now = Misc::DateTime::GetNow();
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
@@ -24,6 +24,18 @@ namespace OSHGui
 		}
 		
 		Application::renderer = renderer;
+
+		mouse.Cursor = Cursors::Get(Cursors::Default);
+	}
+	//---------------------------------------------------------------------------
+	const Misc::DateTime& Application::GetNow()
+	{
+		return now;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::IRenderer* Application::GetRenderer()
+	{
+		return renderer;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Enable()
@@ -65,7 +77,7 @@ namespace OSHGui
 			TimerInfo info;
 			info.timer = timer;
 			info.interval = interval;
-			info.next = Now.Add(interval);
+			info.next = now.Add(interval);
 			timers[timer] = info;
 		}
 	}
@@ -198,7 +210,7 @@ namespace OSHGui
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			//grab mouse position here for cursor rendering
-			Mouse.Position = mouse->Position;
+			Application::mouse.Position = mouse->Position;
 		}
 
 		if (modals.size() != 0)
@@ -232,12 +244,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Render()
 	{
-		if (!enabled || Renderer == 0)
+		if (!enabled || renderer == 0)
 		{
 			return;
 		}
 		
-		Now = Misc::DateTime::GetNow();
+		now = Misc::DateTime::GetNow();
 
 		Drawing::TextureAnimator::UpdateFrames();
 
@@ -255,10 +267,10 @@ namespace OSHGui
 			for (std::map<Timer*, TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
 			{
 				TimerInfo &info = it->second;
-				if (info.next < Now)
+				if (info.next < now)
 				{
 					it->first->tickEvent.Invoke(it->first);
-					info.next = Now.Add(info.interval);
+					info.next = now.Add(info.interval);
 				}
 			}
 		}
@@ -267,38 +279,40 @@ namespace OSHGui
 		{
 			if (*it != focusForm)
 			{
-				(*it)->Render(Renderer);
+				(*it)->Render(renderer);
 			}
 		}
 
 		if (focusForm != 0)
 		{
-			focusForm->Render(Renderer);
+			focusForm->Render(renderer);
 		}
 
 		if (modals.size() > 0)
 		{
-			modals.front().form->Render(Renderer);
+			modals.front().form->Render(renderer);
 		}
 		
 		//render startbar
-		renderer->SetRenderColor(Drawing::Color(0x5C5C5C));
-		Drawing::Size size = renderer->GetDeviceSize();
-		renderer->Fill(0, size.Height - 40, size.Width, 2);
-		renderer->SetRenderColor(Drawing::Color(0x2D2D2D));
-		renderer->FillGradient(0, size.Height - 38, size.Width, 38, Drawing::Color(0x121212));
-		renderer->SetRenderColor(Drawing::Color(0x2F2F2F));
-		renderer->Fill(54, size.Height - 40, 1, 40);
+		renderer->SetRenderColor(Drawing::Color(0xFF5C5C5C));
+		Drawing::Size size(584, 562);//renderer->GetDeviceSize();
+		renderer->Fill(0, size.Height - 30, size.Width, 2);
+		renderer->SetRenderColor(Drawing::Color(0xFF2D2D2D));
+		renderer->FillGradient(0, size.Height - 28, size.Width, 28, Drawing::Color(0xFF121212));
+		renderer->SetRenderColor(Drawing::Color(0xFF2F2F2F));
+		renderer->Fill(34, size.Height - 30, 1, 30);
 		
-		int tabWidth = (size.Width - 55) / forms.size();
-		int tabPos = 55;
+		int tabWidth = (size.Width - 35) / forms.size();
+		int tabPos = 35;
 		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it, tabPos += tabWidth)
 		{
-			renderer->RenderText(renderer->GetDefaultFont(), tabPos, size.Height - 40, tabWidth, 40, (*it)->GetText());
-			renderer->Fill(tabPos, size.Height - 40, 1, 40);
+			renderer->SetRenderColor(Drawing::Color::White());
+			renderer->RenderText(renderer->GetDefaultFont(), tabPos + 4, size.Height - 21, tabWidth, 30, (*it)->GetText());
+			renderer->SetRenderColor(Drawing::Color(0xFF2F2F2F));
+			renderer->Fill(tabPos, size.Height - 30, 1, 30);
 		}
 		
-		Mouse.Cursor->Render(Renderer, Mouse.Position);
+		mouse.Cursor->Render(renderer, mouse.Position);
 	}
 	//---------------------------------------------------------------------------
 }
