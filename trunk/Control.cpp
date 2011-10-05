@@ -1,5 +1,5 @@
 #include "Control.h"
-#include <Windows.h>
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -154,15 +154,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetSize(int width, int height)
 	{
-		if (width > -1)
+		if (width < 0)
 		{
-			bounds.SetWidth(width);
+			throw ArgumentOutOfRangeException(L"width");
 		}
-		if (height > -1)
+		if (height < 0)
 		{
-			bounds.SetHeight(height);
+			throw ArgumentOutOfRangeException(L"height");
 		}
-
+		
+		bounds.SetWidth(width);
+		bounds.SetHeight(height);
+		
 		static bool isValid = true; 
 		if (isValid)
 		{
@@ -259,10 +262,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 	{
-		if (font != 0)
+		if (font == 0)
 		{
-			this->font = font;
+			throw ArgumentNullException(L"font");
 		}
+		
+		this->font = font;
 
 		static bool isValid = true; 
 		if (isValid)
@@ -352,20 +357,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
 	{
-		if (control != 0)
+		if (control == 0)
 		{
-			for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
-			{
-				if (control == *it)
-				{
-					return;
-				}
-			}
-		
-			controls.push_back(control);
-
-			Invalidate();
+			throw ArgumentNullException(L"control");
 		}
+		
+		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+		{
+			if (control == *it)
+			{
+				return;
+			}
+		}
+	
+		controls.push_back(control);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::InvalidateChildren()
@@ -399,11 +406,6 @@ namespace OSHGui
 		{
 			Control *control = *it;
 
-			if (control == 0)
-			{
-				continue;
-			}
-
 			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(point))
 			{
 				return control;
@@ -418,11 +420,6 @@ namespace OSHGui
 		for (std::vector<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 		{
 			Control *control = *it;
-
-			if (control == 0)
-			{
-				continue;
-			}
 			
 			if (control->GetName() == name)
 			{
@@ -430,12 +427,17 @@ namespace OSHGui
 			}
 		}
 
-		return 0;
+		throw ArgumentException(L"No control exists with this name", L"name");
 	}
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
 	{
-		if (control == 0 || !control->CanHaveFocus())
+		if (control == 0)
+		{
+			throw ArgumentNullException(L"control");
+		}
+		
+		if (!control->CanHaveFocus())
 		{
 			return;
 		}
@@ -491,7 +493,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 		
 		//someone is focused, so let him handle the event expect the mouse

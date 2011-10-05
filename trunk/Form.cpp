@@ -1,4 +1,5 @@
 #include "Form.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -74,7 +75,7 @@ namespace OSHGui
 	{
 		if (parent == 0)
 		{
-			return;
+			throw ArgumentNullException(L"parent");
 		}
 
 		modalParent = parent;
@@ -101,7 +102,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)

@@ -1,4 +1,5 @@
 #include "ProgressBar.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -29,6 +30,10 @@ namespace OSHGui
 			this->min = min;
 			Adjust();
 		}
+		else
+		{
+			throw ArgumentException(L"min cannot be greater than max.", L"min");
+		}
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMin() const
@@ -42,6 +47,10 @@ namespace OSHGui
 		{
 			this->max = max;
 			Adjust();
+		}
+		else
+		{
+			throw ArgumentException(L"max cannot be lower than min.", L"max");
 		}
 	}
 	//---------------------------------------------------------------------------

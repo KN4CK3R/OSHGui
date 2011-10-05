@@ -58,7 +58,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			return;
+			throw ArgumentNullException(L"form");;
 		}
 
 		if (mainForm != 0)
@@ -73,6 +73,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::RegisterTimer(Timer *timer, Misc::TimeSpan &interval)
 	{
+		if (timer == 0)
+		{
+			throw ArgumentNullException(L"timer");
+		}
+	
 		if (timers.find(timer) == timers.end())
 		{
 			TimerInfo info;
@@ -85,6 +90,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::UnregisterTimer(Timer *timer)
 	{
+		if (timer == 0)
+		{
+			throw ArgumentNullException(L"timer");
+		}
+	
 		std::map<Timer*, TimerInfo>::iterator it = timers.find(timer);
 		if (it != timers.end())
 		{
@@ -96,7 +106,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			return;
+			throw ArgumentNullException(L"form");
 		}
 
 		for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
@@ -143,7 +153,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			return;
+			throw ArgumentNullException(L"form");
 		}
 
 		if (form == mainForm) //don't unregister mainForm
@@ -202,7 +212,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Application::ProcessEvent(IEvent *event)
 	{
-		if (event == 0 || !enabled)
+		if (event == 0)
+		{
+			throw ArgumentNullException(L"event");
+		}
+		
+		if (!enabled)
 		{
 			return IEvent::Continue;
 		}
@@ -245,7 +260,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Render()
 	{
-		if (!enabled || renderer == 0)
+		if (renderer == 0)
+		{
+			throw InvalidOperationException(L"Call Application::Create first.");
+		}
+	
+		if (!enabled)
 		{
 			return;
 		}

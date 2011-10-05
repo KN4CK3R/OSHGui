@@ -1,4 +1,5 @@
 #include "ColorBar.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -104,7 +105,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index > 2)
 		{
-			return;
+			throw ArgumentOutOfRangeException(L"index");
 		}
 	
 		std::shared_ptr<Drawing::ITexture> bar = bars[index];
@@ -161,7 +162,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)

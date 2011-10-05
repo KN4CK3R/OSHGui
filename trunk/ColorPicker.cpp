@@ -1,4 +1,5 @@
 #include "ColorPicker.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -215,7 +216,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			return IEvent::DontContinue;
+			throw ArgumentNullException(L"event");
 		}
 
 		if (!visible || !enabled)
@@ -237,7 +238,7 @@ namespace OSHGui
 					if (drag)
 					{
 						colorPosition = mouse->Position;
-				
+								
 						color = GetColorAtPoint(colorPosition);
 
 						colorChangeEvent.Invoke(this);
