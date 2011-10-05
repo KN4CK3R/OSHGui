@@ -1,9 +1,5 @@
 #include "FontDX9.h"
 
-#ifndef SAFE_RELEASE
-	#define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = 0; } }
-#endif
-
 namespace OSHGui
 {
 	namespace Drawing
@@ -20,7 +16,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		FontDX9::~FontDX9()
 		{
-			SAFE_RELEASE(font);
+			if (font != 0)
+			{
+				font->Release();
+			}
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -34,7 +33,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool FontDX9::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
-			SAFE_RELEASE(font);
+			if (font != 0)
+			{
+				font->Release();
+			}
 			
 			if (FAILED(D3DXCreateFontW(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
 			{
@@ -61,13 +63,13 @@ namespace OSHGui
 		{
 			if (str.length() == 0)
 			{
-				return Size(spaceWidth, size);
+				return Size(0, size);
 			}
 			
 			RECT rect = { 0, 0, 0, 0 };
 			font->DrawTextW(0, str.c_str(), -1, &rect, DT_CALCRECT, 0);
 			
-			for (int i = str.length() - 1; i > 0; i--)
+			for (int i = str.length() - 1; i > 0; --i)
 			{
 				if (str[i] != L' ')
 				{
