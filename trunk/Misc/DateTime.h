@@ -120,7 +120,7 @@ namespace OSHGui
 			long long GetInternalTicks() const;
 			unsigned long long GetInternalKind() const;
 			
-			DateTime Add(double value, int scale);
+			DateTime Add(double value, int scale) const;
 			
 			static long long DateToTicks(int year, int month, int day);
 			static long long TimeToTicks(int hour, int minute, int second);
@@ -314,63 +314,63 @@ namespace OSHGui
 			 * @param value ein TimeSpan-Objekt, das ein positives oder negatives Zeitintervall darstellt
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime Add(TimeSpan value);
+			DateTime Add(TimeSpan value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Jahren zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Anzahl von Jahren. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddYears(int value);
+			DateTime AddYears(int value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Monaten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param months eine Anzahl von Monaten. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddMonths(int months);
+			DateTime AddMonths(int months) const;
 			/**
 			 * Addiert die angegebene Anzahl von Tagen zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Zahl, die aus ganzen Tagen und dem Bruchteil eines Tages besteht. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddDays(double value);
+			DateTime AddDays(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Stunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Zahl, die aus ganzen Stunden und dem Bruchteil einer Stunde besteht. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddHours(double value);
+			DateTime AddHours(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Minuten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Zahl, die aus ganzen Minuten und dem Bruchteil einer Minute besteht. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddMinutes(double value);
+			DateTime AddMinutes(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Sekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Zahl, die aus ganzen Sekunden und dem Bruchteil einer Sekunde besteht. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddSeconds(double value);
+			DateTime AddSeconds(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Millisekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Zahl, die aus ganzen Millisekunden und dem Bruchteil einer Millisekunde besteht. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddMilliseconds(double value);
+			DateTime AddMilliseconds(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Ticks zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
 			 * @param value eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddTicks(long long value);
+			DateTime AddTicks(long long value) const;
 			
 			bool operator == (const DateTime &time) const;
 			bool operator != (const DateTime &time) const;

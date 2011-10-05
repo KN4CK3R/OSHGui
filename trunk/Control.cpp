@@ -77,9 +77,9 @@ namespace OSHGui
 		
 		if (mouseOver)
 		{
-			if (Application::Mouse.Cursor != cursor)
+			if (Application::mouse.Cursor != cursor)
 			{
-				Application::Mouse.Cursor = cursor;
+				Application::mouse.Cursor = cursor;
 			}
 		}
 	}

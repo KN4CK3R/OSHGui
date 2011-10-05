@@ -296,7 +296,7 @@ namespace OSHGui
 			return (unsigned long long)(dateData & FlagsMask);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::Add(double value, int scale)
+		DateTime DateTime::Add(double value, int scale) const
 		{
 			long long millis = (long long)(value * scale + (value >= 0.0 ? 0.5 : -0.5));
 			if (millis <= -((long long)MaxMillis) || millis >= (long long)MaxMillis)
@@ -306,12 +306,12 @@ namespace OSHGui
 			return AddTicks(millis * TicksPerMillisecond);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::Add(TimeSpan value)
+		DateTime DateTime::Add(TimeSpan value) const
 		{
 			return AddTicks(value.GetTicks());
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddYears(int value)
+		DateTime DateTime::AddYears(int value) const
 		{
 			if (value < -10000 || value > 10000)
 			{
@@ -321,7 +321,7 @@ namespace OSHGui
 			return AddMonths(value * 12);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddMonths(int months)
+		DateTime DateTime::AddMonths(int months) const
 		{
 			if (months < -120000 || months > 120000)
 			{
@@ -355,32 +355,32 @@ namespace OSHGui
 			return DateTime((unsigned long long)(DateToTicks(y, m, d) + GetInternalTicks() % TicksPerDay) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddDays(double value)
+		DateTime DateTime::AddDays(double value) const
 		{
 			return Add(value, MillisPerDay);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddHours(double value)
+		DateTime DateTime::AddHours(double value) const
 		{
 			return Add(value, MillisPerHour);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddMinutes(double value)
+		DateTime DateTime::AddMinutes(double value) const
 		{
 			return Add(value, MillisPerMinute);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddSeconds(double value)
+		DateTime DateTime::AddSeconds(double value) const
 		{
 			return Add(value, MillisPerSecond);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddMilliseconds(double value)
+		DateTime DateTime::AddMilliseconds(double value) const
 		{
 			return Add(value, 1);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddTicks(long long value)
+		DateTime DateTime::AddTicks(long long value) const
 		{
 			long long ticks = GetInternalTicks() + value;
 			if (ticks > MaxTicks || ticks < MinTicks)

@@ -20,7 +20,7 @@ namespace OSHGui
 		class IRenderer
 		{
 		public:
-			virtual const Size& GetRenderDimension() const;
+			//virtual const Size& GetRenderDimension() const;
 		
 			/**
 			 * Leitet das Zeichnen ein.

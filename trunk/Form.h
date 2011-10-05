@@ -16,7 +16,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		Form(Form *form);
+		Form();
 		virtual ~Form();
 
 		bool IsModal() const;
@@ -51,7 +51,7 @@ namespace OSHGui
 		 *
 		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird
 		 */
-		void ShowModal(const std::function<void()> &func = 0);
+		void ShowModal(Form *parent, const std::function<void()> &func = 0);
 
 		/**
 		 * Schließt die Form.

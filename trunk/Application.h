@@ -37,13 +37,13 @@ namespace OSHGui
 		 *
 		 * @return DateTime::Now
 		 */
-		static const Misc::DateTime& GetNow() const;
+		static const Misc::DateTime& GetNow();
 		/**
 		 * Ruft den verwendeten Renderer ab.
 		 *
 		 * @return renderer
 		 */
-		static Drawing::IRenderer GetRenderer() const;
+		static Drawing::IRenderer* GetRenderer();
 	
 		/**
 		 * Aktiviert das GUI.
@@ -84,7 +84,7 @@ namespace OSHGui
 
 		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);
 		static void UnregisterForm(Form *form);
-		static void BringtToFront(Form *form);
+		static void BringToFront(Form *form);
 		struct ModalInfo
 		{
 			Form *form;
@@ -101,7 +101,7 @@ namespace OSHGui
 		static Drawing::IRenderer *renderer;
 		
 		static Misc::DateTime now;
-
+	public:
 		typedef struct
 		{
 			Drawing::Point Position;
