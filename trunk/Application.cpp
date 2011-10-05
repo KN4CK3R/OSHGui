@@ -2,6 +2,7 @@
 #include "Form.h"
 #include "Timer.h"
 #include "Drawing\TextureAnimator.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -20,7 +21,7 @@ namespace OSHGui
 	{
 		if (renderer == 0)
 		{
-			throw 1;
+			throw ArgumentNullException(L"renderer");
 		}
 		
 		Application::renderer = renderer;

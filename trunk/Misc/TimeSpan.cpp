@@ -1,5 +1,5 @@
 #include "TimeSpan.h"
-#include <stdexcept>
+#include "..\Exceptions.h"
 
 namespace OSHGui
 {
@@ -56,7 +56,7 @@ namespace OSHGui
 			long long totalMilliSeconds = ((long long)days * 3600 * 24 + (long long)hours * 3600 + (long long)minutes * 60 + seconds) * 1000;
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw std::out_of_range("Argument out of range: milliseconds");
+				throw ArgumentOutOfRangeException(L"milliseconds");
 			}
 			ticks = totalMilliSeconds * TicksPerMillisecond;
 		}
@@ -66,7 +66,7 @@ namespace OSHGui
 			long long totalMilliSeconds = ((long long)days * 3600 * 24 + (long long)hours * 3600 + (long long)minutes * 60 + seconds) * 1000 + milliseconds;
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw std::out_of_range("Argument out of range: milliseconds");
+				throw ArgumentOutOfRangeException(L"milliseconds");
 			}
 			ticks = totalMilliSeconds * TicksPerMillisecond;
 		}
@@ -144,7 +144,7 @@ namespace OSHGui
 			long long result = ticks + ts.ticks;
 			if ((ticks >> 63 == ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw std::out_of_range("Argument out of range: TimeSpan too long");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			return TimeSpan(result);
 		}
@@ -154,7 +154,7 @@ namespace OSHGui
 			long long result = ticks - ts.ticks;
 			if ((ticks >> 63 != ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw std::out_of_range("Argument out of range: TimeSpan too long");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			return TimeSpan(result);
 		}
@@ -213,7 +213,7 @@ namespace OSHGui
 		{
 			if (ticks == MinValue.ticks)
 			{
-				throw std::out_of_range("Argument out of range: TimeSpan::MinValue");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			return TimeSpan(ticks >= 0 ? ticks : -ticks);
 		}
@@ -222,7 +222,7 @@ namespace OSHGui
 		{
 			if (ticks == MinValue.ticks)
 			{
-				throw std::out_of_range("Argument out of range: -TimeSpan::MinValue");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			return TimeSpan(-ticks);
 		}
@@ -261,13 +261,13 @@ namespace OSHGui
 		{
 			//if (value == 0.0 / 0.0)
 			//{
-			//	throw std::invalid_argument("Invalid argument: value is NAN");
+			//	throw ArgumentException(L"Invalid argument: value is NAN");
 			//}
 			double temp = value * scale;
 			double millis = temp + (value >= 0.0 ? 0.5 : -0.5);
 			if ((millis > MaxMilliSeconds) || (millis < MinMilliSeconds))
 			{
-				throw std::out_of_range("Argument out of range: TimeSpan too long");
+				throw ArgumentOutOfRangeException(L"value");
 			}
 			return TimeSpan((long long)millis * TicksPerMillisecond);
 		}
@@ -277,7 +277,7 @@ namespace OSHGui
 			long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
 			if (totalSeconds > MaxSeconds || totalSeconds < MinSeconds)
 			{
-				throw std::out_of_range("Argument out of range: TimeSpan too long");
+				throw ArgumentOutOfRangeException(L"totalSeconds");
 			}
 			return totalSeconds * TicksPerSecond;
 		}

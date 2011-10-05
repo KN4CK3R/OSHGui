@@ -32,7 +32,7 @@ namespace OSHGui
 	{
 		for (unsigned int i = 0; i < controls.size(); ++i)
 		{
-			Control *control = controls.at(i);
+			Control *control = controls[i];
 			delete control;
 		}
 

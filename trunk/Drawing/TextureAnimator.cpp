@@ -1,6 +1,7 @@
 #include "TextureAnimator.h"
 #include "ITexture.h"
 #include "..\Application.h"
+#include "..\Exceptions.h"
 
 namespace OSHGui
 {
@@ -50,7 +51,7 @@ namespace OSHGui
 			{
 				if (frame < 0 || frame >= GetFrameCount())
 				{
-                    frame = 0;
+                    throw ArgumentOutOfRange(L"frame");
                 }
  
                 if (IsAnimated())
@@ -211,7 +212,7 @@ namespace OSHGui
 		{
 			if (texture == 0)
 			{
-				return;
+				throw ArgumentNullException(L"texture");
 			}
 
 			TextureInfo textureInfo(texture, replayMode);

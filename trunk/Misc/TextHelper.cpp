@@ -1,4 +1,5 @@
 #include "TextHelper.h"
+#include "..\Exceptions.h"
 
 namespace OSHGui
 {
@@ -13,7 +14,7 @@ namespace OSHGui
 		{
 			if (font == 0)
 			{
-				throw "Font can't be null.";
+				throw ArgumentNullException(L"font");
 			}
 		
 			this->font = font;

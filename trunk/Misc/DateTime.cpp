@@ -1,6 +1,4 @@
-#include "DateTime.h"
 #include <time.h>
-#include <stdexcept>
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -9,6 +7,9 @@
 #else //Unix
 #include <sys/time.h>
 #endif
+
+#include "DateTime.h"
+#include "..\Exceptions.h"
 
 namespace OSHGui
 {
@@ -77,7 +78,7 @@ namespace OSHGui
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw std::out_of_range("Argument out of range: ticks");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 
 			dateData = ticks;
@@ -92,11 +93,11 @@ namespace OSHGui
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw std::out_of_range("Argument out of range: ticks");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			if (kind < Unspecified || kind > Local)
 			{
-				throw std::invalid_argument("Invalid argument: kind");
+				throw ArgumentException(L"kind");
 			}
 
 			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
@@ -106,7 +107,7 @@ namespace OSHGui
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw std::out_of_range("Argument out of range: ticks");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			
 			dateData = ((unsigned long long)ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
@@ -126,7 +127,7 @@ namespace OSHGui
 		{
 			if (kind < Unspecified || kind > Local)
 			{
-				throw std::invalid_argument("Invalid argument: kind");
+				throw ArgumentException(L"kind");
 			}
 
 			long long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
@@ -137,14 +138,14 @@ namespace OSHGui
 		{
 			if (millisecond < 0 || millisecond >= MillisPerSecond)
 			{
-				throw std::out_of_range("Argument out of range: millisecond");
+				throw ArgumentOutOfRangeException(L"millisecond");
 			}
 
 			long long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
 			ticks += millisecond * TicksPerMillisecond;
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw std::out_of_range("Argument out of range: timerange");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 
 			dateData = (unsigned long long)ticks;
@@ -154,18 +155,18 @@ namespace OSHGui
 		{
 			if (millisecond < 0 || millisecond >= MillisPerSecond)
 			{
-				throw std::out_of_range("Argument out of range: millisecond");
+				throw ArgumentOutOfRangeException(L"millisecond");
 			}
 			if (kind < Unspecified || kind > Local)
 			{
-				throw std::invalid_argument("Invalid argument: kind");
+				throw ArgumentException(L"kind");
 			}
 
 			long long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
 			ticks += millisecond * TicksPerMillisecond;
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw std::out_of_range("Argument out of range: timerange");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 
 			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
@@ -301,7 +302,7 @@ namespace OSHGui
 			long long millis = (long long)(value * scale + (value >= 0.0 ? 0.5 : -0.5));
 			if (millis <= -((long long)MaxMillis) || millis >= (long long)MaxMillis)
 			{
-				throw std::out_of_range("Argument out of range: add value");
+				throw ArgumentOutOfRangeException(L"value");
 			}
 			return AddTicks(millis * TicksPerMillisecond);
 		}
@@ -311,21 +312,21 @@ namespace OSHGui
 			return AddTicks(value.GetTicks());
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddYears(int value) const
+		DateTime DateTime::AddYears(int years) const
 		{
-			if (value < -10000 || value > 10000)
+			if (years < -10000 || years > 10000)
 			{
-				throw std::out_of_range("Argument out of range: years");
+				throw ArgumentOutOfRangeException(L"years");
 			}
 			
-			return AddMonths(value * 12);
+			return AddMonths(years * 12);
 		}
 		//---------------------------------------------------------------------------
 		DateTime DateTime::AddMonths(int months) const
 		{
 			if (months < -120000 || months > 120000)
 			{
-				throw std::out_of_range("Argument out of range: months");
+				throw ArgumentOutOfRangeException(L"months");
 			}
 			
 			int y = GetDatePart(Year);
@@ -344,7 +345,7 @@ namespace OSHGui
 			}
 			if (y < 1 || y > 9999)
 			{
-				throw std::out_of_range("Argument out of range: months");
+				throw ArgumentOutOfRangeException(L"year");
 			}
 			int days = DaysInMonth(y, m);
 			if (d > days)
@@ -385,7 +386,7 @@ namespace OSHGui
 			long long ticks = GetInternalTicks() + value;
 			if (ticks > MaxTicks || ticks < MinTicks)
 			{
-				throw std::out_of_range("Argument out of range: ticks");
+				throw ArgumentOutOfRangeException(L"value");
 			}
 			return DateTime((unsigned long long)ticks | GetInternalKind());
 		}
@@ -426,7 +427,7 @@ namespace OSHGui
 			long long valueTicks = ts.GetTicks();
 			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
 			{
-				throw std::out_of_range("Argument out of range: ticks");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			return DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
 		}
@@ -437,7 +438,7 @@ namespace OSHGui
 			long long valueTicks = ts.GetTicks();
 			if (valueTicks > MaxTicks - ticks || valueTicks < MinTicks - ticks)
 			{
-				throw std::out_of_range("Argument out of range: ticks");
+				throw ArgumentOutOfRangeException(L"ticks");
 			}
 			return DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
 		}
@@ -454,34 +455,47 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		long long DateTime::DateToTicks(int year, int month, int day)
 		{
-			if (year >= 1 && year <= 9999 && month >= 1 && month <= 12)
+			if (year >= 1 && year <= 9999)
 			{
-				const int *days = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
-				if (day >= 1 && day <= days[month] - days[month - 1])
+				if (month >= 1 && month <= 12)
 				{
-					int y = year - 1;
-					int n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
-					return n * TicksPerDay;
+					const int *days = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
+					if (day >= 1 && day <= days[month] - days[month - 1])
+					{
+						int y = year - 1;
+						int n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
+						return n * TicksPerDay;
+					}
+					throw ArgumentOutOfRangeException(L"day");
 				}
+				throw ArgumentOutOfRangeException(L"month");
 			}
-			throw std::out_of_range("Argument out of range: year, month, day");
+			throw ArgumentOutOfRangeException(L"year");
 		}
 		//---------------------------------------------------------------------------
 		long long DateTime::TimeToTicks(int hour, int minute, int second)
 		{
-			if (hour >= 0 && hour < 24 && minute >= 0 && minute < 60 && second >=0 && second < 60)
+			if (hour >= 0 && hour < 24)
 			{
-				long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
-				return totalSeconds * TicksPerSecond;
+				if (minute >= 0 && minute < 60)
+				{
+					if (second >=0 && second < 60)
+					{
+						long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
+						return totalSeconds * TicksPerSecond;
+					}
+					throw ArgumentOutOfRangeException(L"second");
+				}
+				throw ArgumentOutOfRangeException(L"minute");
 			}
-			throw std::out_of_range("Argument out of range: hour, minute, second");
+			throw ArgumentOutOfRangeException(L"hour");
 		}
 		//---------------------------------------------------------------------------
 		int DateTime::DaysInMonth(int year, int month)
 		{
 			if (month < 1 || month > 12)
 			{
-				throw std::out_of_range("Argument out of range: month");
+				throw ArgumentOutOfRangeException(L"month");
 			}
 			
 			const int *days = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
@@ -497,7 +511,7 @@ namespace OSHGui
 		{
 			if (year < 1 || year > 9999)
 			{
-				throw std::out_of_range("Argument out of range: year");
+				throw ArgumentOutOfRangeException(L"year");
 			}
 			
 			return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);

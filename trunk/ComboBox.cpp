@@ -1,4 +1,5 @@
 #include "ComboBox.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {
@@ -54,10 +55,10 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw 1;
+			throw ArgumentOutOfRangeException(L"index");
 		}
 
-		return items.at(index);
+		return items[index];
 	}
 	//---------------------------------------------------------------------------
 	int ComboBox::GetSelectedIndex() const
@@ -110,12 +111,12 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::AddItem(const Misc::UnicodeString &text)
+	void ComboBox::AddItem(const Misc::UnicodeString &text)
 	{
-		return InsertItem(items.size() > 0 ? items.size() : 0, text);
+		InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
+	void ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
 	{
 		items.insert(items.begin() + index, text);
 
@@ -132,15 +133,13 @@ namespace OSHGui
 
 			selectedIndexChangedEvent.Invoke(this);
 		}
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::RemoveItem(int index)
+	void ComboBox::RemoveItem(int index)
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			return false;
+			throw ArgumentOutOfRangeException(L"index");
 		}
 		
 		items.erase(items.begin() + index);
@@ -155,11 +154,9 @@ namespace OSHGui
 			
 			selectedIndexChangedEvent.Invoke(this);
 		}
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::Clear()
+	void ComboBox::Clear()
 	{
 		items.clear();
 		
@@ -168,8 +165,6 @@ namespace OSHGui
 		selectedIndex = -1;
 		firstVisibleItemIndex = 0;
 		mouseOverItemIndex = -1;
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::SelectItem(int newIndex)
@@ -608,7 +603,7 @@ namespace OSHGui
 			
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
-				controls.at(i)->Render(renderer);
+				controls[i]->Render(renderer);
 			}
 			
 			renderer->SetRenderRectangle(renderRect);

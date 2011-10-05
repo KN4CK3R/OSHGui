@@ -133,7 +133,7 @@ namespace OSHGui
 				}
 				else
 				{
-					throw 1;
+					throw InvalidOperationException(L"Cannot cast object");
 				}
 			}
 		};

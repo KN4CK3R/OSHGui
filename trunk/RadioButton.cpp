@@ -24,7 +24,7 @@ namespace OSHGui
 			const std::vector<Control*> &controls = parent->GetControls();
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
-				Control *control = controls.at(i);
+				Control *control = controls[i];
 				if (control->GetType() == CONTROL_RADIOBUTTON)
 				{
 					RadioButton *radio = (RadioButton*)control;
@@ -189,7 +189,7 @@ namespace OSHGui
 			
 			for (unsigned int i = 0; i < controls.size(); ++i)
 			{
-				controls.at(i)->Render(renderer);
+				controls[i]->Render(renderer);
 			}
 			
 			renderer->SetRenderRectangle(renderRect);
