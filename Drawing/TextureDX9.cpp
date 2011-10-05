@@ -18,7 +18,7 @@ namespace OSHGui
 
 			if (!Create(size, frameCount))
 			{
-				throw Exception(L"Cannot create Texture.");
+				throw Exception(L"Cannot create Texture.", __WFILE__, __LINE__);
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace OSHGui
 
 			if (!Create(Size(width, height), frameCount))
 			{
-				throw Exception(L"Cannot create Texture.");
+				throw Exception(L"Cannot create Texture.", __WFILE__, __LINE__);
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace OSHGui
 
 			if (!LoadFromFile(filename))
 			{
-				throw Exception(L"Cannot load Texture.");
+				throw Exception(L"Cannot load Texture.", __WFILE__, __LINE__);
 			}
 		}
 		//---------------------------------------------------------------------------

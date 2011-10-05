@@ -31,7 +31,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw ArgumentOutOfRangeException(L"index");
+			throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 
 		return items[index];
@@ -117,7 +117,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw ArgumentOutOfRangeException(L"index");
+			throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 		
 		items.erase(items.begin() + index);
@@ -131,8 +131,6 @@ namespace OSHGui
 		}
 
 		Invalidate();
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::Clear()
@@ -183,7 +181,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

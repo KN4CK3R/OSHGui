@@ -13,6 +13,8 @@ namespace OSHGui
 
 		SetBounds(6, 6, 100, 100);
 		
+		image = Application::GetRenderer()->CreateNewTexture(GetSize());
+
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
 	}
@@ -69,7 +71,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

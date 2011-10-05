@@ -42,7 +42,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 	
 		if (ChildProcessEvent(event) == IEvent::DontContinue)

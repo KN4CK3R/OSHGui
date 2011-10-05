@@ -86,8 +86,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
 	{
-		x = std::max(0, std::min(x, bounds.GetWidth() - 1));
-		y = std::max(0, std::min(y, bounds.GetHeight() - 1));
+		if (x < 0 || x >= bounds.GetWidth())
+		{
+			throw ArgumentOutOfRangeException(L"x");
+		}
+		if (y < 0 || y >= bounds.GetHeight())
+		{
+			throw ArgumentOutOfRangeException(L"y");
+		}
 	
 		Drawing::Color tmpColor;
 		
@@ -216,7 +222,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)
@@ -257,6 +263,8 @@ namespace OSHGui
 						parent->RequestFocus(this);
 					}
 
+					colorPosition = mouse->Position;
+
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
 					return IEvent::DontContinue;
@@ -268,8 +276,6 @@ namespace OSHGui
 				{
 					drag = false;
 					
-					colorPosition = mouse->Position;
-
 					color = GetColorAtPoint(colorPosition);
 
 					colorChangeEvent.Invoke(this);

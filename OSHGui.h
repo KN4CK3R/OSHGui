@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "Exceptions.h"
+
 #include "Drawing\Point.h"
 #include "Drawing\Size.h"
 #include "Drawing\Rectangle.h"

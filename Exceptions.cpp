@@ -6,16 +6,53 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
+	Exception::Exception(const Misc::UnicodeString &message) :
+				  message(message),
+				  file(L""),
+				  line(0)
+	{
+		name = L"OSHGui::Exception";
+		combinedMessage = name + L" :\r\n" + this->message;
+
+		std::cerr << what() << std::endl;
+	}
+	//---------------------------------------------------------------------------
 	Exception::Exception(const Misc::UnicodeString &message,
-				  const Misc::UnicodeString &name,
 				  const Misc::UnicodeString &file,
 				  int line) :
 				  message(message),
-				  name(name),
 				  file(file),
-				  line(line),
-				  combinedMessage(name + " in file " + file  + "(" + line + ") :\r\n" + message)
+				  line(line)
 	{
+		name = L"OSHGui::Exception";
+		combinedMessage = name + L" in file " + file  + L"(" + Misc::String::Format(L"%u", line) + L") :\r\n" + message;
+
+		std::cerr << what() << std::endl;
+	}
+	//---------------------------------------------------------------------------
+	Exception::Exception(const Misc::UnicodeString &name,
+				  const Misc::UnicodeString &message) :
+				  name(name),
+				  message(message),
+				  file(L""),
+				  line(0)
+	{
+		combinedMessage = name + L" : " + this->message;
+
+		std::cerr << what() << std::endl;
+	}
+	//---------------------------------------------------------------------------
+	Exception::Exception(const Misc::UnicodeString &name,
+				  const Misc::UnicodeString &message,
+				  const Misc::UnicodeString &file,
+				  int line) :
+				  name(name),
+				  message(message),
+				  file(file),
+				  line(line)
+	{
+		combinedMessage = name + L" in file " + file  + L"(" + Misc::String::Format(L"%u", line) + L") : " + message;
+
 		std::cerr << what() << std::endl;
 	}
 	//---------------------------------------------------------------------------
@@ -38,7 +75,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Misc::UnicodeString& Exception::GetFileName() const
 	{
-		return fileName;
+		return file;
 	}
 	//---------------------------------------------------------------------------
 	int Exception::GetLine() const
@@ -58,53 +95,145 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ArgumentException::ArgumentException(const Misc::UnicodeString &message,
-						  const Misc::UnicodeString &paramName,
+	ArgumentException::ArgumentException(const Misc::UnicodeString &paramName) :
+						  paramName(paramName),
+					   Exception(L"OSHGui::ArgumentException", L"Unexpected argument.\r\nParameter name: " + paramName)
+	{
+
+	}
+	//----------------------------------------------------------------------------
+	ArgumentException::ArgumentException(const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message) :
+						  paramName(paramName),
+					   Exception(L"OSHGui::ArgumentException", message + L"\r\nParameter name: " + paramName)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentException::ArgumentException(const Misc::UnicodeString &paramName,
 						  const Misc::UnicodeString &file,
 						  int line) :
 						  paramName(paramName),
-						  Exception(message + "\r\nParameter name: " + paramName, L"OSHGui::ArgumentException", file, line)
+					   Exception(L"OSHGui::ArgumentException", L"Unexpected argument.\r\nParameter name: " + paramName, file, line)
 	{
-	
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentException::ArgumentException(const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message,
+						  const Misc::UnicodeString &file,
+						  int line) :
+						  paramName(paramName),
+					   Exception(L"OSHGui::ArgumentException", message + L"\r\nParameter name: " + paramName, file, line)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentException::ArgumentException(const Misc::UnicodeString &name,
+						  const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message) :
+						  paramName(paramName),
+					   Exception(name, message + L"\r\nParameter name: " + paramName)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentException::ArgumentException(const Misc::UnicodeString &name,
+						  const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message,
+						  const Misc::UnicodeString &file,
+						  int line) :
+						  paramName(paramName),
+					   Exception(name, message + L"\r\nParameter name: " + paramName, file, line)
+	{
+
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Exception::GetParamName() const
+	const Misc::UnicodeString& ArgumentException::GetParamName() const
 	{
 		return paramName;
 	}
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ArgumentNullException::ArgumentNullException(const Misc::UnicodeString &message,
-												 const Misc::UnicodeString &paramName,
+	ArgumentNullException::ArgumentNullException(const Misc::UnicodeString &paramName) :
+						   ArgumentException(L"OSHGui::ArgumentNullException", paramName, L"Value cannot be null.")
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentNullException::ArgumentNullException(const Misc::UnicodeString &paramName,
+												 const Misc::UnicodeString &message) :
+						   ArgumentException(L"OSHGui::ArgumentNullException", paramName, message)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentNullException::ArgumentNullException(const Misc::UnicodeString &paramName,
+												 const Misc::UnicodeString &message,
 												 const Misc::UnicodeString &file,
 												 int line) :
-												 ArgumentException(message, paramName, L"OSHGui::ArgumentNullException", file, line)
+						   ArgumentException(L"OSHGui::ArgumentNullException", paramName, message, file, line)
 	{
-	
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentNullException::ArgumentNullException(const Misc::UnicodeString &paramName,
+												 const Misc::UnicodeString &file,
+												 int line) :
+						   ArgumentException(L"OSHGui::ArgumentNullException", paramName, L"Value cannot be null.", file, line)
+	{
+
 	}
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::UnicodeString &message,
-															 const Misc::UnicodeString &paramName,
+	ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::UnicodeString &paramName) :
+								 ArgumentException(L"OSHGui::ArgumentOutOfRangeException", paramName, L"Value was out of valid range.")
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::UnicodeString &paramName,
+															 const Misc::UnicodeString &message) :
+								 ArgumentException(L"OSHGui::ArgumentOutOfRangeException", paramName, message)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::UnicodeString &paramName,
 															 const Misc::UnicodeString &file,
 															 int line) :
-															 ArgumentException(message, paramName, L"OSHGui::ArgumentOutOfRangeException", file, line)
+								 ArgumentException(L"OSHGui::ArgumentOutOfRangeException", paramName, L"Value was out of valid range.", file, line)
 	{
-	
+
+	}
+	//---------------------------------------------------------------------------
+	ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::UnicodeString &paramName,
+															 const Misc::UnicodeString &message,
+															 const Misc::UnicodeString &file,
+															 int line) :
+								 ArgumentException(L"OSHGui::ArgumentOutOfRangeException", paramName, message, file, line)
+	{
+
 	}
 	//---------------------------------------------------------------------------
 	//Constructor
+	//---------------------------------------------------------------------------
+	InvalidOperationException::InvalidOperationException(const Misc::UnicodeString &message) :
+							   Exception(L"OSHGui::InvalidOperationException", message)
+	{
+
+	}
 	//---------------------------------------------------------------------------
 	InvalidOperationException::InvalidOperationException(const Misc::UnicodeString &message,
 														 const Misc::UnicodeString &file,
 														 int line) :
-														 Exception(message, L"OSHGui::InvalidOperationException", file, line)
+							   Exception(L"OSHGui::InvalidOperationException", message, file, line)
 	{
-	
+
 	}
 	//---------------------------------------------------------------------------
 }

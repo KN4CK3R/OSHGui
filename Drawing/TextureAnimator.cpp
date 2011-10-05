@@ -51,7 +51,7 @@ namespace OSHGui
 			{
 				if (frame < 0 || frame >= GetFrameCount())
 				{
-                    throw ArgumentOutOfRange(L"frame");
+                    throw ArgumentOutOfRangeException(L"frame", __WFILE__, __LINE__);
                 }
  
                 if (IsAnimated())
@@ -212,7 +212,7 @@ namespace OSHGui
 		{
 			if (texture == 0)
 			{
-				throw ArgumentNullException(L"texture");
+				throw ArgumentNullException(L"texture", __WFILE__, __LINE__);
 			}
 
 			TextureInfo textureInfo(texture, replayMode);

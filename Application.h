@@ -13,6 +13,7 @@ namespace OSHGui
 {
 	class Form;
 	class Timer;
+	class FormManager;
 
 	/**
 	 * Stellt static-Methoden und Eigenschaften für die Verwaltung einer
@@ -81,6 +82,8 @@ namespace OSHGui
 			Misc::DateTime next;
 		};
 		static std::map<Timer*, TimerInfo> timers;
+
+		static FormManager formManager();
 
 		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);
 		static void UnregisterForm(Form *form);

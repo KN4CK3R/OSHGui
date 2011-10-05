@@ -4,16 +4,9 @@
 #include <exception>
 #include "Misc\Strings.h"
 
-#define WIDEN(x) L##x
-#define Exception(message) Exception(message, L"OSHGui::Exception", WIDEN(__FILE__), __LINE__)
-#define ArgumentException(paramName) ArgumentException(L"Unexpected argument.", paramName, WIDEN(__FILE__), __LINE__)
-#define ArgumentException(message, paramName) ArgumentException(message, paramName, WIDEN(__FILE__), __LINE__)
-#define ArgumentNullException(paramName) ArgumentNullException(L"Value cannot be null.", paramName, WIDEN(__FILE__), __LINE__)
-#define ArgumentNullException(message, paramName) ArgumentNullException(message, paramName, WIDEN(__FILE__), __LINE__)
-#define ArgumentOutOfRangeException(paramName) ArgumentOutOfRangeException(L"Value was out of valid range.", paramName, WIDEN(__FILE__), __LINE__)
-#define ArgumentOutOfRangeException(message, paramName) ArgumentOutOfRangeException(message, paramName, WIDEN(__FILE__), __LINE__)
-#define InvalidOperationException() InvalidOperationException(L"Operation is not valid due to the current state of the object.", WIDEN(__FILE__), __LINE__)
-#define InvalidOperationException(message) InvalidOperationException(message, WIDEN(__FILE__), __LINE)
+#define WIDEN2(x) L ## x
+#define WIDEN(x) WIDEN2(x)
+#define __WFILE__ WIDEN(__FILE__)
 
 namespace OSHGui
 {
@@ -23,6 +16,22 @@ namespace OSHGui
 	class Exception : public std::exception
 	{
 	public:
+		/**
+		 * Initialisiert eine neue Instanz der Exception-Klasse.
+		 *
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		Exception(const Misc::UnicodeString &message = L"");
+		/**
+		 * Initialisiert eine neue Instanz der Exception-Klasse.
+		 *
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 * @param file der Name der Datei, in der der Fehler auftrat
+		 * @param line die Zeilennummer, in der der Fehler auftrat
+		 */
+		Exception(const Misc::UnicodeString &message,
+				  const Misc::UnicodeString &file,
+				  int line);
 		virtual ~Exception() throw();
 		
 		/**
@@ -63,16 +72,24 @@ namespace OSHGui
 		/**
 		 * Initialisiert eine neue Instanz der Exception-Klasse.
 		 *
-		 * @param message die Meldung, in der der Fehler beschrieben wird
 		 * @param name der Name der Exception
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		Exception(const Misc::UnicodeString &name,
+				  const Misc::UnicodeString &message);
+		/**
+		 * Initialisiert eine neue Instanz der Exception-Klasse.
+		 *
+		 * @param name der Name der Exception
+		 * @param message die Meldung, in der der Fehler beschrieben wird
 		 * @param file der Name der Datei, in der der Fehler auftrat
 		 * @param line die Zeilennummer, in der der Fehler auftrat
 		 */
-		Exception(const Misc::UnicodeString &message,
-				  const Misc::UnicodeString &name = L"OSHGui::Exception",
-				  const Misc::UnicodeString &file = L"",
-				  int line = 0);
-	
+		Exception(const Misc::UnicodeString &name,
+				  const Misc::UnicodeString &message,
+				  const Misc::UnicodeString &file,
+				  int line);
+
 		Misc::UnicodeString message;
 		Misc::UnicodeString name;
 		Misc::UnicodeString file;
@@ -89,15 +106,39 @@ namespace OSHGui
 		/**
 		 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 		 *
+		 * @param paramName der Name des Arguments
+		 */
+		ArgumentException(const Misc::UnicodeString &paramName);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
+		 *
+		 * @param paramName der Name des Arguments
 		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		ArgumentException(const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
+		 *
 		 * @param paramName der Name des Arguments
 		 * @param file der Name der Datei, in der der Fehler auftrat
 		 * @param line die Zeilennummer, in der der Fehler auftrat
 		 */
-		ArgumentException(const Misc::UnicodeString &message,
-						  const Misc::UnicodeString &paramName = L"",
-						  const Misc::UnicodeString &file = L"",
-						  int line = 0);
+		ArgumentException(const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &file,
+						  int line);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
+		 *
+		 * @param paramName der Name des Arguments
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 * @param file der Name der Datei, in der der Fehler auftrat
+		 * @param line die Zeilennummer, in der der Fehler auftrat
+		 */
+		ArgumentException(const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message,
+						  const Misc::UnicodeString &file,
+						  int line);
 		
 		/**
 		 * Ruft den Namen des Parameters ab, der die Ausnahme auslöste.
@@ -105,22 +146,32 @@ namespace OSHGui
 		 * @return paramName
 		 */
 		const Misc::UnicodeString& GetParamName() const;
-	
+
 	protected:
 		/**
 		 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 		 *
-		 * @param message die Meldung, in der der Fehler beschrieben wird
-		 * @param paramName der Name des Arguments
 		 * @param name der Name der Exception
+		 * @param paramName der Name des Arguments
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		ArgumentException(const Misc::UnicodeString &name,
+						  const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
+		 *
+		 * @param name der Name der Exception
+		 * @param paramName der Name des Arguments
+		 * @param message die Meldung, in der der Fehler beschrieben wird
 		 * @param file der Name der Datei, in der der Fehler auftrat
 		 * @param line die Zeilennummer, in der der Fehler auftrat
 		 */
-		ArgumentException(const Misc::UnicodeString &message,
-						  const Misc::UnicodeString &paramName = L"",
-						  const Misc::UnicodeString &name = L"OSHGui::ArgumentException",
-						  const Misc::UnicodeString &file = L"",
-						  int line = 0);
+		ArgumentException(const Misc::UnicodeString &name,
+						  const Misc::UnicodeString &paramName,
+						  const Misc::UnicodeString &message,
+						  const Misc::UnicodeString &file,
+						  int line);
 	
 	private:
 		Misc::UnicodeString paramName;
@@ -136,13 +187,37 @@ namespace OSHGui
 		/**
 		 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
 		 *
+		 * @param paramName der Name des Arguments
+		 */
+		ArgumentNullException(const Misc::UnicodeString &paramName);
+		/**
+		 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
+		 *
+		 * @param paramName der Name des Arguments
 		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		ArgumentNullException(const Misc::UnicodeString &paramName,
+							  const Misc::UnicodeString &message);
+		/**
+		 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
+		 *
 		 * @param paramName der Name des Arguments
 		 * @param file der Name der Datei, in der der Fehler auftrat
 		 * @param line die Zeilennummer, in der der Fehler auftrat
 		 */
-		ArgumentNullException(const Misc::UnicodeString &message,
-							  const Misc::UnicodeString &paramName,
+		ArgumentNullException(const Misc::UnicodeString &paramName,
+							  const Misc::UnicodeString &file,
+							  int line);
+		/**
+		 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
+		 *
+		 * @param paramName der Name des Arguments
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 * @param file der Name der Datei, in der der Fehler auftrat
+		 * @param line die Zeilennummer, in der der Fehler auftrat
+		 */
+		ArgumentNullException(const Misc::UnicodeString &paramName,
+							  const Misc::UnicodeString &message,
 							  const Misc::UnicodeString &file,
 							  int line);
 	};
@@ -157,13 +232,37 @@ namespace OSHGui
 		/**
 		 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
 		 *
+		 * @param paramName der Name des Arguments
+		 */
+		ArgumentOutOfRangeException(const Misc::UnicodeString &paramName);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
+		 *
+		 * @param paramName der Name des Arguments
 		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		ArgumentOutOfRangeException(const Misc::UnicodeString &paramName,
+									const Misc::UnicodeString &message);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
+		 *
 		 * @param paramName der Name des Arguments
 		 * @param file der Name der Datei, in der der Fehler auftrat
 		 * @param line die Zeilennummer, in der der Fehler auftrat
 		 */
-		ArgumentOutOfRangeException(const Misc::UnicodeString &message,
-									const Misc::UnicodeString &paramName,
+		ArgumentOutOfRangeException(const Misc::UnicodeString &paramName,
+									const Misc::UnicodeString &file,
+									int line);
+		/**
+		 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
+		 *
+		 * @param paramName der Name des Arguments
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 * @param file der Name der Datei, in der der Fehler auftrat
+		 * @param line die Zeilennummer, in der der Fehler auftrat
+		 */
+		ArgumentOutOfRangeException(const Misc::UnicodeString &paramName,
+									const Misc::UnicodeString &message,
 									const Misc::UnicodeString &file,
 									int line);
 	};
@@ -175,6 +274,12 @@ namespace OSHGui
 	class InvalidOperationException : public Exception
 	{
 	public:
+		/**
+		 * Initialisiert eine neue Instanz der InvalidOperationException-Klasse.
+		 *
+		 * @param message die Meldung, in der der Fehler beschrieben wird
+		 */
+		InvalidOperationException(const Misc::UnicodeString &message = L"Operation is not valid due to the current state of the object.");
 		/**
 		 * Initialisiert eine neue Instanz der InvalidOperationException-Klasse.
 		 *
