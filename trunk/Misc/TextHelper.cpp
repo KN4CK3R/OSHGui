@@ -14,7 +14,7 @@ namespace OSHGui
 		{
 			if (font == 0)
 			{
-				throw ArgumentNullException(L"font");
+				throw ArgumentNullException(L"font", __WFILE__, __LINE__);
 			}
 		
 			this->font = font;

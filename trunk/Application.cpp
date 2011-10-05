@@ -21,7 +21,7 @@ namespace OSHGui
 	{
 		if (renderer == 0)
 		{
-			throw ArgumentNullException(L"renderer");
+			throw ArgumentNullException(L"renderer", __WFILE__, __LINE__);
 		}
 		
 		Application::renderer = renderer;
@@ -58,7 +58,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			throw ArgumentNullException(L"form");;
+			throw ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
 		if (mainForm != 0)
@@ -75,7 +75,7 @@ namespace OSHGui
 	{
 		if (timer == 0)
 		{
-			throw ArgumentNullException(L"timer");
+			throw ArgumentNullException(L"timer", __WFILE__, __LINE__);
 		}
 	
 		if (timers.find(timer) == timers.end())
@@ -92,7 +92,7 @@ namespace OSHGui
 	{
 		if (timer == 0)
 		{
-			throw ArgumentNullException(L"timer");
+			throw ArgumentNullException(L"timer", __WFILE__, __LINE__);
 		}
 	
 		std::map<Timer*, TimerInfo>::iterator it = timers.find(timer);
@@ -106,7 +106,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			throw ArgumentNullException(L"form");
+			throw ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
 		for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
@@ -153,7 +153,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			throw ArgumentNullException(L"form");
+			throw ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
 		if (form == mainForm) //don't unregister mainForm
@@ -214,7 +214,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 		
 		if (!enabled)
@@ -262,7 +262,7 @@ namespace OSHGui
 	{
 		if (renderer == 0)
 		{
-			throw InvalidOperationException(L"Call Application::Create first.");
+			throw InvalidOperationException(L"Call Application::Create first.", __WFILE__, __LINE__);
 		}
 	
 		if (!enabled)

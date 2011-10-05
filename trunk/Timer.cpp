@@ -60,7 +60,7 @@ namespace OSHGui
 			}
 			else
 			{
-				throw new ArgumentOutOfRangeException(L"interval");
+				throw ArgumentOutOfRangeException(L"interval", __WFILE__, __LINE__);
 			}
 		}
 	}

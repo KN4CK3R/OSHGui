@@ -56,7 +56,7 @@ namespace OSHGui
 			long long totalMilliSeconds = ((long long)days * 3600 * 24 + (long long)hours * 3600 + (long long)minutes * 60 + seconds) * 1000;
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw ArgumentOutOfRangeException(L"milliseconds");
+				throw ArgumentOutOfRangeException(L"milliseconds", __WFILE__, __LINE__);
 			}
 			ticks = totalMilliSeconds * TicksPerMillisecond;
 		}
@@ -66,7 +66,7 @@ namespace OSHGui
 			long long totalMilliSeconds = ((long long)days * 3600 * 24 + (long long)hours * 3600 + (long long)minutes * 60 + seconds) * 1000 + milliseconds;
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw ArgumentOutOfRangeException(L"milliseconds");
+				throw ArgumentOutOfRangeException(L"milliseconds", __WFILE__, __LINE__);
 			}
 			ticks = totalMilliSeconds * TicksPerMillisecond;
 		}
@@ -144,7 +144,7 @@ namespace OSHGui
 			long long result = ticks + ts.ticks;
 			if ((ticks >> 63 == ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw ArgumentOutOfRangeException(L"ticks");
+				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
 			return TimeSpan(result);
 		}
@@ -154,7 +154,7 @@ namespace OSHGui
 			long long result = ticks - ts.ticks;
 			if ((ticks >> 63 != ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw ArgumentOutOfRangeException(L"ticks");
+				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
 			return TimeSpan(result);
 		}
@@ -213,7 +213,7 @@ namespace OSHGui
 		{
 			if (ticks == MinValue.ticks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks");
+				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
 			return TimeSpan(ticks >= 0 ? ticks : -ticks);
 		}
@@ -222,7 +222,7 @@ namespace OSHGui
 		{
 			if (ticks == MinValue.ticks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks");
+				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
 			return TimeSpan(-ticks);
 		}
@@ -261,13 +261,13 @@ namespace OSHGui
 		{
 			//if (value == 0.0 / 0.0)
 			//{
-			//	throw ArgumentException(L"Invalid argument: value is NAN");
+			//	throw ArgumentException(L"Invalid argument: value is NAN", __WFILE__, __LINE__);
 			//}
 			double temp = value * scale;
 			double millis = temp + (value >= 0.0 ? 0.5 : -0.5);
 			if ((millis > MaxMilliSeconds) || (millis < MinMilliSeconds))
 			{
-				throw ArgumentOutOfRangeException(L"value");
+				throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
 			}
 			return TimeSpan((long long)millis * TicksPerMillisecond);
 		}
@@ -277,7 +277,7 @@ namespace OSHGui
 			long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
 			if (totalSeconds > MaxSeconds || totalSeconds < MinSeconds)
 			{
-				throw ArgumentOutOfRangeException(L"totalSeconds");
+				throw ArgumentOutOfRangeException(L"totalSeconds", __WFILE__, __LINE__);
 			}
 			return totalSeconds * TicksPerSecond;
 		}

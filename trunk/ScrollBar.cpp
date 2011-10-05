@@ -128,7 +128,7 @@ namespace OSHGui
 
 		if (index < 0 || index >= range)
 		{
-			throw ArgumentOutOfRangeException(L"index");
+			throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 
 		if (position > index)
@@ -156,7 +156,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

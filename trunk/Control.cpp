@@ -156,11 +156,11 @@ namespace OSHGui
 	{
 		if (width < 0)
 		{
-			throw ArgumentOutOfRangeException(L"width");
+			throw ArgumentOutOfRangeException(L"width", __WFILE__, __LINE__);
 		}
 		if (height < 0)
 		{
-			throw ArgumentOutOfRangeException(L"height");
+			throw ArgumentOutOfRangeException(L"height", __WFILE__, __LINE__);
 		}
 		
 		bounds.SetWidth(width);
@@ -264,7 +264,7 @@ namespace OSHGui
 	{
 		if (font == 0)
 		{
-			throw ArgumentNullException(L"font");
+			throw ArgumentNullException(L"font", __WFILE__, __LINE__);
 		}
 		
 		this->font = font;
@@ -359,7 +359,7 @@ namespace OSHGui
 	{
 		if (control == 0)
 		{
-			throw ArgumentNullException(L"control");
+			throw ArgumentNullException(L"control", __WFILE__, __LINE__);
 		}
 		
 		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
@@ -427,14 +427,14 @@ namespace OSHGui
 			}
 		}
 
-		throw ArgumentException(L"No control exists with this name", L"name");
+		throw ArgumentException(L"No control exists with this name", L"name", __WFILE__, __LINE__);
 	}
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
 	{
 		if (control == 0)
 		{
-			throw ArgumentNullException(L"control");
+			throw ArgumentNullException(L"control", __WFILE__, __LINE__);
 		}
 		
 		if (!control->CanHaveFocus())
@@ -493,7 +493,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 		
 		//someone is focused, so let him handle the event expect the mouse

@@ -111,7 +111,7 @@ namespace OSHGui
 	{
 		if (value < min || value > max)
 		{
-			throw ArgumentOutOfRangeException(L"value");
+			throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
 		}
 		
 		if (this->value != value)
@@ -136,7 +136,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event");
+			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)
