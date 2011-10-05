@@ -1,6 +1,6 @@
 #include "PictureBox.h"
 #include "Drawing\TextureAnimator.h"
-#include "Exceptions.h"
+#include "Misc\Exceptions.h"
 
 namespace OSHGui
 {

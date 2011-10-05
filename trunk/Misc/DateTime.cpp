@@ -9,7 +9,7 @@
 #endif
 
 #include "DateTime.h"
-#include "..\Exceptions.h"
+#include "Exceptions.h"
 
 namespace OSHGui
 {

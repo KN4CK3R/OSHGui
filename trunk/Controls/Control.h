@@ -134,12 +134,6 @@ namespace OSHGui
 	class Control
 	{
 	public:
-		/**
-		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
-		 */
-		Control(Control *parent = 0);
 		virtual ~Control();
 		
 		/**
@@ -538,6 +532,13 @@ namespace OSHGui
 		const std::vector<Control*>& GetControls() const;	
 	
 	protected:
+		/**
+		 * Konstruktor der Klasse.
+		 *
+		 * @param parent das Elternsteuerelement
+		 */
+		Control(Control *parent = 0);
+	
 		IEvent::NextEventTypes ContainerProcessEvent(IEvent *event);
 
 		virtual void SetFocus(bool focus);
