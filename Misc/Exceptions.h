@@ -95,6 +95,11 @@ namespace OSHGui
 		Misc::UnicodeString file;
 		int line;
 		Misc::UnicodeString combinedMessage;
+	
+	private:
+		//copying prohibited
+		Exception(const Exception&);
+		void operator = (const Exception&);
 	};
 	
 	/**

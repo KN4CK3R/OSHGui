@@ -1,5 +1,5 @@
 #include "CheckBox.h"
-#include "Exceptions.h"
+#include "Misc\Exceptions.h"
 
 namespace OSHGui
 {

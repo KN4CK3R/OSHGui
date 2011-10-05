@@ -1,6 +1,6 @@
 #include "FormManager.h"
 #include "Form.h"
-#include "Exceptions.h"
+#include "Misc\Exceptions.h"
 
 namespace OSHGui
 {
