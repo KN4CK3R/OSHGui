@@ -3,7 +3,7 @@
 
 #include <memory>
 #include "Control.h"
-#include "Drawing\ITexture.h"
+#include "..\Drawing\ITexture.h"
 
 namespace OSHGui
 {

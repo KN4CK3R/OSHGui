@@ -1,7 +1,7 @@
 #include "TabControl.h"
 #include "TabPage.h"
-#include "Misc\TextHelper.h"
-#include "Misc\Exceptions.h"
+#include "..\Misc\TextHelper.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -42,7 +42,7 @@ namespace OSHGui
 			}
 		}
 
-		throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+		throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
@@ -58,7 +58,7 @@ namespace OSHGui
 			return *it;
 		}
 
-		throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+		throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 	}
 	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
@@ -72,7 +72,7 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
-			throw ArgumentNullException(L"tabPage", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"tabPage", __WFILE__, __LINE__);
 		}
 
 		tabs.push_back(tabPage);
@@ -88,7 +88,7 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
-			throw ArgumentNullException(L"tabPage", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"tabPage", __WFILE__, __LINE__);
 		}
 
 		tabs.remove(tabPage);
@@ -130,7 +130,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

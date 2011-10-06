@@ -1,7 +1,7 @@
 #include "Timer.h"
 #include "Control.h"
-#include "Application.h"
-#include "Misc\Exceptions.h"
+#include "..\Application.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -60,7 +60,7 @@ namespace OSHGui
 			}
 			else
 			{
-				throw ArgumentOutOfRangeException(L"interval", __WFILE__, __LINE__);
+				throw Misc::ArgumentOutOfRangeException(L"interval", __WFILE__, __LINE__);
 			}
 		}
 	}

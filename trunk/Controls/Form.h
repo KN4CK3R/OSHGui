@@ -3,7 +3,7 @@
 
 #include <functional>
 #include "Control.h"
-#include "Misc\TextHelper.h"
+#include "..\Misc\TextHelper.h"
 
 namespace OSHGui
 {

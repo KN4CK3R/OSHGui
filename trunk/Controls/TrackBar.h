@@ -1,7 +1,6 @@
 #ifndef OSHGUI_TRACKBAR_H_
 #define OSHGUI_TRACKBAR_H_
 
-#include "Event\EventHandler.h"
 #include "Control.h"
 
 namespace OSHGui
