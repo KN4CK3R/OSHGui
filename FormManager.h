@@ -2,6 +2,9 @@
 #define OSHGUI_FORMMANAGER_H_
 
 #include <list>
+#include <memory>
+#include <functional>
+#include "Event\IEvent.h"
 
 namespace OSHGui
 {
@@ -10,16 +13,26 @@ namespace OSHGui
 	class FormManager
 	{
 	public:
-		Form* GetForeMost() const;
+		const std::shared_ptr<Form>& GetForeMost() const;
 
-		Form* operator [] (int index) const;
+		const std::shared_ptr<Form>& operator [] (int index) const;
 
-		void RegisterWindow(Form *form);
-		void Remove(Form *form);
-		void BringToFront(Form *form);
+		void RegisterForm(const std::shared_ptr<Form> &form);
+		void RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction);
+		void Remove(const std::shared_ptr<Form> &form);
+		void BringToFront(const std::shared_ptr<Form> &form);
+		
+		IEvent::NextEventTypes ForwardEventToForms(IEvent *event);
+		void RenderForms(Drawing::IRenderer *renderer);
 
 	private:
-		std::list<Form*> formList;
+		struct FormInfo
+		{
+			std::shared_ptr<Form> form;
+			std::function<void()> closeFunction;
+		};
+	
+		std::list<FormInfo> formList;
 	};
 }
 

@@ -13,8 +13,6 @@ namespace OSHGui
 		visible = false;
 		enabled = false;
 		drag = false;
-		modalParent = 0;
-		modalChild = 0;
 
 		SetBounds(10, 10, 300, 300);
 
@@ -71,16 +69,8 @@ namespace OSHGui
 		enabled = true;
 	}
 	//---------------------------------------------------------------------------
-	void Form::ShowModal(Form *parent, const std::function<void()> &func)
-	{
-		if (parent == 0)
-		{
-			throw Misc::ArgumentNullException(L"parent", __WFILE__, __LINE__);
-		}
-
-		modalParent = parent;
-		modalParent->modalChild = this;
-		
+	void Form::ShowModal(const std::function<void()> &closeFunction)
+	{		
 		Application::RegisterForm(this, func);
 
 		visible = true;
@@ -89,10 +79,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Close()
 	{
-		if (modalParent != 0)
-		{
-			modalParent->modalChild = 0;
-		}
 		Application::UnregisterForm(this);
 	}
 	//---------------------------------------------------------------------------
@@ -108,11 +94,6 @@ namespace OSHGui
 		if (!visible || !enabled)
 		{
 			return IEvent::Continue;
-		}
-		
-		if (modalChild != 0)
-		{
-			return modalChild->ProcessEvent(event);
 		}
 
 		static Drawing::Point oldMousePosition;
@@ -245,11 +226,6 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderRectangle(renderRect);
-		
-		if (modalChild != 0)
-		{
-			modalChild->Render(renderer);
-		}
 	}
 	//---------------------------------------------------------------------------
 }
