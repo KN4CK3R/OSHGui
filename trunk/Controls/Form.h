@@ -49,9 +49,9 @@ namespace OSHGui
 		/**
 		 * Zeigt die Form modal an.
 		 *
-		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird
+		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
 		 */
-		void ShowModal(Form *parent, const std::function<void()> &func = 0);
+		void ShowModal(const std::function<void()> &closeFunction);
 
 		/**
 		 * Schließt die Form.
