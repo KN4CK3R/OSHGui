@@ -4,24 +4,24 @@
 #include <vector>
 #include <algorithm>
 
-#include "Application.h"
+#include "..\Application.h"
 
-#include "Drawing\Point.h"
-#include "Drawing\Size.h"
-#include "Drawing\Rectangle.h"
-#include "Drawing\IRenderer.h"
+#include "..\Drawing\Point.h"
+#include "..\Drawing\Size.h"
+#include "..\Drawing\Rectangle.h"
+#include "..\Drawing\IRenderer.h"
 
-#include "Misc\Strings.h"
-#include "Misc\Any.h"
+#include "..\Misc\Strings.h"
+#include "..\Misc\Any.h"
 
-#include "Event\KeyboardEvent.h"
-#include "Event\MouseEvent.h"
-#include "Event\EventHandler.h"
-#include "Event\KeyEventArgs.h"
-#include "Event\KeyPressEventArgs.h"
-#include "Event\MouseEventArgs.h"
+#include "..\Event\KeyboardEvent.h"
+#include "..\Event\MouseEvent.h"
+#include "..\Event\EventHandler.h"
+#include "..\Event\KeyEventArgs.h"
+#include "..\Event\KeyPressEventArgs.h"
+#include "..\Event\MouseEventArgs.h"
 
-#include "Cursor\Cursors.h"
+#include "..\Cursor\Cursors.h"
 
 namespace OSHGui
 {

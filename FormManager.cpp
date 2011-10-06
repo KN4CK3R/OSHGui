@@ -17,7 +17,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)formList.size())
 		{
-			throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 
 		std::list<Form*>::const_iterator it = formList.begin();
@@ -29,12 +29,12 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			throw ArgumentNullException(L"form", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
 		if (formList.empty())
 		{
-			throw InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
+			throw Misc::InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
 		}
 
 		if (*formList.begin() == form)
@@ -50,7 +50,7 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			throw ArgumentNullException(L"form", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
 		formList.push_front(form);
@@ -60,12 +60,12 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
-			throw ArgumentNullException(L"form", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
 		if (formList.empty())
 		{
-			throw InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
+			throw Misc::InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
 		}
 
 		formList.remove(form);

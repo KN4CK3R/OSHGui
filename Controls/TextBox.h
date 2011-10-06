@@ -1,9 +1,8 @@
 #ifndef OSHGUI_TEXTBOX_H_
 #define OSHGUI_TEXTBOX_H_
 
-#include "Event\EventHandler.h"
 #include "Control.h"
-#include "Misc\TextHelper.h"
+#include "..\Misc\TextHelper.h"
 
 #define TEXTBOX_DEFAULT_HEIGHT 24
 

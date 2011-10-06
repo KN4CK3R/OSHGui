@@ -1,6 +1,6 @@
 #include "PictureBox.h"
-#include "Drawing\TextureAnimator.h"
-#include "Misc\Exceptions.h"
+#include "..\Drawing\TextureAnimator.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -13,8 +13,6 @@ namespace OSHGui
 
 		SetBounds(6, 6, 100, 100);
 		
-		image = Application::GetRenderer()->CreateNewTexture(GetSize());
-
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
 	}
@@ -28,9 +26,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
 	{
-		Drawing::TextureAnimator::StopAnimate(this->image);
+		if (this->image != 0)
+		{
+			Drawing::TextureAnimator::StopAnimate(this->image);
+		}
+		
 		this->image = image;
-		Drawing::TextureAnimator::Animate(this->image, Drawing::TextureAnimator::Loop);
+		
+		if (this->image != 0)
+		{
+			Drawing::TextureAnimator::Animate(this->image, Drawing::TextureAnimator::Loop);
+		}
 	}
 	//---------------------------------------------------------------------------
 	std::shared_ptr<Drawing::ITexture> PictureBox::GetImage() const
@@ -71,7 +77,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

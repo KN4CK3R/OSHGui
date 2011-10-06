@@ -1,5 +1,5 @@
 #include "ProgressBar.h"
-#include "Misc\Exceptions.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -32,7 +32,7 @@ namespace OSHGui
 		}
 		else
 		{
-			throw ArgumentException(L"min cannot be greater than max.", L"min", __WFILE__, __LINE__);
+			throw Misc::ArgumentException(L"min cannot be greater than max.", L"min", __WFILE__, __LINE__);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ namespace OSHGui
 		}
 		else
 		{
-			throw ArgumentException(L"max cannot be lower than min.", L"max", __WFILE__, __LINE__);
+			throw Misc::ArgumentException(L"max cannot be lower than min.", L"max", __WFILE__, __LINE__);
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #include "Button.h"
-#include "Misc\Exceptions.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -68,7 +68,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

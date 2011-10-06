@@ -1,5 +1,5 @@
 #include "ColorPicker.h"
-#include "Misc\Exceptions.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -88,11 +88,11 @@ namespace OSHGui
 	{
 		if (x < 0 || x >= bounds.GetWidth())
 		{
-			throw ArgumentOutOfRangeException(L"x");
+			throw Misc::ArgumentOutOfRangeException(L"x");
 		}
 		if (y < 0 || y >= bounds.GetHeight())
 		{
-			throw ArgumentOutOfRangeException(L"y");
+			throw Misc::ArgumentOutOfRangeException(L"y");
 		}
 	
 		Drawing::Color tmpColor;
@@ -222,7 +222,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

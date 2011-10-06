@@ -1,5 +1,5 @@
 #include "ListBox.h"
-#include "Misc\Exceptions.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -31,7 +31,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 
 		return items[index];
@@ -117,7 +117,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 		
 		items.erase(items.begin() + index);
@@ -181,7 +181,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
 		if (!visible || !enabled)

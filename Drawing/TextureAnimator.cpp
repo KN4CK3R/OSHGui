@@ -51,7 +51,7 @@ namespace OSHGui
 			{
 				if (frame < 0 || frame >= GetFrameCount())
 				{
-                    throw ArgumentOutOfRangeException(L"frame", __WFILE__, __LINE__);
+                    throw Misc::ArgumentOutOfRangeException(L"frame", __WFILE__, __LINE__);
                 }
  
                 if (IsAnimated())
@@ -212,7 +212,7 @@ namespace OSHGui
 		{
 			if (texture == 0)
 			{
-				throw ArgumentNullException(L"texture", __WFILE__, __LINE__);
+				throw Misc::ArgumentNullException(L"texture", __WFILE__, __LINE__);
 			}
 
 			TextureInfo textureInfo(texture, replayMode);
@@ -227,7 +227,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureAnimator::StopAnimate(const std::shared_ptr<ITexture> &texture)
 		{
-			if (texture == 0 || textureInfoList.empty())
+			if (texture == 0)
+			{
+				throw Misc::ArgumentNullException(L"texture", __WFILE__, __LINE__);
+			}
+			
+			if (textureInfoList.empty())
 			{
                 return;
             }
