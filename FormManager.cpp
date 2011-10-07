@@ -79,7 +79,7 @@ namespace OSHGui
 		formList.push_front(info);
 	}
 	//---------------------------------------------------------------------------
-	void FormManager::Remove(const std::shared_ptr<Form> &form)
+	void FormManager::UnregisterForm(const std::shared_ptr<Form> &form)
 	{
 		if (form == 0)
 		{

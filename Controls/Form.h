@@ -44,14 +44,23 @@ namespace OSHGui
 		
 		/**
 		 * Zeigt die Form an.
+		 *
+		 * @param instance die aktuelle Instanz dieser Form
 		 */
-		void Show();
+		void Show(const std::shared_ptr<Form> &instance);
 		/**
 		 * Zeigt die Form modal an.
 		 *
+		 * @param instance die aktuelle Instanz dieser Form
+		 */
+		void ShowModal(const std::shared_ptr<Form> &instance);
+		/**
+		 * Zeigt die Form modal an.
+		 *
+		 * @param instance die aktuelle Instanz dieser Form
 		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
 		 */
-		void ShowModal(const std::function<void()> &closeFunction);
+		void ShowModal(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction);
 
 		/**
 		 * Schließt die Form.
@@ -85,8 +94,8 @@ namespace OSHGui
 		Drawing::Rectangle captionBar,
 						   closeRect;
 		bool drag;
-		Form *modalChild,
-			 *modalParent;
+
+		std::weak_ptr<Form> instance;
 	};
 }
 

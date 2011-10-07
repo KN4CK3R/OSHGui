@@ -83,11 +83,10 @@ namespace OSHGui
 		};
 		static std::map<Timer*, TimerInfo> timers;
 
-		static FormManager formManager();
+		static FormManager formManager;
 
 		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);
 		static void UnregisterForm(Form *form);
-		static void BringToFront(Form *form);
 		struct ModalInfo
 		{
 			Form *form;

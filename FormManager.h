@@ -19,7 +19,7 @@ namespace OSHGui
 
 		void RegisterForm(const std::shared_ptr<Form> &form);
 		void RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction);
-		void Remove(const std::shared_ptr<Form> &form);
+		void UnregisterForm(const std::shared_ptr<Form> &form);
 		void BringToFront(const std::shared_ptr<Form> &form);
 		
 		IEvent::NextEventTypes ForwardEventToForms(IEvent *event);

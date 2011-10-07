@@ -61,17 +61,31 @@ namespace OSHGui
 		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
-	void Form::Show()
+	void Form::Show(const std::shared_ptr<Form> &instance)
 	{
-		Application::RegisterForm(this);
+		this->instance = std::weak_ptr<Form>(instance);
+	
+		Application::formManager.RegisterForm(this->instance.lock());
 
 		visible = true;
 		enabled = true;
 	}
 	//---------------------------------------------------------------------------
-	void Form::ShowModal(const std::function<void()> &closeFunction)
+	void Form::ShowModal(const std::shared_ptr<Form> &instance)
 	{		
-		Application::RegisterForm(this, func);
+		this->instance = std::weak_ptr<Form>(instance);
+	
+		Application::formManager.RegisterForm(this->instance.lock());
+
+		visible = true;
+		enabled = true;
+	}
+	//---------------------------------------------------------------------------
+	void Form::ShowModal(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction)
+	{		
+		this->instance = std::weak_ptr<Form>(instance);
+	
+		Application::formManager.RegisterForm(this->instance.lock(), closeFunction);
 
 		visible = true;
 		enabled = true;
@@ -79,7 +93,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Close()
 	{
-		Application::UnregisterForm(this);
+		Application::formManager.UnregisterForm(instance.lock());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
