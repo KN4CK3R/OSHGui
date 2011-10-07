@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "Drawing\TextureAnimator.h"
 #include "Misc\Exceptions.h"
+#include "FormManager.h"
 
 namespace OSHGui
 {
@@ -16,6 +17,7 @@ namespace OSHGui
 	Drawing::IRenderer *Application::renderer = 0;
 	Application::MouseInfo Application::mouse;
 	Misc::DateTime Application::now = Misc::DateTime::GetNow();
+	FormManager Application::formManager;
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
 	{
@@ -202,14 +204,6 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Application::BringToFront(Form *form)
-	{
-		if (form != 0)
-		{
-			focusForm = form;
-		}
-	}
-	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Application::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
@@ -229,31 +223,7 @@ namespace OSHGui
 			Application::mouse.Position = mouse->Position;
 		}
 
-		if (modals.size() != 0)
-		{
-			modals.front().form->ProcessEvent(event);
-			return IEvent::DontContinue;
-		}
-		
-		if (focusForm != 0 && focusForm->ProcessEvent(event) == IEvent::DontContinue)
-		{
-			return IEvent::DontContinue;
-		}
-		else
-		{
-			for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
-			{
-				if (*it != focusForm)
-				{
-					if ((*it)->ProcessEvent(event) == IEvent::DontContinue)
-					{
-						focusForm = *it;
-
-						return IEvent::DontContinue;
-					}
-				}
-			}
-		}
+		formManager.ForwardEventToForms(event);
 
 		return IEvent::Continue;
 	}
@@ -274,15 +244,6 @@ namespace OSHGui
 
 		Drawing::TextureAnimator::UpdateFrames();
 
-		if (removeForms.size() > 0)
-		{
-			for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
-			{
-				delete *it;
-			}
-			removeForms.clear();
-		}
-
 		if (timers.size() > 0)
 		{
 			for (std::map<Timer*, TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
@@ -296,23 +257,7 @@ namespace OSHGui
 			}
 		}
 
-		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
-		{
-			if (*it != focusForm)
-			{
-				(*it)->Render(renderer);
-			}
-		}
-
-		if (focusForm != 0)
-		{
-			focusForm->Render(renderer);
-		}
-
-		if (modals.size() > 0)
-		{
-			modals.front().form->Render(renderer);
-		}
+		formManager.RenderForms(renderer);
 		
 		//render startbar
 		renderer->SetRenderColor(Drawing::Color(0xFF5C5C5C));
