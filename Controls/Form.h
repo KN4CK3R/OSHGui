@@ -8,6 +8,49 @@
 namespace OSHGui
 {
 	/**
+	 * Gibt Bezeichner an, die den Rückgabewert eines Dialogfelds angeben.
+	 */
+	//class DialogResult
+	//{
+	//public:
+		enum DialogResult
+		{
+			/**
+			 * Der Rückgabewert des Dialogfelds ist Nothing.
+			 */
+			None,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist OK (üblicherweise von der Schaltfläche OK gesendet).
+			 */
+			OK,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist Cancel (üblicherweise von der Schaltfläche Abbrechen gesendet).
+			 */
+			Cancel,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist Abort (üblicherweise von der Schaltfläche Abbrechen gesendet).
+			 */
+			Abort,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist Retry (üblicherweise von der Schaltfläche Wiederholen gesendet).
+			 */
+			Retry,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist Ignore (üblicherweise von der Schaltfläche Ignorieren gesendet).
+			 */
+			Ignore,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist Yes (üblicherweise von der Schaltfläche Ja gesendet).
+			 */
+			Yes,
+			/**
+			 * Der Rückgabewert des Dialogfelds ist No (üblicherweise von der Schaltfläche Nein gesendet).
+			 */
+			No
+		};
+	//};
+
+	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
 	 */
 	class Form : public Control
@@ -41,6 +84,12 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::UnicodeString& GetText() const;
+		/**
+		 * Ruft das DialogResult für das Fenster ab.
+		 *
+		 * @return dialogResult
+		 */
+		DialogResult GetDialogResult() const;
 		
 		/**
 		 * Zeigt die Form an.
@@ -53,14 +102,14 @@ namespace OSHGui
 		 *
 		 * @param instance die aktuelle Instanz dieser Form
 		 */
-		void ShowModal(const std::shared_ptr<Form> &instance);
+		void ShowDialog(const std::shared_ptr<Form> &instance);
 		/**
 		 * Zeigt die Form modal an.
 		 *
 		 * @param instance die aktuelle Instanz dieser Form
 		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
 		 */
-		void ShowModal(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction);
+		void ShowDialog(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction);
 
 		/**
 		 * Schließt die Form.
@@ -90,10 +139,14 @@ namespace OSHGui
 		void Render(Drawing::IRenderer *renderer);
 
 	protected:
+		DialogResult dialogResult;
+
+	private:
 		Misc::TextHelper textHelper;
 		Drawing::Rectangle captionBar,
 						   closeRect;
 		bool drag;
+		bool isModal;
 
 		std::weak_ptr<Form> instance;
 	};
