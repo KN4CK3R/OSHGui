@@ -1,5 +1,7 @@
 #include "FormManager.h"
-#include "Form.h"
+#include "Controls\Form.h"
+#include "Drawing\IRenderer.h"
+#include "Event\IEvent.h"
 #include "Misc\Exceptions.h"
 
 namespace OSHGui
@@ -20,7 +22,7 @@ namespace OSHGui
 			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 
-		std::list<Form*>::const_iterator it = formList.begin();
+		std::list<FormInfo>::const_iterator it = formList.begin();
 		for (int i = 0; i < index; ++i, ++it);
 		return (*it).form;
 	}
@@ -86,15 +88,10 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
-		if (formList.empty())
-		{
-			throw Misc::InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
-		}
-
 		for (auto it = formList.begin(); it != formList.end(); ++it)
 		{
 			FormInfo &info = *it;
-			if (info.Form == form)
+			if (info.form == form)
 			{
 				if (info.closeFunction != 0)
 				{
@@ -121,7 +118,7 @@ namespace OSHGui
 				return foreMost->ProcessEvent(event);
 			}
 			
-			for (std::list<FormInfo>::itertor it = formList.begin(); it != formList.end(); ++it)
+			for (std::list<FormInfo>::iterator it = formList.begin(); it != formList.end(); ++it)
 			{
 				FormInfo &info = *it;
 				if (info.form->ProcessEvent(event) == IEvent::DontContinue)
@@ -140,21 +137,12 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::RenderForms(Drawing::IRenderer *renderer)
-	{
-		if (removeForms.size() > 0)
-		{
-			for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
-			{
-				delete *it;
-			}
-			removeForms.clear();
-		}
-		
+	{		
 		if (formList.size() > 0)
 		{
-			for (std::list<Form*>::iterator it = ++formList.begin(); it != formList.end(); ++it)
+			for (std::list<FormInfo>::iterator it = ++formList.begin(); it != formList.end(); ++it)
 			{
-				(*it)->Render(renderer);
+				(*it).form->Render(renderer);
 			}
 
 			GetForeMost()->Render(renderer);

@@ -1,4 +1,6 @@
 #include "Form.h"
+#include "..\Application.h"
+#include "..\FormManager.h"
 #include "..\Misc\Exceptions.h"
 
 namespace OSHGui
@@ -13,6 +15,7 @@ namespace OSHGui
 		visible = false;
 		enabled = false;
 		drag = false;
+		isModal = false;
 
 		SetBounds(10, 10, 300, 300);
 
@@ -39,9 +42,14 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
+	DialogResult Form::GetDialogResult() const
+	{
+		return dialogResult;
+	}
+	//---------------------------------------------------------------------------
 	bool Form::IsModal() const
 	{
-		return modalParent != 0;
+		return isModal;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -71,18 +79,15 @@ namespace OSHGui
 		enabled = true;
 	}
 	//---------------------------------------------------------------------------
-	void Form::ShowModal(const std::shared_ptr<Form> &instance)
-	{		
-		this->instance = std::weak_ptr<Form>(instance);
-	
-		Application::formManager.RegisterForm(this->instance.lock());
-
-		visible = true;
-		enabled = true;
+	void Form::ShowDialog(const std::shared_ptr<Form> &instance)
+	{
+		ShowDialog(instance, 0);
 	}
 	//---------------------------------------------------------------------------
-	void Form::ShowModal(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction)
-	{		
+	void Form::ShowDialog(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction)
+	{
+		isModal = true;
+
 		this->instance = std::weak_ptr<Form>(instance);
 	
 		Application::formManager.RegisterForm(this->instance.lock(), closeFunction);

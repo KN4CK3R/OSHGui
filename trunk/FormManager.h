@@ -8,6 +8,8 @@
 
 namespace OSHGui
 {
+	class IEvent;
+	namespace Drawing {	class IRenderer; }
 	class Form;
 
 	class FormManager
@@ -17,6 +19,8 @@ namespace OSHGui
 
 		const std::shared_ptr<Form>& operator [] (int index) const;
 
+		void RegisterMainForm(const std::shared_ptr<Form> &mainForm);
+		const std::shared_ptr<Form>& GetMainForm() const;
 		void RegisterForm(const std::shared_ptr<Form> &form);
 		void RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction);
 		void UnregisterForm(const std::shared_ptr<Form> &form);
@@ -31,8 +35,9 @@ namespace OSHGui
 			std::shared_ptr<Form> form;
 			std::function<void()> closeFunction;
 		};
-	
 		std::list<FormInfo> formList;
+
+		std::shared_ptr<Form> mainForm;
 	};
 }
 

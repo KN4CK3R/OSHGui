@@ -1,23 +1,20 @@
 #include "Application.h"
-#include "Form.h"
-#include "Timer.h"
+#include "Controls\Form.h"
+#include "Controls\Timer.h"
 #include "Drawing\TextureAnimator.h"
 #include "Misc\Exceptions.h"
 #include "FormManager.h"
+#include "Cursor\Cursors.h"
 
 namespace OSHGui
 {
 	std::map<Timer*, Application::TimerInfo> Application::timers;
-	std::list<Form*> Application::forms;
-	std::list<Application::ModalInfo> Application::modals;
-	std::list<Form*> Application::removeForms;
-	Form *Application::focusForm = 0;
-	Form *Application::mainForm = 0;
 	bool Application::enabled = false;
 	Drawing::IRenderer *Application::renderer = 0;
 	Application::MouseInfo Application::mouse;
 	Misc::DateTime Application::now = Misc::DateTime::GetNow();
 	FormManager Application::formManager;
+	std::shared_ptr<Form> Application::mainForm;
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
 	{
@@ -45,9 +42,9 @@ namespace OSHGui
 	{
 		enabled = true;
 
-		if (mainForm != 0)
+		if (!mainForm->GetVisible())
 		{
-			mainForm->Show();
+			mainForm->Show(mainForm);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -56,21 +53,21 @@ namespace OSHGui
 		enabled = false;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Run(Form *form)
+	void Application::Run(const std::shared_ptr<Form> &mainForm)
 	{
-		if (form == 0)
+		if (mainForm == 0)
 		{
 			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
-		if (mainForm != 0)
+		if (Application::mainForm != 0)
 		{
 			return;
 		}
 
-		RegisterForm(form);
+		Application::mainForm = mainForm;
 
-		mainForm = form;
+		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
 	void Application::RegisterTimer(Timer *timer, Misc::TimeSpan &interval)
@@ -101,106 +98,6 @@ namespace OSHGui
 		if (it != timers.end())
 		{
 			timers.erase(it);
-		}
-	}
-	//---------------------------------------------------------------------------
-	void Application::RegisterForm(Form *form, const std::function<void()> &modalFunc)
-	{
-		if (form == 0)
-		{
-			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
-		}
-
-		for (std::list<Form*>::iterator it = removeForms.begin(); it != removeForms.end(); ++it)
-		{
-			if (*it == form)
-			{
-				removeForms.erase(it);
-				break;
-			}
-		}
-
-		for (std::list<ModalInfo>::iterator it = modals.begin(); it != modals.end(); ++it)
-		{
-			if (it->form == form)
-			{
-				return;
-			}
-		}
-
-		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
-		{
-			if (*it == form)
-			{
-				return;
-			}
-		}
-
-		if (form->IsModal())
-		{
-			ModalInfo info;
-			info.form = form;
-			info.func = modalFunc;
-
-			modals.push_front(info);
-		}
-		else
-		{
-			forms.push_front(form);
-			focusForm = form;
-		}
-	}
-	//---------------------------------------------------------------------------
-	void Application::UnregisterForm(Form *form)
-	{
-		if (form == 0)
-		{
-			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
-		}
-
-		if (form == mainForm) //don't unregister mainForm
-		{
-			return;
-		}
-
-		if (modals.size() > 0)
-		{
-			if (modals.front().form == form)
-			{
-				ModalInfo info = modals.front();
-				modals.pop_front();
-				
-				removeForms.push_back(info.form);
-
-				if (info.func)
-				{
-					info.func();
-				}
-			}
-		}
-
-		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it)
-		{
-			if (*it == form)
-			{
-				it = forms.erase(it);
-
-				if (focusForm == form)
-				{
-					if (forms.size() > 0)
-					{
-						focusForm = *it;
-					}
-					else
-					{
-						focusForm = 0;
-					}
-				}
-
-				removeForms.push_back(form);
-
-				return;
-			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -268,7 +165,7 @@ namespace OSHGui
 		renderer->SetRenderColor(Drawing::Color(0xFF2F2F2F));
 		renderer->Fill(34, size.Height - 30, 1, 30);
 		
-		int tabWidth = (size.Width - 35) / forms.size();
+		/*int tabWidth = (size.Width - 35) / forms.size();
 		int tabPos = 35;
 		for (std::list<Form*>::iterator it = forms.begin(); it != forms.end(); ++it, tabPos += tabWidth)
 		{
@@ -276,7 +173,7 @@ namespace OSHGui
 			renderer->RenderText(renderer->GetDefaultFont(), tabPos + 4, size.Height - 21, tabWidth, 30, (*it)->GetText());
 			renderer->SetRenderColor(Drawing::Color(0xFF2F2F2F));
 			renderer->Fill(tabPos, size.Height - 30, 1, 30);
-		}
+		}*/
 		
 		mouse.Cursor->Render(renderer, mouse.Position);
 	}

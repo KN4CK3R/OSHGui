@@ -59,7 +59,7 @@ namespace OSHGui
 		 *
 		 * @param form
 		 */
-		static void Run(Form *form);
+		static void Run(const std::shared_ptr<Form> &mainForm);
 		/**
 		 * Gibt ein IEvent an die geöffneten Formen weiter.
 		 *
@@ -85,18 +85,7 @@ namespace OSHGui
 
 		static FormManager formManager;
 
-		static void RegisterForm(Form *form, const std::function<void()> &modalFunc = 0);
-		static void UnregisterForm(Form *form);
-		struct ModalInfo
-		{
-			Form *form;
-			std::function<void()> func;
-		};
-		static std::list<ModalInfo> modals; //we can't use std::stack here because we need an iterator
-		static std::list<Form*> forms;
-		static Form *focusForm,
-					*mainForm;
-		static std::list<Form*> removeForms;
+		static std::shared_ptr<Form> mainForm;
 		
 		static bool enabled;
 
