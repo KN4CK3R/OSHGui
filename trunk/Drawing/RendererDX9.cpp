@@ -187,7 +187,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			std::static_pointer_cast<FontDX9>(font)->GetFont()->DrawTextW(0, text.c_str(), -1, &clip, DT_LEFT | DT_TOP | DT_SINGLELINE, color.ARGB);
+			std::static_pointer_cast<FontDX9>(font)->GetFont()->DrawTextW(0, text.c_str(), -1, &clip, DT_LEFT | DT_TOP, color.ARGB);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)

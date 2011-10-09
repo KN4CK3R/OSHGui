@@ -10,45 +10,41 @@ namespace OSHGui
 	/**
 	 * Gibt Bezeichner an, die den Rückgabewert eines Dialogfelds angeben.
 	 */
-	//class DialogResult
-	//{
-	//public:
-		enum DialogResult
-		{
-			/**
-			 * Der Rückgabewert des Dialogfelds ist Nothing.
-			 */
-			None,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist OK (üblicherweise von der Schaltfläche OK gesendet).
-			 */
-			OK,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist Cancel (üblicherweise von der Schaltfläche Abbrechen gesendet).
-			 */
-			Cancel,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist Abort (üblicherweise von der Schaltfläche Abbrechen gesendet).
-			 */
-			Abort,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist Retry (üblicherweise von der Schaltfläche Wiederholen gesendet).
-			 */
-			Retry,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist Ignore (üblicherweise von der Schaltfläche Ignorieren gesendet).
-			 */
-			Ignore,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist Yes (üblicherweise von der Schaltfläche Ja gesendet).
-			 */
-			Yes,
-			/**
-			 * Der Rückgabewert des Dialogfelds ist No (üblicherweise von der Schaltfläche Nein gesendet).
-			 */
-			No
-		};
-	//};
+	enum DialogResult
+	{
+		/**
+			* Der Rückgabewert des Dialogfelds ist Nothing.
+			*/
+		None,
+		/**
+			* Der Rückgabewert des Dialogfelds ist OK (üblicherweise von der Schaltfläche OK gesendet).
+			*/
+		OK,
+		/**
+			* Der Rückgabewert des Dialogfelds ist Cancel (üblicherweise von der Schaltfläche Abbrechen gesendet).
+			*/
+		Cancel,
+		/**
+			* Der Rückgabewert des Dialogfelds ist Abort (üblicherweise von der Schaltfläche Abbrechen gesendet).
+			*/
+		Abort,
+		/**
+			* Der Rückgabewert des Dialogfelds ist Retry (üblicherweise von der Schaltfläche Wiederholen gesendet).
+			*/
+		Retry,
+		/**
+			* Der Rückgabewert des Dialogfelds ist Ignore (üblicherweise von der Schaltfläche Ignorieren gesendet).
+			*/
+		Ignore,
+		/**
+			* Der Rückgabewert des Dialogfelds ist Yes (üblicherweise von der Schaltfläche Ja gesendet).
+			*/
+		Yes,
+		/**
+			* Der Rückgabewert des Dialogfelds ist No (üblicherweise von der Schaltfläche Nein gesendet).
+			*/
+		No
+	};
 
 	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
