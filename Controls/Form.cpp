@@ -17,6 +17,8 @@ namespace OSHGui
 		drag = false;
 		isModal = false;
 
+		dialogResult = DialogResult::None;
+
 		SetBounds(10, 10, 300, 300);
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
