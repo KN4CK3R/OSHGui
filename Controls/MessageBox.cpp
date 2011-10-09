@@ -12,11 +12,11 @@ namespace OSHGui
 	}
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption)
 	{
-		Show(text, caption, MessageBoxButtons::OK);
+		Show(text, caption, MessageBoxButtons::ButtonOK);
 	}
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons)
 	{
-		Show(text, caption, buttons, MessageBoxIcon::None);
+		Show(text, caption, buttons, MessageBoxIcon::IconNone);
 	}
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, MessageBoxIcon icon)
 	{
@@ -28,11 +28,11 @@ namespace OSHGui
 	}
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, std::function<void(DialogResult result)> closeFunction)
 	{
-		Show(text, caption, MessageBoxButtons::OK, closeFunction);
+		Show(text, caption, MessageBoxButtons::ButtonOK, closeFunction);
 	}
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction)
 	{
-		Show(text, caption, buttons, MessageBoxIcon::None, closeFunction);
+		Show(text, caption, buttons, MessageBoxIcon::IconNone, closeFunction);
 	}
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, MessageBoxIcon icon, std::function<void(DialogResult result)> closeFunction)
 	{
@@ -49,22 +49,91 @@ namespace OSHGui
 
 	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, MessageBoxIcon icon)
 	{
-		InitializeComponent();
+		InitializeComponent(text, caption, buttons, icon);
+	}
 
+	void MessageBox::MessageBoxForm::MessageBoxForm::InitializeComponent(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+	{
 		this->SetText(caption);
-		this->textLabel->SetText(text);
+		
+		int leftPos = 6;
 
-		switch (buttons)
+		switch (icon)
 		{
-		case OK:
 
 		}
 
-		switch (icon)
-	}
-
-	void MessageBox::::MessageBoxForm::InitializeComponent()
-	{
-
+		Label *textLabel = new Label(this);
+		textLabel->SetLocation(leftPos, 6);
+		textLabel->SetText(text);
+		
+		int buttonTopPos = 0;
+		switch (buttons)
+		{
+			default:
+			case ButtonOK:
+				Button *buttonOK = new Button(this);
+				buttonOK->SetText(L"OK");
+				buttonTopPos = this->GetHeight() - buttonOK->GetHeight() - 10;
+				buttonOK->SetLocation(this->GetWidth() - buttonOK->GetWidth() - 10, buttonTopPos);
+				buttonOK->GetClickEvent().Add([this](Control *control)
+				{
+					this->dialogResult = ResultOK;
+					Close();
+				});
+				this->AddControl(buttonOK);
+				break;
+			case ButtonOKCancel:
+				Button *buttonCancel = new Button(this);
+				buttonCancel->SetText(L"Cancel");
+				buttonTopPos = this->GetHeight() - buttonCancel->GetHeight() - 10;
+				buttonCancel->SetLocation(this->GetWidth() - buttonCancel->GetWidth() - 10, buttonTopPos);
+				buttonCancel->GetClickEvent().Add([this](Control *control)
+				{
+					this->dialogResult = ResultCancel;
+					Close();
+				});
+				this->AddControl(buttonCancel);
+				Button *buttonOK = new Button(this);
+				buttonOK->SetText(L"OK");
+				buttonOK->SetLocation(buttonCancel->GetLeft() - buttonOK->GetWidth() - 10, buttonTopPos);
+				buttonOK->GetClickEvent().Add([this](Control *control)
+				{
+					this->dialogResult = ResultOK;
+					Close();
+				});
+				this->AddControl(buttonOK);
+				break;
+			case ButtonAbortRetryIgnore:
+				Button *buttonIgnore = new Button(this);
+				buttonIgnore->SetText(L"Ignore");
+				buttonTopPos = this->GetHeight() - buttonIgnore->GetHeight() - 10;
+				buttonIgnore->SetLocation(this->GetWidth() - buttonIgnore->GetWidth() - 10, buttonTopPos);
+				buttonIgnore->GetClickEvent().Add([this](Control *control)
+				{
+					this->dialogResult = ResultIgnore;
+					Close();
+				});
+				this->AddControl(buttonIgnore);
+				Button *buttonRetry = new Button(this);
+				buttonRetry->SetText(L"Retry");
+				buttonRetry->SetLocation(buttonCancel->GetLeft() - buttonOK->GetWidth() - 10, buttonTopPos);
+				buttonRetry->GetClickEvent().Add([this](Control *control)
+				{
+					this->dialogResult = ResultRetry;
+					Close();
+				});
+				this->AddControl(buttonRetry);
+				Button *buttonAbort = new Button(this);
+				buttonAbort->SetText(L"Abort");
+				buttonAbort->SetLocation(buttonCancel->GetLeft() - buttonOK->GetWidth() - 10, buttonTopPos);
+				buttonAbort->GetClickEvent().Add([this](Control *control)
+				{
+					this->dialogResult = ResultAbort;
+					Close();
+				});
+				this->AddControl(buttonAbort);
+				break;
+		}
 	}
 }

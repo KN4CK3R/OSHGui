@@ -2,6 +2,7 @@
 #define OSHGUI_CONTROLS_MESSAGEBOX_H_
 
 #include <functional>
+#include "Form.h"
 #include "..\Misc\Strings.h"
 
 namespace OSHGui
@@ -9,7 +10,6 @@ namespace OSHGui
 	class Label;
 	class Button;
 	class PictureBox;
-	class Form;
 
 	/**
 	 * Gibt Konstanten an, die definieren, welche Schaltflächen der MessageBox angezeigt werden.
@@ -19,27 +19,27 @@ namespace OSHGui
 		/**
 		 * Das Meldungsfeld enthält die Schaltfläche OK.
 		 */
-        ButtonOK = 0,
+        ButtonOK,
         /**
 		 * Das Meldungsfeld enthält die Schaltflächen OK und Abbrechen.
 		 */
-        ButtonOKCancel = 1,
+        ButtonOKCancel,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Abbrechen, Wiederholen und Ignorieren.
 		 */
-        ButtonAbortRetryIgnore = 2,
-		/**
-		 * Das Meldungsfeld enthält die Schaltflächen Ja, Nein und Abbrechen.
-		 */
-        ButtonYesNoCancel = 3,
+        ButtonAbortRetryIgnore,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Ja und Nein.
 		 */
-        ButtonYesNo = 4,
+        ButtonYesNo,
+		/**
+		 * Das Meldungsfeld enthält die Schaltflächen Ja, Nein und Abbrechen.
+		 */
+        ButtonYesNoCancel,
         /**
 		 * Das Meldungsfeld enthält die Schaltflächen Wiederholen und Abbrechen.
 		 */
-        ButtonRetryCancel = 5
+        ButtonRetryCancel
 	};
 
 	/**
@@ -89,13 +89,9 @@ namespace OSHGui
 		class MessageBoxForm : public Form
 		{
 		private:
-			Label *textLabel;
-			PictureBox *iconPictureBox;
-			Button *resultButton1;
-			Button *resultButton2;
-			Button *resultButton3;
+			DialogResult defaultResult;
 
-			void InitializeComponent();
+			void InitializeComponent(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, MessageBoxIcon icon);
 
 		public:
 			MessageBoxForm(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, MessageBoxIcon icon);

@@ -17,7 +17,7 @@ namespace OSHGui
 		drag = false;
 		isModal = false;
 
-		dialogResult = DialogResult::None;
+		dialogResult = ResultNone;
 
 		SetBounds(10, 10, 300, 300);
 

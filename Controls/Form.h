@@ -13,37 +13,37 @@ namespace OSHGui
 	enum DialogResult
 	{
 		/**
-			* Der Rückgabewert des Dialogfelds ist Nothing.
-			*/
-		None,
+		 * Der Rückgabewert des Dialogfelds ist Nothing.
+		 */
+		ResultNone,
 		/**
-			* Der Rückgabewert des Dialogfelds ist OK (üblicherweise von der Schaltfläche OK gesendet).
-			*/
-		OK,
+		 * Der Rückgabewert des Dialogfelds ist OK (üblicherweise von der Schaltfläche OK gesendet).
+		 */
+		ResultOK,
 		/**
-			* Der Rückgabewert des Dialogfelds ist Cancel (üblicherweise von der Schaltfläche Abbrechen gesendet).
-			*/
-		Cancel,
+		 * Der Rückgabewert des Dialogfelds ist Cancel (üblicherweise von der Schaltfläche Abbrechen gesendet).
+		 */
+		ResultCancel,
 		/**
-			* Der Rückgabewert des Dialogfelds ist Abort (üblicherweise von der Schaltfläche Abbrechen gesendet).
-			*/
-		Abort,
+		 * Der Rückgabewert des Dialogfelds ist Abort (üblicherweise von der Schaltfläche Abbrechen gesendet).
+		 */
+		ResultAbort,
 		/**
-			* Der Rückgabewert des Dialogfelds ist Retry (üblicherweise von der Schaltfläche Wiederholen gesendet).
-			*/
-		Retry,
+		 * Der Rückgabewert des Dialogfelds ist Retry (üblicherweise von der Schaltfläche Wiederholen gesendet).
+		 */
+		ResultRetry,
 		/**
-			* Der Rückgabewert des Dialogfelds ist Ignore (üblicherweise von der Schaltfläche Ignorieren gesendet).
-			*/
-		Ignore,
+		 * Der Rückgabewert des Dialogfelds ist Ignore (üblicherweise von der Schaltfläche Ignorieren gesendet).
+		 */
+		ResultIgnore,
 		/**
-			* Der Rückgabewert des Dialogfelds ist Yes (üblicherweise von der Schaltfläche Ja gesendet).
-			*/
-		Yes,
+		 * Der Rückgabewert des Dialogfelds ist Yes (üblicherweise von der Schaltfläche Ja gesendet).
+		 */
+		ResultYes,
 		/**
-			* Der Rückgabewert des Dialogfelds ist No (üblicherweise von der Schaltfläche Nein gesendet).
-			*/
-		No
+		 * Der Rückgabewert des Dialogfelds ist No (üblicherweise von der Schaltfläche Nein gesendet).
+		 */
+		ResultNo
 	};
 
 	/**
