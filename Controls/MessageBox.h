@@ -7,10 +7,6 @@
 
 namespace OSHGui
 {
-	class Label;
-	class Button;
-	class PictureBox;
-
 	/**
 	 * Gibt Konstanten an, die definieren, welche Schaltflächen der MessageBox angezeigt werden.
 	 */
