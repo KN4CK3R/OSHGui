@@ -63,171 +63,134 @@ namespace OSHGui
 		int formMinWidth = textLabel->GetWidth() + 20;
 		int formHeight = textLabel->GetHeight();
 		
+		std::vector<Misc::UnicodeString> label;
+		std::vector<std::function<void(Control* control)> >event;
 		switch (buttons)
 		{
 			default:
 			case ButtonOK:
-				Button *buttonOK = new Button(this);
-				buttonOK->SetText(L"OK");
-				buttonOK->SetLocation(this->GetWidth() - buttonOK->GetWidth() - 10, this->GetHeight() - buttonOK->GetHeight() - 10);
-				buttonOK->GetClickEvent().Add([this](Control *control)
+				label.push_back(L"OK");
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultOK;
 					Close();
 				});
-				this->AddControl(buttonOK);
-				if (formMinWidth < buttonOK->GetWidth() + 20)
-				{
-					formMinWidth = buttonOK->GetWidth() + 20;
-				}
-				formHeight += buttonOK->GetHeight() + 20;
 				break;
 			case ButtonOKCancel:
-				Button *buttonCancel = new Button(this);
-				buttonCancel->SetText(L"Cancel");
-				buttonCancel->SetLocation(this->GetWidth() - buttonCancel->GetWidth() - 10, this->GetHeight() - buttonCancel->GetHeight() - 10);
-				buttonCancel->GetClickEvent().Add([this](Control *control)
+				label.push_back(L"Cancel");
+				label.push_back(L"OK");
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
 					Close();
 				});
-				this->AddControl(buttonCancel);
-				Button *buttonOK = new Button(this);
-				buttonOK->SetText(L"OK");
-				buttonOK->SetLocation(buttonCancel->GetLeft() - buttonOK->GetWidth() - 10, this->GetHeight() - buttonOK->GetHeight() - 10);
-				buttonOK->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultOK;
 					Close();
 				});
-				this->AddControl(buttonOK);
-				if (formMinWidth < 2 * (buttonOK->GetWidth() + 10) + 10)
-				{
-					formMinWidth = 2 * (buttonOK->GetWidth() + 10) + 10;
-				}
-				formHeight += buttonOK->GetHeight() + 20;
 				break;
 			case ButtonAbortRetryIgnore:
-				Button *buttonIgnore = new Button(this);
-				buttonIgnore->SetText(L"Ignore");
-				buttonIgnore->SetLocation(this->GetWidth() - buttonIgnore->GetWidth() - 10, this->GetHeight() - buttonIgnore->GetHeight() - 10);
-				buttonIgnore->GetClickEvent().Add([this](Control *control)
+				label.push_back(L"Ignore");
+				label.push_back(L"Retry");
+				label.push_back(L"Abort");
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultIgnore;
 					Close();
 				});
-				this->AddControl(buttonIgnore);
-				Button *buttonRetry = new Button(this);
-				buttonRetry->SetText(L"Retry");
-				buttonRetry->SetLocation(buttonIgnore->GetLeft() - buttonOK->GetWidth() - 10, this->GetHeight() - buttonRetry->GetHeight() - 10);
-				buttonRetry->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultRetry;
 					Close();
 				});
-				this->AddControl(buttonRetry);
-				Button *buttonAbort = new Button(this);
-				buttonAbort->SetText(L"Abort");
-				buttonAbort->SetLocation(buttonRetry->GetLeft() - buttonOK->GetWidth() - 10, this->GetHeight() - buttonAbort->GetHeight() - 10);
-				buttonAbort->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultAbort;
 					Close();
 				});
-				this->AddControl(buttonAbort);
-				if (formMinWidth < 3 * (buttonIgnore->GetWidth() + 10) + 10)
-				{
-					formMinWidth = 3 * (buttonIgnore->GetWidth() + 10) + 10;
-				}
-				formHeight += buttonIgnore->GetHeight() + 20;
 				break;
 			case ButtonYesNo:
-				Button *buttonNo = new Button(this);
-				buttonNo->SetText(L"No");
-				buttonNo->SetLocation(this->GetWidth() - buttonNo->GetWidth() - 10, this->GetHeight() - buttonNo->GetHeight() - 10);
-				buttonNo->GetClickEvent().Add([this](Control *control)
+				label.push_back(L"No");
+				label.push_back(L"Yes");
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultNo;
 					Close();
 				});
-				this->AddControl(buttonNo);
-				Button *buttonYes = new Button(this);
-				buttonYes->SetText(L"Yes");
-				buttonYes->SetLocation(buttonNo->GetLeft() - buttonYes->GetWidth() - 10, this->GetHeight() - buttonYes->GetHeight() - 10);
-				buttonYes->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultYes;
 					Close();
 				});
-				this->AddControl(buttonYes);
-				if (formMinWidth < 2 * (buttonYes->GetWidth() + 10) + 10)
-				{
-					formMinWidth = 2 * (buttonYes->GetWidth() + 10) + 10;
-				}
-				formHeight += buttonYes->GetHeight() + 20;
 				break;
 			case ButtonYesNoCancel:
-				Button *buttonCancel = new Button(this);
-				buttonCancel->SetText(L"Cancel");
-				buttonCancel->SetLocation(this->GetWidth() - buttonCancel->GetWidth() - 10, this->GetHeight() - buttonCancel->GetHeight() - 10);
-				buttonCancel->GetClickEvent().Add([this](Control *control)
+				label.push_back(L"Cancel");
+				label.push_back(L"No");
+				label.push_back(L"Yes");
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
 					Close();
 				});
-				Button *buttonNo = new Button(this);
-				buttonNo->SetText(L"No");
-				buttonNo->SetLocation(buttonCancel->GetLeft() - buttonNo->GetWidth() - 10, this->GetHeight() - buttonNo->GetHeight() - 10);
-				buttonNo->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultNo;
 					Close();
 				});
-				this->AddControl(buttonNo);
-				Button *buttonYes = new Button(this);
-				buttonYes->SetText(L"Yes");
-				buttonYes->SetLocation(buttonNo->GetLeft() - buttonYes->GetWidth() - 10, this->GetHeight() - buttonYes->GetHeight() - 10);
-				buttonYes->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultYes;
 					Close();
 				});
-				this->AddControl(buttonYes);
-				if (formMinWidth < 3 * (buttonCancel->GetWidth() + 10) + 10)
-				{
-					formMinWidth = 3 * (buttonCancel->GetWidth() + 10) + 10;
-				}
-				formHeight += buttonYes->GetHeight() + 20;
 				break;
 			case ButtonRetryCancel:
-				Button *buttonCancel = new Button(this);
-				buttonCancel->SetText(L"Cancel");
-				buttonCancel->SetLocation(this->GetWidth() - buttonCancel->GetWidth() - 10, this->GetHeight() - buttonCancel->GetHeight() - 10);
-				buttonCancel->GetClickEvent().Add([this](Control *control)
+				label.push_back(L"Cancel");
+				label.push_back(L"Retry");
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
 					Close();
 				});
-				this->AddControl(buttonCancel);
-				Button *buttonRetry = new Button(this);
-				buttonRetry->SetText(L"Retry");
-				buttonRetry->SetLocation(buttonCancel->GetLeft() - buttonRetry->GetWidth() - 10, this->GetHeight() - buttonRetry->GetHeight() - 10);
-				buttonRetry->GetClickEvent().Add([this](Control *control)
+				event.push_back([this](Control *control)
 				{
 					this->dialogResult = ResultRetry;
 					Close();
 				});
-				this->AddControl(buttonRetry);
-				if (formMinWidth < 2 * (buttonYes->GetWidth() + 10) + 10)
-				{
-					formMinWidth = 2 * (buttonYes->GetWidth() + 10) + 10;
-				}
-				formHeight += buttonRetry->GetHeight() + 20;
 				break;
 		}
 		
+		AddButton(label, event);
+		
 		this->SetHeight(formHeight);
 		this->SetWidth(formMinWidth);
+	}
+	//---------------------------------------------------------------------------
+	void MessageBox::MessageBoxForm::AddButton(const std::vector<Misc::UnicodeString> &label, const std::vector<std::function<void(Control *control)> > &event)
+	{
+		/*Button *buttonCancel = new Button(this);
+		buttonCancel->SetText(L"Cancel");
+		buttonCancel->SetLocation(this->GetWidth() - buttonCancel->GetWidth() - 10, this->GetHeight() - buttonCancel->GetHeight() - 10);
+		buttonCancel->GetClickEvent().Add([this](Control *control)
+		{
+			this->dialogResult = ResultCancel;
+			Close();
+		});
+		this->AddControl(buttonCancel);
+		Button *buttonOK = new Button(this);
+		buttonOK->SetText(L"OK");
+		buttonOK->SetLocation(buttonCancel->GetLeft() - buttonOK->GetWidth() - 10, this->GetHeight() - buttonOK->GetHeight() - 10);
+		buttonOK->GetClickEvent().Add([this](Control *control)
+		{
+			this->dialogResult = ResultOK;
+			Close();
+		});
+		this->AddControl(buttonOK);
+		if (formMinWidth < 2 * (buttonYes->GetWidth() + 10) + 10)
+		{
+			formMinWidth = 2 * (buttonYes->GetWidth() + 10) + 10;
+		}
+		formHeight += buttonRetry->GetHeight() + 20;*/
 	}
 	//---------------------------------------------------------------------------
 }
