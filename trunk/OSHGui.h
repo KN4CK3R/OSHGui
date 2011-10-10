@@ -35,3 +35,5 @@
 #include "Controls\PictureBox.h"
 #include "Controls\ColorPicker.h"
 #include "Controls\ColorBar.h"
+
+#include "Controls\MessageBox.h"

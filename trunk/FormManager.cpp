@@ -8,23 +8,26 @@ namespace OSHGui
 {
 	const std::shared_ptr<Form>& FormManager::GetForeMost() const
 	{
-		if (formList.size() != 0)
+		if (forms.size() != 0)
 		{
-			return (*formList.begin()).form;
+			return forms[forms.size() - 1].form;
 		}
 		return 0;
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Form>& FormManager::operator [] (int index) const
 	{
-		if (index < 0 || index >= (int)formList.size())
+		if (index < 0 || index >= (int)forms.size())
 		{
 			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
 		}
 
-		std::list<FormInfo>::const_iterator it = formList.begin();
-		for (int i = 0; i < index; ++i, ++it);
-		return (*it).form;
+		return forms[index].form;
+	}
+	//---------------------------------------------------------------------------
+	int FormManager::GetFormCount() const
+	{
+		return (int)forms.size();
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::BringToFront(const std::shared_ptr<Form> &form)
@@ -34,24 +37,24 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
-		if (formList.empty())
+		if (forms.empty())
 		{
 			throw Misc::InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
 		}
 
-		if ((*formList.begin()).form == form)
+		if (forms[forms.size() - 1].form == form)
 		{
 			return;
 		}
 		
 		FormInfo info;
 		bool isRegistered = false;
-		for (auto it = formList.begin(); it != formList.end(); ++it)
+		for (auto it = forms.begin(); it != forms.end(); ++it)
 		{
 			info = *it;
 			if (info.form == form)
 			{
-				formList.erase(it);
+				forms.erase(it);
 				isRegistered = true;
 				break;
 			}
@@ -62,7 +65,7 @@ namespace OSHGui
 			throw Misc::InvalidOperationException(L"'form' is not registered.", __WFILE__, __LINE__);
 		}
 		
-		formList.push_front(info);
+		forms.push_back(info);
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::RegisterForm(const std::shared_ptr<Form> &form)
@@ -78,7 +81,7 @@ namespace OSHGui
 		}
 
 		FormInfo info = { form, closeFunction };
-		formList.push_front(info);
+		forms.push_back(info);
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::UnregisterForm(const std::shared_ptr<Form> &form)
@@ -88,16 +91,16 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
-		for (auto it = formList.begin(); it != formList.end(); ++it)
+		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
-			FormInfo &info = *it;
+			FormInfo info = *it;
 			if (info.form == form)
 			{
+				forms.erase(it);
 				if (info.closeFunction != 0)
 				{
 					info.closeFunction();
 				}
-				formList.erase(it);
 				return;
 			}
 		}
@@ -110,7 +113,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 		
-		if (formList.size() > 0)
+		if (forms.size() > 0)
 		{
 			std::shared_ptr<Form> foreMost = GetForeMost();
 			if (foreMost != 0 && foreMost->IsModal())
@@ -118,9 +121,9 @@ namespace OSHGui
 				return foreMost->ProcessEvent(event);
 			}
 			
-			for (std::list<FormInfo>::iterator it = formList.begin(); it != formList.end(); ++it)
+			for (std::vector<FormInfo>::reverse_iterator it = forms.rbegin(); it != forms.rend(); ++it)
 			{
-				FormInfo &info = *it;
+				FormInfo info = *it;
 				if (info.form->ProcessEvent(event) == IEvent::DontContinue)
 				{
 					if (info.form != foreMost)
@@ -138,9 +141,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::RenderForms(Drawing::IRenderer *renderer)
 	{		
-		if (formList.size() > 0)
+		if (forms.size() > 0)
 		{
-			for (std::list<FormInfo>::iterator it = ++formList.begin(); it != formList.end(); ++it)
+			for (std::vector<FormInfo>::reverse_iterator it = ++forms.rbegin(); it != forms.rend(); ++it)
 			{
 				(*it).form->Render(renderer);
 			}

@@ -1,14 +1,13 @@
 #ifndef OSHGUI_FORMMANAGER_H_
 #define OSHGUI_FORMMANAGER_H_
 
-#include <list>
+#include <vector>
 #include <memory>
 #include <functional>
 #include "Event\IEvent.h"
 
 namespace OSHGui
 {
-	class IEvent;
 	namespace Drawing {	class IRenderer; }
 	class Form;
 
@@ -18,6 +17,8 @@ namespace OSHGui
 		const std::shared_ptr<Form>& GetForeMost() const;
 
 		const std::shared_ptr<Form>& operator [] (int index) const;
+
+		int GetFormCount() const;
 
 		void RegisterMainForm(const std::shared_ptr<Form> &mainForm);
 		const std::shared_ptr<Form>& GetMainForm() const;
@@ -35,7 +36,7 @@ namespace OSHGui
 			std::shared_ptr<Form> form;
 			std::function<void()> closeFunction;
 		};
-		std::list<FormInfo> formList;
+		std::vector<FormInfo> forms;
 
 		std::shared_ptr<Form> mainForm;
 	};

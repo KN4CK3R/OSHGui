@@ -14,6 +14,7 @@ namespace OSHGui
 	class Form;
 	class Timer;
 	class FormManager;
+	class TimerManager;
 
 	/**
 	 * Stellt static-Methoden und Eigenschaften für die Verwaltung einer
@@ -73,16 +74,7 @@ namespace OSHGui
 		static void Render();
 
 	private:
-		static void RegisterTimer(Timer *timer, Misc::TimeSpan &interval);
-		static void UnregisterTimer(Timer *timer);
-		struct TimerInfo
-		{
-			Timer *timer;
-			Misc::TimeSpan interval;
-			Misc::DateTime next;
-		};
-		static std::map<Timer*, TimerInfo> timers;
-
+		static TimerManager timerManager;
 		static FormManager formManager;
 
 		static std::shared_ptr<Form> mainForm;

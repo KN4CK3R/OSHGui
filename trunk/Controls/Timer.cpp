@@ -1,6 +1,7 @@
 #include "Timer.h"
 #include "Control.h"
 #include "..\Application.h"
+#include "..\TimerManager.h"
 #include "..\Misc\Exceptions.h"
 
 namespace OSHGui
@@ -29,11 +30,11 @@ namespace OSHGui
 		{
 			if (enabled == true)
 			{
-				Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
+				Application::timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
 			}
 			else
 			{
-				Application::UnregisterTimer(this);
+				Application::timerManager.UnregisterTimer(this);
 			}
 			
 			this->enabled = enabled;
@@ -54,8 +55,8 @@ namespace OSHGui
 				this->interval = interval;
 				if (enabled)
 				{
-					Application::UnregisterTimer(this);
-					Application::RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
+					Application::timerManager.UnregisterTimer(this);
+					Application::timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
 				}
 			}
 			else

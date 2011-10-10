@@ -19,9 +19,7 @@ namespace OSHGui
 		 */
 		class IRenderer
 		{
-		public:
-			//virtual const Size& GetRenderDimension() const;
-		
+		public:		
 			/**
 			 * Leitet das Zeichnen ein.
 			 */
@@ -94,6 +92,8 @@ namespace OSHGui
 			 * @return das Rechteck
 			 */
 			virtual const Rectangle& GetRenderRectangle() const { return renderRect; }
+
+			virtual const Size GetRenderDimension() const = 0;
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.

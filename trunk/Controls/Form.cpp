@@ -2,6 +2,7 @@
 #include "..\Application.h"
 #include "..\FormManager.h"
 #include "..\Misc\Exceptions.h"
+#include <Windows.h>
 
 namespace OSHGui
 {
@@ -19,7 +20,7 @@ namespace OSHGui
 
 		dialogResult = ResultNone;
 
-		SetBounds(10, 10, 300, 300);
+		SetBounds(50, 50, 300, 300);
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -199,8 +200,12 @@ namespace OSHGui
 				}
 			}
 			
-			return IEvent::DontContinue;
-			//mouse->Position = mousePositionBackup;
+			if (mouse->State != MouseEvent::LeftDown && mouse->State != MouseEvent::RightDown)
+			{
+				return IEvent::DontContinue;
+			}
+
+			mouse->Position = mousePositionBackup;
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
@@ -220,8 +225,6 @@ namespace OSHGui
 
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
 		renderer->Fill(bounds);
-		renderer->SetRenderColor(Drawing::Color::Red());
-		renderer->Fill(bounds.GetPosition());
 		renderer->SetRenderColor(backColor);
 		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));

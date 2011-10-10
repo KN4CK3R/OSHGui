@@ -3,6 +3,7 @@
 #include "Label.h"
 #include "Button.h"
 #include "PictureBox.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -59,9 +60,17 @@ namespace OSHGui
 		
 		Label *textLabel = new Label(this);
 		textLabel->SetText(text);
+		this->AddControl(textLabel);
 		
-		int formMinWidth = textLabel->GetWidth() + 20;
-		int formHeight = textLabel->GetHeight();
+		int formWidth = textLabel->GetWidth() + 20;
+		int formHeight = textLabel->GetHeight() + 40;
+
+		Button *tempButton = new Button(this);
+		Drawing::Size defaultButtonSize = tempButton->GetSize();
+		delete tempButton;
+
+		formHeight += defaultButtonSize.Height;
+		int neededWidthForButtons = 0;
 		
 		std::vector<Misc::UnicodeString> label;
 		std::vector<std::function<void(Control* control)> >event;
@@ -69,6 +78,8 @@ namespace OSHGui
 		{
 			default:
 			case ButtonOK:
+				neededWidthForButtons = defaultButtonSize.Width + 20;
+
 				label.push_back(L"OK");
 				event.push_back([this](Control *control)
 				{
@@ -77,6 +88,8 @@ namespace OSHGui
 				});
 				break;
 			case ButtonOKCancel:
+				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
+
 				label.push_back(L"Cancel");
 				label.push_back(L"OK");
 				event.push_back([this](Control *control)
@@ -91,6 +104,8 @@ namespace OSHGui
 				});
 				break;
 			case ButtonAbortRetryIgnore:
+				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
+
 				label.push_back(L"Ignore");
 				label.push_back(L"Retry");
 				label.push_back(L"Abort");
@@ -111,6 +126,8 @@ namespace OSHGui
 				});
 				break;
 			case ButtonYesNo:
+				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
+
 				label.push_back(L"No");
 				label.push_back(L"Yes");
 				event.push_back([this](Control *control)
@@ -125,6 +142,8 @@ namespace OSHGui
 				});
 				break;
 			case ButtonYesNoCancel:
+				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
+
 				label.push_back(L"Cancel");
 				label.push_back(L"No");
 				label.push_back(L"Yes");
@@ -145,6 +164,8 @@ namespace OSHGui
 				});
 				break;
 			case ButtonRetryCancel:
+				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
+
 				label.push_back(L"Cancel");
 				label.push_back(L"Retry");
 				event.push_back([this](Control *control)
@@ -159,38 +180,35 @@ namespace OSHGui
 				});
 				break;
 		}
+
+		if (neededWidthForButtons > formWidth)
+		{
+			formWidth = neededWidthForButtons;
+		}
+
+		this->SetSize(formWidth, formHeight);
+		Drawing::Size screen = Application::GetRenderer()->GetRenderDimension();
+		this->SetLocation(screen.Width / 2 - formWidth / 2, screen.Height / 2 - formHeight / 2);
 		
-		AddButton(label, event);
-		
-		this->SetHeight(formHeight);
-		this->SetWidth(formMinWidth);
+		AddButtons(label, event);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::MessageBoxForm::AddButton(const std::vector<Misc::UnicodeString> &label, const std::vector<std::function<void(Control *control)> > &event)
+	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::UnicodeString> &label, const std::vector<std::function<void(Control *control)> > &event)
 	{
-		/*Button *buttonCancel = new Button(this);
-		buttonCancel->SetText(L"Cancel");
-		buttonCancel->SetLocation(this->GetWidth() - buttonCancel->GetWidth() - 10, this->GetHeight() - buttonCancel->GetHeight() - 10);
-		buttonCancel->GetClickEvent().Add([this](Control *control)
+		if (label.size() != event.size())
 		{
-			this->dialogResult = ResultCancel;
-			Close();
-		});
-		this->AddControl(buttonCancel);
-		Button *buttonOK = new Button(this);
-		buttonOK->SetText(L"OK");
-		buttonOK->SetLocation(buttonCancel->GetLeft() - buttonOK->GetWidth() - 10, this->GetHeight() - buttonOK->GetHeight() - 10);
-		buttonOK->GetClickEvent().Add([this](Control *control)
-		{
-			this->dialogResult = ResultOK;
-			Close();
-		});
-		this->AddControl(buttonOK);
-		if (formMinWidth < 2 * (buttonYes->GetWidth() + 10) + 10)
-		{
-			formMinWidth = 2 * (buttonYes->GetWidth() + 10) + 10;
+			throw new Misc::ArgumentException(L"label + event");
 		}
-		formHeight += buttonRetry->GetHeight() + 20;*/
+
+		for (unsigned int i = 0; i < label.size(); ++i)
+		{
+			Button *button = new Button(this);
+			button->SetText(label[i]);
+			button->GetClickEvent().Add(event[i]);
+			button->SetLocation(this->GetWidth() - (i + 1) * (button->GetWidth() + 10) , this->GetHeight() - button->GetHeight() - 25);
+
+			this->AddControl(button);
+		}
 	}
 	//---------------------------------------------------------------------------
 }
