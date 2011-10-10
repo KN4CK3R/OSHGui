@@ -71,6 +71,8 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 */
 			virtual void SetRenderRectangle(const Rectangle &rect);
+
+			virtual const Size GetRenderDimension() const;
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.

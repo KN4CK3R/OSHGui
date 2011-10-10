@@ -54,7 +54,7 @@ namespace OSHGui
 		{
 		private:
 			void InitializeComponent(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons);
-			void AddButton(const std::vector<Misc::UnicodeString> &label, const std::vector<std::function<void(Control *control)> > &event);
+			void AddButtons(const std::vector<Misc::UnicodeString> &label, const std::vector<std::function<void(Control *control)> > &event);
 
 		public:
 			MessageBoxForm(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons);

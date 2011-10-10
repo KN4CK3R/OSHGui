@@ -518,7 +518,7 @@ namespace OSHGui
 				mouseOverControl = 0;
 			}
 
-			if (control != 0)
+			if (control != 0 && control != mouseOverControl)
 			{
 				mouseOverControl = control;
 				mouseOverControl->SetMouseOver(true);
@@ -528,9 +528,12 @@ namespace OSHGui
 			//someone is focused
 			if (focusControl != 0 && focusControl->GetEnabled())
 			{
-				if (focusControl->ProcessEvent(mouse) == IEvent::DontContinue)
+				if (!(mouse->State == MouseEvent::LeftDown && focusControl != mouseOverControl))
 				{
-					return IEvent::DontContinue;
+					if (focusControl->ProcessEvent(mouse) == IEvent::DontContinue)
+					{
+						return IEvent::DontContinue;
+					}
 				}
 			}
 			

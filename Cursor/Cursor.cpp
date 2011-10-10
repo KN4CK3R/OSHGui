@@ -55,8 +55,6 @@ namespace OSHGui
 	{
 		renderer->SetRenderColor(Drawing::Color::White());
 		renderer->RenderTexture(cursor, cursorPosition + offset);
-		renderer->SetRenderColor(Drawing::Color::Red());
-		renderer->Fill(cursorPosition.Left, cursorPosition.Top, 2, 2);
 	}
 	//---------------------------------------------------------------------------
 }

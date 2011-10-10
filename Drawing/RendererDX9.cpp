@@ -42,6 +42,13 @@ namespace OSHGui
 			//device->SetScissorRect(&scissor);
 		}
 		//---------------------------------------------------------------------------
+		const Size RendererDX9::GetRenderDimension() const
+		{
+			D3DVIEWPORT9 viewPort;
+			device->GetViewport(&viewPort);
+			return Size(viewPort.Width, viewPort.Height);
+		}
+		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
