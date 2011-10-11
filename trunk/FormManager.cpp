@@ -1,4 +1,5 @@
 #include "FormManager.h"
+#include "Application"
 #include "Controls\Form.h"
 #include "Drawing\IRenderer.h"
 #include "Event\IEvent.h"
@@ -30,6 +31,11 @@ namespace OSHGui
 		return (int)forms.size();
 	}
 	//---------------------------------------------------------------------------
+	const std::shared_ptr<Form>& FormManager::GetMainForm() const
+	{
+		return mainForm;
+	}
+	//---------------------------------------------------------------------------
 	void FormManager::BringToFront(const std::shared_ptr<Form> &form)
 	{
 		if (form == 0)
@@ -42,7 +48,7 @@ namespace OSHGui
 			throw Misc::InvalidOperationException(L"FormList is empty.", __WFILE__, __LINE__);
 		}
 
-		if (forms[forms.size() - 1].form == form)
+		if (forms[forms.size() - 1].form == form) //last form in vector is front form
 		{
 			return;
 		}
@@ -82,6 +88,12 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
+	void FormManager::RegisterMainForm(const std::shared_ptr<Form> &mainForm)
+	{
+		this->mainForm = mainForm;
+		RegisterForm(mainForm);
+	}
+	//---------------------------------------------------------------------------
 	void FormManager::RegisterForm(const std::shared_ptr<Form> &form)
 	{
 		RegisterForm(form, 0);
@@ -92,6 +104,11 @@ namespace OSHGui
 		if (form == 0)
 		{
 			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
+		}
+		
+		if (IsRegistered(form))
+		{
+			return;
 		}
 
 		FormInfo info = { form, closeFunction };
@@ -117,6 +134,11 @@ namespace OSHGui
 				}
 				return;
 			}
+		}
+		
+		if (mainForm == form)
+		{
+			Application::Disable();
 		}
 	}
 	//---------------------------------------------------------------------------
