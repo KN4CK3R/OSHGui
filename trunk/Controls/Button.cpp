@@ -14,6 +14,7 @@ namespace OSHGui
 
 		SetAutoSize(false);
 		SetSize(92, 24);
+		SetText(L"Button");
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
