@@ -42,7 +42,7 @@ namespace OSHGui
 	{
 		enabled = true;
 
-		if (!mainForm->GetVisible())
+		if (!formManager.IsRegistered(mainForm))
 		{
 			mainForm->Show(mainForm);
 		}
@@ -129,10 +129,10 @@ namespace OSHGui
 			tabWidth = 165;
 		}
 		int tabPos = 35;
-		std::shared_ptr<Form> foreMost = formManager.GetForeMost();
-		for (int i = 0; i < formManager.GetFormCount(); ++i, tabPos += tabWidth)
+		int formCount = formManager.GetFormCount();
+		for (int i = 0; i < formCount; ++i, tabPos += tabWidth)
 		{
-			if (foreMost == formManager[i])
+			if (i + 1 == formCount)
 			{
 				renderer->SetRenderColor(Drawing::Color::Color(115, 110, 31));
 				renderer->Fill(tabPos, size.Height - 28, tabWidth, 30);

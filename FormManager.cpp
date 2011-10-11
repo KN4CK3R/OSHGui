@@ -68,6 +68,20 @@ namespace OSHGui
 		forms.push_back(info);
 	}
 	//---------------------------------------------------------------------------
+	bool FormManager::IsRegistered(const std::shared_ptr<Form> &form)
+	{
+		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
+		{
+			FormInfo &info = *it;
+			if (info.form == form)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	//---------------------------------------------------------------------------
 	void FormManager::RegisterForm(const std::shared_ptr<Form> &form)
 	{
 		RegisterForm(form, 0);
