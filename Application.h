@@ -1,9 +1,7 @@
 #ifndef OSHGUI_APPLICATION_H_
 #define OSHGUI_APPLICATION_H_
 
-#include <functional>
-#include <list>
-#include <map>
+#include <memory>
 #include "Drawing\IRenderer.h"
 #include "Misc\DateTime.h"
 #include "Cursor\Cursor.h"
@@ -74,14 +72,12 @@ namespace OSHGui
 		static void Render();
 
 	private:
-		static TimerManager timerManager;
-		static FormManager formManager;
-
-		static std::shared_ptr<Form> mainForm;
-		
 		static bool enabled;
-
+		
 		static Drawing::IRenderer *renderer;
+	
+		static FormManager formManager;
+		static TimerManager timerManager;
 		
 		static Misc::DateTime now;
 	public:
