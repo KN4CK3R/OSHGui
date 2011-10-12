@@ -103,7 +103,7 @@ namespace OSHGui
 		 * Zeigt die Form modal an.
 		 *
 		 * @param instance die aktuelle Instanz dieser Form
-		 * @param func diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
+		 * @param closeFunction diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
 		 */
 		void ShowDialog(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction);
 

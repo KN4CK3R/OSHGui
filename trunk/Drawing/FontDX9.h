@@ -18,7 +18,7 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 */
 			FontDX9(IDirect3DDevice9 *device);
 			~FontDX9();
@@ -41,7 +41,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
 			 *
-			 * @param text der Text
+			 * @param str der Text
 			 * @return die Maﬂe
 			 */
 			virtual Size MeasureText(const Misc::UnicodeString &str);

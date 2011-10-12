@@ -15,14 +15,38 @@ namespace OSHGui
 	public:
 		enum CursorType
 		{
+			/**
+			 * der Standardcursor
+			 */
 			Default,
+			/**
+			 * der Textauswahlcursor
+			 */
 			IBeam,
+			/**
+			 * der Farbwahlcursor
+			 */
 			Pipette,
+			/**
+			 * der Handcursor
+			 */
 			Hand,
+			/**
+			 * der Kreiscursor
+			 */
 			Circle,
+			/**
+			 * der Wartecursor
+			 */
 			Wait
 		};
 
+		/**
+		 * Ruft den angegebenen Cursor ab.
+		 *
+		 * @param cursorType der gewünschte Cursor
+		 * @return cursor
+		 */
 		static const std::shared_ptr<Cursor> Get(CursorType cursorType);
 
 	private:

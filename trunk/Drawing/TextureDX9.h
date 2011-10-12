@@ -22,6 +22,7 @@ namespace OSHGui
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 * @param size die Größe
 			 * @param frameCount die Anzahl der Frames (default: 1)
+			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
 			 */
 			TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
@@ -31,14 +32,14 @@ namespace OSHGui
 			 * @param width
 			 * @param height
 			 * @param frameCount die Anzahl der Frames (default: 1)
+			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
 			 */
 			TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
-			 * @param size die Größe
-			 * @param frameCount die Anzahl der Frames (default: 1)
+			 * @param filename Pfad zur zu ladenden Datei
 			 */
 			TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename);
 			virtual ~TextureDX9();

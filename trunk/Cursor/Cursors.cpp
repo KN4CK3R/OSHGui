@@ -10,6 +10,9 @@ namespace OSHGui
 {
 	std::map<int, std::shared_ptr<Cursor> > Cursors::cursors;
 
+	//---------------------------------------------------------------------------
+	//Runtime-Functions
+	//---------------------------------------------------------------------------
 	const std::shared_ptr<Cursor> Cursors::Get(Cursors::CursorType cursorType)
 	{
 		auto it = cursors.find((int)cursorType);
@@ -42,4 +45,5 @@ namespace OSHGui
 		}
 		return (*it).second;
 	}
+	//---------------------------------------------------------------------------
 }

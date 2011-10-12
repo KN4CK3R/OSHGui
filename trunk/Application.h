@@ -56,7 +56,7 @@ namespace OSHGui
 		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
-		 * @param form
+		 * @param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird
 		 */
 		static void Run(const std::shared_ptr<Form> &mainForm);
 		/**

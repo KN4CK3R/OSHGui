@@ -232,9 +232,6 @@ namespace OSHGui
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
 		renderer->Fill(bounds.GetLeft() + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
 
-		renderer->SetRenderColor(Drawing::Color::Red());
-		renderer->Fill(clientArea);
-
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, textHelper.GetText());
 
