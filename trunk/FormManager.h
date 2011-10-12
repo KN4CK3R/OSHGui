@@ -17,7 +17,7 @@ namespace OSHGui
 		/**
 		 * Ruft die 
 		 */
-		const std::shared_ptr<Form>& GetForeMost() const;
+		const std::shared_ptr<Form> GetForeMost() const;
 
 		const std::shared_ptr<Form>& operator [] (int index) const;
 

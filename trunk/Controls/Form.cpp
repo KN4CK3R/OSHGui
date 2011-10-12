@@ -180,9 +180,11 @@ namespace OSHGui
 
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
-				if (mouse->State == MouseEvent::LeftDown && mouse->State == MouseEvent::RightDown)
+				if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightDown)
 				{
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+
+					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
@@ -190,7 +192,7 @@ namespace OSHGui
 
 					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
 				}
-				else if (mouse->State == MouseEvent::LeftUp && mouse->State == MouseEvent::RightUp)
+				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
 					clickEvent.Invoke(this);
 
@@ -229,6 +231,9 @@ namespace OSHGui
 		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
 		renderer->Fill(bounds.GetLeft() + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
+
+		renderer->SetRenderColor(Drawing::Color::Red());
+		renderer->Fill(clientArea);
 
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, textHelper.GetText());

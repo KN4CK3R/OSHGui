@@ -14,7 +14,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption)
 	{
-		Show(text, caption, MessageBoxButtons::ButtonOK);
+		Show(text, caption, ButtonOK);
 	}
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons)
@@ -29,7 +29,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, std::function<void(DialogResult result)> closeFunction)
 	{
-		Show(text, caption, MessageBoxButtons::ButtonOK, closeFunction);
+		Show(text, caption, ButtonOK, closeFunction);
 	}
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction)
