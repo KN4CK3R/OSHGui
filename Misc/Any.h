@@ -111,6 +111,22 @@ namespace OSHGui
 				return *this;
 			}
 			/**
+			 * Weißt diesem Any-Objekt eine Variable zu.
+			 *
+			 * @param obj
+			 * @return this
+			 */
+			template<class T>
+			Any& operator= (const T &obj)
+			{			     
+				delete wrapper;
+			     
+				id = TypeID<T>();
+				wrapper = new TypeWrapper<T>(obj);
+				
+				return *this;
+			}
+			/**
 			 * Dieser Operator erlaubt per if (!any) { any ist leer } zu prüfen, ob das Any-Objekt leer ist.
 			 */
 			operator void *() const

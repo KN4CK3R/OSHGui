@@ -174,6 +174,11 @@ namespace OSHGui
 			 * @return Anzahl der Frames
 			 */
 			virtual int GetFrameCount() const = 0;
+			/**
+			 * Ruft das FrameChangeInterval ab.
+			 *
+			 * @return frameChangeInterval
+			 */
 			virtual const Misc::TimeSpan& GetFrameChangeInterval() const = 0;
 			virtual void AddFrame(const std::shared_ptr<ITexture> &frame) = 0;
 			/**
@@ -188,6 +193,7 @@ namespace OSHGui
 			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe.
 			 *
 			 * @param size die Größe
+			 * @param frameCount die Anzahl der Frames
 			 * @return gibt den Status der Operation zurück
 			 */
 			virtual bool Create(const Size &size, int frameCount = 1) = 0;

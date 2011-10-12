@@ -70,6 +70,8 @@ namespace OSHGui
 			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 			//sprite->Begin(D3DXSPRITE_ALPHABLEND);
+			
+			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::End()

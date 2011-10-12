@@ -9,10 +9,18 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Rectangle::Rectangle()
 		{
-			this->left = 0;
-			this->top = 0;
+			left = 0;
+			top = 0;
 			SetWidth(0);
 			SetHeight(0);
+		}
+		//---------------------------------------------------------------------------
+		Rectangle::Rectangle(Size size)
+		{
+			left = 0;
+			top = 0;
+			SetWidth(size.Width);
+			SetHeight(size.Height);
 		}
 		//---------------------------------------------------------------------------
 		Rectangle::Rectangle(int left, int top, int width, int height)

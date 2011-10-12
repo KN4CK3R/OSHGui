@@ -20,6 +20,12 @@ namespace OSHGui
 			 */
 			Rectangle();
 			/**
+			 * Erstellt ein Rechteckt mit den Koordinaten (0, 0, size.Width, size.Height);
+			 *
+			 * @param size
+			 */
+			Rectangle(Size size);
+			/**
 			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
 			 *
 			 * @param left
@@ -44,7 +50,7 @@ namespace OSHGui
 			/**
 			 * Legt die Position des oberen Rands fest.
 			 *
-			 * @param left
+			 * @param top
 			 */
 			void SetTop(int top);
 			/**
@@ -56,7 +62,7 @@ namespace OSHGui
 			/**
 			 * Legt die Breite des Rechtecks fest.
 			 *
-			 * @param left
+			 * @param width
 			 */
 			void SetWidth(int width);
 			/**
@@ -68,7 +74,7 @@ namespace OSHGui
 			/**
 			 * Legt die Höhe des Rechtecks fest.
 			 *
-			 * @param left
+			 * @param height
 			 */
 			void SetHeight(int height);
 			/**
