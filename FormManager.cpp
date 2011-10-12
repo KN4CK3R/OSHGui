@@ -1,5 +1,5 @@
 #include "FormManager.h"
-#include "Application"
+#include "Application.h"
 #include "Controls\Form.h"
 #include "Drawing\IRenderer.h"
 #include "Event\IEvent.h"
@@ -7,7 +7,7 @@
 
 namespace OSHGui
 {
-	const std::shared_ptr<Form>& FormManager::GetForeMost() const
+	const std::shared_ptr<Form> FormManager::GetForeMost() const
 	{
 		if (forms.size() != 0)
 		{
