@@ -14,7 +14,6 @@ namespace OSHGui
 			verticesNum = 0;
 
 			texture = 0;
-			D3DXCreateSprite(device, &sprite);
 
 			for (int i = 0; i < maxVertices; ++i)
 			{
@@ -24,13 +23,12 @@ namespace OSHGui
 				vertices[i].v = 0.0f;
 			}
 
-			defaultFont = CreateNewFont();
-			defaultFont->Create(L"Arial", 14, false, false);
+			defaultFont = CreateNewFont(L"Arial", 14, false, false);
 		}
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()
 		{
-			sprite->Release();
+
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -68,8 +66,6 @@ namespace OSHGui
 			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
 			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
-
-			//sprite->Begin(D3DXSPRITE_ALPHABLEND);
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
@@ -77,15 +73,84 @@ namespace OSHGui
 		void RendererDX9::End()
 		{
 			Flush();
-			//sprite->End();
 			
 			device->SetFVF(oldFVF);
 		}
 		//---------------------------------------------------------------------------
+		void RendererDX9::PreReset()
+		{
+			{
+				std::list<std::weak_ptr<TextureDX9> > it = textureList.begin();
+				while (it != textureList.end())
+				{
+					weak_ptr<TextureDX9> &texture = *it;
+					if (texture.expired())
+					{
+						it = textureList.erase(it);
+					}
+					else
+					{
+						//texture.lock()->GetTexture()->OnLostDevice();
+						++it;
+					}
+				}
+			}
+			{
+				std::list<std::weak_ptr<FontDX9> > it = fontList.begin();
+				while (it != fontList.end())
+				{
+					weak_ptr<FontDX9> &font = *it;
+					if (font.expired())
+					{
+						it = fontList.erase(it);
+					}
+					else
+					{
+						font.lock()->GetFont()->OnLostDevice();
+						++it;
+					}
+				}
+			}
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::PostReset()
+		{
+			{
+				std::list<std::weak_ptr<TextureDX9> > it = textureList.begin();
+				while (it != textureList.end())
+				{
+					weak_ptr<TextureDX9> &texture = *it;
+					if (texture.expired())
+					{
+						it = textureList.erase(it);
+					}
+					else
+					{
+						//texture.lock()->GetTexture()->OnResetDevice();
+						++it;
+					}
+				}
+			}
+			{
+				std::list<std::weak_ptr<FontDX9> > it = fontList.begin();
+				while (it != fontList.end())
+				{
+					weak_ptr<FontDX9> &font = *it;
+					if (font.expired())
+					{
+						it = fontList.erase(it);
+					}
+					else
+					{
+						font.lock()->GetFont()->OnResetDevice();
+						++it;
+					}
+				}
+			}
+		}
+		//---------------------------------------------------------------------------
 		void RendererDX9::Flush()
 		{
-			//sprite->Flush();
-
 			if (verticesNum > 0)
 			{
 				device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, verticesNum / 3, &vertices[0], sizeof(Vertex2D));
@@ -94,24 +159,32 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval) const
 		{
-			return std::shared_ptr<TextureDX9>(new TextureDX9(device, size, frameCount, frameChangeInterval));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, size, frameCount, frameChangeInterval));
+			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
+			return texture;
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval) const
 		{
-			return std::shared_ptr<TextureDX9>(new TextureDX9(device, width, height, frameCount, frameChangeInterval));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, width, height, frameCount, frameChangeInterval));
+			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
+			return texture;
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Misc::UnicodeString &filename)
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Misc::UnicodeString &filename) const
 		{
-			return std::shared_ptr<TextureDX9>(new TextureDX9(device, filename));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, filename));
+			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
+			return texture:
 		}
 		//---------------------------------------------------------------------------
-		std::shared_ptr<IFont> RendererDX9::CreateNewFont()
+		const std::shared_ptr<IFont> RendererDX9::CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) const
 		{
-			return std::shared_ptr<FontDX9>(new FontDX9(device));
+			std::shared_ptr<FontDX9> font(new FontDX9(device, fontName, size, bold, italic));
+			fontList.push_back(std::weak_ptr<FontDX9>(font));
+			return font;
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point)

@@ -38,31 +38,34 @@ namespace OSHGui
 			 * Schlieﬂt das Zeichnen ab.
 			 */
 			virtual void End();
+			
+			void PreReset();
+			void PostReset();
 
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) const;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) const;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename);
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename) const;
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *
 			 * @return eine neue Schriftart
 			 */
-			virtual std::shared_ptr<IFont> CreateNewFont();
+			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) const;
 
 
 			/**
@@ -72,7 +75,7 @@ namespace OSHGui
 			 */
 			virtual void SetRenderRectangle(const Rectangle &rect);
 
-			virtual const Size GetRenderDimension() const;
+			virtual const Size& GetRenderDimension() const;
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.
@@ -200,15 +203,16 @@ namespace OSHGui
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, Color &to);
 			
-		protected:
+		private:
 			void Flush();
 			void AddVertex(int x, int y);
 			void AddVertex(int x, int y, float u, float v);
 		
 			IDirect3DDevice9 *device;
-			LPD3DXSPRITE sprite;
 
 			std::shared_ptr<TextureDX9> texture;
+			std::list<std::weak_ptr<TextureDX9> > textureList;
+			std::list<std::weak_ptr<FontDX9> > fontList;
 			
 			static const int maxVertices = 1024;
 			int verticesNum;

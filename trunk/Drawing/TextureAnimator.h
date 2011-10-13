@@ -24,19 +24,19 @@ namespace OSHGui
 
 			static bool CanAnimate(const std::shared_ptr<ITexture> &texture);
 			static void Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode);
+			static void Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction);
 			static void StopAnimate(const std::shared_ptr<ITexture> &texture);
 			static void UpdateFrames();
 
-		private:
+		private:		
 			static bool anyFrameDirty;
 
 			class TextureInfo
 			{
 			public:
-				TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode);
+				TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction);
 
 				const std::shared_ptr<ITexture>& GetTexture() const;
-				bool IsAnimated() const;
 				bool IsFrameDirty() const;
 				void SetFrame(int frame);
 				int GetFrame() const;
@@ -50,7 +50,6 @@ namespace OSHGui
 
 			private:
 				std::shared_ptr<ITexture> texture;
-				bool animated;
 				bool frameDirty;
 				mutable bool bounceBackwards;
 				int frame;
@@ -58,6 +57,8 @@ namespace OSHGui
 				Misc::TimeSpan frameChangeInterval;
 				Misc::DateTime nextFrameChangeTime;
 				ReplayMode replayMode;
+				std::function<void(const std::shared_ptr<ITexture> &texture)> frameChangeFunction;
+				
 			};
 			static std::list<TextureInfo> textureInfoList;
 		};

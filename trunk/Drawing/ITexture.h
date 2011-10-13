@@ -28,7 +28,7 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
-			virtual bool IsLocked() = 0;
+			virtual bool IsLocked() const = 0;
 		
 			/**
 			 * Sperrt die Textur, damit sie verändert werden kann.
@@ -196,14 +196,14 @@ namespace OSHGui
 			 * @param frameCount die Anzahl der Frames
 			 * @return gibt den Status der Operation zurück
 			 */
-			virtual bool Create(const Size &size, int frameCount = 1) = 0;
+			virtual void Create(const Size &size, int frameCount = 1) = 0;
 			/**
 			 * Lädt eine Textur aus einer Datei.
 			 *
 			 * @param filename der Dateipfad
 			 * @return gibt den Status der Operation zurück
 			 */
-			virtual bool LoadFromFile(const Misc::UnicodeString &filename) = 0;
+			virtual void LoadFromFile(const Misc::UnicodeString &filename) = 0;
 		
 			Size size;
 		};

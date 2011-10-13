@@ -49,11 +49,11 @@ namespace OSHGui
 			 *
 			 * @return texture
 			 */
-			IDirect3DTexture9* GetTexture();
+			IDirect3DTexture9* GetTexture() const;
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
-			virtual bool IsLocked();
+			virtual bool IsLocked() const;
 		
 			/**
 			 * Sperrt die Textur, damit sie verändert werden kann.
@@ -216,14 +216,14 @@ namespace OSHGui
 			 * @param frameCount die Anzahl der Frames
 			 * @return gibt den Status der Operation zurück
 			 */
-			virtual bool Create(const Size &size, int frameCount = 1);
+			virtual void Create(const Size &size, int frameCount = 1);
 			/**
 			 * Lädt eine Textur aus einer Datei.
 			 *
 			 * @param filename der Dateipfad
 			 * @return gibt den Status der Operation zurück
 			 */
-			virtual bool LoadFromFile(const Misc::UnicodeString &filename);
+			virtual void LoadFromFile(const Misc::UnicodeString &filename);
 
 		private:
 			IDirect3DDevice9 *device;

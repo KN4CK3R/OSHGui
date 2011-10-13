@@ -10,34 +10,22 @@ namespace OSHGui
 		std::list<TextureAnimator::TextureInfo> TextureAnimator::textureInfoList;
 		bool TextureAnimator::anyFrameDirty = false;
 
-		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode)
+		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayModestatic, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
 		{
 			this->replayMode = replayMode;
 			bounceBackwards = false;
 			frameDirty = false;
 			this->texture = texture;
 			frame = 0;
-            animated = TextureAnimator::CanAnimate(texture);
+			this->frameChangeFunction = frameChangeFunction;
 
-            if (animated)
-			{
-                frameCount = texture->GetFrameCount(); 
-                frameChangeInterval = texture->GetFrameChangeInterval();
-            }
-            else
-			{
-                frameCount = 1;
-            }
+			frameCount = texture->GetFrameCount(); 
+			frameChangeInterval = texture->GetFrameChangeInterval();
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture>& TextureAnimator::TextureInfo::GetTexture() const
 		{
 			return texture;
-		}
-		//---------------------------------------------------------------------------
-		bool TextureAnimator::TextureInfo::IsAnimated() const
-		{
-			return animated;
 		}
 		//---------------------------------------------------------------------------
 		bool TextureAnimator::TextureInfo::IsFrameDirty() const
@@ -51,14 +39,11 @@ namespace OSHGui
 			{
 				if (frame < 0 || frame >= GetFrameCount())
 				{
-                    throw Misc::ArgumentOutOfRangeException(L"frame", __WFILE__, __LINE__);
-                }
+					throw Misc::ArgumentOutOfRangeException(L"frame", __WFILE__, __LINE__);
+				}
  
-                if (IsAnimated())
-				{
-                    this->frame = frame;
-					frameDirty = true;
-                }
+				this->frame = frame;
+				frameDirty = true;
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -146,6 +131,11 @@ namespace OSHGui
 			if (frameDirty)
 			{
 				texture->SelectActiveFrame(frame);
+				
+				if (frameChangeFunction != 0)
+				{
+					frameChangeFunction(texture);
+				}
 
 				nextFrameChangeTime = Application::GetNow().Add(frameChangeInterval);
 
@@ -206,21 +196,26 @@ namespace OSHGui
 			{
 				it->UpdateFrame();
 			}
-        }
+		}
 		//---------------------------------------------------------------------------
 		void TextureAnimator::Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode)
+		{
+			Animate(texture, replayMode, 0);
+		}
+		//---------------------------------------------------------------------------
+		void TextureAnimator::Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
 		{
 			if (texture == 0)
 			{
 				throw Misc::ArgumentNullException(L"texture", __WFILE__, __LINE__);
 			}
 
-			TextureInfo textureInfo(texture, replayMode);
-
-			StopAnimate(texture);
-
-			if (textureInfo.IsAnimated())
+			if (CanAnimate(texture))
 			{
+				TextureInfo textureInfo(texture, replayMode, frameChangeFunction);
+
+				StopAnimate(texture);
+
 				textureInfoList.push_back(textureInfo);
 			}
 		}
@@ -234,8 +229,8 @@ namespace OSHGui
 			
 			if (textureInfoList.empty())
 			{
-                return;
-            }
+				return;
+			}
 
 			for (std::list<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
 			{

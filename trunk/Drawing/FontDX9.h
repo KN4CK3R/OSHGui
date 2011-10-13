@@ -20,14 +20,23 @@ namespace OSHGui
 			 *
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 */
-			FontDX9(IDirect3DDevice9 *device);
+			FontDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
 			~FontDX9();
 			
 			/**
 			 * Ruft das zugrundeliegende IDirect3DFont-Objekt ab.
 			 */
 			LPD3DXFONT GetFont();
+			
+			/**
+			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
+			 *
+			 * @param str der Text
+			 * @return die Maﬂe
+			 */
+			virtual const Size MeasureText(const Misc::UnicodeString &str);
 
+		protected:
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *
@@ -36,17 +45,8 @@ namespace OSHGui
 			 * @param bold fettgedruckt
 			 * @param italic kursiv
 			 */
-			virtual bool Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
-			
-			/**
-			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
-			 *
-			 * @param str der Text
-			 * @return die Maﬂe
-			 */
-			virtual Size MeasureText(const Misc::UnicodeString &str);
-
-		protected:
+			virtual void Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
+		
 			IDirect3DDevice9 *device;
 			LPD3DXFONT font;
 			
