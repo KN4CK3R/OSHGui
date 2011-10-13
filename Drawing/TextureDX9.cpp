@@ -16,10 +16,7 @@ namespace OSHGui
 			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
-			if (!Create(size, frameCount))
-			{
-				throw Misc::Exception(L"Cannot create Texture.", __WFILE__, __LINE__);
-			}
+			Create(size, frameCount);
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
@@ -29,10 +26,7 @@ namespace OSHGui
 			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
-			if (!Create(Size(width, height), frameCount))
-			{
-				throw Misc::Exception(L"Cannot create Texture.", __WFILE__, __LINE__);
-			}
+			Create(Size(width, height), frameCount);
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename)
@@ -42,10 +36,7 @@ namespace OSHGui
 			frame = 0;
 			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
 
-			if (!LoadFromFile(filename))
-			{
-				throw Misc::Exception(L"Cannot load Texture.", __WFILE__, __LINE__);
-			}
+			LoadFromFile(filename);
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::~TextureDX9()
@@ -63,19 +54,19 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		IDirect3DTexture9* TextureDX9::GetTexture()
+		IDirect3DTexture9* TextureDX9::GetTexture() const
 		{
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		bool TextureDX9::IsLocked()
+		bool TextureDX9::IsLocked() const
 		{
 			return lock.pBits != 0;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool TextureDX9::Create(const Size &size, int frameCount)
+		void TextureDX9::Create(const Size &size, int frameCount)
 		{
 			if (frameCount < 1)
 			{
@@ -86,7 +77,7 @@ namespace OSHGui
 			{			
 				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 				{
-					return false;
+					throw Misc::Exception(L"Cannot create Texture.", __WFILE__, __LINE__);
 				}
 				frames.push_back(texture);
 			}
@@ -94,11 +85,9 @@ namespace OSHGui
 			this->size = size;
 			
 			texture = frames[0];
-			
-			return true;
 		}
 		//---------------------------------------------------------------------------
-		bool TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
+		void TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
 		{			
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileW(filename.c_str(), &info)))
@@ -118,12 +107,10 @@ namespace OSHGui
 				frames[frame] = 0;
 				texture = 0;
 				
-				return false;
+				throw Misc::Exception(L"Cannot load Texture.", __WFILE__, __LINE__);
 			}
 			
 			texture = frames[frame];
-			
-			return true;
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::BeginUpdate()
