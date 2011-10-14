@@ -28,7 +28,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool FontOpenGL::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
+		void FontOpenGL::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
 			this->fontName = fontName;
 			this->size = size;
@@ -42,11 +42,9 @@ namespace OSHGui
 			wglUseFontBitmaps(hDC, 0, 255, fontID);
 			SelectObject(hDC, hOldFont);
 			DeleteObject(hFont);
-
-			return true;
 		}
 		//---------------------------------------------------------------------------
-		Size FontOpenGL::MeasureText(const Misc::UnicodeString &str)
+		const Size FontOpenGL::MeasureText(const Misc::UnicodeString &str)
 		{
 			return Size();
 		}

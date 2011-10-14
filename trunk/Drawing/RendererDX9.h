@@ -2,6 +2,7 @@
 #define OSHGUI_DRAWING_RENDERERDX9_H_
 
 #include <stdio.h>
+#include <list>
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -47,25 +48,25 @@ namespace OSHGui
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) const;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) const;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename) const;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename);
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *
 			 * @return eine neue Schriftart
 			 */
-			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) const;
+			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
 
 
 			/**
@@ -75,7 +76,7 @@ namespace OSHGui
 			 */
 			virtual void SetRenderRectangle(const Rectangle &rect);
 
-			virtual const Size& GetRenderDimension() const;
+			virtual const Size GetRenderDimension() const;
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.

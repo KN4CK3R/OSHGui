@@ -397,7 +397,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
 	{
-		return Drawing::Point();
+		return point;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point) const

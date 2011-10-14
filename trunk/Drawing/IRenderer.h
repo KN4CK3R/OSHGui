@@ -37,7 +37,7 @@ namespace OSHGui
 			 * @param frameChangeInterval Interval der Framewechsel (optional für animierte Texturen)
 			 * @return die Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) const = 0;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
 			 * Erzeugt eine neue Textur mit der angebenen Größe, Anzahl der Frames und deren Wechselinterval.
 			 *
@@ -47,19 +47,19 @@ namespace OSHGui
 			 * @param frameChangeInterval Interval der Framewechsel (optional für animierte Texturen)
 			 * @return die Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) const = 0;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
 			 * Lädt eine Textur aus einer Datei.
 			 *
 			 * @return die Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename) const = 0;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Misc::UnicodeString &filename) = 0;
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *
 			 * @return eine neue Schriftart
 			 */
-			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) const = 0;
+			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) = 0;
 			
 			/**
 			 * Ruft die Standard-Schrift ab.
