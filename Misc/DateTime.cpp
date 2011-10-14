@@ -109,6 +109,11 @@ namespace OSHGui
 			{
 				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
+
+			if (kind == KindLocal)
+			{
+				throw ArgumentException(L"kind", L"Internal Constructor is for local times only");	
+			}
 			
 			dateData = ((unsigned long long)ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
 		}

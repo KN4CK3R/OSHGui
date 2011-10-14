@@ -1,4 +1,5 @@
 #include "FontDX9.h"
+#include "..\Misc\Exceptions.h"
 
 namespace OSHGui
 {
@@ -32,17 +33,12 @@ namespace OSHGui
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void FontDX9::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
-		{
-			if (font != 0)
-			{
-				font->Release();
-			}
-			
+		{			
 			if (FAILED(D3DXCreateFontW(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
 			{
 				font = 0;
 			
-				return false;
+				throw Misc::Exception(L"Cannot create Font.", __WFILE__, __LINE__);
 			}
 			
 			this->fontName = fontName;

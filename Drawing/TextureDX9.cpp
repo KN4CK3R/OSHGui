@@ -92,7 +92,7 @@ namespace OSHGui
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileW(filename.c_str(), &info)))
 			{
-				return false;
+				throw Misc::Exception(L"Cannot get ImageInfo.", __WFILE__, __LINE__);
 			}
 			
 			size = Drawing::Size(info.Width, info.Height);

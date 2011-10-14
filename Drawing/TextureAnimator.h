@@ -2,6 +2,7 @@
 #define OSHGUI_DRAWING_IMAGEANIMATOR_H_
 
 #include <list>
+#include <functional>
 #include <memory>
 #include "..\Misc\DateTime.h"
 #include "..\Misc\TimeSpan.h"

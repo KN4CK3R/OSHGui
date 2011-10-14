@@ -80,10 +80,10 @@ namespace OSHGui
 		void RendererDX9::PreReset()
 		{
 			{
-				std::list<std::weak_ptr<TextureDX9> > it = textureList.begin();
+				std::list<std::weak_ptr<TextureDX9> >::iterator it = textureList.begin();
 				while (it != textureList.end())
 				{
-					weak_ptr<TextureDX9> &texture = *it;
+					std::weak_ptr<TextureDX9> &texture = *it;
 					if (texture.expired())
 					{
 						it = textureList.erase(it);
@@ -96,10 +96,10 @@ namespace OSHGui
 				}
 			}
 			{
-				std::list<std::weak_ptr<FontDX9> > it = fontList.begin();
+				std::list<std::weak_ptr<FontDX9> >::iterator it = fontList.begin();
 				while (it != fontList.end())
 				{
-					weak_ptr<FontDX9> &font = *it;
+					std::weak_ptr<FontDX9> &font = *it;
 					if (font.expired())
 					{
 						it = fontList.erase(it);
@@ -116,10 +116,10 @@ namespace OSHGui
 		void RendererDX9::PostReset()
 		{
 			{
-				std::list<std::weak_ptr<TextureDX9> > it = textureList.begin();
+				std::list<std::weak_ptr<TextureDX9> >::iterator it = textureList.begin();
 				while (it != textureList.end())
 				{
-					weak_ptr<TextureDX9> &texture = *it;
+					std::weak_ptr<TextureDX9> &texture = *it;
 					if (texture.expired())
 					{
 						it = textureList.erase(it);
@@ -132,10 +132,10 @@ namespace OSHGui
 				}
 			}
 			{
-				std::list<std::weak_ptr<FontDX9> > it = fontList.begin();
+				std::list<std::weak_ptr<FontDX9> >::iterator it = fontList.begin();
 				while (it != fontList.end())
 				{
-					weak_ptr<FontDX9> &font = *it;
+					std::weak_ptr<FontDX9> &font = *it;
 					if (font.expired())
 					{
 						it = fontList.erase(it);
@@ -159,28 +159,28 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval) const
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, size, frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval) const
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, width, height, frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Misc::UnicodeString &filename) const
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Misc::UnicodeString &filename)
 		{
 			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, filename));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
-			return texture:
+			return texture;
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<IFont> RendererDX9::CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) const
+		const std::shared_ptr<IFont> RendererDX9::CreateNewFont(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
 		{
 			std::shared_ptr<FontDX9> font(new FontDX9(device, fontName, size, bold, italic));
 			fontList.push_back(std::weak_ptr<FontDX9>(font));
@@ -309,7 +309,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::FillGradient(const Rectangle &rect, Color &to)
 		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
+			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), to);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::FillGradient(int x, int y, int w, int h, Color &to)

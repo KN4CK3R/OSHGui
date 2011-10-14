@@ -10,7 +10,7 @@ namespace OSHGui
 		std::list<TextureAnimator::TextureInfo> TextureAnimator::textureInfoList;
 		bool TextureAnimator::anyFrameDirty = false;
 
-		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayModestatic, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
+		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
 		{
 			this->replayMode = replayMode;
 			bounceBackwards = false;
