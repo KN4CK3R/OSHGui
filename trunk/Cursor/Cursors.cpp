@@ -1,10 +1,10 @@
-#include "Cursors.h"
-#include "Cursor.h"
-#include "IBeam.h"
-#include "Pipette.h"
-#include "Hand.h"
-#include "Circle.h"
-#include "Wait.h"
+#include "Cursors.hpp"
+#include "Cursor.hpp"
+#include "IBeam.hpp"
+#include "Pipette.hpp"
+#include "Hand.hpp"
+#include "Circle.hpp"
+#include "Wait.hpp"
 
 namespace OSHGui
 {

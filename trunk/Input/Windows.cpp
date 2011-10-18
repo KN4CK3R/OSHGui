@@ -1,7 +1,7 @@
-#include "Windows.h"
-#include "..\Event\MouseEvent.h"
-#include "..\Event\KeyboardEvent.h"
-#include "..\Application.h"
+#include "Windows.hpp"
+#include "..\Event\MouseEvent.hpp"
+#include "..\Event\KeyboardEvent.hpp"
+#include "..\Application.hpp"
 
 namespace OSHGui
 {

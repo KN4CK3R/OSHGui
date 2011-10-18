@@ -1,5 +1,5 @@
-#include "ListBox.h"
-#include "..\Misc\Exceptions.h"
+#include "ListBox.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

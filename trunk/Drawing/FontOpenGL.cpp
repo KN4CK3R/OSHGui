@@ -1,4 +1,4 @@
-#include "FontOpenGL.h"
+#include "FontOpenGL.hpp"
 
 namespace OSHGui
 {

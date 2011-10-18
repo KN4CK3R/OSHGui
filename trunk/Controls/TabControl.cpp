@@ -1,7 +1,7 @@
-#include "TabControl.h"
-#include "TabPage.h"
-#include "..\Misc\TextHelper.h"
-#include "..\Misc\Exceptions.h"
+#include "TabControl.hpp"
+#include "TabPage.hpp"
+#include "..\Misc\TextHelper.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

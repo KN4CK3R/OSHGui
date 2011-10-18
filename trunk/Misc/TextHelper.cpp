@@ -1,5 +1,5 @@
-#include "TextHelper.h"
-#include "Exceptions.h"
+#include "TextHelper.hpp"
+#include "Exceptions.hpp"
 
 namespace OSHGui
 {

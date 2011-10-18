@@ -1,9 +1,9 @@
-#include "MessageBox.h"
-#include "Form.h"
-#include "Label.h"
-#include "Button.h"
-#include "PictureBox.h"
-#include "..\Misc\Exceptions.h"
+#include "MessageBox.hpp"
+#include "Form.hpp"
+#include "Label.hpp"
+#include "Button.hpp"
+#include "PictureBox.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

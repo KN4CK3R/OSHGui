@@ -1,4 +1,4 @@
-#include "RendererDX11.h"
+#include "RendererDX11.hpp"
 
 namespace OSHGui
 {

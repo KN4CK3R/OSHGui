@@ -1,4 +1,4 @@
-#include "RendererOpenGL.h"
+#include "RendererOpenGL.hpp"
 
 namespace OSHGui
 {

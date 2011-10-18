@@ -1,5 +1,5 @@
-#include "Label.h"
-#include "..\Misc\Exceptions.h"
+#include "Label.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

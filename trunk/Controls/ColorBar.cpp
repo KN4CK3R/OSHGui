@@ -1,5 +1,5 @@
-#include "ColorBar.h"
-#include "..\Misc\Exceptions.h"
+#include "ColorBar.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

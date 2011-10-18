@@ -1,4 +1,4 @@
-#include "Pipette.h"
+#include "Pipette.hpp"
 
 namespace OSHGui
 {

@@ -1,5 +1,5 @@
-#include "TrackBar.h"
-#include "..\Misc\Exceptions.h"
+#include "TrackBar.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

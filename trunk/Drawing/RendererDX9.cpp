@@ -1,4 +1,4 @@
-#include "RendererDX9.h"
+#include "RendererDX9.hpp"
 
 namespace OSHGui
 {

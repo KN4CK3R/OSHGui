@@ -1,5 +1,5 @@
-#include "ProgressBar.h"
-#include "..\Misc\Exceptions.h"
+#include "ProgressBar.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {
