@@ -1,5 +1,5 @@
-#include "Cursor.h"
-#include "..\Application.h"
+#include "Cursor.hpp"
+#include "..\Application.hpp"
 
 namespace OSHGui
 {

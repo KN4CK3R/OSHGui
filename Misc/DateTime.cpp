@@ -8,8 +8,8 @@
 #include <sys/time.h>
 #endif
 
-#include "DateTime.h"
-#include "Exceptions.h"
+#include "DateTime.hpp"
+#include "Exceptions.hpp"
 
 namespace OSHGui
 {

@@ -1,10 +1,10 @@
-#include "Application.h"
-#include "Controls\Form.h"
-#include "Drawing\TextureAnimator.h"
-#include "Misc\Exceptions.h"
-#include "FormManager.h"
-#include "TimerManager.h"
-#include "Cursor\Cursors.h"
+#include "Application.hpp"
+#include "Controls\Form.hpp"
+#include "Drawing\TextureAnimator.hpp"
+#include "Misc\Exceptions.hpp"
+#include "FormManager.hpp"
+#include "TimerManager.hpp"
+#include "Cursor\Cursors.hpp"
 
 namespace OSHGui
 {

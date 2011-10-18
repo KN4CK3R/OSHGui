@@ -1,5 +1,5 @@
-#include "RadioButton.h"
-#include "..\Misc\Exceptions.h"
+#include "RadioButton.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

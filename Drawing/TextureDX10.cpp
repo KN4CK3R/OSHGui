@@ -1,4 +1,4 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\TextureDX10.h"
+#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\TextureDX10.hpp"
 
 namespace OSHGui
 {

@@ -1,7 +1,7 @@
-#include "Form.h"
-#include "..\Application.h"
-#include "..\FormManager.h"
-#include "..\Misc\Exceptions.h"
+#include "Form.hpp"
+#include "..\Application.hpp"
+#include "..\FormManager.hpp"
+#include "..\Misc\Exceptions.hpp"
 #include <Windows.h>
 
 namespace OSHGui

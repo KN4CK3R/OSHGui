@@ -1,5 +1,5 @@
-#include "Control.h"
-#include "..\Misc\Exceptions.h"
+#include "Control.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

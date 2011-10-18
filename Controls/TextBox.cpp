@@ -1,5 +1,5 @@
-#include "TextBox.h"
-#include "..\Misc\Exceptions.h"
+#include "TextBox.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

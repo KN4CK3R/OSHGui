@@ -1,5 +1,5 @@
-#include "TimeSpan.h"
-#include "Exceptions.h"
+#include "TimeSpan.hpp"
+#include "Exceptions.hpp"
 
 namespace OSHGui
 {

@@ -1,9 +1,9 @@
-#include "FormManager.h"
-#include "Application.h"
-#include "Controls\Form.h"
-#include "Drawing\IRenderer.h"
-#include "Event\IEvent.h"
-#include "Misc\Exceptions.h"
+#include "FormManager.hpp"
+#include "Application.hpp"
+#include "Controls\Form.hpp"
+#include "Drawing\IRenderer.hpp"
+#include "Event\IEvent.hpp"
+#include "Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

@@ -1,5 +1,5 @@
-#include "ColorPicker.h"
-#include "..\Misc\Exceptions.h"
+#include "ColorPicker.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

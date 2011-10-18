@@ -1,5 +1,5 @@
-#include "Button.h"
-#include "..\Misc\Exceptions.h"
+#include "Button.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

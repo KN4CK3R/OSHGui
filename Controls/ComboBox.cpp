@@ -1,5 +1,5 @@
-#include "ComboBox.h"
-#include "..\Misc\Exceptions.h"
+#include "ComboBox.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

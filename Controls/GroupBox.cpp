@@ -1,5 +1,5 @@
-#include "GroupBox.h"
-#include "..\Misc\Exceptions.h"
+#include "GroupBox.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

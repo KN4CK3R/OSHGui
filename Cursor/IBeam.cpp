@@ -1,4 +1,4 @@
-#include "IBeam.h"
+#include "IBeam.hpp"
 
 namespace OSHGui
 {

@@ -1,5 +1,5 @@
-#include "ScrollBar.h"
-#include "..\Misc\Exceptions.h"
+#include "ScrollBar.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

@@ -1,4 +1,4 @@
-#include "Color.h"
+#include "Color.hpp"
 
 namespace OSHGui
 {

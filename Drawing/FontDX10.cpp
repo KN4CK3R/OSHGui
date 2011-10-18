@@ -1,4 +1,4 @@
-#include "FontDX10.h"
+#include "FontDX10.hpp"
 
 namespace OSHGui
 {

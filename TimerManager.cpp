@@ -1,7 +1,7 @@
-#include "TimerManager.h"
-#include "Controls\Timer.h"
-#include "Misc\Exceptions.h"
-#include "Application.h"
+#include "TimerManager.hpp"
+#include "Controls\Timer.hpp"
+#include "Misc\Exceptions.hpp"
+#include "Application.hpp"
 
 namespace OSHGui
 {

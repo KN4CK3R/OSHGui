@@ -1,4 +1,4 @@
-#include "Strings.h"
+#include "Strings.hpp"
 
 namespace OSHGui
 {

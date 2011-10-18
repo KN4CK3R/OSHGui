@@ -1,7 +1,7 @@
-#include "TextureAnimator.h"
-#include "ITexture.h"
-#include "..\Application.h"
-#include "..\Misc\Exceptions.h"
+#include "TextureAnimator.hpp"
+#include "ITexture.hpp"
+#include "..\Application.hpp"
+#include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {

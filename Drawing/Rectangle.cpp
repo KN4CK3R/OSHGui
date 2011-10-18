@@ -1,4 +1,4 @@
-#include "Rectangle.h"
+#include "Rectangle.hpp"
 
 namespace OSHGui
 {

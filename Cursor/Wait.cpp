@@ -1,6 +1,6 @@
-#include "Wait.h"
-#include "..\Application.h"
-#include "..\Drawing\TextureAnimator.h"
+#include "Wait.hpp"
+#include "..\Application.hpp"
+#include "..\Drawing\TextureAnimator.hpp"
 
 namespace OSHGui
 {

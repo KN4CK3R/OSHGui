@@ -1,4 +1,4 @@
-#include "LinkLabel.h"
+#include "LinkLabel.hpp"
 
 namespace OSHGui
 {
