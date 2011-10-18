@@ -583,7 +583,7 @@ namespace OSHGui
 			renderer->SetRenderColor(foreColor);
 			for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
 			{
-				if (i + firstVisibleItemIndex == mouseOverItemIndex)
+				if ((int)i + firstVisibleItemIndex == mouseOverItemIndex)
 				{
 					renderer->SetRenderColor(Drawing::Color::Black());
 					renderer->Fill(itemsRect.GetLeft() - 1, itemsRect.GetTop() + i * (font->GetSize() + 2) - 1, itemsRect.GetWidth() + 2, font->GetSize() + 4);

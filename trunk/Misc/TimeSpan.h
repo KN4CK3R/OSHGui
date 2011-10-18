@@ -24,36 +24,36 @@ namespace OSHGui
 			static const int MillisPerHour;
 			static const int MillisPerDay;
 			
-			static const long long MaxSeconds;
-			static const long long MinSeconds;
-			static const long long MaxMilliSeconds;
-			static const long long MinMilliSeconds;
+			static const __int64 MaxSeconds;
+			static const __int64 MinSeconds;
+			static const __int64 MaxMilliSeconds;
+			static const __int64 MinMilliSeconds;
 			
-			static const long long TicksPerTenthSecond;
+			static const __int64 TicksPerTenthSecond;
 			
-			long long ticks;
+			__int64 ticks;
 			
 		public:
 			/**
 			 * Stellt die Anzahl der Ticks pro Tag dar.
 			 */
-			static const long long TicksPerDay;
+			static const __int64 TicksPerDay;
 			/**
 			 * Stellt die Anzahl der Ticks pro Stunde dar.
 			 */
-			static const long long TicksPerHour;
+			static const __int64 TicksPerHour;
 			/**
 			 * Stellt die Anzahl der Ticks pro Minute dar.
 			 */
-			static const long long TicksPerMinute;
+			static const __int64 TicksPerMinute;
 			/**
 			 * Stellt die Anzahl der Ticks pro Sekunde dar.
 			 */
-			static const long long TicksPerSecond;
+			static const __int64 TicksPerSecond;
 			/**
 			 * Stellt die Anzahl der Ticks pro Millisekunde dar.
 			 */
-			static const long long TicksPerMillisecond;
+			static const __int64 TicksPerMillisecond;
 
 			/**
 			 * Stellt den TimeSpan-Wert für 0 dar.
@@ -70,7 +70,7 @@ namespace OSHGui
 			
 		private:
 			static TimeSpan Interval(double value, int scale);
-			static long long TimeToTicks(int hour, int minute, int second);
+			static __int64 TimeToTicks(int hour, int minute, int second);
 
 		public:
 			/**
@@ -82,7 +82,7 @@ namespace OSHGui
 			 *
 			 * @param ticks eine in der Einheit 100 Nanosekunden ausgedrückte Zeitspanne
 			 */
-			TimeSpan(long long ticks);
+			TimeSpan(__int64 ticks);
 			/**
 			 * Initialisiert eine neue TimeSpan mit der angegebenen Anzahl von Stunden, Minuten und Sekunden.
 			 *
@@ -189,7 +189,7 @@ namespace OSHGui
 			 *
 			 * @return die Tage
 			 */
-			long long GetTicks() const;
+			__int64 GetTicks() const;
 			
 			/**
 			 * Addiert die angegebene TimeSpan zu dieser Instanz.
@@ -273,7 +273,7 @@ namespace OSHGui
 			 * @param value eine in der Einheit 100 Nanosekunden ausgedrückte Zeitspanne
 			 * @return eine TimeSpan
 			 */
-			static TimeSpan FromTicks(long long value);
+			static TimeSpan FromTicks(__int64 value);
 			
 			/**
 			 * Gibt die Zeichenfolgendarstellung des Werts dieser Instanz zurück.

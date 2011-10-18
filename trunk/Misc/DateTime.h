@@ -49,11 +49,11 @@ namespace OSHGui
 			};
 		
 			//Number of 100ns ticks per time unit
-			static const unsigned long long TicksPerMillisecond;
-			static const unsigned long long TicksPerSecond;
-			static const unsigned long long TicksPerMinute;
-			static const unsigned long long TicksPerHour;
-			static const unsigned long long TicksPerDay;
+			static const unsigned __int64 TicksPerMillisecond;
+			static const unsigned __int64 TicksPerSecond;
+			static const unsigned __int64 TicksPerMinute;
+			static const unsigned __int64 TicksPerHour;
+			static const unsigned __int64 TicksPerDay;
 
 			// Number of milliseconds per time unit
 			static const unsigned int MillisPerSecond;
@@ -77,31 +77,31 @@ namespace OSHGui
 			// Number of days from 1/1/0001 to 12/31/9999
 			static const unsigned int DaysTo10000;
 
-			static const long long MinTicks;
-			static const long long MaxTicks;
-			static const unsigned long long MaxMillis;
+			static const __int64 MinTicks;
+			static const __int64 MaxTicks;
+			static const unsigned __int64 MaxMillis;
  
-			static const unsigned long long TimezoneOffset;
-			static const unsigned long long FileTimeOffset;
-			static const unsigned long long DoubleDateOffset;
+			static const unsigned __int64 TimezoneOffset;
+			static const unsigned __int64 FileTimeOffset;
+			static const unsigned __int64 DoubleDateOffset;
 
 			static const int DaysToMonth365[13];
 			static const int DaysToMonth366[13];
  
-			static const unsigned long long TicksMask;
-			static const unsigned long long FlagsMask;
-			static const unsigned long long LocalMask;
-			static const long long TicksCeiling;
-			static const unsigned long long KindUnspecified;
-			static const unsigned long long KindUtc;
-			static const unsigned long long KindLocal;
-			static const unsigned long long KindLocalAmbiguousDst;
+			static const unsigned __int64 TicksMask;
+			static const unsigned __int64 FlagsMask;
+			static const unsigned __int64 LocalMask;
+			static const __int64 TicksCeiling;
+			static const unsigned __int64 KindUnspecified;
+			static const unsigned __int64 KindUtc;
+			static const unsigned __int64 KindLocal;
+			static const unsigned __int64 KindLocalAmbiguousDst;
 			static const int KindShift;
 
 			static const UnicodeString dayNames[7];
 			static const UnicodeString monthNames[12];
 
-			unsigned long long dateData;
+			unsigned __int64 dateData;
 
 		public:
 			/**
@@ -114,16 +114,16 @@ namespace OSHGui
 			static const DateTime MaxValue;
 
 		private:
-			DateTime(unsigned long long dateData);
-			DateTime(long long ticks, DateTimeKind kind, bool isAmbiguousDst);
+			DateTime(unsigned __int64 dateData);
+			DateTime(__int64 ticks, DateTimeKind kind, bool isAmbiguousDst);
 			
-			long long GetInternalTicks() const;
-			unsigned long long GetInternalKind() const;
+			__int64 GetInternalTicks() const;
+			unsigned __int64 GetInternalKind() const;
 			
 			DateTime Add(double value, int scale) const;
 			
-			static long long DateToTicks(int year, int month, int day);
-			static long long TimeToTicks(int hour, int minute, int second);
+			static __int64 DateToTicks(int year, int month, int day);
+			static __int64 TimeToTicks(int hour, int minute, int second);
 			
 			int GetDatePart(DatePart part) const;
 			
@@ -137,7 +137,7 @@ namespace OSHGui
 			 *
 			 * @param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
 			 */
-			DateTime(long long ticks);
+			DateTime(__int64 ticks);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit der angegebenen Anzahl an Ticks
 			 * und koordinierter Weltzeit (UTC) oder lokaler Zeit.
@@ -145,7 +145,7 @@ namespace OSHGui
 			 * @param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
 			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
 			 */
-			DateTime(long long ticks, DateTimeKind kind);
+			DateTime(__int64 ticks, DateTimeKind kind);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat und Tag.
 			 *
@@ -277,7 +277,7 @@ namespace OSHGui
 			 *
 			 * @return der Tag
 			 */
-			long long GetTicks() const;
+			__int64 GetTicks() const;
 			
 			/**
 			 * Ruft einen Wert ab, der angibt, ob die durch diese Instanz dargestellte Zeit
@@ -370,7 +370,7 @@ namespace OSHGui
 			 * @param value eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
 			 * @return eine DateTime-Struktur
 			 */
-			DateTime AddTicks(long long value) const;
+			DateTime AddTicks(__int64 value) const;
 			
 			bool operator == (const DateTime &time) const;
 			bool operator != (const DateTime &time) const;
@@ -415,7 +415,7 @@ namespace OSHGui
 			 *
 			 * @return der Zeitzonenunterschied
 			 */
-			static long long GetTimezoneOffset();
+			static __int64 GetTimezoneOffset();
 
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
