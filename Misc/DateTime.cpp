@@ -15,11 +15,11 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		const unsigned long long DateTime::TicksPerMillisecond = 10000ULL;
-		const unsigned long long DateTime::TicksPerSecond = DateTime::TicksPerMillisecond * 1000ULL;
-		const unsigned long long DateTime::TicksPerMinute = DateTime::TicksPerSecond * 60ULL;
-		const unsigned long long DateTime::TicksPerHour = DateTime::TicksPerMinute * 60ULL;
-		const unsigned long long DateTime::TicksPerDay = DateTime::TicksPerHour * 24ULL;
+		const unsigned __int64 DateTime::TicksPerMillisecond = 10000ULL;
+		const unsigned __int64 DateTime::TicksPerSecond = DateTime::TicksPerMillisecond * 1000ULL;
+		const unsigned __int64 DateTime::TicksPerMinute = DateTime::TicksPerSecond * 60ULL;
+		const unsigned __int64 DateTime::TicksPerHour = DateTime::TicksPerMinute * 60ULL;
+		const unsigned __int64 DateTime::TicksPerDay = DateTime::TicksPerHour * 24ULL;
 
 		const unsigned int DateTime::MillisPerSecond = 1000;
 		const unsigned int DateTime::MillisPerMinute = DateTime::MillisPerSecond * 60;
@@ -35,13 +35,13 @@ namespace OSHGui
 		const unsigned int DateTime::DaysTo1899 = DateTime::DaysPer400Years * 4 + DateTime::DaysPer100Years * 3 - 367;
 		const unsigned int DateTime::DaysTo10000 = DateTime::DaysPer400Years * 25 - 366;
 
-		const long long DateTime::MinTicks = 0ULL;
-		const long long DateTime::MaxTicks = DateTime::TicksPerDay * DateTime::DaysTo10000 - 1ULL;
-		const unsigned long long DateTime::MaxMillis = (unsigned long long)DateTime::DaysTo10000 * DateTime::MillisPerDay;
+		const __int64 DateTime::MinTicks = 0ULL;
+		const __int64 DateTime::MaxTicks = DateTime::TicksPerDay * DateTime::DaysTo10000 - 1ULL;
+		const unsigned __int64 DateTime::MaxMillis = (unsigned __int64)DateTime::DaysTo10000 * DateTime::MillisPerDay;
  
-		const unsigned long long DateTime::TimezoneOffset = DateTime::GetTimezoneOffset();
-		const unsigned long long DateTime::FileTimeOffset = DateTime::DaysTo1601 * DateTime::TicksPerDay;
-		const unsigned long long DateTime::DoubleDateOffset = DateTime::TicksPerDay * DateTime::DaysTo1899;
+		const unsigned __int64 DateTime::TimezoneOffset = DateTime::GetTimezoneOffset();
+		const unsigned __int64 DateTime::FileTimeOffset = DateTime::DaysTo1601 * DateTime::TicksPerDay;
+		const unsigned __int64 DateTime::DoubleDateOffset = DateTime::TicksPerDay * DateTime::DaysTo1899;
  
 		const int DateTime::DaysToMonth365[13] = {
 			0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365
@@ -53,14 +53,14 @@ namespace OSHGui
 		const DateTime DateTime::MinValue(MinTicks, Unspecified);
 		const DateTime DateTime::MaxValue(MaxTicks, Unspecified);
 
-		const unsigned long long DateTime::TicksMask = 0x3FFFFFFFFFFFFFFFULL;
-		const unsigned long long DateTime::FlagsMask = 0xC000000000000000ULL;
-		const unsigned long long DateTime::LocalMask = 0x8000000000000000ULL;
-		const long long DateTime::TicksCeiling = 0x4000000000000000LL;
-		const unsigned long long DateTime::KindUnspecified = 0x0000000000000000ULL;
-		const unsigned long long DateTime::KindUtc = 0x4000000000000000ULL;
-		const unsigned long long DateTime::KindLocal = 0x8000000000000000ULL;
-		const unsigned long long DateTime::KindLocalAmbiguousDst = 0xC000000000000000ULL;
+		const unsigned __int64 DateTime::TicksMask = 0x3FFFFFFFFFFFFFFFULL;
+		const unsigned __int64 DateTime::FlagsMask = 0xC000000000000000ULL;
+		const unsigned __int64 DateTime::LocalMask = 0x8000000000000000ULL;
+		const __int64 DateTime::TicksCeiling = 0x4000000000000000LL;
+		const unsigned __int64 DateTime::KindUnspecified = 0x0000000000000000ULL;
+		const unsigned __int64 DateTime::KindUtc = 0x4000000000000000ULL;
+		const unsigned __int64 DateTime::KindLocal = 0x8000000000000000ULL;
+		const unsigned __int64 DateTime::KindLocalAmbiguousDst = 0xC000000000000000ULL;
 		const int DateTime::KindShift = 62;
 
 		const UnicodeString DateTime::dayNames[7] = { L"Sunday", L"Monday", L"Tuesday", L"Wednesday", L"Thursday", L"Friday", L"Saturday" };
@@ -71,10 +71,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		DateTime::DateTime()
 		{
-			dateData = (MinTicks | ((unsigned long long)Unspecified << KindShift));
+			dateData = (MinTicks | ((unsigned __int64)Unspecified << KindShift));
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTime(long long ticks)
+		DateTime::DateTime(__int64 ticks)
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
@@ -84,12 +84,12 @@ namespace OSHGui
 			dateData = ticks;
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTime(unsigned long long dateData)
+		DateTime::DateTime(unsigned __int64 dateData)
 		{
 			this->dateData = dateData;
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTime(long long ticks, DateTimeKind kind)
+		DateTime::DateTime(__int64 ticks, DateTimeKind kind)
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
@@ -100,10 +100,10 @@ namespace OSHGui
 				throw ArgumentException(L"kind", __WFILE__, __LINE__);
 			}
 
-			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
+			dateData = ((unsigned __int64)ticks | ((unsigned __int64)kind << KindShift));
 		}
 		//---------------------------------------------------------------------------
-		DateTime::DateTime(long long ticks, DateTimeKind kind, bool isAmbiguousDst)
+		DateTime::DateTime(__int64 ticks, DateTimeKind kind, bool isAmbiguousDst)
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
@@ -115,17 +115,17 @@ namespace OSHGui
 				throw ArgumentException(L"kind", L"Internal Constructor is for local times only");	
 			}
 			
-			dateData = ((unsigned long long)ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
+			dateData = ((unsigned __int64)ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(int year, int month, int day)
 		{
-			dateData = (unsigned long long)DateToTicks(year, month, day);
+			dateData = (unsigned __int64)DateToTicks(year, month, day);
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(int year, int month, int day, int hour, int minute, int second)
 		{
-			dateData = (unsigned long long)(DateToTicks(year, month, day) + TimeToTicks(hour, minute, second));
+			dateData = (unsigned __int64)(DateToTicks(year, month, day) + TimeToTicks(hour, minute, second));
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, DateTimeKind kind)
@@ -135,8 +135,8 @@ namespace OSHGui
 				throw ArgumentException(L"kind", __WFILE__, __LINE__);
 			}
 
-			long long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
-			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
+			__int64 ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
+			dateData = ((unsigned __int64)ticks | ((unsigned __int64)kind << KindShift));
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
@@ -146,14 +146,14 @@ namespace OSHGui
 				throw ArgumentOutOfRangeException(L"millisecond", __WFILE__, __LINE__);
 			}
 
-			long long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
+			__int64 ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
 			ticks += millisecond * TicksPerMillisecond;
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
 				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
 
-			dateData = (unsigned long long)ticks;
+			dateData = (unsigned __int64)ticks;
 		}
 		//---------------------------------------------------------------------------
 		DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTimeKind kind)
@@ -167,22 +167,22 @@ namespace OSHGui
 				throw ArgumentException(L"kind", __WFILE__, __LINE__);
 			}
 
-			long long ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
+			__int64 ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
 			ticks += millisecond * TicksPerMillisecond;
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
 				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
 
-			dateData = ((unsigned long long)ticks | ((unsigned long long)kind << KindShift));
+			dateData = ((unsigned __int64)ticks | ((unsigned __int64)kind << KindShift));
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
 		DateTime DateTime::GetDate() const
 		{
-			long long ticks = GetInternalTicks();
-			return DateTime((unsigned long long)(ticks - ticks % TicksPerDay) | GetInternalKind());
+			__int64 ticks = GetInternalTicks();
+			return DateTime((unsigned __int64)(ticks - ticks % TicksPerDay) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan DateTime::GetTimeOfDay() const
@@ -235,7 +235,7 @@ namespace OSHGui
 			return (int)((GetInternalTicks()/ TicksPerMillisecond) % 1000);
 		}
 		//---------------------------------------------------------------------------
-		long long DateTime::GetTicks() const
+		__int64 DateTime::GetTicks() const
 		{
 			return GetInternalTicks();
 		}
@@ -256,7 +256,7 @@ namespace OSHGui
 		DateTime DateTime::GetNow()
 		{
 			DateTime utc = GetUtcNow();
-			long long tick = utc.GetTicks() + TimezoneOffset;
+			__int64 tick = utc.GetTicks() + TimezoneOffset;
 			if (tick > MaxTicks)
 			{
 				return DateTime(MaxTicks, Local);
@@ -270,19 +270,19 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		DateTime DateTime::GetUtcNow()
 		{
-			long long ticks;
+			__int64 ticks;
 #ifdef _WIN32
 			GetSystemTimeAsFileTime((LPFILETIME)&ticks);
 #else //Unix
 			timeval tv;
 			gettimeofday(&tv, 0);
-			ticks = (long long)tv.tv_usec;
-			ticks += (long long)(tv.tv_sec / 0.000001);
+			ticks = (__int64)tv.tv_usec;
+			ticks += (__int64)(tv.tv_sec / 0.000001);
 			ticks += 11644473600000000LL;
 			ticks *= 10LL;
 #endif
 			
-			return DateTime((unsigned long long)(ticks + FileTimeOffset) | DateTime::KindUtc);
+			return DateTime((unsigned __int64)(ticks + FileTimeOffset) | DateTime::KindUtc);
 		}
 		//---------------------------------------------------------------------------
 		DateTime DateTime::GetToday()
@@ -292,20 +292,20 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		long long DateTime::GetInternalTicks() const
+		__int64 DateTime::GetInternalTicks() const
 		{
-			return (long long)(dateData & TicksMask);
+			return (__int64)(dateData & TicksMask);
 		}
 		//---------------------------------------------------------------------------
-		unsigned long long DateTime::GetInternalKind() const
+		unsigned __int64 DateTime::GetInternalKind() const
 		{
-			return (unsigned long long)(dateData & FlagsMask);
+			return (unsigned __int64)(dateData & FlagsMask);
 		}
 		//---------------------------------------------------------------------------
 		DateTime DateTime::Add(double value, int scale) const
 		{
-			long long millis = (long long)(value * scale + (value >= 0.0 ? 0.5 : -0.5));
-			if (millis <= -((long long)MaxMillis) || millis >= (long long)MaxMillis)
+			__int64 millis = (__int64)(value * scale + (value >= 0.0 ? 0.5 : -0.5));
+			if (millis <= -((__int64)MaxMillis) || millis >= (__int64)MaxMillis)
 			{
 				throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
 			}
@@ -358,7 +358,7 @@ namespace OSHGui
 				d = days;
 			}
 			
-			return DateTime((unsigned long long)(DateToTicks(y, m, d) + GetInternalTicks() % TicksPerDay) | GetInternalKind());
+			return DateTime((unsigned __int64)(DateToTicks(y, m, d) + GetInternalTicks() % TicksPerDay) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		DateTime DateTime::AddDays(double value) const
@@ -386,14 +386,14 @@ namespace OSHGui
 			return Add(value, 1);
 		}
 		//---------------------------------------------------------------------------
-		DateTime DateTime::AddTicks(long long value) const
+		DateTime DateTime::AddTicks(__int64 value) const
 		{
-			long long ticks = GetInternalTicks() + value;
+			__int64 ticks = GetInternalTicks() + value;
 			if (ticks > MaxTicks || ticks < MinTicks)
 			{
 				throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
 			}
-			return DateTime((unsigned long long)ticks | GetInternalKind());
+			return DateTime((unsigned __int64)ticks | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		bool DateTime::operator == (const DateTime &time) const
@@ -428,24 +428,24 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const DateTime DateTime::operator - (const TimeSpan &ts) const
 		{
-			long long ticks = GetInternalTicks();
-			long long valueTicks = ts.GetTicks();
+			__int64 ticks = GetInternalTicks();
+			__int64 valueTicks = ts.GetTicks();
 			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
 			{
 				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
-			return DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
+			return DateTime((unsigned __int64)(ticks - valueTicks) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		const DateTime DateTime::operator + (const TimeSpan &ts) const
 		{
-			long long ticks = GetInternalTicks();
-			long long valueTicks = ts.GetTicks();
+			__int64 ticks = GetInternalTicks();
+			__int64 valueTicks = ts.GetTicks();
 			if (valueTicks > MaxTicks - ticks || valueTicks < MinTicks - ticks)
 			{
 				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
 			}
-			return DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
+			return DateTime((unsigned __int64)(ticks + valueTicks) | GetInternalKind());
 		}
 		//---------------------------------------------------------------------------
 		const TimeSpan DateTime::operator - (const DateTime &time) const
@@ -458,7 +458,7 @@ namespace OSHGui
 			return TimeSpan(GetInternalTicks() + time.GetInternalTicks());
 		}
 		//---------------------------------------------------------------------------
-		long long DateTime::DateToTicks(int year, int month, int day)
+		__int64 DateTime::DateToTicks(int year, int month, int day)
 		{
 			if (year >= 1 && year <= 9999)
 			{
@@ -478,7 +478,7 @@ namespace OSHGui
 			throw ArgumentOutOfRangeException(L"year", __WFILE__, __LINE__);
 		}
 		//---------------------------------------------------------------------------
-		long long DateTime::TimeToTicks(int hour, int minute, int second)
+		__int64 DateTime::TimeToTicks(int hour, int minute, int second)
 		{
 			if (hour >= 0 && hour < 24)
 			{
@@ -486,7 +486,7 @@ namespace OSHGui
 				{
 					if (second >=0 && second < 60)
 					{
-						long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
+						__int64 totalSeconds = (__int64)hour * 3600 + (__int64)minute * 60 + (__int64)second;
 						return totalSeconds * TicksPerSecond;
 					}
 					throw ArgumentOutOfRangeException(L"second", __WFILE__, __LINE__);
@@ -522,7 +522,7 @@ namespace OSHGui
 			return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 		}
 		//---------------------------------------------------------------------------
-		long long DateTime::GetTimezoneOffset()
+		__int64 DateTime::GetTimezoneOffset()
 		{
 			time_t now;
 			struct tm local, utc;
@@ -533,12 +533,12 @@ namespace OSHGui
 			
 			int diff = local.tm_hour - utc.tm_hour;
 						
-			return (long long)TicksPerHour * diff;
+			return (__int64)TicksPerHour * diff;
 		}
 		//---------------------------------------------------------------------------
 		int DateTime::GetDatePart(DatePart part) const
 		{
-			long long ticks = GetInternalTicks();
+			__int64 ticks = GetInternalTicks();
 			int n = (int)(ticks / TicksPerDay); //number of days since 1/1/0001
 			int y400 = n / DaysPer400Years; //number of whole 400-year periods since 1/1/0001
 			n -= y400 * DaysPer400Years; //day number within 400-year period
