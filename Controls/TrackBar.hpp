@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TRACKBAR_H_
-#define OSHGUI_TRACKBAR_H_
+#ifndef OSHGUI_TRACKBAR_HPP_
+#define OSHGUI_TRACKBAR_HPP_
 
 #include "Control.hpp"
 

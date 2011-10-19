@@ -1,5 +1,5 @@
-#ifndef OSHGUI_LISTBOX_H_
-#define OSHGUI_LISTBOX_H_
+#ifndef OSHGUI_LISTBOX_HPP_
+#define OSHGUI_LISTBOX_HPP_
 
 #include <vector>
 #include "Control.hpp"

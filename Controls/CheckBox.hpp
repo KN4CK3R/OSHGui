@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CHECKBOX_H_
-#define OSHGUI_CHECKBOX_H_
+#ifndef OSHGUI_CHECKBOX_HPP_
+#define OSHGUI_CHECKBOX_HPP_
 
 #include "Label.hpp"
 

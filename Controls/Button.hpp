@@ -1,5 +1,5 @@
-#ifndef OSHGUI_BUTTON_H_
-#define OSHGUI_BUTTON_H_
+#ifndef OSHGUI_BUTTON_HPP_
+#define OSHGUI_BUTTON_HPP_
 
 #include "Label.hpp"
 

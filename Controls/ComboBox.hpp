@@ -1,5 +1,5 @@
-#ifndef OSHGUI_COMBOBOX_H_
-#define OSHGUI_COMBOBOX_H_
+#ifndef OSHGUI_COMBOBOX_HPP_
+#define OSHGUI_COMBOBOX_HPP_
 
 #include "Button.hpp"
 #include "ScrollBar.hpp"

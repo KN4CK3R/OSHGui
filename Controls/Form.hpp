@@ -1,5 +1,5 @@
-#ifndef OSHGUI_FORM_H_
-#define OSHGUI_FORM_H_
+#ifndef OSHGUI_FORM_HPP_
+#define OSHGUI_FORM_HPP_
 
 #include <functional>
 #include "Control.hpp"

@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_RECTANGLE_H_
-#define OSHGUI_DRAWING_RECTANGLE_H_
+#ifndef OSHGUI_DRAWING_RECTANGLE_HPP_
+#define OSHGUI_DRAWING_RECTANGLE_HPP_
 
 #include "../Exports.hpp"
 #include "Point.hpp"

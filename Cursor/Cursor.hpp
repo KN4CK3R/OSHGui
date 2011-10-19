@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CURSOR_CURSOR_H_
-#define OSHGUI_CURSOR_CURSOR_H_
+#ifndef OSHGUI_CURSOR_CURSOR_HPP_
+#define OSHGUI_CURSOR_CURSOR_HPP_
 
 #include <memory>
 #include "../Exports.hpp"

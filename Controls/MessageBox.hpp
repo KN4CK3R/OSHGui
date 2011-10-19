@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CONTROLS_MESSAGEBOX_H_
-#define OSHGUI_CONTROLS_MESSAGEBOX_H_
+#ifndef OSHGUI_CONTROLS_MESSAGEBOX_HPP_
+#define OSHGUI_CONTROLS_MESSAGEBOX_HPP_
 
 #include <functional>
 #include <vector>

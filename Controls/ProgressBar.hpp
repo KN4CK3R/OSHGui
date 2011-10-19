@@ -1,5 +1,5 @@
-#ifndef OSHGUI_PROGRESSBAR_H_
-#define OSHGUI_PROGRESSBAR_H_
+#ifndef OSHGUI_PROGRESSBAR_HPP_
+#define OSHGUI_PROGRESSBAR_HPP_
 
 #include "Control.hpp"
 #include "Panel.hpp"

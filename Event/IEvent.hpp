@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_IEVENT_H_
-#define OSHGUI_EVENT_IEVENT_H_
+#ifndef OSHGUI_EVENT_IEVENT_HPP_
+#define OSHGUI_EVENT_IEVENT_HPP_
 
 #include "../Exports.hpp"
 

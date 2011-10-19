@@ -1,5 +1,5 @@
-#ifndef OSHGUI_MISC_DATETIME_H_
-#define OSHGUI_MISC_DATETIME_H_
+#ifndef OSHGUI_MISC_DATETIME_HPP_
+#define OSHGUI_MISC_DATETIME_HPP_
 
 #include "../Exports.hpp"
 #include "Strings.hpp"

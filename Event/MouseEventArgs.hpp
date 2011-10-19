@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_MOUSEEVENTARGS_H_
-#define OSHGUI_EVENT_MOUSEEVENTARGS_H_
+#ifndef OSHGUI_EVENT_MOUSEEVENTARGS_HPP_
+#define OSHGUI_EVENT_MOUSEEVENTARGS_HPP_
 
 #include "Drawing\Point.hpp"
 #include "MouseEvent.hpp"

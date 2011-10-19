@@ -1,5 +1,5 @@
-#ifndef OSHGUI_GROUPBOX_H_
-#define OSHGUI_GROUPBOX_H_
+#ifndef OSHGUI_GROUPBOX_HPP_
+#define OSHGUI_GROUPBOX_HPP_
 
 #include "Control.hpp"
 #include "..\Misc\TextHelper.hpp"

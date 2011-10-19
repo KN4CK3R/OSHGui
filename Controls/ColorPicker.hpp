@@ -1,5 +1,5 @@
-#ifndef OSHGUI_COLORPICKER_H_
-#define OSHGUI_COLORPICKER_H_
+#ifndef OSHGUI_COLORPICKER_HPP_
+#define OSHGUI_COLORPICKER_HPP_
 
 #include <memory>
 #include "Control.hpp"
