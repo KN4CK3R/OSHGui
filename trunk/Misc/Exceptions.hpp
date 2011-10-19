@@ -1,9 +1,9 @@
-#ifndef OSHGUI_EXCEPTIONS_H_
-#define OSHGUI_EXCEPTIONS_H_
+#ifndef OSHGUI_EXCEPTIONS_HPP_
+#define OSHGUI_EXCEPTIONS_HPP_
 
 #include <exception>
 #include "../Exports.hpp"
-#include "Misc/Strings.hpp"
+#include "Strings.hpp"
 
 #define WIDEN2(x) L ## x
 #define WIDEN(x) WIDEN2(x)

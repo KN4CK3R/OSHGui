@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_ITEXTURE_H_
-#define OSHGUI_DRAWING_ITEXTURE_H_
+#ifndef OSHGUI_DRAWING_ITEXTURE_HPP_
+#define OSHGUI_DRAWING_ITEXTURE_HPP_
 
 #include <memory>
 #include "../Exports.hpp"

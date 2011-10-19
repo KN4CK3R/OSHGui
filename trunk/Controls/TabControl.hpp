@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TABCONTROL_H_
-#define OSHGUI_TABCONTROL_H_
+#ifndef OSHGUI_TABCONTROL_HPP_
+#define OSHGUI_TABCONTROL_HPP_
 
 #include <list>
 #include "Control.hpp"

@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TIMER_H_
-#define OSHGUI_TIMER_H_
+#ifndef OSHGUI_TIMER_HPP_
+#define OSHGUI_TIMER_HPP_
 
 #include "Control.hpp"
 

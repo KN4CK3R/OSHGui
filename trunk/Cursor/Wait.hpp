@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CURSOR_WAIT_H_
-#define OSHGUI_CURSOR_WAIT_H_
+#ifndef OSHGUI_CURSOR_WAIT_HPP_
+#define OSHGUI_CURSOR_WAIT_HPP_
 
 #include "Cursor.hpp"
 

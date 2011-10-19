@@ -1,5 +1,5 @@
-#ifndef OSHGUI_FORMMANAGER_H_
-#define OSHGUI_FORMMANAGER_H_
+#ifndef OSHGUI_FORMMANAGER_HPP_
+#define OSHGUI_FORMMANAGER_HPP_
 
 #include <vector>
 #include <memory>

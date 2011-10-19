@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_IFONT_H_
-#define OSHGUI_DRAWING_IFONT_H_
+#ifndef OSHGUI_DRAWING_IFONT_HPP_
+#define OSHGUI_DRAWING_IFONT_HPP_
 
 #include "../Exports.hpp"
 #include "Point.hpp"

@@ -1,5 +1,5 @@
-#ifndef OSHGUI_RADIOBUTTON_H_
-#define OSHGUI_RADIOBUTTON_H_
+#ifndef OSHGUI_RADIOBUTTON_HPP_
+#define OSHGUI_RADIOBUTTON_HPP_
 
 #include "CheckBox.hpp"
 

@@ -1,5 +1,5 @@
-#ifndef OSHGUI_LINKLABEL_H_
-#define OSHGUI_LINKLABEL_H_
+#ifndef OSHGUI_LINKLABEL_HPP_
+#define OSHGUI_LINKLABEL_HPP_
 
 #include "Label.hpp"
 

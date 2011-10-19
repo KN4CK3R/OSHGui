@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_KEYEVENTARGS_H_
-#define OSHGUI_EVENT_KEYEVENTARGS_H_
+#ifndef OSHGUI_EVENT_KEYEVENTARGS_HPP_
+#define OSHGUI_EVENT_KEYEVENTARGS_HPP_
 
 #include "Misc\Strings.hpp"
 #include "KeyboardEvent.hpp"

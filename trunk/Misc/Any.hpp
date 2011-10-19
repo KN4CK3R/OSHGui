@@ -1,5 +1,5 @@
-#ifndef OSHGUI_MISC_ANY_H_
-#define OSHGUI_MISC_ANY_H_
+#ifndef OSHGUI_MISC_ANY_HPP_
+#define OSHGUI_MISC_ANY_HPP_
 
 #include "../Exports.hpp"
 

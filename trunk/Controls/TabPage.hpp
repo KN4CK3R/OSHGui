@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TABPAGE_H_
-#define OSHGUI_TABPAGE_H_
+#ifndef OSHGUI_TABPAGE_HPP_
+#define OSHGUI_TABPAGE_HPP_
 
 #include "Panel.hpp"
 

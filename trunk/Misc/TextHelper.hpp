@@ -1,5 +1,5 @@
-#ifndef OSHGUI_MISC_TEXTHELPER_H_
-#define OSHGUI_MISC_TEXTHELPER_H_
+#ifndef OSHGUI_MISC_TEXTHELPER_HPP_
+#define OSHGUI_MISC_TEXTHELPER_HPP_
 
 #include <memory>
 #include "../Exports.hpp"
