@@ -8,7 +8,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein Schaltflächen-Steuerelement dar.
 	 */
-	class Button : public Label
+	class OSHGUI_EXPORT Button : public Label
 	{
 	public:
 		/**

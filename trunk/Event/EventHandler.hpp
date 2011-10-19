@@ -5,13 +5,15 @@
 #include <memory>
 #include <functional>
 
+#include "../Exports.hpp"
+
 namespace OSHGui
 {
 	/**
 	 * EventHandler für Funktionen mit einem Parameter.
 	 */
 	template <typename Signature>
-	class EventHandler
+	class OSHGUI_EXPORT EventHandler
 	{
 	private:
 		typedef std::function<Signature> Handler;

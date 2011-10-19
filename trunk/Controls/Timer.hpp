@@ -9,7 +9,7 @@ namespace OSHGui
 	 * Implementiert einen Zeitgeber, der ein Ereignis in benutzerdefinierten
 	 * Intervallen auslöst.
 	 */
-	class Timer : public Control
+	class OSHGUI_EXPORT Timer : public Control
 	{
 		friend Application;
 

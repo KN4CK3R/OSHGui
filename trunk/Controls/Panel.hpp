@@ -8,7 +8,7 @@ namespace OSHGui
 	/**
 	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
 	 */
-	class Panel : public Control
+	class OSHGUI_EXPORT Panel : public Control
 	{
 	public:
 		/**

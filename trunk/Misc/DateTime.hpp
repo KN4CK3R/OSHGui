@@ -1,6 +1,7 @@
 #ifndef OSHGUI_MISC_DATETIME_H_
 #define OSHGUI_MISC_DATETIME_H_
 
+#include "../Exports.hpp"
 #include "Strings.hpp"
 #include "TimeSpan.hpp"
 
@@ -11,7 +12,7 @@ namespace OSHGui
 		/**
 		 * Stellt einen Zeitpunkt dar, der durch Datum und Uhrzeit dargestellt wird.
 		 */
-		class DateTime
+		class OSHGUI_EXPORT DateTime
 		{
 		public:
 			/**

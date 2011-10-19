@@ -1,6 +1,8 @@
 #ifndef OSHGUI_DRAWING_POINT_H_
 #define OSHGUI_DRAWING_POINT_H_
 
+#include "../Exports.hpp"
+
 namespace OSHGui
 {
 	namespace Drawing
@@ -9,7 +11,7 @@ namespace OSHGui
 		 * Stellt ein geordnetes Paar von x- und y-Koordinaten als ganze Zahlen dar,
 		 * das einen Punkt in einem zweidimensionalen Raum definiert.
 		 */
-		class Point
+		class OSHGUI_EXPORT Point
 		{
 		public:
 			/**

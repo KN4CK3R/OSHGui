@@ -10,7 +10,7 @@ namespace OSHGui
 	/**
 	 * Wird zum Anzeigen eines Bildes verwendet.
 	 */
-	class PictureBox : public Control
+	class OSHGUI_EXPORT PictureBox : public Control
 	{
 	public:
 		/**

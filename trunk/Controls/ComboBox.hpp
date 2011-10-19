@@ -12,7 +12,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */
-	class ComboBox : public Button
+	class OSHGUI_EXPORT ComboBox : public Button
 	{
 	public:
 		/**

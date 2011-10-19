@@ -8,7 +8,7 @@ namespace OSHGui
 	/**
 	 * Stellt eine Standardtrackleiste dar.
 	 */
-	class TrackBar : public Control
+	class OSHGUI_EXPORT TrackBar : public Control
 	{
 	public:
 		/**

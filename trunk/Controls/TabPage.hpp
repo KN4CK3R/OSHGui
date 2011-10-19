@@ -10,7 +10,7 @@ namespace OSHGui
 	/**
 	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
 	 */
-	class TabPage : public Panel
+	class OSHGUI_EXPORT TabPage : public Panel
 	{
 	public:
 		/**

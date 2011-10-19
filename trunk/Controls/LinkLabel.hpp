@@ -8,7 +8,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein Label-Steuerelement dar, das Links anzeigen kann.
 	 */
-	class LinkLabel : public Label
+	class OSHGUI_EXPORT LinkLabel : public Label
 	{
 	public:
 		/**

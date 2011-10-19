@@ -2,6 +2,7 @@
 #define OSHGUI_DRAWING_IRENDERER_H_
 
 #include <memory>
+#include "../Exports.hpp"
 #include "Color.hpp"
 #include "Point.hpp"
 #include "Size.hpp"
@@ -17,7 +18,7 @@ namespace OSHGui
 		/**
 		 * Abstrakte Klasse, die Zeichenmethoden bereitstellt.
 		 */
-		class IRenderer
+		class OSHGUI_EXPORT IRenderer
 		{
 		public:		
 			/**

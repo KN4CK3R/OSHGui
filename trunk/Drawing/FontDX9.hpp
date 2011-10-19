@@ -12,7 +12,7 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		class FontDX9 : public IFont
+		class OSHGUI_EXPORT FontDX9 : public IFont
 		{
 		public:
 			/**

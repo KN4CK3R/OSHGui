@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stdarg.h>
+#include "../Exports.hpp"
 
 namespace OSHGui
 {

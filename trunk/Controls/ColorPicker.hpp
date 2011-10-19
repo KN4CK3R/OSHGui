@@ -11,7 +11,7 @@ namespace OSHGui
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
 	 */
-	class ColorPicker : public Control
+	class OSHGUI_EXPORT ColorPicker : public Control
 	{
 	public:
 		/**

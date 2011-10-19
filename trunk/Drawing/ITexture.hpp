@@ -2,6 +2,7 @@
 #define OSHGUI_DRAWING_ITEXTURE_H_
 
 #include <memory>
+#include "../Exports.hpp"
 #include "../Misc/Strings.hpp"
 #include "../Misc/TimeSpan.hpp"
 #include "Color.hpp"
@@ -16,7 +17,7 @@ namespace OSHGui
 		/**
 		 * Abstrakte Klasse, die eine Textur repräsentiert.
 		 */
-		class ITexture
+		class OSHGUI_EXPORT ITexture
 		{
 		public:
 			/**

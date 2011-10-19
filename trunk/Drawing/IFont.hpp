@@ -1,10 +1,11 @@
 #ifndef OSHGUI_DRAWING_IFONT_H_
 #define OSHGUI_DRAWING_IFONT_H_
 
+#include "../Exports.hpp"
 #include "Point.hpp"
 #include "Size.hpp"
 #include "Rectangle.hpp"
-#include "..\Misc\Strings.hpp"
+#include "../Misc/Strings.hpp"
 
 namespace OSHGui
 {
@@ -14,7 +15,7 @@ namespace OSHGui
 		 * Definiert ein bestimmtes abstraktes Format für Text, einschließlich der Attribute
 		 * für Schriftart, Schriftgrad und Schriftschnitt.
 		 */
-		class IFont
+		class OSHGUI_EXPORT IFont
 		{
 		public:			
 			/**

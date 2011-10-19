@@ -9,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Mausevent
 	 */
-	class MouseEvent : public IEvent
+	class OSHGUI_EXPORT MouseEvent : public IEvent
 	{
 	public:
 		enum MouseStates

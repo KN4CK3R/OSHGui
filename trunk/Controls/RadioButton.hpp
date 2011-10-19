@@ -9,7 +9,7 @@ namespace OSHGui
 	 * Ermöglicht Benutzern bei Verwendung weiterer RadioButton-Steuerelemete
 	 * die Auswahl einer Option aus mehreren Auswahlmöglichkeiten.
 	 */
-	class RadioButton : public CheckBox
+	class OSHGUI_EXPORT RadioButton : public CheckBox
 	{
 	public:
 		/**

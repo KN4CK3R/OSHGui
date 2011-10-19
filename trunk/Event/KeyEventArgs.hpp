@@ -9,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Stellt Daten für das KeyUpEvent/KeyDownEvent bereit.
 	 */
-	class KeyEventArgs
+	class OSHGUI_EXPORT KeyEventArgs
 	{
 	public:
 		Key::Keys KeyCode;

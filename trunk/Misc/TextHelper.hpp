@@ -2,7 +2,7 @@
 #define OSHGUI_MISC_TEXTHELPER_H_
 
 #include <memory>
-
+#include "../Exports.hpp"
 #include "Misc\Strings.hpp"
 #include "Drawing\IFont.hpp"
 #include "Drawing\Point.hpp"
@@ -15,7 +15,7 @@ namespace OSHGui
 		/**
 		 * Verwaltet eine Zeichenkette und deren Ausmaﬂe.
 		 */
-		class TextHelper
+		class OSHGUI_EXPORT TextHelper
 		{
 		public:
 			/**

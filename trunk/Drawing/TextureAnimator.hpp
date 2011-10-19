@@ -4,6 +4,7 @@
 #include <list>
 #include <functional>
 #include <memory>
+#include "../Exports.hpp"
 #include "..\Misc\DateTime.hpp"
 #include "..\Misc\TimeSpan.hpp"
 
@@ -13,7 +14,7 @@ namespace OSHGui
 	{
 		class ITexture;
 
-		class TextureAnimator
+		class OSHGUI_EXPORT TextureAnimator
 		{
 		public:
 			enum ReplayMode

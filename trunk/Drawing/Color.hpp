@@ -1,6 +1,8 @@
 #ifndef OSHGUI_DRAWING_COLOR_H_
 #define OSHGUI_DRAWING_COLOR_H_
 
+#include "../Exports.hpp"
+
 namespace OSHGui
 {
 	namespace Drawing
@@ -8,7 +10,7 @@ namespace OSHGui
 		/**
 		 * Stellt eine ARGB-Farbe (Alpha, Rot, Grün, Blau) dar.
 		 */
-		class Color
+		class OSHGUI_EXPORT Color
 		{
 		public:
 			union

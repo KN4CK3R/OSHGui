@@ -13,7 +13,7 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		class TextureDX9 : public ITexture
+		class OSHGUI_EXPORT TextureDX9 : public ITexture
 		{
 		public:
 			/**

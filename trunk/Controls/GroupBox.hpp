@@ -10,7 +10,7 @@ namespace OSHGui
 	 * Stellt ein Steuerelement dar, dass einen Rahmen um eine Gruppe
 	 * von Steuerlementen anzeigt, der eine Beschriftung enthalten kann.
 	 */
-	class GroupBox : public Control
+	class OSHGUI_EXPORT GroupBox : public Control
 	{
 	public:
 		/**

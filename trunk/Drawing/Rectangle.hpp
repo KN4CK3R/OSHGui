@@ -1,6 +1,7 @@
 #ifndef OSHGUI_DRAWING_RECTANGLE_H_
 #define OSHGUI_DRAWING_RECTANGLE_H_
 
+#include "../Exports.hpp"
 #include "Point.hpp"
 #include "Size.hpp"
 
@@ -12,7 +13,7 @@ namespace OSHGui
 		 * Speichert einen Satz von vier ganzen Zahlen, die die Position und Größe
 		 * eines Rechtecks angeben.
 		 */
-		class Rectangle
+		class OSHGUI_EXPORT Rectangle
 		{
 		public:
 			/**

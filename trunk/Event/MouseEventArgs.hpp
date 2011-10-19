@@ -9,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Stellt Daten für MouseEvents bereit.
 	 */
-	class MouseEventArgs
+	class OSHGUI_EXPORT MouseEventArgs
 	{
 	public:
 		MouseEvent::MouseStates State;

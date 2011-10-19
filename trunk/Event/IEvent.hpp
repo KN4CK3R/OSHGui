@@ -1,12 +1,14 @@
 #ifndef OSHGUI_EVENT_IEVENT_H_
 #define OSHGUI_EVENT_IEVENT_H_
 
+#include "../Exports.hpp"
+
 namespace OSHGui
 {
 	/**
 	 * Basisklasse für alle Eventtypen.
 	 */
-	class IEvent
+	class OSHGUI_EXPORT IEvent
 	{
 	public:
 		enum EventTypes { Mouse, Keyboard };
