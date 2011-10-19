@@ -10,7 +10,7 @@ namespace OSHGui
 	/**
 	 * Tastaturevent
 	 */
-	class KeyboardEvent : public IEvent
+	class OSHGUI_EXPORT KeyboardEvent : public IEvent
 	{
 	public:
 		enum KeyboardStates

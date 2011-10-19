@@ -39,7 +39,7 @@ namespace OSHGui
         ButtonRetryCancel
 	};
 
-	class MessageBox
+	class OSHGUI_EXPORT MessageBox
 	{
 	public:
 		static void Show(const Misc::UnicodeString &text);

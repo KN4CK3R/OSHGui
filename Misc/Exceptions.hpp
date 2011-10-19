@@ -2,7 +2,8 @@
 #define OSHGUI_EXCEPTIONS_H_
 
 #include <exception>
-#include "Misc\Strings.hpp"
+#include "../Exports.hpp"
+#include "Misc/Strings.hpp"
 
 #define WIDEN2(x) L ## x
 #define WIDEN(x) WIDEN2(x)
@@ -15,7 +16,7 @@ namespace OSHGui
 		/**
 		 * Stellt Fehler dar, die beim Ausführen einer Anwendung auftreten.
 		 */
-		class Exception : public std::exception
+		class OSHGUI_EXPORT Exception : public std::exception
 		{
 		public:
 			/**
@@ -107,7 +108,7 @@ namespace OSHGui
 		/**
 		 * Die Ausnahme, die ausgelöst wird, wenn eines der Argumente für eine Methode ungültig ist.
 		 */
-		class ArgumentException : public Exception
+		class OSHGUI_EXPORT ArgumentException : public Exception
 		{
 		public:
 			/**
@@ -188,7 +189,7 @@ namespace OSHGui
 		 * Die Ausnahme, die ausgelöst wird, wenn ein NULL-Verweis an eine Methode
 		 * übergeben wird, für die dies kein gültiges Argument ist.
 		 */
-		class ArgumentNullException : public ArgumentException
+		class OSHGUI_EXPORT ArgumentNullException : public ArgumentException
 		{
 		public:
 			/**
@@ -233,7 +234,7 @@ namespace OSHGui
 		 * Die Ausnahme, die ausgelöst wird, wenn der Wert eines Arguments nicht in dem Wertebereich
 		 * liegt, der durch die aufgerufene Methode als zulässig definiert ist.
 		 */
-		class ArgumentOutOfRangeException : public ArgumentException
+		class OSHGUI_EXPORT ArgumentOutOfRangeException : public ArgumentException
 		{
 		public:
 			/**
@@ -278,7 +279,7 @@ namespace OSHGui
 		 * Die Ausnahme, die ausgelöst wird, wenn der Aufruf einer Methode
 		 * aufgrund des aktuellen Zustands des Objekts ungültig ist.
 		 */
-		class InvalidOperationException : public Exception
+		class OSHGUI_EXPORT InvalidOperationException : public Exception
 		{
 		public:
 			/**

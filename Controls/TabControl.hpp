@@ -11,7 +11,7 @@ namespace OSHGui
 	/**
 	 * Verwaltet eine Gruppe zusammengehöriger Registerkarten.
 	 */
-	class TabControl : public Control
+	class OSHGUI_EXPORT TabControl : public Control
 	{
 	public:
 		/**

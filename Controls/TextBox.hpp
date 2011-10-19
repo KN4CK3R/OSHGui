@@ -11,7 +11,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
-	class TextBox : public Control
+	class OSHGUI_EXPORT TextBox : public Control
 	{
 	public:
 		/**

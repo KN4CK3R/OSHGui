@@ -20,7 +20,7 @@ namespace OSHGui
 		/**
 		 * Ein Render-Objekt, das für das Zeichnen mithilfe vom Direct3D zuständig ist.
 		 */
-		class RendererDX9 : public IRenderer
+		class OSHGUI_EXPORT RendererDX9 : public IRenderer
 		{
 		public:
 			/**

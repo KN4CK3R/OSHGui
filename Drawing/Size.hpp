@@ -1,6 +1,7 @@
 #ifndef OSHGUI_DRAWING_SIZE_H_
 #define OSHGUI_DRAWING_SIZE_H_
 
+#include "../Exports.hpp"
 #include "Point.hpp"
 
 namespace OSHGui
@@ -11,7 +12,7 @@ namespace OSHGui
 		 * Speichert ein geordnetes Paar von ganzen Zahlen, i. d. R. die Breite
 		 * und Höhe eines Rechtecks.
 		 */
-		class Size
+		class OSHGUI_EXPORT Size
 		{
 		public:
 			/**

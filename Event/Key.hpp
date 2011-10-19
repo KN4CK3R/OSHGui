@@ -1,12 +1,14 @@
 #ifndef OSHGUI_EVENT_KEY_H_
 #define OSHGUI_EVENT_KEY_H_
 
+#include "Exports.hpp"
+
 namespace OSHGui
 {
 	/**
 	 * Stellt Tastencodes bereit.
 	 */
-	class Key
+	class OSHGUI_EXPORT Key
 	{
 	public:
 		/**

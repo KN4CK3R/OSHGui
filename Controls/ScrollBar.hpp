@@ -13,7 +13,7 @@ namespace OSHGui
 	/**
 	 * Implementiert die Basisfunktionen eines Schiebeleisten-Steuerelements.
 	 */
-	class ScrollBar : public Control
+	class OSHGUI_EXPORT ScrollBar : public Control
 	{
 	public:
 		/**

@@ -1,6 +1,8 @@
 #ifndef OSHGUI_MISC_ANY_H_
 #define OSHGUI_MISC_ANY_H_
 
+#include "../Exports.hpp"
+
 namespace OSHGui
 {
 	namespace Misc
@@ -8,7 +10,7 @@ namespace OSHGui
 		/**
 		 * Dieser Datentyp kann jeden anderen Datentyp aufnehmen.
 		 */
-		class Any
+		class OSHGUI_EXPORT Any
 		{
 		private:
 			//Verhindert "ISO C++ forbids declaration of 'TypeWrapper' with no type"

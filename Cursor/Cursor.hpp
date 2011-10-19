@@ -2,13 +2,14 @@
 #define OSHGUI_CURSOR_CURSOR_H_
 
 #include <memory>
+#include "../Exports.hpp"
 #include "../Drawing/Point.hpp"
 #include "../Drawing/IRenderer.hpp"
 #include "../Drawing/ITexture.hpp"
 
 namespace OSHGui
 {
-	class Cursor
+	class OSHGUI_EXPORT Cursor
 	{
 	public:
 		Cursor();

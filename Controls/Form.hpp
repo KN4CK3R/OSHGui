@@ -49,7 +49,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
 	 */
-	class Form : public Control
+	class OSHGUI_EXPORT Form : public Control
 	{
 	public:
 		/**

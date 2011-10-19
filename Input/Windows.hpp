@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
+#include "Exports.hpp"
 
 namespace OSHGui
 {
@@ -12,7 +13,7 @@ namespace OSHGui
 		/**
 		 * Verwaltet den Input unter Windows.
 		 */
-		class Windows
+		class OSHGUI_EXPORT Windows
 		{
 		public:
 			/**

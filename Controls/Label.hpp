@@ -9,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein Label-Steuerelement dar.
 	 */
-	class Label : public Control
+	class OSHGUI_EXPORT Label : public Control
 	{
 	public:
 		/**

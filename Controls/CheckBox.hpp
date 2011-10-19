@@ -8,7 +8,7 @@ namespace OSHGui
 	/**
 	 * Stellt ein CheckBox-Steuerelement dar.
 	 */
-	class CheckBox : public Label
+	class OSHGUI_EXPORT CheckBox : public Label
 	{
 	public:
 		/**

@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "../Exports.hpp"
+
 #include "..\Application.hpp"
 
 #include "..\Drawing\Point.hpp"
@@ -131,7 +133,7 @@ namespace OSHGui
 	/**
 	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.
 	 */
-	class Control
+	class OSHGUI_EXPORT Control
 	{
 	public:
 		virtual ~Control();

@@ -9,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Stellt Daten für das KeyPressEvent bereit.
 	 */
-	class KeyPressEventArgs
+	class OSHGUI_EXPORT KeyPressEventArgs
 	{
 	public:
 		Misc::UnicodeChar KeyChar;
