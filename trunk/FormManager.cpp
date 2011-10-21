@@ -122,6 +122,11 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
 		}
 
+		if (mainForm == form)
+		{
+			Application::Disable();
+		}
+
 		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
 			FormInfo info = *it;
@@ -134,11 +139,6 @@ namespace OSHGui
 				}
 				return;
 			}
-		}
-		
-		if (mainForm == form)
-		{
-			Application::Disable();
 		}
 	}
 	//---------------------------------------------------------------------------
