@@ -91,8 +91,6 @@ namespace OSHGui
 					pressed = true;
 					
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
-
-					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
@@ -110,9 +108,9 @@ namespace OSHGui
 					}
 
 					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
-
-					return IEvent::DontContinue;
 				}
+
+				return IEvent::DontContinue;
 			}
 
 			mouse->Position = mousePositionBackup;
