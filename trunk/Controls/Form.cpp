@@ -24,6 +24,7 @@ namespace OSHGui
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		SetText(L"Form");
 
 		Invalidate();
 	}
