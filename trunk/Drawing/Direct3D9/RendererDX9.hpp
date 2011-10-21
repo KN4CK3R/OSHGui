@@ -227,7 +227,7 @@ namespace OSHGui
 			
 			Vertex2D vertices[maxVertices];
 			
-			DWORD oldFVF;
+			IDirect3DStateBlock9 *stateBlock;
 		};
 	}
 }

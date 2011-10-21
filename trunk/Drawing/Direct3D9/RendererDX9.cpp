@@ -24,6 +24,8 @@ namespace OSHGui
 			}
 
 			defaultFont = CreateNewFont(L"Arial", 14, false, false);
+
+			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
 		}
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()
@@ -51,21 +53,50 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
 		{
-			device->GetFVF(&oldFVF);
+			stateBlock->Capture();
 		
-			device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-			//device->SetRenderState(D3DRS_SCISSORTESTENABLE, true);
+			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+			device->SetVertexShader(0);
+			device->SetPixelShader(0);
 
-			device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-			device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+			device->SetRenderState(D3DRS_LIGHTING, FALSE);
+			device->SetRenderState(D3DRS_FOGENABLE, FALSE);
+			device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+			device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+			device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+			device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+			device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
+			// setup texture addressing settings
 			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+			// setup colour calculations
+			device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+			device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+			device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+
+			// setup alpha calculations
+			device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+			device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+			device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+
+			// setup filtering
+			device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+			device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+
+			// disable texture stages we do not need.
+			device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+
+			// setup scene alpha blending
+			device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
+			device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_INVDESTALPHA);
+			device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
@@ -74,7 +105,7 @@ namespace OSHGui
 		{
 			Flush();
 			
-			device->SetFVF(oldFVF);
+			stateBlock->Apply();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::PreReset()
@@ -111,6 +142,8 @@ namespace OSHGui
 					}
 				}
 			}
+
+			stateBlock->Release();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::PostReset()
@@ -147,6 +180,8 @@ namespace OSHGui
 					}
 				}
 			}
+
+			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Flush()
