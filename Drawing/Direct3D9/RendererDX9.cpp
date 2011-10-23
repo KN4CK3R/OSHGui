@@ -56,6 +56,7 @@ namespace OSHGui
 			stateBlock->Capture();
 		
 			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+			device->SetTexture(0, 0);
 			device->SetVertexShader(0);
 			device->SetPixelShader(0);
 

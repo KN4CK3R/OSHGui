@@ -56,6 +56,18 @@ namespace OSHGui
 		enabled = false;
 	}
 	//---------------------------------------------------------------------------
+	void Application::Toggle()
+	{
+		if (enabled)
+		{
+			Disable();
+		}
+		else
+		{
+			Enable();
+		}
+	}
+	//---------------------------------------------------------------------------
 	void Application::Run(const std::shared_ptr<Form> &mainForm)
 	{
 		if (mainForm == 0)
