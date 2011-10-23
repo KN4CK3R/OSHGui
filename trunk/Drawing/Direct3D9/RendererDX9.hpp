@@ -9,7 +9,7 @@
 #include <d3d9.h>
 #pragma comment(lib, "d3d9.lib")
 
-#include "IRenderer.hpp"
+#include "../IRenderer.hpp"
 #include "TextureDX9.hpp"
 #include "FontDX9.hpp"
 

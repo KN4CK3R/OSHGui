@@ -1,5 +1,5 @@
 #include "FontDX9.hpp"
-#include "..\Misc\Exceptions.hpp"
+#include "../../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {

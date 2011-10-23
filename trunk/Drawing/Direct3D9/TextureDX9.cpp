@@ -1,6 +1,6 @@
 #include "TextureDX9.hpp"
 #include <D3dx9tex.h>
-#include "..\Misc\Exceptions.hpp"
+#include "../../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {

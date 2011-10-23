@@ -55,6 +55,10 @@ namespace OSHGui
 		 */
 		static void Disable();
 		/**
+		 * Wechselt zwischen Enabled und Disabled.
+		 */
+		static void Toggle();
+		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
 		 * @param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird

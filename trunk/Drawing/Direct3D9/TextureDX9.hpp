@@ -7,7 +7,7 @@
 #include <d3d9.h>
 #pragma comment(lib, "d3d9.lib")
 
-#include "ITexture.hpp"
+#include "../ITexture.hpp"
 
 namespace OSHGui
 {

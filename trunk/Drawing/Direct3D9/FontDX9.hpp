@@ -6,7 +6,7 @@
 #include <d3dx9.h>
 #pragma comment(lib, "d3dx9.lib")
 
-#include "IFont.hpp"
+#include "../IFont.hpp"
 
 namespace OSHGui
 {
