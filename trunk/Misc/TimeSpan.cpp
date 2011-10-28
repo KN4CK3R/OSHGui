@@ -5,11 +5,11 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		const __int64 TimeSpan::TicksPerMillisecond = 10000LL;
-		const __int64 TimeSpan::TicksPerSecond = TicksPerMillisecond * 1000LL;
-		const __int64 TimeSpan::TicksPerMinute = TicksPerSecond * 60LL;
-		const __int64 TimeSpan::TicksPerHour = TicksPerMinute * 60LL;
-		const __int64 TimeSpan::TicksPerDay = TicksPerHour * 24LL;
+		const __int64 TimeSpan::TicksPerMillisecond = 10000i64;
+		const __int64 TimeSpan::TicksPerSecond = TicksPerMillisecond * 1000i64;
+		const __int64 TimeSpan::TicksPerMinute = TicksPerSecond * 60i64;
+		const __int64 TimeSpan::TicksPerHour = TicksPerMinute * 60i64;
+		const __int64 TimeSpan::TicksPerDay = TicksPerHour * 24i64;
 	
 		const double TimeSpan::MillisecondsPerTick = 1.0 / TicksPerMillisecond;
 		const double TimeSpan::SecondsPerTick = 1.0 / TicksPerSecond;
@@ -22,16 +22,16 @@ namespace OSHGui
 		const int TimeSpan::MillisPerHour = MillisPerMinute * 60;
 		const int TimeSpan::MillisPerDay = MillisPerHour * 24;
 		
-		const __int64 TimeSpan::MaxSeconds = 9223372036854775807LL / TicksPerSecond;
-		const __int64 TimeSpan::MinSeconds = -9223372036854775806LL / TicksPerSecond;
-		const __int64 TimeSpan::MaxMilliSeconds = 9223372036854775807LL / TicksPerMillisecond;
-		const __int64 TimeSpan::MinMilliSeconds = -9223372036854775806LL / TicksPerMillisecond;
+		const __int64 TimeSpan::MaxSeconds = 9223372036854775807i64 / TicksPerSecond;
+		const __int64 TimeSpan::MinSeconds = -9223372036854775806i64 / TicksPerSecond;
+		const __int64 TimeSpan::MaxMilliSeconds = 9223372036854775807i64 / TicksPerMillisecond;
+		const __int64 TimeSpan::MinMilliSeconds = -9223372036854775806i64 / TicksPerMillisecond;
 		
 		const __int64 TimeSpan::TicksPerTenthSecond = TicksPerMillisecond * 100;
 
 		const TimeSpan TimeSpan::Zero(0);
-		const TimeSpan TimeSpan::MaxValue(9223372036854775807LL);
-		const TimeSpan TimeSpan::MinValue(-9223372036854775806LL);
+		const TimeSpan TimeSpan::MaxValue(9223372036854775807i64);
+		const TimeSpan TimeSpan::MinValue(-9223372036854775806i64);
 		
 		//---------------------------------------------------------------------------
 		//Constructor
