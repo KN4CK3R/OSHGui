@@ -15,11 +15,11 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		const unsigned __int64 DateTime::TicksPerMillisecond = 10000ULL;
-		const unsigned __int64 DateTime::TicksPerSecond = DateTime::TicksPerMillisecond * 1000ULL;
-		const unsigned __int64 DateTime::TicksPerMinute = DateTime::TicksPerSecond * 60ULL;
-		const unsigned __int64 DateTime::TicksPerHour = DateTime::TicksPerMinute * 60ULL;
-		const unsigned __int64 DateTime::TicksPerDay = DateTime::TicksPerHour * 24ULL;
+		const unsigned __int64 DateTime::TicksPerMillisecond = 10000ui64;
+		const unsigned __int64 DateTime::TicksPerSecond = DateTime::TicksPerMillisecond * 1000ui64;
+		const unsigned __int64 DateTime::TicksPerMinute = DateTime::TicksPerSecond * 60ui64;
+		const unsigned __int64 DateTime::TicksPerHour = DateTime::TicksPerMinute * 60ui64;
+		const unsigned __int64 DateTime::TicksPerDay = DateTime::TicksPerHour * 24ui64;
 
 		const unsigned int DateTime::MillisPerSecond = 1000;
 		const unsigned int DateTime::MillisPerMinute = DateTime::MillisPerSecond * 60;
@@ -35,8 +35,8 @@ namespace OSHGui
 		const unsigned int DateTime::DaysTo1899 = DateTime::DaysPer400Years * 4 + DateTime::DaysPer100Years * 3 - 367;
 		const unsigned int DateTime::DaysTo10000 = DateTime::DaysPer400Years * 25 - 366;
 
-		const __int64 DateTime::MinTicks = 0ULL;
-		const __int64 DateTime::MaxTicks = DateTime::TicksPerDay * DateTime::DaysTo10000 - 1ULL;
+		const __int64 DateTime::MinTicks = 0ui64;
+		const __int64 DateTime::MaxTicks = DateTime::TicksPerDay * DateTime::DaysTo10000 - 1ui64;
 		const unsigned __int64 DateTime::MaxMillis = (unsigned __int64)DateTime::DaysTo10000 * DateTime::MillisPerDay;
  
 		const unsigned __int64 DateTime::TimezoneOffset = DateTime::GetTimezoneOffset();
@@ -53,14 +53,14 @@ namespace OSHGui
 		const DateTime DateTime::MinValue(MinTicks, Unspecified);
 		const DateTime DateTime::MaxValue(MaxTicks, Unspecified);
 
-		const unsigned __int64 DateTime::TicksMask = 0x3FFFFFFFFFFFFFFFULL;
-		const unsigned __int64 DateTime::FlagsMask = 0xC000000000000000ULL;
-		const unsigned __int64 DateTime::LocalMask = 0x8000000000000000ULL;
-		const __int64 DateTime::TicksCeiling = 0x4000000000000000LL;
-		const unsigned __int64 DateTime::KindUnspecified = 0x0000000000000000ULL;
-		const unsigned __int64 DateTime::KindUtc = 0x4000000000000000ULL;
-		const unsigned __int64 DateTime::KindLocal = 0x8000000000000000ULL;
-		const unsigned __int64 DateTime::KindLocalAmbiguousDst = 0xC000000000000000ULL;
+		const unsigned __int64 DateTime::TicksMask = 0x3FFFFFFFFFFFFFFFui64;
+		const unsigned __int64 DateTime::FlagsMask = 0xC000000000000000ui64;
+		const unsigned __int64 DateTime::LocalMask = 0x8000000000000000ui64;
+		const __int64 DateTime::TicksCeiling = 0x4000000000000000i64;
+		const unsigned __int64 DateTime::KindUnspecified = 0x0000000000000000ui64;
+		const unsigned __int64 DateTime::KindUtc = 0x4000000000000000ui64;
+		const unsigned __int64 DateTime::KindLocal = 0x8000000000000000ui64;
+		const unsigned __int64 DateTime::KindLocalAmbiguousDst = 0xC000000000000000ui64;
 		const int DateTime::KindShift = 62;
 
 		const UnicodeString DateTime::dayNames[7] = { L"Sunday", L"Monday", L"Tuesday", L"Wednesday", L"Thursday", L"Friday", L"Saturday" };
@@ -278,8 +278,8 @@ namespace OSHGui
 			gettimeofday(&tv, 0);
 			ticks = (__int64)tv.tv_usec;
 			ticks += (__int64)(tv.tv_sec / 0.000001);
-			ticks += 11644473600000000LL;
-			ticks *= 10LL;
+			ticks += 11644473600000000i64;
+			ticks *= 10i64;
 #endif
 			
 			return DateTime((unsigned __int64)(ticks + FileTimeOffset) | DateTime::KindUtc);
