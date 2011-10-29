@@ -108,6 +108,8 @@ namespace OSHGui
 				{
 					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
 
+					parent->RequestFocus(this);
+
 					return IEvent::DontContinue;
 				}
 				else if (mouse->State == MouseEvent::Move)
