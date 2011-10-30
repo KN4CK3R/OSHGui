@@ -46,6 +46,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
+	bool PictureBox::CanHaveFocus() const
+	{
+		return visible && enabled;
+	}
+	//---------------------------------------------------------------------------
 	bool PictureBox::ContainsPoint(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
