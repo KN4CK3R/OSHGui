@@ -101,7 +101,10 @@ namespace OSHGui
 		{
 			MouseEvent *mouse = (MouseEvent*)event;
 			//grab mouse position here for cursor rendering
-			Application::mouse.Position = mouse->Position;
+			if (mouse->State != MouseEvent::Scroll)
+			{
+				Application::mouse.Position = mouse->Position;
+			}
 		}
 
 		formManager.ForwardEventToForms(event);
