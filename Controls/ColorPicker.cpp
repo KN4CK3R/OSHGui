@@ -250,7 +250,8 @@ namespace OSHGui
 						colorChangeEvent.Invoke(this);
 					}
 
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseMoveEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -265,9 +266,15 @@ namespace OSHGui
 
 					colorPosition = mouse->Position;
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
+				}
+				else if (mouse->State == MouseEvent::LeftUp)
+				{
+					MouseEventArgs args(mouse);
+					mouseUpEvent.Invoke(this, args);
 				}
 			}
 			if (mouse->State == MouseEvent::LeftUp)
@@ -282,9 +289,8 @@ namespace OSHGui
 
 					clickEvent.Invoke(this);
 					
-					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
-
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseClickEvent.Invoke(this, args);
 				}
 
 				return IEvent::DontContinue;

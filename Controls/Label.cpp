@@ -90,11 +90,13 @@ namespace OSHGui
 				{
 					pressed = true;
 					
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseMoveEvent.Invoke(this, args);
 				}
 				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
@@ -104,10 +106,12 @@ namespace OSHGui
 					
 						clickEvent.Invoke(this);
 
-						mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
+						MouseEventArgs args(mouse);
+						mouseClickEvent.Invoke(this, args);
 					}
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseUpEvent.Invoke(this, args);
 				}
 
 				return IEvent::DontContinue;

@@ -194,7 +194,7 @@ namespace OSHGui
 								break;
 							default:
 								keyboard.KeyChar = (Misc::UnicodeChar)message->wParam;
-								Misc::UnicodeChar keyChar = keyboard.KeyChar >= L'A' && keyboard.KeyChar <= L'Z' ? keyboard.KeyChar + 0x20 : keyboard.KeyChar;
+								Misc::UnicodeChar keyChar = tolower(keyboard.KeyChar);
 								
 								if (keyChar >= L'a' && keyChar <= L'z')
 								{

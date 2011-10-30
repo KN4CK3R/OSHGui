@@ -256,7 +256,8 @@ namespace OSHGui
 						parent->RequestFocus(this);
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 				}
 				else if (!open || !Drawing::Rectangle(0, clientArea.GetHeight() + 1, dropDownRect.GetWidth(), dropDownRect.GetHeight()).Contains(mouse->Position)) //dropDownRect
 				{
@@ -303,7 +304,8 @@ namespace OSHGui
 						open = !open;
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -321,13 +323,15 @@ namespace OSHGui
 						}
 					}
 
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseMoveEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
 				else if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 				{
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseMoveEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -359,9 +363,11 @@ namespace OSHGui
 
 					clickEvent.Invoke(this);
 
-					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseClickEvent.Invoke(this, args);
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+					args = MouseEventArgs(mouse);
+					mouseUpEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -379,7 +385,8 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
-				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
+				KeyEventArgs args(keyboard);
+				keyDownEvent.Invoke(this, args);
 			
 				if (open)
 				{
@@ -512,7 +519,8 @@ namespace OSHGui
 			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{
-				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+				KeyEventArgs args(keyboard);
+				keyUpEvent.Invoke(this, args);
 			
 				switch (keyboard->KeyCode)
 				{

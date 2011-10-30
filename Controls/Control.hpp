@@ -84,15 +84,15 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn eine Taste gedrückt wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyDownEvent;
+	typedef EventHandler<void(Control*, KeyEventArgs&)> KeyDownEvent;
 	/**
 	 * Tritt auf, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyPressEventArgs&)> KeyPressEvent;
+	typedef EventHandler<void(Control*, KeyPressEventArgs&)> KeyPressEvent;
 	/**
 	 * Tritt auf, wenn eine Taste losgelassen wird.
 	 */
-	typedef EventHandler<void(Control*, const KeyEventArgs&)> KeyUpEvent;
+	typedef EventHandler<void(Control*, KeyEventArgs&)> KeyUpEvent;
 	/**
 	 * Tritt auf, wenn auf das Steuerelement geklickt wurde.
 	 */
@@ -100,19 +100,19 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn mit der Maus auf das Steuerelement geklickt wurde.
 	 */
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseClickEvent;
+	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseClickEvent;
 	/**
 	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste gedrückt wurde.
 	 */
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseDownEvent;
+	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseDownEvent;
 	/**
 	 * Tritt auf, wenn der Mauszeiger über das Steuerlement bewegt wird.
 	 */
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseMoveEvent;
+	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseMoveEvent;
 	/**
 	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste losgelassen wurde.
 	 */
-	typedef EventHandler<void(Control*, const MouseEventArgs&)> MouseUpEvent;
+	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseUpEvent;
 	/**
 	 * Tritt auf, wenn die Maus in den Bereich des Steuerlements bewegt wird.
 	 */

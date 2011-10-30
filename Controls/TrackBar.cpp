@@ -161,7 +161,8 @@ namespace OSHGui
 						parent->RequestFocus(this);
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -177,7 +178,8 @@ namespace OSHGui
 
 					SetValueInternal(ValueFromPosition(mouse->Position.X));
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -188,7 +190,8 @@ namespace OSHGui
 				{
 					SetValueInternal(ValueFromPosition(mouse->Position.X));
 					
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseMoveEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -201,7 +204,8 @@ namespace OSHGui
 					
 					scrollEvent.Invoke(this);
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseUpEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
