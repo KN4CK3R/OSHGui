@@ -204,7 +204,8 @@ namespace OSHGui
 
 						colorChangeEvent.Invoke(this);
 
-						mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+						MouseEventArgs args(mouse);
+						mouseMoveEvent.Invoke(this, args);
 
 						return IEvent::DontContinue;
 					}
@@ -225,9 +226,11 @@ namespace OSHGui
 
 						clickEvent.Invoke(this);
 
-						mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
+						MouseEventArgs args(mouse);
+						mouseClickEvent.Invoke(this, args);
 
-						mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+						args = MouseEventArgs(mouse);
+						mouseUpEvent.Invoke(this, args);
 						
 						return IEvent::DontContinue;
 					}
@@ -245,7 +248,8 @@ namespace OSHGui
 							parent->RequestFocus(this);
 						}
 
-						mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+						MouseEventArgs args(mouse);
+						mouseDownEvent.Invoke(this, args);
 
 						return IEvent::DontContinue;
 					}
@@ -293,7 +297,8 @@ namespace OSHGui
 			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{
-				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+				KeyEventArgs args(keyboard);
+				keyUpEvent.Invoke(this, args);
 			}
 			
 			return IEvent::DontContinue;

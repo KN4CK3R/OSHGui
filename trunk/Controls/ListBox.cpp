@@ -204,7 +204,8 @@ namespace OSHGui
 						parent->RequestFocus(this);
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 				}
 				else
 				{
@@ -255,7 +256,8 @@ namespace OSHGui
 						selectedIndexChangedEvent.Invoke(this);
 					}
 
-					mouseDownEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseDownEvent.Invoke(this, args);
 				}
 
 				return IEvent::DontContinue;
@@ -264,7 +266,8 @@ namespace OSHGui
 			{
 				if (mouse->State == MouseEvent::Move)
 				{
-					mouseMoveEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseMoveEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -272,9 +275,11 @@ namespace OSHGui
 				{
 					clickEvent.Invoke(this);
 
-					mouseClickEvent.Invoke(this, MouseEventArgs(mouse));
+					MouseEventArgs args(mouse);
+					mouseClickEvent.Invoke(this, args);
 
-					mouseUpEvent.Invoke(this, MouseEventArgs(mouse));
+					args = MouseEventArgs(mouse);
+					mouseUpEvent.Invoke(this, args);
 
 					return IEvent::DontContinue;
 				}
@@ -290,7 +295,8 @@ namespace OSHGui
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
 			if (keyboard->State == KeyboardEvent::KeyDown)
 			{
-				keyDownEvent.Invoke(this, KeyEventArgs(keyboard));
+				KeyEventArgs args(keyboard);
+				keyDownEvent.Invoke(this, args);
 			
 				switch (keyboard->KeyCode)
 				{
@@ -374,7 +380,8 @@ namespace OSHGui
 			}
 			else if (keyboard->State == KeyboardEvent::KeyUp)
 			{
-				keyUpEvent.Invoke(this, KeyEventArgs(keyboard));
+				KeyEventArgs args(keyboard);
+				keyUpEvent.Invoke(this, args);
 			}
 			
 			return IEvent::DontContinue;

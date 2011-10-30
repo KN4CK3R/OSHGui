@@ -1,4 +1,5 @@
 #include "Strings.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {
