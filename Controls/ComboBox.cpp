@@ -122,7 +122,10 @@ namespace OSHGui
 
 		scrollBar.SetRange(items.size());
 
-		Invalidate();
+		if (selectedIndex == -1)
+		{
+			selectedIndex = 0;
+		}
 		
 		if (GetItemsCount() == 1)
 		{
@@ -133,6 +136,8 @@ namespace OSHGui
 
 			selectedIndexChangedEvent.Invoke(this);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::RemoveItem(int index)
@@ -224,7 +229,10 @@ namespace OSHGui
 		itemsRect = Drawing::Rectangle(dropDownRect.GetLeft() + 4, dropDownRect.GetTop() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8);
 		
 		scrollBar.SetPageSize(itemsRect.GetHeight() / (font->GetSize() + 2));
-		scrollBar.ShowItem(selectedIndex);
+		if (items.size() > 0)
+		{
+			scrollBar.ShowItem(selectedIndex);
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
