@@ -97,14 +97,21 @@ namespace OSHGui
 			
 			size = Drawing::Size(info.Width, info.Height);
 			
-			if (frames[frame] != 0)
+			if (!frames.empty() && frames[frame] != 0)
 			{
 				frames[frame]->Release();
+			}
+			else
+			{
+				frames.push_back(0);
 			}
 			
 			if (FAILED(D3DXCreateTextureFromFileW(device, filename.c_str(), &frames[frame])))
 			{
-				frames[frame] = 0;
+				if (!frames.empty())
+				{
+					frames[frame] = 0;
+				}
 				texture = 0;
 				
 				throw Misc::Exception(L"Cannot load Texture.", __WFILE__, __LINE__);
