@@ -16,7 +16,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Button(Control *parent = 0);
+		Button(Control *parent);
 		virtual ~Button();
 		
 		/**

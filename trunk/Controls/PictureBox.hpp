@@ -18,7 +18,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		PictureBox(Control *parent = 0);
+		PictureBox(Control *parent);
 		virtual ~PictureBox();
 		
 		/**

@@ -14,7 +14,7 @@ namespace OSHGui
 		friend Application;
 
 	public:
-		Timer(Control *parent = 0);
+		Timer(Control *parent);
 		~Timer();
 		
 		/**

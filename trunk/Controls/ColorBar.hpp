@@ -19,7 +19,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ColorBar(Control *parent = 0);
+		ColorBar(Control *parent);
 		virtual ~ColorBar();
 		
 		void SetColor(Drawing::Color color);

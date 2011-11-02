@@ -16,7 +16,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Panel(Control *parent = 0);
+		Panel(Control *parent);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

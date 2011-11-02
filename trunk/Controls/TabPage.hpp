@@ -18,7 +18,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TabPage(TabControl *parent = 0);
+		TabPage(TabControl *parent);
 		
 		/**
 		 * Legt den Text fest.
