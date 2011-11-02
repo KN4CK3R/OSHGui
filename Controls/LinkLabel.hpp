@@ -16,7 +16,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		LinkLabel(Control *parent = 0);
+		LinkLabel(Control *parent);
 		~LinkLabel();
 		
 		/**

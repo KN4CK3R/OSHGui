@@ -18,7 +18,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ListBox(Control *parent = 0);
+		ListBox(Control *parent);
 		virtual ~ListBox();
 		
 		/**

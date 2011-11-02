@@ -20,7 +20,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ComboBox(Control *parent = 0);
+		ComboBox(Control *parent);
 		virtual ~ComboBox();
 		
 		/**

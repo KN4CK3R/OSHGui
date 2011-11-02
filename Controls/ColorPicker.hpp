@@ -19,7 +19,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		ColorPicker(Control *parent = 0);
+		ColorPicker(Control *parent);
 		virtual ~ColorPicker();
 		
 		void SetColor(Drawing::Color color);

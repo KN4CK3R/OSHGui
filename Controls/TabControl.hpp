@@ -19,7 +19,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		TabControl(Control *parent = 0);
+		TabControl(Control *parent);
 		virtual ~TabControl();
 
 		/**

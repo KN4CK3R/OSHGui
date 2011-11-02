@@ -539,7 +539,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Control(Control *parent = 0);
+		Control(Control *parent);
 	
 		IEvent::NextEventTypes ContainerProcessEvent(IEvent *event);
 
