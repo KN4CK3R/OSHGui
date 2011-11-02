@@ -38,7 +38,11 @@ namespace OSHGui
 			/**
 			 * der Wartecursor
 			 */
-			Wait
+			Wait,
+			/**
+			 * der Stiftcursor
+			 */
+			Pen
 		};
 
 		/**

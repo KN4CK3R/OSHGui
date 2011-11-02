@@ -5,6 +5,7 @@
 #include "Hand.hpp"
 #include "Circle.hpp"
 #include "Wait.hpp"
+#include "Pen.hpp"
 
 namespace OSHGui
 {
@@ -35,6 +36,9 @@ namespace OSHGui
 					break;
 				case Cursors::Wait:
 					cursor = std::shared_ptr<Cursor>(new WaitCursor());
+					break;
+				case Cursors::Pen:
+					cursor = std::shared_ptr<Cursor>(new PenCursor());
 					break;
 				default:
 					cursor = std::shared_ptr<Cursor>(new Cursor());
