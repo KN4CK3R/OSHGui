@@ -397,8 +397,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
 	{
-		//todo
-		return point;
+		if (!parent)
+		{
+			throw Misc::ArgumentNullException(L"parent");
+		}
+		
+		if (parent != this)
+		{
+			return parent->PointToScreen(point + bounds.GetPosition());
+		}
+
+		return point + bounds.GetPosition();
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
@@ -554,6 +563,27 @@ namespace OSHGui
 	void Control::Render(Drawing::IRenderer *renderer)
 	{
 		return;
+	}
+	//---------------------------------------------------------------------------
+	void Control::ChildRender(Drawing::IRenderer *renderer)
+	{
+		Control *focusedControl = 0;
+		for (unsigned int i = 0; i < controls.size(); ++i)
+		{
+			Control *control = controls[i];
+			if (control->hasFocus)
+			{
+				focusedControl = control;
+			}
+			else
+			{
+				control->Render(renderer);
+			}
+		}
+		if (focusedControl != 0)
+		{
+			focusedControl->Render(renderer);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

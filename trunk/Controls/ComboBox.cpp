@@ -122,11 +122,6 @@ namespace OSHGui
 
 		scrollBar.SetRange(items.size());
 
-		if (selectedIndex == -1)
-		{
-			selectedIndex = 0;
-		}
-		
 		if (GetItemsCount() == 1)
 		{
 			selectedIndex = 0;
@@ -211,7 +206,7 @@ namespace OSHGui
 		}
 		else
 		{
-			int height = items.size() * (font->GetSize() + 4);
+			int height = items.size() * (font->GetSize() + 4) + 4;
 			if (height > COMBOBOX_MAX_HEIGHT)
 			{
 				height = COMBOBOX_MAX_HEIGHT;
@@ -228,8 +223,8 @@ namespace OSHGui
 
 		itemsRect = Drawing::Rectangle(dropDownRect.GetLeft() + 4, dropDownRect.GetTop() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8);
 		
-		scrollBar.SetPageSize(itemsRect.GetHeight() / (font->GetSize() + 2));
-		if (items.size() > 0)
+		scrollBar.SetPageSize(COMBOBOX_MAX_HEIGHT / (font->GetSize() + 2));
+		//if (items.size() > 0)
 		{
 			scrollBar.ShowItem(selectedIndex);
 		}
@@ -320,7 +315,8 @@ namespace OSHGui
 			}
 			else if (mouse->State == MouseEvent::Move)
 			{
-				if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
+				//if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
+				if (open && itemsRect.Contains(mouse->Position)) //itemsRect
 				{
 					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
 					{
@@ -346,7 +342,8 @@ namespace OSHGui
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
 			{
-				if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
+				//if (open && Drawing::Rectangle(4, clientArea.GetHeight() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
+				if (open && itemsRect.Contains(mouse->Position)) //itemsRect
 				{
 					int itemIndex = -1;
 					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
@@ -617,10 +614,7 @@ namespace OSHGui
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
 			
-			for (unsigned int i = 0; i < controls.size(); ++i)
-			{
-				controls[i]->Render(renderer);
-			}
+			ChildRender(renderer);
 			
 			renderer->SetRenderRectangle(renderRect);
 		}
