@@ -126,6 +126,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
+	static Drawing::Point ppp;
 	IEvent::NextEventTypes TabControl::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
@@ -148,38 +149,44 @@ namespace OSHGui
 
 			int x = 2;
 			Misc::TextHelper textHelper(font);
-			for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
+			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), textHelper.GetSize().Height + 8).Contains(mouse->Position))
 			{
-				textHelper.SetText((*it)->GetText());
-				Drawing::Size textSize = textHelper.GetSize();
-				if (Drawing::Rectangle(x, 0, textSize.Width + 8, textSize.Height + 8).Contains(mouse->Position))
+				for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
 				{
-					static TabPage *clicked = 0;
-					if (mouse->State == MouseEvent::LeftDown)
+					textHelper.SetText((*it)->GetText());
+					Drawing::Size textSize = textHelper.GetSize();
+					if (Drawing::Rectangle(x, 0, textSize.Width + 8, textSize.Height + 8).Contains(mouse->Position))
 					{
-						clicked = *it;
-
-						return IEvent::DontContinue;
-					}
-					else if (mouse->State == MouseEvent::LeftUp)
-					{
-						if (clicked == *it)
+						static TabPage *clicked = 0;
+						if (mouse->State == MouseEvent::LeftDown)
 						{
-							parent->RequestFocus(this);
-							activeTab = clicked;
-							clicked = 0;
-							Invalidate();
+							clicked = *it;
 
-							selectedIndexChangedEvent.Invoke(this);
+							return IEvent::DontContinue;
 						}
+						else if (mouse->State == MouseEvent::LeftUp)
+						{
+							if (clicked == *it)
+							{
+								parent->RequestFocus(this);
+								activeTab = clicked;
+								clicked = 0;
+								Invalidate();
 
-						return IEvent::DontContinue;
+								selectedIndexChangedEvent.Invoke(this);
+							}
+
+							return IEvent::DontContinue;
+						}
 					}
+					x += textSize.Width + 11;
 				}
-				x += textSize.Width + 11;
 			}
 
-			mouse->Position.Top -= font->GetSize() + 8;
+			mouse->Position.Top -= font->GetSize() + 10;
+			mouse->Position.Left -= 2;
+			ppp = mouse->Position;
+			//mouse->Position = Drawing::Point(20, 16);
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
@@ -291,13 +298,13 @@ namespace OSHGui
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
 			
-			for (unsigned int i = 0; i < controls.size(); ++i)
-			{
-				controls[i]->Render(renderer);
-			}
+			ChildRender(renderer);
 			
 			renderer->SetRenderRectangle(renderRect);
 		}
+
+		renderer->SetRenderColor(Drawing::Color::Lime());
+		renderer->RenderText(font, ppp, Misc::String::Format(L"%i %i", ppp.X, ppp.Y));
 	}
 	//---------------------------------------------------------------------------
 }

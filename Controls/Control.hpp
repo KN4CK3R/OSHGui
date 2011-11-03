@@ -333,7 +333,17 @@ namespace OSHGui
 		 * @return font
 		 */
 		const std::shared_ptr<Drawing::IFont> GetFont() const;
+		/**
+		 * Legt den angezeigten Cursor fest, wenn sich die Maus über dem Steuerelement befindet.
+		 *
+		 * @param cursor
+		 */
 		void SetCursor(const std::shared_ptr<Cursor> &cursor);
+		/** 
+		 * Ruft den angezeigten Cursor ab, wenn sich die Maus über dem Steuerelement befindet.
+		 *
+		 * @return cursor
+		 */
 		const std::shared_ptr<Cursor> GetCursor() const;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
@@ -542,6 +552,7 @@ namespace OSHGui
 		Control(Control *parent);
 	
 		IEvent::NextEventTypes ContainerProcessEvent(IEvent *event);
+		void ChildRender(Drawing::IRenderer *renderer);
 
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);
