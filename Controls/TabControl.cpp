@@ -126,7 +126,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	static Drawing::Point ppp;
 	IEvent::NextEventTypes TabControl::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
@@ -185,8 +184,6 @@ namespace OSHGui
 
 			mouse->Position.Top -= font->GetSize() + 10;
 			mouse->Position.Left -= 2;
-			ppp = mouse->Position;
-			//mouse->Position = Drawing::Point(20, 16);
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
@@ -302,9 +299,6 @@ namespace OSHGui
 			
 			renderer->SetRenderRectangle(renderRect);
 		}
-
-		renderer->SetRenderColor(Drawing::Color::Lime());
-		renderer->RenderText(font, ppp, Misc::String::Format(L"%i %i", ppp.X, ppp.Y));
 	}
 	//---------------------------------------------------------------------------
 }

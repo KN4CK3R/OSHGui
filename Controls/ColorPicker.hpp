@@ -32,7 +32,7 @@ namespace OSHGui
 		 *
 		 * @return colorChangeEvent
 		 */
-		ColorChangeEvent& GetColorChangeEvent();
+		ColorChangedEvent& GetColorChangedEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -78,7 +78,7 @@ namespace OSHGui
 		Drawing::Point colorPosition;
 		std::shared_ptr<Drawing::ITexture> gradient;
 
-		ColorChangeEvent colorChangeEvent;
+		ColorChangedEvent colorChangedEvent;
 	};
 }
 

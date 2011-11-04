@@ -73,7 +73,7 @@ namespace OSHGui
 		int neededWidthForButtons = 0;
 		
 		std::vector<Misc::UnicodeString> label;
-		std::vector<std::function<void(Control* control)> >event;
+		std::vector<ClickEventHandler> eventHandler;
 		switch (buttons)
 		{
 			default:
@@ -81,27 +81,27 @@ namespace OSHGui
 				neededWidthForButtons = defaultButtonSize.Width + 20;
 
 				label.push_back(L"OK");
-				event.push_back([this](Control *control)
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultOK;
 					Close();
-				});
+				}));
 				break;
 			case ButtonOKCancel:
 				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
 
 				label.push_back(L"Cancel");
 				label.push_back(L"OK");
-				event.push_back([this](Control *control)
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultOK;
 					Close();
-				});
+				}));
 				break;
 			case ButtonAbortRetryIgnore:
 				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
@@ -109,37 +109,37 @@ namespace OSHGui
 				label.push_back(L"Ignore");
 				label.push_back(L"Retry");
 				label.push_back(L"Abort");
-				event.push_back([this](Control *control)
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultIgnore;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultRetry;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultAbort;
 					Close();
-				});
+				}));
 				break;
 			case ButtonYesNo:
 				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
 
 				label.push_back(L"No");
 				label.push_back(L"Yes");
-				event.push_back([this](Control *control)
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultNo;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultYes;
 					Close();
-				});
+				}));
 				break;
 			case ButtonYesNoCancel:
 				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
@@ -147,37 +147,37 @@ namespace OSHGui
 				label.push_back(L"Cancel");
 				label.push_back(L"No");
 				label.push_back(L"Yes");
-				event.push_back([this](Control *control)
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultNo;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultYes;
 					Close();
-				});
+				}));
 				break;
 			case ButtonRetryCancel:
 				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
 
 				label.push_back(L"Cancel");
 				label.push_back(L"Retry");
-				event.push_back([this](Control *control)
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
 					Close();
-				});
-				event.push_back([this](Control *control)
+				}));
+				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultRetry;
 					Close();
-				});
+				}));
 				break;
 		}
 
@@ -190,21 +190,21 @@ namespace OSHGui
 		Drawing::Size screen = Application::GetRenderer()->GetRenderDimension();
 		this->SetLocation(screen.Width / 2 - formWidth / 2, screen.Height / 2 - formHeight / 2);
 		
-		AddButtons(label, event);
+		AddButtons(label, eventHandler);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::UnicodeString> &label, const std::vector<std::function<void(Control *control)> > &event)
+	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::UnicodeString> &label, const std::vector<ClickEventHandler> &eventHandler)
 	{
-		if (label.size() != event.size())
+		if (label.size() != eventHandler.size())
 		{
-			throw new Misc::ArgumentException(L"label + event");
+			throw new Misc::ArgumentException(L"label + eventHandler");
 		}
 
 		for (unsigned int i = 0; i < label.size(); ++i)
 		{
 			Button *button = new Button(this);
 			button->SetText(label[i]);
-			button->GetClickEvent().Add(event[i]);
+			button->GetClickEvent() += ClickEventHandler(eventHandler[i]);
 			button->SetLocation(this->GetWidth() - (i + 1) * (button->GetWidth() + 10) , this->GetHeight() - button->GetHeight() - 25);
 
 			this->AddControl(button);

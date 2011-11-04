@@ -81,7 +81,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::Render(Drawing::IRenderer *renderer)
 	{
-		backColor = Drawing::Color::Red();
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor + Drawing::Color(0, 32, 32, 32));
@@ -89,9 +88,6 @@ namespace OSHGui
 			renderer->SetRenderColor(backColor);
 			renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 		}
-
-		renderer->SetRenderColor(Drawing::Color::Lime());
-		renderer->Fill(clientArea);
 	
 		if (controls.size() > 0)
 		{

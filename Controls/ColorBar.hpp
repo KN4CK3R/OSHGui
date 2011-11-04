@@ -29,7 +29,7 @@ namespace OSHGui
 		 *
 		 * @return colorChangeEvent
 		 */
-		ColorChangeEvent& GetColorChangeEvent();
+		ColorChangedEvent& GetColorChangedEvent();
 		/**
 		 * Ruft das KeyDownEvent für das Steuerelement ab.
 		 *
@@ -98,7 +98,7 @@ namespace OSHGui
 
 		KeyDownEvent keyDownEvent;
 		KeyUpEvent keyUpEvent;
-		ColorChangeEvent colorChangeEvent;
+		ColorChangedEvent colorChangedEvent;
 	};
 }
 
