@@ -8,7 +8,7 @@
 namespace OSHGui
 {
 	template <typename Signature>
-	class OSHGUI_EXPORT EventFunction
+	class OSHGUI_EXPORT EventHandler
 	{
 	private:
 		typedef std::function<Signature> Handler;
@@ -23,13 +23,13 @@ namespace OSHGui
 		}
 		
 	public:
-		EventFunction(const Handler &handler)
+		EventHandler(const Handler &handler)
 		{
 			id = NextID();
 			this->handler = handler;
 		}
 		
-		bool operator == (const EventFunction &eventFunction)
+		bool operator == (const EventHandler &eventFunction)
 		{
 			return id == eventFunction.id;
 		}
