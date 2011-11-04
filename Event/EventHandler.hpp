@@ -26,7 +26,7 @@ namespace OSHGui
 		 *
 		 * @param handler
 		 */
-		void Add(Handler const& handler)
+		void Add(const Handler &handler)
 		{
 			handlers.push_back(handler);
 		}
@@ -36,7 +36,7 @@ namespace OSHGui
 		 *
 		 * @param handler
 		 */
-		void Remove(Handler const& handler)
+		void Remove(const Handler &handler)
 		{
 			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end();)
 			{
@@ -49,6 +49,28 @@ namespace OSHGui
 					++it;
 				}
 			}
+		}
+		
+		/**
+		 * Registriert eine Funktion im EventHandler.
+		 *
+		 * @param handler
+		 */
+		EventHandler& operator += (const Handler &handler)
+		{
+			Add(handler);
+			return *this;
+		}
+		
+		/**
+		 * Entfernt eine Funktion aus dem EventHandler.
+		 *
+		 * @param handler
+		 */
+		EventHandler& operator -= (const Handler &handler)
+		{
+			Remove(handler);
+			return *this;
 		}
 		
 		/**

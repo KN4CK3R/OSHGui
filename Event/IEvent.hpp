@@ -11,7 +11,17 @@ namespace OSHGui
 	class OSHGUI_EXPORT IEvent
 	{
 	public:
-		enum EventTypes { Mouse, Keyboard };
+		enum EventTypes
+		{
+			/**
+			 * Maus Event
+			 */
+			Mouse,
+			/**
+			 * Tastatur Event
+			 */
+			Keyboard
+		};
 		enum NextEventTypes
 		{
 			/**
