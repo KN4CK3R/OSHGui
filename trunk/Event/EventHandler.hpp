@@ -1,106 +1,42 @@
-#ifndef OSHGUI_EVENT_EVENTHANDLER_HPP_
-#define OSHGUI_EVENT_EVENTHANDLER_HPP_
+#ifndef OSHGUI_EVENT_EVENTFUNCTION_HPP_
+#define OSHGUI_EVENT_EVENTFUNCTION_HPP_
 
-#include <list>
 #include <functional>
 
-#include "EventFunction.hpp"
 #include "../Exports.hpp"
 
 namespace OSHGui
 {
-	/**
-	 * EventHandler für Funktionen mit einem Parameter.
-	 */
 	template <typename Signature>
 	class OSHGUI_EXPORT EventHandler
 	{
 	private:
-		std::list<EventFunction<Signature> > eventFunctions;
-
+		typedef std::function<Signature> Handler;
+		Handler handler;
+		int id;
+		
+		static unsigned int NextID()
+		{
+			static unsigned int id = 0;
+			++id;
+			return id;
+		}
+		
 	public:
-		/**
-		 * Registriert eine Funktion im EventHandler.
-		 *
-		 * @param eventFunction
-		 */
-		void Add(const EventFunction<Signature> &eventFunction)
+		EventHandler(const Handler &handler)
 		{
-			eventFunctions.push_back(eventFunction);
+			id = NextID();
+			this->handler = handler;
 		}
 		
-		/**
-		 * Entfernt eine Funktion aus dem EventHandler.
-		 *
-		 * @param eventFunction
-		 */
-		void Remove(const EventFunction<Signature> &eventFunction)
+		bool operator == (const EventHandler &eventFunction)
 		{
-			typename std::list<EventFunction<Signature> >::iterator it = eventFunctions.begin();
-			while (it != eventFunctions.end())
-			{
-				if (*it == eventFunction)
-				{
-					it = eventFunctions.erase(it);
-				}
-				else
-				{
-					++it;
-				}
-			}
+			return id == eventFunction.id;
 		}
 		
-		/**
-		 * Registriert eine Funktion im EventHandler.
-		 *
-		 * @param eventFunction
-		 */
-		EventHandler& operator += (const EventFunction<Signature> &eventFunction)
+		Handler& GetHandler()
 		{
-			Add(eventFunction);
-			return *this;
-		}
-		
-		/**
-		 * Entfernt eine Funktion aus dem EventHandler.
-		 *
-		 * @param eventFunction
-		 */
-		EventHandler& operator -= (const EventFunction<Signature> &eventFunction)
-		{
-			Remove(eventFunction);
-			return *this;
-		}
-		
-		/**
-		 * Ruft alle registrierten Funktionen auf.
-		 *
-		 * @param param1 Funktionsparameter
-		 */
-		template <typename T>
-		void Invoke(T&& param1)
-		{
-			for (typename std::list<EventFunction<Signature> >::iterator it = eventFunctions.begin(); it != eventFunctions.end(); ++it)
-			{
-				EventFunction<Signature> &eventFunction = *it;
-				eventFunction.GetHandler()(std::forward<T>(param1));
-			}
-		}
-
-		/**
-		 * Ruft alle registrierten Funktionen auf.
-		 *
-		 * @param param1 Funktionsparameter
-		 * @param param2 Funktionsparameter
-		 */
-		template <typename T, typename T2>
-		void Invoke(T&& param1, T2&& param2)
-		{
-			for (typename std::list<EventFunction<Signature> >::iterator it = eventFunctions.begin(); it != eventFunctions.end(); ++it)
-			{
-				EventFunction<Signature> &eventFunction = *it;
-				eventFunction.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
-			}
+			return handler;
 		}
 	};
 }

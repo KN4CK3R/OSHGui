@@ -41,8 +41,8 @@ namespace OSHGui
 			this->color = color;
 
 			UpdateBars();
-
-			colorChangeEvent.Invoke(this);
+			Drawing::Color args = color;
+			colorChangedEvent.Invoke(this, args);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -51,9 +51,9 @@ namespace OSHGui
 		return color;
 	}
 	//---------------------------------------------------------------------------
-	ColorChangeEvent& ColorBar::GetColorChangeEvent()
+	ColorChangedEvent& ColorBar::GetColorChangedEvent()
 	{
-		return colorChangeEvent;
+		return colorChangedEvent;
 	}
 	//---------------------------------------------------------------------------
 	KeyDownEvent& ColorBar::GetKeyDownEvent()
@@ -201,8 +201,8 @@ namespace OSHGui
 						(i == 0 ? color.R : i == 1 ? color.G : color.B) =  (unsigned char)(multi * barSliders[i].Left + 0.5f);
 
 						UpdateBars();
-
-						colorChangeEvent.Invoke(this);
+						Drawing::Color colorArgs = color;
+						colorChangedEvent.Invoke(this, colorArgs);
 
 						MouseEventArgs args(mouse);
 						mouseMoveEvent.Invoke(this, args);
@@ -221,8 +221,8 @@ namespace OSHGui
 						(i == 0 ? color.R : i == 1 ? color.G : color.B) =  (unsigned char)(multi * barSliders[i].Left + 0.5f);
 
 						UpdateBars();
-
-						colorChangeEvent.Invoke(this);
+						Drawing::Color colorArgs = color;
+						colorChangedEvent.Invoke(this, colorArgs);
 
 						clickEvent.Invoke(this);
 
@@ -290,8 +290,8 @@ namespace OSHGui
 						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliders[barIndex].Left + 0.5f);
 
 						UpdateBars();
-
-						colorChangeEvent.Invoke(this);
+						Drawing::Color args = color;
+						colorChangedEvent.Invoke(this, args);
 					}
 				}
 			}

@@ -76,6 +76,9 @@ namespace OSHGui
 					colorPosition.Top = (int)(bounds.GetHeight() - (val * (bounds.GetHeight() / 200.0f)));
 				}
 			}
+
+			Drawing::Color args = color;
+			colorChangedEvent.Invoke(this, args);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -173,9 +176,9 @@ namespace OSHGui
 		return GetColorAtPoint(point.X, point.Y);
 	}
 	//---------------------------------------------------------------------------
-	ColorChangeEvent& ColorPicker::GetColorChangeEvent()
+	ColorChangedEvent& ColorPicker::GetColorChangedEvent()
 	{
-		return colorChangeEvent;
+		return colorChangedEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -246,8 +249,8 @@ namespace OSHGui
 						colorPosition = mouse->Position;
 								
 						color = GetColorAtPoint(colorPosition);
-
-						colorChangeEvent.Invoke(this);
+						Drawing::Color args = color;
+						colorChangedEvent.Invoke(this, args);
 					}
 
 					MouseEventArgs args(mouse);
@@ -284,8 +287,8 @@ namespace OSHGui
 					drag = false;
 					
 					color = GetColorAtPoint(colorPosition);
-
-					colorChangeEvent.Invoke(this);
+					Drawing::Color colorArgs = color;
+					colorChangedEvent.Invoke(this, colorArgs);
 
 					clickEvent.Invoke(this);
 					

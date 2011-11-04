@@ -9,7 +9,7 @@
 #include "Misc\TimeSpan.hpp"
 #include "Misc\DateTime.hpp"
 
-#include "Event\EventHandler.hpp"
+#include "Event\Event.hpp"
 
 #include "Cursor\Cursors.hpp"
 
