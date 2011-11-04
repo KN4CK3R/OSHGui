@@ -2,9 +2,9 @@
 #define OSHGUI_EVENT_EVENTHANDLER_HPP_
 
 #include <list>
-#include <memory>
 #include <functional>
 
+#include "EventFunction.hpp"
 #include "../Exports.hpp"
 
 namespace OSHGui
@@ -16,33 +16,32 @@ namespace OSHGui
 	class OSHGUI_EXPORT EventHandler
 	{
 	private:
-		typedef std::function<Signature> Handler;
-		
-		std::list<Handler> handlers;
+		std::list<EventFunction<Signature> > eventFunctions;
 
 	public:
 		/**
 		 * Registriert eine Funktion im EventHandler.
 		 *
-		 * @param handler
+		 * @param eventFunction
 		 */
-		void Add(const Handler &handler)
+		void Add(const EventFunction<Signature> &eventFunction)
 		{
-			handlers.push_back(handler);
+			eventFunctions.push_back(eventFunction);
 		}
 		
 		/**
 		 * Entfernt eine Funktion aus dem EventHandler.
 		 *
-		 * @param handler
+		 * @param eventFunction
 		 */
-		void Remove(const Handler &handler)
+		void Remove(const EventFunction<Signature> &eventFunction)
 		{
-			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end();)
+			typename std::list<EventFunction<Signature> >::iterator it = eventFunctions.begin();
+			while (it != eventFunctions.end())
 			{
-				if (*it == handler)
+				if (*it == eventFunction)
 				{
-					it = handlers.erase(it);
+					it = eventFunctions.erase(it);
 				}
 				else
 				{
@@ -54,22 +53,22 @@ namespace OSHGui
 		/**
 		 * Registriert eine Funktion im EventHandler.
 		 *
-		 * @param handler
+		 * @param eventFunction
 		 */
-		EventHandler& operator += (const Handler &handler)
+		EventHandler& operator += (const EventFunction<Signature> &eventFunction)
 		{
-			Add(handler);
+			Add(eventFunction);
 			return *this;
 		}
 		
 		/**
 		 * Entfernt eine Funktion aus dem EventHandler.
 		 *
-		 * @param handler
+		 * @param eventFunction
 		 */
-		EventHandler& operator -= (const Handler &handler)
+		EventHandler& operator -= (const EventFunction<Signature> &eventFunction)
 		{
-			Remove(handler);
+			Remove(eventFunction);
 			return *this;
 		}
 		
@@ -81,10 +80,10 @@ namespace OSHGui
 		template <typename T>
 		void Invoke(T&& param1)
 		{
-			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); ++it)
+			for (typename std::list<EventFunction<Signature> >::iterator it = eventFunctions.begin(); it != eventFunctions.end(); ++it)
 			{
-				Handler &handler = *it;
-				handler(std::forward<T>(param1));
+				EventFunction<Signature> &eventFunction = *it;
+				eventFunction.GetHandler()(std::forward<T>(param1));
 			}
 		}
 
@@ -97,10 +96,10 @@ namespace OSHGui
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)
 		{
-			for (std::list<Handler>::iterator it = handlers.begin(); it != handlers.end(); ++it)
+			for (typename std::list<EventFunction<Signature> >::iterator it = eventFunctions.begin(); it != eventFunctions.end(); ++it)
 			{
-				Handler &handler = *it;
-				handler(std::forward<T>(param1), std::forward<T2>(param2));
+				EventFunction<Signature> &eventFunction = *it;
+				eventFunction.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
 			}
 		}
 	};
