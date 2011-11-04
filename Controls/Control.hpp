@@ -6,24 +6,24 @@
 
 #include "../Exports.hpp"
 
-#include "..\Application.hpp"
+#include "../Application.hpp"
 
-#include "..\Drawing\Point.hpp"
-#include "..\Drawing\Size.hpp"
-#include "..\Drawing\Rectangle.hpp"
-#include "..\Drawing\IRenderer.hpp"
+#include "../Drawing/Point.hpp"
+#include "../Drawing/Size.hpp"
+#include "../Drawing/Rectangle.hpp"
+#include "../Drawing/IRenderer.hpp"
 
-#include "..\Misc\Strings.hpp"
-#include "..\Misc\Any.hpp"
+#include "../Misc/Strings.hpp"
+#include "../Misc/Any.hpp"
 
-#include "..\Event\KeyboardEvent.hpp"
-#include "..\Event\MouseEvent.hpp"
-#include "..\Event\EventHandler.hpp"
-#include "..\Event\KeyEventArgs.hpp"
-#include "..\Event\KeyPressEventArgs.hpp"
-#include "..\Event\MouseEventArgs.hpp"
+#include "../Event/KeyboardEvent.hpp"
+#include "../Event/MouseEvent.hpp"
+#include "../Event/EventHandler.hpp"
+#include "../Event/KeyEventArgs.hpp"
+#include "../Event/KeyPressEventArgs.hpp"
+#include "../Event/MouseEventArgs.hpp"
 
-#include "..\Cursor\Cursors.hpp"
+#include "../Cursor/Cursors.hpp"
 
 namespace OSHGui
 {
@@ -61,74 +61,92 @@ namespace OSHGui
 	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
 	 */
 	typedef EventHandler<void(Control*)> SelectedIndexChangedEvent;
+	typedef EventFunction<void(Control*)> SelectedIndexEventFunction;
 	/**
 	 * Tritt auf, wenn sich der Wert der Color-Eigenschaft ändert.
 	 */
 	typedef EventHandler<void(Control*)> ColorChangeEvent;
+	typedef EventFunction<void(Control*)> ColorChangeEventFunction;
 	/**
 	 * Tritt auf, wenn sich der Wert der Checked-Eigenschaft ändert.
 	 */
 	typedef EventHandler<void(Control*)> CheckedChangedEvent;
+	typedef EventFunction<void(Control*)> CheckedChangedEventFunction;
 	/**
 	 * Tritt auf, wenn sich der Wert der Text-Eigenschaft ändert.
 	 */
 	typedef EventHandler<void(Control*)> TextChangedEvent;
+	typedef EventFunction<void(Control*)> TextChangedEventFunction;
 	/**
 	 * Tritt auf, wenn das angegebene Intervall verstrichen ist.
 	 */
 	typedef EventHandler<void(Control*)> TickEvent;
+	typedef EventFunction<void(Control*)> TickEventFunction;
 	/**
 	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
 	 */
 	typedef EventHandler<void(Control*)> ScrollEvent;
+	typedef EventFunction<void(Control*)> ScrollEventFunction;
 	/**
 	 * Tritt auf, wenn eine Taste gedrückt wird.
 	 */
 	typedef EventHandler<void(Control*, KeyEventArgs&)> KeyDownEvent;
+	typedef EventFunction<void(Control*, KeyEventArgs&)> KeyDownEventFunction;
 	/**
 	 * Tritt auf, wenn das Steuerelement fokusiert ist und eine Taste gedrückt gehalten wird.
 	 */
 	typedef EventHandler<void(Control*, KeyPressEventArgs&)> KeyPressEvent;
+	typedef EventFunction<void(Control*, KeyPressEventArgs&)> KeyPressEventFunction;
 	/**
 	 * Tritt auf, wenn eine Taste losgelassen wird.
 	 */
 	typedef EventHandler<void(Control*, KeyEventArgs&)> KeyUpEvent;
+	typedef EventFunction<void(Control*, KeyEventArgs&)> KeyUpEventFunction;
 	/**
 	 * Tritt auf, wenn auf das Steuerelement geklickt wurde.
 	 */
 	typedef EventHandler<void(Control*)> ClickEvent;
+	typedef EventFunction<void(Control*)> ClickEventFunction;
 	/**
 	 * Tritt auf, wenn mit der Maus auf das Steuerelement geklickt wurde.
 	 */
 	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseClickEvent;
+	typedef EventFunction<void(Control*, MouseEventArgs&)> MouseClickEventFunction;
 	/**
 	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste gedrückt wurde.
 	 */
 	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseDownEvent;
+	typedef EventFunction<void(Control*, MouseEventArgs&)> MouseDownEventFunction;
 	/**
 	 * Tritt auf, wenn der Mauszeiger über das Steuerlement bewegt wird.
 	 */
 	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseMoveEvent;
+	typedef EventFunction<void(Control*, MouseEventArgs&)> MouseMoveEventFunction;
 	/**
 	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste losgelassen wurde.
 	 */
 	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseUpEvent;
+	typedef EventFunction<void(Control*, MouseEventArgs&)> MouseUpEventFunction;
 	/**
 	 * Tritt auf, wenn die Maus in den Bereich des Steuerlements bewegt wird.
 	 */
 	typedef EventHandler<void(Control*)> MouseEnterEvent;
+	typedef EventFunction<void(Control*)> MouseEnterEventFunction;
 	/**
 	 * Tritt auf, wenn die Maus den Bereich des Steuerlements verlässt.
 	 */
 	typedef EventHandler<void(Control*)> MouseLeaveEvent;
+	typedef EventFunction<void(Control*)> MouseLeaveEventFunction;
 	/**
 	 * Tritt auf, wenn das Steuerelement zu dem aktiven Steuerelement auf dem Formular wird.
 	 */
 	typedef EventHandler<void(Control*)> FocusInEvent;
+	typedef EventFunction<void(Control*)> FocusInEventFunction;
 	/**
 	 * Tritt auf, wenn das Steuerelement nicht mehr das aktive Steuerelement auf dem Formular ist.
 	 */
 	typedef EventHandler<void(Control*)> FocusOutEvent;
+	typedef EventFunction<void(Control*)> FocusOutEventFunction;
 
 	/**
 	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.

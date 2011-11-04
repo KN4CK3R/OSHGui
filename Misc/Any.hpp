@@ -51,7 +51,8 @@ namespace OSHGui
 				return id;
 			}
 			//---------------------------------------------------------------------------
-			template<class T> static unsigned int TypeID()
+			template<class T>
+			static unsigned int TypeID()
 			{
 				static unsigned int id = NextID();
 				return id;
