@@ -16,33 +16,33 @@ namespace OSHGui
 	class OSHGUI_EXPORT Event
 	{
 	private:
-		std::list<EventHandler<Signature> > eventFunctions;
+		std::list<EventHandler<Signature> > eventHandlers;
 
 	public:		
 		/**
-		 * Registriert eine Funktion im Event.
+		 * Registriert einen EventHandler.
 		 *
-		 * @param eventFunction
+		 * @param eventHandler
 		 */
-		Event& operator += (const EventHandler<Signature> &eventFunction)
+		Event& operator += (const EventHandler<Signature> &eventHandler)
 		{
-			eventFunctions.push_back(eventFunction);
+			eventHandlers.push_back(eventHandler);
 			return *this;
 		}
 		
 		/**
-		 * Entfernt eine Funktion aus dem Event.
+		 * Entfernt einen EventHandler.
 		 *
-		 * @param eventFunction
+		 * @param eventHandler
 		 */
-		Event& operator -= (const EventHandler<Signature> &eventFunction)
+		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
-			typename std::list<EventHandler<Signature> >::iterator it = eventFunctions.begin();
-			while (it != eventFunctions.end())
+			typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin();
+			while (it != eventHandlers.end())
 			{
-				if (*it == eventFunction)
+				if (*it == eventHandler)
 				{
-					it = eventFunctions.erase(it);
+					it = eventHandlers.erase(it);
 				}
 				else
 				{
@@ -53,22 +53,22 @@ namespace OSHGui
 		}
 		
 		/**
-		 * Ruft alle registrierten Funktionen auf.
+		 * Ruft alle registrierten EventHandler auf.
 		 *
 		 * @param param1 Funktionsparameter
 		 */
 		template <typename T>
 		void Invoke(T&& param1)
 		{
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventFunctions.begin(); it != eventFunctions.end(); ++it)
+			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end(); ++it)
 			{
-				EventHandler<Signature> &eventFunction = *it;
-				eventFunction.GetHandler()(std::forward<T>(param1));
+				EventHandler<Signature> &eventHandler = *it;
+				eventHandler.GetHandler()(std::forward<T>(param1));
 			}
 		}
 
 		/**
-		 * Ruft alle registrierten Funktionen auf.
+		 * Ruft alle registrierten EventHandler auf.
 		 *
 		 * @param param1 Funktionsparameter
 		 * @param param2 Funktionsparameter
@@ -76,10 +76,10 @@ namespace OSHGui
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)
 		{
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventFunctions.begin(); it != eventFunctions.end(); ++it)
+			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end(); ++it)
 			{
-				EventHandler<Signature> &eventFunction = *it;
-				eventFunction.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
+				EventHandler<Signature> &eventHandler = *it;
+				eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
 			}
 		}
 	};
