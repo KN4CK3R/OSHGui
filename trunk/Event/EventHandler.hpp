@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_EVENTFUNCTION_HPP_
-#define OSHGUI_EVENT_EVENTFUNCTION_HPP_
+#ifndef OSHGUI_EVENT_EVENTHANDLER_HPP_
+#define OSHGUI_EVENT_EVENTHANDLER_HPP_
 
 #include <functional>
 
@@ -7,6 +7,9 @@
 
 namespace OSHGui
 {
+	/**
+	 * Stellt die Methode dar, die ein Ereignis behandelt.
+	 */
 	template <typename Signature>
 	class OSHGUI_EXPORT EventHandler
 	{
@@ -23,6 +26,11 @@ namespace OSHGui
 		}
 		
 	public:
+		/**
+		 * Konstruktor der Klasse.
+		 *
+		 * @param handler die gebundene Funktion
+		 */
 		EventHandler(const Handler &handler)
 		{
 			id = NextID();
@@ -34,6 +42,11 @@ namespace OSHGui
 			return id == eventFunction.id;
 		}
 		
+		/**
+		 * Ruft die gebundene Funktion ab.
+		 *
+		 * @return handler
+		 */
 		Handler& GetHandler()
 		{
 			return handler;
