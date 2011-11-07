@@ -69,7 +69,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -86,7 +86,7 @@ namespace OSHGui
 				{
 					pressed = true;
 			
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -105,7 +105,7 @@ namespace OSHGui
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
-					if (pressed && hasFocus)
+					if (pressed && isFocused)
 					{
 						SetChecked(true);
 						
@@ -159,7 +159,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void RadioButton::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

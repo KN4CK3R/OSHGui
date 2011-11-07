@@ -46,7 +46,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Button::CanHaveFocus() const
 	{
-		return visible && enabled;
+		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
 	void Button::Invalidate()
@@ -72,7 +72,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -89,7 +89,7 @@ namespace OSHGui
 				{
 					pressed = true;
 				
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -115,7 +115,7 @@ namespace OSHGui
 				}
 				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
-					if (pressed && hasFocus)
+					if (pressed && isFocused)
 					{
 						pressed = false;
 					
@@ -151,7 +151,7 @@ namespace OSHGui
 				{
 					clickEvent.Invoke(this);
 				}
-				else if (hasFocus)
+				else if (isFocused)
 				{
 					KeyPressEventArgs args(keyboard);
 					keyPressEvent.Invoke(this, args);
@@ -176,14 +176,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}
 		
 		Drawing::Color tempColor = backColor;
 
-		if ((hasFocus || mouseOver) && !(hasFocus && pressed))
+		if ((isFocused || mouseOver) && !(isFocused && pressed))
 		{
 			tempColor += mouseOverFocusColor;
 		}

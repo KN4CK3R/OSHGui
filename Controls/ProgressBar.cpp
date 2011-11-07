@@ -110,7 +110,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ProgressBar::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

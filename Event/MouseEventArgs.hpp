@@ -21,6 +21,12 @@ namespace OSHGui
 			State = mouseEvent->State;
 			Position = mouseEvent->Position;
 		}
+
+		MouseEventArgs(const MouseEvent &mouseEvent)
+		{
+			State = mouseEvent.State;
+			Position = mouseEvent.Position;
+		}
 	};
 }
 

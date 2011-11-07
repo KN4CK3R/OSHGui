@@ -13,7 +13,7 @@ namespace OSHGui
 	{
 		type = CONTROL_TIMER;
 
-		enabled = false;
+		isEnabled = false;
 		interval = 100L;
 	}
 	//---------------------------------------------------------------------------
@@ -24,11 +24,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Timer::SetEnabled(bool enabled)
+	void Timer::SetEnabled(bool isEnabled)
 	{
-		if (this->enabled != enabled)
+		if (this->isEnabled != isEnabled)
 		{
-			if (enabled == true)
+			if (isEnabled == true)
 			{
 				Application::timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
 			}
@@ -37,13 +37,13 @@ namespace OSHGui
 				Application::timerManager.UnregisterTimer(this);
 			}
 			
-			this->enabled = enabled;
+			this->isEnabled = isEnabled;
 		}
 	}
 	//---------------------------------------------------------------------------
 	bool Timer::GetEnabled() const
 	{
-		return enabled;
+		return isEnabled;
 	}
 	//---------------------------------------------------------------------------
 	void Timer::SetInterval(long interval)
@@ -53,7 +53,7 @@ namespace OSHGui
 			if (interval > 0)
 			{
 				this->interval = interval;
-				if (enabled)
+				if (isEnabled)
 				{
 					Application::timerManager.UnregisterTimer(this);
 					Application::timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));

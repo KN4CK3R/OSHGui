@@ -59,7 +59,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool CheckBox::CanHaveFocus() const
 	{
-		return visible && enabled;
+		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
 	void CheckBox::Invalidate()
@@ -102,7 +102,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -119,7 +119,7 @@ namespace OSHGui
 				{
 					pressed = true;
 			
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -138,7 +138,7 @@ namespace OSHGui
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
-					if (pressed && hasFocus)
+					if (pressed && isFocused)
 					{
 						SetChecked(!GetChecked());
 						
@@ -192,7 +192,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void CheckBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

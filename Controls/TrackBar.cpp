@@ -79,7 +79,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool TrackBar::CanHaveFocus() const
 	{
-		return enabled && visible;
+		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
 	bool TrackBar::ContainsPoint(const Drawing::Point &point) const
@@ -139,7 +139,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -156,7 +156,7 @@ namespace OSHGui
 				{
 					pressed = true;
 
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -171,7 +171,7 @@ namespace OSHGui
 				{
 					pressed = true;
 					
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -254,7 +254,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}
@@ -265,7 +265,7 @@ namespace OSHGui
 			renderer->Fill(bounds);
 		}
 
-		renderer->SetRenderColor(hasFocus || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
+		renderer->SetRenderColor(isFocused || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
 		int halfWidth = trackbarSliderWidth / 2;

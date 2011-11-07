@@ -185,7 +185,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ColorPicker::CanHaveFocus() const
 	{
-		return enabled && visible;
+		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
 	bool ColorPicker::ContainsPoint(const Drawing::Point &point) const
@@ -228,7 +228,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -262,7 +262,7 @@ namespace OSHGui
 				{
 					drag = true;
 
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -316,7 +316,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

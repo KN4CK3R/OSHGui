@@ -10,6 +10,7 @@
 
 namespace OSHGui
 {
+	class Control;
 	class Form;
 	class Timer;
 	class FormManager;
@@ -77,7 +78,7 @@ namespace OSHGui
 		static void Render();
 
 	private:
-		static bool enabled;
+		static bool isEnabled;
 		
 		static Drawing::IRenderer *renderer;
 	
@@ -92,6 +93,8 @@ namespace OSHGui
 			std::shared_ptr<Cursor> Cursor;
 		} MouseInfo;
 		static MouseInfo mouse;
+		static Control *FocusedControl;
+		static Control *MouseEnteredControl;
 	};
 }
 

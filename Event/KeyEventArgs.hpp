@@ -29,6 +29,16 @@ namespace OSHGui
 			Shift = keyboardEvent->Shift;
 			Handled = false;
 		}
+
+		KeyEventArgs(const KeyboardEvent &keyboardEvent)
+		{
+			KeyCode = keyboardEvent.KeyCode;
+			KeyChar = keyboardEvent.KeyChar;
+			Menu = keyboardEvent.Menu;
+			Control = keyboardEvent.Control;
+			Shift = keyboardEvent.Shift;
+			Handled = false;
+		}
 	};
 }
 

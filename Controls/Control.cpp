@@ -16,7 +16,7 @@ namespace OSHGui
 		SetVisible(true);
 				
 		mouseOver = false;
-		hasFocus = false;
+		isFocused = false;
 
 		focusControl = 0;
 		mouseOverControl = 0;
@@ -46,29 +46,29 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Control::SetEnabled(bool enabled)
+	void Control::SetEnabled(bool isEnabled)
 	{
-		this->enabled = enabled;
+		this->isEnabled = isEnabled;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled() const
 	{
-		return enabled;
+		return isEnabled;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetVisible(bool visible)
+	void Control::SetVisible(bool isVisible)
 	{
-		this->visible = visible;
+		this->isVisible = isVisible;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetVisible() const
 	{
-		return visible;
+		return isVisible;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetFocus(bool focus)
 	{
-		hasFocus = focus;
+		isFocused = focus;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetMouseOver(bool mouseOver)
@@ -467,11 +467,11 @@ namespace OSHGui
 		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusOutEvent.Invoke(this);
+			baseParent->focusControl->focusLostEvent.Invoke(this);
 		}
 		
 		control->SetFocus(true);
-		control->focusInEvent.Invoke(this);
+		control->focusGotEvent.Invoke(this);
 		baseParent->focusControl = control;
 	}
 	//---------------------------------------------------------------------------
@@ -487,12 +487,142 @@ namespace OSHGui
 		if (baseParent->focusControl != 0)
 		{
 			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusOutEvent.Invoke(this);
+			baseParent->focusControl->focusLostEvent.Invoke(this);
 			baseParent->focusControl = 0;
 		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
+	//---------------------------------------------------------------------------
+	bool Control::OnMouseDown(const MouseEvent &mouse)
+	{
+		if (canRaiseEvents && ContainsPoint(mouse.Position))
+		{
+			if (mouse.State == MouseEvent::LeftDown && !isClicked && isEnabled)
+			{
+				MouseEventArgs args(mouse);
+				mouseDownEvent.Invoke(this, args);
+
+				if (isFocusable && !isFocused)
+				{
+					OnGotFocus();
+				}
+			}
+
+			return true;
+		}
+		
+		return false;
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnMouseUp(const MouseEvent &mouse)
+	{
+		if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
+		{
+			if (isClicked)
+			{
+				if (mouse.State != MouseEvent::Unknown)
+				{
+					MouseEventArgs args(mouse);
+					mouseClickEvent.Invoke(this, args);
+				}
+			}
+			MouseEventArgs args(mouse);
+			mouseUpEvent.Invoke(this, args);
+			
+			return true;
+		}
+	
+		return false;
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnMouseMove(const MouseEvent &mouse)
+	{
+		if (hasCaptured || ContainsPoint(mouse.Position))
+		{
+			if (canRaiseEvents)
+			{
+				if (!isInside)
+				{
+					OnMouseEnter(mouse);
+				}
+
+				if (mouse.Delta != 0)
+				{
+					MouseEventArgs args(mouse);
+					//mouseScrollEvent.Invoke(this, args);
+				}
+
+				MouseEventArgs args(mouse);
+				mouseMoveEvent.Invoke(this, args);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnMouseEnter(const MouseEvent &mouse)
+	{
+		isInside = true;
+
+		if (Application::MouseEnteredControl->isInside)
+		{
+			Application::MouseEnteredControl->OnMouseLeave(mouse);
+		}
+		Application::MouseEnteredControl = this;
+
+		MouseEventArgs args(mouse);
+		mouseEnterEvent.Invoke(this, args);
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnMouseLeave(const MouseEvent &mouse)
+	{
+		isInside = false;
+
+		MouseEventArgs args(mouse);
+		mouseLeaveEvent.Invoke(this, args);
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnGotFocus()
+	{
+		if (Application::FocusedControl != 0 && this != Application::FocusedControl)
+		{
+			Application::FocusedControl->OnLostFocus();
+
+			Application::FocusedControl = this;
+			isFocused = true;
+
+			focusGotEvent.Invoke(this);
+		}
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnLostFocus()
+	{
+		isFocused = isClicked = false;
+		Application::FocusedControl = 0;
+
+		focusLostEvent.Invoke(this);
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnKeyDown(const KeyboardEvent &keyboard)
+	{
+		KeyEventArgs args(keyboard);
+		//keyDownEvent.Invoke(this, args);
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnKeyPress(const KeyboardEvent &keyboard)
+	{
+		KeyEventArgs args(keyboard);
+		//keyPressEvent.Invoke(this, args);
+	}
+	//---------------------------------------------------------------------------
+	bool Control::OnKeyUp(const KeyboardEvent &keyboard)
+	{
+		KeyEventArgs args(keyboard);
+		//keyUoEvent.Invoke(this, args);
+	}
 	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Control::ProcessEvent(IEvent *event)
 	{
@@ -571,7 +701,7 @@ namespace OSHGui
 		for (unsigned int i = 0; i < controls.size(); ++i)
 		{
 			Control *control = controls[i];
-			if (control->hasFocus)
+			if (control->isFocused)
 			{
 				focusedControl = control;
 			}

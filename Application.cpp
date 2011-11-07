@@ -8,7 +8,7 @@
 
 namespace OSHGui
 {
-	bool Application::enabled = false;
+	bool Application::isEnabled = false;
 	Drawing::IRenderer *Application::renderer = 0;
 	Application::MouseInfo Application::mouse;
 	Misc::DateTime Application::now = Misc::DateTime::GetNow();
@@ -39,7 +39,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
-		enabled = true;
+		isEnabled = true;
 
 		std::shared_ptr<Form> mainForm = formManager.GetMainForm();
 		if (mainForm != 0)
@@ -53,12 +53,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Disable()
 	{
-		enabled = false;
+		isEnabled = false;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Toggle()
 	{
-		if (enabled)
+		if (isEnabled)
 		{
 			Disable();
 		}
@@ -92,7 +92,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 		
-		if (!enabled)
+		if (!isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -119,7 +119,7 @@ namespace OSHGui
 			throw Misc::InvalidOperationException(L"Call Application::Create first.", __WFILE__, __LINE__);
 		}
 	
-		if (!enabled)
+		if (!isEnabled)
 		{
 			return;
 		}

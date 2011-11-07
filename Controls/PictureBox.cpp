@@ -48,7 +48,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool PictureBox::CanHaveFocus() const
 	{
-		return visible && enabled;
+		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
 	bool PictureBox::ContainsPoint(const Drawing::Point &point) const
@@ -85,7 +85,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -142,7 +142,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void PictureBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}
