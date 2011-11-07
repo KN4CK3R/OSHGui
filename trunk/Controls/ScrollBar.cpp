@@ -15,7 +15,7 @@ namespace OSHGui
 		type = CONTROL_SCROLLBAR;
 		
 		drag = false;
-		visible = false;
+		isVisible = false;
 				
 		position = 0;
 		range = 1;
@@ -90,11 +90,11 @@ namespace OSHGui
 			
 			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, scrollbarDefaultButtonWidth, sliderHeight);
 			
-			visible = true;
+			isVisible = true;
 		}
 		else
 		{
-			visible = false;
+			isVisible = false;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -121,7 +121,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ScrollBar::ShowItem(int index)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return false;
 		}
@@ -159,7 +159,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -276,7 +276,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

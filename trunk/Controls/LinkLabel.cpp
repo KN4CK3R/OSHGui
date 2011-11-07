@@ -23,7 +23,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void LinkLabel::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

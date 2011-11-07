@@ -69,7 +69,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool TextBox::CanHaveFocus() const
 	{
-		return enabled && visible;
+		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
 	bool TextBox::ContainsPoint(const Drawing::Point &point) const
@@ -156,7 +156,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -171,7 +171,7 @@ namespace OSHGui
 			{
 				if (mouse->State == MouseEvent::LeftDown)
 				{
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -285,7 +285,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}
@@ -304,7 +304,7 @@ namespace OSHGui
 			nextBlinkTime = Application::GetNow().Add(blinkTime);
 		}
 
-		if (hasFocus && showCaret)
+		if (isFocused && showCaret)
 		{
 			renderer->Fill(caretRect);
 		}

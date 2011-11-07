@@ -13,8 +13,8 @@ namespace OSHGui
 	{
 		type = CONTROL_FORM;
 		
-		visible = false;
-		enabled = false;
+		isVisible = false;
+		isEnabled = false;
 		drag = false;
 		isModal = false;
 
@@ -79,8 +79,8 @@ namespace OSHGui
 	
 		Application::formManager.RegisterForm(this->instance.lock());
 
-		visible = true;
-		enabled = true;
+		isVisible = true;
+		isEnabled = true;
 	}
 	//---------------------------------------------------------------------------
 	void Form::ShowDialog(const std::shared_ptr<Form> &instance)
@@ -96,8 +96,8 @@ namespace OSHGui
 	
 		Application::formManager.RegisterForm(this->instance.lock(), closeFunction);
 
-		visible = true;
-		enabled = true;
+		isVisible = true;
+		isEnabled = true;
 	}
 	//---------------------------------------------------------------------------
 	void Form::Close()
@@ -114,7 +114,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -225,7 +225,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

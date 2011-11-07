@@ -76,7 +76,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::CanHaveFocus() const
 	{
-		return visible && enabled;
+		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::ContainsPoint(const Drawing::Point &point) const
@@ -184,7 +184,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 
-		if (!visible || !enabled)
+		if (!isVisible || !isEnabled)
 		{
 			return IEvent::Continue;
 		}
@@ -199,7 +199,7 @@ namespace OSHGui
 			{
 				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //clientArea
 				{
-					if (!hasFocus)
+					if (!isFocused)
 					{
 						parent->RequestFocus(this);
 					}
@@ -216,7 +216,7 @@ namespace OSHGui
 			}
 			else if (mouse->State == MouseEvent::Scroll)
 			{
-				if (!hasFocus)
+				if (!isFocused)
 				{
 					mouse->Position = mousePositionBackup;
 
@@ -392,7 +392,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (!visible)
+		if (!isVisible)
 		{
 			return;
 		}

@@ -140,13 +140,13 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn das Steuerelement zu dem aktiven Steuerelement auf dem Formular wird.
 	 */
-	typedef Event<void(Control*)> FocusInEvent;
-	typedef EventHandler<void(Control*)> FocusInEventHandler;
+	typedef Event<void(Control*)> FocusGotEvent;
+	typedef EventHandler<void(Control*)> FocusGotEventHandler;
 	/**
 	 * Tritt auf, wenn das Steuerelement nicht mehr das aktive Steuerelement auf dem Formular ist.
 	 */
-	typedef Event<void(Control*)> FocusOutEvent;
-	typedef EventHandler<void(Control*)> FocusOutEventHandler;
+	typedef Event<void(Control*)> FocusLostEvent;
+	typedef EventHandler<void(Control*)> FocusLostEventHandler;
 
 	/**
 	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.
@@ -166,27 +166,27 @@ namespace OSHGui
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
-		 * @param enabled
+		 * @param isEnabled
 		 */
-		void SetEnabled(bool enabled);
+		void SetEnabled(bool isEnabled);
 		/**
 		 * Ruft ab, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
-		 * @return enabled
+		 * @return isEnabled
 		 */
 		bool GetEnabled() const;
 		/**
 		 * Legt fest, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
 		 *
-		 * @param visible
+		 * @param isVisible
 		 */
-		void SetVisible(bool visible);
+		void SetVisible(bool isVisible);
 		/**
 		 * Ruft ab, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
 		 *
-		 * @return visible
+		 * @return isVisible
 		 */
 		bool GetVisible() const;
 		
@@ -442,17 +442,17 @@ namespace OSHGui
 		 */
 		MouseLeaveEvent& GetMouseLeaveEvent();
 		/**
-		 * Ruft das FocusInEvent für das Steuerelement ab.
+		 * Ruft das FocusGotEvent für das Steuerelement ab.
 		 *
 		 * @return forcusInEvent
 		 */
-		FocusInEvent& GetFocusInEvent();
+		FocusGotEvent& GetFocusGotEvent();
 		/**
-		 * Ruft das FocusOutEvent für das Steuerelement ab.
+		 * Ruft das FocusLostEvent für das Steuerelement ab.
 		 *
 		 * @return forcusOutEvent
 		 */
-		FocusOutEvent& GetFocusOutEvent();
+		FocusLostEvent& GetFocusLostEvent();
 
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -574,17 +574,32 @@ namespace OSHGui
 
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);
+
+		virtual bool OnMouseDown(const MouseEvent &mouse);
+		virtual bool OnMouseUp(const MouseEvent &mouse);
+		virtual bool OnMouseMove(const MouseEvent &mouse);
+		virtual bool OnMouseEnter(const MouseEvent &mouse);
+		virtual bool OnMouseLeave(const MouseEvent &mouse);
+		virtual bool OnGotFocus();
+		virtual bool OnLostFocus();
+		virtual bool OnKeyDown(const KeyboardEvent &keyboard);
+		virtual bool OnKeyPress(const KeyboardEvent &keyboard);
+		virtual bool OnKeyUp(const KeyboardEvent &keyboard);
 		
 		CONTROL_TYPE type;
 		
 		Misc::UnicodeString name;
 	
-		bool enabled,
-			 needRepaint,
-			 visible,
-			 mouseOver,
-			 hasFocus,
-			 autoSize;
+		bool canRaiseEvents;
+		bool isEnabled;
+		bool isVisible;
+		bool isClicked;
+		bool isFocusable;
+		bool isFocused;
+		bool hasCaptured;
+		bool isInside; //vvvv löschen
+		bool mouseOver;
+		bool autoSize;
 			 
 		Misc::Any tag;
 		
@@ -598,8 +613,8 @@ namespace OSHGui
 		MouseUpEvent mouseUpEvent;
 		MouseEnterEvent mouseEnterEvent;
 		MouseLeaveEvent mouseLeaveEvent;
-		FocusInEvent focusInEvent;
-		FocusOutEvent focusOutEvent;
+		FocusGotEvent focusGotEvent;
+		FocusLostEvent focusLostEvent;
 		
 		Drawing::Color foreColor,
 					   backColor,

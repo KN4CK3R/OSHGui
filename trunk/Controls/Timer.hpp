@@ -20,13 +20,13 @@ namespace OSHGui
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
-		 * @param enabled
+		 * @param isEnabled
 		 */
-		void SetEnabled(bool enabled);
+		void SetEnabled(bool isEnabled);
 		/**
 		 * Ruft ab, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
-		 * @return enabled
+		 * @return isEnabled
 		 */
 		bool GetEnabled() const;
 		/**
@@ -58,7 +58,7 @@ namespace OSHGui
 		void Stop();
 
 	protected:
-		bool enabled;
+		bool isEnabled;
 		long interval;
 
 		TickEvent tickEvent;
