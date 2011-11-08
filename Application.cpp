@@ -14,6 +14,9 @@ namespace OSHGui
 	Misc::DateTime Application::now = Misc::DateTime::GetNow();
 	FormManager Application::formManager;
 	TimerManager Application::timerManager;
+	Control *Application::FocusedControl = 0;
+	Control *Application::CapturedControl = 0;
+	Control *Application::MouseEnteredControl = 0;
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
 	{

@@ -35,24 +35,6 @@ namespace OSHGui
 		 */
 		const Misc::UnicodeString& GetText() const;
 		/**
-		 * Ruft das KeyDownEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyDownEvent& GetKeyDownEvent();
-		/**
-		 * Ruft das KeyPressEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyPressEvent& GetKeyPressEvent();
-		/**
-		 * Ruft das KeyUpEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyUpEvent& GetKeyUpEvent();
-		/**
 		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
 		 * @return textChangedEvent
@@ -110,9 +92,6 @@ namespace OSHGui
 		int caretPosition,
 			firstVisibleCharacter;
 
-		KeyDownEvent keyDownEvent;
-		KeyPressEvent keyPressEvent;
-		KeyUpEvent keyUpEvent;
 		TextChangedEvent textChangedEvent;
 	};
 }

@@ -118,6 +118,11 @@ namespace OSHGui
 	typedef Event<void(Control*, MouseEventArgs&)> MouseDownEvent;
 	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseDownEventHandler;
 	/**
+	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste losgelassen wurde.
+	 */
+	typedef Event<void(Control*, MouseEventArgs&)> MouseUpEvent;
+	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseUpEventHandler;
+	/**
 	 * Tritt auf, wenn der Mauszeiger über das Steuerlement bewegt wird.
 	 */
 	typedef Event<void(Control*, MouseEventArgs&)> MouseMoveEvent;
@@ -125,8 +130,8 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn sich der Mauszeiger über dem Steuerlement befindet und eine Maustaste losgelassen wurde.
 	 */
-	typedef Event<void(Control*, MouseEventArgs&)> MouseUpEvent;
-	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseUpEventHandler;
+	typedef Event<void(Control*, MouseEventArgs&)> MouseScrollEvent;
+	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseScrollEventHandler;
 	/**
 	 * Tritt auf, wenn die Maus in den Bereich des Steuerlements bewegt wird.
 	 */
@@ -412,23 +417,29 @@ namespace OSHGui
 		 */
 		MouseClickEvent& GetMouseClickEvent();
 		/**
-		 * Ruft das MouseClickEvent für das Steuerelement ab.
+		 * Ruft das MouseDownEvent für das Steuerelement ab.
 		 *
-		 * @return mouseClickEvent
+		 * @return mouseDownEvent
 		 */
 		MouseDownEvent& GetMouseDownEvent();
 		/**
-		 * Ruft das MouseClickEvent für das Steuerelement ab.
+		 * Ruft das MouseUpEvent für das Steuerelement ab.
 		 *
-		 * @return mouseClickEvent
+		 * @return mouseUpEvent
+		 */
+		MouseUpEvent& GetMouseUpEvent();
+		/**
+		 * Ruft das MouseMoveEvent für das Steuerelement ab.
+		 *
+		 * @return mouseMoveEvent
 		 */
 		MouseMoveEvent& GetMouseMoveEvent();
 		/**
-		 * Ruft das MouseClickEvent für das Steuerelement ab.
+		 * Ruft das MouseScrollEvent für das Steuerelement ab.
 		 *
-		 * @return mouseClickEvent
+		 * @return mouseScrollEvent
 		 */
-		MouseUpEvent& GetMouseUpEvent();
+		MouseScrollEvent& GetMouseScrollEvent();
 		/**
 		 * Ruft das MouseEnterEvent für das Steuerelement ab.
 		 *
@@ -441,6 +452,24 @@ namespace OSHGui
 		 * @return mouseLeaveEvent
 		 */
 		MouseLeaveEvent& GetMouseLeaveEvent();
+		/**
+		 * Ruft das KeyDownEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyDownEvent& GetKeyDownEvent();
+		/**
+		 * Ruft das KeyPressEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyPressEvent& GetKeyPressEvent();
+		/**
+		 * Ruft das KeyUpEvent für das Steuerelement ab.
+		 *
+		 * @return keyPressEvent
+		 */
+		KeyUpEvent& GetKeyUpEvent();
 		/**
 		 * Ruft das FocusGotEvent für das Steuerelement ab.
 		 *
@@ -578,13 +607,13 @@ namespace OSHGui
 		virtual bool OnMouseDown(const MouseEvent &mouse);
 		virtual bool OnMouseUp(const MouseEvent &mouse);
 		virtual bool OnMouseMove(const MouseEvent &mouse);
-		virtual bool OnMouseEnter(const MouseEvent &mouse);
-		virtual bool OnMouseLeave(const MouseEvent &mouse);
-		virtual bool OnGotFocus();
-		virtual bool OnLostFocus();
-		virtual bool OnKeyDown(const KeyboardEvent &keyboard);
-		virtual bool OnKeyPress(const KeyboardEvent &keyboard);
-		virtual bool OnKeyUp(const KeyboardEvent &keyboard);
+		virtual void OnMouseEnter(const MouseEvent &mouse);
+		virtual void OnMouseLeave(const MouseEvent &mouse);
+		virtual void OnGotFocus();
+		virtual void OnLostFocus();
+		virtual void OnKeyDown(const KeyboardEvent &keyboard);
+		virtual void OnKeyPress(const KeyboardEvent &keyboard);
+		virtual void OnKeyUp(const KeyboardEvent &keyboard);
 		
 		CONTROL_TYPE type;
 		
@@ -609,10 +638,14 @@ namespace OSHGui
 		ClickEvent clickEvent;
 		MouseClickEvent mouseClickEvent;
 		MouseDownEvent mouseDownEvent;
-		MouseMoveEvent mouseMoveEvent;
 		MouseUpEvent mouseUpEvent;
+		MouseMoveEvent mouseMoveEvent;
+		MouseScrollEvent mouseScrollEvent;
 		MouseEnterEvent mouseEnterEvent;
 		MouseLeaveEvent mouseLeaveEvent;
+		KeyDownEvent keyDownEvent;
+		KeyPressEvent keyPressEvent;
+		KeyUpEvent keyUpEvent;
 		FocusGotEvent focusGotEvent;
 		FocusLostEvent focusLostEvent;
 		
