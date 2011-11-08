@@ -94,6 +94,7 @@ namespace OSHGui
 		} MouseInfo;
 		static MouseInfo mouse;
 		static Control *FocusedControl;
+		static Control *CapturedControl;
 		static Control *MouseEnteredControl;
 	};
 }

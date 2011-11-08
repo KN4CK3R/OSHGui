@@ -148,6 +148,11 @@ namespace OSHGui
 		{
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
+
+		if (forms.size() == 0)
+		{
+			return IEvent::Continue;
+		}
 		
 		if (forms.size() > 0)
 		{
