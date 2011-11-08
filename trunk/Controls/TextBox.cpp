@@ -45,21 +45,6 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
-	KeyDownEvent& TextBox::GetKeyDownEvent()
-	{
-		return keyDownEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyPressEvent& TextBox::GetKeyPressEvent()
-	{
-		return keyPressEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyUpEvent& TextBox::GetKeyUpEvent()
-	{
-		return keyUpEvent;
-	}
-	//---------------------------------------------------------------------------
 	TextChangedEvent& TextBox::GetTextChangedEvent()
 	{
 		return textChangedEvent;

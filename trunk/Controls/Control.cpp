@@ -308,14 +308,19 @@ namespace OSHGui
 		return mouseDownEvent;
 	}
 	//---------------------------------------------------------------------------
+	MouseUpEvent& Control::GetMouseUpEvent()
+	{
+		return mouseUpEvent;
+	}
+	//---------------------------------------------------------------------------
 	MouseMoveEvent& Control::GetMouseMoveEvent()
 	{
 		return mouseMoveEvent;
 	}
 	//---------------------------------------------------------------------------
-	MouseUpEvent& Control::GetMouseUpEvent()
+	MouseScrollEvent& Control::GetMouseScrollEvent()
 	{
-		return mouseUpEvent;
+		return mouseScrollEvent;
 	}
 	//---------------------------------------------------------------------------
 	MouseEnterEvent& Control::GetMouseEnterEvent()
@@ -326,6 +331,21 @@ namespace OSHGui
 	MouseLeaveEvent& Control::GetMouseLeaveEvent()
 	{
 		return mouseLeaveEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyDownEvent& Control::GetKeyDownEvent()
+	{
+		return keyDownEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyPressEvent& Control::GetKeyPressEvent()
+	{
+		return keyPressEvent;
+	}
+	//---------------------------------------------------------------------------
+	KeyUpEvent& Control::GetKeyUpEvent()
+	{
+		return keyUpEvent;
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const
@@ -550,7 +570,7 @@ namespace OSHGui
 				if (mouse.Delta != 0)
 				{
 					MouseEventArgs args(mouse);
-					//mouseScrollEvent.Invoke(this, args);
+					mouseScrollEvent.Invoke(this, args);
 				}
 
 				MouseEventArgs args(mouse);
@@ -563,7 +583,7 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnMouseEnter(const MouseEvent &mouse)
+	void Control::OnMouseEnter(const MouseEvent &mouse)
 	{
 		isInside = true;
 
@@ -573,19 +593,17 @@ namespace OSHGui
 		}
 		Application::MouseEnteredControl = this;
 
-		MouseEventArgs args(mouse);
-		mouseEnterEvent.Invoke(this, args);
+		mouseEnterEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnMouseLeave(const MouseEvent &mouse)
+	void Control::OnMouseLeave(const MouseEvent &mouse)
 	{
 		isInside = false;
 
-		MouseEventArgs args(mouse);
-		mouseLeaveEvent.Invoke(this, args);
+		mouseLeaveEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnGotFocus()
+	void Control::OnGotFocus()
 	{
 		if (Application::FocusedControl != 0 && this != Application::FocusedControl)
 		{
@@ -598,7 +616,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnLostFocus()
+	void Control::OnLostFocus()
 	{
 		isFocused = isClicked = false;
 		Application::FocusedControl = 0;
@@ -606,27 +624,87 @@ namespace OSHGui
 		focusLostEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnKeyDown(const KeyboardEvent &keyboard)
+	void Control::OnKeyDown(const KeyboardEvent &keyboard)
 	{
 		KeyEventArgs args(keyboard);
-		//keyDownEvent.Invoke(this, args);
+		keyDownEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnKeyPress(const KeyboardEvent &keyboard)
+	void Control::OnKeyPress(const KeyboardEvent &keyboard)
 	{
-		KeyEventArgs args(keyboard);
-		//keyPressEvent.Invoke(this, args);
+		KeyPressEventArgs args(keyboard);
+		keyPressEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	bool Control::OnKeyUp(const KeyboardEvent &keyboard)
+	void Control::OnKeyUp(const KeyboardEvent &keyboard)
 	{
 		KeyEventArgs args(keyboard);
-		//keyUoEvent.Invoke(this, args);
+		keyUpEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Control::ProcessEvent(IEvent *event)
 	{
-		return IEvent::DontContinue;
+		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		{
+			Control &child = *(*it);
+			if (child.ProcessEvent(event) == IEvent::DontContinue)
+			{
+				return IEvent::DontContinue;
+			}
+		}
+
+		switch (event->Type)
+		{
+			case IEvent::Mouse:
+				{
+					MouseEvent &mouse = *(MouseEvent*)event;
+
+					switch (mouse.State)
+					{
+						case MouseEvent::LeftDown:
+						case MouseEvent::RightDown:
+							if (OnMouseDown(mouse))
+							{
+								return IEvent::DontContinue;
+							}
+							break;
+						case MouseEvent::LeftUp:
+						case MouseEvent::RightUp:
+							if (OnMouseUp(mouse))
+							{
+								return IEvent::DontContinue;
+							}
+							break;
+						case MouseEvent::Move:
+						case MouseEvent::Scroll:
+							if (OnMouseMove(mouse))
+							{
+								return IEvent::DontContinue;
+							}
+							break;
+					}
+				}
+				break;
+			case IEvent::Keyboard:
+				{
+					KeyboardEvent &keyboard = *(KeyboardEvent*)event;
+					switch (keyboard.State)
+					{
+						case KeyboardEvent::KeyDown:
+							OnKeyDown(keyboard);
+							return IEvent::DontContinue;
+						case KeyboardEvent::KeyUp:
+							OnKeyUp(keyboard);
+							return IEvent::DontContinue;
+						case KeyboardEvent::Character:
+							OnKeyPress(keyboard);
+							return IEvent::DontContinue;
+					}
+				}
+				break;
+		}
+
+		return IEvent::Continue;
 	}
 	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Control::ChildProcessEvent(IEvent *event)
@@ -654,7 +732,7 @@ namespace OSHGui
 			if (control != mouseOverControl && mouseOverControl != 0)
 			{
 				mouseOverControl->SetMouseOver(false);
-				mouseOverControl->mouseLeaveEvent.Invoke(this);
+				//mouseOverControl->mouseLeaveEvent.Invoke(this);
 				mouseOverControl = 0;
 			}
 
@@ -662,7 +740,7 @@ namespace OSHGui
 			{
 				mouseOverControl = control;
 				mouseOverControl->SetMouseOver(true);
-				mouseOverControl->mouseEnterEvent.Invoke(this);
+				//mouseOverControl->mouseEnterEvent.Invoke(this);
 			}
 			
 			//someone is focused

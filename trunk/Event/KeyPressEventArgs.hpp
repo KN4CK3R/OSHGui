@@ -21,6 +21,12 @@ namespace OSHGui
 			KeyChar = keyboardEvent->KeyChar;
 			Handled = false;
 		}
+
+		KeyPressEventArgs(const KeyboardEvent &keyboardEvent)
+		{
+			KeyChar = keyboardEvent.KeyChar;
+			Handled = false;
+		}
 	};
 }
 
