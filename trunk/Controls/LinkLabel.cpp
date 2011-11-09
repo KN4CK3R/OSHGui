@@ -12,6 +12,8 @@ namespace OSHGui
 		SetText(L"LinkLabel");
 		
 		cursor = Cursors::Get(Cursors::Hand);
+
+		canRaiseEvents = true;
 	}
 	//---------------------------------------------------------------------------
 	LinkLabel::~LinkLabel()

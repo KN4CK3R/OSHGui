@@ -18,6 +18,8 @@ namespace OSHGui
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+
+		canRaiseEvents = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -55,7 +57,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes Label::ProcessEvent(IEvent *event)
+	/*IEvent::NextEventTypes Label::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -122,7 +124,7 @@ namespace OSHGui
 		
 		return IEvent::Continue;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void Label::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
