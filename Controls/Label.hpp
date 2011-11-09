@@ -49,13 +49,6 @@ namespace OSHGui
 		virtual void Invalidate();
 		
 		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelement weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
-		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer

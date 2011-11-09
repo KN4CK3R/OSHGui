@@ -626,20 +626,29 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnKeyDown(const KeyboardEvent &keyboard)
 	{
-		KeyEventArgs args(keyboard);
-		keyDownEvent.Invoke(this, args);
+		if (canRaiseEvents)
+		{
+			KeyEventArgs args(keyboard);
+			keyDownEvent.Invoke(this, args);
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnKeyPress(const KeyboardEvent &keyboard)
 	{
-		KeyPressEventArgs args(keyboard);
-		keyPressEvent.Invoke(this, args);
+		if (canRaiseEvents)
+		{
+			KeyPressEventArgs args(keyboard);
+			keyPressEvent.Invoke(this, args);
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnKeyUp(const KeyboardEvent &keyboard)
 	{
-		KeyEventArgs args(keyboard);
-		keyUpEvent.Invoke(this, args);
+		if (canRaiseEvents)
+		{
+			KeyEventArgs args(keyboard);
+			keyUpEvent.Invoke(this, args);
+		}
 	}
 	//---------------------------------------------------------------------------
 	IEvent::NextEventTypes Control::ProcessEvent(IEvent *event)
