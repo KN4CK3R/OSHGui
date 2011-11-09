@@ -514,73 +514,37 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool Control::OnMouseDown(const MouseEvent &mouse)
+	void Control::OnMouseDown(const MouseEvent &mouse)
 	{
-		if (canRaiseEvents && ContainsPoint(mouse.Position))
-		{
-			if (mouse.State == MouseEvent::LeftDown && !isClicked && isEnabled)
-			{
-				MouseEventArgs args(mouse);
-				mouseDownEvent.Invoke(this, args);
+		isClicked = true;
+		Application::ClickedControl = this;
+            
+		//UI.CurrentHud.WindowManager.BringToFront(depth.WindowLayer);
 
-				if (isFocusable && !isFocused)
-				{
-					OnGotFocus();
-				}
-			}
+        MouseEventArgs args(mouse);
+		mouseDownEvent.Invoke(args);
+	}
+	//---------------------------------------------------------------------------
+	void Control::OnMouseClick(const MouseEvent &mouse)
+	{
+		MouseEventArgs args(mouse);
+		mouseClickEvent.Invoke(this, args);
+	}
+	//---------------------------------------------------------------------------
+	void Control::OnMouseUp(const MouseEvent &mouse)
+	{
+		isClicked = false;
+		Application::ClickedControl = 0;
 
-			return true;
-		}
+		MouseEventArgs args(mouse);
+		mouseUpEvent.Invoke(this, args);
+	}
+	//---------------------------------------------------------------------------
+	void Control::OnMouseMove(const MouseEvent &mouse)
+	{
 		
-		return false;
-	}
-	//---------------------------------------------------------------------------
-	bool Control::OnMouseUp(const MouseEvent &mouse)
-	{
-		if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
-		{
-			if (isClicked)
-			{
-				if (mouse.State != MouseEvent::Unknown)
-				{
-					MouseEventArgs args(mouse);
-					mouseClickEvent.Invoke(this, args);
-				}
-			}
-			MouseEventArgs args(mouse);
-			mouseUpEvent.Invoke(this, args);
-			
-			return true;
-		}
-	
-		return false;
-	}
-	//---------------------------------------------------------------------------
-	bool Control::OnMouseMove(const MouseEvent &mouse)
-	{
-		if (hasCaptured || ContainsPoint(mouse.Position))
-		{
-			if (canRaiseEvents)
-			{
-				if (!isInside)
-				{
-					OnMouseEnter(mouse);
-				}
-
-				if (mouse.Delta != 0)
-				{
-					MouseEventArgs args(mouse);
-					mouseScrollEvent.Invoke(this, args);
-				}
-
-				MouseEventArgs args(mouse);
-				mouseMoveEvent.Invoke(this, args);
-			}
-
-			return true;
-		}
-
-		return false;
+		MouseEventArgs args(mouse);
+		mouseMoveEvent.Invoke(this, args);		
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseEnter(const MouseEvent &mouse)
@@ -672,22 +636,59 @@ namespace OSHGui
 					{
 						case MouseEvent::LeftDown:
 						case MouseEvent::RightDown:
-							if (OnMouseDown(mouse))
+							if (canRaiseEvents && ContainsPoint(mouse.Position))
 							{
+								if (mouse.State == MouseEvent::LeftDown && !isClicked && isEnabled)
+								{
+									OnMouseDown(mouse);
+									
+									if (isFocusable && !isFocused)
+									{
+										OnGotFocus();
+									}
+								}
+
 								return IEvent::DontContinue;
 							}
 							break;
 						case MouseEvent::LeftUp:
 						case MouseEvent::RightUp:
-							if (OnMouseUp(mouse))
+							if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
 							{
+								if (isClicked)
+								{
+									if (mouse.State != MouseEvent::Unknown)
+									{
+										OnMouseClick(mouse);
+									}
+								}
+
+								OnMouseUp(mouse);
+			
 								return IEvent::DontContinue;
 							}
 							break;
 						case MouseEvent::Move:
 						case MouseEvent::Scroll:
-							if (OnMouseMove(mouse))
+							if (hasCaptured || ContainsPoint(mouse.Position))
 							{
+								if (canRaiseEvents)
+								{
+									if (!isInside)
+									{
+										OnMouseEnter(mouse);
+									}
+
+									if (mouse.Delta != 0)
+									{
+										//OnMouseScroll(mouse);
+										//MouseEventArgs args(mouse);
+										//mouseScrollEvent.Invoke(this, args);
+									}
+
+									OnMouseMove(mouse);
+								}
+
 								return IEvent::DontContinue;
 							}
 							break;

@@ -25,23 +25,6 @@ namespace OSHGui
 	
 	}
 	//---------------------------------------------------------------------------
-	//Getter/Setter
-	//---------------------------------------------------------------------------
-	KeyDownEvent& Button::GetKeyDownEvent()
-	{
-		return keyDownEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyPressEvent& Button::GetKeyPressEvent()
-	{
-		return keyPressEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyUpEvent& Button::GetKeyUpEvent()
-	{
-		return keyUpEvent;
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool Button::CanHaveFocus() const
@@ -65,7 +48,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes Button::ProcessEvent(IEvent *event)
+	/*IEvent::NextEventTypes Button::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -173,7 +156,7 @@ namespace OSHGui
 		
 		return IEvent::Continue;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void Button::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)

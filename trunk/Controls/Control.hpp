@@ -604,9 +604,10 @@ namespace OSHGui
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);
 
-		virtual bool OnMouseDown(const MouseEvent &mouse);
-		virtual bool OnMouseUp(const MouseEvent &mouse);
-		virtual bool OnMouseMove(const MouseEvent &mouse);
+		virtual void OnMouseDown(const MouseEvent &mouse);
+		virtual void OnMouseClick(const MouseEvent &mouse);
+		virtual void OnMouseUp(const MouseEvent &mouse);
+		virtual void OnMouseMove(const MouseEvent &mouse);
 		virtual void OnMouseEnter(const MouseEvent &mouse);
 		virtual void OnMouseLeave(const MouseEvent &mouse);
 		virtual void OnGotFocus();
