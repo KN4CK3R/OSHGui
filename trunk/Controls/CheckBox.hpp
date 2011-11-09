@@ -36,24 +36,6 @@ namespace OSHGui
 		 * @return checkedChangeEvent
 		 */
 		CheckedChangedEvent& GetCheckedChangedEvent();
-		/**
-		 * Ruft das KeyDownEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyDownEvent& GetKeyDownEvent();
-		/**
-		 * Ruft das KeyPressEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyPressEvent& GetKeyPressEvent();
-		/**
-		 * Ruft das KeyUpEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyUpEvent& GetKeyUpEvent();
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -76,7 +58,7 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
+		//virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -85,14 +67,14 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 	
 	protected:
+		virtual void OnMouseClick(const MouseEvent &mouse);
+		virtual void OnKeyUp(const KeyboardEvent &keyboard);
+
 		bool checked;
 		Drawing::Point checkBoxPosition,
 					   textPosition;
 					   
 		CheckedChangedEvent checkedChangedEvent;
-		KeyDownEvent keyDownEvent;
-		KeyPressEvent keyPressEvent;
-		KeyUpEvent keyUpEvent;
 	};
 }
 

@@ -60,7 +60,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Form::ContainsPoint(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return bounds.Contains(point + (clientArea.GetPosition() - bounds.GetPosition()));
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Point Form::PointToClient(const Drawing::Point &point) const
+	{
+		return point - clientArea.GetPosition();
 	}
 	//---------------------------------------------------------------------------
 	void Form::Invalidate()
@@ -107,7 +112,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes Form::ProcessEvent(IEvent *event)
+	/*IEvent::NextEventTypes Form::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -221,7 +226,7 @@ namespace OSHGui
 		}
 
 		return IEvent::Continue;
-	}
+	}*/
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)
 	{

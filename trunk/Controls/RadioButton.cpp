@@ -13,6 +13,8 @@ namespace OSHGui
 		SetText(L"RadioButton");
 
 		group = 0;
+
+		canRaiseEvents = true;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -62,7 +64,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes RadioButton::ProcessEvent(IEvent *event)
+	void RadioButton::OnMouseClick(const MouseEvent &mouse)
+	{
+		SetChecked(true);
+
+		Label::OnMouseClick(mouse);
+	}
+	//---------------------------------------------------------------------------
+	void RadioButton::OnKeyUp(const KeyboardEvent &keyboard)
+	{
+		SetChecked(true);
+
+		Label::OnKeyUp(keyboard);
+	}
+	//---------------------------------------------------------------------------
+	/*IEvent::NextEventTypes RadioButton::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -156,7 +172,7 @@ namespace OSHGui
 		
 		return IEvent::Continue;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void RadioButton::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)

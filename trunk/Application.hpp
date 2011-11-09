@@ -2,10 +2,11 @@
 #define OSHGUI_APPLICATION_HPP_
 
 #include <memory>
-#include "Drawing\IRenderer.hpp"
-#include "Misc\DateTime.hpp"
-#include "Cursor\Cursor.hpp"
-#include "Event\IEvent.hpp"
+#include "Drawing/IRenderer.hpp"
+#include "Misc/DateTime.hpp"
+#include "Cursor/Cursor.hpp"
+#include "Event/IEvent.hpp"
+#include "Event/MouseEvent.hpp"
 #include "Exports.hpp"
 
 namespace OSHGui
@@ -72,6 +73,7 @@ namespace OSHGui
 		 * @return NextEventTypes
 		 */
 		static IEvent::NextEventTypes ProcessEvent(IEvent *event);
+		static IEvent::NextEventTypes ProcessMouseEvent(MouseEvent &mouse);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
@@ -86,6 +88,7 @@ namespace OSHGui
 		static TimerManager timerManager;
 		
 		static Misc::DateTime now;
+
 	public:
 		typedef struct
 		{
@@ -93,9 +96,10 @@ namespace OSHGui
 			std::shared_ptr<Cursor> Cursor;
 		} MouseInfo;
 		static MouseInfo mouse;
+
 		static Control *FocusedControl;
 		static Control *ClickedControl;
-		static Control *CapturedControl;
+		static Control *CaptureControl;
 		static Control *MouseEnteredControl;
 	};
 }

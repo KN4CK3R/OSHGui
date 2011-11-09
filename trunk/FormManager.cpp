@@ -148,11 +148,6 @@ namespace OSHGui
 		{
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
-
-		if (forms.size() == 0)
-		{
-			return IEvent::Continue;
-		}
 		
 		if (forms.size() > 0)
 		{
@@ -191,6 +186,32 @@ namespace OSHGui
 
 			GetForeMost()->Render(renderer);
 		}
+	}
+	//---------------------------------------------------------------------------
+	FormManager::FormIterator FormManager::GetEnumerator()
+	{
+		return FormIterator(*this);
+	}
+	//---------------------------------------------------------------------------
+	FormManager::FormIterator::FormIterator(FormManager &fm)
+	{
+		it = fm.forms.rbegin();
+		end = fm.forms.rend();
+	}
+	//---------------------------------------------------------------------------
+	void FormManager::FormIterator::operator++()
+	{
+		it++;
+	}
+	//---------------------------------------------------------------------------
+	bool FormManager::FormIterator::operator()()
+	{
+		return it != end;
+	}
+	//---------------------------------------------------------------------------
+	std::shared_ptr<Form>& FormManager::FormIterator::operator*()
+	{
+		return (*it).form;
 	}
 	//---------------------------------------------------------------------------
 }
