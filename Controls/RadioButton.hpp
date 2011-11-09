@@ -45,7 +45,7 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
+		//virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -55,6 +55,9 @@ namespace OSHGui
 		
 	protected:
 		virtual void SetCheckedInternal(bool checked);
+
+		virtual void OnMouseClick(const MouseEvent &mouse);
+		virtual void OnKeyUp(const KeyboardEvent &keyboard);
 	
 		int group;
 	};

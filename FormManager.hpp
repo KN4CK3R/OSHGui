@@ -14,6 +14,8 @@ namespace OSHGui
 
 	class OSHGUI_EXPORT FormManager
 	{
+		class FormIterator;
+
 	public:
 		/**
 		 * Ruft die 
@@ -35,6 +37,8 @@ namespace OSHGui
 		IEvent::NextEventTypes ForwardEventToForms(IEvent *event);
 		void RenderForms(Drawing::IRenderer *renderer);
 
+		FormIterator GetEnumerator();
+
 	private:
 		struct FormInfo
 		{
@@ -44,6 +48,21 @@ namespace OSHGui
 		std::vector<FormInfo> forms;
 
 		std::shared_ptr<Form> mainForm;
+
+	public:
+		class FormIterator
+		{
+		public:
+			FormIterator(FormManager &fm);
+
+			void operator++();
+			bool operator()();
+			std::shared_ptr<Form>& operator *();
+
+		private:
+			std::vector<FormInfo>::reverse_iterator it;
+			std::vector<FormInfo>::reverse_iterator end;
+		};
 	};
 }
 

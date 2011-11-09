@@ -50,7 +50,7 @@ namespace OSHGui
 							break;
 					}
 
-					if (Application::ProcessEvent(&mouse) == IEvent::DontContinue)
+					if (Application::ProcessMouseEvent(mouse) == IEvent::DontContinue)
 					{
 						return true;
 					}

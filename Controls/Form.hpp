@@ -113,6 +113,13 @@ namespace OSHGui
 		void Close();
 
 		/**
+		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
+		 *
+		 * @param point
+		 * @return der neue Punkt
+		 */
+		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
+		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
 		 * Wird außerdem für alle Kindelemente aufgerufen.
 		 *
@@ -126,7 +133,7 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		IEvent::NextEventTypes ProcessEvent(IEvent *event);
+		//IEvent::NextEventTypes ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *

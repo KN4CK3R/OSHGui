@@ -133,15 +133,20 @@ namespace OSHGui
 	typedef Event<void(Control*, MouseEventArgs&)> MouseScrollEvent;
 	typedef EventHandler<void(Control*, MouseEventArgs&)> MouseScrollEventHandler;
 	/**
-	 * Tritt auf, wenn die Maus in den Bereich des Steuerlements bewegt wird.
+	 * Tritt ein, wenn die Maus in den Bereich des Steuerlements bewegt wird.
 	 */
 	typedef Event<void(Control*)> MouseEnterEvent;
 	typedef EventHandler<void(Control*)> MouseEnterEventHandler;
 	/**
-	 * Tritt auf, wenn die Maus den Bereich des Steuerlements verlässt.
+	 * Tritt ein, wenn die Maus den Bereich des Steuerlements verlässt.
 	 */
 	typedef Event<void(Control*)> MouseLeaveEvent;
 	typedef EventHandler<void(Control*)> MouseLeaveEventHandler;
+	/**
+	 * Tritt ein, nachdem sich die Mausaufzeichnung geändert hat.
+	 */
+	typedef Event<void(Control*)> MouseCaptureChangedEvent;
+	typedef EventHandler<void(Control*)> MouseCaptureChangedEventHandler;
 	/**
 	 * Tritt auf, wenn das Steuerelement zu dem aktiven Steuerelement auf dem Formular wird.
 	 */
@@ -453,6 +458,12 @@ namespace OSHGui
 		 */
 		MouseLeaveEvent& GetMouseLeaveEvent();
 		/**
+		 * Ruft das MouseCaptureChangedEvent für das Steuerelement ab.
+		 *
+		 * @return mouseCaptureChangedEvent
+		 */
+		MouseCaptureChangedEvent& GetMouseCaptureChangedEvent();
+		/**
 		 * Ruft das KeyDownEvent für das Steuerelement ab.
 		 *
 		 * @return keyPressEvent
@@ -570,6 +581,7 @@ namespace OSHGui
 		 * @return NextEventTypes
 		 */
 		IEvent::NextEventTypes ChildProcessEvent(IEvent *event);
+		IEvent::NextEventTypes ProcessMouseEvent(MouseEvent &mouse);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -608,8 +620,10 @@ namespace OSHGui
 		virtual void OnMouseClick(const MouseEvent &mouse);
 		virtual void OnMouseUp(const MouseEvent &mouse);
 		virtual void OnMouseMove(const MouseEvent &mouse);
+		virtual void OnMouseScroll(const MouseEvent &mouse);
 		virtual void OnMouseEnter(const MouseEvent &mouse);
 		virtual void OnMouseLeave(const MouseEvent &mouse);
+		virtual void OnMouseCaptureChanged();
 		virtual void OnGotFocus();
 		virtual void OnLostFocus();
 		virtual void OnKeyDown(const KeyboardEvent &keyboard);
@@ -644,6 +658,7 @@ namespace OSHGui
 		MouseScrollEvent mouseScrollEvent;
 		MouseEnterEvent mouseEnterEvent;
 		MouseLeaveEvent mouseLeaveEvent;
+		MouseCaptureChangedEvent mouseCaptureChangedEvent;
 		KeyDownEvent keyDownEvent;
 		KeyPressEvent keyPressEvent;
 		KeyUpEvent keyUpEvent;

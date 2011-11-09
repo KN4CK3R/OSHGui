@@ -16,7 +16,7 @@ namespace OSHGui
 	TimerManager Application::timerManager;
 	Control *Application::FocusedControl = 0;
 	Control *Application::ClickedControl = 0;
-	Control *Application::CapturedControl = 0;
+	Control *Application::CaptureControl = 0;
 	Control *Application::MouseEnteredControl = 0;
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
@@ -89,6 +89,51 @@ namespace OSHGui
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
+	IEvent::NextEventTypes Application::ProcessMouseEvent(MouseEvent &mouse)
+	{
+		if (!isEnabled)
+		{
+			return IEvent::Continue;
+		}
+
+		if (mouse.State != MouseEvent::Scroll)
+		{
+			Application::mouse.Position = mouse.Position;
+		}
+
+		if (Application::CaptureControl != 0)
+		{
+			Application::CaptureControl->ProcessMouseEvent(mouse);
+			return IEvent::DontContinue;
+		}
+
+		if (formManager.GetFormCount() > 0)
+		{
+			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
+			if (foreMost != 0 && foreMost->IsModal())
+			{
+				return foreMost->ProcessMouseEvent(mouse);
+			}
+			
+			for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
+			{
+				std::shared_ptr<Form> &form = *it;
+
+				
+				if (form->ProcessMouseEvent(mouse) == IEvent::DontContinue)
+				{
+					if (form != foreMost)
+					{
+						formManager.BringToFront(form);
+					}
+
+					return IEvent::DontContinue;
+				}
+			}
+		}
+
+		return IEvent::Continue;
+	}
 	IEvent::NextEventTypes Application::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)

@@ -17,6 +17,9 @@ namespace OSHGui
 				
 		mouseOver = false;
 		isFocused = false;
+		isClicked = false;
+		isInside = false;
+		isFocusable = true;
 
 		focusControl = 0;
 		mouseOverControl = 0;
@@ -412,7 +415,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
 	{
-		return Drawing::Point(point.Left - bounds.GetLeft(), point.Top - bounds.GetTop());
+		return point - bounds.GetPosition();
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
@@ -522,7 +525,7 @@ namespace OSHGui
 		//UI.CurrentHud.WindowManager.BringToFront(depth.WindowLayer);
 
         MouseEventArgs args(mouse);
-		mouseDownEvent.Invoke(args);
+		mouseDownEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseClick(const MouseEvent &mouse)
@@ -542,16 +545,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnMouseMove(const MouseEvent &mouse)
 	{
-		
 		MouseEventArgs args(mouse);
 		mouseMoveEvent.Invoke(this, args);		
+	}
+	//---------------------------------------------------------------------------
+	void Control::OnMouseScroll(const MouseEvent &mouse)
+	{
+		MouseEventArgs args(mouse);
+		mouseScrollEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseEnter(const MouseEvent &mouse)
 	{
 		isInside = true;
 
-		if (Application::MouseEnteredControl->isInside)
+		if (Application::MouseEnteredControl != 0 && Application::MouseEnteredControl->isInside)
 		{
 			Application::MouseEnteredControl->OnMouseLeave(mouse);
 		}
@@ -567,11 +575,22 @@ namespace OSHGui
 		mouseLeaveEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
+	void Control::OnMouseCaptureChanged()
+	{
+		Application::CaptureControl = 0;
+		isClicked = false;
+
+		mouseCaptureChangedEvent.Invoke(this);
+	}
+	//---------------------------------------------------------------------------
 	void Control::OnGotFocus()
 	{
-		if (Application::FocusedControl != 0 && this != Application::FocusedControl)
+		if (this != Application::FocusedControl)
 		{
-			Application::FocusedControl->OnLostFocus();
+			if (Application::FocusedControl != 0)
+			{
+				Application::FocusedControl->OnLostFocus();
+			}
 
 			Application::FocusedControl = this;
 			isFocused = true;
@@ -615,6 +634,84 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	IEvent::NextEventTypes Control::ProcessMouseEvent(MouseEvent &mouse)
+	{
+		Drawing::Point backupMousePosition = mouse.Position;
+		mouse.Position = PointToClient(mouse.Position);
+
+		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		{
+			Control &child = *(*it);
+			if (child.ProcessMouseEvent(mouse) == IEvent::DontContinue)
+			{
+				return IEvent::DontContinue;
+			}
+		}
+
+		switch (mouse.State)
+		{
+			case MouseEvent::LeftDown:
+			case MouseEvent::RightDown:
+				if (canRaiseEvents && ContainsPoint(mouse.Position))
+				{
+					if (mouse.State == MouseEvent::LeftDown && !isClicked && isEnabled)
+					{
+						OnMouseDown(mouse);
+						
+						if (isFocusable && !isFocused)
+						{
+							OnGotFocus();
+						}
+					}
+
+					return IEvent::DontContinue;
+				}
+				break;
+			case MouseEvent::LeftUp:
+			case MouseEvent::RightUp:
+				if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
+				{
+					if (isClicked)
+					{
+						if (mouse.State != MouseEvent::Unknown)
+						{
+							OnMouseClick(mouse);
+						}
+					}
+
+					OnMouseUp(mouse);
+			
+					return IEvent::DontContinue;
+				}
+				break;
+			case MouseEvent::Move:
+			case MouseEvent::Scroll:
+				if (hasCaptured || ContainsPoint(mouse.Position))
+				{
+					if (canRaiseEvents)
+					{
+						if (!isInside)
+						{
+							OnMouseEnter(mouse);
+						}
+
+						if (mouse.Delta != 0)
+						{
+							OnMouseScroll(mouse);
+						}
+
+						OnMouseMove(mouse);
+					}
+
+					return IEvent::DontContinue;
+				}
+				break;
+		}
+
+		mouse.Position = backupMousePosition;
+
+		return IEvent::Continue;
+	}
 	IEvent::NextEventTypes Control::ProcessEvent(IEvent *event)
 	{
 		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
@@ -631,6 +728,9 @@ namespace OSHGui
 			case IEvent::Mouse:
 				{
 					MouseEvent &mouse = *(MouseEvent*)event;
+					MouseEvent backup = mouse;
+
+					mouse.Position = PointToClient(mouse.Position);
 
 					switch (mouse.State)
 					{
@@ -681,9 +781,7 @@ namespace OSHGui
 
 									if (mouse.Delta != 0)
 									{
-										//OnMouseScroll(mouse);
-										//MouseEventArgs args(mouse);
-										//mouseScrollEvent.Invoke(this, args);
+										OnMouseScroll(mouse);
 									}
 
 									OnMouseMove(mouse);
@@ -693,6 +791,8 @@ namespace OSHGui
 							}
 							break;
 					}
+
+					mouse.Position = backup.Position;
 				}
 				break;
 			case IEvent::Keyboard:

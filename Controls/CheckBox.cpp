@@ -16,6 +16,8 @@ namespace OSHGui
 
 		SetBackColor(Drawing::Color(0xFF222222));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+
+		canRaiseEvents = true;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -38,21 +40,6 @@ namespace OSHGui
 	CheckedChangedEvent& CheckBox::GetCheckedChangedEvent()
 	{
 		return checkedChangedEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyDownEvent& CheckBox::GetKeyDownEvent()
-	{
-		return keyDownEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyPressEvent& CheckBox::GetKeyPressEvent()
-	{
-		return keyPressEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyUpEvent& CheckBox::GetKeyUpEvent()
-	{
-		return keyUpEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -95,7 +82,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes CheckBox::ProcessEvent(IEvent *event)
+	void CheckBox::OnMouseClick(const MouseEvent &mouse)
+	{
+		SetChecked(!GetChecked());
+
+		Label::OnMouseClick(mouse);
+	}
+	//---------------------------------------------------------------------------
+	void CheckBox::OnKeyUp(const KeyboardEvent &keyboard)
+	{
+		SetChecked(!GetChecked());
+
+		Label::OnKeyUp(keyboard);
+	}
+	//---------------------------------------------------------------------------
+	/*IEvent::NextEventTypes CheckBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -189,7 +190,7 @@ namespace OSHGui
 		
 		return IEvent::Continue;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void CheckBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
