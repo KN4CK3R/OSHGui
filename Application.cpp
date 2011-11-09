@@ -15,6 +15,7 @@ namespace OSHGui
 	FormManager Application::formManager;
 	TimerManager Application::timerManager;
 	Control *Application::FocusedControl = 0;
+	Control *Application::ClickedControl = 0;
 	Control *Application::CapturedControl = 0;
 	Control *Application::MouseEnteredControl = 0;
 	//---------------------------------------------------------------------------
