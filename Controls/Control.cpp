@@ -736,126 +736,33 @@ namespace OSHGui
 
 		return false;
 	}
+	//---------------------------------------------------------------------------
 	bool Control::ProcessKeyboardEvent(KeyboardEvent &keyboard)
 	{
-		switch (keyboard.State)
+		if (canRaiseEvents)
 		{
-			case KeyboardEvent::KeyDown:
-				OnKeyDown(keyboard);
-				break;
-			case KeyboardEvent::KeyUp:
-				OnKeyUp(keyboard);
-				break;
-			case KeyboardEvent::Character:
-				OnKeyPress(keyboard);
-				break;
+			switch (keyboard.State)
+			{
+				case KeyboardEvent::KeyDown:
+					OnKeyDown(keyboard);
+					break;
+				case KeyboardEvent::KeyUp:
+					OnKeyUp(keyboard);
+					break;
+				case KeyboardEvent::Character:
+					OnKeyPress(keyboard);
+					break;
+			}
+			
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
+	//---------------------------------------------------------------------------
 	bool Control::ProcessEvent(IEvent *event)
 	{
-		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
-		{
-			Control &child = *(*it);
-			if (child.ProcessEvent(event) == true)
-			{
-				return true;
-			}
-		}
 
-		switch (event->Type)
-		{
-			case IEvent::Mouse:
-				{
-					MouseEvent &mouse = *(MouseEvent*)event;
-					MouseEvent backup = mouse;
-
-					mouse.Position = PointToClient(mouse.Position);
-
-					switch (mouse.State)
-					{
-						case MouseEvent::LeftDown:
-						case MouseEvent::RightDown:
-							if (canRaiseEvents && ContainsPoint(mouse.Position))
-							{
-								if (mouse.State == MouseEvent::LeftDown && !isClicked && isEnabled)
-								{
-									OnMouseDown(mouse);
-									
-									if (isFocusable && !isFocused)
-									{
-										OnGotFocus();
-									}
-								}
-
-								return true;
-							}
-							break;
-						case MouseEvent::LeftUp:
-						case MouseEvent::RightUp:
-							if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
-							{
-								if (isClicked)
-								{
-									if (mouse.State != MouseEvent::Unknown)
-									{
-										OnMouseClick(mouse);
-									}
-								}
-
-								OnMouseUp(mouse);
-			
-								return true;
-							}
-							break;
-						case MouseEvent::Move:
-						case MouseEvent::Scroll:
-							if (hasCaptured || ContainsPoint(mouse.Position))
-							{
-								if (canRaiseEvents)
-								{
-									if (!isInside)
-									{
-										OnMouseEnter(mouse);
-									}
-
-									if (mouse.Delta != 0)
-									{
-										OnMouseScroll(mouse);
-									}
-
-									OnMouseMove(mouse);
-								}
-
-								return true;
-							}
-							break;
-					}
-
-					mouse.Position = backup.Position;
-				}
-				break;
-			case IEvent::Keyboard:
-				{
-					KeyboardEvent &keyboard = *(KeyboardEvent*)event;
-					switch (keyboard.State)
-					{
-						case KeyboardEvent::KeyDown:
-							OnKeyDown(keyboard);
-							return true;
-						case KeyboardEvent::KeyUp:
-							OnKeyUp(keyboard);
-							return true;
-						case KeyboardEvent::Character:
-							OnKeyPress(keyboard);
-							return true;
-					}
-				}
-				break;
-		}
-
-		return false;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::ChildProcessEvent(IEvent *event)
