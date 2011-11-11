@@ -112,7 +112,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	/*IEvent::NextEventTypes Form::ProcessEvent(IEvent *event)
+	/*bool Form::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -121,7 +121,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 
 		static Drawing::Point oldMousePosition;
@@ -141,20 +141,20 @@ namespace OSHGui
 					oldMousePosition = mousePositionBackup;
 					SetLocation(delta + GetLocation());
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
 					oldMousePosition = mousePositionBackup;
 					drag = true;
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
 					drag = false;
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 			else if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //closeRect
@@ -168,16 +168,16 @@ namespace OSHGui
 						Close();
 					}
 					
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 
 			mouse->Position -= clientArea.GetPosition() - bounds.GetPosition();
 		}
 	
-		if (ChildProcessEvent(event) == IEvent::DontContinue)
+		if (ChildProcessEvent(event) == true)
 		{
-			return IEvent::DontContinue;
+			return true;
 		}
 
 		if (event->Type == IEvent::Mouse)
@@ -191,7 +191,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
@@ -214,7 +214,7 @@ namespace OSHGui
 			
 			if (mouse->State != MouseEvent::LeftDown && mouse->State != MouseEvent::RightDown)
 			{
-				return IEvent::DontContinue;
+				return true;
 			}
 
 			mouse->Position = mousePositionBackup;
@@ -222,10 +222,10 @@ namespace OSHGui
 		else if (event->Type == IEvent::Keyboard)
 		{
 			//swallow unhandled keyboard events
-			return IEvent::DontContinue;
+			return true;
 		}
 
-		return IEvent::Continue;
+		return false;
 	}*/
 	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)

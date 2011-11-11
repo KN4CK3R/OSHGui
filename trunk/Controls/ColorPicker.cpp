@@ -221,7 +221,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes ColorPicker::ProcessEvent(IEvent *event)
+	bool ColorPicker::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -230,7 +230,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 		
 		Drawing::Point mousePositionBackup;
@@ -256,7 +256,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftDown)
 				{
@@ -272,7 +272,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
@@ -296,13 +296,13 @@ namespace OSHGui
 					mouseClickEvent.Invoke(this, args);
 				}
 
-				return IEvent::DontContinue;
+				return true;
 			}
 		}
 	
-		if (ChildProcessEvent(event) == IEvent::DontContinue)
+		if (ChildProcessEvent(event) == true)
 		{
-			return IEvent::DontContinue;
+			return true;
 		}
 		
 		if (event->Type == IEvent::Mouse)
@@ -311,7 +311,7 @@ namespace OSHGui
 			mouse->Position = mousePositionBackup;
 		}
 
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void ColorPicker::Render(Drawing::IRenderer *renderer)

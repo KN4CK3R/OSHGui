@@ -57,7 +57,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	/*IEvent::NextEventTypes Label::ProcessEvent(IEvent *event)
+	/*bool Label::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -66,7 +66,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 	
 		Drawing::Point mousePositionBackup;
@@ -77,9 +77,9 @@ namespace OSHGui
 			mouse->Position = PointToClient(mouse->Position);
 		}
 		
-		if (ChildProcessEvent(event) == IEvent::DontContinue)
+		if (ChildProcessEvent(event) == true)
 		{
-			return IEvent::DontContinue;
+			return true;
 		}
 		
 		if (event->Type == IEvent::Mouse)
@@ -116,13 +116,13 @@ namespace OSHGui
 					mouseUpEvent.Invoke(this, args);
 				}
 
-				return IEvent::DontContinue;
+				return true;
 			}
 
 			mouse->Position = mousePositionBackup;
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------*/
 	void Label::Render(Drawing::IRenderer *renderer)

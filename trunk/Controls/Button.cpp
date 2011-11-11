@@ -48,7 +48,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	/*IEvent::NextEventTypes Button::ProcessEvent(IEvent *event)
+	/*bool Button::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -57,7 +57,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 	
 		if (event->Type == IEvent::Mouse)
@@ -80,21 +80,21 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::RightDown)
 				{
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
@@ -111,7 +111,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseUpEvent.Invoke(this, args);
 					
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 
@@ -151,10 +151,10 @@ namespace OSHGui
 				keyUpEvent.Invoke(this, args);
 			}
 			
-			return IEvent::DontContinue;
+			return true;
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------*/
 	void Button::Render(Drawing::IRenderer *renderer)

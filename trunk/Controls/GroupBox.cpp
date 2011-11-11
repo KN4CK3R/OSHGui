@@ -46,7 +46,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes GroupBox::ProcessEvent(IEvent *event)
+	bool GroupBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -55,7 +55,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 
 		Drawing::Point mousePositionBackup;
@@ -68,9 +68,9 @@ namespace OSHGui
 			mouse->Position.Top -= (clientArea.GetTop() - bounds.GetTop());
 		}
 	
-		if (ChildProcessEvent(event) == IEvent::DontContinue)
+		if (ChildProcessEvent(event) == true)
 		{
-			return IEvent::DontContinue;
+			return true;
 		}
 
 		if (event->Type == IEvent::Mouse)
@@ -85,26 +85,26 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
 				{
 					MouseEventArgs args(mouse);
 					mouseUpEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 		}
 
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)

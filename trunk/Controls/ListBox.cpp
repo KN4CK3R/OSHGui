@@ -177,7 +177,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes ListBox::ProcessEvent(IEvent *event)
+	bool ListBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -186,7 +186,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 
 		if (event->Type == IEvent::Mouse)
@@ -211,7 +211,7 @@ namespace OSHGui
 				{
 					mouse->Position = mousePositionBackup;
 
-					return IEvent::Continue;
+					return false;
 				}
 			}
 			else if (mouse->State == MouseEvent::Scroll)
@@ -220,16 +220,16 @@ namespace OSHGui
 				{
 					mouse->Position = mousePositionBackup;
 
-					return IEvent::Continue;
+					return false;
 				}
 			}
 		}
 		
-		if (scrollBar.ProcessEvent(event) == IEvent::DontContinue)
+		if (scrollBar.ProcessEvent(event) == true)
 		{
 			firstVisibleItemIndex = scrollBar.GetPosition();
 		
-			return IEvent::DontContinue;
+			return true;
 		}
 	
 		if (event->Type == IEvent::Mouse)
@@ -260,7 +260,7 @@ namespace OSHGui
 					mouseDownEvent.Invoke(this, args);
 				}
 
-				return IEvent::DontContinue;
+				return true;
 			}
 			else if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
 			{
@@ -269,7 +269,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightUp)
 				{
@@ -281,7 +281,7 @@ namespace OSHGui
 					args = MouseEventArgs(mouse);
 					mouseUpEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 		}
@@ -289,7 +289,7 @@ namespace OSHGui
 		{
 			if (items.size() == 0)
 			{
-				return IEvent::DontContinue;
+				return true;
 			}
 		
 			KeyboardEvent *keyboard = (KeyboardEvent*)event;
@@ -384,10 +384,10 @@ namespace OSHGui
 				keyUpEvent.Invoke(this, args);
 			}
 			
-			return IEvent::DontContinue;
+			return true;
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::Render(Drawing::IRenderer *renderer)

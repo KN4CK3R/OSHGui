@@ -22,17 +22,6 @@ namespace OSHGui
 			 */
 			Keyboard
 		};
-		enum NextEventTypes
-		{
-			/**
-			 * Event wurde behandelt und soll nicht weitergereicht werden.
-			 */
-			DontContinue,
-			/**
-			 * Event wurde nicht behandelt und soll weitergereicht werden.
-			 */
-			Continue
-		};
 
 		EventTypes Type;
 

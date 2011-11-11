@@ -38,16 +38,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes TabPage::ProcessEvent(IEvent *event)
+	bool TabPage::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
 			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
 		}
 	
-		if (ChildProcessEvent(event) == IEvent::DontContinue)
+		if (ChildProcessEvent(event) == true)
 		{
-			return IEvent::DontContinue;
+			return true;
 		}
 
 		if (event->Type == IEvent::Mouse)
@@ -72,11 +72,11 @@ namespace OSHGui
 					mouseUpEvent.Invoke(this, args);
 				}
 				
-				return IEvent::DontContinue;
+				return true;
 			}
 		}
 
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::Render(Drawing::IRenderer *renderer)

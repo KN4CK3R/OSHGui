@@ -58,22 +58,22 @@ namespace OSHGui
 	class Control;
 	
 	/**
-	 * Tritt auf, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
+	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
 	 */
 	typedef Event<void(Control*)> SelectedIndexChangedEvent;
 	typedef EventHandler<void(Control*)> SelectedIndexEventHandler;
 	/**
-	 * Tritt auf, wenn sich der Wert der Color-Eigenschaft ändert.
+	 * Tritt ein, wenn sich der Wert der Color-Eigenschaft ändert.
 	 */
 	typedef Event<void(Control*, Drawing::Color &color)> ColorChangedEvent;
 	typedef EventHandler<void(Control*, Drawing::Color &color)> ColorChangedEventHandler;
 	/**
-	 * Tritt auf, wenn sich der Wert der Checked-Eigenschaft ändert.
+	 * Tritt ein, wenn sich der Wert der Checked-Eigenschaft ändert.
 	 */
 	typedef Event<void(Control*)> CheckedChangedEvent;
 	typedef EventHandler<void(Control*)> CheckedChangedEventHandler;
 	/**
-	 * Tritt auf, wenn sich der Wert der Text-Eigenschaft ändert.
+	 * Tritt ein, wenn sich der Wert der Text-Eigenschaft ändert.
 	 */
 	typedef Event<void(Control*)> TextChangedEvent;
 	typedef EventHandler<void(Control*)> TextChangedEventHandler;
@@ -87,6 +87,16 @@ namespace OSHGui
 	 */
 	typedef Event<void(Control*)> ScrollEvent;
 	typedef EventHandler<void(Control*)> ScrollEventHandler;
+	/**
+	 * Tritt ein, wenn die Location-Eigenschaft geändert wird.
+	 */
+	typedef Event<void(Control*)> LocationChangedEvent;
+	typedef EventHandler<void(Control*)> LocationChangedEventHandler;
+	/**
+	 * Tritt ein, wenn die Size-Eigenschaft geändert wird.
+	 */
+	typedef Event<void(Control*)> SizeChangedEvent;
+	typedef EventHandler<void(Control*)> SizeChangedEventHandler;
 	/**
 	 * Tritt auf, wenn eine Taste gedrückt wird.
 	 */
@@ -410,6 +420,18 @@ namespace OSHGui
 		 */
 		const Drawing::Color& GetMouseOverFocusColor() const;
 		/**
+		 * Ruft das LocationChangedEvent für das Steuerelement ab.
+		 *
+		 * @return locationChangedEvent
+		 */
+		LocationChangedEvent& GetLocationChangedEvent();
+		/**
+		 * Ruft das SizeChangedEvent für das Steuerelement ab.
+		 *
+		 * @return sizeChangedEvent
+		 */
+		SizeChangedEvent& GetSizeChangedEvent();
+		/**
 		 * Ruft das ClickEvent für das Steuerelement ab.
 		 *
 		 * @return clickEvent
@@ -573,15 +595,16 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual IEvent::NextEventTypes ProcessEvent(IEvent *event);
+		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Wird von ProcessEvent verwendet, um Kindelemete Events verarbeiten zu lassen.
 		 *
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		IEvent::NextEventTypes ChildProcessEvent(IEvent *event);
-		IEvent::NextEventTypes ProcessMouseEvent(MouseEvent &mouse);
+		bool ChildProcessEvent(IEvent *event);
+		bool ProcessMouseEvent(MouseEvent &mouse);
+		bool ProcessKeyboardEvent(KeyboardEvent &event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -610,12 +633,14 @@ namespace OSHGui
 		 */
 		Control(Control *parent);
 	
-		IEvent::NextEventTypes ContainerProcessEvent(IEvent *event);
+		bool ContainerProcessEvent(IEvent *event);
 		void ChildRender(Drawing::IRenderer *renderer);
 
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);
 
+		virtual void OnLocationChanged();
+		virtual void OnSizeChanged();
 		virtual void OnMouseDown(const MouseEvent &mouse);
 		virtual void OnMouseClick(const MouseEvent &mouse);
 		virtual void OnMouseUp(const MouseEvent &mouse);
@@ -647,9 +672,15 @@ namespace OSHGui
 			 
 		Misc::Any tag;
 		
-		Drawing::Rectangle bounds,
-						   clientArea;
+		Drawing::Point location;
+		Drawing::Size size;
 		
+		Drawing::Rectangle bounds,
+						   clientArea,
+						   absoluteBounds;
+		
+		LocationChangedEvent locationChangedEvent;
+		SizeChangedEvent sizeChangedEvent;
 		ClickEvent clickEvent;
 		MouseClickEvent mouseClickEvent;
 		MouseDownEvent mouseDownEvent;

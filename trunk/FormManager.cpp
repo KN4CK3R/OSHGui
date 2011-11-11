@@ -142,7 +142,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes FormManager::ForwardEventToForms(IEvent *event)
+	bool FormManager::ForwardEventToForms(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -160,19 +160,19 @@ namespace OSHGui
 			for (std::vector<FormInfo>::reverse_iterator it = forms.rbegin(); it != forms.rend(); ++it)
 			{
 				FormInfo info = *it;
-				if (info.form->ProcessEvent(event) == IEvent::DontContinue)
+				if (info.form->ProcessEvent(event) == true)
 				{
 					if (info.form != foreMost)
 					{
 						BringToFront(info.form);
 					}
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::RenderForms(Drawing::IRenderer *renderer)
