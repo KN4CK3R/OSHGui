@@ -78,7 +78,7 @@ namespace OSHGui
 		Label::OnKeyUp(keyboard);
 	}
 	//---------------------------------------------------------------------------
-	/*IEvent::NextEventTypes RadioButton::ProcessEvent(IEvent *event)
+	/*bool RadioButton::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -87,7 +87,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 	
 		if (event->Type == IEvent::Mouse)
@@ -110,14 +110,14 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				else if (mouse->State == MouseEvent::LeftUp)
 				{
@@ -135,7 +135,7 @@ namespace OSHGui
 					
 						pressed = false;
 					}
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 
@@ -167,10 +167,10 @@ namespace OSHGui
 				keyUpEvent.Invoke(this, args);
 			}
 			
-			return IEvent::DontContinue;
+			return true;
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------*/
 	void RadioButton::Render(Drawing::IRenderer *renderer)

@@ -296,6 +296,16 @@ namespace OSHGui
 		return cursor;
 	}
 	//---------------------------------------------------------------------------
+	LocationChangedEvent& Control::LocationChangedEvent()
+	{
+		return locationChangedEvent;
+	}
+	//---------------------------------------------------------------------------
+	SizeChangedEvent& Control::GetSizeChangedEvent()
+	{
+		return sizeChangedEvent;
+	}
+	//---------------------------------------------------------------------------
 	ClickEvent& Control::GetClickEvent()
 	{
 		return clickEvent;
@@ -517,6 +527,20 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
+	void Control::OnLocationChanged()
+	{
+		Drawing::Point absolutePosition = ClientToScreen(Drawing::Point(0, 0));
+		absoluteBounds.SetTop(absolutePosition.Top);
+		absoluteBounds.SetLeft(absolutePosition.Left);
+	
+		locationChangedEvent.Invoke(this);
+	}
+	//---------------------------------------------------------------------------
+	void Control::OnSizeChanged()
+	{
+		sizeChangedEvent.Invoke(this);
+	}
+	//---------------------------------------------------------------------------
 	void Control::OnMouseDown(const MouseEvent &mouse)
 	{
 		isClicked = true;
@@ -634,7 +658,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes Control::ProcessMouseEvent(MouseEvent &mouse)
+	bool Control::ProcessMouseEvent(MouseEvent &mouse)
 	{
 		Drawing::Point backupMousePosition = mouse.Position;
 		mouse.Position = PointToClient(mouse.Position);
@@ -642,9 +666,9 @@ namespace OSHGui
 		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control &child = *(*it);
-			if (child.ProcessMouseEvent(mouse) == IEvent::DontContinue)
+			if (child.ProcessMouseEvent(mouse) == true)
 			{
-				return IEvent::DontContinue;
+				return true;
 			}
 		}
 
@@ -664,7 +688,7 @@ namespace OSHGui
 						}
 					}
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				break;
 			case MouseEvent::LeftUp:
@@ -681,7 +705,7 @@ namespace OSHGui
 
 					OnMouseUp(mouse);
 			
-					return IEvent::DontContinue;
+					return true;
 				}
 				break;
 			case MouseEvent::Move:
@@ -703,23 +727,40 @@ namespace OSHGui
 						OnMouseMove(mouse);
 					}
 
-					return IEvent::DontContinue;
+					return true;
 				}
 				break;
 		}
 
 		mouse.Position = backupMousePosition;
 
-		return IEvent::Continue;
+		return false;
 	}
-	IEvent::NextEventTypes Control::ProcessEvent(IEvent *event)
+	bool Control::ProcessKeyboardEvent(KeyboardEvent &keyboard)
+	{
+		switch (keyboard.State)
+		{
+			case KeyboardEvent::KeyDown:
+				OnKeyDown(keyboard);
+				break;
+			case KeyboardEvent::KeyUp:
+				OnKeyUp(keyboard);
+				break;
+			case KeyboardEvent::Character:
+				OnKeyPress(keyboard);
+				break;
+		}
+		
+		return true;
+	}
+	bool Control::ProcessEvent(IEvent *event)
 	{
 		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control &child = *(*it);
-			if (child.ProcessEvent(event) == IEvent::DontContinue)
+			if (child.ProcessEvent(event) == true)
 			{
-				return IEvent::DontContinue;
+				return true;
 			}
 		}
 
@@ -748,7 +789,7 @@ namespace OSHGui
 									}
 								}
 
-								return IEvent::DontContinue;
+								return true;
 							}
 							break;
 						case MouseEvent::LeftUp:
@@ -765,7 +806,7 @@ namespace OSHGui
 
 								OnMouseUp(mouse);
 			
-								return IEvent::DontContinue;
+								return true;
 							}
 							break;
 						case MouseEvent::Move:
@@ -787,7 +828,7 @@ namespace OSHGui
 									OnMouseMove(mouse);
 								}
 
-								return IEvent::DontContinue;
+								return true;
 							}
 							break;
 					}
@@ -802,22 +843,22 @@ namespace OSHGui
 					{
 						case KeyboardEvent::KeyDown:
 							OnKeyDown(keyboard);
-							return IEvent::DontContinue;
+							return true;
 						case KeyboardEvent::KeyUp:
 							OnKeyUp(keyboard);
-							return IEvent::DontContinue;
+							return true;
 						case KeyboardEvent::Character:
 							OnKeyPress(keyboard);
-							return IEvent::DontContinue;
+							return true;
 					}
 				}
 				break;
 		}
 
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes Control::ChildProcessEvent(IEvent *event)
+	bool Control::ChildProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -827,9 +868,9 @@ namespace OSHGui
 		//someone is focused, so let him handle the event expect the mouse
 		if (event->Type != IEvent::Mouse && focusControl != 0 && focusControl->GetVisible() && focusControl->GetEnabled())
 		{
-			if (focusControl->ProcessEvent(event) == IEvent::DontContinue)
+			if (focusControl->ProcessEvent(event) == true)
 			{
-				return IEvent::DontContinue;
+				return true;
 			}
 		}
 		
@@ -858,9 +899,9 @@ namespace OSHGui
 			{
 				if (!(mouse->State == MouseEvent::LeftDown && focusControl != mouseOverControl))
 				{
-					if (focusControl->ProcessEvent(mouse) == IEvent::DontContinue)
+					if (focusControl->ProcessEvent(mouse) == true)
 					{
-						return IEvent::DontContinue;
+						return true;
 					}
 				}
 			}
@@ -868,14 +909,14 @@ namespace OSHGui
 			//let mouseOverControl handle the mouse
 			if (mouseOverControl != 0)
 			{
-				if (mouseOverControl->ProcessEvent(event) == IEvent::DontContinue)
+				if (mouseOverControl->ProcessEvent(event) == true)
 				{
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void Control::Render(Drawing::IRenderer *renderer)

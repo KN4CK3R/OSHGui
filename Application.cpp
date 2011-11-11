@@ -89,11 +89,11 @@ namespace OSHGui
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes Application::ProcessMouseEvent(MouseEvent &mouse)
+	bool Application::ProcessMouseEvent(MouseEvent &mouse)
 	{
 		if (!isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 
 		if (mouse.State != MouseEvent::Scroll)
@@ -104,7 +104,7 @@ namespace OSHGui
 		if (Application::CaptureControl != 0)
 		{
 			Application::CaptureControl->ProcessMouseEvent(mouse);
-			return IEvent::DontContinue;
+			return true;
 		}
 
 		if (formManager.GetFormCount() > 0)
@@ -120,21 +120,21 @@ namespace OSHGui
 				std::shared_ptr<Form> &form = *it;
 
 				
-				if (form->ProcessMouseEvent(mouse) == IEvent::DontContinue)
+				if (form->ProcessMouseEvent(mouse) == true)
 				{
 					if (form != foreMost)
 					{
 						formManager.BringToFront(form);
 					}
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 		}
 
-		return IEvent::Continue;
+		return false;
 	}
-	IEvent::NextEventTypes Application::ProcessEvent(IEvent *event)
+	bool Application::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -143,7 +143,7 @@ namespace OSHGui
 		
 		if (!isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 
 		if (event->Type == IEvent::Mouse)
@@ -158,7 +158,7 @@ namespace OSHGui
 
 		formManager.ForwardEventToForms(event);
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Render()

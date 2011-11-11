@@ -132,7 +132,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes TrackBar::ProcessEvent(IEvent *event)
+	bool TrackBar::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -141,7 +141,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 	
 		if (event->Type == IEvent::Mouse)
@@ -164,7 +164,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 
 				if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
@@ -181,7 +181,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 			else if (mouse->State == MouseEvent::Move)
@@ -193,7 +193,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 			else if (mouse->State == MouseEvent::LeftUp)
@@ -207,7 +207,7 @@ namespace OSHGui
 					MouseEventArgs args(mouse);
 					mouseUpEvent.Invoke(this, args);
 
-					return IEvent::DontContinue;
+					return true;
 				}
 			}
 			
@@ -226,30 +226,30 @@ namespace OSHGui
 					{
 						case Key::Home:
 							SetValueInternal(min);
-							return IEvent::DontContinue;
+							return true;
 						case Key::End:
 							SetValueInternal(max);
-							return IEvent::DontContinue;
+							return true;
 						case Key::Left:
 						case Key::Down:
 							SetValueInternal(value - 1);
-							return IEvent::DontContinue;
+							return true;
 						case Key::Right:
 						case Key::Up:
 							SetValueInternal(value + 1);
-							return IEvent::DontContinue;
+							return true;
 						case Key::PageDown:
 							SetValueInternal(value - std::max(10, (max - min) / 10));
-							return IEvent::DontContinue;
+							return true;
 						case Key::PageUp:
 							SetValueInternal(value + std::max(10, (max - min) / 10));
-							return IEvent::DontContinue;
+							return true;
 					}
 				}
 			}
 		}
 		
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::Render(Drawing::IRenderer *renderer)

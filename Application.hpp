@@ -72,8 +72,8 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		static IEvent::NextEventTypes ProcessEvent(IEvent *event);
-		static IEvent::NextEventTypes ProcessMouseEvent(MouseEvent &mouse);
+		static bool ProcessEvent(IEvent *event);
+		static bool ProcessMouseEvent(MouseEvent &mouse);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */

@@ -126,7 +126,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	IEvent::NextEventTypes TabControl::ProcessEvent(IEvent *event)
+	bool TabControl::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -135,7 +135,7 @@ namespace OSHGui
 
 		if (!isVisible || !isEnabled)
 		{
-			return IEvent::Continue;
+			return false;
 		}
 
 		Drawing::Point mousePositionBackup;
@@ -161,7 +161,7 @@ namespace OSHGui
 						{
 							clicked = *it;
 
-							return IEvent::DontContinue;
+							return true;
 						}
 						else if (mouse->State == MouseEvent::LeftUp)
 						{
@@ -175,7 +175,7 @@ namespace OSHGui
 								selectedIndexChangedEvent.Invoke(this);
 							}
 
-							return IEvent::DontContinue;
+							return true;
 						}
 					}
 					x += textSize.Width + 11;
@@ -208,7 +208,7 @@ namespace OSHGui
 							}
 						}
 
-						return IEvent::DontContinue;
+						return true;
 					}
 				}
 				else if (keyboard->KeyCode == Key::Right)
@@ -228,15 +228,15 @@ namespace OSHGui
 							}
 						}
 
-						return IEvent::DontContinue;
+						return true;
 					}
 				}
 			}
 		}
 	
-		if (ChildProcessEvent(event) == IEvent::DontContinue)
+		if (ChildProcessEvent(event) == true)
 		{
-			return IEvent::DontContinue;
+			return true;
 		}
 
 		if (activeTab != 0)
@@ -244,7 +244,7 @@ namespace OSHGui
 			activeTab->ProcessEvent(event);
 		}
 
-		return IEvent::Continue;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::Render(Drawing::IRenderer *renderer)

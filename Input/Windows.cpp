@@ -50,7 +50,7 @@ namespace OSHGui
 							break;
 					}
 
-					if (Application::ProcessMouseEvent(mouse) == IEvent::DontContinue)
+					if (Application::ProcessMouseEvent(mouse) == true)
 					{
 						return true;
 					}
@@ -212,7 +212,7 @@ namespace OSHGui
 						break;
 					}
 			
-					if (Application::ProcessEvent(&keyboard) == IEvent::DontContinue)
+					if (Application::ProcessEvent(&keyboard) == true)
 					{
 						return true;
 					}
