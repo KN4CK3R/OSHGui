@@ -660,9 +660,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseEvent(MouseEvent &mouse)
 	{
-		Drawing::Point backupMousePosition = mouse.Position;
-		mouse.Position = PointToClient(mouse.Position);
-
 		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control &child = *(*it);
@@ -731,8 +728,6 @@ namespace OSHGui
 				}
 				break;
 		}
-
-		mouse.Position = backupMousePosition;
 
 		return false;
 	}
