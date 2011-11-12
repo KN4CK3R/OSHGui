@@ -296,7 +296,7 @@ namespace OSHGui
 		return cursor;
 	}
 	//---------------------------------------------------------------------------
-	LocationChangedEvent& Control::LocationChangedEvent()
+	LocationChangedEvent& Control::GetLocationChangedEvent()
 	{
 		return locationChangedEvent;
 	}
@@ -529,7 +529,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnLocationChanged()
 	{
-		Drawing::Point absolutePosition = ClientToScreen(Drawing::Point(0, 0));
+		Drawing::Point absolutePosition = PointToScreen(Drawing::Point(0, 0));
 		absoluteBounds.SetTop(absolutePosition.Top);
 		absoluteBounds.SetLeft(absolutePosition.Left);
 	
