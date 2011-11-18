@@ -24,7 +24,7 @@ namespace OSHGui
 		focusControl = 0;
 		mouseOverControl = 0;
 
-		font = Application::GetRenderer()->GetDefaultFont();
+		font = Application::Instance()->GetRenderer()->GetDefaultFont();
 		
 		cursor = Cursors::Get(Cursors::Default);
 		
@@ -80,9 +80,9 @@ namespace OSHGui
 		
 		if (mouseOver)
 		{
-			if (Application::mouse.Cursor != cursor)
+			if (Application::Instance()->mouse.Cursor != cursor)
 			{
-				Application::mouse.Cursor = cursor;
+				Application::Instance()->mouse.Cursor = cursor;
 			}
 		}
 	}
@@ -561,7 +561,7 @@ namespace OSHGui
 	void Control::OnMouseUp(const MouseEvent &mouse)
 	{
 		isClicked = false;
-		Application::ClickedControl = 0;
+		Application::Instance()->ClickedControl = 0;
 
 		MouseEventArgs args(mouse);
 		mouseUpEvent.Invoke(this, args);
@@ -583,11 +583,11 @@ namespace OSHGui
 	{
 		isInside = true;
 
-		if (Application::MouseEnteredControl != 0 && Application::MouseEnteredControl->isInside)
+		if (Application::Instance()->MouseEnteredControl != 0 && Application::Instance()->MouseEnteredControl->isInside)
 		{
-			Application::MouseEnteredControl->OnMouseLeave(mouse);
+			Application::Instance()->MouseEnteredControl->OnMouseLeave(mouse);
 		}
-		Application::MouseEnteredControl = this;
+		Application::Instance()->MouseEnteredControl = this;
 
 		mouseEnterEvent.Invoke(this);
 	}
@@ -601,7 +601,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnMouseCaptureChanged()
 	{
-		Application::CaptureControl = 0;
+		Application::Instance()->CaptureControl = 0;
 		isClicked = false;
 
 		mouseCaptureChangedEvent.Invoke(this);
@@ -609,14 +609,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus()
 	{
-		if (this != Application::FocusedControl)
+		if (this != Application::Instance()->FocusedControl)
 		{
-			if (Application::FocusedControl != 0)
+			if (Application::Instance()->FocusedControl != 0)
 			{
-				Application::FocusedControl->OnLostFocus();
+				Application::Instance()->FocusedControl->OnLostFocus();
 			}
 
-			Application::FocusedControl = this;
+			Application::Instance()->FocusedControl = this;
 			isFocused = true;
 
 			focusGotEvent.Invoke(this);

@@ -33,20 +33,20 @@ namespace OSHGui
 		 *
 		 * @param renderer Instanz des verwendeten Renderers
 		 */
-		static void Create(Drawing::IRenderer *renderer);
+		void Create(Drawing::IRenderer *renderer);
 		
 		/**
 		 * Ruft die aktuelle Uhrzeit ab.
 		 *
 		 * @return DateTime::Now
 		 */
-		static const Misc::DateTime& GetNow();
+		const Misc::DateTime& GetNow() const;
 		/**
 		 * Ruft den verwendeten Renderer ab.
 		 *
 		 * @return renderer
 		 */
-		static Drawing::IRenderer* GetRenderer();
+		Drawing::IRenderer* GetRenderer() const;
 	
 		/**
 		 * Aktiviert das GUI.
@@ -78,8 +78,12 @@ namespace OSHGui
 		 * Zeichnet die geöffneten Formen.
 		 */
 		static void Render();
+		
+		static Application* Instance() const;
 
 	private:
+		static Application *instance;
+	
 		static bool isEnabled;
 		
 		static Drawing::IRenderer *renderer;
