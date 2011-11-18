@@ -8,6 +8,8 @@
 
 namespace OSHGui
 {
+	Application* Application::instance = new Application();
+	
 	bool Application::isEnabled = false;
 	Drawing::IRenderer *Application::renderer = 0;
 	Application::MouseInfo Application::mouse;
@@ -31,12 +33,12 @@ namespace OSHGui
 		mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::DateTime& Application::GetNow()
+	const Misc::DateTime& Application::GetNow() const
 	{
 		return now;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::IRenderer* Application::GetRenderer()
+	Drawing::IRenderer* Application::GetRenderer() const
 	{
 		return renderer;
 	}

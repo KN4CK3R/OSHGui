@@ -10,7 +10,7 @@ namespace OSHGui
 	{
 		type = CONTROL_COLORPICKER;
 
-		gradient = Application::GetRenderer()->CreateNewTexture(100, 150);
+		gradient = Application::Instance()->GetRenderer()->CreateNewTexture(100, 150);
 
 		SetBounds(6, 6, 100, 150);
 		
@@ -206,7 +206,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::CreateGradientTexture()
 	{
-		gradient = Application::GetRenderer()->CreateNewTexture(bounds.GetWidth(), bounds.GetHeight());
+		gradient = Application::Instance()->GetRenderer()->CreateNewTexture(bounds.GetWidth(), bounds.GetHeight());
 	
 		gradient->BeginUpdate();
 		for (int y = 0; y < bounds.GetHeight(); ++y)
