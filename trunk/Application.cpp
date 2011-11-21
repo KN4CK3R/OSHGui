@@ -21,6 +21,11 @@ namespace OSHGui
 		MouseEnteredControl = 0;
 	}
 	//---------------------------------------------------------------------------
+	Application* Application::Instance()
+	{
+		return instance;
+	}
+	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
 	{
 		if (renderer == 0)
@@ -164,11 +169,11 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseMessage *mouse = (MouseMessage*)event;
+			//MouseMessage *mouse = (MouseMessage*)event;
 			//grab mouse position here for cursor rendering
-			if (mouse->State != MouseMessage::Scroll)
+			//if (mouse->State != MouseMessage::Scroll)
 			{
-				mouse.Position = mouse->Position;
+				//mouse.Position = mouse->Position;
 			}
 		}
 

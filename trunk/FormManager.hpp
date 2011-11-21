@@ -14,9 +14,9 @@ namespace OSHGui
 
 	class OSHGUI_EXPORT FormManager
 	{
+	public:
 		class FormIterator;
 
-	public:
 		/**
 		 * Ruft die 
 		 */

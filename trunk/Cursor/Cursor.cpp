@@ -8,7 +8,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Cursor::Cursor()
 	{
-		cursor = Application::GetRenderer()->CreateNewTexture(16, 16);
+		cursor = Application::Instance()->GetRenderer()->CreateNewTexture(16, 16);
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------

@@ -13,7 +13,7 @@ namespace OSHGui
 		SetBounds(6, 6, 100, font->GetSize() + 10);
 
 		blinkTime = Misc::TimeSpan::FromMilliseconds(500);
-		nextBlinkTime = Application::GetNow();
+		nextBlinkTime = Application::Instance()->GetNow();
 
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
@@ -74,7 +74,7 @@ namespace OSHGui
 	void TextBox::ResetCaretBlink()
 	{
 		showCaret = true;
-		nextBlinkTime = Application::GetNow().Add(blinkTime);
+		nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PlaceCaret(int position)
@@ -283,10 +283,10 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
 
-		if (Application::GetNow() > nextBlinkTime)
+		if (Application::Instance()->GetNow() > nextBlinkTime)
 		{
 			showCaret = !showCaret;
-			nextBlinkTime = Application::GetNow().Add(blinkTime);
+			nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
 		}
 
 		if (isFocused && showCaret)
