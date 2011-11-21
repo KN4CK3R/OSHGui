@@ -236,13 +236,13 @@ namespace OSHGui
 		Drawing::Point mousePositionBackup;
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
-				if (mouse->State == MouseEvent::Move)
+				if (mouse->State == MouseMessage::Move)
 				{
 					if (drag)
 					{
@@ -258,7 +258,7 @@ namespace OSHGui
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftDown)
+				else if (mouse->State == MouseMessage::LeftDown)
 				{
 					drag = true;
 
@@ -274,13 +274,13 @@ namespace OSHGui
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftUp)
+				else if (mouse->State == MouseMessage::LeftUp)
 				{
 					MouseEventArgs args(mouse);
 					mouseUpEvent.Invoke(this, args);
 				}
 			}
-			if (mouse->State == MouseEvent::LeftUp)
+			if (mouse->State == MouseMessage::LeftUp)
 			{
 				if (drag)
 				{
@@ -307,7 +307,7 @@ namespace OSHGui
 		
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			mouse->Position = mousePositionBackup;
 		}
 

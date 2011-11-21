@@ -62,13 +62,13 @@ namespace OSHGui
 	
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
-				if (mouse->State == MouseEvent::LeftDown)
+				if (mouse->State == MouseMessage::LeftDown)
 				{
 					pressed = true;
 				
@@ -82,21 +82,21 @@ namespace OSHGui
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::RightDown)
+				else if (mouse->State == MouseMessage::RightDown)
 				{
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::Move)
+				else if (mouse->State == MouseMessage::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
+				else if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::RightUp)
 				{
 					if (pressed && isFocused)
 					{
@@ -119,16 +119,16 @@ namespace OSHGui
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*) event;
+			KeyboardMessage *keyboard = (KeyboardMessage*) event;
 			
 			static Key::Keys oldKeyCode = Key::None;
-			if (keyboard->State == KeyboardEvent::KeyDown)
+			if (keyboard->State == KeyboardMessage::KeyDown)
 			{
 				oldKeyCode = keyboard->KeyCode;
 				KeyEventArgs args(keyboard);
 				keyDownEvent.Invoke(this, args);
 			}
-			else if (keyboard->State == KeyboardEvent::Character)
+			else if (keyboard->State == KeyboardMessage::Character)
 			{
 				if (keyboard->KeyCode == Key::Return)
 				{
@@ -140,7 +140,7 @@ namespace OSHGui
 					keyPressEvent.Invoke(this, args);
 				}
 			}
-			else if (keyboard->State == KeyboardEvent::KeyUp)
+			else if (keyboard->State == KeyboardMessage::KeyUp)
 			{
 				if (keyboard->KeyCode == Key::Space && oldKeyCode == keyboard->KeyCode)
 				{

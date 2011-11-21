@@ -64,14 +64,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	void RadioButton::OnMouseClick(const MouseEvent &mouse)
+	void RadioButton::OnMouseClick(const MouseMessage &mouse)
 	{
 		SetChecked(true);
 
 		Label::OnMouseClick(mouse);
 	}
 	//---------------------------------------------------------------------------
-	void RadioButton::OnKeyUp(const KeyboardEvent &keyboard)
+	void RadioButton::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		SetChecked(true);
 
@@ -92,13 +92,13 @@ namespace OSHGui
 	
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
 			{
-				if (mouse->State == MouseEvent::LeftDown)
+				if (mouse->State == MouseMessage::LeftDown)
 				{
 					pressed = true;
 			
@@ -112,14 +112,14 @@ namespace OSHGui
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::Move)
+				else if (mouse->State == MouseMessage::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftUp)
+				else if (mouse->State == MouseMessage::LeftUp)
 				{
 					if (pressed && isFocused)
 					{
@@ -143,18 +143,18 @@ namespace OSHGui
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::KeyDown)
+			KeyboardMessage *keyboard = (KeyboardMessage*)event;
+			if (keyboard->State == KeyboardMessage::KeyDown)
 			{
 				KeyEventArgs args(keyboard);
 				keyDownEvent.Invoke(this, args);
 			}
-			else if (keyboard->State == KeyboardEvent::Character)
+			else if (keyboard->State == KeyboardMessage::Character)
 			{
 				KeyPressEventArgs args(keyboard);
 				keyPressEvent.Invoke(this, args);
 			}
-			else if (keyboard->State == KeyboardEvent::KeyUp)
+			else if (keyboard->State == KeyboardMessage::KeyUp)
 			{
 				if (keyboard->KeyCode == Key::Space)
 				{

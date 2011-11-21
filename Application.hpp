@@ -6,7 +6,7 @@
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"
 #include "Event/IEvent.hpp"
-#include "Event/MouseEvent.hpp"
+#include "Event/MouseMessage.hpp"
 #include "Exports.hpp"
 
 namespace OSHGui
@@ -18,7 +18,7 @@ namespace OSHGui
 	class TimerManager;
 
 	/**
-	 * Stellt static-Methoden und Eigenschaften für die Verwaltung einer
+	 * Stellt Methoden und Eigenschaften für die Verwaltung einer
 	 * Anwendung zur Verfügung, z.B. Methoden zum Starten und Beenden einer
 	 * Anwendung sowie für das Abrufen von Informationen zu einer Anwendung.
 	 */
@@ -47,51 +47,57 @@ namespace OSHGui
 		 * @return renderer
 		 */
 		Drawing::IRenderer* GetRenderer() const;
+
+		const Drawing::Point& GetCursorPosition() const;
+
+		const std::shared_ptr<Cursor>& GetCursor() const;
+		void SetCursor(const std::shared_ptr<Cursor> &cursor);
 	
 		/**
 		 * Aktiviert das GUI.
 		 */
-		static void Enable();
+		void Enable();
 		/**
 		 * Deaktiviert das GUI.
 		 */
-		static void Disable();
+		void Disable();
 		/**
 		 * Wechselt zwischen Enabled und Disabled.
 		 */
-		static void Toggle();
+		void Toggle();
 		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
 		 * @param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird
 		 */
-		static void Run(const std::shared_ptr<Form> &mainForm);
+		void Run(const std::shared_ptr<Form> &mainForm);
 		/**
 		 * Gibt ein IEvent an die geöffneten Formen weiter.
 		 *
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		static bool ProcessEvent(IEvent *event);
-		static bool ProcessMouseEvent(MouseEvent &mouse);
+		bool ProcessEvent(IEvent *event);
+		bool ProcessMouseEvent(MouseMessage &mouse);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
-		static void Render();
+		void Render();
 		
-		static Application* Instance() const;
+		static Application* Instance();
 
 	private:
 		static Application *instance;
+		Application();
 	
-		static bool isEnabled;
+		bool isEnabled;
 		
-		static Drawing::IRenderer *renderer;
+		Drawing::IRenderer *renderer;
 	
-		static FormManager formManager;
-		static TimerManager timerManager;
+		FormManager formManager;
+		TimerManager timerManager;
 		
-		static Misc::DateTime now;
+		Misc::DateTime now;
 
 	public:
 		typedef struct
@@ -99,12 +105,12 @@ namespace OSHGui
 			Drawing::Point Position;
 			std::shared_ptr<Cursor> Cursor;
 		} MouseInfo;
-		static MouseInfo mouse;
+		MouseInfo mouse;
 
-		static Control *FocusedControl;
-		static Control *ClickedControl;
-		static Control *CaptureControl;
-		static Control *MouseEnteredControl;
+		Control *FocusedControl;
+		Control *ClickedControl;
+		Control *CaptureControl;
+		Control *MouseEnteredControl;
 	};
 }
 

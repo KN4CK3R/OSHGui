@@ -166,11 +166,11 @@ namespace OSHGui
 	
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
-			if (mouse->State == MouseEvent::LeftDown)
+			if (mouse->State == MouseMessage::LeftDown)
 			{
 				if (Drawing::Rectangle(0, 0, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight).Contains(mouse->Position)) //upButton
 				{
@@ -219,7 +219,7 @@ namespace OSHGui
 					}
 				}
 			}
-			else if (mouse->State == MouseEvent::LeftUp)
+			else if (mouse->State == MouseMessage::LeftUp)
 			{
 				if (drag)
 				{
@@ -230,7 +230,7 @@ namespace OSHGui
 					return true;
 				}
 			}
-			else if (mouse->State == MouseEvent::Move)
+			else if (mouse->State == MouseMessage::Move)
 			{
 				if (drag)
 				{
@@ -257,7 +257,7 @@ namespace OSHGui
 					return true;
 				}
 			}
-			else if (mouse->State == MouseEvent::Scroll)
+			else if (mouse->State == MouseMessage::Scroll)
 			{
 				if (!drag)
 				{

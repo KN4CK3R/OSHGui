@@ -1,6 +1,6 @@
 #include "Windows.hpp"
-#include "..\Event\MouseEvent.hpp"
-#include "..\Event\KeyboardEvent.hpp"
+#include "..\Event\MouseMessage.hpp"
+#include "..\Event\KeyboardMessage.hpp"
 #include "..\Application.hpp"
 
 namespace OSHGui
@@ -21,36 +21,36 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-					MouseEvent mouse(MouseEvent::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
+					MouseMessage mouse(MouseMessage::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
 					{
 						case WM_MOUSEMOVE:
-							mouse.State = MouseEvent::Move;
+							mouse.State = MouseMessage::Move;
 							break;
 						case WM_LBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseEvent::LeftDown;
+							mouse.State = MouseMessage::LeftDown;
 							break;
 						case WM_LBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseEvent::LeftUp;
+							mouse.State = MouseMessage::LeftUp;
 							break;
 						case WM_RBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseEvent::RightDown;
+							mouse.State = MouseMessage::RightDown;
 							break;
 						case WM_RBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseEvent::RightUp;
+							mouse.State = MouseMessage::RightUp;
 							break;
 						case WM_MOUSEWHEEL:
-							mouse.State = MouseEvent::Scroll;
+							mouse.State = MouseMessage::Scroll;
 							mouse.Delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
 							break;
 					}
 
-					if (Application::ProcessMouseEvent(mouse) == true)
+					if (Application::Instance()->ProcessMouseEvent(mouse) == true)
 					{
 						return true;
 					}
@@ -62,15 +62,15 @@ namespace OSHGui
 				case WM_SYSKEYUP:
 				case WM_CHAR:
 				{
-					KeyboardEvent keyboard;
-					keyboard.State = KeyboardEvent::Unknown;
+					KeyboardMessage keyboard;
+					keyboard.State = KeyboardMessage::Unknown;
 					keyboard.Control = (GetKeyState(VK_CONTROL) & 0x8000) > 0;
 					keyboard.Shift = (GetKeyState(VK_SHIFT) & 0x8000) > 0;
 					keyboard.Menu = (GetKeyState(VK_MENU) & 0x8000) > 0;
 
 					if (message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN || message->message == WM_KEYUP || message->message == WM_SYSKEYUP)
 					{
-						keyboard.State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardEvent::KeyDown : KeyboardEvent::KeyUp;
+						keyboard.State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardMessage::KeyDown : KeyboardMessage::KeyUp;
 
 						switch (message->wParam)
 						{
@@ -154,7 +154,7 @@ namespace OSHGui
 					}
 					else if (message->message == WM_CHAR)
 					{
-						keyboard.State = KeyboardEvent::Character;
+						keyboard.State = KeyboardMessage::Character;
 
 						switch ((Misc::UnicodeChar)message->wParam)
 						{
@@ -207,7 +207,7 @@ namespace OSHGui
 								break;
 						}
 					}
-					if (keyboard.State == KeyboardEvent::Unknown)
+					if (keyboard.State == KeyboardMessage::Unknown)
 					{
 						break;
 					}

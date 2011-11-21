@@ -56,8 +56,8 @@ namespace OSHGui
 	protected:
 		virtual void SetCheckedInternal(bool checked);
 
-		virtual void OnMouseClick(const MouseEvent &mouse);
-		virtual void OnKeyUp(const KeyboardEvent &keyboard);
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnKeyUp(const KeyboardMessage &keyboard);
 	
 		int group;
 	};

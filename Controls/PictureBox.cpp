@@ -64,7 +64,7 @@ namespace OSHGui
 
 			if (image != 0)
 			{
-				std::shared_ptr<Drawing::ITexture> newImage = Application::GetRenderer()->CreateNewTexture(GetSize());
+				std::shared_ptr<Drawing::ITexture> newImage = Application::Instance()->GetRenderer()->CreateNewTexture(GetSize());
 				newImage->BeginUpdate();
 				newImage->Insert(0, 0, image);
 				newImage->EndUpdate();
@@ -93,7 +93,7 @@ namespace OSHGui
 		Drawing::Point mousePositionBackup;
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 		}
@@ -105,11 +105,11 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 
 			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
 			{
-				if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightDown)
+				if (mouse->State == MouseMessage::LeftDown || mouse->State == MouseMessage::RightDown)
 				{
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
@@ -118,14 +118,14 @@ namespace OSHGui
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::Move)
+				else if (mouse->State == MouseMessage::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
+				else if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::RightUp)
 				{
 					MouseEventArgs args(mouse);
 					mouseUpEvent.Invoke(this, args);

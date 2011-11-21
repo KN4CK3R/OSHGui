@@ -191,11 +191,11 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
-			if (mouse->State == MouseEvent::LeftDown)
+			if (mouse->State == MouseMessage::LeftDown)
 			{
 				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //clientArea
 				{
@@ -214,7 +214,7 @@ namespace OSHGui
 					return false;
 				}
 			}
-			else if (mouse->State == MouseEvent::Scroll)
+			else if (mouse->State == MouseMessage::Scroll)
 			{
 				if (!isFocused)
 				{
@@ -234,9 +234,9 @@ namespace OSHGui
 	
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			
-			if (mouse->State == MouseEvent::LeftDown)
+			if (mouse->State == MouseMessage::LeftDown)
 			{
 				if (items.size() != 0 && Drawing::Rectangle(4, 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
 				{
@@ -264,14 +264,14 @@ namespace OSHGui
 			}
 			else if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
 			{
-				if (mouse->State == MouseEvent::Move)
+				if (mouse->State == MouseMessage::Move)
 				{
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightUp)
+				else if (mouse->State == MouseMessage::LeftDown || mouse->State == MouseMessage::RightUp)
 				{
 					clickEvent.Invoke(this);
 
@@ -292,8 +292,8 @@ namespace OSHGui
 				return true;
 			}
 		
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::KeyDown)
+			KeyboardMessage *keyboard = (KeyboardMessage*)event;
+			if (keyboard->State == KeyboardMessage::KeyDown)
 			{
 				KeyEventArgs args(keyboard);
 				keyDownEvent.Invoke(this, args);
@@ -350,7 +350,7 @@ namespace OSHGui
 						}
 				}
 			}
-			else if (keyboard->State == KeyboardEvent::Character)
+			else if (keyboard->State == KeyboardMessage::Character)
 			{
 				KeyPressEventArgs args(keyboard);
 				keyPressEvent.Invoke(this, args);
@@ -378,7 +378,7 @@ namespace OSHGui
 					}
 				}
 			}
-			else if (keyboard->State == KeyboardEvent::KeyUp)
+			else if (keyboard->State == KeyboardMessage::KeyUp)
 			{
 				KeyEventArgs args(keyboard);
 				keyUpEvent.Invoke(this, args);

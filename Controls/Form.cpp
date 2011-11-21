@@ -82,7 +82,7 @@ namespace OSHGui
 	{
 		this->instance = std::weak_ptr<Form>(instance);
 	
-		Application::formManager.RegisterForm(this->instance.lock());
+		Application::Instance()->formManager.RegisterForm(this->instance.lock());
 
 		isVisible = true;
 		isEnabled = true;
@@ -99,7 +99,7 @@ namespace OSHGui
 
 		this->instance = std::weak_ptr<Form>(instance);
 	
-		Application::formManager.RegisterForm(this->instance.lock(), closeFunction);
+		Application::Instance()->formManager.RegisterForm(this->instance.lock(), closeFunction);
 
 		isVisible = true;
 		isEnabled = true;
@@ -107,7 +107,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Close()
 	{
-		Application::formManager.UnregisterForm(instance.lock());
+		Application::Instance()->formManager.UnregisterForm(instance.lock());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -129,13 +129,13 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
 			if (Drawing::Rectangle(1, 1, captionBar.GetWidth(), captionBar.GetHeight()).Contains(mouse->Position) || drag) //CaptionBar
 			{
-				if (mouse->State == MouseEvent::Move && drag == true)
+				if (mouse->State == MouseMessage::Move && drag == true)
 				{
 					Drawing::Point delta = mousePositionBackup - oldMousePosition;
 					oldMousePosition = mousePositionBackup;
@@ -143,14 +143,14 @@ namespace OSHGui
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftDown)
+				else if (mouse->State == MouseMessage::LeftDown)
 				{
 					oldMousePosition = mousePositionBackup;
 					drag = true;
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::LeftUp)
+				else if (mouse->State == MouseMessage::LeftUp)
 				{
 					drag = false;
 
@@ -159,11 +159,11 @@ namespace OSHGui
 			}
 			else if (Drawing::Rectangle(captionBar.GetWidth() + 1, 2, closeRect.GetWidth(), closeRect.GetHeight()).Contains(mouse->Position)) //closeRect
 			{
-				if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::LeftDown)
+				if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::LeftDown)
 				{
-					static bool pressed = mouse->State == MouseEvent::LeftDown;
+					static bool pressed = mouse->State == MouseMessage::LeftDown;
 
-					if (pressed && mouse->State == MouseEvent::LeftUp)
+					if (pressed && mouse->State == MouseMessage::LeftUp)
 					{
 						Close();
 					}
@@ -182,25 +182,25 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 
 			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
 			{
-				if (mouse->State == MouseEvent::LeftDown || mouse->State == MouseEvent::RightDown)
+				if (mouse->State == MouseMessage::LeftDown || mouse->State == MouseMessage::RightDown)
 				{
 					MouseEventArgs args(mouse);
 					mouseDownEvent.Invoke(this, args);
 
 					return true;
 				}
-				else if (mouse->State == MouseEvent::Move)
+				else if (mouse->State == MouseMessage::Move)
 				{
 					SetMouseOver(true);
 
 					MouseEventArgs args(mouse);
 					mouseMoveEvent.Invoke(this, args);
 				}
-				else if (mouse->State == MouseEvent::LeftUp || mouse->State == MouseEvent::RightUp)
+				else if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::RightUp)
 				{
 					clickEvent.Invoke(this);
 
@@ -212,7 +212,7 @@ namespace OSHGui
 				}
 			}
 			
-			if (mouse->State != MouseEvent::LeftDown && mouse->State != MouseEvent::RightDown)
+			if (mouse->State != MouseMessage::LeftDown && mouse->State != MouseMessage::RightDown)
 			{
 				return true;
 			}

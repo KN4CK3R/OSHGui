@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_KEYBOARDEVENT_HPP_
-#define OSHGUI_EVENT_KEYBOARDEVENT_HPP_
+#ifndef OSHGUI_EVENT_KEYBOARDMESSAGE_HPP_
+#define OSHGUI_EVENT_KEYBOARDMESSAGE_HPP_
 
 #include "Key.hpp"
 #include "IEvent.hpp"
@@ -10,7 +10,7 @@ namespace OSHGui
 	/**
 	 * Tastaturevent
 	 */
-	class OSHGUI_EXPORT KeyboardEvent : public IEvent
+	class OSHGUI_EXPORT KeyboardMessage : public IEvent
 	{
 	public:
 		enum KeyboardStates
@@ -41,7 +41,7 @@ namespace OSHGui
 			 Shift;
 		
 	public:
-		KeyboardEvent() : IEvent(IEvent::Keyboard)
+		KeyboardMessage() : IEvent(IEvent::Keyboard)
 		{
 			State = Unknown;
 			Menu = false;
@@ -51,7 +51,7 @@ namespace OSHGui
 			KeyChar = L'\0';
 		}
 	
-		KeyboardEvent(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::UnicodeChar KeyChar) : IEvent(IEvent::Keyboard)
+		KeyboardMessage(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::UnicodeChar KeyChar) : IEvent(IEvent::Keyboard)
 		{
 			this->Menu = Menu;
 			this->Control = Control;

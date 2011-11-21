@@ -146,11 +146,11 @@ namespace OSHGui
 	
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			Drawing::Point mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 			
-			if (mouse->State == MouseEvent::LeftDown)
+			if (mouse->State == MouseMessage::LeftDown)
 			{
 				if (Drawing::Rectangle(sliderMiddle - (trackbarSliderWidth / 2), 0, trackbarSliderWidth, trackbarSliderHeight).Contains(mouse->Position)) //SliderRect
 				{
@@ -184,7 +184,7 @@ namespace OSHGui
 					return true;
 				}
 			}
-			else if (mouse->State == MouseEvent::Move)
+			else if (mouse->State == MouseMessage::Move)
 			{
 				if (pressed)
 				{
@@ -196,7 +196,7 @@ namespace OSHGui
 					return true;
 				}
 			}
-			else if (mouse->State == MouseEvent::LeftUp)
+			else if (mouse->State == MouseMessage::LeftUp)
 			{
 				if (pressed)
 				{
@@ -215,8 +215,8 @@ namespace OSHGui
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::KeyDown)
+			KeyboardMessage *keyboard = (KeyboardMessage*)event;
+			if (keyboard->State == KeyboardMessage::KeyDown)
 			{
 				KeyEventArgs args(keyboard);
 				keyDownEvent.Invoke(this, args);

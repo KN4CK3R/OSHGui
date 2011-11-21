@@ -124,7 +124,7 @@ namespace OSHGui
 
 		if (mainForm == form)
 		{
-			Application::Disable();
+			Application::Instance()->Disable();
 		}
 
 		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)

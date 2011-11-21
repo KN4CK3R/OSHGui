@@ -173,7 +173,7 @@ namespace OSHGui
 		Drawing::Point mousePositionBackup;
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 		}
@@ -185,13 +185,13 @@ namespace OSHGui
 		
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			
 			for (int i = 0; i < 3; ++i)
 			{
 				if (drag[i] == true)
 				{
-					if (mouse->State == MouseEvent::Move)
+					if (mouse->State == MouseMessage::Move)
 					{
 						barSliders[i].Left = mouse->Position.Left < 0 ? 0 : mouse->Position.Left > clientArea.GetWidth() - 2 ? clientArea.GetWidth() - 2 : mouse->Position.Left;
 						barSliders[i].Top = i * 15 + 11;
@@ -209,7 +209,7 @@ namespace OSHGui
 
 						return true;
 					}
-					else if (mouse->State == MouseEvent::LeftUp)
+					else if (mouse->State == MouseMessage::LeftUp)
 					{
 						drag[i] = false;
 
@@ -237,7 +237,7 @@ namespace OSHGui
 				}
 				else if (Drawing::Rectangle(0, i * 15, clientArea.GetWidth(), 12).Contains(mouse->Position))
 				{
-					if (mouse->State == MouseEvent::LeftDown)
+					if (mouse->State == MouseMessage::LeftDown)
 					{
 						barIndex = i;
 					
@@ -265,8 +265,8 @@ namespace OSHGui
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
-			if (keyboard->State == KeyboardEvent::KeyDown)
+			KeyboardMessage *keyboard = (KeyboardMessage*)event;
+			if (keyboard->State == KeyboardMessage::KeyDown)
 			{
 				KeyEventArgs args(keyboard);
 				keyDownEvent.Invoke(this, args);
@@ -295,7 +295,7 @@ namespace OSHGui
 					}
 				}
 			}
-			else if (keyboard->State == KeyboardEvent::KeyUp)
+			else if (keyboard->State == KeyboardMessage::KeyUp)
 			{
 				KeyEventArgs args(keyboard);
 				keyUpEvent.Invoke(this, args);
