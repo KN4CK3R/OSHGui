@@ -2,7 +2,7 @@
 #define OSHGUI_EVENT_KEYEVENTARGS_HPP_
 
 #include "Misc\Strings.hpp"
-#include "KeyboardEvent.hpp"
+#include "KeyboardMessage.hpp"
 
 namespace OSHGui
 {
@@ -20,7 +20,7 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
-		KeyEventArgs(KeyboardEvent *keyboardEvent)
+		KeyEventArgs(KeyboardMessage *keyboardEvent)
 		{
 			KeyCode = keyboardEvent->KeyCode;
 			KeyChar = keyboardEvent->KeyChar;
@@ -30,7 +30,7 @@ namespace OSHGui
 			Handled = false;
 		}
 
-		KeyEventArgs(const KeyboardEvent &keyboardEvent)
+		KeyEventArgs(const KeyboardMessage &keyboardEvent)
 		{
 			KeyCode = keyboardEvent.KeyCode;
 			KeyChar = keyboardEvent.KeyChar;

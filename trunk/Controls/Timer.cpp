@@ -30,11 +30,11 @@ namespace OSHGui
 		{
 			if (isEnabled == true)
 			{
-				Application::timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
+				Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
 			}
 			else
 			{
-				Application::timerManager.UnregisterTimer(this);
+				Application::Instance()->timerManager.UnregisterTimer(this);
 			}
 			
 			this->isEnabled = isEnabled;
@@ -55,8 +55,8 @@ namespace OSHGui
 				this->interval = interval;
 				if (isEnabled)
 				{
-					Application::timerManager.UnregisterTimer(this);
-					Application::timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
+					Application::Instance()->timerManager.UnregisterTimer(this);
+					Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
 				}
 			}
 			else

@@ -16,8 +16,8 @@
 #include "../Misc/Strings.hpp"
 #include "../Misc/Any.hpp"
 
-#include "../Event/KeyboardEvent.hpp"
-#include "../Event/MouseEvent.hpp"
+#include "../Event/KeyboardMessage.hpp"
+#include "../Event/MouseMessage.hpp"
 #include "../Event/Event.hpp"
 #include "../Event/KeyEventArgs.hpp"
 #include "../Event/KeyPressEventArgs.hpp"
@@ -603,8 +603,8 @@ namespace OSHGui
 		 * @return NextEventTypes
 		 */
 		bool ChildProcessEvent(IEvent *event);
-		bool ProcessMouseEvent(MouseEvent &mouse);
-		bool ProcessKeyboardEvent(KeyboardEvent &event);
+		bool ProcessMouseEvent(MouseMessage &mouse);
+		bool ProcessKeyboardEvent(KeyboardMessage &event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -641,19 +641,19 @@ namespace OSHGui
 
 		virtual void OnLocationChanged();
 		virtual void OnSizeChanged();
-		virtual void OnMouseDown(const MouseEvent &mouse);
-		virtual void OnMouseClick(const MouseEvent &mouse);
-		virtual void OnMouseUp(const MouseEvent &mouse);
-		virtual void OnMouseMove(const MouseEvent &mouse);
-		virtual void OnMouseScroll(const MouseEvent &mouse);
-		virtual void OnMouseEnter(const MouseEvent &mouse);
-		virtual void OnMouseLeave(const MouseEvent &mouse);
+		virtual void OnMouseDown(const MouseMessage &mouse);
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnMouseUp(const MouseMessage &mouse);
+		virtual void OnMouseMove(const MouseMessage &mouse);
+		virtual void OnMouseScroll(const MouseMessage &mouse);
+		virtual void OnMouseEnter(const MouseMessage &mouse);
+		virtual void OnMouseLeave(const MouseMessage &mouse);
 		virtual void OnMouseCaptureChanged();
 		virtual void OnGotFocus();
 		virtual void OnLostFocus();
-		virtual void OnKeyDown(const KeyboardEvent &keyboard);
-		virtual void OnKeyPress(const KeyboardEvent &keyboard);
-		virtual void OnKeyUp(const KeyboardEvent &keyboard);
+		virtual void OnKeyDown(const KeyboardMessage &keyboard);
+		virtual void OnKeyPress(const KeyboardMessage &keyboard);
+		virtual void OnKeyUp(const KeyboardMessage &keyboard);
 		
 		CONTROL_TYPE type;
 		

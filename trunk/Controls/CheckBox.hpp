@@ -67,8 +67,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 	
 	protected:
-		virtual void OnMouseClick(const MouseEvent &mouse);
-		virtual void OnKeyUp(const KeyboardEvent &keyboard);
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnKeyUp(const KeyboardMessage &keyboard);
 
 		bool checked;
 		Drawing::Point checkBoxPosition,

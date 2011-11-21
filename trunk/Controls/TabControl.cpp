@@ -142,7 +142,7 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			mousePositionBackup = mouse->Position;
 			mouse->Position = PointToClient(mouse->Position);
 
@@ -157,13 +157,13 @@ namespace OSHGui
 					if (Drawing::Rectangle(x, 0, textSize.Width + 8, textSize.Height + 8).Contains(mouse->Position))
 					{
 						static TabPage *clicked = 0;
-						if (mouse->State == MouseEvent::LeftDown)
+						if (mouse->State == MouseMessage::LeftDown)
 						{
 							clicked = *it;
 
 							return true;
 						}
-						else if (mouse->State == MouseEvent::LeftUp)
+						else if (mouse->State == MouseMessage::LeftUp)
 						{
 							if (clicked == *it)
 							{
@@ -187,9 +187,9 @@ namespace OSHGui
 		}
 		else if (event->Type == IEvent::Keyboard)
 		{
-			KeyboardEvent *keyboard = (KeyboardEvent*)event;
+			KeyboardMessage *keyboard = (KeyboardMessage*)event;
 
-			if (keyboard->State == KeyboardEvent::Character)
+			if (keyboard->State == KeyboardMessage::Character)
 			{
 				if (keyboard->KeyCode == Key::Left)
 				{

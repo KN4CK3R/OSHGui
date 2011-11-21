@@ -9,17 +9,17 @@
 namespace OSHGui
 {
 	Application* Application::instance = new Application();
-	
-	bool Application::isEnabled = false;
-	Drawing::IRenderer *Application::renderer = 0;
-	Application::MouseInfo Application::mouse;
-	Misc::DateTime Application::now = Misc::DateTime::GetNow();
-	FormManager Application::formManager;
-	TimerManager Application::timerManager;
-	Control *Application::FocusedControl = 0;
-	Control *Application::ClickedControl = 0;
-	Control *Application::CaptureControl = 0;
-	Control *Application::MouseEnteredControl = 0;
+	//---------------------------------------------------------------------------
+	Application::Application()
+	{
+		isEnabled = false;
+		renderer = 0;
+		now = Misc::DateTime::GetNow();
+		FocusedControl = 0;
+		ClickedControl = 0;
+		CaptureControl = 0;
+		MouseEnteredControl = 0;
+	}
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
 	{
@@ -28,7 +28,7 @@ namespace OSHGui
 			throw Misc::ArgumentNullException(L"renderer", __WFILE__, __LINE__);
 		}
 		
-		Application::renderer = renderer;
+		this->renderer = renderer;
 
 		mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
@@ -41,6 +41,21 @@ namespace OSHGui
 	Drawing::IRenderer* Application::GetRenderer() const
 	{
 		return renderer;
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Point& Application::GetCursorPosition() const
+	{
+		return mouse.Position;
+	}
+	//---------------------------------------------------------------------------
+	const std::shared_ptr<Cursor>& Application::GetCursor() const
+	{
+		return mouse.Cursor;
+	}
+	//---------------------------------------------------------------------------
+	void Application::SetCursor(const std::shared_ptr<Cursor> &cursor)
+	{
+		mouse.Cursor = cursor;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Enable()
@@ -91,21 +106,21 @@ namespace OSHGui
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessMouseEvent(MouseEvent &mouse)
+	bool Application::ProcessMouseEvent(MouseMessage &mouse)
 	{
 		if (!isEnabled)
 		{
 			return false;
 		}
 
-		if (mouse.State != MouseEvent::Scroll)
+		if (mouse.State != MouseMessage::Scroll)
 		{
-			Application::mouse.Position = mouse.Position;
+			mouse.Position = mouse.Position;
 		}
 
-		if (Application::CaptureControl != 0)
+		if (CaptureControl != 0)
 		{
-			Application::CaptureControl->ProcessMouseEvent(mouse);
+			CaptureControl->ProcessMouseEvent(mouse);
 			return true;
 		}
 
@@ -120,7 +135,6 @@ namespace OSHGui
 			for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
 			{
 				std::shared_ptr<Form> &form = *it;
-
 				
 				if (form->ProcessMouseEvent(mouse) == true)
 				{
@@ -150,11 +164,11 @@ namespace OSHGui
 
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			//grab mouse position here for cursor rendering
-			if (mouse->State != MouseEvent::Scroll)
+			if (mouse->State != MouseMessage::Scroll)
 			{
-				Application::mouse.Position = mouse->Position;
+				mouse.Position = mouse->Position;
 			}
 		}
 

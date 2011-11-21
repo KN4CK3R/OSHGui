@@ -2,7 +2,7 @@
 #define OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP_
 
 #include "Misc\Strings.hpp"
-#include "KeyboardEvent.hpp"
+#include "KeyboardMessage.hpp"
 
 namespace OSHGui
 {
@@ -16,13 +16,13 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
-		KeyPressEventArgs(KeyboardEvent *keyboardEvent)
+		KeyPressEventArgs(KeyboardMessage *keyboardEvent)
 		{
 			KeyChar = keyboardEvent->KeyChar;
 			Handled = false;
 		}
 
-		KeyPressEventArgs(const KeyboardEvent &keyboardEvent)
+		KeyPressEventArgs(const KeyboardMessage &keyboardEvent)
 		{
 			KeyChar = keyboardEvent.KeyChar;
 			Handled = false;

@@ -78,11 +78,12 @@ namespace OSHGui
 	{
 		this->mouseOver = mouseOver;
 		
+		Application *app = Application::Instance();
 		if (mouseOver)
 		{
-			if (Application::Instance()->mouse.Cursor != cursor)
+			if (app->mouse.Cursor != cursor)
 			{
-				Application::Instance()->mouse.Cursor = cursor;
+				app->mouse.Cursor = cursor;
 			}
 		}
 	}
@@ -541,10 +542,10 @@ namespace OSHGui
 		sizeChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseDown(const MouseEvent &mouse)
+	void Control::OnMouseDown(const MouseMessage &mouse)
 	{
 		isClicked = true;
-		Application::ClickedControl = this;
+		Application::Instance()->ClickedControl = this;
             
 		//UI.CurrentHud.WindowManager.BringToFront(depth.WindowLayer);
 
@@ -552,13 +553,13 @@ namespace OSHGui
 		mouseDownEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseClick(const MouseEvent &mouse)
+	void Control::OnMouseClick(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
 		mouseClickEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseUp(const MouseEvent &mouse)
+	void Control::OnMouseUp(const MouseMessage &mouse)
 	{
 		isClicked = false;
 		Application::Instance()->ClickedControl = 0;
@@ -567,32 +568,34 @@ namespace OSHGui
 		mouseUpEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseMove(const MouseEvent &mouse)
+	void Control::OnMouseMove(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
 		mouseMoveEvent.Invoke(this, args);		
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseScroll(const MouseEvent &mouse)
+	void Control::OnMouseScroll(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
 		mouseScrollEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseEnter(const MouseEvent &mouse)
+	void Control::OnMouseEnter(const MouseMessage &mouse)
 	{
 		isInside = true;
 
-		if (Application::Instance()->MouseEnteredControl != 0 && Application::Instance()->MouseEnteredControl->isInside)
+		Application *app = Application::Instance();
+
+		if (app->MouseEnteredControl != 0 && app->MouseEnteredControl->isInside)
 		{
-			Application::Instance()->MouseEnteredControl->OnMouseLeave(mouse);
+			app->MouseEnteredControl->OnMouseLeave(mouse);
 		}
-		Application::Instance()->MouseEnteredControl = this;
+		app->MouseEnteredControl = this;
 
 		mouseEnterEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseLeave(const MouseEvent &mouse)
+	void Control::OnMouseLeave(const MouseMessage &mouse)
 	{
 		isInside = false;
 
@@ -609,14 +612,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus()
 	{
-		if (this != Application::Instance()->FocusedControl)
+		Application *app = Application::Instance();
+		if (this != app->FocusedControl)
 		{
-			if (Application::Instance()->FocusedControl != 0)
+			if (app->FocusedControl != 0)
 			{
-				Application::Instance()->FocusedControl->OnLostFocus();
+				app->FocusedControl->OnLostFocus();
 			}
 
-			Application::Instance()->FocusedControl = this;
+			app->FocusedControl = this;
 			isFocused = true;
 
 			focusGotEvent.Invoke(this);
@@ -626,12 +630,12 @@ namespace OSHGui
 	void Control::OnLostFocus()
 	{
 		isFocused = isClicked = false;
-		Application::FocusedControl = 0;
+		Application::Instance()->FocusedControl = 0;
 
 		focusLostEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnKeyDown(const KeyboardEvent &keyboard)
+	void Control::OnKeyDown(const KeyboardMessage &keyboard)
 	{
 		if (canRaiseEvents)
 		{
@@ -640,7 +644,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnKeyPress(const KeyboardEvent &keyboard)
+	void Control::OnKeyPress(const KeyboardMessage &keyboard)
 	{
 		if (canRaiseEvents)
 		{
@@ -649,7 +653,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnKeyUp(const KeyboardEvent &keyboard)
+	void Control::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		if (canRaiseEvents)
 		{
@@ -658,7 +662,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessMouseEvent(MouseEvent &mouse)
+	bool Control::ProcessMouseEvent(MouseMessage &mouse)
 	{
 		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
@@ -671,11 +675,11 @@ namespace OSHGui
 
 		switch (mouse.State)
 		{
-			case MouseEvent::LeftDown:
-			case MouseEvent::RightDown:
+			case MouseMessage::LeftDown:
+			case MouseMessage::RightDown:
 				if (canRaiseEvents && ContainsPoint(mouse.Position))
 				{
-					if (mouse.State == MouseEvent::LeftDown && !isClicked && isEnabled)
+					if (mouse.State == MouseMessage::LeftDown && !isClicked && isEnabled)
 					{
 						OnMouseDown(mouse);
 						
@@ -688,13 +692,13 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseEvent::LeftUp:
-			case MouseEvent::RightUp:
+			case MouseMessage::LeftUp:
+			case MouseMessage::RightUp:
 				if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
 				{
 					if (isClicked)
 					{
-						if (mouse.State != MouseEvent::Unknown)
+						if (mouse.State != MouseMessage::Unknown)
 						{
 							OnMouseClick(mouse);
 						}
@@ -705,8 +709,8 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseEvent::Move:
-			case MouseEvent::Scroll:
+			case MouseMessage::Move:
+			case MouseMessage::Scroll:
 				if (hasCaptured || ContainsPoint(mouse.Position))
 				{
 					if (canRaiseEvents)
@@ -732,19 +736,19 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessKeyboardEvent(KeyboardEvent &keyboard)
+	bool Control::ProcessKeyboardEvent(KeyboardMessage &keyboard)
 	{
 		if (canRaiseEvents)
 		{
 			switch (keyboard.State)
 			{
-				case KeyboardEvent::KeyDown:
+				case KeyboardMessage::KeyDown:
 					OnKeyDown(keyboard);
 					break;
-				case KeyboardEvent::KeyUp:
+				case KeyboardMessage::KeyUp:
 					OnKeyUp(keyboard);
 					break;
-				case KeyboardEvent::Character:
+				case KeyboardMessage::Character:
 					OnKeyPress(keyboard);
 					break;
 			}
@@ -778,7 +782,7 @@ namespace OSHGui
 		
 		if (event->Type == IEvent::Mouse)
 		{
-			MouseEvent *mouse = (MouseEvent*)event;
+			MouseMessage *mouse = (MouseMessage*)event;
 			
 			//find mouseOverControl
 			Control *control = GetChildAtPoint(mouse->Position);
@@ -799,7 +803,7 @@ namespace OSHGui
 			//someone is focused
 			if (focusControl != 0 && focusControl->GetEnabled())
 			{
-				if (!(mouse->State == MouseEvent::LeftDown && focusControl != mouseOverControl))
+				if (!(mouse->State == MouseMessage::LeftDown && focusControl != mouseOverControl))
 				{
 					if (focusControl->ProcessEvent(mouse) == true)
 					{
