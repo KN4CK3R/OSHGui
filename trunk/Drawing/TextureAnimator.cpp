@@ -160,14 +160,14 @@ namespace OSHGui
 				return;
 			}
 
-			Application &app = *Application::Instance();
+			Application *app = Application::Instance();
 
 			std::list<TextureInfo>::iterator it = textureInfoList.begin();
 			while (it != textureInfoList.end())
 			{
 				TextureInfo &textureInfo = *it;
 
-				if (textureInfo.GetNextFrameChangeTime() < app.GetNow())
+				if (textureInfo.GetNextFrameChangeTime() < app->GetNow())
 				{
 					int nextFrame = textureInfo.GetNextFrame();
 					if (nextFrame != -1)
