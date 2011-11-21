@@ -53,14 +53,14 @@ namespace OSHGui
 	{
 		if (timers.size() > 0)
 		{
-			Application &app = *Application::Instance();
+			Application *app = Application::Instance();
 			for (std::list<TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
 			{
 				TimerInfo info = *it;
-				if (info.next < app.GetNow())
+				if (info.next < app->GetNow())
 				{
 					info.timer->GetTickEvent().Invoke(info.timer);
-					info.next = app.GetNow().Add(info.interval);
+					info.next = app->GetNow().Add(info.interval);
 				}
 			}
 		}
