@@ -546,8 +546,6 @@ namespace OSHGui
 	{
 		isClicked = true;
 		Application::Instance()->ClickedControl = this;
-            
-		//UI.CurrentHud.WindowManager.BringToFront(depth.WindowLayer);
 
         MouseEventArgs args(mouse);
 		mouseDownEvent.Invoke(this, args);
@@ -593,6 +591,8 @@ namespace OSHGui
 		app->MouseEnteredControl = this;
 
 		mouseEnterEvent.Invoke(this);
+
+		app->SetCursor(cursor);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseLeave(const MouseMessage &mouse)
@@ -761,7 +761,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ProcessEvent(IEvent *event)
 	{
-
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::ChildProcessEvent(IEvent *event)

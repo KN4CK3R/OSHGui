@@ -137,7 +137,7 @@ namespace OSHGui
 					frameChangeFunction(texture);
 				}
 
-				nextFrameChangeTime = Application::GetNow().Add(frameChangeInterval);
+				nextFrameChangeTime = Application::Instance()->GetNow().Add(frameChangeInterval);
 
 				frameDirty = false;
 			}
@@ -160,12 +160,14 @@ namespace OSHGui
 				return;
 			}
 
+			Application &app = *Application::Instance();
+
 			std::list<TextureInfo>::iterator it = textureInfoList.begin();
 			while (it != textureInfoList.end())
 			{
 				TextureInfo &textureInfo = *it;
 
-				if (textureInfo.GetNextFrameChangeTime() < Application::GetNow())
+				if (textureInfo.GetNextFrameChangeTime() < app.GetNow())
 				{
 					int nextFrame = textureInfo.GetNextFrame();
 					if (nextFrame != -1)

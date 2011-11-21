@@ -8,15 +8,15 @@
 #include "Event/IEvent.hpp"
 #include "Event/MouseMessage.hpp"
 #include "Exports.hpp"
+#include "FormManager.hpp"
+#include "TimerManager.hpp"
 
 namespace OSHGui
 {
 	class Control;
 	class Form;
 	class Timer;
-	class FormManager;
-	class TimerManager;
-
+	
 	/**
 	 * Stellt Methoden und Eigenschaften für die Verwaltung einer
 	 * Anwendung zur Verfügung, z.B. Methoden zum Starten und Beenden einer
@@ -47,10 +47,23 @@ namespace OSHGui
 		 * @return renderer
 		 */
 		Drawing::IRenderer* GetRenderer() const;
-
+		/**
+		 * Ruft die aktuelle Mausposition ab.
+		 *
+		 * @return cursorPosition
+		 */
 		const Drawing::Point& GetCursorPosition() const;
-
+		/**
+		 * Ruft den Cursor ab.
+		 *
+		 * @cursor
+		 */
 		const std::shared_ptr<Cursor>& GetCursor() const;
+		/**
+		 * Legt den Cursor fest.
+		 *
+		 * @param cursor
+		 */
 		void SetCursor(const std::shared_ptr<Cursor> &cursor);
 	
 		/**

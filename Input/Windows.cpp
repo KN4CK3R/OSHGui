@@ -212,7 +212,7 @@ namespace OSHGui
 						break;
 					}
 			
-					if (Application::ProcessEvent(&keyboard) == true)
+					if (Application::Instance()->ProcessEvent(&keyboard) == true)
 					{
 						return true;
 					}
