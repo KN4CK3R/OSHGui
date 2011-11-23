@@ -111,7 +111,7 @@ namespace OSHGui
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessMouseEvent(MouseMessage &mouse)
+	bool Application::ProcessMouseMessage(MouseMessage &mouse)
 	{
 		if (!isEnabled)
 		{
@@ -120,12 +120,12 @@ namespace OSHGui
 
 		if (mouse.State != MouseMessage::Scroll)
 		{
-			mouse.Position = mouse.Position;
+			this->mouse.Position = mouse.Position;
 		}
 
 		if (CaptureControl != 0)
 		{
-			CaptureControl->ProcessMouseEvent(mouse);
+			CaptureControl->ProcessMouseMessage(mouse);
 			return true;
 		}
 
@@ -134,14 +134,14 @@ namespace OSHGui
 			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
 			if (foreMost != 0 && foreMost->IsModal())
 			{
-				return foreMost->ProcessMouseEvent(mouse);
+				return foreMost->ProcessMouseMessage(mouse);
 			}
 			
 			for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
 			{
 				std::shared_ptr<Form> &form = *it;
 				
-				if (form->ProcessMouseEvent(mouse) == true)
+				if (form->ProcessMouseMessage(mouse) == true)
 				{
 					if (form != foreMost)
 					{
@@ -155,30 +155,18 @@ namespace OSHGui
 
 		return false;
 	}
-	bool Application::ProcessEvent(IEvent *event)
+	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
-		}
-		
 		if (!isEnabled)
 		{
 			return false;
 		}
 
-		if (event->Type == IEvent::Mouse)
+		if (FocusedControl != 0)
 		{
-			//MouseMessage *mouse = (MouseMessage*)event;
-			//grab mouse position here for cursor rendering
-			//if (mouse->State != MouseMessage::Scroll)
-			{
-				//mouse.Position = mouse->Position;
-			}
+			FocusedControl->ProcessKeyboardMessage(keyboard);
 		}
 
-		formManager.ForwardEventToForms(event);
-		
 		return false;
 	}
 	//---------------------------------------------------------------------------
