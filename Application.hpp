@@ -7,6 +7,7 @@
 #include "Cursor/Cursor.hpp"
 #include "Event/IEvent.hpp"
 #include "Event/MouseMessage.hpp"
+#include "Event/KeyboardMessage.hpp"
 #include "Exports.hpp"
 #include "FormManager.hpp"
 #include "TimerManager.hpp"
@@ -85,18 +86,28 @@ namespace OSHGui
 		 */
 		void Run(const std::shared_ptr<Form> &mainForm);
 		/**
-		 * Gibt ein IEvent an die geöffneten Formen weiter.
+		 * Gibt eine MouseMessage an die geöffneten Formen weiter.
 		 *
-		 * @param event
-		 * @return NextEventTypes
+		 * @param mouse
+		 * @return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessEvent(IEvent *event);
-		bool ProcessMouseEvent(MouseMessage &mouse);
+		bool ProcessMouseMessage(MouseMessage &mouse);
+		/**
+		 * Gibt eine KeyboardMessage an die geöffneten Formen weiter.
+		 *
+		 * @param keyboard
+		 * @return true, falls die Nachricht verarbeitet wurde
+		 */
+		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
 		void Render();
 		
+		/**
+		 * Ruft die aktuelle Instanz der Application ab.
+		 *
+		 */
 		static Application* Instance();
 
 	private:
@@ -112,7 +123,6 @@ namespace OSHGui
 		
 		Misc::DateTime now;
 
-	public:
 		typedef struct
 		{
 			Drawing::Point Position;
@@ -120,6 +130,7 @@ namespace OSHGui
 		} MouseInfo;
 		MouseInfo mouse;
 
+	public:
 		Control *FocusedControl;
 		Control *ClickedControl;
 		Control *CaptureControl;

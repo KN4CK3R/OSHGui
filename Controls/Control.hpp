@@ -603,8 +603,8 @@ namespace OSHGui
 		 * @return NextEventTypes
 		 */
 		bool ChildProcessEvent(IEvent *event);
-		bool ProcessMouseEvent(MouseMessage &mouse);
-		bool ProcessKeyboardEvent(KeyboardMessage &event);
+		bool ProcessMouseMessage(MouseMessage &mouse);
+		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -673,11 +673,11 @@ namespace OSHGui
 		Misc::Any tag;
 		
 		Drawing::Point location;
+		Drawing::Point absolutePosition;
 		Drawing::Size size;
 		
 		Drawing::Rectangle bounds,
-						   clientArea,
-						   absoluteBounds;
+						   clientArea;
 		
 		LocationChangedEvent locationChangedEvent;
 		SizeChangedEvent sizeChangedEvent;

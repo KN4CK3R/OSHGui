@@ -50,7 +50,7 @@ namespace OSHGui
 							break;
 					}
 
-					if (Application::Instance()->ProcessMouseEvent(mouse) == true)
+					if (Application::Instance()->ProcessMouseMessage(mouse) == true)
 					{
 						return true;
 					}
@@ -212,7 +212,7 @@ namespace OSHGui
 						break;
 					}
 			
-					if (Application::Instance()->ProcessEvent(&keyboard) == true)
+					if (Application::Instance()->ProcessKeyboardMessage(keyboard) == true)
 					{
 						return true;
 					}

@@ -20,6 +20,7 @@ namespace OSHGui
 		isClicked = false;
 		isInside = false;
 		isFocusable = true;
+		hasCaptured = false;
 
 		focusControl = 0;
 		mouseOverControl = 0;
@@ -78,13 +79,9 @@ namespace OSHGui
 	{
 		this->mouseOver = mouseOver;
 		
-		Application *app = Application::Instance();
 		if (mouseOver)
 		{
-			if (app->mouse.Cursor != cursor)
-			{
-				app->mouse.Cursor = cursor;
-			}
+			Application::Instance()->SetCursor(cursor);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -112,6 +109,8 @@ namespace OSHGui
 	void Control::SetBounds(Drawing::Rectangle &bounds)
 	{
 		this->bounds = bounds;
+
+		absolutePosition = PointToScreen(Drawing::Point(0, 0));
 		
 		static bool isValid = true; //no recursive calls
 		if (isValid)
@@ -136,6 +135,8 @@ namespace OSHGui
 	{
 		bounds.SetLeft(x);
 		bounds.SetTop(y);
+
+		absolutePosition = PointToScreen(Drawing::Point(0, 0));
 		
 		static bool isValid = true; //no recursive calls
 		if (isValid)
@@ -381,7 +382,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ContainsPoint(const Drawing::Point &point) const
 	{
-		return false;
+		return absolutePosition.Left <= point.Left && absolutePosition.Top <= point.Top
+			&& point.Left <= absolutePosition.Left + bounds.GetWidth()
+			&& point.Top <= absolutePosition.Top + bounds.GetHeight();
 	}
 	//---------------------------------------------------------------------------
 	void Control::Invalidate()
@@ -426,7 +429,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
 	{
-		return point - bounds.GetPosition();
+		return point - absolutePosition;
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
@@ -471,7 +474,7 @@ namespace OSHGui
 			}
 		}
 
-		throw Misc::ArgumentException(L"No control exists with this name", L"name", __WFILE__, __LINE__);
+		return 0;
 	}
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
@@ -530,9 +533,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnLocationChanged()
 	{
-		Drawing::Point absolutePosition = PointToScreen(Drawing::Point(0, 0));
-		absoluteBounds.SetTop(absolutePosition.Top);
-		absoluteBounds.SetLeft(absolutePosition.Left);
+		absolutePosition = PointToScreen(Drawing::Point(0, 0));
 	
 		locationChangedEvent.Invoke(this);
 	}
@@ -662,12 +663,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessMouseEvent(MouseMessage &mouse)
+	bool Control::ProcessMouseMessage(MouseMessage &mouse)
 	{
 		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control &child = *(*it);
-			if (child.ProcessMouseEvent(mouse) == true)
+			if (child.ProcessMouseMessage(mouse) == true)
 			{
 				return true;
 			}
@@ -736,7 +737,7 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessKeyboardEvent(KeyboardMessage &keyboard)
+	bool Control::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
 		if (canRaiseEvents)
 		{
