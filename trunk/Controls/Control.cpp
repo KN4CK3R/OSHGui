@@ -6,15 +6,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Control::Control(Control *parent)
+	Control::Control()
 	{
 		type = CONTROL_ROOT;
 		
-		this->parent = parent;
-		
 		SetEnabled(true);
 		SetVisible(true);
-				
+		
+		isSubComponent = false;
 		mouseOver = false;
 		isFocused = false;
 		isClicked = false;
@@ -34,13 +33,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		for (unsigned int i = 0; i < controls.size(); ++i)
+		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
-			Control *control = controls[i];
-			delete control;
+			delete *it;
+		}
+		for (std::list<Control*>::iterator it = internalControls.begin(); it != internalControls.end(); ++it)
+		{
+			delete *it;
 		}
 
 		controls.clear();
+		internalControls.clear();
 	}
 	//---------------------------------------------------------------------------
 	CONTROL_TYPE Control::GetType() const
@@ -368,7 +371,7 @@ namespace OSHGui
 		return parent;
 	}
 	//---------------------------------------------------------------------------
-	const std::vector<Control*>& Control::GetControls() const
+	const std::list<Control*>& Control::GetControls() const
 	{
 		return controls;
 	}
@@ -398,23 +401,32 @@ namespace OSHGui
 		{
 			throw Misc::ArgumentNullException(L"control", __WFILE__, __LINE__);
 		}
-		
-		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+
+		if (control->GetType() == CONTROL_FORM)
 		{
-			if (control == *it)
+			return;
+		}
+		
+		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+		{
+			Control *cont = *it;
+			if (control == cont || control->name == cont->name)
 			{
 				return;
 			}
 		}
+
+		control->parent = this;
 	
 		controls.push_back(control);
+		internalControls.push_back(control);
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::InvalidateChildren()
 	{
-		for (std::vector<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
 			Control *control = *it;
 
@@ -449,7 +461,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
 	{
-		for (std::vector<Control*>::const_reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		for (std::list<Control*>::const_reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control *control = *it;
 
@@ -464,7 +476,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildByName(const Misc::UnicodeString &name) const
 	{
-		for (std::vector<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
+		for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 		{
 			Control *control = *it;
 			
@@ -665,7 +677,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseMessage(MouseMessage &mouse)
 	{
-		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		for (std::list<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control &child = *(*it);
 			if (child.ProcessMouseMessage(mouse) == true)

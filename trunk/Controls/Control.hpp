@@ -515,6 +515,18 @@ namespace OSHGui
 		 * @return forcusOutEvent
 		 */
 		FocusLostEvent& GetFocusLostEvent();
+		/**
+		 * Gibt das übergeordnete Steuerelement zurück.
+		 *
+		 * @return parent
+		 */
+		Control* GetParent() const;
+		/**
+		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
+		 *
+		 * @return parent
+		 */
+		const std::list<Control*>& GetControls() const;
 
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -548,7 +560,7 @@ namespace OSHGui
 		 *
 		 * @param control
 		 */
-		void AddControl(Control *control);
+		virtual void AddControl(Control *control);
 		/**
 		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
 		 *
@@ -611,19 +623,6 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
-		
-		/**
-		 * Gibt das übergeordnete Steuerelement zurück.
-		 *
-		 * @return parent
-		 */
-		Control* GetParent() const;
-		/**
-		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
-		 *
-		 * @return parent
-		 */
-		const std::vector<Control*>& GetControls() const;	
 	
 	protected:
 		/**
@@ -631,7 +630,7 @@ namespace OSHGui
 		 *
 		 * @param parent das Elternsteuerelement
 		 */
-		Control(Control *parent);
+		Control();
 	
 		bool ContainerProcessEvent(IEvent *event);
 		void ChildRender(Drawing::IRenderer *renderer);
@@ -658,7 +657,8 @@ namespace OSHGui
 		CONTROL_TYPE type;
 		
 		Misc::UnicodeString name;
-	
+
+		bool isSubComponent;
 		bool canRaiseEvents;
 		bool isEnabled;
 		bool isVisible;
@@ -705,7 +705,8 @@ namespace OSHGui
 
 		Control *parent;
 
-		std::vector<Control*> controls;
+		std::list<Control*> controls;
+		std::list<Control*> internalControls;
 
 		Control *focusControl,
 				*mouseOverControl;

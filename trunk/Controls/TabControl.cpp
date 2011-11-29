@@ -8,7 +8,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TabControl::TabControl(Control *parent) : Control(parent)
+	TabControl::TabControl() : Control()
 	{
 		type = CONTROL_TABCONTROL;
 

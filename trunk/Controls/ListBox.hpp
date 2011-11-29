@@ -15,10 +15,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		ListBox(Control *parent);
+		ListBox();
 		virtual ~ListBox();
 		
 		/**

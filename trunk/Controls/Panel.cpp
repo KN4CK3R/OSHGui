@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Panel::Panel(Control *parent) : Control(parent)
+	Panel::Panel() : Control()
 	{
 		type = CONTROL_PANEL;
 		

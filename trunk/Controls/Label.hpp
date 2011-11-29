@@ -14,10 +14,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		Label(Control *parent);
+		Label();
 		
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
@@ -56,7 +54,6 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
-		bool pressed;
 		Misc::TextHelper textHelper;
 	};
 }

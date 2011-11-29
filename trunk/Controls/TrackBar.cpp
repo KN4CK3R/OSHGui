@@ -8,7 +8,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TrackBar::TrackBar(Control *parent) : Control(parent)
+	TrackBar::TrackBar() : Control()
 	{
 		type = CONTROL_TRACKBAR;
 		

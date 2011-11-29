@@ -16,10 +16,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		TextBox(Control *parent);
+		TextBox();
 		virtual ~TextBox();
 		
 		/**

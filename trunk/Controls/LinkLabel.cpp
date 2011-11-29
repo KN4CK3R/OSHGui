@@ -5,7 +5,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	LinkLabel::LinkLabel(Control *parent) : Label(parent)
+	LinkLabel::LinkLabel() : Label()
 	{
 		type = CONTROL_LINKLABEL;
 

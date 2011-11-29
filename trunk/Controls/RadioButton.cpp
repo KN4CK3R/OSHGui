@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	RadioButton::RadioButton(Control *parent) : CheckBox(parent)
+	RadioButton::RadioButton() : CheckBox()
 	{
 		type = CONTROL_RADIOBUTTON;
 		
@@ -24,10 +24,10 @@ namespace OSHGui
 		if (this->checked != checked)
 		{
 			//uncheck other radiobuttons
-			const std::vector<Control*> &controls = parent->GetControls();
-			for (unsigned int i = 0; i < controls.size(); ++i)
+			const std::list<Control*> &controls = parent->GetControls();
+			for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 			{
-				Control *control = controls[i];
+				Control *control = *it;
 				if (control->GetType() == CONTROL_RADIOBUTTON)
 				{
 					RadioButton *radio = (RadioButton*)control;
