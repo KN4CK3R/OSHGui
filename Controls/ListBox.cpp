@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ListBox::ListBox(Control *parent) : Control(parent), scrollBar(this)
+	ListBox::ListBox() : Control(), scrollBar(this)
 	{
 		type = CONTROL_LISTBOX;
 		

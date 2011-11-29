@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TextBox::TextBox(Control *parent) : Control(parent), textHelper(font)
+	TextBox::TextBox() : Control(), textHelper(font)
 	{
 		type = CONTROL_TEXTBOX;
 

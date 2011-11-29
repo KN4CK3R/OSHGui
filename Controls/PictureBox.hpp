@@ -15,10 +15,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		PictureBox(Control *parent);
+		PictureBox();
 		virtual ~PictureBox();
 		
 		/**

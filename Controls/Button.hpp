@@ -1,6 +1,7 @@
 #ifndef OSHGUI_BUTTON_HPP_
 #define OSHGUI_BUTTON_HPP_
 
+#include "Control.hpp"
 #include "Label.hpp"
 
 namespace OSHGui
@@ -8,15 +9,13 @@ namespace OSHGui
 	/**
 	 * Stellt ein Schaltflächen-Steuerelement dar.
 	 */
-	class OSHGUI_EXPORT Button : public Label
+	class OSHGUI_EXPORT Button : public Control
 	{
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		Button(Control *parent);
+		Button();
 		virtual ~Button();
 		
 		/**
@@ -40,6 +39,9 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
+
+	protected:
+		Label *label;
 	};
 }
 

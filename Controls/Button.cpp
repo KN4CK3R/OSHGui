@@ -6,15 +6,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Button::Button(Control *parent) : Label(parent)
+	Button::Button() : Control()
 	{
 		type = CONTROL_BUTTON;
 		
-		pressed = false;
-
 		SetAutoSize(false);
 		SetSize(92, 24);
-		SetText(L"Button");
+
+		label = new Label();
+		label->isSubComponent = true;
+		label->SetLocation(6, 5);
+		label->SetAutoSize(false);
+		label->SetText(L"Button");
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -22,7 +25,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Button::~Button()
 	{
-	
+		delete label;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -34,10 +37,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::Invalidate()
 	{
-		textHelper.SetFont(font);
+		label->SetFont(font);
 		if (autoSize)
 		{
-			Drawing::Size size = textHelper.GetSize();
+			Drawing::Size size = label->GetSize();
 			size.Inflate(12, 10);
 			SetSize(size);
 		}
@@ -48,115 +51,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	/*bool Button::ProcessEvent(IEvent *event)
-	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
-		}
-
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-	
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-			
-			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
-			{
-				if (mouse->State == MouseMessage::LeftDown)
-				{
-					pressed = true;
-				
-					if (!isFocused)
-					{
-						parent->RequestFocus(this);
-					}
-
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::RightDown)
-				{
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::Move)
-				{
-					MouseEventArgs args(mouse);
-					mouseMoveEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::RightUp)
-				{
-					if (pressed && isFocused)
-					{
-						pressed = false;
-					
-						clickEvent.Invoke(this);
-						
-						MouseEventArgs args(mouse);
-						mouseClickEvent.Invoke(this, args);
-					}
-					
-					MouseEventArgs args(mouse);
-					mouseUpEvent.Invoke(this, args);
-					
-					return true;
-				}
-			}
-
-			mouse->Position = mousePositionBackup;
-		}
-		else if (event->Type == IEvent::Keyboard)
-		{
-			KeyboardMessage *keyboard = (KeyboardMessage*) event;
-			
-			static Key::Keys oldKeyCode = Key::None;
-			if (keyboard->State == KeyboardMessage::KeyDown)
-			{
-				oldKeyCode = keyboard->KeyCode;
-				KeyEventArgs args(keyboard);
-				keyDownEvent.Invoke(this, args);
-			}
-			else if (keyboard->State == KeyboardMessage::Character)
-			{
-				if (keyboard->KeyCode == Key::Return)
-				{
-					clickEvent.Invoke(this);
-				}
-				else if (isFocused)
-				{
-					KeyPressEventArgs args(keyboard);
-					keyPressEvent.Invoke(this, args);
-				}
-			}
-			else if (keyboard->State == KeyboardMessage::KeyUp)
-			{
-				if (keyboard->KeyCode == Key::Space && oldKeyCode == keyboard->KeyCode)
-				{
-					clickEvent.Invoke(this);
-				}
-				
-				KeyEventArgs args(keyboard);
-				keyUpEvent.Invoke(this, args);
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------*/
 	void Button::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -166,7 +60,7 @@ namespace OSHGui
 		
 		Drawing::Color tempColor = backColor;
 
-		if ((isFocused || mouseOver) && !(isFocused && pressed))
+		if ((isFocused || mouseOver) && !(isFocused && isClicked))
 		{
 			tempColor += mouseOverFocusColor;
 		}
@@ -183,9 +77,9 @@ namespace OSHGui
 		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 1, bounds.GetWidth() - 4, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, bounds.GetLeft() + 6, bounds.GetTop() + 5, bounds.GetWidth() - 12, bounds.GetHeight() - 10, textHelper.GetText());
+		label->Render(renderer);
 
-		if (controls.size() > 0)
+		if (controls.front() != 0)
 		{
 			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());

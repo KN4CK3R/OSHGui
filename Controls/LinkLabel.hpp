@@ -13,10 +13,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		LinkLabel(Control *parent);
+		LinkLabel();
 		~LinkLabel();
 		
 		/**

@@ -14,10 +14,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		RadioButton(Control *parent);
+		RadioButton();
 		
 		/**
 		 * Legt den checked-Status fest und passt automatisch

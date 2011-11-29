@@ -7,7 +7,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	PictureBox::PictureBox(Control *parent) : Control(parent)
+	PictureBox::PictureBox() : Control()
 	{
 		type = CONTROL_PICTUREBOX;
 

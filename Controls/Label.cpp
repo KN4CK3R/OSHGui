@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(Control *parent) : Control(parent), textHelper(font)
+	Label::Label() : Control(), textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
@@ -57,74 +57,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	/*bool Label::ProcessEvent(IEvent *event)
-	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
-		}
-
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-	
-		Drawing::Point mousePositionBackup;
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-		}
-		
-		if (ChildProcessEvent(event) == true)
-		{
-			return true;
-		}
-		
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			
-			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
-			{
-				if (mouse->State == MouseMessage::LeftDown || mouse->State == MouseMessage::RightDown)
-				{
-					pressed = true;
-					
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-				}
-				else if (mouse->State == MouseMessage::Move)
-				{
-					MouseEventArgs args(mouse);
-					mouseMoveEvent.Invoke(this, args);
-				}
-				else if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::RightUp)
-				{
-					if (pressed)
-					{
-						pressed = false;
-					
-						clickEvent.Invoke(this);
-
-						MouseEventArgs args(mouse);
-						mouseClickEvent.Invoke(this, args);
-					}
-
-					MouseEventArgs args(mouse);
-					mouseUpEvent.Invoke(this, args);
-				}
-
-				return true;
-			}
-
-			mouse->Position = mousePositionBackup;
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------*/
 	void Label::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)

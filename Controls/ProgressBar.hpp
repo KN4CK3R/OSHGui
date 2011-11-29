@@ -14,10 +14,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		ProgressBar(Control *parent);
+		ProgressBar();
 	
 		/**
 		 * Legt den minimalen Wert fest.

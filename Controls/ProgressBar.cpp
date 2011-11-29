@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ProgressBar::ProgressBar(Control *parent) : Control(parent)
+	ProgressBar::ProgressBar() : Control()
 	{
 		type = CONTROL_PROGRESSBAR;
 
