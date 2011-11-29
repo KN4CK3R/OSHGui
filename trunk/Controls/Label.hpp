@@ -22,13 +22,13 @@ namespace OSHGui
 		 *
 		 * @param text
 		 */
-		void SetText(const Misc::UnicodeString &text);
+		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText();
+		const Misc::AnsiString& GetText();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

@@ -56,7 +56,7 @@ namespace OSHGui
 			__int64 totalMilliSeconds = ((__int64)days * 3600 * 24 + (__int64)hours * 3600 + (__int64)minutes * 60 + seconds) * 1000;
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw ArgumentOutOfRangeException(L"milliseconds", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("milliseconds", __FILE__, __LINE__);
 			}
 			ticks = totalMilliSeconds * TicksPerMillisecond;
 		}
@@ -66,7 +66,7 @@ namespace OSHGui
 			__int64 totalMilliSeconds = ((__int64)days * 3600 * 24 + (__int64)hours * 3600 + (__int64)minutes * 60 + seconds) * 1000 + milliseconds;
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw ArgumentOutOfRangeException(L"milliseconds", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("milliseconds", __FILE__, __LINE__);
 			}
 			ticks = totalMilliSeconds * TicksPerMillisecond;
 		}
@@ -144,7 +144,7 @@ namespace OSHGui
 			__int64 result = ticks + ts.ticks;
 			if ((ticks >> 63 == ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			return TimeSpan(result);
 		}
@@ -154,7 +154,7 @@ namespace OSHGui
 			__int64 result = ticks - ts.ticks;
 			if ((ticks >> 63 != ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			return TimeSpan(result);
 		}
@@ -213,7 +213,7 @@ namespace OSHGui
 		{
 			if (ticks == MinValue.ticks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			return TimeSpan(ticks >= 0 ? ticks : -ticks);
 		}
@@ -222,7 +222,7 @@ namespace OSHGui
 		{
 			if (ticks == MinValue.ticks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			return TimeSpan(-ticks);
 		}
@@ -261,13 +261,13 @@ namespace OSHGui
 		{
 			//if (value == 0.0 / 0.0)
 			//{
-			//	throw ArgumentException(L"Invalid argument: value is NAN", __WFILE__, __LINE__);
+			//	throw ArgumentException("Invalid argument: value is NAN", __FILE__, __LINE__);
 			//}
 			double temp = value * scale;
 			double millis = temp + (value >= 0.0 ? 0.5 : -0.5);
 			if ((millis > MaxMilliSeconds) || (millis < MinMilliSeconds))
 			{
-				throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("value", __FILE__, __LINE__);
 			}
 			return TimeSpan((__int64)millis * TicksPerMillisecond);
 		}
@@ -277,12 +277,12 @@ namespace OSHGui
 			__int64 totalSeconds = (__int64)hour * 3600 + (__int64)minute * 60 + (__int64)second;
 			if (totalSeconds > MaxSeconds || totalSeconds < MinSeconds)
 			{
-				throw ArgumentOutOfRangeException(L"totalSeconds", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("totalSeconds", __FILE__, __LINE__);
 			}
 			return totalSeconds * TicksPerSecond;
 		}
 		//---------------------------------------------------------------------------
-		UnicodeString TimeSpan::ToString()
+		AnsiString TimeSpan::ToString()
 		{
 			int days = GetDays();
 			int milliseconds = GetMilliseconds();
@@ -290,11 +290,11 @@ namespace OSHGui
 			{
 				if (days != 0)
 				{
-					return String::Format(L"%u.%02u:%02u:%02u.%03u0000", days, GetHours(), GetMinutes(), GetSeconds(), milliseconds);
+					return String::Format("%u.%02u:%02u:%02u.%03u0000", days, GetHours(), GetMinutes(), GetSeconds(), milliseconds);
 				}
-				return String::Format(L"%02u:%02u:%02u.%03u0000", GetHours(), GetMinutes(), GetSeconds(), milliseconds);
+				return String::Format("%02u:%02u:%02u.%03u0000", GetHours(), GetMinutes(), GetSeconds(), milliseconds);
 			}
-			return String::Format(L"%02u:%02u:%02u", GetHours(), GetMinutes(), GetSeconds());
+			return String::Format("%02u:%02u:%02u", GetHours(), GetMinutes(), GetSeconds());
 		}
 		//---------------------------------------------------------------------------
 	}

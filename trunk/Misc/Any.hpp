@@ -152,7 +152,7 @@ namespace OSHGui
 				}
 				else
 				{
-					throw InvalidOperationException(L"Cannot cast object", __WFILE__, __LINE__);
+					throw InvalidOperationException("Cannot cast object", __FILE__, __LINE__);
 				}
 			}
 		};

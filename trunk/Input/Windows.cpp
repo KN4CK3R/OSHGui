@@ -156,7 +156,7 @@ namespace OSHGui
 					{
 						keyboard.State = KeyboardMessage::Character;
 
-						switch ((Misc::UnicodeChar)message->wParam)
+						switch ((Misc::AnsiChar)message->wParam)
 						{
 							case VK_BACK:
 								keyboard.KeyCode = Key::Back;
@@ -193,12 +193,12 @@ namespace OSHGui
 							case 28:  // Ctrl \ 
 								break;
 							default:
-								keyboard.KeyChar = (Misc::UnicodeChar)message->wParam;
-								Misc::UnicodeChar keyChar = tolower(keyboard.KeyChar);
+								keyboard.KeyChar = (Misc::AnsiChar)message->wParam;
+								Misc::AnsiChar keyChar = tolower(keyboard.KeyChar);
 								
-								if (keyChar >= L'a' && keyChar <= L'z')
+								if (keyChar >= 'a' && keyChar <= 'z')
 								{
-									keyboard.KeyCode = (Key::Keys)((int)Key::A + (keyChar - L'a'));
+									keyboard.KeyCode = (Key::Keys)((int)Key::A + (keyChar - 'a'));
 								}
 								else
 								{

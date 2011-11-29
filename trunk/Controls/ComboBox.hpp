@@ -41,7 +41,7 @@ namespace OSHGui
 		 * @param index
 		 * @return das Item
 		 */
-		const Misc::UnicodeString& GetItem(int index) const;
+		const Misc::AnsiString& GetItem(int index) const;
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
@@ -53,7 +53,7 @@ namespace OSHGui
 		 *
 		 * @return das Item
 		 */
-		const Misc::UnicodeString& GetSelectedItem() const;
+		const Misc::AnsiString& GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der Items zurück.
 		 *
@@ -98,14 +98,14 @@ namespace OSHGui
 		 *
 		 * @param text der Text des Items
 		 */
-		void AddItem(const Misc::UnicodeString &text);
+		void AddItem(const Misc::AnsiString &text);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
 		 * @param index
 		 * @param text der Text des Items
 		 */
-		void InsertItem(int index, const Misc::UnicodeString &text);
+		void InsertItem(int index, const Misc::AnsiString &text);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *
@@ -161,7 +161,7 @@ namespace OSHGui
 						   itemsRect;
 		Drawing::Color dropDownColor;
 		
-		std::vector<Misc::UnicodeString> items;
+		std::vector<Misc::AnsiString> items;
 
 		SelectedIndexChangedEvent selectedIndexChangedEvent;
 		KeyDownEvent keyDownEvent;

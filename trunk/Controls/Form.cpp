@@ -24,7 +24,7 @@ namespace OSHGui
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
-		SetText(L"Form");
+		SetText("Form");
 
 		Invalidate();
 	}
@@ -36,12 +36,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Form::SetText(const Misc::UnicodeString &text)
+	void Form::SetText(const Misc::AnsiString &text)
 	{
 		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Form::GetText() const
+	const Misc::AnsiString& Form::GetText() const
 	{
 		return textHelper.GetText();
 	}
@@ -116,7 +116,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)

@@ -25,13 +25,13 @@ namespace OSHGui
 		 *
 		 * @param text
 		 */
-		void SetText(const Misc::UnicodeString &text);
+		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText() const;
+		const Misc::AnsiString& GetText() const;
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -57,7 +57,7 @@ namespace OSHGui
 
 	protected:
 		
-		Misc::UnicodeString text;
+		Misc::AnsiString text;
 	};
 }
 

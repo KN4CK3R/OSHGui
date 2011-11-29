@@ -61,7 +61,7 @@ namespace OSHGui
 			}
 			else
 			{
-				throw Misc::ArgumentOutOfRangeException(L"interval", __WFILE__, __LINE__);
+				throw Misc::ArgumentOutOfRangeException("interva", __FILE__, __LINE__);
 			}
 		}
 	}

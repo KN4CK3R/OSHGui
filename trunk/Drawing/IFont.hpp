@@ -23,7 +23,7 @@ namespace OSHGui
 			 *
 			 * @return der Name
 			 */
-			const Misc::UnicodeString& GetName() const { return fontName; }
+			const Misc::AnsiString& GetName() const { return fontName; }
 			/**
 			 * Ruft die Schriftgröße ab.
 			 */
@@ -43,7 +43,7 @@ namespace OSHGui
 			 * @param text der Text
 			 * @return die Maße
 			 */
-			virtual const Size MeasureText(const Misc::UnicodeString &text) = 0;
+			virtual const Size MeasureText(const Misc::AnsiString &text) = 0;
 			
 		protected:
 			/**
@@ -54,9 +54,9 @@ namespace OSHGui
 			 * @param bold fettgedruckt
 			 * @param italic kursiv
 			 */
-			virtual void Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic) = 0;
+			virtual void Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic) = 0;
 		
-			Misc::UnicodeString fontName;
+			Misc::AnsiString fontName;
 			int size;
 			bool bold;
 			bool italic;

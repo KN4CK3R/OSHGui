@@ -31,7 +31,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TextBox::SetText(const Misc::UnicodeString &text)
+	void TextBox::SetText(const Misc::AnsiString &text)
 	{
 		textHelper.SetText(text);
 
@@ -40,7 +40,7 @@ namespace OSHGui
 		textChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& TextBox::GetText() const
+	const Misc::AnsiString& TextBox::GetText() const
 	{
 		return textHelper.GetText();
 	}
@@ -138,7 +138,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)

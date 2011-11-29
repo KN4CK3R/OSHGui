@@ -10,7 +10,7 @@ namespace OSHGui
 	{
 		type = CONTROL_RADIOBUTTON;
 		
-		SetText(L"RadioButton");
+		SetText("RadioButton");
 
 		group = 0;
 
@@ -82,7 +82,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)

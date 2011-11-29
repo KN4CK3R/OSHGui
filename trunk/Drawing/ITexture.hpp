@@ -204,7 +204,7 @@ namespace OSHGui
 			 * @param filename der Dateipfad
 			 * @return gibt den Status der Operation zurück
 			 */
-			virtual void LoadFromFile(const Misc::UnicodeString &filename) = 0;
+			virtual void LoadFromFile(const Misc::AnsiString &filename) = 0;
 		
 			Size size;
 		};

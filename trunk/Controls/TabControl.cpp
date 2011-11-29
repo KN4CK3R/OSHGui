@@ -32,7 +32,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	TabPage* TabControl::GetTabPage(const Misc::UnicodeString &text) const
+	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
 		for (std::list<TabPage*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
 		{
@@ -42,7 +42,7 @@ namespace OSHGui
 			}
 		}
 
-		throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+		throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
@@ -58,7 +58,7 @@ namespace OSHGui
 			return *it;
 		}
 
-		throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+		throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 	}
 	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
@@ -72,7 +72,7 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
-			throw Misc::ArgumentNullException(L"tabPage", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
 		}
 
 		tabs.push_back(tabPage);
@@ -88,7 +88,7 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
-			throw Misc::ArgumentNullException(L"tabPage", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
 		}
 
 		tabs.remove(tabPage);
@@ -130,7 +130,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)

@@ -99,8 +99,8 @@ namespace OSHGui
 			static const unsigned __int64 KindLocalAmbiguousDst;
 			static const int KindShift;
 
-			static const UnicodeString dayNames[7];
-			static const UnicodeString monthNames[12];
+			static const AnsiString dayNames[7];
+			static const AnsiString monthNames[12];
 
 			unsigned __int64 dateData;
 
@@ -424,35 +424,35 @@ namespace OSHGui
 			 *
 			 * @return die Zeichenfolgendarstellung
 			 */
-			UnicodeString ToString();
+			AnsiString ToString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: l, d. F Y => Saturday, 23. April 2011
 			 *
 			 * @return die Zeichenfolgendarstellung
 			 */
-			UnicodeString ToLongDateString();
+			AnsiString ToLongDateString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: H:i:s => 02:23:48
 			 *
 			 * @return die Zeichenfolgendarstellung
 			 */
-			UnicodeString ToLongTimeString();
+			AnsiString ToLongTimeString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: d.m.Y => 23.04.2011
 			 *
 			 * @return die Zeichenfolgendarstellung
 			 */
-			UnicodeString ToShortDateString();
+			AnsiString ToShortDateString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: H:i => 02:23
 			 *
 			 * @return die Zeichenfolgendarstellung
 			 */
-			UnicodeString ToShortTimeString();
+			AnsiString ToShortTimeString();
 		};
 	}
 }

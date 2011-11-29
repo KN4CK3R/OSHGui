@@ -14,38 +14,38 @@ namespace OSHGui
 		{
 			if (font == 0)
 			{
-				throw ArgumentNullException(L"font", __WFILE__, __LINE__);
+				throw ArgumentNullException("font", __FILE__, __LINE__);
 			}
 		
 			this->font = font;
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::SetText(const UnicodeString &text)
+		void TextHelper::SetText(const AnsiString &text)
 		{
 			this->text = text;
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::Append(const UnicodeChar character)
+		void TextHelper::Append(const AnsiChar character)
 		{
 			text.append(1, character);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::Append(const UnicodeString &text)
+		void TextHelper::Append(const AnsiString &text)
 		{
 			this->text.append(text);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::Insert(int position, const UnicodeChar character)
+		void TextHelper::Insert(int position, const AnsiChar character)
 		{
 			text.insert(position, 1, character);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::Insert(int position, const UnicodeString &text)
+		void TextHelper::Insert(int position, const AnsiString &text)
 		{
 			this->text.insert(position, text);
 			RefreshSize();
@@ -72,7 +72,7 @@ namespace OSHGui
 			return text.length();
 		}
 		//---------------------------------------------------------------------------
-		const UnicodeString& TextHelper::GetText() const
+		const AnsiString& TextHelper::GetText() const
 		{
 			return text;
 		}
@@ -101,7 +101,7 @@ namespace OSHGui
 				}
 			}
 			
-			UnicodeString substring = text.substr(0, trailing ? index + 1 : index);
+			AnsiString substring = text.substr(0, trailing ? index + 1 : index);
 			Drawing::Size size = font->MeasureText(substring);
 			
 			return Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
@@ -118,7 +118,7 @@ namespace OSHGui
 				index = GetLength() - 1;
 			}
 
-			UnicodeString substring = size == -1 ? text.substr(index) : text.substr(index, size);
+			AnsiString substring = size == -1 ? text.substr(index) : text.substr(index, size);
 			return font->MeasureText(substring);
 		}
 		//---------------------------------------------------------------------------

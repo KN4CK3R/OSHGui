@@ -164,11 +164,11 @@ namespace OSHGui
 	{
 		if (width < 0)
 		{
-			throw Misc::ArgumentOutOfRangeException(L"width", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("width", __FILE__, __LINE__);
 		}
 		if (height < 0)
 		{
-			throw Misc::ArgumentOutOfRangeException(L"height", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("height", __FILE__, __LINE__);
 		}
 		
 		bounds.SetWidth(width);
@@ -228,12 +228,12 @@ namespace OSHGui
 		return tag;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetName(const Misc::UnicodeString &name)
+	void Control::SetName(const Misc::AnsiString &name)
 	{
 		this->name = name;
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Control::GetName() const
+	const Misc::AnsiString& Control::GetName() const
 	{
 		return name;
 	}
@@ -272,7 +272,7 @@ namespace OSHGui
 	{
 		if (font == 0)
 		{
-			throw Misc::ArgumentNullException(L"font", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("font", __FILE__, __LINE__);
 		}
 		
 		this->font = font;
@@ -399,7 +399,7 @@ namespace OSHGui
 	{
 		if (control == 0)
 		{
-			throw Misc::ArgumentNullException(L"control", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("contro", __FILE__, __LINE__);
 		}
 
 		if (control->GetType() == CONTROL_FORM)
@@ -448,7 +448,7 @@ namespace OSHGui
 	{
 		if (!parent)
 		{
-			throw Misc::ArgumentNullException(L"parent");
+			throw Misc::ArgumentNullException("parent");
 		}
 		
 		if (parent != this)
@@ -474,7 +474,7 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::GetChildByName(const Misc::UnicodeString &name) const
+	Control* Control::GetChildByName(const Misc::AnsiString &name) const
 	{
 		for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 		{
@@ -493,7 +493,7 @@ namespace OSHGui
 	{
 		if (control == 0)
 		{
-			throw Misc::ArgumentNullException(L"control", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("contro", __FILE__, __LINE__);
 		}
 		
 		if (!control->CanHaveFocus())
@@ -781,7 +781,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 		
 		//someone is focused, so let him handle the event expect the mouse
