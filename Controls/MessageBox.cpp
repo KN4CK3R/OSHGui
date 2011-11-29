@@ -7,32 +7,32 @@
 
 namespace OSHGui
 {
-	void MessageBox::Show(const Misc::UnicodeString &text)
+	void MessageBox::Show(const Misc::AnsiString &text)
 	{
-		Show(text, Misc::UnicodeString(L""));
+		Show(text, Misc::AnsiString(""));
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption)
+	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption)
 	{
 		Show(text, caption, ButtonOK);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons)
+	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
 	{
 		Show(text, caption, buttons, 0);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::UnicodeString &text, std::function<void(DialogResult result)> closeFunction)
+	void MessageBox::Show(const Misc::AnsiString &text, std::function<void(DialogResult result)> closeFunction)
 	{
-		Show(text, Misc::UnicodeString(L""), closeFunction);
+		Show(text, Misc::AnsiString(""), closeFunction);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, std::function<void(DialogResult result)> closeFunction)
+	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, std::function<void(DialogResult result)> closeFunction)
 	{
 		Show(text, caption, ButtonOK, closeFunction);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction)
+	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction)
 	{
 		std::shared_ptr<MessageBoxForm> messageBox(new MessageBoxForm(text, caption, buttons));
 		
@@ -47,14 +47,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons)
+	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
 	{
 		InitializeComponent(text, caption, buttons);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void MessageBox::MessageBoxForm::InitializeComponent(const Misc::UnicodeString &text, const Misc::UnicodeString &caption, MessageBoxButtons buttons)
+	void MessageBox::MessageBoxForm::InitializeComponent(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
 	{
 		this->SetText(caption);
 		
@@ -72,7 +72,7 @@ namespace OSHGui
 		formHeight += defaultButtonSize.Height;
 		int neededWidthForButtons = 0;
 		
-		std::vector<Misc::UnicodeString> label;
+		std::vector<Misc::AnsiString> label;
 		std::vector<ClickEventHandler> eventHandler;
 		switch (buttons)
 		{
@@ -80,7 +80,7 @@ namespace OSHGui
 			case ButtonOK:
 				neededWidthForButtons = defaultButtonSize.Width + 20;
 
-				label.push_back(L"OK");
+				label.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultOK;
@@ -90,8 +90,8 @@ namespace OSHGui
 			case ButtonOKCancel:
 				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
 
-				label.push_back(L"Cancel");
-				label.push_back(L"OK");
+				label.push_back("Cance");
+				label.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
@@ -106,9 +106,9 @@ namespace OSHGui
 			case ButtonAbortRetryIgnore:
 				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
 
-				label.push_back(L"Ignore");
-				label.push_back(L"Retry");
-				label.push_back(L"Abort");
+				label.push_back("Ignore");
+				label.push_back("Retry");
+				label.push_back("Abort");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultIgnore;
@@ -128,8 +128,8 @@ namespace OSHGui
 			case ButtonYesNo:
 				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
 
-				label.push_back(L"No");
-				label.push_back(L"Yes");
+				label.push_back("No");
+				label.push_back("Yes");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultNo;
@@ -144,9 +144,9 @@ namespace OSHGui
 			case ButtonYesNoCancel:
 				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
 
-				label.push_back(L"Cancel");
-				label.push_back(L"No");
-				label.push_back(L"Yes");
+				label.push_back("Cance");
+				label.push_back("No");
+				label.push_back("Yes");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
@@ -166,8 +166,8 @@ namespace OSHGui
 			case ButtonRetryCancel:
 				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
 
-				label.push_back(L"Cancel");
-				label.push_back(L"Retry");
+				label.push_back("Cance");
+				label.push_back("Retry");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
 					this->dialogResult = ResultCancel;
@@ -193,11 +193,11 @@ namespace OSHGui
 		AddButtons(label, eventHandler);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::UnicodeString> &label, const std::vector<ClickEventHandler> &eventHandler)
+	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::AnsiString> &label, const std::vector<ClickEventHandler> &eventHandler)
 	{
 		if (label.size() != eventHandler.size())
 		{
-			throw new Misc::ArgumentException(L"label + eventHandler");
+			throw new Misc::ArgumentException("label + eventHandler");
 		}
 
 		for (unsigned int i = 0; i < label.size(); ++i)

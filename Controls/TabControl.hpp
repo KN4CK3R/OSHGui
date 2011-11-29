@@ -26,7 +26,7 @@ namespace OSHGui
 		 * @param name der Name
 		 * @return Zeiger zur TabPage
 		 */
-		TabPage* GetTabPage(const Misc::UnicodeString &name) const;
+		TabPage* GetTabPage(const Misc::AnsiString &name) const;
 		/**
 		 * Ruft die TabPage am entsprechenden Index ab.
 		 *

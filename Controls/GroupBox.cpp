@@ -12,7 +12,7 @@ namespace OSHGui
 
 		SetBounds(6, 6, 150, 150);
 		
-		SetText(L"GroupBox");
+		SetText("GroupBox");
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -20,12 +20,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetText(const Misc::UnicodeString &text)
+	void GroupBox::SetText(const Misc::AnsiString &text)
 	{
 		textHelper.SetText(text);
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& GroupBox::GetText() const
+	const Misc::AnsiString& GroupBox::GetText() const
 	{
 		return textHelper.GetText();
 	}
@@ -50,7 +50,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)

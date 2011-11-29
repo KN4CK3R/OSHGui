@@ -51,11 +51,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& ComboBox::GetItem(int index) const
+	const Misc::AnsiString& ComboBox::GetItem(int index) const
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
 
 		return items[index];
@@ -66,7 +66,7 @@ namespace OSHGui
 		return selectedIndex;
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& ComboBox::GetSelectedItem() const
+	const Misc::AnsiString& ComboBox::GetSelectedItem() const
 	{
 		return GetItem(GetSelectedIndex());
 	}
@@ -111,12 +111,12 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::AddItem(const Misc::UnicodeString &text)
+	void ComboBox::AddItem(const Misc::AnsiString &text)
 	{
 		InsertItem(items.size() > 0 ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::InsertItem(int index, const Misc::UnicodeString &text)
+	void ComboBox::InsertItem(int index, const Misc::AnsiString &text)
 	{
 		items.insert(items.begin() + index, text);
 
@@ -139,7 +139,7 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw Misc::ArgumentOutOfRangeException(L"index", __WFILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
 		
 		items.erase(items.begin() + index);
@@ -236,7 +236,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)
@@ -499,10 +499,10 @@ namespace OSHGui
 			{
 				KeyPressEventArgs args(keyboard);
 				keyPressEvent.Invoke(this, args);
-				if (!args.Handled && keyboard->KeyChar != L'\0')
+				if (!args.Handled && keyboard->KeyChar != '\0')
 				{
 					int foundIndex = 0;
-					for (std::vector<Misc::UnicodeString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+					for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
 					{
 						if ((*it)[0] == keyboard->KeyChar && foundIndex != selectedIndex)
 						{

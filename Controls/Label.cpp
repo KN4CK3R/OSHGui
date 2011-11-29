@@ -14,7 +14,7 @@ namespace OSHGui
 		
 		SetLocation(6, 6);
 
-		SetText(L"Label");
+		SetText("Labe");
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -24,13 +24,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Label::SetText(const Misc::UnicodeString &text)
+	void Label::SetText(const Misc::AnsiString &text)
 	{
 		textHelper.SetText(text);
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& Label::GetText()
+	const Misc::AnsiString& Label::GetText()
 	{
 		return textHelper.GetText();
 	}

@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 		type = CONTROL_LINKLABEL;
 
-		SetText(L"LinkLabel");
+		SetText("LinkLabe");
 		
 		cursor = Cursors::Get(Cursors::Hand);
 

@@ -63,8 +63,8 @@ namespace OSHGui
 		const unsigned __int64 DateTime::KindLocalAmbiguousDst = 0xC000000000000000ui64;
 		const int DateTime::KindShift = 62;
 
-		const UnicodeString DateTime::dayNames[7] = { L"Sunday", L"Monday", L"Tuesday", L"Wednesday", L"Thursday", L"Friday", L"Saturday" };
-		const UnicodeString DateTime::monthNames[12] = { L"January", L"February", L"March", L"April", L"May", L"June", L"July", L"August", L"September", L"October", L"November", L"December" };
+		const AnsiString DateTime::dayNames[7] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+		const AnsiString DateTime::monthNames[12] = { "January", "February", "March", "Apri", "May", "June", "July", "August", "September", "October", "November", "December" };
 
 		//---------------------------------------------------------------------------
 		//Constructor
@@ -78,7 +78,7 @@ namespace OSHGui
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 
 			dateData = ticks;
@@ -93,11 +93,11 @@ namespace OSHGui
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			if (kind < Unspecified || kind > Local)
 			{
-				throw ArgumentException(L"kind", __WFILE__, __LINE__);
+				throw ArgumentException("kind", __FILE__, __LINE__);
 			}
 
 			dateData = ((unsigned __int64)ticks | ((unsigned __int64)kind << KindShift));
@@ -107,12 +107,12 @@ namespace OSHGui
 		{
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 
 			if (kind == KindLocal)
 			{
-				throw ArgumentException(L"kind", L"Internal Constructor is for local times only");	
+				throw ArgumentException("kind", "Internal Constructor is for local times only");	
 			}
 			
 			dateData = ((unsigned __int64)ticks | (isAmbiguousDst ? KindLocalAmbiguousDst : KindLocal));
@@ -132,7 +132,7 @@ namespace OSHGui
 		{
 			if (kind < Unspecified || kind > Local)
 			{
-				throw ArgumentException(L"kind", __WFILE__, __LINE__);
+				throw ArgumentException("kind", __FILE__, __LINE__);
 			}
 
 			__int64 ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
@@ -143,14 +143,14 @@ namespace OSHGui
 		{
 			if (millisecond < 0 || millisecond >= MillisPerSecond)
 			{
-				throw ArgumentOutOfRangeException(L"millisecond", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("millisecond", __FILE__, __LINE__);
 			}
 
 			__int64 ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
 			ticks += millisecond * TicksPerMillisecond;
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 
 			dateData = (unsigned __int64)ticks;
@@ -160,18 +160,18 @@ namespace OSHGui
 		{
 			if (millisecond < 0 || millisecond >= MillisPerSecond)
 			{
-				throw ArgumentOutOfRangeException(L"millisecond", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("millisecond", __FILE__, __LINE__);
 			}
 			if (kind < Unspecified || kind > Local)
 			{
-				throw ArgumentException(L"kind", __WFILE__, __LINE__);
+				throw ArgumentException("kind", __FILE__, __LINE__);
 			}
 
 			__int64 ticks = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
 			ticks += millisecond * TicksPerMillisecond;
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 
 			dateData = ((unsigned __int64)ticks | ((unsigned __int64)kind << KindShift));
@@ -307,7 +307,7 @@ namespace OSHGui
 			__int64 millis = (__int64)(value * scale + (value >= 0.0 ? 0.5 : -0.5));
 			if (millis <= -((__int64)MaxMillis) || millis >= (__int64)MaxMillis)
 			{
-				throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("value", __FILE__, __LINE__);
 			}
 			return AddTicks(millis * TicksPerMillisecond);
 		}
@@ -321,7 +321,7 @@ namespace OSHGui
 		{
 			if (years < -10000 || years > 10000)
 			{
-				throw ArgumentOutOfRangeException(L"years", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("years", __FILE__, __LINE__);
 			}
 			
 			return AddMonths(years * 12);
@@ -331,7 +331,7 @@ namespace OSHGui
 		{
 			if (months < -120000 || months > 120000)
 			{
-				throw ArgumentOutOfRangeException(L"months", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("months", __FILE__, __LINE__);
 			}
 			
 			int y = GetDatePart(Year);
@@ -350,7 +350,7 @@ namespace OSHGui
 			}
 			if (y < 1 || y > 9999)
 			{
-				throw ArgumentOutOfRangeException(L"year", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("year", __FILE__, __LINE__);
 			}
 			int days = DaysInMonth(y, m);
 			if (d > days)
@@ -391,7 +391,7 @@ namespace OSHGui
 			__int64 ticks = GetInternalTicks() + value;
 			if (ticks > MaxTicks || ticks < MinTicks)
 			{
-				throw ArgumentOutOfRangeException(L"value", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("value", __FILE__, __LINE__);
 			}
 			return DateTime((unsigned __int64)ticks | GetInternalKind());
 		}
@@ -432,7 +432,7 @@ namespace OSHGui
 			__int64 valueTicks = ts.GetTicks();
 			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			return DateTime((unsigned __int64)(ticks - valueTicks) | GetInternalKind());
 		}
@@ -443,7 +443,7 @@ namespace OSHGui
 			__int64 valueTicks = ts.GetTicks();
 			if (valueTicks > MaxTicks - ticks || valueTicks < MinTicks - ticks)
 			{
-				throw ArgumentOutOfRangeException(L"ticks", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
 			return DateTime((unsigned __int64)(ticks + valueTicks) | GetInternalKind());
 		}
@@ -471,11 +471,11 @@ namespace OSHGui
 						int n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
 						return n * TicksPerDay;
 					}
-					throw ArgumentOutOfRangeException(L"day", __WFILE__, __LINE__);
+					throw ArgumentOutOfRangeException("day", __FILE__, __LINE__);
 				}
-				throw ArgumentOutOfRangeException(L"month", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("month", __FILE__, __LINE__);
 			}
-			throw ArgumentOutOfRangeException(L"year", __WFILE__, __LINE__);
+			throw ArgumentOutOfRangeException("year", __FILE__, __LINE__);
 		}
 		//---------------------------------------------------------------------------
 		__int64 DateTime::TimeToTicks(int hour, int minute, int second)
@@ -489,18 +489,18 @@ namespace OSHGui
 						__int64 totalSeconds = (__int64)hour * 3600 + (__int64)minute * 60 + (__int64)second;
 						return totalSeconds * TicksPerSecond;
 					}
-					throw ArgumentOutOfRangeException(L"second", __WFILE__, __LINE__);
+					throw ArgumentOutOfRangeException("second", __FILE__, __LINE__);
 				}
-				throw ArgumentOutOfRangeException(L"minute", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("minute", __FILE__, __LINE__);
 			}
-			throw ArgumentOutOfRangeException(L"hour", __WFILE__, __LINE__);
+			throw ArgumentOutOfRangeException("hour", __FILE__, __LINE__);
 		}
 		//---------------------------------------------------------------------------
 		int DateTime::DaysInMonth(int year, int month)
 		{
 			if (month < 1 || month > 12)
 			{
-				throw ArgumentOutOfRangeException(L"month", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("month", __FILE__, __LINE__);
 			}
 			
 			const int *days = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
@@ -516,7 +516,7 @@ namespace OSHGui
 		{
 			if (year < 1 || year > 9999)
 			{
-				throw ArgumentOutOfRangeException(L"year", __WFILE__, __LINE__);
+				throw ArgumentOutOfRangeException("year", __FILE__, __LINE__);
 			}
 			
 			return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
@@ -581,29 +581,29 @@ namespace OSHGui
 			return n - days[m - 1] + 1;
 		}
 		//---------------------------------------------------------------------------
-		UnicodeString DateTime::ToString()
+		AnsiString DateTime::ToString()
 		{
-			return String::Format(L"%02u.%02u.%04u %02u:%02u:%02u", GetDay(), GetMonth(), GetYear(), GetHour(), GetMinute(), GetSecond());
+			return String::Format("%02u.%02u.%04u %02u:%02u:%02u", GetDay(), GetMonth(), GetYear(), GetHour(), GetMinute(), GetSecond());
 		}
 		//---------------------------------------------------------------------------
-		UnicodeString DateTime::ToLongDateString()
+		AnsiString DateTime::ToLongDateString()
 		{
-			return String::Format(L"%s, %02u. %s %04u", dayNames[(int)GetDayOfWeek()].c_str(), GetDay(), monthNames[(int)GetMonth() - 1].c_str(), GetYear());
+			return String::Format("%s, %02u. %s %04u", dayNames[(int)GetDayOfWeek()].c_str(), GetDay(), monthNames[(int)GetMonth() - 1].c_str(), GetYear());
 		}
 		//---------------------------------------------------------------------------
-		UnicodeString DateTime::ToLongTimeString()
+		AnsiString DateTime::ToLongTimeString()
 		{
-			return String::Format(L"%02u:%02u:%02u", GetHour(), GetMinute(), GetSecond());
+			return String::Format("%02u:%02u:%02u", GetHour(), GetMinute(), GetSecond());
 		}
 		//---------------------------------------------------------------------------
-		UnicodeString DateTime::ToShortDateString()
+		AnsiString DateTime::ToShortDateString()
 		{
-			return String::Format(L"%02u.%02u.%04u", GetDay(), GetMonth(), GetYear());
+			return String::Format("%02u.%02u.%04u", GetDay(), GetMonth(), GetYear());
 		}
 		//---------------------------------------------------------------------------
-		UnicodeString DateTime::ToShortTimeString()
+		AnsiString DateTime::ToShortTimeString()
 		{
-			return String::Format(L"%02u:%02u", GetHour(), GetMinute());
+			return String::Format("%02u:%02u", GetHour(), GetMinute());
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -17,7 +17,7 @@ namespace OSHGui
 		label->isSubComponent = true;
 		label->SetLocation(6, 5);
 		label->SetAutoSize(false);
-		label->SetText(L"Button");
+		label->SetText("Button");
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));

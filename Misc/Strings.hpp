@@ -38,7 +38,7 @@ namespace OSHGui
 			{
 				if (ansi.length() == 0)
 				{
-					return L"";
+					return "";
 				}
 
 				UnicodeString out(ansi.length(), (UnicodeChar)0);

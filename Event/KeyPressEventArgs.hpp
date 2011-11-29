@@ -12,7 +12,7 @@ namespace OSHGui
 	class OSHGUI_EXPORT KeyPressEventArgs
 	{
 	public:
-		Misc::UnicodeChar KeyChar;
+		Misc::AnsiChar KeyChar;
 		bool Handled;
 		
 	public:

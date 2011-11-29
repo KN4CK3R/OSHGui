@@ -30,7 +30,7 @@ namespace OSHGui
 	{
 		if (renderer == 0)
 		{
-			throw Misc::ArgumentNullException(L"renderer", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
 		}
 		
 		this->renderer = renderer;
@@ -98,7 +98,7 @@ namespace OSHGui
 	{
 		if (mainForm == 0)
 		{
-			throw Misc::ArgumentNullException(L"form", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
 		}
 
 		if (formManager.GetMainForm() != 0)
@@ -174,7 +174,7 @@ namespace OSHGui
 	{
 		if (renderer == 0)
 		{
-			throw Misc::InvalidOperationException(L"Call Application::Create first.", __WFILE__, __LINE__);
+			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
 		}
 	
 		if (!isEnabled)

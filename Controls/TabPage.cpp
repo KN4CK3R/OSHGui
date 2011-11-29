@@ -11,7 +11,7 @@ namespace OSHGui
 	{
 		type = CONTROL_TABPAGE;
 		
-		text = L"TabPage";
+		text = "TabPage";
 		
 		SetBackColor(Drawing::Color(0xFF474747));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -19,12 +19,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TabPage::SetText(const Misc::UnicodeString &text)
+	void TabPage::SetText(const Misc::AnsiString &text)
 	{
 		this->text = text;
 	}
 	//---------------------------------------------------------------------------
-	const Misc::UnicodeString& TabPage::GetText() const
+	const Misc::AnsiString& TabPage::GetText() const
 	{
 		return text;
 	}
@@ -42,7 +42,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 	
 		if (ChildProcessEvent(event) == true)

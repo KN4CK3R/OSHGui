@@ -13,7 +13,7 @@ namespace OSHGui
 	{
 	public:
 		Key::Keys KeyCode;
-		Misc::UnicodeChar KeyChar;
+		Misc::AnsiChar KeyChar;
 		bool Menu,
 			 Control,
 			 Shift;

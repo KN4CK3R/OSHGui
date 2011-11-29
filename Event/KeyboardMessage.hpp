@@ -35,7 +35,7 @@ namespace OSHGui
 
 		KeyboardStates State;
 		Key::Keys KeyCode;
-		Misc::UnicodeChar KeyChar;
+		Misc::AnsiChar KeyChar;
 		bool Menu,
 			 Control,
 			 Shift;
@@ -48,10 +48,10 @@ namespace OSHGui
 			Control = false;
 			Shift = false;
 			KeyCode = Key::None;
-			KeyChar = L'\0';
+			KeyChar = '\0';
 		}
 	
-		KeyboardMessage(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::UnicodeChar KeyChar) : IEvent(IEvent::Keyboard)
+		KeyboardMessage(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::AnsiChar KeyChar) : IEvent(IEvent::Keyboard)
 		{
 			this->Menu = Menu;
 			this->Control = Control;

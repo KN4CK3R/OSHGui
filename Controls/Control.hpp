@@ -352,13 +352,13 @@ namespace OSHGui
 		 *
 		 * @param name
 		 */
-		void SetName(const Misc::UnicodeString &name);
+		void SetName(const Misc::AnsiString &name);
 		/**
 		 * Ruft den zum Identifizieren des Steuerelements verwendeten Namen ab.
 		 *
 		 * @return name
 		 */
-		const Misc::UnicodeString& GetName() const;
+		const Misc::AnsiString& GetName() const;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -589,7 +589,7 @@ namespace OSHGui
 		 * @param name
 		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
 		 */
-		Control* GetChildByName(const Misc::UnicodeString &name) const;
+		Control* GetChildByName(const Misc::AnsiString &name) const;
 		/**
 		 * Legt das übergebene Control als fokusiert fest.
 		 *
@@ -656,7 +656,7 @@ namespace OSHGui
 		
 		CONTROL_TYPE type;
 		
-		Misc::UnicodeString name;
+		Misc::AnsiString name;
 
 		bool isSubComponent;
 		bool canRaiseEvents;

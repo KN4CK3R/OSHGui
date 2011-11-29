@@ -91,11 +91,11 @@ namespace OSHGui
 	{
 		if (x < 0 || x >= bounds.GetWidth())
 		{
-			throw Misc::ArgumentOutOfRangeException(L"x");
+			throw Misc::ArgumentOutOfRangeException("x");
 		}
 		if (y < 0 || y >= bounds.GetHeight())
 		{
-			throw Misc::ArgumentOutOfRangeException(L"y");
+			throw Misc::ArgumentOutOfRangeException("y");
 		}
 	
 		Drawing::Color tmpColor;
@@ -225,7 +225,7 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
-			throw Misc::ArgumentNullException(L"event", __WFILE__, __LINE__);
+			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
 
 		if (!isVisible || !isEnabled)

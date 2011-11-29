@@ -29,7 +29,7 @@ namespace OSHGui
 			Create(Size(width, height), frameCount);
 		}
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename)
+		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::AnsiString &filename)
 		{
 			this->device = device;
 			lock.pBits = 0;
@@ -77,7 +77,7 @@ namespace OSHGui
 			{			
 				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 				{
-					throw Misc::Exception(L"Cannot create Texture.", __WFILE__, __LINE__);
+					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
 				}
 				frames.push_back(texture);
 			}
@@ -87,12 +87,12 @@ namespace OSHGui
 			texture = frames[0];
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::LoadFromFile(const Misc::UnicodeString &filename)
+		void TextureDX9::LoadFromFile(const Misc::AnsiString &filename)
 		{			
 			D3DXIMAGE_INFO info;
-			if (FAILED(D3DXGetImageInfoFromFileW(filename.c_str(), &info)))
+			if (FAILED(D3DXGetImageInfoFromFileA(filename.c_str(), &info)))
 			{
-				throw Misc::Exception(L"Cannot get ImageInfo.", __WFILE__, __LINE__);
+				throw Misc::Exception("Cannot get ImageInfo.", __FILE__, __LINE__);
 			}
 			
 			size = Drawing::Size(info.Width, info.Height);
@@ -106,7 +106,7 @@ namespace OSHGui
 				frames.push_back(0);
 			}
 			
-			if (FAILED(D3DXCreateTextureFromFileW(device, filename.c_str(), &frames[frame])))
+			if (FAILED(D3DXCreateTextureFromFileA(device, filename.c_str(), &frames[frame])))
 			{
 				if (!frames.empty())
 				{
@@ -114,7 +114,7 @@ namespace OSHGui
 				}
 				texture = 0;
 				
-				throw Misc::Exception(L"Cannot load Texture.", __WFILE__, __LINE__);
+				throw Misc::Exception("Cannot load Texture.", __FILE__, __LINE__);
 			}
 			
 			texture = frames[frame];

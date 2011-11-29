@@ -25,13 +25,13 @@ namespace OSHGui
 		 *
 		 * @param text
 		 */
-		void SetText(const Misc::UnicodeString &text);
+		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Gibt den Text zurück.
 		 *
 		 * @return der Text
 		 */
-		const Misc::UnicodeString& GetText() const;
+		const Misc::AnsiString& GetText() const;
 		/**
 		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
