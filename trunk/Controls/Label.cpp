@@ -14,7 +14,7 @@ namespace OSHGui
 		
 		SetLocation(6, 6);
 
-		SetText("Labe");
+		SetText("Label");
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));

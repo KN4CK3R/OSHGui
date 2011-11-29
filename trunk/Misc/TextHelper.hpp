@@ -36,33 +36,33 @@ namespace OSHGui
 			 *
 			 * @param text
 			 */
-			void SetText(const UnicodeString &text);
+			void SetText(const AnsiString &text);
 			/**
 			 * Hängt das Zeichen an den Text an.
 			 *
 			 * @param character
 			 */
-			void Append(const UnicodeChar character);
+			void Append(const AnsiChar character);
 			/**
 			 * Hängt die Zeichenkette an den Text an.
 			 *
 			 * @param text
 			 */
-			void Append(const UnicodeString &text);
+			void Append(const AnsiString &text);
 			/**
 			 * Fügt das Zeichen an der entsprechenden Position im Text ein.
 			 *
 			 * @param position
 			 * @param character
 			 */
-			void Insert(int position, const UnicodeChar character);
+			void Insert(int position, const AnsiChar character);
 			/**
 			 * Fügt die Zeichenkette an der entsprechenden Position im Text ein.
 			 *
 			 * @param position
 			 * @param text
 			 */
-			void Insert(int position, const UnicodeString &text);
+			void Insert(int position, const AnsiString &text);
 			/**
 			 * Löscht den kompletten Text.
 			 */
@@ -86,7 +86,7 @@ namespace OSHGui
 			 *
 			 * @return text
 			 */
-			const UnicodeString& GetText() const;
+			const AnsiString& GetText() const;
 			/**
 			 * Ruft die Maße der Zeichenkette in Pixel ab.
 			 *
@@ -124,7 +124,7 @@ namespace OSHGui
 			int GetClosestCharacterIndex(const Drawing::Point &position) const;
 			
 		private:
-			UnicodeString text;
+			AnsiString text;
 			
 			Drawing::Size size;
 			

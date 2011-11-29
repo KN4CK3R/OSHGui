@@ -279,7 +279,7 @@ namespace OSHGui
 			/**
 			 * Gibt die Zeichenfolgendarstellung des Werts dieser Instanz zurück.
 			 */
-			UnicodeString ToString();
+			AnsiString ToString();
 		};
 	}
 }
