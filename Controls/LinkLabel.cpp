@@ -9,7 +9,7 @@ namespace OSHGui
 	{
 		type = CONTROL_LINKLABEL;
 
-		SetText("LinkLabe");
+		SetText("LinkLabel");
 		
 		cursor = Cursors::Get(Cursors::Hand);
 
@@ -32,7 +32,7 @@ namespace OSHGui
 	
 		Label::Render(renderer);
 		
-		renderer->Fill(bounds.GetLeft(), bounds.GetBottom() - 1, bounds.GetWidth(), 1);
+		renderer->Fill(GetLeft(), GetBottom() - 1, GetWidth(), 1);
 	}
 	//---------------------------------------------------------------------------
 }

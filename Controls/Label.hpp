@@ -15,7 +15,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
+		Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
 		
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
@@ -43,15 +43,7 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool ContainsPoint(const Drawing::Point &point) const;
-		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-		
+				
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *

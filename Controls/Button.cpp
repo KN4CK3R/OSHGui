@@ -13,13 +13,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Button::Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size) : Control(name, location, size)
+	Button::Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Control(name, location, size)
 	{
 		type = CONTROL_BUTTON;
 
-		label = new Label(name + "_Label", Drawing::Point(6, 5), Drawing::Size(80, 14));
+		label = new Label(name + "_Label", Drawing::Point(6, 5), Drawing::Size(), text);
 		label->SetAutoSize(false);
-		label->SetText("Button");
+		internalControls.push_front(label);
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -47,7 +47,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& Button::GetText()
+	const Misc::AnsiString& Button::GetText() const
 	{
 		return label->GetText();
 	}

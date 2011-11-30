@@ -17,7 +17,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
+		Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
 		virtual ~Button();
 
 		/**
@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * @return der Text
 		 */
-		const Misc::AnsiString& GetText();
+		const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *

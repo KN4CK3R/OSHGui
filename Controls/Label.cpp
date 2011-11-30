@@ -6,13 +6,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size) : Control(name, location, size), textHelper(font)
+	Label::Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Control(name, location, size), textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
 		
-		SetText("Label");
+		SetText(text);
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -31,7 +31,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& Label::GetText()
+	const Misc::AnsiString& Label::GetText() const
 	{
 		return textHelper.GetText();
 	}
@@ -51,19 +51,6 @@ namespace OSHGui
 	bool Label::ContainsPoint(const Drawing::Point &point) const
 	{
 		return Control::ContainsPoint(point);
-	}
-	//---------------------------------------------------------------------------
-	void Label::Invalidate()
-	{
-		textHelper.SetFont(font);
-		if (autoSize)
-		{
-			SetSize(textHelper.GetSize());
-		}
-
-		clientArea = bounds;
-
-		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -86,12 +73,7 @@ namespace OSHGui
 
 		if (controls.size() > 0)
 		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
 			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
 		}
 	}
 	//---------------------------------------------------------------------------

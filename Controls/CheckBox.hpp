@@ -1,6 +1,7 @@
 #ifndef OSHGUI_CHECKBOX_HPP_
 #define OSHGUI_CHECKBOX_HPP_
 
+#include "Control.hpp"
 #include "Label.hpp"
 
 namespace OSHGui
@@ -8,15 +9,20 @@ namespace OSHGui
 	/**
 	 * Stellt ein CheckBox-Steuerelement dar.
 	 */
-	class OSHGUI_EXPORT CheckBox : public Label
+	class OSHGUI_EXPORT CheckBox : public Control
 	{
 	public:
+		static const Drawing::Size& DefaultLabelOffset();
+
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param parent das Elternsteuerelement
+		 * @param name eindeutiger Name des Steuerelements
+		 * @param location Position des Steuerelements
+		 * @param size Größe des Steuerelements
+		 * @param checked Checked-Eigenschaft
 		 */
-		CheckBox(Control *parent);
+		CheckBox(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text, bool checked);
 		
 		/**
 		 * Legt den checked-Status fest.
@@ -30,6 +36,30 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool GetChecked() const;
+		/**
+		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
+		 *
+		 * @param text
+		 */
+		void SetText(const Misc::AnsiString &text);
+		/**
+		 * Ruft den Text ab.
+		 *
+		 * @return der Text
+		 */
+		const Misc::AnsiString& GetText() const;
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(Drawing::Color color);
 		/**
 		 * Ruft das CheckedChangeEvent für das Steuerelement ab.
 		 *
@@ -75,6 +105,8 @@ namespace OSHGui
 					   textPosition;
 					   
 		CheckedChangedEvent checkedChangedEvent;
+
+		Label *label;
 	};
 }
 
