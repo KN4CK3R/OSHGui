@@ -4,18 +4,20 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
+	//static Methods
+	//---------------------------------------------------------------------------
+	const Drawing::Size& Button::DefaultButtonSize()
+	{
+		return Drawing::Size(92, 24);
+	}
+	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Button::Button() : Control()
+	Button::Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size) : Control(name, location, size)
 	{
 		type = CONTROL_BUTTON;
-		
-		SetAutoSize(false);
-		SetSize(92, 24);
 
-		label = new Label();
-		label->isSubComponent = true;
-		label->SetLocation(6, 5);
+		label = new Label(name + "_Label", Drawing::Point(6, 5), Drawing::Size(80, 14));
 		label->SetAutoSize(false);
 		label->SetText("Button");
 		
@@ -25,7 +27,45 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Button::~Button()
 	{
-		delete label;
+		
+	}
+	//---------------------------------------------------------------------------
+	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void Button::SetAutoSize(bool autoSize)
+	{
+		Control::SetAutoSize(autoSize);
+		label->SetAutoSize(autoSize);
+	}
+	//---------------------------------------------------------------------------
+	void Button::SetText(const Misc::AnsiString &text)
+	{
+		label->SetText(text);
+		if (autoSize)
+		{
+			size = label->GetSize();
+		}
+	}
+	//---------------------------------------------------------------------------
+	const Misc::AnsiString& Button::GetText()
+	{
+		return label->GetText();
+	}
+	//---------------------------------------------------------------------------
+	void Button::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	{
+		Control::SetFont(font);
+		label->SetFont(font);
+		if (autoSize)
+		{
+			size = label->GetSize();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Button::SetForeColor(Drawing::Color color)
+	{
+		Control::SetForeColor(color);
+		label->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -37,7 +77,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::Invalidate()
 	{
-		label->SetFont(font);
+		/*label->SetFont(font);
 		if (autoSize)
 		{
 			Drawing::Size size = label->GetSize();
@@ -46,7 +86,7 @@ namespace OSHGui
 		}
 		clientArea = bounds;
 
-		InvalidateChildren();
+		InvalidateChildren();*/
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -76,17 +116,11 @@ namespace OSHGui
 		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 2, bounds.GetWidth() - 2, bounds.GetHeight() - 4, backColor - Drawing::Color(0, 20, 20, 20));
 		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 1, bounds.GetWidth() - 4, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 
-		renderer->SetRenderColor(foreColor);
 		label->Render(renderer);
 
 		if (controls.front() != 0)
 		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
 			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
 		}
 	}
 	//---------------------------------------------------------------------------

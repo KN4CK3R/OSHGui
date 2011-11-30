@@ -34,10 +34,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Panel::ProcessEvent(IEvent *event)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (event == 0)
 		{
 			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
+		#endif
 
 		if (!isVisible || !isEnabled)
 		{

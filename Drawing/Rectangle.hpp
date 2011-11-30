@@ -25,7 +25,14 @@ namespace OSHGui
 			 *
 			 * @param size
 			 */
-			Rectangle(Size size);
+			Rectangle(const Size &size);
+			/**
+			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
+			 *
+			 * @param location
+			 * @param size
+			 */
+			Rectangle(const Point &location, const Size &size);
 			/**
 			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
 			 *

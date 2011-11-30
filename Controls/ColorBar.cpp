@@ -103,10 +103,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorBar::CreateBarTexture(int index)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index > 2)
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
+		#endif
 	
 		std::shared_ptr<Drawing::ITexture> bar = bars[index];
 		

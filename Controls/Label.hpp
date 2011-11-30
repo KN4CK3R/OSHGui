@@ -15,7 +15,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		Label();
+		Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
 		
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
@@ -29,6 +29,12 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::AnsiString& GetText();
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

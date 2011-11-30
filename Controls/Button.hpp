@@ -12,11 +12,44 @@ namespace OSHGui
 	class OSHGUI_EXPORT Button : public Control
 	{
 	public:
+		static const Drawing::Size& DefaultButtonSize();
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		Button();
+		Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
 		virtual ~Button();
+
+		/**
+		 * Legt fest, ob sich die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
+		 *
+		 * @param autoSize
+		 */
+		virtual void SetAutoSize(bool autoSize);
+		/**
+		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
+		 *
+		 * @param text
+		 */
+		void SetText(const Misc::AnsiString &text);
+		/**
+		 * Ruft den Text ab.
+		 *
+		 * @return der Text
+		 */
+		const Misc::AnsiString& GetText();
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(Drawing::Color color);
 		
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.

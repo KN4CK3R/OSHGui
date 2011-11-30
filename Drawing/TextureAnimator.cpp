@@ -39,7 +39,10 @@ namespace OSHGui
 			{
 				if (frame < 0 || frame >= GetFrameCount())
 				{
+					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw Misc::ArgumentOutOfRangeException("frame", __FILE__, __LINE__);
+					#endif
+					return;
 				}
  
 				this->frame = frame;
@@ -209,7 +212,10 @@ namespace OSHGui
 		{
 			if (texture == 0)
 			{
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::ArgumentNullException("texture", __FILE__, __LINE__);
+				#endif
+				return;
 			}
 
 			if (CanAnimate(texture))
@@ -226,7 +232,10 @@ namespace OSHGui
 		{
 			if (texture == 0)
 			{
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::ArgumentNullException("texture", __FILE__, __LINE__);
+				#endif
+				return;
 			}
 			
 			if (textureInfoList.empty())

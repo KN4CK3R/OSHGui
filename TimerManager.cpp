@@ -9,7 +9,10 @@ namespace OSHGui
 	{
 		if (timer == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("timer", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 	
 		bool found = false;
@@ -35,7 +38,10 @@ namespace OSHGui
 	{
 		if (timer == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("timer", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 	
 		for (std::list<TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)

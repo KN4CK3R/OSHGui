@@ -59,10 +59,12 @@ namespace OSHGui
 					Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
 				}
 			}
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			else
 			{
-				throw Misc::ArgumentOutOfRangeException("interva", __FILE__, __LINE__);
+				throw Misc::ArgumentOutOfRangeException("interval", __FILE__, __LINE__);
 			}
+			#endif
 		}
 	}
 	//---------------------------------------------------------------------------

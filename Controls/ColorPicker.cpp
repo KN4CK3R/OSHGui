@@ -89,6 +89,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (x < 0 || x >= bounds.GetWidth())
 		{
 			throw Misc::ArgumentOutOfRangeException("x");
@@ -97,6 +98,7 @@ namespace OSHGui
 		{
 			throw Misc::ArgumentOutOfRangeException("y");
 		}
+		#endif
 	
 		Drawing::Color tmpColor;
 		
