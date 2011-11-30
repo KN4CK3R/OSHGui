@@ -23,7 +23,7 @@ namespace OSHGui
 				vertices[i].v = 0.0f;
 			}
 
-			defaultFont = CreateNewFont("Aria", 14, false, false);
+			defaultFont = CreateNewFont("Arial", 14, false, false);
 
 			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
 		}

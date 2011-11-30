@@ -4,15 +4,24 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
+	//static Methods
+	//---------------------------------------------------------------------------
+	const Drawing::Size& CheckBox::DefaultLabelOffset()
+	{
+		return Drawing::Size(20, 2);
+	}
+	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	CheckBox::CheckBox(Control *parent) : Label(parent)
+	CheckBox::CheckBox(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text, bool checked) : Control(name, location, size)
 	{
 		type = CONTROL_CHECKBOX;
 		
-		SetText("CheckBox");
+		autoSize = true;
 
-		checked = false;
+		label = new Label(name + "_Label", Drawing::Point(DefaultLabelOffset().Width, DefaultLabelOffset().Height), Drawing::Size(), text);
+
+		this->checked = checked;
 
 		SetBackColor(Drawing::Color(0xFF222222));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -37,6 +46,50 @@ namespace OSHGui
 		return checked;
 	}
 	//---------------------------------------------------------------------------
+	void CheckBox::SetText(const Misc::AnsiString &text)
+	{
+		Drawing::Point offset = label->GetLocation() - GetLocation();
+
+		label->SetText(text);
+		if (autoSize)
+		{
+			size = label->GetSize().InflateEx(offset.Left, offset.Top);
+		}
+	}
+	//---------------------------------------------------------------------------
+	const Misc::AnsiString& CheckBox::GetText() const
+	{
+		return label->GetText();
+	}
+	//---------------------------------------------------------------------------
+	void CheckBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	{
+		Control::SetFont(font);
+		label->SetFont(font);
+		if (autoSize)
+		{
+			size = label->GetSize();
+			if (font->GetSize() < 17)
+			{
+				checkBoxPosition = location;
+				int y = (int)(17 / 2.0f - font->GetSize() / 2.0f + 0.5f);
+				textPosition = Drawing::Point(GetLeft() + 20, GetTop() + y);
+			}
+			else
+			{
+				textPosition = GetLocation().OffsetEx(20, 0);
+				int y = (int)(font->GetSize() / 2.0f - 17 / 2.0f + 0.5f);
+				checkBoxPosition = Drawing::Point(GetLeft(), GetTop() + y);
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	void CheckBox::SetForeColor(Drawing::Color color)
+	{
+		Control::SetForeColor(color);
+		label->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
 	CheckedChangedEvent& CheckBox::GetCheckedChangedEvent()
 	{
 		return checkedChangedEvent;
@@ -49,148 +102,22 @@ namespace OSHGui
 		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::Invalidate()
-	{
-		textHelper.SetFont(font);
-		if (autoSize)
-		{
-			Drawing::Size size = textHelper.GetSize();
-			size.Inflate(20, 4);
-			if (size.Height < 17)
-			{
-				size.Height = 17;
-			}
-			SetSize(size);
-		}
-		clientArea = bounds;
-
-		if (font->GetSize() < 17)
-		{
-			checkBoxPosition = bounds.GetPosition();
-			int y = (int)(17 / 2.0f - font->GetSize() / 2.0f + 0.5f);
-			textPosition = Drawing::Point(bounds.GetLeft() + 20, bounds.GetTop() + y);
-		}
-		else
-		{
-			textPosition = bounds.GetPosition().OffsetEx(20, 0);
-			int y = (int)(font->GetSize() / 2.0f - 17 / 2.0f + 0.5f);
-			checkBoxPosition = Drawing::Point(bounds.GetLeft(), bounds.GetTop() + y);
-		}
-
-		InvalidateChildren();
-	}
-	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void CheckBox::OnMouseClick(const MouseMessage &mouse)
 	{
 		SetChecked(!GetChecked());
 
-		Label::OnMouseClick(mouse);
+		Control::OnMouseClick(mouse);
 	}
 	//---------------------------------------------------------------------------
 	void CheckBox::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		SetChecked(!GetChecked());
 
-		Label::OnKeyUp(keyboard);
+		Control::OnKeyUp(keyboard);
 	}
 	//---------------------------------------------------------------------------
-	/*bool CheckBox::ProcessEvent(IEvent *event)
-	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
-
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-	
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-			
-			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //ClientArea
-			{
-				if (mouse->State == MouseMessage::LeftDown)
-				{
-					pressed = true;
-			
-					if (!isFocused)
-					{
-						parent->RequestFocus(this);
-					}
-
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::Move)
-				{
-					MouseEventArgs args(mouse);
-					mouseMoveEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::LeftUp)
-				{
-					if (pressed && isFocused)
-					{
-						SetChecked(!GetChecked());
-						
-						clickEvent.Invoke(this);
-						
-						MouseEventArgs args(mouse);
-						mouseClickEvent.Invoke(this, args);
-						
-						args = MouseEventArgs(mouse);
-						mouseUpEvent.Invoke(this, args);
-
-						pressed = false;
-					}
-					return true;
-				}
-			}
-
-			mouse->Position = mousePositionBackup;
-		}
-		else if (event->Type == IEvent::Keyboard)
-		{
-			KeyboardMessage *keyboard = (KeyboardMessage*)event;
-			if (keyboard->State == KeyboardMessage::KeyDown)
-			{
-				KeyEventArgs args(keyboard);
-				keyDownEvent.Invoke(this, args);
-			}
-			else if (keyboard->State == KeyboardMessage::Character)
-			{
-				KeyPressEventArgs args(keyboard);
-				keyPressEvent.Invoke(this, args);
-			}
-			else if (keyboard->State == KeyboardMessage::KeyUp)
-			{
-				if (keyboard->KeyCode == Key::Space)
-				{
-					SetChecked(!GetChecked());
-					
-					clickEvent.Invoke(this);
-				}
-				
-				KeyEventArgs args(keyboard);
-				keyUpEvent.Invoke(this, args);
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------*/
 	void CheckBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
