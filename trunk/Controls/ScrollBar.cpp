@@ -126,10 +126,12 @@ namespace OSHGui
 			return false;
 		}
 
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= range)
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
+		#endif
 
 		if (position > index)
 		{

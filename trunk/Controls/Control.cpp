@@ -6,12 +6,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Control::Control()
+	Control::Control(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size)
 	{
 		type = CONTROL_ROOT;
+
+		this->name = name;
+		this->location = location;
+		this->size = size;
 		
-		SetEnabled(true);
-		SetVisible(true);
+		isEnabled = true;
+		isVisible = true;
 		
 		isSubComponent = false;
 		mouseOver = false;
@@ -91,7 +95,6 @@ namespace OSHGui
 	void Control::SetAutoSize(bool autoSize)
 	{
 		this->autoSize = autoSize;
-		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetAutoSize() const
@@ -101,121 +104,98 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetBounds(int x, int y, int w, int h)
 	{
-		SetBounds(Drawing::Rectangle(x, y, w, h));
+		SetBounds(Drawing::Point(x, y), Drawing::Size(w, h));
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(Drawing::Point location, Drawing::Size &size)
+	void Control::SetBounds(const Drawing::Point &location, const Drawing::Size &size)
 	{
-		SetBounds(Drawing::Rectangle(location.X, location.Y, size.Width, size.Height));
+		SetLocation(location);
+		SetSize(size);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(Drawing::Rectangle &bounds)
+	void Control::SetBounds(const Drawing::Rectangle &bounds)
 	{
-		this->bounds = bounds;
-
-		absolutePosition = PointToScreen(Drawing::Point(0, 0));
-		
-		static bool isValid = true; //no recursive calls
-		if (isValid)
-		{
-			isValid = false;
-			Invalidate();
-			isValid = true;
-		}
+		SetBounds(bounds.GetPosition(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Rectangle Control::GetBounds() const
+	const Drawing::Rectangle& Control::GetBounds() const
 	{
-		return bounds;
+		return Drawing::Rectangle(location, size);
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(const Drawing::Point &location)
 	{
-		SetLocation(location.Left, location.Top);
+		this->location = location;
+
+		OnLocationChanged();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(int x, int y)
 	{
-		bounds.SetLeft(x);
-		bounds.SetTop(y);
-
-		absolutePosition = PointToScreen(Drawing::Point(0, 0));
-		
-		static bool isValid = true; //no recursive calls
-		if (isValid)
-		{
-			isValid = false;
-			Invalidate();
-			isValid = true;
-		}
+		SetLocation(Drawing::Point(x, y));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point Control::GetLocation() const
+	const Drawing::Point& Control::GetLocation() const
 	{
-		return bounds.GetPosition();
+		return location;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetSize(const Drawing::Size &size)
 	{
-		SetSize(size.Width, size.Height);
-	}
-	//---------------------------------------------------------------------------
-	void Control::SetSize(int width, int height)
-	{
-		if (width < 0)
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (size.Width < 0)
 		{
 			throw Misc::ArgumentOutOfRangeException("width", __FILE__, __LINE__);
 		}
-		if (height < 0)
+		if (size.Height < 0)
 		{
 			throw Misc::ArgumentOutOfRangeException("height", __FILE__, __LINE__);
 		}
+		#endif
+
+		this->size = size;
 		
-		bounds.SetWidth(width);
-		bounds.SetHeight(height);
-		
-		static bool isValid = true; 
-		if (isValid)
-		{
-			isValid = false;
-			Invalidate();
-			isValid = true;
-		}
+		OnSizeChanged();
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Size Control::GetSize() const
+	void Control::SetSize(int width, int height)
+	{	
+		SetSize(Drawing::Size(width, height));
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Size& Control::GetSize() const
 	{
-		return bounds.GetSize();
+		return size;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetLeft() const
 	{
-		return bounds.GetLeft();
+		return location.Left;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetTop() const
 	{
-		return bounds.GetTop();
+		return location.Top;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetRight() const
 	{
-		return bounds.GetRight();
+		return location.Left + size.Width;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetBottom() const
 	{
-		return bounds.GetBottom();
+		return location.Top + size.Height;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetWidth() const
 	{
-		return bounds.GetWidth();
+		return size.Width;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetHeight() const
 	{
-		return bounds.GetHeight();
+		return size.Height;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetTag(Misc::Any &tag)
@@ -223,7 +203,7 @@ namespace OSHGui
 		this->tag = tag;
 	}
 	//---------------------------------------------------------------------------
-	Misc::Any& Control::GetTag()
+	const Misc::Any& Control::GetTag() const
 	{
 		return tag;
 	}
@@ -238,7 +218,7 @@ namespace OSHGui
 		return name;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetForeColor(Drawing::Color color)
+	void Control::SetForeColor(const Drawing::Color &color)
 	{
 		foreColor = color;
 	}
@@ -248,7 +228,7 @@ namespace OSHGui
 		return foreColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBackColor(Drawing::Color color)
+	void Control::SetBackColor(const Drawing::Color &color)
 	{
 		backColor = color;
 	}
@@ -258,7 +238,7 @@ namespace OSHGui
 		return backColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetMouseOverFocusColor(Drawing::Color color)
+	void Control::SetMouseOverFocusColor(const Drawing::Color &color)
 	{
 		mouseOverFocusColor = color;
 	}
@@ -270,23 +250,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (font == 0)
 		{
 			throw Misc::ArgumentNullException("font", __FILE__, __LINE__);
 		}
+		#endif
 		
 		this->font = font;
-
-		static bool isValid = true; 
-		if (isValid)
-		{
-			isValid = false;
-			Invalidate();
-			isValid = true;
-		}
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Drawing::IFont> Control::GetFont() const
+	const std::shared_ptr<Drawing::IFont>& Control::GetFont() const
 	{
 		return font;
 	}
@@ -296,7 +270,7 @@ namespace OSHGui
 		this->cursor = cursor;
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Cursor> Control::GetCursor() const
+	const std::shared_ptr<Cursor>& Control::GetCursor() const
 	{
 		return cursor;
 	}
@@ -397,10 +371,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (control == 0)
 		{
 			throw Misc::ArgumentNullException("contro", __FILE__, __LINE__);
 		}
+		#endif
 
 		if (control->GetType() == CONTROL_FORM)
 		{
@@ -446,10 +422,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (!parent)
 		{
 			throw Misc::ArgumentNullException("parent");
 		}
+		#endif
 		
 		if (parent != this)
 		{
@@ -491,10 +469,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (control == 0)
 		{
-			throw Misc::ArgumentNullException("contro", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("control", __FILE__, __LINE__);
 		}
+		#endif
 		
 		if (!control->CanHaveFocus())
 		{
@@ -779,10 +759,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ChildProcessEvent(IEvent *event)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (event == 0)
 		{
 			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
+		#endif
 		
 		//someone is focused, so let him handle the event expect the mouse
 		if (event->Type != IEvent::Mouse && focusControl != 0 && focusControl->GetVisible() && focusControl->GetEnabled())

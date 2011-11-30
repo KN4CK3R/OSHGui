@@ -20,7 +20,10 @@ namespace OSHGui
 	{
 		if (index < 0 || index >= (int)forms.size())
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+			#endif
+			return 0;
 		}
 
 		return forms[index].form;
@@ -40,12 +43,18 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 
 		if (forms.empty())
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::InvalidOperationException("FormList is empty.", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 
 		if (forms[forms.size() - 1].form == form) //last form in vector is front form
@@ -68,7 +77,10 @@ namespace OSHGui
 
 		if (!isRegistered)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::InvalidOperationException("'form' is not registered.", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 		
 		forms.push_back(info);
@@ -103,7 +115,10 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 		
 		if (IsRegistered(form))
@@ -119,7 +134,10 @@ namespace OSHGui
 	{
 		if (form == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 
 		if (mainForm == form)
@@ -146,7 +164,10 @@ namespace OSHGui
 	{
 		if (event == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
+			#endif
+			return false;
 		}
 		
 		if (forms.size() > 0)

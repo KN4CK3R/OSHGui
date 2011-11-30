@@ -42,7 +42,7 @@ namespace OSHGui
 			}
 		}
 
-		throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+		return 0;
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
@@ -58,7 +58,7 @@ namespace OSHGui
 			return *it;
 		}
 
-		throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+		return 0;
 	}
 	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
@@ -72,7 +72,10 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
+			#endif
+			return 0;
 		}
 
 		tabs.push_back(tabPage);
@@ -88,7 +91,10 @@ namespace OSHGui
 	{
 		if (tabPage == 0)
 		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
+			#endif
+			return;
 		}
 
 		tabs.remove(tabPage);

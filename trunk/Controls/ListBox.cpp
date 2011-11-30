@@ -29,10 +29,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ListBox::GetItem(int index) const
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
+		#endif
 
 		return items[index];
 	}
@@ -115,10 +117,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::RemoveItem(int index)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
+		#endif
 		
 		items.erase(items.begin() + index);
 

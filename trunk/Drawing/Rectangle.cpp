@@ -15,10 +15,18 @@ namespace OSHGui
 			SetHeight(0);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle::Rectangle(Size size)
+		Rectangle::Rectangle(const Size &size)
 		{
 			left = 0;
 			top = 0;
+			SetWidth(size.Width);
+			SetHeight(size.Height);
+		}
+		//---------------------------------------------------------------------------
+		Rectangle::Rectangle(const Point &location, const Size &size)
+		{
+			left = location.Left;
+			top = location.Top;
 			SetWidth(size.Width);
 			SetHeight(size.Height);
 		}

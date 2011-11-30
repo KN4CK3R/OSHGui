@@ -109,10 +109,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (value < min || value > max)
 		{
 			throw Misc::ArgumentOutOfRangeException("value", __FILE__, __LINE__);
 		}
+		#endif
 		
 		if (this->value != value)
 		{

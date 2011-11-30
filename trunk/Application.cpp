@@ -28,10 +28,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Create(Drawing::IRenderer *renderer)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (renderer == 0)
 		{
 			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
 		}
+		#endif
 		
 		this->renderer = renderer;
 
@@ -96,10 +98,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Run(const std::shared_ptr<Form> &mainForm)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (mainForm == 0)
 		{
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
 		}
+		#endif
 
 		if (formManager.GetMainForm() != 0)
 		{
@@ -172,10 +176,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Render()
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (renderer == 0)
 		{
 			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
 		}
+		#endif
 	
 		if (!isEnabled)
 		{

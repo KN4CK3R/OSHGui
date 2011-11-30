@@ -14,7 +14,10 @@ namespace OSHGui
 		{
 			if (font == 0)
 			{
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw ArgumentNullException("font", __FILE__, __LINE__);
+				#endif
+				return;
 			}
 		
 			this->font = font;

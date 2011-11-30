@@ -30,10 +30,12 @@ namespace OSHGui
 			this->min = min;
 			Adjust();
 		}
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		else
 		{
 			throw Misc::ArgumentException("min cannot be greater than max.", "min", __FILE__, __LINE__);
 		}
+		#endif
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMin() const
@@ -48,10 +50,12 @@ namespace OSHGui
 			this->max = max;
 			Adjust();
 		}
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		else
 		{
 			throw Misc::ArgumentException("max cannot be lower than min.", "max", __FILE__, __LINE__);
 		}
+		#endif
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMax() const

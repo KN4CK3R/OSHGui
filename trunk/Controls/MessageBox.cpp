@@ -195,10 +195,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::AnsiString> &label, const std::vector<ClickEventHandler> &eventHandler)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (label.size() != eventHandler.size())
 		{
 			throw new Misc::ArgumentException("label + eventHandler");
 		}
+		#endif
 
 		for (unsigned int i = 0; i < label.size(); ++i)
 		{

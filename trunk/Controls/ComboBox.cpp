@@ -53,10 +53,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ComboBox::GetItem(int index) const
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
+		#endif
 
 		return items[index];
 	}
@@ -137,10 +139,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::RemoveItem(int index)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
+		#endif
 		
 		items.erase(items.begin() + index);
 		
@@ -234,10 +238,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::ProcessEvent(IEvent *event)
 	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (event == 0)
 		{
 			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
 		}
+		#endif
 
 		if (!isVisible || !isEnabled)
 		{

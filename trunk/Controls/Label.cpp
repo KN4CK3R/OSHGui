@@ -6,14 +6,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label() : Control(), textHelper(font)
+	Label::Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size) : Control(name, location, size), textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
 		
-		SetLocation(6, 6);
-
 		SetText("Label");
 		
 		SetBackColor(Drawing::Color::Empty());
@@ -27,12 +25,25 @@ namespace OSHGui
 	void Label::SetText(const Misc::AnsiString &text)
 	{
 		textHelper.SetText(text);
-		Invalidate();
+		if (autoSize)
+		{
+			size = textHelper.GetSize();
+		}
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Label::GetText()
 	{
 		return textHelper.GetText();
+	}
+	//---------------------------------------------------------------------------
+	void Label::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	{
+		Control::SetFont(font);
+		textHelper.SetFont(font);
+		if (autoSize)
+		{
+			size = textHelper.GetSize();
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
