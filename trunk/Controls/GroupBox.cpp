@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	GroupBox::GroupBox(Control *parent) : Control(parent), textHelper(font)
+	GroupBox::GroupBox(Control *parent) : Control(), textHelper(font)
 	{
 		type = CONTROL_GROUPBOX;
 

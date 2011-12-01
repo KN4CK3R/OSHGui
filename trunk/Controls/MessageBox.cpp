@@ -47,7 +47,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
+	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons) : Form("messageBox", Form::DefaultLocation, Form::DefaultSize, "")
 	{
 		InitializeComponent(text, caption, buttons);
 	}
@@ -58,7 +58,7 @@ namespace OSHGui
 	{
 		this->SetText(caption);
 		
-		Label *textLabel = new Label(this);
+		/*Label *textLabel = new Label(this);
 		textLabel->SetText(text);
 		this->AddControl(textLabel);
 		
@@ -190,7 +190,7 @@ namespace OSHGui
 		Drawing::Size screen = Application::Instance()->GetRenderer()->GetRenderDimension();
 		this->SetLocation(screen.Width / 2 - formWidth / 2, screen.Height / 2 - formHeight / 2);
 		
-		AddButtons(label, eventHandler);
+		AddButtons(label, eventHandler);*/
 	}
 	//---------------------------------------------------------------------------
 	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::AnsiString> &label, const std::vector<ClickEventHandler> &eventHandler)
@@ -204,7 +204,7 @@ namespace OSHGui
 
 		for (unsigned int i = 0; i < label.size(); ++i)
 		{
-			Button *button = new Button(this);
+			Button *button;// = new Button(this);
 			button->SetText(label[i]);
 			button->GetClickEvent() += ClickEventHandler(eventHandler[i]);
 			button->SetLocation(this->GetWidth() - (i + 1) * (button->GetWidth() + 10) , this->GetHeight() - button->GetHeight() - 25);

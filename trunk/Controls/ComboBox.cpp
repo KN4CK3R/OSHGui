@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ComboBox::ComboBox(Control *parent) : Button(parent), scrollBar(this)
+	ComboBox::ComboBox(Control *parent) : Button("", Drawing::Point(), Drawing::Size(), ""), scrollBar(this), textHelper(font)
 	{
 		type = CONTROL_COMBOBOX;
 		
@@ -301,7 +301,7 @@ namespace OSHGui
 				}
 				mouse->Position.Y += clientArea.GetHeight();
 			}
-			
+			bool pressed;
 			if (mouse->State == MouseMessage::LeftDown)
 			{
 				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //clientArea

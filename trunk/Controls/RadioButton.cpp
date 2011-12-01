@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	RadioButton::RadioButton() : CheckBox()
+	RadioButton::RadioButton() : CheckBox("", Drawing::Point(), Drawing::Size(), "", false)
 	{
 		type = CONTROL_RADIOBUTTON;
 		
@@ -68,14 +68,14 @@ namespace OSHGui
 	{
 		SetChecked(true);
 
-		Label::OnMouseClick(mouse);
+		CheckBox::OnMouseClick(mouse);
 	}
 	//---------------------------------------------------------------------------
 	void RadioButton::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		SetChecked(true);
 
-		Label::OnKeyUp(keyboard);
+		CheckBox::OnKeyUp(keyboard);
 	}
 	//---------------------------------------------------------------------------
 	/*bool RadioButton::ProcessEvent(IEvent *event)
@@ -204,7 +204,7 @@ namespace OSHGui
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
+		//renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
 		if (controls.size() > 0)
 		{

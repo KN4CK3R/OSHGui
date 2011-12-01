@@ -359,9 +359,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ContainsPoint(const Drawing::Point &point) const
 	{
-		return absolutePosition.Left <= point.Left && absolutePosition.Top <= point.Top
-			&& point.Left <= absolutePosition.Left + bounds.GetWidth()
-			&& point.Top <= absolutePosition.Top + bounds.GetHeight();
+		return absoluteLocation.Left <= point.Left && absoluteLocation.Top <= point.Top
+			&& point.Left <= absoluteLocation.Left + GetWidth()
+			&& point.Top <= absoluteLocation.Top + GetHeight();
 	}
 	//---------------------------------------------------------------------------
 	void Control::Invalidate()
@@ -417,7 +417,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
 	{
-		return point - absolutePosition;
+		return point - absoluteLocation;
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
@@ -431,10 +431,18 @@ namespace OSHGui
 		
 		if (parent != this)
 		{
-			return parent->PointToScreen(point + bounds.GetPosition());
+			return parent->PointToScreen(point + location);
 		}
 
-		return point + bounds.GetPosition();
+		return point + location;
+	}
+	//---------------------------------------------------------------------------
+	void Control::CalculateAbsoluteLocation()
+	{
+		if (parent != 0 && parent != this)
+		{
+			absoluteLocation = parent->absoluteLocation + location;
+		}
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
@@ -525,7 +533,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnLocationChanged()
 	{
-		absolutePosition = PointToScreen(Drawing::Point(0, 0));
+		CalculateAbsoluteLocation();
 	
 		locationChangedEvent.Invoke(this);
 	}
@@ -828,9 +836,9 @@ namespace OSHGui
 	void Control::ChildRender(Drawing::IRenderer *renderer)
 	{
 		Control *focusedControl = 0;
-		for (unsigned int i = 0; i < controls.size(); ++i)
+		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
-			Control *control = controls[i];
+			Control *control = *it;
 			if (control->isFocused)
 			{
 				focusedControl = control;

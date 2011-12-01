@@ -12,14 +12,13 @@ namespace OSHGui
 	class OSHGUI_EXPORT CheckBox : public Control
 	{
 	public:
-		static const Drawing::Size& DefaultLabelOffset();
-
 		/**
 		 * Konstruktor der Klasse.
 		 *
 		 * @param name eindeutiger Name des Steuerelements
 		 * @param location Position des Steuerelements
 		 * @param size Größe des Steuerelements
+		 * @param text Text des Steuerelemts
 		 * @param checked Checked-Eigenschaft
 		 */
 		CheckBox(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text, bool checked);
@@ -73,14 +72,6 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool CanHaveFocus() const;
-
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 		
 		/**
 		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
@@ -97,6 +88,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 	
 	protected:
+		static const Drawing::Size DefaultLabelOffset;
+
 		virtual void OnMouseClick(const MouseMessage &mouse);
 		virtual void OnKeyUp(const KeyboardMessage &keyboard);
 

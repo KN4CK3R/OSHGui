@@ -2,15 +2,18 @@
 #include "..\Application.hpp"
 #include "..\FormManager.hpp"
 #include "..\Misc\Exceptions.hpp"
-#include <Windows.h>
 
 namespace OSHGui
 {
+	const Drawing::Point Form::DefaultLocation(50, 50);
+	const Drawing::Size Form::DefaultSize(300, 300);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form() : Control(this), textHelper(font)
+	Form::Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Control(name, location, size), textHelper(font)
 	{
+		parent = this;
+
 		type = CONTROL_FORM;
 		
 		isVisible = false;
@@ -20,13 +23,10 @@ namespace OSHGui
 
 		dialogResult = ResultNone;
 
-		SetBounds(50, 50, 300, 300);
-
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
-		SetText("Form");
-
-		Invalidate();
+		
+		//Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Form::~Form()
@@ -236,11 +236,11 @@ namespace OSHGui
 		}
 
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
-		renderer->Fill(bounds);
+		renderer->Fill(location, size);
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
+		//renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(bounds.GetLeft() + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
+		//renderer->Fill(bounds.GetLeft() + 5, captionBar.GetBottom() + 2, bounds.GetWidth() - 10, 1);
 
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, captionBar.GetLeft() + 4, captionBar.GetTop() + 2, textHelper.GetText());

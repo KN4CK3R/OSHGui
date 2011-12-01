@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ColorPicker::ColorPicker(Control *parent) : Control(parent)
+	ColorPicker::ColorPicker(Control *parent) : Control()
 	{
 		type = CONTROL_COLORPICKER;
 

@@ -167,6 +167,10 @@ namespace OSHGui
 		KeyDownEvent keyDownEvent;
 		KeyPressEvent keyPressEvent;
 		KeyUpEvent keyUpEvent;
+
+
+
+		Misc::TextHelper textHelper;;
 	};
 }
 

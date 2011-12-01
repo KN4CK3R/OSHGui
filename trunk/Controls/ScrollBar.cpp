@@ -10,7 +10,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ScrollBar::ScrollBar(Control *parent) : Control(parent)
+	ScrollBar::ScrollBar(Control *parent) : Control()
 	{
 		type = CONTROL_SCROLLBAR;
 		

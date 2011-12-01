@@ -52,10 +52,18 @@ namespace OSHGui
 	class OSHGUI_EXPORT Form : public Control
 	{
 	public:
+		static const Drawing::Point DefaultLocation;
+		static const Drawing::Size DefaultSize;
+
 		/**
 		 * Konstruktor der Klasse.
+		 *
+		 * @param name eindeutiger Name der Form
+		 * @param location Position der Form
+		 * @param size Größe der Form
+		 * @param text Text der Form
 		 */
-		Form();
+		Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
 		virtual ~Form();
 
 		bool IsModal() const;
