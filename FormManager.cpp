@@ -23,7 +23,6 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 			#endif
-			return 0;
 		}
 
 		return forms[index].form;

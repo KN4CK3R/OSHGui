@@ -71,7 +71,7 @@ namespace OSHGui
 		}
 	
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, bounds, textHelper.GetText());
+		renderer->RenderText(font, absoluteLocation, GetParent()->GetSize(), textHelper.GetText());
 	}
 	//---------------------------------------------------------------------------
 }

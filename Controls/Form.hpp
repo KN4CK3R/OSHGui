@@ -78,6 +78,12 @@ namespace OSHGui
 		bool IsModal() const;
 		
 		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
 		 * Legt den Text fest.
 		 *
 		 * @param text
@@ -89,6 +95,12 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
+		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(Drawing::Color color);
 		/**
 		 * Ruft das DialogResult für das Fenster ab.
 		 *
@@ -193,8 +205,10 @@ namespace OSHGui
 
 			CaptionBar(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &Size, const Misc::AnsiString &text);
 
+			void SetSize(const Drawing::Size &size);
 			void SetText(const Misc::AnsiString &text);
 			const Misc::AnsiString& GetText() const;
+			void SetForeColor(Drawing::Color color);
 
 			void Render(Drawing::IRenderer *renderer);
 
