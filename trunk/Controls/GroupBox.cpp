@@ -32,7 +32,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool GroupBox::ContainsPoint(const Drawing::Point &point) const
+	bool GroupBox::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

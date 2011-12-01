@@ -51,7 +51,7 @@ namespace OSHGui
 		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
-	bool PictureBox::ContainsPoint(const Drawing::Point &point) const
+	bool PictureBox::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

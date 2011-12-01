@@ -6,21 +6,20 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Panel::Panel() : Control()
+	Panel::Panel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size)
+		: ContainerControl(name, location, size)
 	{
 		type = CONTROL_PANEL;
-		
-		SetBounds(6, 6, 200, 100);
-		
+				
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Panel::ContainsPoint(const Drawing::Point &point) const
+	bool Panel::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void Panel::Invalidate()
@@ -32,7 +31,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool Panel::ProcessEvent(IEvent *event)
+	/*bool Panel::ProcessEvent(IEvent *event)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (event == 0)
@@ -88,7 +87,7 @@ namespace OSHGui
 
 		return false;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void Panel::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)

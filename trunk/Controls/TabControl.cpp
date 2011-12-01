@@ -113,7 +113,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool TabControl::ContainsPoint(const Drawing::Point &point) const
+	bool TabControl::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

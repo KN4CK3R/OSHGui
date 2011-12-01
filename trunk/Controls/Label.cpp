@@ -6,7 +6,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Control(name, location, size), textHelper(font)
+	Label::Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
+		: Control(name, location, size),
+		  textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
@@ -48,9 +50,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Label::ContainsPoint(const Drawing::Point &point) const
+	bool Label::Intersect(const Drawing::Point &point) const
 	{
-		return Control::ContainsPoint(point);
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -70,11 +72,6 @@ namespace OSHGui
 	
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, bounds, textHelper.GetText());
-
-		if (controls.size() > 0)
-		{
-			ChildRender(renderer);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

@@ -1,20 +1,24 @@
 #ifndef OSHGUI_PANEL_HPP_
 #define OSHGUI_PANEL_HPP_
 
-#include "Control.hpp"
+#include "ContainerControl.hpp"
 
 namespace OSHGui
 {
 	/**
 	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
 	 */
-	class OSHGUI_EXPORT Panel : public Control
+	class OSHGUI_EXPORT Panel : public ContainerControl
 	{
 	public:
 		/**
 		 * Konstruktor der Klasse.
+		 *
+		 * @param name eindeutiger Name des Steuerelements
+		 * @param location Position des Steuerelements
+		 * @param size Größe des Steuerelements
 		 */
-		Panel();
+		Panel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -22,7 +26,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const;
 		
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
@@ -38,7 +42,7 @@ namespace OSHGui
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		virtual bool ProcessEvent(IEvent *event);
+		//virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *

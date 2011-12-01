@@ -73,7 +73,7 @@ namespace OSHGui
 		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
-	bool ColorBar::ContainsPoint(const Drawing::Point &point) const
+	bool ColorBar::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

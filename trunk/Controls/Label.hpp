@@ -47,7 +47,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const;
 				
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.

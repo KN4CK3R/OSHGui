@@ -10,6 +10,8 @@ namespace OSHGui
 	{
 		type = CONTROL_ROOT;
 
+		parent = 0;
+
 		this->name = name;
 		this->location = location;
 		this->size = size;
@@ -37,17 +39,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
-		{
-			delete *it;
-		}
-		for (std::list<Control*>::iterator it = internalControls.begin(); it != internalControls.end(); ++it)
-		{
-			delete *it;
-		}
 
-		controls.clear();
-		internalControls.clear();
 	}
 	//---------------------------------------------------------------------------
 	CONTROL_TYPE Control::GetType() const
@@ -340,14 +332,23 @@ namespace OSHGui
 		return keyUpEvent;
 	}
 	//---------------------------------------------------------------------------
+	void Control::SetParent(Control *parent)
+	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (parent == 0)
+		{
+			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
+		}
+		#endif
+
+		this->parent = parent;
+
+		OnLocationChanged();
+	}
+	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const
 	{
 		return parent;
-	}
-	//---------------------------------------------------------------------------
-	const std::list<Control*>& Control::GetControls() const
-	{
-		return controls;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -357,52 +358,14 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ContainsPoint(const Drawing::Point &point) const
-	{
-		return absoluteLocation.Left <= point.Left && absoluteLocation.Top <= point.Top
-			&& point.Left <= absoluteLocation.Left + GetWidth()
-			&& point.Top <= absoluteLocation.Top + GetHeight();
-	}
-	//---------------------------------------------------------------------------
 	void Control::Invalidate()
 	{
 		return;
 	}
 	//---------------------------------------------------------------------------
-	void Control::AddControl(Control *control)
-	{
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (control == 0)
-		{
-			throw Misc::ArgumentNullException("contro", __FILE__, __LINE__);
-		}
-		#endif
-
-		if (control->GetType() == CONTROL_FORM)
-		{
-			return;
-		}
-		
-		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
-		{
-			Control *cont = *it;
-			if (control == cont || control->name == cont->name)
-			{
-				return;
-			}
-		}
-
-		control->parent = this;
-	
-		controls.push_back(control);
-		internalControls.push_back(control);
-
-		Invalidate();
-	}
-	//---------------------------------------------------------------------------
 	void Control::InvalidateChildren()
 	{
-		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+		/*for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
 			Control *control = *it;
 
@@ -412,7 +375,7 @@ namespace OSHGui
 			}
 
 			control->Invalidate();
-		}
+		}*/
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
@@ -443,36 +406,6 @@ namespace OSHGui
 		{
 			absoluteLocation = parent->absoluteLocation + location;
 		}
-	}
-	//---------------------------------------------------------------------------
-	Control* Control::GetChildAtPoint(const Drawing::Point &point) const
-	{
-		for (std::list<Control*>::const_reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
-		{
-			Control *control = *it;
-
-			if (control->GetEnabled() && control->GetVisible() && control->ContainsPoint(point))
-			{
-				return control;
-			}
-		}
-
-		return 0;
-	}
-	//---------------------------------------------------------------------------
-	Control* Control::GetChildByName(const Misc::AnsiString &name) const
-	{
-		for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
-		{
-			Control *control = *it;
-			
-			if (control->GetName() == name)
-			{
-				return control;
-			}
-		}
-
-		return 0;
 	}
 	//---------------------------------------------------------------------------
 	void Control::RequestFocus(Control *control)
@@ -665,20 +598,20 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseMessage(MouseMessage &mouse)
 	{
-		for (std::list<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		/*for (std::list<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control &child = *(*it);
 			if (child.ProcessMouseMessage(mouse) == true)
 			{
 				return true;
 			}
-		}
+		}*/
 
 		switch (mouse.State)
 		{
 			case MouseMessage::LeftDown:
 			case MouseMessage::RightDown:
-				if (canRaiseEvents && ContainsPoint(mouse.Position))
+				if (canRaiseEvents && Intersect(mouse.Position))
 				{
 					if (mouse.State == MouseMessage::LeftDown && !isClicked && isEnabled)
 					{
@@ -695,7 +628,7 @@ namespace OSHGui
 				break;
 			case MouseMessage::LeftUp:
 			case MouseMessage::RightUp:
-				if (canRaiseEvents && (hasCaptured || ContainsPoint(mouse.Position)))
+				if (canRaiseEvents && (hasCaptured || Intersect(mouse.Position)))
 				{
 					if (isClicked)
 					{
@@ -712,7 +645,7 @@ namespace OSHGui
 				break;
 			case MouseMessage::Move:
 			case MouseMessage::Scroll:
-				if (hasCaptured || ContainsPoint(mouse.Position))
+				if (hasCaptured || Intersect(mouse.Position))
 				{
 					if (canRaiseEvents)
 					{
@@ -788,7 +721,7 @@ namespace OSHGui
 			MouseMessage *mouse = (MouseMessage*)event;
 			
 			//find mouseOverControl
-			Control *control = GetChildAtPoint(mouse->Position);
+			Control *control;// = GetChildAtPoint(mouse->Position);
 			if (control != mouseOverControl && mouseOverControl != 0)
 			{
 				mouseOverControl->SetMouseOver(false);
@@ -836,7 +769,7 @@ namespace OSHGui
 	void Control::ChildRender(Drawing::IRenderer *renderer)
 	{
 		Control *focusedControl = 0;
-		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
+		/*for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
 		{
 			Control *control = *it;
 			if (control->isFocused)
@@ -847,7 +780,7 @@ namespace OSHGui
 			{
 				control->Render(renderer);
 			}
-		}
+		}*/
 		if (focusedControl != 0)
 		{
 			focusedControl->Render(renderer);

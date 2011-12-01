@@ -10,13 +10,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Button::Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Control(name, location, size)
+	Button::Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
+		: Control(name, location, size)
 	{
 		type = CONTROL_BUTTON;
 
 		label = new Label(name + "_Label", Drawing::Point(6, 5), Drawing::Size(), text);
 		label->SetAutoSize(false);
-		internalControls.push_front(label);
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -24,7 +24,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Button::~Button()
 	{
-		
+		delete label;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -72,6 +72,17 @@ namespace OSHGui
 		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
+	bool Button::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	void Button::CalculateAbsoluteLocation()
+	{
+		Control::CalculateAbsoluteLocation();
+		label->SetParent(this);
+	}
+	//---------------------------------------------------------------------------
 	void Button::Invalidate()
 	{
 		/*label->SetFont(font);
@@ -114,11 +125,6 @@ namespace OSHGui
 		renderer->FillGradient(bounds.GetLeft() + 2, bounds.GetTop() + 1, bounds.GetWidth() - 4, bounds.GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
 
 		label->Render(renderer);
-
-		if (controls.size() > 0)
-		{
-			ChildRender(renderer);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

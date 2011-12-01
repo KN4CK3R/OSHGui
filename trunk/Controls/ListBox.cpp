@@ -81,7 +81,7 @@ namespace OSHGui
 		return isVisible && isEnabled;
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::ContainsPoint(const Drawing::Point &point) const
+	bool ListBox::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}
