@@ -121,13 +121,6 @@ namespace OSHGui
 		void Close();
 
 		/**
-		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
-		 *
-		 * @param point
-		 * @return der neue Punkt
-		 */
-		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
-		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
 		 * Wird außerdem für alle Kindelemente aufgerufen.
 		 *
@@ -160,13 +153,14 @@ namespace OSHGui
 
 	private:
 		Misc::TextHelper textHelper;
-		Drawing::Rectangle captionBar,
-						   closeRect;
+		//Drawing::Rectangle captionBar,
+		//				   closeRect;
 		bool drag;
 		bool isModal;
 
 		std::weak_ptr<Form> instance;
 
+		CaptionBar *captionBar;
 		Panel *containerPanel;
 
 
@@ -183,6 +177,8 @@ namespace OSHGui
 				virtual void CalculateAbsoluteLocation();
 				virtual bool Intersect(const Drawing::Point &point) const;
 
+				void Render(Drawing::IRenderer *renderer);
+
 			protected:
 				virtual void OnMouseUp(const MouseMessage &mouse);
 
@@ -193,7 +189,14 @@ namespace OSHGui
 			};
 
 		public:
+			static const int DefaultCaptionBarHeight = 17;
+
 			CaptionBar(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &Size, const Misc::AnsiString &text);
+
+			void SetText(const Misc::AnsiString &text);
+			const Misc::AnsiString& GetText() const;
+
+			void Render(Drawing::IRenderer *renderer);
 
 		protected:
 			void OnMouseDown(const MouseMessage &mouse);

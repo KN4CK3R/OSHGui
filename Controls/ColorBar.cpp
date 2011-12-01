@@ -328,16 +328,6 @@ namespace OSHGui
 				renderer->Fill(sliderPos.Left - j, sliderPos.Top + j, 1 + j * 2, 1);
 			}
 		}
-	
-		if (controls.size() > 0)
-		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
-			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

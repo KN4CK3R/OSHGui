@@ -7,7 +7,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TabPage::TabPage(TabControl *parent) : Panel()
+	TabPage::TabPage(TabControl *parent) : Panel("", Drawing::Point(), Drawing::Size())
 	{
 		type = CONTROL_TABPAGE;
 		
