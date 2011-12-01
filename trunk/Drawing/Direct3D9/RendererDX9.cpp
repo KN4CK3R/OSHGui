@@ -292,6 +292,11 @@ namespace OSHGui
 			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
 		//---------------------------------------------------------------------------
+		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text)
+		{
+			RenderText(font, location.Left, location.Top, size.Width, size.Height, text);
+		}
+		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
 		{
 			if (font == 0)
@@ -348,12 +353,17 @@ namespace OSHGui
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(const Rectangle &rect, Color &to)
+		void RendererDX9::FillGradient(const Point &point, const Size &size, const Color &to)
+		{
+			FillGradient(point.Left, point.Top, size.Width, size.Height, to);
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::FillGradient(const Rectangle &rect, const Color &to)
 		{
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), to);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(int x, int y, int w, int h, Color &to)
+		void RendererDX9::FillGradient(int x, int y, int w, int h, const Color &to)
 		{
 			if (texture != 0)
 			{

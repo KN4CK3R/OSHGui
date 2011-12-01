@@ -142,10 +142,10 @@ namespace OSHGui
 			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
 			 *
 			 * @param font die Schriftart
-			 * @param point der Ursprung
+			 * @param location der Ursprung
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &point, const Misc::AnsiString &text) = 0;
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Misc::AnsiString &text) = 0;
 			/**
 			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
 			 *
@@ -155,6 +155,15 @@ namespace OSHGui
 			 * @param text der Text
 			 */
 			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::AnsiString &text) = 0;
+			/**
+			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
+			 *
+			 * @param font die Schriftart
+			 * @param location der Ursprung
+			 * @param size die Größe
+			 * @param text der Text
+			 */
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text) = 0;
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -217,7 +226,15 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Rectangle &rect, Color &to) = 0;
+			virtual void FillGradient(const Rectangle &rect, const Color &to) = 0;
+			/**
+			 * Füllt das Rechteck mit einem Farbverlauf.
+			 *
+			 * @param point der Ursprung
+			 * @param size die Größe
+			 * @param to die Endfarbe
+			 */
+			virtual void FillGradient(const Point &point, const Size &size, const Color &to) = 0;
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -227,7 +244,7 @@ namespace OSHGui
 			 * @param h
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(int x, int y, int w, int h, Color &to) = 0;
+			virtual void FillGradient(int x, int y, int w, int h, const Color &to) = 0;
 
 		protected:
 			Color color;

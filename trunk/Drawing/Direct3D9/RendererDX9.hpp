@@ -141,6 +141,15 @@ namespace OSHGui
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
 			 * @param font die Schriftart
+			 * @param location der Ursprung
+			 * @param size die Größe
+			 * @param text der Text
+			 */
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text);
+			/**
+			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
+			 *
+			 * @param font die Schriftart
 			 * @param rect das Rechteck
 			 * @param text der Text
 			 */
@@ -196,10 +205,18 @@ namespace OSHGui
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
+			 * @param point der Ursprung
+			 * @param size die Größe
+			 * @param to die Endfarbe
+			 */
+			virtual void FillGradient(const Point &point, const Size &size, const Color &to);
+			/**
+			 * Füllt das Rechteck mit einem Farbverlauf.
+			 *
 			 * @param rect das Rechteck
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Rectangle &rect, Color &to);
+			virtual void FillGradient(const Rectangle &rect, const Color &to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -209,7 +226,7 @@ namespace OSHGui
 			 * @param h
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(int x, int y, int w, int h, Color &to);
+			virtual void FillGradient(int x, int y, int w, int h, const Color &to);
 			
 		private:
 			void Flush();

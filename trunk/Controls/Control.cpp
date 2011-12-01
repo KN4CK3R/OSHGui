@@ -110,7 +110,7 @@ namespace OSHGui
 		SetBounds(bounds.GetPosition(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Rectangle& Control::GetBounds() const
+	const Drawing::Rectangle Control::GetBounds() const
 	{
 		return Drawing::Rectangle(location, size);
 	}
@@ -405,6 +405,10 @@ namespace OSHGui
 		if (parent != 0 && parent != this)
 		{
 			absoluteLocation = parent->absoluteLocation + location;
+		}
+		if (parent == this)
+		{
+			absoluteLocation = location;
 		}
 	}
 	//---------------------------------------------------------------------------
