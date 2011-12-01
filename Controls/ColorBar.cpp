@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ColorBar::ColorBar(Control *parent) : Control(parent)
+	ColorBar::ColorBar(Control *parent) : Control()
 	{
 		type = CONTROL_COLORBAR;
 		

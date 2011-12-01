@@ -12,10 +12,15 @@ namespace OSHGui
 	class OSHGUI_EXPORT Button : public Control
 	{
 	public:
-		static const Drawing::Size& DefaultButtonSize();
+		static const Drawing::Size DefaultButtonSize;
 
 		/**
 		 * Konstruktor der Klasse.
+		 *
+		 * @param name eindeutiger Name des Steuerelements
+		 * @param location Position des Steuerelements
+		 * @param size Größe des Steuerelements
+		 * @param text Text des Steuerelemts
 		 */
 		Button(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
 		virtual ~Button();

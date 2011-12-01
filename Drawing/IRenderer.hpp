@@ -182,6 +182,13 @@ namespace OSHGui
 			 */
 			virtual void Fill(const Point &point) = 0;
 			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param location
+			 * @param size
+			 */
+			virtual void Fill(const Point &location, const Size &size) = 0;
+			/**
 			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
 			 *
 			 * @param x
@@ -191,18 +198,18 @@ namespace OSHGui
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param rect das Rechteck
-			 */
-			virtual void Fill(const Rectangle &rect) = 0;
-			/**
-			 * Füllt das Rechteck.
-			 *
 			 * @param x
 			 * @param y
 			 * @param w
 			 * @param h
 			 */
 			virtual void Fill(int x, int y, int w, int h) = 0;
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param rect das Rechteck
+			 */
+			virtual void Fill(const Rectangle &rect) = 0;
 			
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.

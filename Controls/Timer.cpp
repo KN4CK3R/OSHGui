@@ -9,7 +9,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Timer::Timer(Control *parent) : Control(parent)
+	Timer::Timer(Control *parent) : Control()
 	{
 		type = CONTROL_TIMER;
 

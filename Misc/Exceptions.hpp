@@ -7,7 +7,7 @@
 
 #define WIDEN2(x) L ## x
 #define WIDEN(x) WIDEN2(x)
-#define __FILE__ WIDEN(__FILE__)
+#define __WFILE__ WIDEN(__FILE__)
 
 namespace OSHGui
 {

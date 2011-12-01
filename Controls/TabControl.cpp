@@ -75,7 +75,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
 			#endif
-			return 0;
+			return;
 		}
 
 		tabs.push_back(tabPage);

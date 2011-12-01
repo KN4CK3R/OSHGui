@@ -633,12 +633,15 @@ namespace OSHGui
 		 * @param size Größe des Steuerelements
 		 */
 		Control(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
+		Control() { }//remove!!!!
 	
 		bool ContainerProcessEvent(IEvent *event);
 		void ChildRender(Drawing::IRenderer *renderer);
 
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);
+
+		virtual void CalculateAbsoluteLocation();
 
 		virtual void OnLocationChanged();
 		virtual void OnSizeChanged();
@@ -675,7 +678,7 @@ namespace OSHGui
 		Misc::Any tag;
 		
 		Drawing::Point location;
-		Drawing::Point absolutePosition;
+		Drawing::Point absoluteLocation;
 		Drawing::Size size;
 		
 		Drawing::Rectangle bounds,

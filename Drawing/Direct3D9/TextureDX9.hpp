@@ -41,7 +41,7 @@ namespace OSHGui
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 * @param filename Pfad zur zu ladenden Datei
 			 */
-			TextureDX9(IDirect3DDevice9 *device, const Misc::UnicodeString &filename);
+			TextureDX9(IDirect3DDevice9 *device, const Misc::AnsiString &filename);
 			virtual ~TextureDX9();
 		
 			/**
@@ -223,7 +223,7 @@ namespace OSHGui
 			 * @param filename der Dateipfad
 			 * @return gibt den Status der Operation zurück
 			 */
-			virtual void LoadFromFile(const Misc::UnicodeString &filename);
+			virtual void LoadFromFile(const Misc::AnsiString &filename);
 
 		private:
 			IDirect3DDevice9 *device;

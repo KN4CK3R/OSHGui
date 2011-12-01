@@ -4,12 +4,9 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
-	//static Methods
+	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size& CheckBox::DefaultLabelOffset()
-	{
-		return Drawing::Size(20, 2);
-	}
+	const Drawing::Size CheckBox::DefaultLabelOffset(20, 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -19,7 +16,7 @@ namespace OSHGui
 		
 		autoSize = true;
 
-		label = new Label(name + "_Label", Drawing::Point(DefaultLabelOffset().Width, DefaultLabelOffset().Height), Drawing::Size(), text);
+		label = new Label(name + "_Label", Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height), Drawing::Size(), text);
 
 		this->checked = checked;
 
@@ -142,7 +139,7 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
+//		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
 
 		if (controls.size() > 0)
 		{

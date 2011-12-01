@@ -313,14 +313,14 @@ namespace OSHGui
 			Fill(point.X, point.Y, 1, 1);
 		}
 		//---------------------------------------------------------------------------
+		void RendererDX9::Fill(const Point &point, const Size &size)
+		{
+			Fill(point.X, point.Y, size.Width, size.Height);
+		}
+		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(int x, int y)
 		{
 			Fill(x, y, 1, 1);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::Fill(const Rectangle &rect)
-		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(int x, int y, int w, int h)
@@ -341,6 +341,11 @@ namespace OSHGui
 			AddVertex(x + w, y);
 			AddVertex(x + w, y + h);
 			AddVertex(x, y + h);
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::Fill(const Rectangle &rect)
+		{
+			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::FillGradient(const Rectangle &rect, Color &to)

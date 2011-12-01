@@ -4,12 +4,9 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
-	//static Methods
+	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size& Button::DefaultButtonSize()
-	{
-		return Drawing::Size(92, 24);
-	}
+	const Drawing::Size Button::DefaultButtonSize(92, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -118,7 +115,7 @@ namespace OSHGui
 
 		label->Render(renderer);
 
-		if (controls.front() != 0)
+		if (controls.size() > 0)
 		{
 			ChildRender(renderer);
 		}
