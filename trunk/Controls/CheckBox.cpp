@@ -140,16 +140,6 @@ namespace OSHGui
 		
 		renderer->SetRenderColor(foreColor);
 //		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
-
-		if (controls.size() > 0)
-		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
-			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

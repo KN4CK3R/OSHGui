@@ -293,16 +293,6 @@ namespace OSHGui
 		{
 			renderer->Fill(caretRect);
 		}
-
-		if (controls.size() > 0)
-		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
-			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

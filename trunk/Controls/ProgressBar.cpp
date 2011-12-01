@@ -137,16 +137,6 @@ namespace OSHGui
 		{
 			renderer->Fill(bounds.GetLeft() + 4 + i * 12, bounds.GetTop() + 4, 8, bounds.GetHeight() - 8);
 		}
-
-		if (controls.size() > 0)
-		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
-			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

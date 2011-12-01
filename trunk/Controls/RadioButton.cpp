@@ -1,5 +1,6 @@
 #include "RadioButton.hpp"
 #include "..\Misc\Exceptions.hpp"
+#include "ContainerControl.hpp"
 
 namespace OSHGui
 {
@@ -24,7 +25,7 @@ namespace OSHGui
 		if (this->checked != checked)
 		{
 			//uncheck other radiobuttons
-			const std::list<Control*> &controls = parent->GetControls();
+			const std::list<Control*> &controls = ((ContainerControl*)GetParent())->GetControls();
 			for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 			{
 				Control *control = *it;
@@ -205,16 +206,6 @@ namespace OSHGui
 
 		renderer->SetRenderColor(foreColor);
 		//renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
-
-		if (controls.size() > 0)
-		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
-			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

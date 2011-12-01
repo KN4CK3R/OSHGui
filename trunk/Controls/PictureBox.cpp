@@ -158,16 +158,6 @@ namespace OSHGui
 			renderer->SetRenderColor(Drawing::Color::White());
 			renderer->RenderTexture(image, bounds.GetPosition());
 		}
-	
-		if (controls.size() > 0)
-		{
-			Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-			renderer->SetRenderRectangle(clientArea + renderRect.GetPosition());
-			
-			ChildRender(renderer);
-			
-			renderer->SetRenderRectangle(renderRect);
-		}
 	}
 	//---------------------------------------------------------------------------
 }
