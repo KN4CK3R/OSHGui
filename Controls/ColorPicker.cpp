@@ -190,7 +190,7 @@ namespace OSHGui
 		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
-	bool ColorPicker::ContainsPoint(const Drawing::Point &point) const
+	bool ColorPicker::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

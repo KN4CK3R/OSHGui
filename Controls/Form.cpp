@@ -2,6 +2,7 @@
 #include "..\Application.hpp"
 #include "..\FormManager.hpp"
 #include "..\Misc\Exceptions.hpp"
+#include "Label.hpp"
 
 namespace OSHGui
 {
@@ -10,7 +11,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Control(name, location, size), textHelper(font)
+	Form::Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
+		: Panel(name, location, size), textHelper(font)
 	{
 		parent = this;
 
@@ -26,7 +28,8 @@ namespace OSHGui
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 		
-		//Invalidate();
+		containerPanel = new Panel(name + "_ContainerPanel", Drawing::Point(6, 6 /* + captionBar->GetSize().Height*/), size.InflateEx(-12, -6 /* - captionBar->GetSize().Height - 6*/));
+		AddSubControl(containerPanel);
 	}
 	//---------------------------------------------------------------------------
 	Form::~Form()
@@ -58,11 +61,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Form::ContainsPoint(const Drawing::Point &point) const
-	{
-		return bounds.Contains(point + (clientArea.GetPosition() - bounds.GetPosition()));
-	}
-	//---------------------------------------------------------------------------
 	const Drawing::Point Form::PointToClient(const Drawing::Point &point) const
 	{
 		return point - clientArea.GetPosition();
@@ -76,6 +74,11 @@ namespace OSHGui
 		clientArea = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);
 
 		InvalidateChildren();
+	}
+	//---------------------------------------------------------------------------
+	void Form::AddControl(Control *control)
+	{
+		containerPanel->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
 	void Form::Show(const std::shared_ptr<Form> &instance)
@@ -259,6 +262,82 @@ namespace OSHGui
 		ChildRender(renderer);
 		
 		renderer->SetRenderRectangle(renderRect);
+	}
+	//---------------------------------------------------------------------------
+	//Form::Captionbar::Button
+	//---------------------------------------------------------------------------
+	const Drawing::Point Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(4, 4);
+	//---------------------------------------------------------------------------
+	Form::CaptionBar::CaptionBarButton::CaptionBarButton(const Misc::AnsiString &name, const Drawing::Point &location)
+		: Control(name, location, Drawing::Size(DefaultButtonWidth, DefaultButtonHeight))
+	{
+		isFocusable = false;
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::CaptionBarButton::OnMouseUp(const MouseMessage &mouse)
+	{
+		Control::OnMouseUp(mouse);
+
+		Form *owner = (Form*)parent->GetParent();
+		owner->Close();
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::CaptionBarButton::CalculateAbsoluteLocation()
+	{
+		Control::CalculateAbsoluteLocation();
+		crossAbsoluteLocation = absoluteLocation + DefaultCrossOffset;
+	}
+	//---------------------------------------------------------------------------
+	bool Form::CaptionBar::CaptionBarButton::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	//Form::Captionbar
+	//---------------------------------------------------------------------------
+	const Drawing::Point Form::CaptionBar::DefaultTitleOffset(4, 2);
+	//---------------------------------------------------------------------------
+	Form::CaptionBar::CaptionBar(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
+		: ContainerControl(name, location, size)
+	{
+		isFocusable = false;
+		drag = false;
+
+		titleLabel = new Label(name + "_Label", DefaultTitleOffset, Drawing::Size(), text);
+		closeButton = new CaptionBarButton(name + "_CaptionbarButton", Drawing::Point(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
+
+		AddSubControl(titleLabel);
+		AddSubControl(closeButton);
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::OnMouseDown(const MouseMessage &mouse)
+	{
+		ContainerControl::OnMouseDown(mouse);
+
+		drag = true;
+		Application::Instance()->CaptureControl = this;
+		dragStart = mouse.Position;
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::OnMouseMove(const MouseMessage &mouse)
+	{
+		ContainerControl::OnMouseMove(mouse);
+		
+		if (drag)
+		{
+			GetParent()->SetLocation(GetParent()->GetLocation() + (mouse.Position - dragStart));
+			dragStart = mouse.Position;
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::OnMouseClick(const MouseMessage &mouse)
+	{
+		ContainerControl::OnMouseClick(mouse);
+		if (drag)
+		{
+			drag = false;
+			OnMouseCaptureChanged();
+		}
 	}
 	//---------------------------------------------------------------------------
 }

@@ -100,7 +100,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ComboBox::ContainsPoint(const Drawing::Point &point) const
+	bool ComboBox::Intersect(const Drawing::Point &point) const
 	{
 		if (bounds.Contains(point))
 		{

@@ -62,6 +62,17 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool CanHaveFocus() const;
+		/**
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 *
+		 * @param point
+		 * @return ja / nein
+		 */
+		virtual bool Intersect(const Drawing::Point &point) const;
+		/**
+		 * Berechnet die absolute Position des Steuerelements.
+		 */
+		virtual void CalculateAbsoluteLocation();
 
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.

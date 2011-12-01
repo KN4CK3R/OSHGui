@@ -2,8 +2,8 @@
 #define OSHGUI_FORM_HPP_
 
 #include <functional>
-#include "Control.hpp"
-#include "..\Misc\TextHelper.hpp"
+#include "Panel.hpp"
+#include "../Misc/TextHelper.hpp"
 
 namespace OSHGui
 {
@@ -46,11 +46,15 @@ namespace OSHGui
 		ResultNo
 	};
 
+	class Label;
+
 	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
 	 */
-	class OSHGUI_EXPORT Form : public Control
+	class OSHGUI_EXPORT Form : public Panel
 	{
+		class CaptionBar;
+
 	public:
 		static const Drawing::Point DefaultLocation;
 		static const Drawing::Size DefaultSize;
@@ -66,15 +70,12 @@ namespace OSHGui
 		Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
 		virtual ~Form();
 
-		bool IsModal() const;
-
 		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 * Ruft ab, ob die Form modal dargestellt wird.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * @return modal
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point) const;
+		bool IsModal() const;
 		
 		/**
 		 * Legt den Text fest.
@@ -114,7 +115,6 @@ namespace OSHGui
 		 * @param closeFunction diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
 		 */
 		void ShowDialog(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction);
-
 		/**
 		 * Schließt die Form.
 		 */
@@ -134,6 +134,12 @@ namespace OSHGui
 		 * Sollte nicht vom Benutzer aufgerufen werden!
 		 */
 		virtual void Invalidate();
+		/**
+		 * Fügt ein untergeordnetes Steuerelement hinzu.
+		 *
+		 * @param control
+		 */
+		virtual void AddControl(Control *control);
 
 		/**
 		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
@@ -160,6 +166,50 @@ namespace OSHGui
 		bool isModal;
 
 		std::weak_ptr<Form> instance;
+
+		Panel *containerPanel;
+
+
+		class CaptionBar : public ContainerControl
+		{
+			class CaptionBarButton : public Control
+			{
+			public:
+				static const int DefaultButtonWidth = 17;
+				static const int DefaultButtonHeight = 17;
+
+				CaptionBarButton(const Misc::AnsiString &name, const Drawing::Point &location);
+
+				virtual void CalculateAbsoluteLocation();
+				virtual bool Intersect(const Drawing::Point &point) const;
+
+			protected:
+				virtual void OnMouseUp(const MouseMessage &mouse);
+
+			private:
+				static const Drawing::Point DefaultCrossOffset;
+
+				Drawing::Point crossAbsoluteLocation;
+			};
+
+		public:
+			CaptionBar(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &Size, const Misc::AnsiString &text);
+
+		protected:
+			void OnMouseDown(const MouseMessage &mouse);
+			void OnMouseMove(const MouseMessage &mouse);
+			void OnMouseClick(const MouseMessage &mouse);
+
+		private:
+			static const int DefaultButtonPadding = 6;
+			static const Drawing::Point DefaultTitleOffset;
+
+			bool drag;
+			Drawing::Point dragStart;
+
+			Label *titleLabel;
+			CaptionBarButton *closeButton;
+		};
 	};
 }
 

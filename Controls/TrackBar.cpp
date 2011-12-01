@@ -82,7 +82,7 @@ namespace OSHGui
 		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
-	bool TrackBar::ContainsPoint(const Drawing::Point &point) const
+	bool TrackBar::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

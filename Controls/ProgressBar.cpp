@@ -86,7 +86,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ProgressBar::ContainsPoint(const Drawing::Point &point) const
+	bool ProgressBar::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

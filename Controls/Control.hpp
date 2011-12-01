@@ -25,6 +25,8 @@
 
 #include "../Cursor/Cursors.hpp"
 
+#include "../Intersection.hpp"
+
 namespace OSHGui
 {
 	/**
@@ -516,17 +518,17 @@ namespace OSHGui
 		 */
 		FocusLostEvent& GetFocusLostEvent();
 		/**
-		 * Gibt das übergeordnete Steuerelement zurück.
+		 * Legt das übergeordnete Steuerelement fest.
+		 *
+		 * @param parent
+		 */
+		void SetParent(Control *parent);
+		/**
+		 * Ruft das übergeordnete Steuerelement ab.
 		 *
 		 * @return parent
 		 */
 		Control* GetParent() const;
-		/**
-		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
-		 *
-		 * @return parent
-		 */
-		const std::list<Control*>& GetControls() const;
 
 		/**
 		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
@@ -540,7 +542,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool ContainsPoint(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const = 0;
 		/**
 		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
 		 * Wird außerdem für alle Kindelemente aufgerufen.
@@ -554,19 +556,10 @@ namespace OSHGui
 		 * Sollte nicht vom Benutzer aufgerufen werden!
 		 */
 		void InvalidateChildren();
-
 		/**
-		 * Fügt ein untergeordnetes Steuerelement hinzu.
-		 *
-		 * @param control
+		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void AddControl(Control *control);
-		/**
-		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
-		 *
-		 * @param point
-		 * @return der neue Punkt
-		 */
+		virtual void CalculateAbsoluteLocation();
 		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 		/**
 		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
@@ -575,21 +568,6 @@ namespace OSHGui
 		 * @return der neue Punkt
 		 */
 		virtual const Drawing::Point PointToScreen(const Drawing::Point &point) const;
-		/**
-		 * Ruft das untergeordnete Steuerelement ab, das sich an den angegebenen
-		 * Koordinaten befindet.
-		 *
-		 * @param point
-		 * @return 0, falls sich dort kein Steuerelement befindet
-		 */
-		Control* GetChildAtPoint(const Drawing::Point &point) const;
-		/**
-		 * Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
-		 *
-		 * @param name
-		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
-		 */
-		Control* GetChildByName(const Misc::AnsiString &name) const;
 		/**
 		 * Legt das übergebene Control als fokusiert fest.
 		 *
@@ -641,8 +619,6 @@ namespace OSHGui
 		virtual void SetFocus(bool focus);
 		virtual void SetMouseOver(bool mouseOver);
 
-		virtual void CalculateAbsoluteLocation();
-
 		virtual void OnLocationChanged();
 		virtual void OnSizeChanged();
 		virtual void OnMouseDown(const MouseMessage &mouse);
@@ -671,7 +647,7 @@ namespace OSHGui
 		bool isFocusable;
 		bool isFocused;
 		bool hasCaptured;
-		bool isInside; //vvvv löschen
+		bool isInside; //remove!!!
 		bool mouseOver;
 		bool autoSize;
 			 
@@ -710,8 +686,8 @@ namespace OSHGui
 
 		Control *parent;
 
-		std::list<Control*> controls;
-		std::list<Control*> internalControls;
+		std::list<Control*> controls_;
+		std::list<Control*> internalControls_;
 
 		Control *focusControl,
 				*mouseOverControl;

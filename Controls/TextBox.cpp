@@ -57,7 +57,7 @@ namespace OSHGui
 		return isEnabled && isVisible;
 	}
 	//---------------------------------------------------------------------------
-	bool TextBox::ContainsPoint(const Drawing::Point &point) const
+	bool TextBox::Intersect(const Drawing::Point &point) const
 	{
 		return bounds.Contains(point);
 	}

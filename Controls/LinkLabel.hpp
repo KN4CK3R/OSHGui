@@ -18,6 +18,14 @@ namespace OSHGui
 		~LinkLabel();
 		
 		/**
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 *
+		 * @param point
+		 * @return ja / nein
+		 */
+		virtual bool Intersect(const Drawing::Point &point) const;
+
+		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer

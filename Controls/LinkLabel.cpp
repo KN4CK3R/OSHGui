@@ -5,7 +5,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	LinkLabel::LinkLabel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text) : Label(name, location, size, text)
+	LinkLabel::LinkLabel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
+		: Label(name, location, size, text)
 	{
 		type = CONTROL_LINKLABEL;
 
@@ -19,6 +20,13 @@ namespace OSHGui
 	LinkLabel::~LinkLabel()
 	{
 
+	}
+	//---------------------------------------------------------------------------
+	//Runtime-Functions
+	//---------------------------------------------------------------------------
+	bool LinkLabel::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
