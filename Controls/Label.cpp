@@ -6,16 +6,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Label::Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
-		: Control(name, location, size),
+	Label::Label()
+		: Control(),
 		  textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
-		
-		SetText(text);
-		
+
+		SetText("Label");
+				
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 

@@ -14,12 +14,6 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param name eindeutiger Name des Steuerelements
-		 * @param location Position des Steuerelements
-		 * @param size Größe des Steuerelements
-		 * @param text Text des Steuerelemts
-		 * @param checked Checked-Eigenschaft
 		 */
 		RadioButton();
 		

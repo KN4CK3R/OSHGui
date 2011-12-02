@@ -14,14 +14,9 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param name eindeutiger Name des Steuerelements
-		 * @param location Position des Steuerelements
-		 * @param size Größe des Steuerelements
-		 * @param text Text des Steuerelemts
-		 * @param checked Checked-Eigenschaft
 		 */
-		CheckBox(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text, bool checked);
+		CheckBox();
+		virtual ~CheckBox();
 		
 		/**
 		 * Legt den checked-Status fest.
@@ -67,19 +62,17 @@ namespace OSHGui
 		CheckedChangedEvent& GetCheckedChangedEvent();
 		
 		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
+		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool CanHaveFocus() const;
-		
+		virtual bool Intersect(const Drawing::Point &point) const;
 		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
+		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		//virtual bool ProcessEvent(IEvent *event);
+		virtual void CalculateAbsoluteLocation();
+		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -89,13 +82,15 @@ namespace OSHGui
 	
 	protected:
 		static const Drawing::Size DefaultLabelOffset;
+		static const int DefaultCheckBoxSize = 17;
 
 		virtual void OnMouseClick(const MouseMessage &mouse);
 		virtual void OnKeyUp(const KeyboardMessage &keyboard);
 
 		bool checked;
-		Drawing::Point checkBoxPosition,
-					   textPosition;
+		Drawing::Point checkBoxPosition;
+		Drawing::Point textPosition;
+		Drawing::Point checkBoxAbsolutePosition;
 					   
 		CheckedChangedEvent checkedChangedEvent;
 

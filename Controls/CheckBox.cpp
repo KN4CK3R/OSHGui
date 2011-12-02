@@ -10,20 +10,29 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	CheckBox::CheckBox(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text, bool checked) : Control(name, location, size)
+	CheckBox::CheckBox()
+		: Control()
 	{
 		type = CONTROL_CHECKBOX;
 		
 		autoSize = true;
 
-		label = new Label(name + "_Label", Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height), Drawing::Size(), text);
+		label = new Label();
+		label->SetName("CheckBox_Label");
+		label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
+		SetText("CheckBox");
 
-		this->checked = checked;
+		checked = false;
 
 		SetBackColor(Drawing::Color(0xFF222222));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 
 		canRaiseEvents = true;
+	}
+	//---------------------------------------------------------------------------
+	CheckBox::~CheckBox()
+	{
+		delete label;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -45,12 +54,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void CheckBox::SetText(const Misc::AnsiString &text)
 	{
-		Drawing::Point offset = label->GetLocation() - GetLocation();
+		Drawing::Point offset = label->GetLocation();
 
 		label->SetText(text);
 		if (autoSize)
 		{
 			size = label->GetSize().InflateEx(offset.Left, offset.Top);
+			if (size.Height < DefaultCheckBoxSize)
+			{
+				size.Height = DefaultCheckBoxSize;
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -62,21 +75,22 @@ namespace OSHGui
 	void CheckBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 	{
 		Control::SetFont(font);
+
 		label->SetFont(font);
 		if (autoSize)
 		{
 			size = label->GetSize();
-			if (font->GetSize() < 17)
+			if (font->GetSize() < DefaultCheckBoxSize)
 			{
-				checkBoxPosition = location;
-				int y = (int)(17 / 2.0f - font->GetSize() / 2.0f + 0.5f);
-				textPosition = Drawing::Point(GetLeft() + 20, GetTop() + y);
+				checkBoxPosition = Drawing::Point(0, 0);
+				int y = (int)(DefaultCheckBoxSize / 2.0f - font->GetSize() / 2.0f + 0.5f);
+				label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, y));
 			}
 			else
 			{
-				textPosition = GetLocation().OffsetEx(20, 0);
-				int y = (int)(font->GetSize() / 2.0f - 17 / 2.0f + 0.5f);
-				checkBoxPosition = Drawing::Point(GetLeft(), GetTop() + y);
+				label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
+				int y = (int)(font->GetSize() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
+				checkBoxPosition = Drawing::Point(0, y);
 			}
 		}
 	}
@@ -84,6 +98,7 @@ namespace OSHGui
 	void CheckBox::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
+
 		label->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
@@ -94,25 +109,37 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool CheckBox::CanHaveFocus() const
+	bool CheckBox::Intersect(const Drawing::Point &point) const
 	{
-		return isVisible && isEnabled;
+		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	void CheckBox::CalculateAbsoluteLocation()
+	{
+		Control::CalculateAbsoluteLocation();
+		
+		checkBoxAbsolutePosition = absoluteLocation + checkBoxPosition;
+
+		label->SetParent(this);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void CheckBox::OnMouseClick(const MouseMessage &mouse)
 	{
-		SetChecked(!GetChecked());
-
 		Control::OnMouseClick(mouse);
+
+		SetChecked(!GetChecked());
 	}
 	//---------------------------------------------------------------------------
 	void CheckBox::OnKeyUp(const KeyboardMessage &keyboard)
 	{
-		SetChecked(!GetChecked());
-
 		Control::OnKeyUp(keyboard);
+
+		if (keyboard.KeyCode == Key::Space)
+		{
+			SetChecked(!GetChecked());
+		}
 	}
 	//---------------------------------------------------------------------------
 	void CheckBox::Render(Drawing::IRenderer *renderer)
@@ -123,23 +150,22 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(checkBoxPosition.Left, checkBoxPosition.Top, 17, 17);
+		renderer->Fill(checkBoxAbsolutePosition.Left, checkBoxAbsolutePosition.Top, DefaultCheckBoxSize, DefaultCheckBoxSize);
 
 		Drawing::Color white = Drawing::Color::White();
 		renderer->SetRenderColor(white);
-		renderer->FillGradient(checkBoxPosition.Left + 1, checkBoxPosition.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
+		renderer->FillGradient(checkBoxAbsolutePosition.Left + 1, checkBoxAbsolutePosition.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(checkBoxPosition.Left + 2, checkBoxPosition.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(checkBoxAbsolutePosition.Left + 2, checkBoxAbsolutePosition.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
 		renderer->SetRenderColor(white);
 		if (checked)
 		{
-			renderer->Fill(checkBoxPosition.Left + 5, checkBoxPosition.Top + 5, 7, 7);
-			renderer->FillGradient(checkBoxPosition.Left + 6, checkBoxPosition.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
+			renderer->Fill(checkBoxAbsolutePosition.Left + 5, checkBoxAbsolutePosition.Top + 5, 7, 7);
+			renderer->FillGradient(checkBoxAbsolutePosition.Left + 6, checkBoxAbsolutePosition.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
 		}
 		
-		renderer->SetRenderColor(foreColor);
-//		renderer->RenderText(font, textPosition.Left, textPosition.Top, bounds.GetWidth() - 20, bounds.GetHeight(), textHelper.GetText());
+		label->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -2,10 +2,11 @@
 #define OSHGUI_GROUPBOX_HPP_
 
 #include "Control.hpp"
-#include "..\Misc\TextHelper.hpp"
 
 namespace OSHGui
 {
+	class Label;
+
 	/**
 	 * Stellt ein Steuerelement dar, dass einen Rahmen um eine Gruppe
 	 * von Steuerlementen anzeigt, der eine Beschriftung enthalten kann.
@@ -15,10 +16,9 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		GroupBox(Control *parent);
+		GroupBox();
+		virtual ~GroupBox();
 
 		/**
 		 * Legt den Text fest.
@@ -32,6 +32,18 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(Drawing::Color color);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -42,29 +54,14 @@ namespace OSHGui
 		virtual bool Intersect(const Drawing::Point &point) const;
 
 		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-		
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
-		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:
-		Misc::TextHelper textHelper;
+	private:
+		Label *label;
 	};
 }
 

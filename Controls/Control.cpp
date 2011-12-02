@@ -6,15 +6,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Control::Control(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size)
+	Control::Control()
 	{
 		type = CONTROL_ROOT;
 
 		parent = 0;
 
-		this->name = name;
-		this->location = location;
-		this->size = size;
+		location = Drawing::Point(0, 0);
+		size = Drawing::Size(0, 0);
 		
 		isEnabled = true;
 		isVisible = true;
@@ -602,15 +601,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseMessage(MouseMessage &mouse)
 	{
-		/*for (std::list<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
-		{
-			Control &child = *(*it);
-			if (child.ProcessMouseMessage(mouse) == true)
-			{
-				return true;
-			}
-		}*/
-
 		switch (mouse.State)
 		{
 			case MouseMessage::LeftDown:
@@ -638,6 +628,8 @@ namespace OSHGui
 					{
 						if (mouse.State != MouseMessage::Unknown)
 						{
+							clickEvent.Invoke(this);
+
 							OnMouseClick(mouse);
 						}
 					}

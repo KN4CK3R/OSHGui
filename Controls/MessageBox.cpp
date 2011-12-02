@@ -47,7 +47,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons) : Form("messageBox", Form::DefaultLocation, Form::DefaultSize, "")
+	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons) : Form()
 	{
 		InitializeComponent(text, caption, buttons);
 	}

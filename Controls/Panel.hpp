@@ -13,12 +13,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param name eindeutiger Name des Steuerelements
-		 * @param location Position des Steuerelements
-		 * @param size Größe des Steuerelements
 		 */
-		Panel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
+		Panel();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -28,21 +24,6 @@ namespace OSHGui
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
 		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		//virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *

@@ -11,8 +11,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Form::Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
-		: Panel(name, location, size), textHelper(font)
+	Form::Form()
+		: Panel()
 	{
 		parent = this;
 
@@ -25,13 +25,19 @@ namespace OSHGui
 
 		dialogResult = ResultNone;
 
-		captionBar = new CaptionBar(name + "_CaptionBar", Drawing::Point(), Drawing::Size(size.Width, CaptionBar::DefaultCaptionBarHeight), text);
+		captionBar = new CaptionBar();
+		captionBar->SetName("Form_CaptionBar");
+		captionBar->SetLocation(Drawing::Point(0, 0));
+		captionBar->SetText("Form");
 		AddSubControl(captionBar);
-		containerPanel = new Panel(name + "_ContainerPanel",
-								   Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + captionBar->GetHeight()),
-								   size.InflateEx(-DefaultBorderPadding * 2, -DefaultBorderPadding * 2 - captionBar->GetHeight()));
-		//containerPanel->canRaiseEvents = false;
+
+		containerPanel = new Panel();
+		containerPanel->SetName("Form_ContainerPanel");
+		containerPanel->SetLocation(Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + captionBar->GetHeight()));
 		AddSubControl(containerPanel);
+
+		SetLocation(DefaultLocation);
+		SetSize(DefaultSize);
 
 		SetBackColor(Drawing::Color(0xFF7c7b79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -47,6 +53,7 @@ namespace OSHGui
 	void Form::SetSize(const Drawing::Size &size)
 	{
 		ContainerControl::SetSize(size);
+
 		captionBar->SetSize(size);
 		containerPanel->SetSize(size.InflateEx(-DefaultBorderPadding * 2, -DefaultBorderPadding * 2 - captionBar->GetHeight()));
 	}
@@ -64,6 +71,7 @@ namespace OSHGui
 	void Form::SetForeColor(Drawing::Color color)
 	{
 		ContainerControl::SetForeColor(color);
+
 		captionBar->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
@@ -78,16 +86,6 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	void Form::Invalidate()
-	{
-		//captionBar = Drawing::Rectangle(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 23, 17);
-		//closeRect = Drawing::Rectangle(captionBar.GetRight(), bounds.GetTop() + 2, 17, 17);
-
-		clientArea = Drawing::Rectangle(bounds.GetLeft() + 3, bounds.GetTop() + 20, bounds.GetWidth() - 6, bounds.GetHeight() - 23);
-
-		InvalidateChildren();
-	}
 	//---------------------------------------------------------------------------
 	void Form::AddControl(Control *control)
 	{
@@ -148,16 +146,20 @@ namespace OSHGui
 
 		captionBar->Render(renderer);
 		containerPanel->Render(renderer);
+
+		Panel::Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
 	//---------------------------------------------------------------------------
 	const Drawing::Point Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
 	//---------------------------------------------------------------------------
-	Form::CaptionBar::CaptionBarButton::CaptionBarButton(const Misc::AnsiString &name, const Drawing::Point &location)
-		: Control(name, location, Drawing::Size(DefaultButtonWidth, DefaultButtonHeight))
+	Form::CaptionBar::CaptionBarButton::CaptionBarButton()
+		: Control()
 	{
 		isFocusable = false;
+
+		SetSize(Drawing::Size(DefaultButtonWidth, DefaultButtonHeight));
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::OnMouseUp(const MouseMessage &mouse)
@@ -194,14 +196,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Point Form::CaptionBar::DefaultTitleOffset(4, 2);
 	//---------------------------------------------------------------------------
-	Form::CaptionBar::CaptionBar(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
-		: ContainerControl(name, location, size)
+	Form::CaptionBar::CaptionBar()
+		: ContainerControl()
 	{
 		isFocusable = false;
 		drag = false;
 
-		titleLabel = new Label(name + "_Label", DefaultTitleOffset, Drawing::Size(), text);
-		closeButton = new CaptionBarButton(name + "_CaptionBarButton", Drawing::Point(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
+		titleLabel = new Label();
+		titleLabel->SetName("CaptionBar_Label");
+		titleLabel->SetLocation(DefaultTitleOffset);
+
+		closeButton = new CaptionBarButton();
+		closeButton->SetName("CaptionBar_CaptionBarButton");
 
 		AddSubControl(titleLabel);
 		AddSubControl(closeButton);

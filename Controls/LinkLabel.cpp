@@ -5,12 +5,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	LinkLabel::LinkLabel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text)
-		: Label(name, location, size, text)
+	LinkLabel::LinkLabel()
+		: Label()
 	{
 		type = CONTROL_LINKLABEL;
 
-		SetText(text);
+		SetText("LinkLabel");
 		
 		cursor = Cursors::Get(Cursors::Hand);
 
@@ -37,8 +37,9 @@ namespace OSHGui
 		{
 			return;
 		}
-	
-		renderer->Fill(GetLeft(), GetBottom() - 1, GetWidth(), 1);
+		
+		renderer->SetRenderColor(foreColor);
+		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + GetHeight() - 1, GetWidth(), 1);
 
 		Label::Render(renderer);
 	}
