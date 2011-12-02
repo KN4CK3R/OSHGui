@@ -14,7 +14,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		LinkLabel(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
+		LinkLabel();
 		~LinkLabel();
 		
 		/**

@@ -61,13 +61,8 @@ namespace OSHGui
 
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param name eindeutiger Name der Form
-		 * @param location Position der Form
-		 * @param size Größe der Form
-		 * @param text Text der Form
 		 */
-		Form(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
+		Form();
 		virtual ~Form();
 
 		/**
@@ -131,14 +126,6 @@ namespace OSHGui
 		 * Schließt die Form.
 		 */
 		void Close();
-
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
@@ -146,13 +133,6 @@ namespace OSHGui
 		 */
 		virtual void AddControl(Control *control);
 
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		//bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -164,17 +144,12 @@ namespace OSHGui
 		DialogResult dialogResult;
 
 	private:
-		Misc::TextHelper textHelper;
-		//Drawing::Rectangle captionBar,
-		//				   closeRect;
-		bool drag;
 		bool isModal;
 
 		std::weak_ptr<Form> instance;
 
 		CaptionBar *captionBar;
 		Panel *containerPanel;
-
 
 		class CaptionBar : public ContainerControl
 		{
@@ -184,7 +159,7 @@ namespace OSHGui
 				static const int DefaultButtonWidth = 17;
 				static const int DefaultButtonHeight = 17;
 
-				CaptionBarButton(const Misc::AnsiString &name, const Drawing::Point &location);
+				CaptionBarButton();
 
 				virtual void CalculateAbsoluteLocation();
 				virtual bool Intersect(const Drawing::Point &point) const;
@@ -203,7 +178,7 @@ namespace OSHGui
 		public:
 			static const int DefaultCaptionBarHeight = 17;
 
-			CaptionBar(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &Size, const Misc::AnsiString &text);
+			CaptionBar();
 
 			void SetSize(const Drawing::Size &size);
 			void SetText(const Misc::AnsiString &text);

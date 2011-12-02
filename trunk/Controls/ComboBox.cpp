@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ComboBox::ComboBox(Control *parent) : Button("", Drawing::Point(), Drawing::Size(), ""), scrollBar(this), textHelper(font)
+	ComboBox::ComboBox(Control *parent) : Button(), scrollBar(this), textHelper(font)
 	{
 		type = CONTROL_COMBOBOX;
 		

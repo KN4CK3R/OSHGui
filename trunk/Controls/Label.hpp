@@ -14,13 +14,8 @@ namespace OSHGui
 	public:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param name eindeutiger Name des Steuerelements
-		 * @param location Position des Steuerelements
-		 * @param size Größe des Steuerelements
-		 * @param text Text des Steuerelemts
 		 */
-		Label(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size, const Misc::AnsiString &text);
+		Label();
 		
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.

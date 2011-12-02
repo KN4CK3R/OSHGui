@@ -605,13 +605,8 @@ namespace OSHGui
 	protected:
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param name eindeutiger Name des Steuerelements
-		 * @param location Position des Steuerelements
-		 * @param size Größe des Steuerelements
 		 */
-		Control(const Misc::AnsiString &name, const Drawing::Point &location, const Drawing::Size &size);
-		Control() { }//remove!!!!
+		Control();
 	
 		bool ContainerProcessEvent(IEvent *event);
 		void ChildRender(Drawing::IRenderer *renderer);
