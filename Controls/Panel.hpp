@@ -30,6 +30,9 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
+
+	private:
+		static const Drawing::Size DefaultSize;
 	};
 }
 

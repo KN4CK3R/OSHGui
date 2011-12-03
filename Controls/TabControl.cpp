@@ -1,39 +1,64 @@
 #include "TabControl.hpp"
 #include "TabPage.hpp"
+#include "Label.hpp"
 #include "..\Misc\TextHelper.hpp"
 #include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
+	const Drawing::Size TabControl::DefaultSize(200, 100);
+	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabControl::TabControl() : Control()
 	{
 		type = CONTROL_TABCONTROL;
-
-		activeTab = 0;
 		
-		SetBounds(6, 6, 200, 100);
+		tabControlBar = new TabControlBar();
+		tabControlBar->SetLocation(Drawing::Point(0, 0));
+
+		SetSize(DefaultSize);
 		
 		SetBackColor(Drawing::Color(0xFF737373));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+
+		canRaiseEvents = false;
 	}
 	//---------------------------------------------------------------------------
 	TabControl::~TabControl()
 	{
-		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
-		{
-			delete *it;
-		}
-
-		tabs.clear();
+		delete tabControlBar;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	void TabControl::SetSize(const Drawing::Size &size)
+	{
+		Control::SetSize(size);
+
+		tabControlBar->SetSize(size);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::SetForeColor(const Drawing::Color &color)
+	{
+		Control::SetForeColor(color);
+
+		tabControlBar->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::SetBackColor(const Drawing::Color &color)
+	{
+		Control::SetBackColor(color);
+
+		tabControlBar->SetBackColor(color);
+	}
+	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
+		const std::list<TabPage*> &tabs = tabControlBar->GetTabPages();
 		for (std::list<TabPage*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
 		{
 			if ((*it)->GetText() == text)
@@ -47,14 +72,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
 	{
+		const std::list<TabPage*> &tabs = tabControlBar->GetTabPages();
 		if (index > 0 && index < (int)tabs.size())
 		{
 			std::list<TabPage*>::const_iterator it = tabs.begin();
-			for (int i = 0; i < index; ++i)
-			{
-				++it;
-			}
-
+			for (int i = 0; i < index; ++i, ++it);
 			return *it;
 		}
 
@@ -78,13 +100,7 @@ namespace OSHGui
 			return;
 		}
 
-		tabs.push_back(tabPage);
-
-		if (activeTab == 0)
-		{
-			activeTab = tabPage;
-			Invalidate();
-		}
+		tabControlBar->AddTabPage(tabPage);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::RemoveTabPage(TabPage *tabPage)
@@ -97,39 +113,14 @@ namespace OSHGui
 			return;
 		}
 
-		tabs.remove(tabPage);
-
-		if (activeTab == tabPage)
-		{
-			if (tabs.size() > 0)
-			{
-				activeTab = *tabs.begin();
-				Invalidate();
-			}
-			else
-			{
-				activeTab = 0;
-			}
-		}
+		tabControlBar->RemoveTabPage(tabPage);
 	}
 	//---------------------------------------------------------------------------
 	bool TabControl::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
-	//---------------------------------------------------------------------------
-	void TabControl::Invalidate()
-	{
-		clientArea = bounds.InflateEx(-2, -font->GetSize() + 4).OffsetEx(1, font->GetSize() + 8);
-
-		if (activeTab != 0)
-		{
-			activeTab->SetBounds(clientArea);
-		}
-
-		InvalidateChildren();
-	}
-	//---------------------------------------------------------------------------
+	/*//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	bool TabControl::ProcessEvent(IEvent *event)
@@ -252,7 +243,7 @@ namespace OSHGui
 
 		return false;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void TabControl::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -260,7 +251,7 @@ namespace OSHGui
 			return;
 		}
 
-		if (activeTab != 0)
+		/*if (activeTab != 0)
 		{
 			activeTab->Render(renderer);
 		}
@@ -294,7 +285,129 @@ namespace OSHGui
 			renderer->SetRenderColor(foreColor);
 			renderer->RenderText(font, x + 4, y + 4, textSize.Width, textSize.Height, textHelper.GetText());
 			x += textSize.Width + 11;
+		}*/
+
+		tabControlBar->Render(renderer);
+	}
+	//---------------------------------------------------------------------------
+	TabControl::TabControlBar::TabControlBar()
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::SetForeColor(const Drawing::Color &color)
+	{
+		ContainerControl::SetForeColor(color);
+
+		const std::list<Control*> &controls = GetControls();
+		for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
+		{
+			(*it)->SetForeColor(color);
 		}
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::SetBackColor(const Drawing::Color &color)
+	{
+		ContainerControl::SetBackColor(color);
+
+		const std::list<Control*> &controls = GetControls();
+		for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
+		{
+			(*it)->SetBackColor(color);
+		}
+	}
+	//---------------------------------------------------------------------------
+	TabPage* TabControl::TabControlBar::GetActiveTabPage() const
+	{
+		return activeTabPage;
+	}
+	//---------------------------------------------------------------------------
+	const std::list<TabPage*>& TabControl::TabControlBar::GetTabPages() const
+	{
+		return tabPages;
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::AddTabPage(TabPage *tabPage)
+	{
+		tabPages.push_back(tabPage);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::RemoveTabPage(TabPage *tabPage)
+	{
+		tabPages.remove(tabPage);
+
+		if (activeTabPage == tabPage)
+		{
+			if (!tabPages.empty())
+			{
+				activeTabPage = *tabPages.begin();
+			}
+			else
+			{
+				activeTabPage = 0;
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	TabControl::TabControlBar::TabControlBarButton::TabControlBarButton(TabPage *tabPage)
+	{
+		this->tabPage = tabPage;
+
+		label = new Label();
+		label->SetLocation(DefaultLabelOffset);
+		label->SetText(tabPage->GetText());
+
+		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
+	}
+	//---------------------------------------------------------------------------
+	TabControl::TabControlBar::TabControlBarButton::~TabControlBarButton()
+	{
+		delete label;
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::TabControlBarButton::SetForeColor(const Drawing::Color &color)
+	{
+		Control::SetForeColor(color);
+
+		label->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::TabControlBarButton::SetBackColor(const Drawing::Color &color)
+	{
+		Control::SetBackColor(color);
+
+		label->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::TabControlBarButton::SetActive(bool active)
+	{
+		this->active = active;
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::TabControlBarButton::Render(Drawing::IRenderer *renderer)
+	{
+		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
+
+		Drawing::Color backInactive = backColor - Drawing::Color(0, 47, 47, 47);
+		Drawing::Color backInactiveGradient = backInactive - Drawing::Color(0, 20, 20, 20);
+		Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9, 9);
+
+		if (active)
+		{
+			renderer->SetRenderColor(backColor + Drawing::Color(0, 43, 43, 43));
+			renderer->FillGradient(absoluteLocation.Left, absoluteLocation.Top, size.Width, size.Height, backColor - Drawing::Color(0, 10, 10, 10));
+			renderer->SetRenderColor(backColor);
+			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height, backColor - Drawing::Color(0, 42, 42, 42));
+		}
+		else
+		{
+			renderer->SetRenderColor(borderInactive);
+			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top, size.Width, size.Height - 1);
+			renderer->SetRenderColor(backInactive);
+			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 1, backInactiveGradient);
+		}
+
+		label->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 }

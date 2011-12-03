@@ -24,7 +24,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::AnsiString &text, std::function<void(DialogResult result)> closeFunction)
 	{
-		Show(text, Misc::AnsiString(""), closeFunction);
+		Show(text, "", closeFunction);
 	}
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, std::function<void(DialogResult result)> closeFunction)
@@ -86,7 +86,7 @@ namespace OSHGui
 			case ButtonOKCancel:
 				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
 
-				label.push_back("Cance");
+				label.push_back("Cancel");
 				label.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
@@ -140,7 +140,7 @@ namespace OSHGui
 			case ButtonYesNoCancel:
 				neededWidthForButtons = 3 * (Button::DefaultSize.Width + 10) + 10;
 
-				label.push_back("Cance");
+				label.push_back("Cancel");
 				label.push_back("No");
 				label.push_back("Yes");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
@@ -162,7 +162,7 @@ namespace OSHGui
 			case ButtonRetryCancel:
 				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
 
-				label.push_back("Cance");
+				label.push_back("Cancel");
 				label.push_back("Retry");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{

@@ -6,6 +6,9 @@
 
 namespace OSHGui
 {
+	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
 	const Drawing::Point Form::DefaultLocation(50, 50);
 	const Drawing::Size Form::DefaultSize(300, 300);
 	//---------------------------------------------------------------------------
@@ -68,7 +71,7 @@ namespace OSHGui
 		return captionBar->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Form::SetForeColor(Drawing::Color color)
+	void Form::SetForeColor(const Drawing::Color &color)
 	{
 		ContainerControl::SetForeColor(color);
 

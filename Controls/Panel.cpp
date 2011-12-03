@@ -4,6 +4,10 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
+	const Drawing::Size Panel::DefaultSize(200, 200);
+	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	Panel::Panel()
@@ -11,7 +15,7 @@ namespace OSHGui
 	{
 		type = CONTROL_PANEL;
 
-		SetSize(Drawing::Size(200, 200));
+		SetSize(DefaultSize);
 				
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
