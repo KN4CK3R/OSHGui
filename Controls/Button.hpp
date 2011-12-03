@@ -71,6 +71,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 
 	protected:
+		static const Drawing::Point DefaultLabelOffset;
+
 		Label *label;
 	};
 }

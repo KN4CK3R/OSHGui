@@ -33,12 +33,12 @@ namespace OSHGui
 			return;
 		}
 	
-		if (backColor.A != 0)
+		if (backColor.A > 0)
 		{
 			renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
-			renderer->Fill(bounds);
+			renderer->Fill(absoluteLocation, size);
 			renderer->SetRenderColor(backColor);
-			renderer->FillGradient(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
+			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, GetWidth() - 2, GetHeight() - 2, backColor - Drawing::Color(90, 90, 90));
 		}
 	
 		ContainerControl::Render(renderer);

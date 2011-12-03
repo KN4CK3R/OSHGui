@@ -33,7 +33,7 @@ namespace OSHGui
 
 		containerPanel = new Panel();
 		containerPanel->SetName("Form_ContainerPanel");
-		containerPanel->SetLocation(Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + captionBar->GetHeight()));
+		containerPanel->SetLocation(Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
 		AddSubControl(containerPanel);
 
 		SetLocation(DefaultLocation);
@@ -55,7 +55,7 @@ namespace OSHGui
 		ContainerControl::SetSize(size);
 
 		captionBar->SetSize(size);
-		containerPanel->SetSize(size.InflateEx(-DefaultBorderPadding * 2, -DefaultBorderPadding * 2 - captionBar->GetHeight()));
+		containerPanel->SetSize(size.InflateEx(-DefaultBorderPadding * 2, -DefaultBorderPadding * 2 - CaptionBar::DefaultCaptionBarHeight));
 	}
 	//---------------------------------------------------------------------------
 	void Form::SetText(const Misc::AnsiString &text)
@@ -146,8 +146,6 @@ namespace OSHGui
 
 		captionBar->Render(renderer);
 		containerPanel->Render(renderer);
-
-		Panel::Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
@@ -216,6 +214,7 @@ namespace OSHGui
 	void Form::CaptionBar::SetSize(const Drawing::Size &size)
 	{
 		ContainerControl::SetSize(Drawing::Size(size.Width, DefaultCaptionBarHeight));
+
 		closeButton->SetLocation(Drawing::Point(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
 	}
 	//---------------------------------------------------------------------------
