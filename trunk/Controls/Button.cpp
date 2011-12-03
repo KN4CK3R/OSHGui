@@ -7,6 +7,7 @@ namespace OSHGui
 	//static attributes
 	//---------------------------------------------------------------------------
 	const Drawing::Size Button::DefaultSize(92, 24);
+	const Drawing::Point Button::DefaultLabelOffset(6, 5);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -17,7 +18,7 @@ namespace OSHGui
 
 		label = new Label();
 		label->SetName("Button_Label");
-		label->SetLocation(Drawing::Point(6, 5));
+		label->SetLocation(DefaultLabelOffset);
 		label->SetText("Button");
 		label->SetAutoSize(false);
 
@@ -46,7 +47,7 @@ namespace OSHGui
 		label->SetText(text);
 		if (autoSize)
 		{
-			size = label->GetSize();
+			size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -62,7 +63,7 @@ namespace OSHGui
 		label->SetFont(font);
 		if (autoSize)
 		{
-			size = label->GetSize();
+			size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -12,7 +12,7 @@ namespace OSHGui
 
 		parent = 0;
 
-		location = Drawing::Point(0, 0);
+		location = Drawing::Point(6, 6);
 		size = Drawing::Size(0, 0);
 		
 		isEnabled = true;
