@@ -8,14 +8,20 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	GroupBox::GroupBox()
-		: Control()
+		: Panel()
 	{
 		type = CONTROL_GROUPBOX;
 
-		label = new Label();
-		label->SetName("GroupBox_Label");
-		label->SetLocation(Drawing::Point(5, -1));
-		label->SetText("GroupBox");
+		captionLabel = new Label();
+		captionLabel->SetName("GroupBox_Label");
+		captionLabel->SetLocation(Drawing::Point(5, -1));
+		captionLabel->SetText("GroupBox");
+		AddSubControl(captionLabel);
+
+		containerPanel = new Panel();
+		containerPanel->SetName("GroupBox_Panel");
+		containerPanel->SetLocation(Drawing::Point(3, 10));
+		AddSubControl(containerPanel);
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -23,33 +29,40 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	GroupBox::~GroupBox()
 	{
-		delete label;
+
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	void GroupBox::SetSize(const Drawing::Size &size)
+	{
+		ContainerControl::SetSize(size);
+
+		containerPanel->SetSize(size.InflateEx(-3 * 2, -3 * 2 - 10));
+	}
+	//---------------------------------------------------------------------------
 	void GroupBox::SetText(const Misc::AnsiString &text)
 	{
-		label->SetText(text);
+		captionLabel->SetText(text);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& GroupBox::GetText() const
 	{
-		return label->GetText();
+		return captionLabel->GetText();
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 	{
 		Control::SetFont(font);
 
-		label->SetFont(font);
+		captionLabel->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 
-		label->SetForeColor(color);
+		captionLabel->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -57,6 +70,11 @@ namespace OSHGui
 	bool GroupBox::Intersect(const Drawing::Point &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	void GroupBox::AddControl(Control *control)
+	{
+		containerPanel->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -71,14 +89,18 @@ namespace OSHGui
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
+			renderer->Fill(absoluteLocation, size);
 		}
 		
-		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + 5, 3, 1);
-		renderer->Fill(bounds.GetLeft() + label->GetWidth() + 5, bounds.GetTop() + 5, bounds.GetWidth() - label->GetWidth() - 6, 1);
-		renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 6, 1, bounds.GetHeight() - 7);
-		renderer->Fill(bounds.GetLeft() + bounds.GetWidth() - 1, bounds.GetTop() + 6, 1, bounds.GetHeight() - 7);
-		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + bounds.GetHeight() - 1, bounds.GetWidth() - 2, 1);
+		captionLabel->Render(renderer);
+
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 5, 3, 1);
+		renderer->Fill(absoluteLocation.Left + captionLabel->GetWidth() + 5, absoluteLocation.Top + 5, GetWidth() - captionLabel->GetWidth() - 6, 1);
+		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 6, 1, GetHeight() - 7);
+		renderer->Fill(absoluteLocation.Left + GetWidth() - 1, absoluteLocation.Top + 6, 1, GetHeight() - 7);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + GetHeight() - 1, GetWidth() - 2, 1);
+
+		containerPanel->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 }

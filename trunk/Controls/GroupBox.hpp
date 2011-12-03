@@ -1,7 +1,7 @@
 #ifndef OSHGUI_GROUPBOX_HPP_
 #define OSHGUI_GROUPBOX_HPP_
 
-#include "Control.hpp"
+#include "Panel.hpp"
 
 namespace OSHGui
 {
@@ -11,7 +11,7 @@ namespace OSHGui
 	 * Stellt ein Steuerelement dar, dass einen Rahmen um eine Gruppe
 	 * von Steuerlementen anzeigt, der eine Beschriftung enthalten kann.
 	 */
-	class OSHGUI_EXPORT GroupBox : public Control
+	class OSHGUI_EXPORT GroupBox : public Panel
 	{
 	public:
 		/**
@@ -20,6 +20,12 @@ namespace OSHGui
 		GroupBox();
 		virtual ~GroupBox();
 
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
 		/**
 		 * Legt den Text fest.
 		 *
@@ -52,6 +58,12 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
+		/**
+		 * Fügt ein untergeordnetes Steuerelement hinzu.
+		 *
+		 * @param control
+		 */
+		virtual void AddControl(Control *control);
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -61,7 +73,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	private:
-		Label *label;
+		Label *captionLabel;
+		Panel *containerPanel;
 	};
 }
 
