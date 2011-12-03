@@ -2,10 +2,11 @@
 #define OSHGUI_TABCONTROL_HPP_
 
 #include <list>
-#include "Control.hpp"
+#include "ContainerControl.hpp"
 
 namespace OSHGui
 {
+	class Label;
 	class TabPage;
 
 	/**
@@ -13,13 +14,35 @@ namespace OSHGui
 	 */
 	class OSHGUI_EXPORT TabControl : public Control
 	{
+		class TabControlBar;
+
 	public:
+		using Control::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		TabControl();
 		virtual ~TabControl();
 
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(const Drawing::Color &color);
+		/**
+		 * Legt die Hintergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetBackColor(const Drawing::Color &color);
 		/**
 		 * Ruft die TabPage mit dem entsprechenden Namen ab.
 		 *
@@ -61,22 +84,7 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
-		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -85,10 +93,55 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 
 	private:
-		std::list<TabPage*> tabs;
-		TabPage *activeTab;
+		static const Drawing::Size DefaultSize;
+
+		TabControlBar *tabControlBar;
 
 		SelectedIndexChangedEvent selectedIndexChangedEvent;
+
+		class TabControlBar : public ContainerControl
+		{
+			class TabControlBarButton : public Control
+			{
+			public:
+				TabControlBarButton(TabPage *tabPage);
+				~TabControlBarButton();
+
+				virtual void SetForeColor(const Drawing::Color &color);
+				virtual void SetBackColor(const Drawing::Color &color);
+
+				void SetActive(bool active);
+				TabPage* GetTabPage() const;
+
+				void Render(Drawing::IRenderer *renderer);
+
+			private:
+				static const Drawing::Point DefaultLabelOffset;
+
+				TabPage *tabPage;
+				Label *label;
+
+				bool active;
+			};
+
+		public:
+			TabControlBar();
+			~TabControlBar();
+
+			virtual void SetForeColor(const Drawing::Color &color);
+			virtual void SetBackColor(const Drawing::Color &color);
+
+			void AddTabPage(TabPage *tabPage);
+			void RemoveTabPage(TabPage *tabPage);
+			TabPage* GetActiveTabPage() const;
+			const std::list<TabPage*>& GetTabPages() const;
+
+			void Render(Drawing::IRenderer *renderer);
+
+		private:
+			std::list<TabPage*> tabPages;
+			TabPage *activeTabPage;
+		};
 	};
 }
 

@@ -13,6 +13,8 @@ namespace OSHGui
 	class OSHGUI_EXPORT TabPage : public Panel
 	{
 	public:
+		using Panel::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 *
@@ -20,6 +22,12 @@ namespace OSHGui
 		 */
 		TabPage(TabControl *parent);
 		
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
 		/**
 		 * Legt den Text fest.
 		 *
@@ -32,22 +40,14 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
-		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 
 		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
+		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
-		 * @param event
-		 * @return NextEventTypes
+		 * @param control
 		 */
-		virtual bool ProcessEvent(IEvent *event);
+		virtual void AddControl(Control *control);
+
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -55,9 +55,10 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 
-	protected:
-		
+	private:
 		Misc::AnsiString text;
+
+		Panel *containerPanel;
 	};
 }
 
