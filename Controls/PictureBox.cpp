@@ -4,6 +4,7 @@
 
 namespace OSHGui
 {
+	const Drawing::Size PictureBox::DefaultSize(100, 100);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -11,7 +12,7 @@ namespace OSHGui
 	{
 		type = CONTROL_PICTUREBOX;
 
-		SetBounds(6, 6, 100, 100);
+		SetSize(DefaultSize);
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
@@ -23,6 +24,24 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void PictureBox::SetSize(const Drawing::Size &size)
+	{
+		if (this->size != size)
+		{
+			Control::SetSize(size);
+
+			if (image != 0)
+			{
+				std::shared_ptr<Drawing::ITexture> newImage = Application::Instance()->GetRenderer()->CreateNewTexture(GetSize());
+				newImage->BeginUpdate();
+				newImage->Insert(0, 0, image);
+				newImage->EndUpdate();
+
+				image = newImage;
+			}
+		}
+	}
 	//---------------------------------------------------------------------------
 	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
 	{
@@ -46,99 +65,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool PictureBox::CanHaveFocus() const
-	{
-		return isVisible && isEnabled;
-	}
-	//---------------------------------------------------------------------------
 	bool PictureBox::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
-	}
-	//---------------------------------------------------------------------------
-	void PictureBox::Invalidate()
-	{
-		if (clientArea != bounds)
-		{
-			clientArea = bounds;
-
-			if (image != 0)
-			{
-				std::shared_ptr<Drawing::ITexture> newImage = Application::Instance()->GetRenderer()->CreateNewTexture(GetSize());
-				newImage->BeginUpdate();
-				newImage->Insert(0, 0, image);
-				newImage->EndUpdate();
-
-				image = newImage;
-			}
-		}
-
-		InvalidateChildren();
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
-	//---------------------------------------------------------------------------
-	bool PictureBox::ProcessEvent(IEvent *event)
-	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
-
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-
-		Drawing::Point mousePositionBackup;
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-		}
-	
-		if (ChildProcessEvent(event) == true)
-		{
-			return true;
-		}
-
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-
-			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
-			{
-				if (mouse->State == MouseMessage::LeftDown || mouse->State == MouseMessage::RightDown)
-				{
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-
-					parent->RequestFocus(this);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::Move)
-				{
-					MouseEventArgs args(mouse);
-					mouseMoveEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::LeftUp || mouse->State == MouseMessage::RightUp)
-				{
-					MouseEventArgs args(mouse);
-					mouseUpEvent.Invoke(this, args);
-
-					return true;
-				}
-			}
-
-			mouse->Position = mousePositionBackup;
-		}
-
-		return false;
-	}
 	//---------------------------------------------------------------------------
 	void PictureBox::Render(Drawing::IRenderer *renderer)
 	{
@@ -150,13 +82,13 @@ namespace OSHGui
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
+			renderer->Fill(absoluteLocation, size);
 		}
 		
 		if (image != 0)
 		{
 			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->RenderTexture(image, bounds.GetPosition());
+			renderer->RenderTexture(image, absoluteLocation, size);
 		}
 	}
 	//---------------------------------------------------------------------------

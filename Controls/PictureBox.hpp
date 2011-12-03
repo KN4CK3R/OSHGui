@@ -13,12 +13,20 @@ namespace OSHGui
 	class OSHGUI_EXPORT PictureBox : public Control
 	{
 	public:
+		using Control::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		PictureBox();
 		virtual ~PictureBox();
 		
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
 		/**
 		 * Legt das in der PictureBox dargestellte Bild fest.
 		 *
@@ -33,34 +41,13 @@ namespace OSHGui
 		std::shared_ptr<Drawing::ITexture> GetImage() const;
 		
 		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
-		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
-		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -70,6 +57,9 @@ namespace OSHGui
 		
 	protected:
 		std::shared_ptr<Drawing::ITexture> image;
+
+	private:
+		static const Drawing::Size DefaultSize;
 	};
 }
 

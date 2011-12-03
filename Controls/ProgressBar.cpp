@@ -3,6 +3,7 @@
 
 namespace OSHGui
 {
+	const Drawing::Size ProgressBar::DefaultSize(110, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -10,20 +11,22 @@ namespace OSHGui
 	{
 		type = CONTROL_PROGRESSBAR;
 
-		SetBounds(6, 6, 110, 24);
+		SetSize(DefaultSize);
 		
 		min = 0;
 		max = 100;
-		position = 0;
+		value = 0;
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFF5A5857));
 		SetBarColor(Drawing::Color(0xFF67AFF5));
+
+		canRaiseEvents = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetMin(unsigned int min)
+	void ProgressBar::SetMin(int min)
 	{
 		if (min < max)
 		{
@@ -43,7 +46,7 @@ namespace OSHGui
 		return min;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetMax(unsigned int max)
+	void ProgressBar::SetMax(int max)
 	{
 		if (max > min)
 		{
@@ -63,15 +66,15 @@ namespace OSHGui
 		return max;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetPosition(unsigned int position)
+	void ProgressBar::SetValue(int value)
 	{
-		this->position = position;
+		this->value = value;
 		Adjust();
 	}
 	//---------------------------------------------------------------------------
-	int ProgressBar::GetPosition() const
+	int ProgressBar::GetValue() const
 	{
-		return position;
+		return value;
 	}
 	//---------------------------------------------------------------------------
 	void ProgressBar::SetBarColor(const Drawing::Color &color)
@@ -88,26 +91,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ProgressBar::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void ProgressBar::Adjust()
 	{
-		if (position < min)
+		if (value < min)
 		{
-			position = min;
+			value = min;
 		}
-		if (position > max)
+		if (value > max)
 		{
-			position = max;
+			value = max;
 		}
-	}
-	//---------------------------------------------------------------------------
-	void ProgressBar::Invalidate()
-	{
-		clientArea = bounds;
-
-		InvalidateChildren();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -122,20 +118,20 @@ namespace OSHGui
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop(), bounds.GetWidth() - 2, bounds.GetHeight());
-			renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 1, bounds.GetWidth(), bounds.GetHeight() - 2);
+			renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, GetWidth() - 2, GetHeight());
+			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, GetWidth(), GetHeight() - 2);
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop(), bounds.GetWidth() - 2, 1);
-		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + bounds.GetHeight() - 1, bounds.GetWidth() - 2, 1);
-		renderer->Fill(bounds.GetLeft(), bounds.GetTop() + 1, 1, bounds.GetHeight() - 2);
-		renderer->Fill(bounds.GetLeft() + bounds.GetWidth() - 1, bounds.GetTop() + 1, 1, bounds.GetHeight() - 2);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, GetWidth() - 2, 1);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + GetHeight() - 1, GetWidth() - 2, 1);
+		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, 1, GetHeight() - 2);
+		renderer->Fill(absoluteLocation.Left + GetWidth() - 1, absoluteLocation.Top + 1, 1, GetHeight() - 2);
 
 		renderer->SetRenderColor(barColor);
-		for (int i = (int)(position / ((max - min) / ((clientArea.GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
+		for (int i = (int)(value / ((max - min) / ((GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
 		{
-			renderer->Fill(bounds.GetLeft() + 4 + i * 12, bounds.GetTop() + 4, 8, bounds.GetHeight() - 8);
+			renderer->Fill(absoluteLocation.Left + 4 + i * 12, absoluteLocation.Top + 4, 8, GetHeight() - 8);
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -14,6 +14,8 @@ namespace OSHGui
 	class OSHGUI_EXPORT GroupBox : public Panel
 	{
 	public:
+		using Panel::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
