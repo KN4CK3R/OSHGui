@@ -22,7 +22,7 @@ namespace OSHGui
 		 *
 		 * @param min
 		 */
-		void SetMin(unsigned int min);
+		void SetMin(int min);
 		/**
 		 * Gibt den minimalen Wert zurück.
 		 *
@@ -34,7 +34,7 @@ namespace OSHGui
 		 *
 		 * @param max
 		 */
-		void SetMax(unsigned int max);
+		void SetMax(int max);
 		/**
 		 * Gibt den maximalen Wert zurück.
 		 *
@@ -42,17 +42,17 @@ namespace OSHGui
 		 */
 		int GetMax() const;
 		/**
-		 * Legt die aktuelle Position fest.
+		 * Legt den aktuellen Wert fest.
 		 *
-		 * @param position
+		 * @param value
 		 */
-		void SetPosition(unsigned int position);
+		void SetValue(int value);
 		/**
-		 * Gibt die aktuelle Position zurück.
+		 * Ruft den aktuellen Wert ab.
 		 *
-		 * @return die Position
+		 * @return der Wert
 		 */
-		int GetPosition() const;
+		int GetValue() const;
 		/**
 		 * Legt die Farbe des Fortschrittsbalken fest.
 		 *
@@ -73,14 +73,6 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
-
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 	
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -89,13 +81,15 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:
+	private:
+		static const Drawing::Size DefaultSize;
+
 		void Adjust();
 	
 		Drawing::Color barColor;
-		unsigned int position,
-					 min,
-					 max;
+		int value;
+		int min;
+		int max;
 	};
 }
 

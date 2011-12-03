@@ -59,6 +59,8 @@ namespace OSHGui
 		static const Drawing::Point DefaultLocation;
 		static const Drawing::Size DefaultSize;
 
+		using Panel::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */

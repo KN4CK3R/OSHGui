@@ -235,6 +235,11 @@ namespace OSHGui
 			RenderTexture(texture, x, y, size.Width, size.Height);
 		}
 		//---------------------------------------------------------------------------
+		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size)
+		{
+			RenderTexture(texture, point.Left, point.Top, size.Width, size.Height);
+		}
+		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect)
 		{
 			RenderTexture(texture, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());

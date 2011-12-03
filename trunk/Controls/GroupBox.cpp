@@ -25,6 +25,8 @@ namespace OSHGui
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+
+		canRaiseEvents = false;
 	}
 	//---------------------------------------------------------------------------
 	GroupBox::~GroupBox()

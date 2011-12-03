@@ -115,6 +115,14 @@ namespace OSHGui
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
 			 * @param texture die Textur
+			 * @param point der Startpunkt
+			 * @param size die Größe
+			 */
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size) = 0;
+			/**
+			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
+			 *
+			 * @param texture die Textur
 			 * @param rect das Rechteck
 			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect) = 0;

@@ -58,18 +58,14 @@ namespace OSHGui
 	{
 		this->SetText(caption);
 		
-		/*Label *textLabel = new Label(this);
+		Label *textLabel = new Label();
 		textLabel->SetText(text);
 		this->AddControl(textLabel);
 		
 		int formWidth = textLabel->GetWidth() + 20;
 		int formHeight = textLabel->GetHeight() + 40;
 
-		Button *tempButton = new Button(this);
-		Drawing::Size defaultButtonSize = tempButton->GetSize();
-		delete tempButton;
-
-		formHeight += defaultButtonSize.Height;
+		formHeight += Button::DefaultSize.Height;
 		int neededWidthForButtons = 0;
 		
 		std::vector<Misc::AnsiString> label;
@@ -78,7 +74,7 @@ namespace OSHGui
 		{
 			default:
 			case ButtonOK:
-				neededWidthForButtons = defaultButtonSize.Width + 20;
+				neededWidthForButtons = Button::DefaultSize.Width + 20;
 
 				label.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
@@ -88,7 +84,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonOKCancel:
-				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
+				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
 
 				label.push_back("Cance");
 				label.push_back("OK");
@@ -104,7 +100,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonAbortRetryIgnore:
-				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
+				neededWidthForButtons = 3 * (Button::DefaultSize.Width + 10) + 10;
 
 				label.push_back("Ignore");
 				label.push_back("Retry");
@@ -126,7 +122,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonYesNo:
-				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
+				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
 
 				label.push_back("No");
 				label.push_back("Yes");
@@ -142,7 +138,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonYesNoCancel:
-				neededWidthForButtons = 3 * (defaultButtonSize.Width + 10) + 10;
+				neededWidthForButtons = 3 * (Button::DefaultSize.Width + 10) + 10;
 
 				label.push_back("Cance");
 				label.push_back("No");
@@ -164,7 +160,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonRetryCancel:
-				neededWidthForButtons = 2 * (defaultButtonSize.Width + 10) + 10;
+				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
 
 				label.push_back("Cance");
 				label.push_back("Retry");
@@ -190,7 +186,7 @@ namespace OSHGui
 		Drawing::Size screen = Application::Instance()->GetRenderer()->GetRenderDimension();
 		this->SetLocation(screen.Width / 2 - formWidth / 2, screen.Height / 2 - formHeight / 2);
 		
-		AddButtons(label, eventHandler);*/
+		AddButtons(label, eventHandler);
 	}
 	//---------------------------------------------------------------------------
 	void MessageBox::MessageBoxForm::AddButtons(const std::vector<Misc::AnsiString> &label, const std::vector<ClickEventHandler> &eventHandler)
@@ -204,10 +200,10 @@ namespace OSHGui
 
 		for (unsigned int i = 0; i < label.size(); ++i)
 		{
-			Button *button;// = new Button(this);
+			Button *button = new Button();
 			button->SetText(label[i]);
 			button->GetClickEvent() += ClickEventHandler(eventHandler[i]);
-			button->SetLocation(this->GetWidth() - (i + 1) * (button->GetWidth() + 10) , this->GetHeight() - button->GetHeight() - 25);
+			button->SetLocation(GetWidth() - (i + 1) * (button->GetWidth() + 10) , GetHeight() - button->GetHeight() - 25);
 
 			this->AddControl(button);
 		}
