@@ -3,7 +3,6 @@
 
 #include <memory>
 #include "Control.hpp"
-#include "..\Drawing\Color.hpp"
 #include "..\Drawing\ITexture.hpp"
 
 namespace OSHGui
@@ -14,32 +13,55 @@ namespace OSHGui
 	class OSHGUI_EXPORT ColorPicker : public Control
 	{
 	public:
+		using Control::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		ColorPicker(Control *parent);
+		ColorPicker();
 		virtual ~ColorPicker();
 		
-		void SetColor(Drawing::Color color);
-		Drawing::Color GetColor() const;
-		Drawing::Color GetColorAtPoint(int x, int y) const;
-		Drawing::Color GetColorAtPoint(const Drawing::Point &point) const;
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt die ausgewählte Farbe fest.
+		 *
+		 * @param color die Farbe
+		 */
+		void SetColor(const Drawing::Color &color);
+		/**
+		 * Ruft die ausgewählte Farbe ab.
+		 *
+		 * @return color
+		 */
+		const Drawing::Color& GetColor() const;
+		/**
+		 * Ruft die Farbe an einem bestimmten Punkt ab.
+		 *
+		 * @param x
+		 * @param y
+		 * @return color
+		 */
+		const Drawing::Color& GetColorAtPoint(int x, int y) const;
+		/**
+		 * Ruft die Farbe an einem bestimmten Punkt ab.
+		 *
+		 * @param point
+		 * @return color
+		 */
+		const Drawing::Color& GetColorAtPoint(const Drawing::Point &point) const;
 
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
 		 *
 		 * @return colorChangeEvent
 		 */
-		ColorChangedEvent& GetColorChangedEvent();
+		ColorChangedEvent& GetColorChangedEvent() const;
 		
-		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
@@ -47,22 +69,7 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
-		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -70,15 +77,23 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:
+	private:
+		static const Drawing::Size DefaultSize;
+
 		void CreateGradientTexture();
+		void CalculateColorCursorLocation();
+
+		virtual void OnMouseDown(const MouseMessage &mouse);
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnMouseMove(const MouseMessage &mouse);
 	
-		bool drag;
 		Drawing::Color color;
-		Drawing::Point colorPosition;
+		Drawing::Point colorCursorLocation;
 		std::shared_ptr<Drawing::ITexture> gradient;
 
 		ColorChangedEvent colorChangedEvent;
+
+		bool drag;
 	};
 }
 
