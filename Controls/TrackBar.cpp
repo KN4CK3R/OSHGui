@@ -3,22 +3,26 @@
 
 namespace OSHGui
 {
-	const int TrackBar::trackbarSliderWidth = 8;
-	const int TrackBar::trackbarSliderHeight = 16;
+	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
+	const Drawing::Size TrackBar::TrackBarSliderSize(8, 16);
+	const Drawing::Size TrackBar::TrackBarSize(110, TrackBar::TrackBarSliderSize.Height + 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TrackBar::TrackBar() : Control()
+	TrackBar::TrackBar()
+		: Control()
 	{
 		type = CONTROL_TRACKBAR;
 		
 		pressed = false;
 		
-		SetBounds(6, 6, 110, trackbarSliderHeight + 2);
-		
 		min = 1;
 		max = 10;
 		value = 1;
+
+		SetSize(TrackBarSize);
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA6A4A1));
@@ -30,6 +34,18 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void TrackBar::SetSize(const Drawing::Size &size)
+	{
+		if (size.Height < TrackBarSliderSize.Height + 2)
+		{
+			Control::SetSize(Drawing::Size(size.Width, TrackBarSliderSize.Height + 2));
+		}
+		else
+		{
+			Control::SetSize(size);
+		}
+	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetRange(int min, int max)
 	{
@@ -55,36 +71,16 @@ namespace OSHGui
 		return value;
 	}
 	//---------------------------------------------------------------------------
-	KeyDownEvent& TrackBar::GetKeyDownEvent()
-	{
-		return keyDownEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyPressEvent& TrackBar::GetKeyPressEvent()
-	{
-		return keyPressEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyUpEvent& TrackBar::GetKeyUpEvent()
-	{
-		return keyUpEvent;
-	}
-	//---------------------------------------------------------------------------
-	ScrollEvent& TrackBar::GetScrollEvent()
+	ScrollEvent& TrackBar::GetScrollEvent() const
 	{
 		return scrollEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool TrackBar::CanHaveFocus() const
-	{
-		return isEnabled && isVisible;
-	}
-	//---------------------------------------------------------------------------
 	bool TrackBar::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Point TrackBar::PointToClient(const Drawing::Point &point) const
@@ -94,15 +90,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::Invalidate()
 	{
-		if (bounds.GetHeight() != trackbarSliderHeight + 2)
+		//if (bounds.GetHeight() != trackbarSliderHeight + 2)
 		{
-			bounds.SetHeight(trackbarSliderHeight + 2);
+			//bounds.SetHeight(trackbarSliderHeight + 2);
 		}
 
 		clientArea = bounds;
 
-		sliderMiddle = (int)((value - min) * (float)(clientArea.GetWidth() - trackbarSliderWidth) / (max - min) + trackbarSliderWidth / 2);
-		sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (trackbarSliderWidth / 2), clientArea.GetTop(), trackbarSliderWidth, trackbarSliderHeight);
+		//sliderMiddle = (int)((value - min) * (float)(clientArea.GetWidth() - trackbarSliderWidth) / (max - min) + trackbarSliderWidth / 2);
+		//sliderRect = Drawing::Rectangle(clientArea.GetLeft() + sliderMiddle - (trackbarSliderWidth / 2), clientArea.GetTop(), trackbarSliderWidth, trackbarSliderHeight);
 
 		InvalidateChildren();
 	}
@@ -122,16 +118,21 @@ namespace OSHGui
 			
 			scrollEvent.Invoke(this);
 		}
-
-		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::ValueFromPosition(int position) const
 	{
-		float valuePerPixel = (float)(max - min) / (clientArea.GetWidth() - trackbarSliderWidth);
+		float valuePerPixel = (float)(max - min) / (GetWidth() - TrackBarSliderSize.Width);
 		return (int)(0.5f + min + valuePerPixel * position);
 	}
 	//---------------------------------------------------------------------------
+	void TrackBar::CalculateAbsoluteLocation()
+	{
+		Control::CalculateAbsoluteLocation();
+
+		sliderAbsoluteLocation = absoluteLocation + sliderLocation;
+	}
+	/*//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	bool TrackBar::ProcessEvent(IEvent *event)
@@ -253,7 +254,7 @@ namespace OSHGui
 		
 		return false;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void TrackBar::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -264,23 +265,23 @@ namespace OSHGui
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
+			renderer->Fill(absoluteLocation, size);
 		}
 
 		renderer->SetRenderColor(isFocused || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int range = max - min;
-		int halfWidth = trackbarSliderWidth / 2;
-		float space = (bounds.GetWidth() - trackbarSliderWidth) / (float)range;
+		int halfWidth = TrackBarSliderSize.Width / 2;
+		float space = (GetWidth() - TrackBarSliderSize.Width) / (float)range;
 		if (space < 5.0f)
 		{
 			space = 5.0f;
-			range = (int)((bounds.GetWidth() - trackbarSliderWidth) / space);
+			range = (int)((GetWidth() - TrackBarSliderSize.Width) / space);
 		}
 		
 		for (int i = 0; i < range + 1; ++i)
 		{
-			renderer->Fill((int)(bounds.GetLeft() + halfWidth + (i * space)), bounds.GetTop() + 6, 1, 5);
+			renderer->Fill((int)(absoluteLocation.Left + halfWidth + (i * space)), absoluteLocation.Top + 6, 1, 5);
 		}
 
 		renderer->SetRenderColor(foreColor);

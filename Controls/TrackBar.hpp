@@ -11,12 +11,20 @@ namespace OSHGui
 	class OSHGUI_EXPORT TrackBar : public Control
 	{
 	public:
+		using Control::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		TrackBar();
 		~TrackBar();
 
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
 		/**
 		 * Legt den Wertebereich (min - max) fest.
 		 *
@@ -44,36 +52,12 @@ namespace OSHGui
 		 */
 		int GetValue() const;
 		/**
-		 * Ruft das KeyDownEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyDownEvent& GetKeyDownEvent();
-		/**
-		 * Ruft das KeyPressEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyPressEvent& GetKeyPressEvent();
-		/**
-		 * Ruft das KeyUpEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyUpEvent& GetKeyUpEvent();
-		/**
 		 * Ruft das ScrollEvent für das Steuerelement ab.
 		 *
 		 * @return scrollEvent
 		 */
-		ScrollEvent& GetScrollEvent();
+		ScrollEvent& GetScrollEvent() const;
 		
-		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
@@ -81,6 +65,7 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual void CalculateAbsoluteLocation();
 		/**
 		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
 		 *
@@ -90,21 +75,6 @@ namespace OSHGui
 		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 
 		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-		
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
-		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
@@ -112,11 +82,11 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 
 	protected:
+		static const Drawing::Size TrackBarSliderSize;
+		static const Drawing::Size TrackBarSize;
+
 		virtual void SetValueInternal(int value);
 		virtual int ValueFromPosition(int position) const;
-	
-		static const int trackbarSliderWidth;
-		static const int trackbarSliderHeight;
 	
 		int min,
 			max,
@@ -124,7 +94,8 @@ namespace OSHGui
 			sliderMiddle;
 		bool pressed;
 		
-		Drawing::Rectangle sliderRect;
+		Drawing::Point sliderLocation;
+		Drawing::Point sliderAbsoluteLocation;
 
 		KeyDownEvent keyDownEvent;
 		KeyPressEvent keyPressEvent;
