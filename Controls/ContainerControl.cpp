@@ -46,8 +46,6 @@ namespace OSHGui
 		AddSubControl(control);
 
 		controls.push_front(control);
-
-		//Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ContainerControl::RemoveControl(Control *control)

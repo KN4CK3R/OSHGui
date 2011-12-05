@@ -3,10 +3,13 @@
 
 namespace OSHGui
 {
+	const Drawing::Size ColorBar::DefaultSize(150, 45);
+	const Drawing::Size ColorBar::DefaultBarSize(150, 10);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ColorBar::ColorBar(Control *parent) : Control()
+	ColorBar::ColorBar()
+		: Control()
 	{
 		type = CONTROL_COLORBAR;
 		
@@ -14,14 +17,13 @@ namespace OSHGui
 		
 		for (int i = 0; i < 3; ++i)
 		{
-			bars.push_back(Application::Instance()->GetRenderer()->CreateNewTexture(150, 10));
-			barSliders.push_back(Drawing::Point());
+			barSliderLocation.push_back(Drawing::Point(1, i * 15 + 9));
 			drag[i] = false;
 		}
 		
 		color = Drawing::Color::White();
 		
-		SetBounds(6, 6, 150, 45);
+		SetSize(DefaultSize);
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -34,19 +36,39 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ColorBar::SetColor(Drawing::Color color)
+	void ColorBar::SetSize(const Drawing::Size &size)
+	{
+		if (this->size.Width != size.Width)
+		{
+			for (int i = 0; i < 3; ++i)
+			{
+				bars[i] = Application::Instance()->GetRenderer()->CreateNewTexture(size.Width, 10);
+			}
+
+			Control::SetSize(size);
+
+			UpdateBars();
+		}
+		else
+		{
+			Control::SetSize(size);
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ColorBar::SetColor(const Drawing::Color &color)
 	{
 		if (this->color != color)
 		{
 			this->color = color;
 
 			UpdateBars();
-			Drawing::Color args = color;
-			colorChangedEvent.Invoke(this, args);
 		}
+
+		Drawing::Color args = color;
+		colorChangedEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorBar::GetColor() const
+	const Drawing::Color& ColorBar::GetColor() const
 	{
 		return color;
 	}
@@ -56,34 +78,14 @@ namespace OSHGui
 		return colorChangedEvent;
 	}
 	//---------------------------------------------------------------------------
-	KeyDownEvent& ColorBar::GetKeyDownEvent()
-	{
-		return keyDownEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyUpEvent& ColorBar::GetKeyUpEvent()
-	{
-		return keyUpEvent;
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool ColorBar::CanHaveFocus() const
-	{
-		return isEnabled && isVisible;
-	}
 	//---------------------------------------------------------------------------
 	bool ColorBar::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point ColorBar::PointToClient(const Drawing::Point &point) const
-	{
-		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
-	}
-	//---------------------------------------------------------------------------
-	void ColorBar::Invalidate()
+	/*void ColorBar::Invalidate()
 	{
 		if (bounds.GetHeight() != 45)
 		{
@@ -100,7 +102,7 @@ namespace OSHGui
 
 		InvalidateChildren();
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void ColorBar::CreateBarTexture(int index)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -112,20 +114,12 @@ namespace OSHGui
 	
 		std::shared_ptr<Drawing::ITexture> bar = bars[index];
 		
-		int width = clientArea.GetWidth();
-		
-		if (width != bar->GetSize().Width)
-		{
-			bar = Application::Instance()->GetRenderer()->CreateNewTexture(width, 10);
-			bars[index] = bar;
-		}
-	
-		width -= 2;
+		int width = GetWidth() - 2;	
 		float multi = 255.0f / width;
 		
 		bar->BeginUpdate();
 		bar->Fill(foreColor);
-		for(int x = 0; x < width; ++x)
+		for (int x = 0; x < width; ++x)
 		{
 			switch (index)
 			{
@@ -148,165 +142,122 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorBar::UpdateBars()
 	{
+		float multi = 255.0f / (GetWidth() - 2);			
+		(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
+
 		for (int i = 0; i < 3; ++i)
 		{
 			CreateBarTexture(i);
 			
-			float multi = (clientArea.GetWidth() - 2) / 255.0f;
-			barSliders[i].Left = (int)((i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f);
-			barSliders[i].Top = i * 15 + 9;
+			float multi = (GetWidth() - 2) / 255.0f;
+			barSliderLocation[i].Left = (int)((i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f);
+			barSliderLocation[i].Top = i * 15 + 9;
+			barSliderAbsoluteLocation[i] = absoluteLocation + barSliderLocation[i];
 		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool ColorBar::ProcessEvent(IEvent *event)
+	void ColorBar::OnMouseDown(const MouseMessage &mouse)
 	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
+		Control::OnMouseDown(mouse);
 
-		if (!isVisible || !isEnabled)
+		drag[0] = drag[1] = drag[2] = false;
+
+		for (int i = 0; i < 3; ++i)
 		{
-			return false;
-		}
-		
-		Drawing::Point mousePositionBackup;
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-		}
-	
-		if (ChildProcessEvent(event) == true)
-		{
-			return true;
-		}
-		
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
+			Drawing::Point barLocation = Drawing::Point(absoluteLocation.Left, absoluteLocation.Top + i * 15);
+			if (Intersection::TestRectangle(barLocation, DefaultBarSize, mouse.Position))
+			{
+				barIndex = i;
+
+				drag[barIndex] = true;
+
+				OnGotMouseCapture();
+
+				int localLocation = mouse.Position.Left - absoluteLocation.Left;
+				if (localLocation < 0)
+				{
+					barSliderLocation[barIndex].Left = 0;
+				}
+				else if (localLocation > GetWidth() - 2)
+				{
+					barSliderLocation[barIndex].Left = GetWidth() - 2;
+				}
+				else
+				{
+					barSliderLocation[barIndex].Left = localLocation;
+				}
 			
-			for (int i = 0; i < 3; ++i)
-			{
-				if (drag[i] == true)
-				{
-					if (mouse->State == MouseMessage::Move)
-					{
-						barSliders[i].Left = mouse->Position.Left < 0 ? 0 : mouse->Position.Left > clientArea.GetWidth() - 2 ? clientArea.GetWidth() - 2 : mouse->Position.Left;
-						barSliders[i].Top = i * 15 + 11;
-					
-						float multi = 255.0f / (clientArea.GetWidth() - 2);
-						
-						(i == 0 ? color.R : i == 1 ? color.G : color.B) =  (unsigned char)(multi * barSliders[i].Left + 0.5f);
+				UpdateBars();
 
-						UpdateBars();
-						Drawing::Color colorArgs = color;
-						colorChangedEvent.Invoke(this, colorArgs);
-
-						MouseEventArgs args(mouse);
-						mouseMoveEvent.Invoke(this, args);
-
-						return true;
-					}
-					else if (mouse->State == MouseMessage::LeftUp)
-					{
-						drag[i] = false;
-
-						barSliders[i].Left = mouse->Position.Left < 0 ? 0 : mouse->Position.Left > clientArea.GetWidth() - 2 ? clientArea.GetWidth() - 2 : mouse->Position.Left;
-						barSliders[i].Top = i * 15 + 11;
-					
-						float multi = 255.0f / (clientArea.GetWidth() - 2);
-						
-						(i == 0 ? color.R : i == 1 ? color.G : color.B) =  (unsigned char)(multi * barSliders[i].Left + 0.5f);
-
-						UpdateBars();
-						Drawing::Color colorArgs = color;
-						colorChangedEvent.Invoke(this, colorArgs);
-
-						clickEvent.Invoke(this);
-
-						MouseEventArgs args(mouse);
-						mouseClickEvent.Invoke(this, args);
-
-						args = MouseEventArgs(mouse);
-						mouseUpEvent.Invoke(this, args);
-						
-						return true;
-					}
-				}
-				else if (Drawing::Rectangle(0, i * 15, clientArea.GetWidth(), 12).Contains(mouse->Position))
-				{
-					if (mouse->State == MouseMessage::LeftDown)
-					{
-						barIndex = i;
-					
-						drag[i] = true;
-
-						if (!isFocused)
-						{
-							parent->RequestFocus(this);
-						}
-
-						MouseEventArgs args(mouse);
-						mouseDownEvent.Invoke(this, args);
-
-						return true;
-					}
-				}
+				return;
 			}
-
-			if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position))
-			{
-				return true;
-			}
-
-			mouse->Position = mousePositionBackup;
 		}
-		else if (event->Type == IEvent::Keyboard)
-		{
-			KeyboardMessage *keyboard = (KeyboardMessage*)event;
-			if (keyboard->State == KeyboardMessage::KeyDown)
-			{
-				KeyEventArgs args(keyboard);
-				keyDownEvent.Invoke(this, args);
-				if (!args.Handled)
-				{
-					if (keyboard->KeyCode == Key::Left || keyboard->KeyCode == Key::Right)
-					{
-						barSliders[barIndex].Left += keyboard->KeyCode == Key::Left ? -1 : 1;
-						
-						if (barSliders[barIndex].Left < 0)
-						{
-							barSliders[barIndex].Left = 0;
-						}
-						if (barSliders[barIndex].Left >= clientArea.GetWidth() - 2)
-						{
-							barSliders[barIndex].Left = clientArea.GetWidth() - 2;
-						}
-					
-						float multi = 255.0f / (clientArea.GetWidth() - 2);
-						
-						(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliders[barIndex].Left + 0.5f);
+	}
+	//---------------------------------------------------------------------------
+	void ColorBar::OnMouseUp(const MouseMessage &mouse)
+	{
+		Control::OnMouseUp(mouse);
 
-						UpdateBars();
-						Drawing::Color args = color;
-						colorChangedEvent.Invoke(this, args);
-					}
-				}
-			}
-			else if (keyboard->State == KeyboardMessage::KeyUp)
+		if (drag[barIndex])
+		{
+			drag[barIndex] = false;
+
+			Drawing::Color colorArgs = color;
+			colorChangedEvent.Invoke(this, colorArgs);
+
+			OnLostMouseCapture();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ColorBar::OnMouseMove(const MouseMessage &mouse)
+	{
+		Control::OnMouseMove(mouse);
+
+		if (drag[barIndex])
+		{
+			int localLocation = mouse.Position.Left - absoluteLocation.Left;
+			if (localLocation < 0)
 			{
-				KeyEventArgs args(keyboard);
-				keyUpEvent.Invoke(this, args);
+				barSliderLocation[barIndex].Left = 0;
+			}
+			else if (localLocation > GetWidth() - 2)
+			{
+				barSliderLocation[barIndex].Left = GetWidth() - 2;
+			}
+			else
+			{
+				barSliderLocation[barIndex].Left = localLocation;
 			}
 			
-			return true;
-		}
+			UpdateBars();
 
-		return false;
+			Drawing::Color colorArgs = color;
+			colorChangedEvent.Invoke(this, colorArgs);
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ColorBar::OnKeyDown(const KeyboardMessage &keyboard)
+	{
+		if (keyboard.KeyCode == Key::Left || keyboard.KeyCode == Key::Right)
+		{
+			barSliderLocation[barIndex].Left += keyboard.KeyCode == Key::Left ? -1 : 1;
+						
+			if (barSliderLocation[barIndex].Left < 0)
+			{
+				barSliderLocation[barIndex].Left = 0;
+			}
+			if (barSliderLocation[barIndex].Left >= GetWidth() - 2)
+			{
+				barSliderLocation[barIndex].Left = GetWidth() - 2;
+			}
+
+			UpdateBars();
+
+			Drawing::Color args = color;
+			colorChangedEvent.Invoke(this, args);
+		}
 	}
 	//---------------------------------------------------------------------------
 	void ColorBar::Render(Drawing::IRenderer *renderer)
@@ -319,10 +270,10 @@ namespace OSHGui
 		for (int i = 0; i < 3; ++i)
 		{
 			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->RenderTexture(bars[i], clientArea.GetLeft(), clientArea.GetTop() + i * 15, clientArea.GetWidth(), 8);
+			renderer->RenderTexture(bars[i], absoluteLocation.Left, absoluteLocation.Top + i * 15, GetWidth(), 8);
 			
 			renderer->SetRenderColor(foreColor);
-			Drawing::Point sliderPos = barSliders[i].OffsetEx(clientArea.GetLeft() + 1, clientArea.GetTop());
+			Drawing::Point sliderPos = barSliders[i].OffsetEx(absoluteLocation.Left + 1, absoluteLocation.Top);
 			for (int j = 0; j < 3; ++j)
 			{
 				renderer->Fill(sliderPos.Left - j, sliderPos.Top + j, 1 + j * 2, 1);
