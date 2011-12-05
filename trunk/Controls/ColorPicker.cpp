@@ -153,7 +153,7 @@ namespace OSHGui
 		return GetColorAtPoint(point.X, point.Y);
 	}
 	//---------------------------------------------------------------------------
-	ColorChangedEvent& ColorPicker::GetColorChangedEvent() const
+	ColorChangedEvent& ColorPicker::GetColorChangedEvent()
 	{
 		return colorChangedEvent;
 	}

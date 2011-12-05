@@ -60,7 +60,7 @@ namespace OSHGui
 		 *
 		 * @return colorChangeEvent
 		 */
-		ColorChangedEvent& GetColorChangedEvent() const;
+		ColorChangedEvent& GetColorChangedEvent();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

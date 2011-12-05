@@ -126,7 +126,6 @@ namespace OSHGui
 
 		public:
 			TabControlBar();
-			~TabControlBar();
 
 			virtual void SetForeColor(const Drawing::Color &color);
 			virtual void SetBackColor(const Drawing::Color &color);

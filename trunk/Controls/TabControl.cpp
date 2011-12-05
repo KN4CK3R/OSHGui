@@ -349,6 +349,13 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::Render(Drawing::IRenderer *renderer)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Point TabControl::TabControlBar::TabControlBarButton::DefaultLabelOffset(4, 7);
+	//---------------------------------------------------------------------------
 	TabControl::TabControlBar::TabControlBarButton::TabControlBarButton(TabPage *tabPage)
 	{
 		this->tabPage = tabPage;
