@@ -59,16 +59,19 @@ namespace OSHGui
 		SetChecked(true);
 	}
 	//---------------------------------------------------------------------------
-	void RadioButton::OnKeyUp(const KeyboardMessage &keyboard)
+	bool RadioButton::OnKeyUp(const KeyboardMessage &keyboard)
 	{
-		Control::OnKeyUp(keyboard);
-
-		if (keyboard.KeyCode == Key::Space)
+		if (!Control::OnKeyUp(keyboard))
 		{
-			SetChecked(true);
+			if (keyboard.KeyCode == Key::Space)
+			{
+				SetChecked(true);
 
-			clickEvent.Invoke(this);
+				clickEvent.Invoke(this);
+			}
 		}
+
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	//

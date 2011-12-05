@@ -85,7 +85,7 @@ namespace OSHGui
 		static const int DefaultCheckBoxSize = 17;
 
 		virtual void OnMouseClick(const MouseMessage &mouse);
-		virtual void OnKeyUp(const KeyboardMessage &keyboard);
+		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 
 		bool checked;
 		Drawing::Point checkBoxPosition;

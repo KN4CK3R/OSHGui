@@ -73,6 +73,8 @@ namespace OSHGui
 	protected:
 		static const Drawing::Point DefaultLabelOffset;
 
+		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
+
 		Label *label;
 	};
 }

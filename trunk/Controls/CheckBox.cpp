@@ -132,14 +132,17 @@ namespace OSHGui
 		SetChecked(!GetChecked());
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::OnKeyUp(const KeyboardMessage &keyboard)
+	bool CheckBox::OnKeyUp(const KeyboardMessage &keyboard)
 	{
-		Control::OnKeyUp(keyboard);
-
-		if (keyboard.KeyCode == Key::Space)
+		if (!Control::OnKeyUp(keyboard))
 		{
-			SetChecked(!GetChecked());
+			if (keyboard.KeyCode == Key::Space)
+			{
+				SetChecked(!GetChecked());
+			}
 		}
+
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	void CheckBox::Render(Drawing::IRenderer *renderer)

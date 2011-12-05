@@ -227,26 +227,31 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorBar::OnKeyDown(const KeyboardMessage &keyboard)
+	bool ColorBar::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		if (keyboard.KeyCode == Key::Left || keyboard.KeyCode == Key::Right)
+		if (!Control::OnKeyDown(keyboard))
 		{
-			barSliderLocation[barIndex].Left += keyboard.KeyCode == Key::Left ? -1 : 1;
+			if (keyboard.KeyCode == Key::Left || keyboard.KeyCode == Key::Right)
+			{
+				barSliderLocation[barIndex].Left += keyboard.KeyCode == Key::Left ? -1 : 1;
 						
-			if (barSliderLocation[barIndex].Left < 0)
-			{
-				barSliderLocation[barIndex].Left = 0;
-			}
-			if (barSliderLocation[barIndex].Left >= GetWidth() - 2)
-			{
-				barSliderLocation[barIndex].Left = GetWidth() - 2;
-			}
+				if (barSliderLocation[barIndex].Left < 0)
+				{
+					barSliderLocation[barIndex].Left = 0;
+				}
+				if (barSliderLocation[barIndex].Left >= GetWidth() - 2)
+				{
+					barSliderLocation[barIndex].Left = GetWidth() - 2;
+				}
 
-			UpdateBars();
+				UpdateBars();
 
-			Drawing::Color args = color;
-			colorChangedEvent.Invoke(this, args);
+				Drawing::Color args = color;
+				colorChangedEvent.Invoke(this, args);
+			}
 		}
+
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	void ColorBar::Render(Drawing::IRenderer *renderer)
