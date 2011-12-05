@@ -171,6 +171,7 @@ namespace OSHGui
 
 		return false;
 	}
+	//---------------------------------------------------------------------------
 	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
 		if (!isEnabled)
