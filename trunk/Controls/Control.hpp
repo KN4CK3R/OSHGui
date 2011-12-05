@@ -623,7 +623,8 @@ namespace OSHGui
 		virtual void OnMouseScroll(const MouseMessage &mouse);
 		virtual void OnMouseEnter(const MouseMessage &mouse);
 		virtual void OnMouseLeave(const MouseMessage &mouse);
-		virtual void OnMouseCaptureChanged();
+		virtual void OnGotMouseCapture();
+		virtual void OnLostMouseCapture();
 		virtual void OnGotFocus();
 		virtual void OnLostFocus();
 		virtual void OnKeyDown(const KeyboardMessage &keyboard);

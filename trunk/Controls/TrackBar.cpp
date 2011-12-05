@@ -20,12 +20,13 @@ namespace OSHGui
 		
 		minimum = 1;
 		maximum = 10;
-		value = 1;
 		tickFrequency = 1;
 
 		sliderLocation = Drawing::Point(-TrackBarSliderSize.Width / 2, 1);
 
 		SetSize(TrackBarSize);
+
+		SetValueInternal(1);
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA6A4A1));
@@ -49,7 +50,7 @@ namespace OSHGui
 			Control::SetSize(size);
 		}
 
-		pixelsPerTick = (GetWidth() - TrackBarSliderSize.Width) / ((maximum - minimum) / tickFrequency);
+		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetMinimum(int minimum)
@@ -80,7 +81,7 @@ namespace OSHGui
 	{
 		this->tickFrequency = tickFrequency;
 		
-		pixelsPerTick = (GetWidth() - TrackBarSliderSize.Width) / ((maximum - minimum) / tickFrequency);
+		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::GetTickFrequency() const
@@ -117,6 +118,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
+		pixelsPerTick = (GetWidth() - TrackBarSliderSize.Width) / ((maximum - minimum) / tickFrequency);
+
 		if (value < minimum)
 		{
 			value = minimum;
@@ -154,6 +157,7 @@ namespace OSHGui
 		if (Intersection::TestRectangle(sliderAbsoluteLocation, TrackBarSliderSize, mouse.Position))
 		{
 			drag = true;
+			OnGotMouseCapture();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -162,6 +166,7 @@ namespace OSHGui
 		Control::OnMouseUp(mouse);
 
 		drag = false;
+		OnLostMouseCapture();
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::OnMouseClick(const MouseMessage &mouse)
@@ -184,10 +189,6 @@ namespace OSHGui
 		if (drag)
 		{
 			int tickPosition = (mouse.Position.Left - absoluteLocation.Left) / pixelsPerTick;
-			if (tickPosition < 1)
-			{
-				tickPosition = 1;
-			}
 			SetValueInternal(tickPosition * tickFrequency);
 		}
 	}

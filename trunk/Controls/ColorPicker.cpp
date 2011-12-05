@@ -230,7 +230,6 @@ namespace OSHGui
 		Control::OnMouseDown(mouse);
 
 		drag = true;
-		Application::Instance()->CaptureControl = this;
 	}
 	//---------------------------------------------------------------------------
 	void ColorPicker::OnMouseMove(const MouseMessage &mouse)
@@ -247,9 +246,9 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorPicker::OnMouseClick(const MouseMessage &mouse)
+	void ColorPicker::OnMouseUp(const MouseMessage &mouse)
 	{
-		Control::OnMouseClick(mouse);
+		Control::OnMouseUp(mouse);
 
 		if (drag)
 		{
@@ -260,8 +259,6 @@ namespace OSHGui
 			color = GetColorAtPoint(colorCursorLocation);
 			Drawing::Color colorArgs = color;
 			colorChangedEvent.Invoke(this, colorArgs);
-
-			OnMouseCaptureChanged();
 		}
 	}
 	//---------------------------------------------------------------------------

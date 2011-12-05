@@ -539,10 +539,27 @@ namespace OSHGui
 		mouseLeaveEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnMouseCaptureChanged()
+	void Control::OnGotMouseCapture()
 	{
-		Application::Instance()->CaptureControl = 0;
+		Application *app = Application::Instance();
+		if (app->CaptureControl != 0)
+		{
+			app->CaptureControl->hasCaptured = false;
+			app->CaptureControl = 0;
+		}
+		app->CaptureControl = this;
+		hasCaptured = true;
+
 		isClicked = false;
+
+		mouseCaptureChangedEvent.Invoke(this);
+	}
+	//---------------------------------------------------------------------------
+	void Control::OnLostMouseCapture()
+	{
+		hasCaptured = false;
+
+		Application::Instance()->CaptureControl = 0;
 
 		mouseCaptureChangedEvent.Invoke(this);
 	}
