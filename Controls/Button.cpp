@@ -90,6 +90,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
+	bool Button::OnKeyUp(const KeyboardMessage &keyboard)
+	{
+		if (!Control::OnKeyUp(keyboard))
+		{
+			if (keyboard.KeyCode == Key::Return)
+			{
+				clickEvent.Invoke(this);
+			}
+		}
+
+		return true;
+	}
+	//---------------------------------------------------------------------------
 	void Button::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)

@@ -111,11 +111,6 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point TrackBar::PointToClient(const Drawing::Point &point) const
-	{
-		return Drawing::Point(point.Left - clientArea.GetLeft(), point.Top - clientArea.GetTop());
-	}
-	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
 		pixelsPerTick = (GetWidth() - TrackBarSliderSize.Width) / ((maximum - minimum) / tickFrequency);
@@ -193,33 +188,36 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TrackBar::OnKeyDown(const KeyboardMessage &keyboard)
+	bool TrackBar::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		Control::OnKeyDown(keyboard);
-
-		switch (keyboard.KeyCode)
+		if (!Control::OnKeyDown(keyboard))
 		{
-			case Key::Home:
-				SetValueInternal(minimum);
-				break;;
-			case Key::End:
-				SetValueInternal(maximum);
-				break;
-			case Key::Left:
-			case Key::Down:
-				SetValueInternal(value - 1);
-				break;
-			case Key::Right:
-			case Key::Up:
-				SetValueInternal(value + 1);
-				break;
-			case Key::PageDown:
-				SetValueInternal(value - std::max(10, (maximum - minimum) / 10));
-				break;
-			case Key::PageUp:
-				SetValueInternal(value + std::max(10, (maximum - minimum) / 10));
-				break;
+			switch (keyboard.KeyCode)
+			{
+				case Key::Home:
+					SetValueInternal(0);
+					break;;
+				case Key::End:
+					SetValueInternal(maximum - minimum);
+					break;
+				case Key::Left:
+				case Key::Down:
+					SetValueInternal(value - 1);
+					break;
+				case Key::Right:
+				case Key::Up:
+					SetValueInternal(value + 1);
+					break;
+				case Key::PageDown:
+					SetValueInternal(value - std::max(10, (maximum - minimum) / 10));
+					break;
+				case Key::PageUp:
+					SetValueInternal(value + std::max(10, (maximum - minimum) / 10));
+					break;
+			}
 		}
+
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::Render(Drawing::IRenderer *renderer)

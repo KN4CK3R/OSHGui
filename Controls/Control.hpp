@@ -627,9 +627,9 @@ namespace OSHGui
 		virtual void OnLostMouseCapture();
 		virtual void OnGotFocus();
 		virtual void OnLostFocus();
-		virtual void OnKeyDown(const KeyboardMessage &keyboard);
-		virtual void OnKeyPress(const KeyboardMessage &keyboard);
-		virtual void OnKeyUp(const KeyboardMessage &keyboard);
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
+		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 		
 		CONTROL_TYPE type;
 		

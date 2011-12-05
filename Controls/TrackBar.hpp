@@ -91,13 +91,6 @@ namespace OSHGui
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation();
-		/**
-		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
-		 *
-		 * @param point
-		 * @return der neue Punkt
-		 */
-		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -117,7 +110,7 @@ namespace OSHGui
 		virtual void OnMouseUp(const MouseMessage &mouse);
 		virtual void OnMouseClick(const MouseMessage &mouse);
 		virtual void OnMouseMove(const MouseMessage &mouse);
-		virtual void OnKeyDown(const KeyboardMessage &keyboard);
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 	
 		int minimum;
 		int maximum;

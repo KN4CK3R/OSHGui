@@ -71,7 +71,7 @@ namespace OSHGui
 		virtual void OnMouseDown(const MouseMessage &mouse);
 		virtual void OnMouseUp(const MouseMessage &mouse);
 		virtual void OnMouseMove(const MouseMessage &mouse);
-		virtual void OnKeyDown(const KeyboardMessage &keyboard);
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 	
 		int barIndex;
 		bool drag[3];

@@ -589,31 +589,28 @@ namespace OSHGui
 		focusLostEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnKeyDown(const KeyboardMessage &keyboard)
+	bool Control::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		if (canRaiseEvents)
-		{
-			KeyEventArgs args(keyboard);
-			keyDownEvent.Invoke(this, args);
-		}
+		KeyEventArgs args(keyboard);
+		keyDownEvent.Invoke(this, args);
+
+		return args.Handled;
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnKeyPress(const KeyboardMessage &keyboard)
+	bool Control::OnKeyPress(const KeyboardMessage &keyboard)
 	{
-		if (canRaiseEvents)
-		{
-			KeyPressEventArgs args(keyboard);
-			keyPressEvent.Invoke(this, args);
-		}
+		KeyPressEventArgs args(keyboard);
+		keyPressEvent.Invoke(this, args);
+
+		return args.Handled;
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnKeyUp(const KeyboardMessage &keyboard)
+	bool Control::OnKeyUp(const KeyboardMessage &keyboard)
 	{
-		if (canRaiseEvents)
-		{
-			KeyEventArgs args(keyboard);
-			keyUpEvent.Invoke(this, args);
-		}
+		KeyEventArgs args(keyboard);
+		keyUpEvent.Invoke(this, args);
+
+		return args.Handled;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseMessage(MouseMessage &mouse)
