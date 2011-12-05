@@ -26,19 +26,41 @@ namespace OSHGui
 		 */
 		virtual void SetSize(const Drawing::Size &size);
 		/**
-		 * Legt den Wertebereich (min - max) fest.
+		 * Legt den minimalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
 		 * @param min
-		 * @param max
 		 */
-		void SetRange(int min, int max);
+		void SetMinimum(int minimum);
 		/**
-		 * Ruft den Wertebereich ab.
+		 * Ruft den minimalen Wert für die Schiebereglerposition auf der TrackBar ab.
+		 *
+		 * @return min
+		 */
+		int GetMinimum() const;
+		/**
+		 * Legt den maximalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
 		 * @param min
-		 * @param max
 		 */
-		void GetRange(int *min, int *max) const;
+		void SetMaximum(int maximum);
+		/**
+		 * Ruft den maximalen Wert für die Schiebereglerposition auf der TrackBar ab.
+		 *
+		 * @return min
+		 */
+		int GetMaximum() const;
+		/**
+		 * Legt die Anzahl der Positionen zwischen den Teilstrichen fest.
+		 *
+		 * @param tickFrequency
+		 */
+		void SetTickFrequency(int tickFrequency);
+		/**
+		 * Ruft die Anzahl der Positionen zwischen den Teilstrichen ab
+		 *
+		 * @return tickFrequency
+		 */
+		int GetTickFrequency() const;
 		/**
 		 * Legt den aktuellen Wert fest.
 		 *
@@ -46,17 +68,17 @@ namespace OSHGui
 		 */
 		void SetValue(int value);
 		/**
-		 * Gibt den aktuellen Wert zurück.
+		 * Ruft den aktuellen Wert ab.
 		 *
 		 * @return der aktuelle Wert
 		 */
 		int GetValue() const;
 		/**
-		 * Ruft das ScrollEvent für das Steuerelement ab.
+		 * Ruft das ValueChangedEvent für das Steuerelement ab.
 		 *
-		 * @return scrollEvent
+		 * @return valueChangedEvent
 		 */
-		ScrollEvent& GetScrollEvent() const;
+		ValueChangedEvent& GetValueChangedEvent();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -65,6 +87,9 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
+		/**
+		 * Berechnet die absolute Position des Steuerelements.
+		 */
 		virtual void CalculateAbsoluteLocation();
 		/**
 		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
@@ -84,23 +109,27 @@ namespace OSHGui
 	protected:
 		static const Drawing::Size TrackBarSliderSize;
 		static const Drawing::Size TrackBarSize;
+		static const int DefaultTickOffset = 7;
 
 		virtual void SetValueInternal(int value);
-		virtual int ValueFromPosition(int position) const;
+
+		virtual void OnMouseDown(const MouseMessage &mouse);
+		virtual void OnMouseUp(const MouseMessage &mouse);
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnMouseMove(const MouseMessage &mouse);
+		virtual void OnKeyDown(const KeyboardMessage &keyboard);
 	
-		int min,
-			max,
-			value,
-			sliderMiddle;
-		bool pressed;
+		int minimum;
+		int maximum;
+		int value;
+		int tickFrequency;
+		int pixelsPerTick;
+		bool drag;
 		
 		Drawing::Point sliderLocation;
 		Drawing::Point sliderAbsoluteLocation;
 
-		KeyDownEvent keyDownEvent;
-		KeyPressEvent keyPressEvent;
-		KeyUpEvent keyUpEvent;
-		ScrollEvent scrollEvent;
+		ValueChangedEvent valueChangedEvent;
 	};
 }
 

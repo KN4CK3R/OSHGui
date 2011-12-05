@@ -87,8 +87,8 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
 	 */
-	typedef Event<void(Control*)> ScrollEvent;
-	typedef EventHandler<void(Control*)> ScrollEventHandler;
+	typedef Event<void(Control*)> ValueChangedEvent;
+	typedef EventHandler<void(Control*)> ValueChangedEventHandler;
 	/**
 	 * Tritt ein, wenn die Location-Eigenschaft geändert wird.
 	 */
