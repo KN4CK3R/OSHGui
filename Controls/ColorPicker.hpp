@@ -84,7 +84,7 @@ namespace OSHGui
 		void CalculateColorCursorLocation();
 
 		virtual void OnMouseDown(const MouseMessage &mouse);
-		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnMouseUp(const MouseMessage &mouse);
 		virtual void OnMouseMove(const MouseMessage &mouse);
 	
 		Drawing::Color color;

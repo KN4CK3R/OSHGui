@@ -243,7 +243,7 @@ namespace OSHGui
 		ContainerControl::OnMouseDown(mouse);
 
 		drag = true;
-		Application::Instance()->CaptureControl = this;
+		OnGotMouseCapture();
 		dragStart = mouse.Position;
 	}
 	//---------------------------------------------------------------------------
@@ -264,7 +264,7 @@ namespace OSHGui
 		if (drag)
 		{
 			drag = false;
-			OnMouseCaptureChanged();
+			OnLostMouseCapture();
 		}
 	}
 	//---------------------------------------------------------------------------
