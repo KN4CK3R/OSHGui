@@ -3,7 +3,6 @@
 
 #include <memory>
 #include "Control.hpp"
-#include "..\Drawing\Color.hpp"
 #include "..\Drawing\ITexture.hpp"
 
 namespace OSHGui
@@ -14,41 +13,39 @@ namespace OSHGui
 	class OSHGUI_EXPORT ColorBar : public Control
 	{
 	public:
+		using Control::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		ColorBar(Control *parent);
+		ColorBar();
 		virtual ~ColorBar();
 		
-		void SetColor(Drawing::Color color);
-		Drawing::Color GetColor() const;
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt die ausgewählte Farbe fest.
+		 *
+		 * @param color die Farbe
+		 */
+		void SetColor(const Drawing::Color &color);
+		/**
+		 * Ruft die ausgewählte Farbe ab.
+		 *
+		 * @return color
+		 */
+		const Drawing::Color& GetColor() const;
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
 		 *
 		 * @return colorChangeEvent
 		 */
 		ColorChangedEvent& GetColorChangedEvent();
-		/**
-		 * Ruft das KeyDownEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyDownEvent& GetKeyDownEvent();
-		/**
-		 * Ruft das KeyUpEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyUpEvent& GetKeyUpEvent();
 		
-		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
@@ -56,29 +53,7 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
-		/**
-		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
-		 *
-		 * @param point
-		 * @return der neue Punkt
-		 */
-		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -87,17 +62,24 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 		
 	protected:
+		static const Drawing::Size DefaultSize;
+		static const Drawing::Size DefaultBarSize;
+
 		void CreateBarTexture(int index);
 		void UpdateBars();
+
+		virtual void OnMouseDown(const MouseMessage &mouse);
+		virtual void OnMouseUp(const MouseMessage &mouse);
+		virtual void OnMouseMove(const MouseMessage &mouse);
+		virtual void OnKeyDown(const KeyboardMessage &keyboard);
 	
 		int barIndex;
 		bool drag[3];
 		Drawing::Color color;
 		std::vector<std::shared_ptr<Drawing::ITexture> > bars;
-		std::vector<Drawing::Point> barSliders;
+		std::vector<Drawing::Point> barSliderLocation;
+		std::vector<Drawing::Point> barSliderAbsoluteLocation;
 
-		KeyDownEvent keyDownEvent;
-		KeyUpEvent keyUpEvent;
 		ColorChangedEvent colorChangedEvent;
 	};
 }
