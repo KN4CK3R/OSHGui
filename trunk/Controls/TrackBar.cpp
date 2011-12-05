@@ -26,7 +26,7 @@ namespace OSHGui
 
 		SetSize(TrackBarSize);
 
-		SetValueInternal(1);
+		SetValueInternal(0);
 
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFA6A4A1));
@@ -91,12 +91,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValue(int value)
 	{
-		SetValueInternal(value);
+		SetValueInternal(value - minimum);
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::GetValue() const
 	{
-		return value;
+		return value + minimum;
 	}
 	//---------------------------------------------------------------------------
 	ValueChangedEvent& TrackBar::GetValueChangedEvent()
@@ -120,13 +120,13 @@ namespace OSHGui
 	{
 		pixelsPerTick = (GetWidth() - TrackBarSliderSize.Width) / ((maximum - minimum) / tickFrequency);
 
-		if (value < minimum)
+		if (value < 0)
 		{
-			value = minimum;
+			value = 0;
 		}
-		if (value > maximum)
+		if (value > maximum - minimum)
 		{
-			value = maximum;
+			value = maximum - minimum;
 		}
 		
 		if (this->value != value)
