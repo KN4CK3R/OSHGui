@@ -17,16 +17,20 @@ namespace OSHGui
 		
 		for (int i = 0; i < 3; ++i)
 		{
-			barSliderLocation.push_back(Drawing::Point(1, i * 15 + 9));
+			bars.push_back(0);
+			barSliderLocation.push_back(Drawing::Point(0, i * 15 + 9));
+			barSliderAbsoluteLocation.push_back(Drawing::Point(0, 0));
 			drag[i] = false;
 		}
-		
-		color = Drawing::Color::White();
-		
+				
 		SetSize(DefaultSize);
 		
+		color = Drawing::Color::Black();
+
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+
+		UpdateBars();
 	}
 	//---------------------------------------------------------------------------
 	ColorBar::~ColorBar()
@@ -85,24 +89,6 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	/*void ColorBar::Invalidate()
-	{
-		if (bounds.GetHeight() != 45)
-		{
-			bounds.SetHeight(45);
-		}
-	
-		Drawing::Rectangle newClientArea = bounds.OffsetEx(4, 0).InflateEx(-8, 0);
-		if (newClientArea != clientArea)
-		{
-			clientArea = newClientArea;
-
-			UpdateBars();
-		}
-
-		InvalidateChildren();
-	}
-	//---------------------------------------------------------------------------*/
 	void ColorBar::CreateBarTexture(int index)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -145,11 +131,11 @@ namespace OSHGui
 		float multi = 255.0f / (GetWidth() - 2);			
 		(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
 
+		multi = (GetWidth() - 2) / 255.0f;
 		for (int i = 0; i < 3; ++i)
 		{
 			CreateBarTexture(i);
 			
-			float multi = (GetWidth() - 2) / 255.0f;
 			barSliderLocation[i].Left = (int)((i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f);
 			barSliderLocation[i].Top = i * 15 + 9;
 			barSliderAbsoluteLocation[i] = absoluteLocation + barSliderLocation[i];
