@@ -344,23 +344,19 @@ namespace OSHGui
 		{
 			if ((*it).tabPage == tabPage)
 			{
-				found = true;
+				selected = *it;
+
 				break;
 			}
-		}
-
-		if (found)
-		{
-			selectedTabPage = tabPage;
 		}
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::TabControlBar::GetSelectedTabPage() const
 	{
-		return selectedTabPage;
+		return selected.tabPage;
 	}
 	//---------------------------------------------------------------------------
-	const std::list<TabPageButtonBinding>& TabControl::TabControlBar::GetTabPageButtonBindings() const
+	const std::list<TabControl::TabControlBar::TabPageButtonBinding>& TabControl::TabControlBar::GetTabPageButtonBindings() const
 	{
 		return bindings;
 	}
@@ -377,23 +373,19 @@ namespace OSHGui
 		{
 			if ((*it).tabPage == tabPage)
 			{
-				found = true;
-				break;
+				return;
 			}
 		}
 
-		if (!found)
-		{
-			TabControlBarButton *button = new TabControlBarButton(tabPage);
-			button->SetForeColor(GetForeColor());
-			button->SetBackColor(GetBackColor());
-			TabPageButtonBinding binding = { bindings.size(), tabPage, button };
-			tabPage->button = button;
+		TabControlBarButton *button = new TabControlBarButton(tabPage);
+		button->SetForeColor(GetForeColor());
+		button->SetBackColor(GetBackColor());
+		tabPage->button = button;
 
-			AddControl(button);
+		AddControl(button);
 
-			bindings.push_back(binding);
-		}
+		TabPageButtonBinding binding = { bindings.size(), tabPage, button };
+		bindings.push_back(binding);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::RemoveTabPage(TabPage *tabPage)
@@ -403,25 +395,28 @@ namespace OSHGui
 			if ((*it).tabPage == tabPage)
 			{
 				TabPageButtonBinding &binding = *it;
+				TabPage *temp = binding.tabPage;
 
 				RemoveControl(binding.button);
 				delete binding.button;
 				binding.tabPage->button = 0;
 				bindings.erase(it);
 
-				break;
-			}
-		}
+				if (selected.tabPage == temp)
+				{
+					if (!bindings.empty())
+					{
+						selected = bindings.front();
+					}
+					else
+					{
+						selected.index = -1;
+						selected.tabPage = 0;
+						selected.button = 0;
+					}
+				}
 
-		if (selectedTabPage == tabPage)
-		{
-			if (!bindings.empty())
-			{
-				selectedTabPage = bindings.front().tabPage;
-			}
-			else
-			{
-				selectedTabPage = 0;
+				break;
 			}
 		}
 	}
@@ -460,12 +455,14 @@ namespace OSHGui
 	{
 		Control::SetBackColor(color);
 
-		label->SetForeColor(color);
+		label->SetBackColor(color);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::TabControlBarButton::SetText(const Misc::AnsiString &text)
 	{
 		label->SetText(text);
+
+		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::TabControlBarButton::SetActive(bool active)
