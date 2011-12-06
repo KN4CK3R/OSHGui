@@ -46,7 +46,7 @@ namespace OSHGui
 	{
 		Control::SetForeColor(color);
 
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			(*it)->button->SetForeColor(color);
 		}
@@ -56,7 +56,7 @@ namespace OSHGui
 	{
 		Control::SetBackColor(color);
 
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			(*it)->button->SetBackColor(color);
 		}
@@ -64,7 +64,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
-		for (std::list<TabPageButtonBinding*>::const_iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::const_iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			if ((*it)->tabPage->GetText() == text)
 			{
@@ -79,7 +79,7 @@ namespace OSHGui
 	{
 		if (index > 0 && index < (int)bindings.size())
 		{
-			std::list<TabPageButtonBinding*>::const_iterator it = bindings.begin();
+			std::vector<TabPageButtonBinding*>::const_iterator it = bindings.begin();
 			for (int i = 0; i < index; ++i, ++it);
 			return (*it)->tabPage;
 		}
@@ -89,7 +89,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedIndex(int index)
 	{
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			if ((*it)->index == index)
 			{
@@ -112,7 +112,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedTabPage(TabPage *tabPage)
 	{
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			if ((*it)->tabPage == tabPage)
 			{
@@ -150,7 +150,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			if ((*it)->tabPage == tabPage)
 			{
@@ -196,7 +196,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			if ((*it)->tabPage == tabPage)
 			{
@@ -251,7 +251,7 @@ namespace OSHGui
 			maxVisibleButtons = 0;
 
 			int tempWidth = 0;
-			for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+			for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 			{
 				TabControlButton *button = (*it)->button;
 				if (tempWidth + button->GetSize().Width <= size.Width)
@@ -278,7 +278,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
 			(*it)->button->Render(renderer);
 		}
