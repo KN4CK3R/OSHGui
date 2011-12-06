@@ -192,7 +192,7 @@ namespace OSHGui
 		protected:
 			void OnMouseDown(const MouseMessage &mouse);
 			void OnMouseMove(const MouseMessage &mouse);
-			void OnMouseClick(const MouseMessage &mouse);
+			void OnMouseUp(const MouseMessage &mouse);
 
 		private:
 			static const int DefaultButtonPadding = 6;

@@ -1,7 +1,6 @@
 #ifndef OSHGUI_TABCONTROL_HPP_
 #define OSHGUI_TABCONTROL_HPP_
 
-#include <list>
 #include "ContainerControl.hpp"
 
 namespace OSHGui
@@ -58,6 +57,30 @@ namespace OSHGui
 		 */
 		TabPage* GetTabPage(int index) const;
 		/**
+		 * Legt den Index der derzeit ausgewählten Registerkarte fest.
+		 *
+		 * @param index
+		 */
+		void SetSelectedIndex(int index);
+		/**
+		 * Ruft den Index der derzeit ausgewählten Registerkarte ab.
+		 *
+		 * @return index
+		 */
+		int GetSelectedIndex() const;
+		/**
+		 * Legt die derzeit ausgewählte Registerkarte fest.
+		 *
+		 * @param tabPage
+		 */
+		void SetSelectedTabPage(TabPage *tabPage);
+		/**
+		 * Ruft die derzeit ausgewählte Registerkarte ab.
+		 *
+		 * @return selectedTabPage
+		 */
+		TabPage* GetSelectedTabPage() const;
+		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
 		 * @return selectedIndexEvent
@@ -113,6 +136,8 @@ namespace OSHGui
 				void SetActive(bool active);
 				TabPage* GetTabPage() const;
 
+				virtual bool Intersect(const Drawing::Point &point) const;
+
 				void Render(Drawing::IRenderer *renderer);
 
 			private:
@@ -132,14 +157,16 @@ namespace OSHGui
 
 			void AddTabPage(TabPage *tabPage);
 			void RemoveTabPage(TabPage *tabPage);
-			TabPage* GetActiveTabPage() const;
+			void SetSelectedTabPage(TabPage *tabPage);
+			TabPage* GetSelectedTabPage() const;
 			const std::list<TabPage*>& GetTabPages() const;
 
 			void Render(Drawing::IRenderer *renderer);
 
 		private:
 			std::list<TabPage*> tabPages;
-			TabPage *activeTabPage;
+			std::list<TabControlBarButton*> tabControlBarButtons;
+			TabPage *selectedTabPage;
 		};
 	};
 }

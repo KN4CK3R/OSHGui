@@ -83,6 +83,26 @@ namespace OSHGui
 		return 0;
 	}
 	//---------------------------------------------------------------------------
+	void TabControl::SetSelectedIndex(int index)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	int TabControl::GetSelectedIndex() const
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::SetSelectedTabPage(TabPage *tabPage)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	TabPage* TabControl::GetSelectedTabPage() const
+	{
+		tabControlBar->GetSelectedTabPage();
+	}
+	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
 	{
 		return selectedIndexChangedEvent;
@@ -317,9 +337,24 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	TabPage* TabControl::TabControlBar::GetActiveTabPage() const
+	void TabControl::TabControlBar::SetSelectedTabPage(TabPage *tabPage)
 	{
-		return activeTabPage;
+		bool found = false;
+		for (std::list<TabPage*>::iterator it = tabPages.begin(); it != tabPages.end(); ++it)
+		{
+			if (*it == tabPage)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		selectedTabPage = tabPage;
+	}
+	//---------------------------------------------------------------------------
+	TabPage* TabControl::TabControlBar::GetSelectedTabPage() const
+	{
+		return selectedTabPage;
 	}
 	//---------------------------------------------------------------------------
 	const std::list<TabPage*>& TabControl::TabControlBar::GetTabPages() const
@@ -329,22 +364,43 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::AddTabPage(TabPage *tabPage)
 	{
-		tabPages.push_back(tabPage);
+		if (tabPage == 0)
+		{
+			return;
+		}
+
+		bool found = false;
+		for (std::list<TabPage*>::iterator it = tabPages.begin(); it != tabPages.end(); ++it)
+		{
+			if (*it == tabPage)
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			tabPages.push_back(tabPage);
+
+			TabControlBarButton *button = new TabControlBarButton(tabPage);
+			tabControlBarButtons.push_back(button);
+		}
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::RemoveTabPage(TabPage *tabPage)
 	{
 		tabPages.remove(tabPage);
 
-		if (activeTabPage == tabPage)
+		if (selectedTabPage == tabPage)
 		{
 			if (!tabPages.empty())
 			{
-				activeTabPage = *tabPages.begin();
+				selectedTabPage = *tabPages.begin();
 			}
 			else
 			{
-				activeTabPage = 0;
+				selectedTabPage = 0;
 			}
 		}
 	}
@@ -389,6 +445,11 @@ namespace OSHGui
 	void TabControl::TabControlBar::TabControlBarButton::SetActive(bool active)
 	{
 		this->active = active;
+	}
+	//---------------------------------------------------------------------------
+	bool TabControl::TabControlBar::TabControlBarButton::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::TabControlBarButton::Render(Drawing::IRenderer *renderer)

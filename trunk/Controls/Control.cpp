@@ -485,12 +485,14 @@ namespace OSHGui
 		Application::Instance()->ClickedControl = this;
 
         MouseEventArgs args(mouse);
+		args.Position -= absoluteLocation;
 		mouseDownEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseClick(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
+		args.Position -= absoluteLocation;
 		mouseClickEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
@@ -500,18 +502,21 @@ namespace OSHGui
 		Application::Instance()->ClickedControl = 0;
 
 		MouseEventArgs args(mouse);
+		args.Position -= absoluteLocation;
 		mouseUpEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseMove(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
+		args.Position -= absoluteLocation;
 		mouseMoveEvent.Invoke(this, args);		
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseScroll(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
+		args.Position -= absoluteLocation;
 		mouseScrollEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
