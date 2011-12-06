@@ -165,7 +165,7 @@ namespace OSHGui
 		};
 
 		TabPageButtonBinding *selected;
-		std::list<TabPageButtonBinding*> bindings;
+		std::vector<TabPageButtonBinding*> bindings;
 
 		int maxVisibleButtons;
 	};
