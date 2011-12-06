@@ -176,6 +176,7 @@ namespace OSHGui
 			std::list<TabPageButtonBinding> bindings;
 	
 			TabPage *selectedTabPage;
+			TabPageButtonBinding selected;
 		};
 	};
 }
