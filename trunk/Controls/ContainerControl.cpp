@@ -13,15 +13,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ContainerControl::~ContainerControl()
 	{
-		for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
-		{
-			delete *it;
-		}
+		controls.clear();
+
 		for (std::list<Control*>::iterator it = internalControls.begin(); it != internalControls.end(); ++it)
 		{
 			delete *it;
 		}
-		controls.clear();
 		internalControls.clear();
 	}
 	//---------------------------------------------------------------------------

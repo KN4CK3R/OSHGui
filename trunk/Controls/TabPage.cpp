@@ -7,7 +7,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TabPage::TabPage(TabControl *parent) : Panel()
+	TabPage::TabPage()
+		: Panel()
 	{
 		type = CONTROL_TABPAGE;
 		
@@ -31,9 +32,25 @@ namespace OSHGui
 		containerPanel->SetSize(size.InflateEx(-4, -4));
 	}
 	//---------------------------------------------------------------------------
+	void TabPage::SetParent(Control *parent)
+	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (parent == 0)
+		{
+			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
+		}
+		if (parent->GetType() != CONTROL_TABCONTROL)
+		{
+			throw Misc::ArgumentException("parent", __FILE__, __LINE__);
+		}
+		#endif
+	
+		Panel::SetParent(parent);
+	}
+	//---------------------------------------------------------------------------
 	void TabPage::SetText(const Misc::AnsiString &text)
 	{
-		this->text = text;
+		
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TabPage::GetText() const
