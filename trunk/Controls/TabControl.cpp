@@ -384,9 +384,13 @@ namespace OSHGui
 
 		if (!found)
 		{
-			TabPageButtonBinding binding = { bindings.size(), tabPage, new TabControlBarButton(tabPage) };
-			
-			AddControl(binding.button);
+			TabControlBarButton *button = new TabControlBarButton(tabPage);
+			button->SetForeColor(GetForeColor());
+			button->SetBackColor(GetBackColor());
+			TabPageButtonBinding binding = { bindings.size(), tabPage, button };
+			tabPage->button = button;
+
+			AddControl(button);
 
 			bindings.push_back(binding);
 		}
@@ -401,9 +405,8 @@ namespace OSHGui
 				TabPageButtonBinding &binding = *it;
 
 				RemoveControl(binding.button);
-
 				delete binding.button;
-
+				binding.tabPage->button = 0;
 				bindings.erase(it);
 
 				break;
@@ -458,6 +461,11 @@ namespace OSHGui
 		Control::SetBackColor(color);
 
 		label->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlBar::TabControlBarButton::SetText(const Misc::AnsiString &text)
+	{
+		label->SetText(text);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::TabControlBarButton::SetActive(bool active)

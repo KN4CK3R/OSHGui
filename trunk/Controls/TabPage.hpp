@@ -65,7 +65,7 @@ namespace OSHGui
 		Misc::AnsiString text;
 
 		Panel *containerPanel;
-		TabControlBar::TabControlBarButton *button;
+		TabControl::TabControlBar::TabControlBarButton *button;
 	};
 }
 
