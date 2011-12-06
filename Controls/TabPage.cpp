@@ -14,6 +14,8 @@ namespace OSHGui
 		
 		text = "TabPage";
 
+		button = 0;
+
 		containerPanel = new Panel();
 		containerPanel->SetName("TabPage_Panel");
 		containerPanel->SetLocation(Drawing::Point(2, 2));
@@ -50,7 +52,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::SetText(const Misc::AnsiString &text)
 	{
-		
+		if (button != 0)
+		{
+			button->SetText(text);
+		}
+		this->text = text;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TabPage::GetText() const
