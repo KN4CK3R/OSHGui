@@ -13,6 +13,7 @@ namespace OSHGui
 	 */
 	class OSHGUI_EXPORT TabControl : public Control
 	{
+		friend TabPage;
 		class TabControlBar;
 
 	public:
@@ -150,6 +151,13 @@ namespace OSHGui
 			};
 
 		public:
+			struct TabPageButtonBinding
+			{
+				int index;
+				TabPage *tabPage;
+				TabControlBarButton *button;
+			};
+
 			TabControlBar();
 
 			virtual void SetForeColor(const Drawing::Color &color);
@@ -157,15 +165,16 @@ namespace OSHGui
 
 			void AddTabPage(TabPage *tabPage);
 			void RemoveTabPage(TabPage *tabPage);
+			void SetSelectedIndex(int index);
 			void SetSelectedTabPage(TabPage *tabPage);
 			TabPage* GetSelectedTabPage() const;
-			const std::list<TabPage*>& GetTabPages() const;
+			const std::list<TabPageButtonBinding>& GetTabPageButtonBindings() const;
 
 			void Render(Drawing::IRenderer *renderer);
 
 		private:
-			std::list<TabPage*> tabPages;
-			std::list<TabControlBarButton*> tabControlBarButtons;
+			std::list<TabPageButtonBinding> bindings;
+	
 			TabPage *selectedTabPage;
 		};
 	};

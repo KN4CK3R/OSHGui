@@ -58,12 +58,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
-		const std::list<TabPage*> &tabs = tabControlBar->GetTabPages();
-		for (std::list<TabPage*>::const_iterator it = tabs.begin(); it != tabs.end(); ++it)
+		const std::list<TabControlBar::TabPageButtonBinding> &bindings = tabControlBar->GetTabPageButtonBindings();
+		for (std::list<TabControlBar::TabPageButtonBinding>::const_iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
-			if ((*it)->GetText() == text)
+			if ((*it).tabPage->GetText() == text)
 			{
-				return *it;
+				return (*it).tabPage;
 			}
 		}
 
@@ -72,12 +72,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
 	{
-		const std::list<TabPage*> &tabs = tabControlBar->GetTabPages();
-		if (index > 0 && index < (int)tabs.size())
+		const std::list<TabControlBar::TabPageButtonBinding> &bindings = tabControlBar->GetTabPageButtonBindings();
+		if (index > 0 && index < (int)bindings.size())
 		{
-			std::list<TabPage*>::const_iterator it = tabs.begin();
+			std::list<TabControlBar::TabPageButtonBinding>::const_iterator it = bindings.begin();
 			for (int i = 0; i < index; ++i, ++it);
-			return *it;
+			return (*it).tabPage;
 		}
 
 		return 0;
@@ -95,7 +95,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedTabPage(TabPage *tabPage)
 	{
-
+		tabControlBar->SetSelectedTabPage(tabPage);
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetSelectedTabPage() const
@@ -340,16 +340,19 @@ namespace OSHGui
 	void TabControl::TabControlBar::SetSelectedTabPage(TabPage *tabPage)
 	{
 		bool found = false;
-		for (std::list<TabPage*>::iterator it = tabPages.begin(); it != tabPages.end(); ++it)
+		for (std::list<TabPageButtonBinding>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
-			if (*it == tabPage)
+			if ((*it).tabPage == tabPage)
 			{
 				found = true;
 				break;
 			}
 		}
 
-		selectedTabPage = tabPage;
+		if (found)
+		{
+			selectedTabPage = tabPage;
+		}
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::TabControlBar::GetSelectedTabPage() const
@@ -357,9 +360,9 @@ namespace OSHGui
 		return selectedTabPage;
 	}
 	//---------------------------------------------------------------------------
-	const std::list<TabPage*>& TabControl::TabControlBar::GetTabPages() const
+	const std::list<TabPageButtonBinding>& TabControl::TabControlBar::GetTabPageButtonBindings() const
 	{
-		return tabPages;
+		return bindings;
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::AddTabPage(TabPage *tabPage)
@@ -370,9 +373,9 @@ namespace OSHGui
 		}
 
 		bool found = false;
-		for (std::list<TabPage*>::iterator it = tabPages.begin(); it != tabPages.end(); ++it)
+		for (std::list<TabPageButtonBinding>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
-			if (*it == tabPage)
+			if ((*it).tabPage == tabPage)
 			{
 				found = true;
 				break;
@@ -381,22 +384,37 @@ namespace OSHGui
 
 		if (!found)
 		{
-			tabPages.push_back(tabPage);
+			TabPageButtonBinding binding = { bindings.size(), tabPage, new TabControlBarButton(tabPage) };
+			
+			AddControl(binding.button);
 
-			TabControlBarButton *button = new TabControlBarButton(tabPage);
-			tabControlBarButtons.push_back(button);
+			bindings.push_back(binding);
 		}
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlBar::RemoveTabPage(TabPage *tabPage)
 	{
-		tabPages.remove(tabPage);
+		for (std::list<TabPageButtonBinding>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		{
+			if ((*it).tabPage == tabPage)
+			{
+				TabPageButtonBinding &binding = *it;
+
+				RemoveControl(binding.button);
+
+				delete binding.button;
+
+				bindings.erase(it);
+
+				break;
+			}
+		}
 
 		if (selectedTabPage == tabPage)
 		{
-			if (!tabPages.empty())
+			if (!bindings.empty())
 			{
-				selectedTabPage = *tabPages.begin();
+				selectedTabPage = bindings.front().tabPage;
 			}
 			else
 			{

@@ -2,25 +2,24 @@
 #define OSHGUI_TABPAGE_HPP_
 
 #include "Panel.hpp"
+#include "TabControl.hpp"
 
 namespace OSHGui
 {
-	class TabControl;
-
 	/**
 	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
 	 */
 	class OSHGUI_EXPORT TabPage : public Panel
 	{
+		friend TabControl;
+
 	public:
 		using Panel::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		TabPage(TabControl *parent);
+		TabPage();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -28,6 +27,13 @@ namespace OSHGui
 		 * @param size
 		 */
 		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt das übergeordnete Steuerelement fest.
+		 * Kann nur ein TabControl sein!
+		 *
+		 * @param parent
+		 */
+		void SetParent(Control *parent);
 		/**
 		 * Legt den Text fest.
 		 *
@@ -59,6 +65,7 @@ namespace OSHGui
 		Misc::AnsiString text;
 
 		Panel *containerPanel;
+		TabControlBar::TabControlBarButton *button;
 	};
 }
 
