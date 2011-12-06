@@ -14,7 +14,6 @@ namespace OSHGui
 	class OSHGUI_EXPORT TabControl : public Control
 	{
 		friend TabPage;
-		class TabControlBar;
 
 	public:
 		using Control::SetSize;
@@ -108,6 +107,10 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
+		/**
+		 * Berechnet die absolute Position des Steuerelements.
+		 */
+		virtual void CalculateAbsoluteLocation();
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -119,65 +122,46 @@ namespace OSHGui
 	private:
 		static const Drawing::Size DefaultSize;
 
-		TabControlBar *tabControlBar;
-
 		SelectedIndexChangedEvent selectedIndexChangedEvent;
 
-		class TabControlBar : public ContainerControl
+		class TabControlButton;
+		struct TabPageButtonBinding
 		{
-			class TabControlBarButton : public Control
-			{
-			public:
-				TabControlBarButton(TabPage *tabPage);
-				~TabControlBarButton();
+			int index;
+			TabPage *tabPage;
+			TabControlButton *button;
+		};
 
-				virtual void SetForeColor(const Drawing::Color &color);
-				virtual void SetBackColor(const Drawing::Color &color);
-				virtual void SetText(const Misc::AnsiString &text);
-				void SetActive(bool active);
-				TabPage* GetTabPage() const;
-
-				virtual bool Intersect(const Drawing::Point &point) const;
-
-				void Render(Drawing::IRenderer *renderer);
-
-			private:
-				static const Drawing::Point DefaultLabelOffset;
-
-				TabPage *tabPage;
-				Label *label;
-
-				bool active;
-			};
-
+		class TabControlButton : public Control
+		{
 		public:
-			struct TabPageButtonBinding
-			{
-				int index;
-				TabPage *tabPage;
-				TabControlBarButton *button;
-			};
-
-			TabControlBar();
+			TabControlButton(TabPageButtonBinding *binding);
+			~TabControlButton();
 
 			virtual void SetForeColor(const Drawing::Color &color);
 			virtual void SetBackColor(const Drawing::Color &color);
+			virtual void SetText(const Misc::AnsiString &text);
+			void SetActive(bool active);
 
-			void AddTabPage(TabPage *tabPage);
-			void RemoveTabPage(TabPage *tabPage);
-			void SetSelectedIndex(int index);
-			void SetSelectedTabPage(TabPage *tabPage);
-			TabPage* GetSelectedTabPage() const;
-			const std::list<TabPageButtonBinding>& GetTabPageButtonBindings() const;
+			virtual bool Intersect(const Drawing::Point &point) const;
+			virtual void CalculateAbsoluteLocation();
 
 			void Render(Drawing::IRenderer *renderer);
 
+		protected:
+			virtual void OnMouseClick(const MouseMessage &mouse);
+
 		private:
-			std::list<TabPageButtonBinding> bindings;
-	
-			TabPage *selectedTabPage;
-			TabPageButtonBinding selected;
+			static const Drawing::Point DefaultLabelOffset;
+
+			TabPageButtonBinding *binding;
+			Label *label;
+
+			bool active;
 		};
+
+		TabPageButtonBinding *selected;
+		std::list<TabPageButtonBinding*> bindings;
 	};
 }
 
