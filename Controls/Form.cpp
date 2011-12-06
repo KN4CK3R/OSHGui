@@ -162,15 +162,7 @@ namespace OSHGui
 
 		SetSize(Drawing::Size(DefaultButtonWidth, DefaultButtonHeight));
 	}
-	//---------------------------------------------------------------------------
-	void Form::CaptionBar::CaptionBarButton::OnMouseUp(const MouseMessage &mouse)
-	{
-		Control::OnMouseUp(mouse);
-
-		Form *owner = (Form*)parent->GetParent();
-		owner->Close();
-	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------	
 	void Form::CaptionBar::CaptionBarButton::CalculateAbsoluteLocation()
 	{
 		Control::CalculateAbsoluteLocation();
@@ -180,6 +172,14 @@ namespace OSHGui
 	bool Form::CaptionBar::CaptionBarButton::Intersect(const Drawing::Point &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::CaptionBarButton::OnMouseUp(const MouseMessage &mouse)
+	{
+		Control::OnMouseUp(mouse);
+
+		Form *owner = (Form*)parent->GetParent();
+		owner->Close();
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::Render(Drawing::IRenderer *renderer)
@@ -258,9 +258,9 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::OnMouseClick(const MouseMessage &mouse)
+	void Form::CaptionBar::OnMouseUp(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseClick(mouse);
+		ContainerControl::OnMouseUp(mouse);
 		if (drag)
 		{
 			drag = false;

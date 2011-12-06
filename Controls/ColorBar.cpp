@@ -131,10 +131,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorBar::UpdateBars()
 	{
-		float multi = 255.0f / (GetWidth() - 2);			
-		(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
-
-		multi = (GetWidth() - 2) / 255.0f;
+		float multi = (GetWidth() - 2) / 255.0f;
 		for (int i = 0; i < 3; ++i)
 		{
 			CreateBarTexture(i);
@@ -177,6 +174,9 @@ namespace OSHGui
 				{
 					barSliderLocation[barIndex].Left = localLocation;
 				}
+
+				float multi = 255.0f / (GetWidth() - 2);			
+				(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
 			
 				UpdateBars();
 
@@ -220,6 +220,9 @@ namespace OSHGui
 				barSliderLocation[barIndex].Left = localLocation;
 			}
 			
+			float multi = 255.0f / (GetWidth() - 2);			
+			(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
+
 			UpdateBars();
 
 			Drawing::Color colorArgs = color;
@@ -243,6 +246,9 @@ namespace OSHGui
 				{
 					barSliderLocation[barIndex].Left = GetWidth() - 2;
 				}
+
+				float multi = 255.0f / (GetWidth() - 2);			
+				(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
 
 				UpdateBars();
 
