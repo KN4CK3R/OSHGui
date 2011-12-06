@@ -14,11 +14,13 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabControl::TabControl()
-		: Control()
+		: ContainerControl()
 	{
 		type = CONTROL_TABCONTROL;
 
 		SetSize(DefaultSize);
+
+		maxVisibleButtons = 0;
 		
 		SetBackColor(Drawing::Color(0xFF737373));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -37,7 +39,7 @@ namespace OSHGui
 	{
 		Control::SetSize(size);
 
-		//anzahl begrenzen
+		CalculateButtonLocationAndCount();
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetForeColor(const Drawing::Color &color)
@@ -94,6 +96,9 @@ namespace OSHGui
 				selected->button->SetActive(false);
 				selected = *it;
 				selected->button->SetActive(true);
+				CalculateButtonLocationAndCount();
+
+				selectedIndexChangedEvent.Invoke(this);
 
 				return;
 			}
@@ -114,6 +119,9 @@ namespace OSHGui
 				selected->button->SetActive(false);
 				selected = *it;
 				selected->button->SetActive(true);
+				CalculateButtonLocationAndCount();
+
+				selectedIndexChangedEvent.Invoke(this);
 
 				return;
 			}
@@ -157,8 +165,13 @@ namespace OSHGui
 		binding->tabPage = tabPage;
 
 		TabControlButton *button = new TabControlButton(binding);
+		button->SetLocation(Drawing::Point(0, 0));
 		button->SetForeColor(GetForeColor());
 		button->SetBackColor(GetBackColor());
+		button->SetFont(font);
+
+		AddSubControl(button);
+		AddSubControl(tabPage);
 
 		tabPage->button = button;
 		binding->button = button;
@@ -169,6 +182,8 @@ namespace OSHGui
 			selected = binding;
 		}
 		bindings.push_back(binding);
+
+		CalculateButtonLocationAndCount();
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::RemoveTabPage(TabPage *tabPage)
@@ -187,6 +202,10 @@ namespace OSHGui
 			{
 				TabPageButtonBinding *binding = *it;
 				TabPage *temp = binding->tabPage;
+
+				RemoveControl(binding->button);
+				RemoveControl(binding->tabPage);
+
 				delete binding->button;
 				binding->tabPage->button = 0;
 				bindings.erase(it);
@@ -209,6 +228,8 @@ namespace OSHGui
 				break;
 			}
 		}
+
+		CalculateButtonLocationAndCount();
 	}
 	//---------------------------------------------------------------------------
 	bool TabControl::Intersect(const Drawing::Point &point) const
@@ -220,132 +241,36 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 
-
+		CalculateButtonLocationAndCount();
 	}
-	/*//---------------------------------------------------------------------------
-	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool TabControl::ProcessEvent(IEvent *event)
+	void TabControl::CalculateButtonLocationAndCount()
 	{
-		if (event == 0)
+		if (!bindings.empty())
 		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
+			maxVisibleButtons = 0;
 
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-
-		Drawing::Point mousePositionBackup;
-
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-
-			int x = 2;
-			Misc::TextHelper textHelper(font);
-			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), textHelper.GetSize().Height + 8).Contains(mouse->Position))
+			int tempWidth = 0;
+			for (std::list<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 			{
-				for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
+				TabControlButton *button = (*it)->button;
+				if (tempWidth + button->GetSize().Width <= size.Width)
 				{
-					textHelper.SetText((*it)->GetText());
-					Drawing::Size textSize = textHelper.GetSize();
-					if (Drawing::Rectangle(x, 0, textSize.Width + 8, textSize.Height + 8).Contains(mouse->Position))
-					{
-						static TabPage *clicked = 0;
-						if (mouse->State == MouseMessage::LeftDown)
-						{
-							clicked = *it;
+					button->SetLocation(tempWidth, 0);
 
-							return true;
-						}
-						else if (mouse->State == MouseMessage::LeftUp)
-						{
-							if (clicked == *it)
-							{
-								parent->RequestFocus(this);
-								activeTab = clicked;
-								clicked = 0;
-								Invalidate();
-
-								selectedIndexChangedEvent.Invoke(this);
-							}
-
-							return true;
-						}
-					}
-					x += textSize.Width + 11;
+					++maxVisibleButtons;
+					tempWidth += button->GetSize().Width + 2;
+				}
+				else
+				{
+					break;
 				}
 			}
 
-			mouse->Position.Top -= font->GetSize() + 10;
-			mouse->Position.Left -= 2;
+			selected->tabPage->SetLocation(0, selected->button->GetSize().Height);
 		}
-		else if (event->Type == IEvent::Keyboard)
-		{
-			KeyboardMessage *keyboard = (KeyboardMessage*)event;
-
-			if (keyboard->State == KeyboardMessage::Character)
-			{
-				if (keyboard->KeyCode == Key::Left)
-				{
-					if (activeTab != *tabs.begin())
-					{
-						for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
-						{
-							if (*it == activeTab)
-							{
-								--it;
-								activeTab = *it;
-
-								selectedIndexChangedEvent.Invoke(this);
-
-								break;
-							}
-						}
-
-						return true;
-					}
-				}
-				else if (keyboard->KeyCode == Key::Right)
-				{
-					if (activeTab != *tabs.end())
-					{
-						for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
-						{
-							if (*it == activeTab)
-							{
-								++it;
-								activeTab = *it;
-
-								selectedIndexChangedEvent.Invoke(this);
-
-								break;
-							}
-						}
-
-						return true;
-					}
-				}
-			}
-		}
-	
-		if (ChildProcessEvent(event) == true)
-		{
-			return true;
-		}
-
-		if (activeTab != 0)
-		{
-			activeTab->ProcessEvent(event);
-		}
-
-		return false;
 	}
-	//---------------------------------------------------------------------------*/
+	//---------------------------------------------------------------------------
 	void TabControl::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -361,49 +286,15 @@ namespace OSHGui
 		{
 			selected->tabPage->Render(renderer);
 		}
-
-		/*if (activeTab != 0)
-		{
-			activeTab->Render(renderer);
-		}
-	
-		int x = bounds.GetLeft() + 2;
-		int y = bounds.GetTop();
-		Misc::TextHelper textHelper(font);
-		Drawing::Color backInactive = backColor - Drawing::Color(0, 47, 47, 47);
-		Drawing::Color backInactiveGradient = backInactive - Drawing::Color(0, 20, 20, 20);
-		Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9,9);
-
-		for (std::list<TabPage*>::iterator it = tabs.begin(); it != tabs.end(); ++it)
-		{
-			textHelper.SetText((*it)->GetText());
-			Drawing::Size textSize = textHelper.GetSize();
-
-			if (*it == activeTab)
-			{
-				renderer->SetRenderColor(backColor + Drawing::Color(0, 43, 43, 43));
-				renderer->FillGradient(x, y, textSize.Width + 8, textSize.Height + 8, backColor - Drawing::Color(0, 10, 10, 10));
-				renderer->SetRenderColor(backColor);
-				renderer->FillGradient(x + 1, y + 1, textSize.Width + 6, textSize.Height + 8, backColor - Drawing::Color(0, 42, 42, 42));
-			}
-			else
-			{
-				renderer->SetRenderColor(borderInactive);
-				renderer->Fill(x, y, textSize.Width + 8, textSize.Height + 7);
-				renderer->SetRenderColor(backInactive);
-				renderer->FillGradient(x + 1, y + 1, textSize.Width + 6, textSize.Height + 7, backInactiveGradient);
-			}
-			renderer->SetRenderColor(foreColor);
-			renderer->RenderText(font, x + 4, y + 4, textSize.Width, textSize.Height, textHelper.GetText());
-			x += textSize.Width + 11;
-		}*/
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point TabControl::TabControlButton::DefaultLabelOffset(4, 7);
+	const Drawing::Point TabControl::TabControlButton::DefaultLabelOffset(4, 2);
 	//---------------------------------------------------------------------------
 	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding *binding)
 	{
 		this->binding = binding;
+
+		active = false;
 
 		label = new Label();
 		label->SetLocation(DefaultLabelOffset);
@@ -480,7 +371,13 @@ namespace OSHGui
 		}
 		else
 		{
-			Drawing::Color backInactive = backColor - Drawing::Color(0, 47, 47, 47);
+			Drawing::Color base = backColor;
+			if (isInside)
+			{
+				base += Drawing::Color(0, 50, 50, 50);
+			}
+
+			Drawing::Color backInactive = base - Drawing::Color(0, 47, 47, 47);
 			Drawing::Color backInactiveGradient = backInactive - Drawing::Color(0, 20, 20, 20);
 			Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9, 9);
 

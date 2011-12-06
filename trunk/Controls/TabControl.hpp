@@ -11,7 +11,7 @@ namespace OSHGui
 	/**
 	 * Verwaltet eine Gruppe zusammengehöriger Registerkarten.
 	 */
-	class OSHGUI_EXPORT TabControl : public Control
+	class OSHGUI_EXPORT TabControl : public ContainerControl
 	{
 		friend TabPage;
 
@@ -122,6 +122,8 @@ namespace OSHGui
 	private:
 		static const Drawing::Size DefaultSize;
 
+		void CalculateButtonLocationAndCount();
+
 		SelectedIndexChangedEvent selectedIndexChangedEvent;
 
 		class TabControlButton;
@@ -134,6 +136,8 @@ namespace OSHGui
 
 		class TabControlButton : public Control
 		{
+			friend TabControl;
+
 		public:
 			TabControlButton(TabPageButtonBinding *binding);
 			~TabControlButton();
@@ -162,6 +166,8 @@ namespace OSHGui
 
 		TabPageButtonBinding *selected;
 		std::list<TabPageButtonBinding*> bindings;
+
+		int maxVisibleButtons;
 	};
 }
 
