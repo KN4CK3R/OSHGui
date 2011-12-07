@@ -3,6 +3,8 @@
 
 namespace OSHGui
 {
+	const Drawing::Size TextBox::DefaultSize(100, 24);
+	const Drawing::Point TextBox::DefaultTextOffset(7, 5);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -10,7 +12,7 @@ namespace OSHGui
 	{
 		type = CONTROL_TEXTBOX;
 
-		SetBounds(6, 6, 100, font->GetSize() + 10);
+		SetSize(DefaultSize);
 
 		blinkTime = Misc::TimeSpan::FromMilliseconds(500);
 		nextBlinkTime = Application::Instance()->GetNow();
@@ -30,6 +32,20 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void TextBox::SetSize(const Drawing::Size &size)
+	{
+		Drawing::Size fixxed(size.Width, font->GetSize() + DefaultTextOffset.Top * 2);
+
+		Control::SetSize(fixxed);
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	{
+		Control::SetFont(font);
+
+		SetSize(GetWidth(), 0);
+	}
 	//---------------------------------------------------------------------------
 	void TextBox::SetText(const Misc::AnsiString &text)
 	{
@@ -52,22 +68,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool TextBox::CanHaveFocus() const
-	{
-		return isEnabled && isVisible;
-	}
-	//---------------------------------------------------------------------------
 	bool TextBox::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::Invalidate()
+	void TextBox::CalculateAbsoluteLocation()
 	{
+		Control::CalculateAbsoluteLocation();
+		
 		bounds.SetHeight(font->GetSize() + 10);
 	
 		clientArea = bounds;
-		textRect = Drawing::Rectangle(clientArea.GetLeft() + 7, clientArea.GetTop() + 5, clientArea.GetWidth() - 14, clientArea.GetHeight() - 10);
+		textRect = Drawing::Rectangle(7, 5, GetWidth() - 14, GetHeight() - 10);
 		PlaceCaret(caretPosition);
 	}
 	//---------------------------------------------------------------------------
@@ -134,7 +147,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool TextBox::ProcessEvent(IEvent *event)
+	/*bool TextBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -162,7 +175,7 @@ namespace OSHGui
 					}
 
 					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
-					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
+					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding* /) - 1);
 
 					clickEvent.Invoke(this);
 
@@ -267,7 +280,7 @@ namespace OSHGui
 		
 		return false;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void TextBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -276,9 +289,9 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor - Drawing::Color(0, 20, 20, 20));
-		renderer->Fill(bounds);
+		renderer->Fill(absoluteLocation, size);
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(bounds.GetLeft() + 1, bounds.GetTop() + 1, bounds.GetWidth() - 2, bounds.GetHeight() - 2);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, GetWidth() - 2, GetHeight() - 2);
 		
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));

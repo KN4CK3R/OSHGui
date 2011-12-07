@@ -20,7 +20,8 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 
-		maxVisibleButtons = 0;
+		startIndex = 0;
+		maxIndex = 0;
 		
 		SetBackColor(Drawing::Color(0xFF737373));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -248,17 +249,17 @@ namespace OSHGui
 	{
 		if (!bindings.empty())
 		{
-			maxVisibleButtons = 0;
+			maxIndex = startIndex;
 
 			int tempWidth = 0;
-			for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+			for (int i = startIndex; i < (int)bindings.size(); ++i)
 			{
-				TabControlButton *button = (*it)->button;
+				TabControlButton *button = bindings[i]->button;
 				if (tempWidth + button->GetSize().Width <= size.Width)
 				{
 					button->SetLocation(tempWidth, 0);
 
-					++maxVisibleButtons;
+					++maxIndex;
 					tempWidth += button->GetSize().Width + 2;
 				}
 				else
@@ -268,6 +269,20 @@ namespace OSHGui
 			}
 
 			selected->tabPage->SetLocation(0, selected->button->GetSize().Height);
+
+			if (maxIndex < (int)bindings.size())
+			{
+				/*
+				switchButton->SetVisible(true);
+				switchButton->SetLocation(GetSize().Width - TabControlSwitchButton::DefaultSize.Width, 0);
+				*/
+			}
+			else
+			{
+				/*
+				switchButton->SetVisible(false);
+				*/
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -278,9 +293,9 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (int i = startIndex; i < maxIndex; ++i)
 		{
-			(*it)->button->Render(renderer);
+			bindings[i]->button->Render(renderer);
 		}
 		if (selected->tabPage != 0)
 		{
@@ -388,6 +403,30 @@ namespace OSHGui
 		}
 
 		label->Render(renderer);
+	}
+	//---------------------------------------------------------------------------
+	TabControl::TabControlSwitchButton::TabControlSwitchButton(int direction)
+	{
+		this->direction = direction;
+	}
+	//---------------------------------------------------------------------------
+	bool TabControl::TabControlSwitchButton::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlSwitchButton::Render(Drawing::IRenderer *renderer)
+	{
+		renderer->SetRenderColor(backColor);
+		renderer->Fill(absoluteLocation, size);
+		if (direction == 0)
+		{
+			//Pfeil nach rechts
+		}
+		else
+		{
+			//Pfeil nach links
+		}
 	}
 	//---------------------------------------------------------------------------
 }
