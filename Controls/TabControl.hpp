@@ -136,8 +136,6 @@ namespace OSHGui
 
 		class TabControlButton : public Control
 		{
-			friend TabControl;
-
 		public:
 			TabControlButton(TabPageButtonBinding *binding);
 			~TabControlButton();
@@ -167,7 +165,26 @@ namespace OSHGui
 		TabPageButtonBinding *selected;
 		std::vector<TabPageButtonBinding*> bindings;
 
-		int maxVisibleButtons;
+		class TabControlSwitchButton : public Control
+		{
+		public:
+			static const Drawing::Size DefaultSize;
+
+			TabControlSwitchButton(int direction);
+
+			virtual bool Intersect(const Drawing::Point &point) const;
+
+			void Render(Drawing::IRenderer *renderer);
+
+		protected:
+			virtual void OnMouseClick(const MouseMessage &mouse);
+
+		private:
+			int direction;
+		};
+
+		int startIndex;
+		int maxIndex;
 	};
 }
 

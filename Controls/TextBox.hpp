@@ -4,8 +4,6 @@
 #include "Control.hpp"
 #include "..\Misc\TextHelper.hpp"
 
-#define TEXTBOX_DEFAULT_HEIGHT 24
-
 namespace OSHGui
 {
 	/**
@@ -14,12 +12,28 @@ namespace OSHGui
 	class OSHGUI_EXPORT TextBox : public Control
 	{
 	public:
+		using Control::SetSize;
+
+		static const Drawing::Size DefaultSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		TextBox();
 		virtual ~TextBox();
 		
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
 		 * Legt den Text fest.
 		 *
@@ -40,34 +54,17 @@ namespace OSHGui
 		TextChangedEvent& GetTextChangedEvent();
 		
 		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
-		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
-		
 		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
+		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void Invalidate();
-		
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		bool ProcessEvent(IEvent *event);
+		virtual void CalculateAbsoluteLocation();
+
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -75,7 +72,9 @@ namespace OSHGui
 		 */
 		void Render(Drawing::IRenderer *renderer);
 	
-	protected:
+	private:
+		static const Drawing::Point DefaultTextOffset;
+
 		void ResetCaretBlink();
 		void PlaceCaret(int position);
 			
