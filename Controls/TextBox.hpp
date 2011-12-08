@@ -72,6 +72,12 @@ namespace OSHGui
 		 */
 		void Render(Drawing::IRenderer *renderer);
 	
+	protected:
+		virtual void OnMouseDown(const MouseMessage &mouse);
+		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+		virtual void OnTextChanged();
+
 	private:
 		static const Drawing::Point DefaultTextOffset;
 

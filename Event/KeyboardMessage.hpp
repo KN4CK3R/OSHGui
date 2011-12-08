@@ -67,7 +67,7 @@ namespace OSHGui
 		 */
 		bool IsAlphaNumeric() const
 		{
-			return KeyChar != 0;
+			return Misc::String::IsLetterOrDigit(KeyChar) || Misc::String::IsPunctuation(KeyChar) || Misc::String::IsSeperator(KeyChar) || Misc::String::IsSymbol(KeyChar);
 		}
 	};
 }

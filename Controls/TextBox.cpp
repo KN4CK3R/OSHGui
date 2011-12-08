@@ -38,6 +38,8 @@ namespace OSHGui
 		Drawing::Size fixxed(size.Width, font->GetSize() + DefaultTextOffset.Top * 2);
 
 		Control::SetSize(fixxed);
+
+		textRect = Drawing::Rectangle(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
@@ -77,10 +79,7 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		
-		bounds.SetHeight(font->GetSize() + 10);
-	
-		clientArea = bounds;
-		textRect = Drawing::Rectangle(7, 5, GetWidth() - 14, GetHeight() - 10);
+		textRect = Drawing::Rectangle(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 		PlaceCaret(caretPosition);
 	}
 	//---------------------------------------------------------------------------
@@ -147,6 +146,81 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
+	void TextBox::OnMouseDown(const MouseMessage &mouse)
+	{
+		Control::OnMouseDown(mouse);
+
+		Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
+		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
+	}
+	//---------------------------------------------------------------------------
+	bool TextBox::OnKeyPress(const KeyboardMessage &keyboard)
+	{
+		if (!Control::OnKeyPress(keyboard))
+		{
+			if (keyboard.KeyCode != Key::Return)
+			{
+				if (keyboard.KeyCode == Key::Back)
+				{
+					if (caretPosition > 0 && textHelper.GetLength() > 0)
+					{
+						textHelper.Remove(caretPosition - 1, 1);
+						PlaceCaret(caretPosition - 1);
+
+						OnTextChanged();
+					}
+				}
+				else if (keyboard.IsAlphaNumeric())
+				{
+					textHelper.Insert(caretPosition, keyboard.KeyChar);
+					PlaceCaret(++caretPosition);
+					
+					OnTextChanged();
+				}
+			}
+		}
+
+		return true;
+	}
+	//---------------------------------------------------------------------------
+	bool TextBox::OnKeyDown(const KeyboardMessage &keyboard)
+	{
+		if (!Control::OnKeyDown(keyboard))
+		{
+			switch (keyboard.KeyCode)
+			{
+				case Key::Delete:
+					if (caretPosition < textHelper.GetLength())
+					{
+						textHelper.Remove(caretPosition, 1);
+						PlaceCaret(caretPosition);
+						
+						OnTextChanged();
+					}
+					break;
+				case Key::Left:
+					PlaceCaret(caretPosition - 1);
+					break;
+				case Key::Right:
+					PlaceCaret(caretPosition + 1);
+					break;
+				case Key::Home:
+					PlaceCaret(0);
+					break;
+				case Key::End:
+					PlaceCaret(textHelper.GetLength());
+					break;
+			}
+		}
+
+		return true;
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::OnTextChanged()
+	{
+		textChangedEvent.Invoke(this);
+	}
+	//---------------------------------------------------------------------------
 	/*bool TextBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
@@ -207,62 +281,10 @@ namespace OSHGui
 		
 			KeyboardMessage *keyboard = (KeyboardMessage*)event;
 
-			if (keyboard->State == KeyboardMessage::Character)
-			{
-				if (keyboard->KeyCode != Key::Return)
-				{
-					KeyPressEventArgs args(keyboard);
-					keyPressEvent.Invoke(this, args);
-					if (!args.Handled)
-					{
-						if (keyboard->KeyCode == Key::Back)
-						{
-							if (caretPosition > 0 && textHelper.GetLength() > 0)
-							{
-								textHelper.Remove(caretPosition - 1, 1);
-								PlaceCaret(caretPosition - 1);
-								hasChanged = true;
-							}
-						}
-						else if (isprint(keyboard->KeyChar))
-						{
-							textHelper.Insert(caretPosition, keyboard->KeyChar);
-							PlaceCaret(++caretPosition);
-							hasChanged = true;
-						}
-					}
-				}
-			}
+			
 			else if (keyboard->State == KeyboardMessage::KeyDown)
 			{
-				KeyEventArgs args(keyboard);
-				keyDownEvent.Invoke(this, args);
-				if (!args.Handled)
-				{
-					switch (keyboard->KeyCode)
-					{
-						case Key::Delete:
-							if (caretPosition < textHelper.GetLength())
-							{
-								textHelper.Remove(caretPosition, 1);
-								PlaceCaret(caretPosition);
-								hasChanged = true;
-							}
-							break;
-						case Key::Left:
-							PlaceCaret(caretPosition - 1);
-							break;
-						case Key::Right:
-							PlaceCaret(caretPosition + 1);
-							break;
-						case Key::Home:
-							PlaceCaret(0);
-							break;
-						case Key::End:
-							PlaceCaret(textHelper.GetLength());
-							break;
-					}
-				}
+				
 			}
 			else if (keyboard->State == KeyboardMessage::KeyUp)
 			{
