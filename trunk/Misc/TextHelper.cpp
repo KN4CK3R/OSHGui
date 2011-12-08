@@ -107,7 +107,7 @@ namespace OSHGui
 			AnsiString substring = text.substr(0, trailing ? index + 1 : index);
 			Drawing::Size size = font->MeasureText(substring);
 			
-			return Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
+			return Drawing::Point(size.Width, size.Height);//Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
 		Drawing::Size TextHelper::GetStringWidth(int index, int size) const

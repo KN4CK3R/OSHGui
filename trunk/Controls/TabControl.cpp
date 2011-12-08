@@ -27,7 +27,7 @@ namespace OSHGui
 			if (startIndex > 0)
 			{
 				--startIndex;
-				--maxIndex;
+				CalculateButtonLocationAndCount();
 			}
 		});
 		AddSubControl(lastSwitchButton);
@@ -38,7 +38,7 @@ namespace OSHGui
 			if (maxIndex < (int)bindings.size())
 			{
 				++startIndex;
-				++maxIndex;
+				CalculateButtonLocationAndCount();
 			}
 		});
 		AddSubControl(nextSwitchButton);
@@ -288,13 +288,20 @@ namespace OSHGui
 		{
 			maxIndex = startIndex;
 
+			for (unsigned int i = 0; i < bindings.size(); ++i)
+			{
+				bindings[i]->button->SetVisible(false);
+			}
+
 			int tempWidth = 0;
+			int maxWidth = size.Width - TabControlSwitchButton::DefaultSize.Width;
 			for (int i = startIndex; i < (int)bindings.size(); ++i)
 			{
 				TabControlButton *button = bindings[i]->button;
-				if (tempWidth + button->GetSize().Width <= size.Width)
+				if (tempWidth + button->GetSize().Width <= maxWidth)
 				{
 					button->SetLocation(tempWidth, 0);
+					button->SetVisible(true);
 
 					++maxIndex;
 					tempWidth += button->GetSize().Width + 2;
@@ -307,15 +314,21 @@ namespace OSHGui
 
 			selected->tabPage->SetLocation(0, selected->button->GetSize().Height);
 
-			if (maxIndex < (int)bindings.size())
+			if (startIndex != 0)
 			{
 				lastSwitchButton->SetVisible(true);
+			}
+			else
+			{
+				lastSwitchButton->SetVisible(false);
+			}
+			if (maxIndex < (int)bindings.size())
+			{
 				nextSwitchButton->SetVisible(true);
 			}
 			else
 			{
-				//lastSwitchButton->SetVisible(false);
-				//nextSwitchButton->SetVisible(false);
+				nextSwitchButton->SetVisible(false);
 			}
 		}
 	}
@@ -459,6 +472,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlSwitchButton::Render(Drawing::IRenderer *renderer)
 	{
+		if (!isVisible)
+		{
+			return;
+		}
+
 		Drawing::Color base = isInside ? backColor : backColor - Drawing::Color(0, 47, 47, 47);
 		Drawing::Color borderColor = backColor + Drawing::Color(0, 9, 9, 9);
 		renderer->SetRenderColor(borderColor);
@@ -470,18 +488,18 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);		
 		if (direction == 0)
 		{
-			int y = absoluteLocation.Top + 2;
-			for (int i = 0; i < 3; ++i)
-			{
-				renderer->Fill(x + i, y + i, 1, 5 - i * 2);
-			}
-		}
-		else
-		{
 			int y = absoluteLocation.Top + 4;
 			for (int i = 0; i < 3; ++i)
 			{
 				renderer->Fill(x + i, y - i, 1, 1 + i * 2);
+			}
+		}
+		else
+		{
+			int y = absoluteLocation.Top + 2;
+			for (int i = 0; i < 3; ++i)
+			{
+				renderer->Fill(x + i, y + i, 1, 5 - i * 2);
 			}
 		}
 	}
