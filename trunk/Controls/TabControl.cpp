@@ -18,10 +18,32 @@ namespace OSHGui
 	{
 		type = CONTROL_TABCONTROL;
 
-		SetSize(DefaultSize);
-
 		startIndex = 0;
 		maxIndex = 0;
+
+		lastSwitchButton = new TabControlSwitchButton(0);
+		lastSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)
+		{
+			if (startIndex > 0)
+			{
+				--startIndex;
+				--maxIndex;
+			}
+		});
+		AddSubControl(lastSwitchButton);
+
+		nextSwitchButton = new TabControlSwitchButton(1);
+		nextSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)
+		{
+			if (maxIndex < (int)bindings.size())
+			{
+				++startIndex;
+				++maxIndex;
+			}
+		});
+		AddSubControl(nextSwitchButton);
+
+		SetSize(DefaultSize);
 		
 		SetBackColor(Drawing::Color(0xFF737373));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -41,6 +63,9 @@ namespace OSHGui
 		Control::SetSize(size);
 
 		CalculateButtonLocationAndCount();
+
+		lastSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, 0);
+		nextSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, TabControlSwitchButton::DefaultSize.Height + 1);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetForeColor(const Drawing::Color &color)
@@ -49,8 +74,12 @@ namespace OSHGui
 
 		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
-			(*it)->button->SetForeColor(color);
+			TabPageButtonBinding *binding = *it;
+			binding->button->SetForeColor(color);
+			binding->tabPage->SetForeColor(color);
 		}
+		lastSwitchButton->SetForeColor(color);
+		nextSwitchButton->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetBackColor(const Drawing::Color &color)
@@ -59,8 +88,12 @@ namespace OSHGui
 
 		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
 		{
-			(*it)->button->SetBackColor(color);
+			TabPageButtonBinding *binding = *it;
+			binding->button->SetBackColor(color);
+			binding->tabPage->SetBackColor(color);
 		}
+		lastSwitchButton->SetBackColor(color);
+		nextSwitchButton->SetBackColor(color);
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
@@ -80,9 +113,7 @@ namespace OSHGui
 	{
 		if (index > 0 && index < (int)bindings.size())
 		{
-			std::vector<TabPageButtonBinding*>::const_iterator it = bindings.begin();
-			for (int i = 0; i < index; ++i, ++it);
-			return (*it)->tabPage;
+			return bindings[index]->tabPage;
 		}
 
 		return 0;
@@ -180,7 +211,13 @@ namespace OSHGui
 		if (bindings.empty())
 		{
 			button->SetActive(true);
+			tabPage->SetVisible(true);
 			selected = binding;
+			tabPage->SetLocation(0, button->GetSize().Height);
+		}
+		else
+		{
+			tabPage->SetVisible(false);
 		}
 		bindings.push_back(binding);
 
@@ -240,7 +277,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::CalculateAbsoluteLocation()
 	{
-		Control::CalculateAbsoluteLocation();
+		ContainerControl::CalculateAbsoluteLocation();
 
 		CalculateButtonLocationAndCount();
 	}
@@ -272,16 +309,13 @@ namespace OSHGui
 
 			if (maxIndex < (int)bindings.size())
 			{
-				/*
-				switchButton->SetVisible(true);
-				switchButton->SetLocation(GetSize().Width - TabControlSwitchButton::DefaultSize.Width, 0);
-				*/
+				lastSwitchButton->SetVisible(true);
+				nextSwitchButton->SetVisible(true);
 			}
 			else
 			{
-				/*
-				switchButton->SetVisible(false);
-				*/
+				//lastSwitchButton->SetVisible(false);
+				//nextSwitchButton->SetVisible(false);
 			}
 		}
 	}
@@ -293,12 +327,16 @@ namespace OSHGui
 			return;
 		}
 
-		for (int i = startIndex; i < maxIndex; ++i)
-		{
-			bindings[i]->button->Render(renderer);
-		}
 		if (selected->tabPage != 0)
 		{
+			for (int i = startIndex; i < maxIndex; ++i)
+			{
+				bindings[i]->button->Render(renderer);
+			}
+		
+			nextSwitchButton->Render(renderer);
+			lastSwitchButton->Render(renderer);
+
 			selected->tabPage->Render(renderer);
 		}
 	}
@@ -397,7 +435,7 @@ namespace OSHGui
 			Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9, 9);
 
 			renderer->SetRenderColor(borderInactive);
-			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top, size.Width, size.Height - 1);
+			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top, size.Width, size.Height);
 			renderer->SetRenderColor(backInactive);
 			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 1, backInactiveGradient);
 		}
@@ -405,9 +443,13 @@ namespace OSHGui
 		label->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
+	const Drawing::Size TabControl::TabControlSwitchButton::DefaultSize(9, 9);
+	//---------------------------------------------------------------------------
 	TabControl::TabControlSwitchButton::TabControlSwitchButton(int direction)
 	{
 		this->direction = direction;
+
+		SetSize(DefaultSize);
 	}
 	//---------------------------------------------------------------------------
 	bool TabControl::TabControlSwitchButton::Intersect(const Drawing::Point &point) const
@@ -417,15 +459,30 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlSwitchButton::Render(Drawing::IRenderer *renderer)
 	{
-		renderer->SetRenderColor(backColor);
+		Drawing::Color base = isInside ? backColor : backColor - Drawing::Color(0, 47, 47, 47);
+		Drawing::Color borderColor = backColor + Drawing::Color(0, 9, 9, 9);
+		renderer->SetRenderColor(borderColor);
 		renderer->Fill(absoluteLocation, size);
+		renderer->SetRenderColor(base);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 2);
+		
+		int x = absoluteLocation.Left + 3;
+		renderer->SetRenderColor(foreColor);		
 		if (direction == 0)
 		{
-			//Pfeil nach rechts
+			int y = absoluteLocation.Top + 2;
+			for (int i = 0; i < 3; ++i)
+			{
+				renderer->Fill(x + i, y + i, 1, 5 - i * 2);
+			}
 		}
 		else
 		{
-			//Pfeil nach links
+			int y = absoluteLocation.Top + 4;
+			for (int i = 0; i < 3; ++i)
+			{
+				renderer->Fill(x + i, y - i, 1, 1 + i * 2);
+			}
 		}
 	}
 	//---------------------------------------------------------------------------

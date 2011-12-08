@@ -176,15 +176,14 @@ namespace OSHGui
 
 			void Render(Drawing::IRenderer *renderer);
 
-		protected:
-			virtual void OnMouseClick(const MouseMessage &mouse);
-
 		private:
 			int direction;
 		};
 
 		int startIndex;
 		int maxIndex;
+		TabControlSwitchButton *lastSwitchButton;
+		TabControlSwitchButton *nextSwitchButton;
 	};
 }
 
