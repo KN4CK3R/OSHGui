@@ -40,6 +40,11 @@ namespace OSHGui
 		}
 		#endif
 
+		if (control->GetType() == CONTROL_FORM)
+		{
+			return;
+		}
+
 		AddSubControl(control);
 
 		controls.push_front(control);
