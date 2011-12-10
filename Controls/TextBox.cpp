@@ -151,7 +151,7 @@ namespace OSHGui
 		Control::OnMouseDown(mouse);
 
 		Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
-		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding*/) - 1);
+		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Position - absoluteLocation + Drawing::Point(strWidth.Width - 7, 0)) - 1);
 	}
 	//---------------------------------------------------------------------------
 	bool TextBox::OnKeyPress(const KeyboardMessage &keyboard)
@@ -221,88 +221,6 @@ namespace OSHGui
 		textChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	/*bool TextBox::ProcessEvent(IEvent *event)
-	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
-
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-	
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*) event;
-			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-
-			if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position)) //ClientArea
-			{
-				if (mouse->State == MouseMessage::LeftDown)
-				{
-					if (!isFocused)
-					{
-						parent->RequestFocus(this);
-					}
-
-					Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
-					PlaceCaret(textHelper.GetClosestCharacterIndex(mouse->Position + Drawing::Point(strWidth.Width - 7, 0)/*textRect padding* /) - 1);
-
-					clickEvent.Invoke(this);
-
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-				}
-				else if (mouse->State == MouseMessage::Move)
-				{
-					MouseEventArgs args(mouse);
-					mouseMoveEvent.Invoke(this, args);
-				}
-				else if (mouse->State == MouseMessage::LeftUp)
-				{
-					MouseEventArgs args(mouse);
-					mouseClickEvent.Invoke(this, args);
-
-					args = MouseEventArgs(mouse);
-					mouseUpEvent.Invoke(this, args);
-				}
-				
-				return true;
-			}
-
-			mouse->Position = mousePositionBackup;
-		}
-		else if (event->Type == IEvent::Keyboard)
-		{
-			bool hasChanged = false;
-		
-			KeyboardMessage *keyboard = (KeyboardMessage*)event;
-
-			
-			else if (keyboard->State == KeyboardMessage::KeyDown)
-			{
-				
-			}
-			else if (keyboard->State == KeyboardMessage::KeyUp)
-			{
-				KeyEventArgs args(keyboard);
-				keyUpEvent.Invoke(this, args);
-			}
-			
-			if (hasChanged)
-			{
-				textChangedEvent.Invoke(this);
-			}
-			
-			return true;
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------*/
 	void TextBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
