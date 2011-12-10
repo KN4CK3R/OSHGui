@@ -186,6 +186,12 @@ namespace OSHGui
 		virtual CONTROL_TYPE GetType() const;
 		
 		/**
+		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
+		 *
+		 * @return isFocused
+		 */
+		virtual bool GetIsFocused() const;
+		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
 		 * @param isEnabled
