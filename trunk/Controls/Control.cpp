@@ -48,6 +48,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	bool Control::GetIsFocused() const
+	{
+		return isFocused;
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetEnabled(bool isEnabled)
 	{
 		this->isEnabled = isEnabled;

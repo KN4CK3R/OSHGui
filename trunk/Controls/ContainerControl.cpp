@@ -145,11 +145,11 @@ namespace OSHGui
 		for (std::list<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control *control = *it;
-			//if (control->isFocused)
+			if (control->GetIsFocused())
 			{
-				//focusedControl = control;
+				focusedControl = control;
 			}
-			//else
+			else
 			{
 				control->Render(renderer);
 			}
