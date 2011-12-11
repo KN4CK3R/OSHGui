@@ -8,7 +8,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabPage::TabPage()
-		: Panel()
 	{
 		type = CONTROL_TABPAGE;
 		

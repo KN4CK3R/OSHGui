@@ -1,46 +1,53 @@
 #ifndef OSHGUI_SCROLLBAR_HPP_
 #define OSHGUI_SCROLLBAR_HPP_
 
-#include "Control.hpp"
-
-#define SCROLLBAR_MIN_SLIDER_HEIGHT 25
-#define SCROLLBAR_DEFAULT_BOUNDS_WIDTH 14
-#define SCROLLBAR_DEFAULT_BUTTON_WIDTH 14
-#define SCROLLBAR_DEFAULT_BUTTON_HEIGHT 18
+#include "ContainerControl.hpp"
 
 namespace OSHGui
 {
 	/**
 	 * Implementiert die Basisfunktionen eines Schiebeleisten-Steuerelements.
 	 */
-	class OSHGUI_EXPORT ScrollBar : public Control
+	class OSHGUI_EXPORT ScrollBar : public ContainerControl
 	{
 	public:
+		using ContainerControl::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		ScrollBar(Control *parent);
+		ScrollBar();
 		
 		/**
-		 * Legt die Anzahl der scrollbaren Elemente fest.
+		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param range
+		 * @param size
 		 */
-		void SetRange(int range);
+		virtual void SetSize(const Drawing::Size &size);
 		/**
-		 * Ruft die Anzahl der scrollbaren Elemente ab.
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @return range
+		 * @param color
 		 */
-		int GetRange() const;
+		virtual void SetForeColor(const Drawing::Color &color);
 		/**
-		 * Gibt die aktuelle Position des ScrollButtons zurück.
+		 * Ruft den aktuellen Wert des Bildlauffelds ab.
 		 *
 		 * @return die Position
 		 */
-		int GetPosition() const;
+		int GetValue() const;
+		/**
+		 * Legt die Anzahl der scrollbaren Elemente fest.
+		 *
+		 * @param maximum
+		 */
+		void SetMaximum(int maximum);
+		/**
+		 * Ruft die Anzahl der scrollbaren Elemente ab.
+		 *
+		 * @return maximum
+		 */
+		int GetMaximum() const;
 		/**
 		 * Legt die Größe des sichtbaren Ausschnitts fest.
 		 *
@@ -53,14 +60,6 @@ namespace OSHGui
 		 * @return die Größe des sichtbaren Ausschnitts
 		 */
 		int GetPageSize();
-
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
 		
 		/**
 		 * Verschiebt den ScrollButton, damit er den Index anzeigt.
@@ -68,47 +67,40 @@ namespace OSHGui
 		 * @return false, falls die ScrollBar nicht aktiv ist
 		 */
 		bool ShowItem(int index);
-
 		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-
-		/**
-		 * Wandelt den Punkt in ClientKoordinaten um.
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
-		 * @return der neue Punkt
+		 * @return ja / nein
 		 */
-		virtual Drawing::Point PointToClient(const Drawing::Point &point);
-		
+		virtual bool Intersect(const Drawing::Point &point) const;
 		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
+		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual bool ProcessEvent(IEvent *event);
+		virtual void CalculateAbsoluteLocation();
+		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
-				
+	
 	protected:
+		virtual void OnMouseDown(const MouseMessage &mouse);
+		virtual void OnMouseUp(const MouseMessage &mouse);
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnMouseMove(const MouseMessage &mouse);
+
+	private:
+		static const int MinimumSliderHeight = 25;
+		static const int DefaultScrollBarWidth = 14;
+
+		void SetValueInternal(int value);
 		void Scroll(int delta);
 		void UpdateSliderRect();
 		void Capture();
-	
-		static const int scrollbarMinSliderHeight;
-		static const int scrollbarDefaultBoundsWidth;
-		static const int scrollbarDefaultButtonWidth;
-		static const int scrollbarDefaultButtonHeight;
-	
+		
 		int position,
 			range,
 			pageSize;
@@ -118,6 +110,66 @@ namespace OSHGui
 						   downButtonRect,
 						   trackRect,
 						   sliderRect;
+		///////////////////////////
+		int value;
+		int pixelsPerTick;
+		int maximum;
+
+		Drawing::Point trackLocation;
+		Drawing::Point trackAbsoluteLocation;
+		Drawing::Size trackSize;
+		Drawing::Point sliderLocation;
+		Drawing::Point sliderAbsoluteLocation;
+		Drawing::Size sliderSize;
+
+		ScrollEvent scrollEvent;
+
+		class ScrollBarButton : public Control
+		{
+		public:
+			using Control::SetSize;
+
+			static const Drawing::Size DefaultButtonSize;
+
+			ScrollBarButton(int direction);
+			
+			virtual void SetSize(const Drawing::Size &size);
+
+			virtual bool Intersect(const Drawing::Point &point) const;
+			virtual void CalculateAbsoluteLocation();
+
+			virtual void Render(Drawing::IRenderer *renderer);
+
+		private:
+			int direction;
+
+			Drawing::Point iconLocation;
+		};
+		ScrollBarButton *upButton;
+		ScrollBarButton *downButton;
+
+		/*class ScrollBarSliderTrack : public Control
+		{
+		public:
+			using Control::SetSize;
+
+			ScrollBarSliderTrack();
+
+			virtual bool Intersect(const Drawing::Point &point) const;
+
+		protected:
+			virtual void OnMouseDown(const MouseMessage &mouse);
+			virtual void OnMouseUp(const MouseMessage &mouse);
+			virtual void OnMouseClick(const MouseMessage &mouse);
+			virtual void OnMouseMove(const MouseMessage &mouse);
+
+		private:
+			Drawing::Point sliderLocation;
+			Drawing::Point sliderAbsoluteLocation;
+			Drawing::Size sliderSize;
+			int pixelsPerTick;
+			bool drag;
+		};*/
 	};
 }
 

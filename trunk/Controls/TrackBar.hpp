@@ -100,8 +100,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 
 	protected:
-		static const Drawing::Size TrackBarSliderSize;
-		static const Drawing::Size TrackBarSize;
+		static const Drawing::Size SliderSize;
+		static const Drawing::Size DefaultSize;
 		static const int DefaultTickOffset = 7;
 
 		virtual void SetValueInternal(int value);

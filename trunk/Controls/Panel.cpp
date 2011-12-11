@@ -11,7 +11,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Panel::Panel()
-		: ContainerControl()
 	{
 		type = CONTROL_PANEL;
 

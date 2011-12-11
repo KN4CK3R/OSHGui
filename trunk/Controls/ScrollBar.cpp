@@ -3,43 +3,90 @@
 
 namespace OSHGui
 {
-	const int ScrollBar::scrollbarMinSliderHeight = 25;
-	const int ScrollBar::scrollbarDefaultBoundsWidth = 14;
-	const int ScrollBar::scrollbarDefaultButtonWidth = 14;
-	const int ScrollBar::scrollbarDefaultButtonHeight = 18;
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ScrollBar::ScrollBar(Control *parent) : Control()
+	ScrollBar::ScrollBar()
 	{
 		type = CONTROL_SCROLLBAR;
 		
 		drag = false;
-		isVisible = false;
+		//isVisible = false;
 				
-		position = 0;
-		range = 1;
+		value = 0;
+		maximum = 1;
 		pageSize = 1;
 		
+		upButton = new ScrollBarButton(0);
+		upButton->GetClickEvent() += ClickEventHandler([this](Control *control)
+		{
+			if (value > 0)
+			{
+				SetValueInternal(value - 1);
+			}
+					
+			UpdateSliderRect();
+		});
+		AddSubControl(upButton);
+		downButton = new ScrollBarButton(1);
+		downButton->GetClickEvent() += ClickEventHandler([this](Control *control)
+		{
+			if (value < maximum)
+			{
+				SetValueInternal(value + 1);
+			}
+					
+			UpdateSliderRect();
+		});
+		AddSubControl(downButton);
+
+		trackLocation = Drawing::Point(0, upButton->GetBottom() + 1);
+
 		SetBackColor(Drawing::Color(0xFF585552));
 		SetForeColor(Drawing::Color(0xFFAFADAD));
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetRange(int range)
+	void ScrollBar::SetSize(const Drawing::Size &size)
 	{
-		this->range = range;
-		Capture();
-		UpdateSliderRect();
+		ContainerControl::SetSize(size);
+
+		upButton->SetSize(Drawing::Size(size.Width, upButton->GetHeight()));
+		downButton->SetSize(Drawing::Size(size.Width, downButton->GetHeight()));
+
+		downButton->SetLocation(0, size.Height - downButton->GetHeight());
+
+		trackSize = Drawing::Size(size.Width, size.Height - 2 - upButton->GetHeight() * 2);
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetRange() const
+	void ScrollBar::SetForeColor(const Drawing::Color &color)
 	{
-		return range;
+		ContainerControl::SetForeColor(color);
+
+		upButton->SetForeColor(color);
+		downButton->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
-	int ScrollBar::GetPosition() const
+	void ScrollBar::SetMaximum(int maximum)
+	{
+		this->maximum = maximum;
+
+		sliderSize.Height = (trackRect.GetHeight() - 2) * (pageSize / (float)maximum);
+		if (sliderSize.Height < MinimumSliderHeight)
+		{
+			sliderSize.Height = MinimumSliderHeight;
+		}
+
+		SetValueInternal(value);
+	}
+	//---------------------------------------------------------------------------
+	int ScrollBar::GetMaximum() const
+	{
+		return maximum;
+	}
+	//---------------------------------------------------------------------------
+	int ScrollBar::GetValue() const
 	{
 		return position;
 	}
@@ -58,12 +105,38 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ScrollBar::Intersect(const Drawing::Point &point) const
+	void ScrollBar::SetValueInternal(int value)
 	{
-		return bounds.Contains(point);
+		pixelsPerTick = (GetHeight() - sliderSize.Height) / maximum;
+
+		if (value < 0)
+		{
+			value = 0;
+		}
+		if (value > maximum)
+		{
+			value = maximum;
+		}
+		
+		if (this->value != value)
+		{
+			ScrollEventArgs args(value, this->value);
+
+			this->value = value;
+			
+			scrollEvent.Invoke(this, args);
+
+			sliderLocation.Top = value * pixelsPerTick;
+			sliderAbsoluteLocation.Top = absoluteLocation.Top + sliderLocation.Top;
+		}
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::Invalidate()
+	bool ScrollBar::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	/*void ScrollBar::Invalidate()
 	{
 		bounds = Drawing::Rectangle(parent->GetRight() - scrollbarDefaultBoundsWidth - 2, parent->GetTop(), scrollbarDefaultBoundsWidth, parent->GetHeight());
 
@@ -74,21 +147,21 @@ namespace OSHGui
 		
 		UpdateSliderRect();
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void ScrollBar::UpdateSliderRect()
 	{
-		if (range > pageSize)
+		if (maximum > pageSize)
 		{
-			int sliderHeight = (int)((trackRect.GetHeight() - 2) * (pageSize / (float)range));
-			if (sliderHeight < scrollbarMinSliderHeight)
+			int sliderHeight = (int)((trackRect.GetHeight() - 2) * (pageSize / (float)maximum));
+			if (sliderHeight < MinimumSliderHeight)
 			{
-				sliderHeight = scrollbarMinSliderHeight;
+				sliderHeight = MinimumSliderHeight;
 			}
 			
-			float positionPerPixel = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)range - pageSize);
+			float positionPerPixel = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)maximum - pageSize);
 			int yPos = (int)(trackRect.GetTop() + 1 + positionPerPixel * (position));
 			
-			sliderRect = Drawing::Rectangle(clientArea.GetLeft(), yPos, scrollbarDefaultButtonWidth, sliderHeight);
+			sliderRect = Drawing::Rectangle(absoluteLocation.Left, yPos, GetWidth(), sliderHeight);
 			
 			isVisible = true;
 		}
@@ -104,9 +177,9 @@ namespace OSHGui
 		{
 			position = 0;
 		}
-		else if (position > range - pageSize)
+		else if (position > maximum - pageSize)
 		{
-			position = range - pageSize;
+			position = maximum - pageSize;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -127,7 +200,7 @@ namespace OSHGui
 		}
 
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= range)
+		if (index < 0 || index >= maximum)
 		{
 			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
 		}
@@ -147,14 +220,74 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Point ScrollBar::PointToClient(const Drawing::Point &point)
+	void ScrollBar::CalculateAbsoluteLocation()
 	{
-		return Drawing::Point(point.Left - (bounds.GetLeft() - parent->GetLeft()), point.Top);
+		ContainerControl::CalculateAbsoluteLocation();
+
+		sliderAbsoluteLocation = absoluteLocation + sliderLocation;
+		trackAbsoluteLocation = absoluteLocation + trackLocation;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool ScrollBar::ProcessEvent(IEvent *event)
+	void ScrollBar::OnMouseDown(const MouseMessage &mouse)
+	{
+		Control::OnMouseDown(mouse);
+
+		if (Intersection::TestRectangle(sliderAbsoluteLocation, sliderSize, mouse.Position))
+		{
+			drag = true;
+			OnGotMouseCapture();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::OnMouseMove(const MouseMessage &mouse)
+	{
+		Control::OnMouseMove(mouse);
+
+		if (drag)
+		{
+			float positionPerPixel = (float)maximum / (trackSize.Height - 2 - sliderSize.Height);
+
+			int yPos = mouse.Position.Y - upButton->GetHeight() - sliderSize.Height / 2;
+			if (yPos < 0)
+			{
+				yPos = 0;
+			}
+			else if (yPos + sliderSize.Height + trackLocation.Top > downButton->GetTop())
+			{
+				yPos = downButton->GetTop() - sliderSize.Height - trackLocation.Top - 1;
+			}
+
+			SetValueInternal(yPos * positionPerPixel);
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::OnMouseUp(const MouseMessage &mouse)
+	{
+		Control::OnMouseUp(mouse);
+
+		if (drag)
+		{
+			drag = false;
+			OnLostMouseCapture();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::OnMouseClick(const MouseMessage &mouse)
+	{
+		Control::OnMouseClick(mouse);
+
+		if (!drag)
+		{
+			if (Intersection::TestRectangle(trackAbsoluteLocation, trackSize, mouse.Position))
+			{
+				value = value;
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	/*bool ScrollBar::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -173,31 +306,7 @@ namespace OSHGui
 			mouse->Position = PointToClient(mouse->Position);
 			
 			if (mouse->State == MouseMessage::LeftDown)
-			{
-				if (Drawing::Rectangle(0, 0, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight).Contains(mouse->Position)) //upButton
-				{
-					if (position > 0)
-					{
-						--position;
-					}
-					
-					UpdateSliderRect();
-					
-					return true;
-				}
-				
-				if (Drawing::Rectangle(0, clientArea.GetHeight() - scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight).Contains(mouse->Position)) //downButton
-				{
-					if (position < range - pageSize)
-					{
-						++position;
-					}
-					
-					UpdateSliderRect();
-					
-					return true;
-				}
-				
+			{				
 				if (Drawing::Rectangle(0, sliderRect.GetTop() - clientArea.GetTop(), scrollbarDefaultButtonWidth, sliderRect.GetHeight()).Contains(mouse->Position)) //sliderRect
 				{
 					drag = true;
@@ -275,7 +384,7 @@ namespace OSHGui
 		
 		return false;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void ScrollBar::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -283,14 +392,11 @@ namespace OSHGui
 			return;
 		}
 
-		renderer->SetRenderColor(foreColor);
-		for (int i = 0; i < 4; ++i)
-		{
-			//upButton
-			renderer->Fill(upButtonRect.GetLeft() + 7 - i, upButtonRect.GetTop() + 8 + i, 1 + i * 2, 1);
-			//downButton
-			renderer->Fill(downButtonRect.GetLeft() + 7 - i, downButtonRect.GetBottom() - 9 - i, 1 + i * 2, 1);
-		}
+		renderer->SetRenderColor(backColor);
+		renderer->Fill(absoluteLocation, size);
+
+		upButton->Render(renderer);
+		downButton->Render(renderer);
 
 		renderer->SetRenderColor(backColor);
 		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop() + 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2);
@@ -305,5 +411,63 @@ namespace OSHGui
 			renderer->Fill(sliderRect.GetLeft() + 5, sliderHalfHeight + i * 3, 5, 1);
 		}
 	}
+	//---------------------------------------------------------------------------
+	//ScrollBar::ScrollBarButton
+	//---------------------------------------------------------------------------
+	const Drawing::Size ScrollBar::ScrollBarButton::DefaultButtonSize(14, 14);
+	//---------------------------------------------------------------------------
+	ScrollBar::ScrollBarButton::ScrollBarButton(int direction)
+		: Control()
+	{
+		this->direction = direction;
+
+		SetLocation(0, 0);
+		SetSize(DefaultButtonSize);
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::ScrollBarButton::SetSize(const Drawing::Size &size)
+	{
+		Control::SetSize(size);
+
+		iconLocation = absoluteLocation + Drawing::Point(size.Width / 2, size.Height / 2);
+	}
+	//---------------------------------------------------------------------------
+	bool ScrollBar::ScrollBarButton::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::ScrollBarButton::CalculateAbsoluteLocation()
+	{
+		Control::CalculateAbsoluteLocation();
+
+		iconLocation = absoluteLocation + Drawing::Point(GetWidth() / 2, GetHeight() / 2);
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::ScrollBarButton::Render(Drawing::IRenderer *renderer)
+	{
+		renderer->SetRenderColor(isInside ? foreColor + Drawing::Color(0, 50, 50, 50) : foreColor);
+		if (direction == 0)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				renderer->Fill(iconLocation.Left - i, iconLocation.Top + i, 1 + i * 2, 1);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				renderer->Fill(iconLocation.Left - i, iconLocation.Top - i, 1 + i * 2, 1);
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	//ScrollBar::ScrollBarSliderTrack
+	//---------------------------------------------------------------------------
+	/*ScrollBar::ScrollBarSliderTrack::ScrollBarSliderTrack()
+	{
+
+	}*/
 	//---------------------------------------------------------------------------
 }

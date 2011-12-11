@@ -4,9 +4,13 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
+	const Drawing::Size ListBox::DefaultSize(120, 95);
+	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ListBox::ListBox() : Control(), scrollBar(this)
+	ListBox::ListBox()
 	{
 		type = CONTROL_LISTBOX;
 		
@@ -14,7 +18,7 @@ namespace OSHGui
 		firstVisibleItemIndex = 0;
 		drag = false;
 		
-		SetBounds(6, 6, 120, 95);
+		SetSize(DefaultSize);
 
 		SetBackColor(Drawing::Color(0xFF171614));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -23,6 +27,8 @@ namespace OSHGui
 	ListBox::~ListBox()
 	{
 		Clear();
+
+		delete scrollBar;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -59,34 +65,14 @@ namespace OSHGui
 		return selectedIndexChangedEvent;
 	}
 	//---------------------------------------------------------------------------
-	KeyDownEvent& ListBox::GetKeyDownEvent()
-	{
-		return keyDownEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyPressEvent& ListBox::GetKeyPressEvent()
-	{
-		return keyPressEvent;
-	}
-	//---------------------------------------------------------------------------
-	KeyUpEvent& ListBox::GetKeyUpEvent()
-	{
-		return keyUpEvent;
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool ListBox::CanHaveFocus() const
-	{
-		return isVisible && isEnabled;
-	}
 	//---------------------------------------------------------------------------
 	bool ListBox::Intersect(const Drawing::Point &point) const
 	{
-		return bounds.Contains(point);
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::Invalidate()
+	/*void ListBox::Invalidate()
 	{
 		clientArea = bounds;
 		
@@ -100,7 +86,7 @@ namespace OSHGui
 			firstVisibleItemIndex = scrollBar.GetPosition();
 		}
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void ListBox::AddItem(const Misc::AnsiString &text)
 	{
 		InsertItem(items.size() > 0 ? items.size() : 0, text);
@@ -110,7 +96,7 @@ namespace OSHGui
 	{
 		items.insert(items.begin() + index, text);
 
-		scrollBar.SetRange(items.size());
+		//scrollBar->SetRange(items.size());
 
 		Invalidate();
 	}
@@ -126,7 +112,7 @@ namespace OSHGui
 		
 		items.erase(items.begin() + index);
 
-		scrollBar.SetRange(items.size());
+		//scrollBar->SetRange(items.size());
 		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
@@ -141,7 +127,7 @@ namespace OSHGui
 	{
 		items.clear();
 		
-		scrollBar.SetRange(1);
+		//scrollBar->SetRange(1);
 		
 		selectedIndex = -1;
 
@@ -170,9 +156,9 @@ namespace OSHGui
 
 		if (oldSelectedIndex != selectedIndex)
 		{
-			if (scrollBar.ShowItem(selectedIndex))
+			if (scrollBar->ShowItem(selectedIndex))
 			{
-				firstVisibleItemIndex = scrollBar.GetPosition();
+				//firstVisibleItemIndex = scrollBar->GetPosition();
 			}
 			
 			selectedIndexChangedEvent.Invoke(this);
@@ -181,7 +167,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	bool ListBox::ProcessEvent(IEvent *event)
+	/*bool ListBox::ProcessEvent(IEvent *event)
 	{
 		if (event == 0)
 		{
@@ -393,7 +379,7 @@ namespace OSHGui
 		
 		return false;
 	}
-	//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------*/
 	void ListBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -423,7 +409,7 @@ namespace OSHGui
 			renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]);
 		}
 	
-		scrollBar.Render(renderer);
+		scrollBar->Render(renderer);
 
 		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
 		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());

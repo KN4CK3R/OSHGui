@@ -7,8 +7,7 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Label::Label()
-		: Control(),
-		  textHelper(font)
+		: textHelper(font)
 	{
 		type = CONTROL_LABEL;
 		

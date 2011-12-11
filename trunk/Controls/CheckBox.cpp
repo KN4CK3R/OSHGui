@@ -11,7 +11,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	CheckBox::CheckBox()
-		: Control()
 	{
 		type = CONTROL_CHECKBOX;
 		

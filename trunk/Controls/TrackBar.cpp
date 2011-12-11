@@ -6,13 +6,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size TrackBar::TrackBarSliderSize(8, 16);
-	const Drawing::Size TrackBar::TrackBarSize(110, TrackBar::TrackBarSliderSize.Height + 2);
+	const Drawing::Size TrackBar::SliderSize(8, 16);
+	const Drawing::Size TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	TrackBar::TrackBar()
-		: Control()
 	{
 		type = CONTROL_TRACKBAR;
 		
@@ -22,9 +21,9 @@ namespace OSHGui
 		maximum = 10;
 		tickFrequency = 1;
 
-		sliderLocation = Drawing::Point(-TrackBarSliderSize.Width / 2, 1);
+		sliderLocation = Drawing::Point(-SliderSize.Width / 2, 1);
 
-		SetSize(TrackBarSize);
+		SetSize(DefaultSize);
 
 		SetValueInternal(0);
 
@@ -41,9 +40,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetSize(const Drawing::Size &size)
 	{
-		if (size.Height < TrackBarSliderSize.Height + 2)
+		if (size.Height < SliderSize.Height + 2)
 		{
-			Control::SetSize(Drawing::Size(size.Width, TrackBarSliderSize.Height + 2));
+			Control::SetSize(Drawing::Size(size.Width, SliderSize.Height + 2));
 		}
 		else
 		{
@@ -113,7 +112,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
-		pixelsPerTick = (GetWidth() - TrackBarSliderSize.Width) / ((maximum - minimum) / tickFrequency);
+		pixelsPerTick = (GetWidth() - SliderSize.Width) / ((maximum - minimum) / tickFrequency);
 
 		if (value < 0)
 		{
@@ -149,7 +148,7 @@ namespace OSHGui
 	{
 		Control::OnMouseDown(mouse);
 
-		if (Intersection::TestRectangle(sliderAbsoluteLocation, TrackBarSliderSize, mouse.Position))
+		if (Intersection::TestRectangle(sliderAbsoluteLocation, SliderSize, mouse.Position))
 		{
 			drag = true;
 			OnGotMouseCapture();
@@ -239,13 +238,13 @@ namespace OSHGui
 		
 		for (int i = 0; i < tickCount; ++i)
 		{
-			int x = absoluteLocation.Left + TrackBarSliderSize.Width / 2 + i * pixelsPerTick;
+			int x = absoluteLocation.Left + SliderSize.Width / 2 + i * pixelsPerTick;
             int y = absoluteLocation.Top + DefaultTickOffset;
 			renderer->Fill(x, y, 1, 5);
 		}
 
 		renderer->SetRenderColor(foreColor);
-		renderer->Fill(sliderAbsoluteLocation, TrackBarSliderSize);
+		renderer->Fill(sliderAbsoluteLocation, SliderSize);
 	}
 	//---------------------------------------------------------------------------
 }

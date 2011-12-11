@@ -6,7 +6,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	ComboBox::ComboBox(Control *parent) : Button(), scrollBar(this), textHelper(font)
+	ComboBox::ComboBox(Control *parent) : Button(), scrollBar(), textHelper(font)
 	{
 		type = CONTROL_COMBOBOX;
 		
@@ -122,7 +122,7 @@ namespace OSHGui
 	{
 		items.insert(items.begin() + index, text);
 
-		scrollBar.SetRange(items.size());
+		//scrollBar.SetRange(items.size());
 
 		if (GetItemsCount() == 1)
 		{
@@ -148,7 +148,7 @@ namespace OSHGui
 		
 		items.erase(items.begin() + index);
 		
-		scrollBar.SetRange(items.size());
+		//scrollBar.SetRange(items.size());
 		
 		if (selectedIndex >= (int)items.size())
 		{
@@ -164,7 +164,7 @@ namespace OSHGui
 	{
 		items.clear();
 		
-		scrollBar.SetRange(1);
+		//scrollBar.SetRange(1);
 		
 		selectedIndex = -1;
 		firstVisibleItemIndex = 0;
@@ -295,7 +295,7 @@ namespace OSHGui
 				mouse->Position.Y -= clientArea.GetHeight();
 				if (scrollBar.ProcessEvent(event) == true)
 				{
-					firstVisibleItemIndex = scrollBar.GetPosition();
+					//firstVisibleItemIndex = scrollBar.GetPosition();
 
 					return true;
 				}
@@ -446,7 +446,7 @@ namespace OSHGui
 							{
 								if (scrollBar.ShowItem(mouseOverItemIndex))
 								{
-									firstVisibleItemIndex = scrollBar.GetPosition();
+									//firstVisibleItemIndex = scrollBar.GetPosition();
 								}
 							}
 							break;

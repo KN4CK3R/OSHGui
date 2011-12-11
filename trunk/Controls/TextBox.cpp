@@ -3,12 +3,16 @@
 
 namespace OSHGui
 {
+	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
 	const Drawing::Size TextBox::DefaultSize(100, 24);
 	const Drawing::Point TextBox::DefaultTextOffset(7, 5);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	TextBox::TextBox() : Control(), textHelper(font)
+	TextBox::TextBox()
+		: textHelper(font)
 	{
 		type = CONTROL_TEXTBOX;
 

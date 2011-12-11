@@ -9,12 +9,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	Timer::Timer(Control *parent) : Control()
+	Timer::Timer()
 	{
 		type = CONTROL_TIMER;
 
 		isEnabled = false;
-		interval = 100L;
+		interval = 100LL;
 	}
 	//---------------------------------------------------------------------------
 	Timer::~Timer()
@@ -37,16 +37,11 @@ namespace OSHGui
 				Application::Instance()->timerManager.UnregisterTimer(this);
 			}
 			
-			this->isEnabled = isEnabled;
+			Control::SetEnabled(isEnabled);
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool Timer::GetEnabled() const
-	{
-		return isEnabled;
-	}
-	//---------------------------------------------------------------------------
-	void Timer::SetInterval(long interval)
+	void Timer::SetInterval(long long interval)
 	{
 		if (this->interval != interval)
 		{
@@ -68,7 +63,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	long Timer::GetInterval() const
+	long long Timer::GetInterval() const
 	{
 		return interval;
 	}

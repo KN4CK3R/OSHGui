@@ -14,7 +14,10 @@ namespace OSHGui
 		friend Application;
 
 	public:
-		Timer(Control *parent);
+		/**
+		 * Konstruktor der Klasse.
+		 */
+		Timer();
 		~Timer();
 		
 		/**
@@ -22,25 +25,19 @@ namespace OSHGui
 		 *
 		 * @param isEnabled
 		 */
-		void SetEnabled(bool isEnabled);
-		/**
-		 * Ruft ab, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
-		 *
-		 * @return isEnabled
-		 */
-		bool GetEnabled() const;
+		virtual void SetEnabled(bool isEnabled);
 		/**
 		 * Legt die Frequenz des Timers in Millisekunden fest.
 		 *
 		 * @param interval die Frequenz in Millisekunden
 		 */
-		void SetInterval(long interval);
+		void SetInterval(long long interval);
 		/**
 		 * Ruft die Frequenz des Timers in Millisekunden ab.
 		 *
 		 * @return interval
 		 */
-		long GetInterval() const;
+		long long GetInterval() const;
 		/**
 		 * Ruft das TickEvent für das Steuerelement ab.
 		 *
@@ -57,9 +54,8 @@ namespace OSHGui
 		 */
 		void Stop();
 
-	protected:
-		bool isEnabled;
-		long interval;
+	private:
+		long long interval;
 
 		TickEvent tickEvent;
 	};

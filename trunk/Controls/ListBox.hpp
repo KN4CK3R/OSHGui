@@ -1,7 +1,6 @@
 #ifndef OSHGUI_LISTBOX_HPP_
 #define OSHGUI_LISTBOX_HPP_
 
-#include <vector>
 #include "Control.hpp"
 #include "ScrollBar.hpp"
 
@@ -50,31 +49,7 @@ namespace OSHGui
 		 * @return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
-		/**
-		 * Ruft das KeyDownEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyDownEvent& GetKeyDownEvent();
-		/**
-		 * Ruft das KeyPressEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyPressEvent& GetKeyPressEvent();
-		/**
-		 * Ruft das KeyUpEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyUpEvent& GetKeyUpEvent();
-		
-		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
+
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
@@ -112,22 +87,7 @@ namespace OSHGui
 		 * @param index
 		 */
 		void SelectItem(int index);
-		
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
 
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -135,8 +95,10 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 	
-	protected:
-		ScrollBar scrollBar;
+	private:
+		static const Drawing::Size DefaultSize;
+
+		ScrollBar *scrollBar;
 		
 		int selectedIndex,
 			firstVisibleItemIndex;

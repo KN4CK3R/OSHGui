@@ -12,7 +12,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ColorBar::ColorBar()
-		: Control()
 	{
 		type = CONTROL_COLORBAR;
 		

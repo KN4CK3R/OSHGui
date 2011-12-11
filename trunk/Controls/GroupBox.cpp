@@ -8,7 +8,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	GroupBox::GroupBox()
-		: Panel()
 	{
 		type = CONTROL_GROUPBOX;
 
