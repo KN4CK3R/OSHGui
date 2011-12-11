@@ -8,7 +8,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	RadioButton::RadioButton()
-		: CheckBox()
 	{
 		type = CONTROL_RADIOBUTTON;
 

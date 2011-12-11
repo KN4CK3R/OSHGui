@@ -6,7 +6,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ContainerControl::ContainerControl()
-		: Control()
 	{
 
 	}

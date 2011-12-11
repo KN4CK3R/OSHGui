@@ -12,7 +12,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Button::Button()
-		: Control()
 	{
 		type = CONTROL_BUTTON;
 

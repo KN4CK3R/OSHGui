@@ -22,6 +22,7 @@
 #include "../Event/KeyEventArgs.hpp"
 #include "../Event/KeyPressEventArgs.hpp"
 #include "../Event/MouseEventArgs.hpp"
+#include "../Event/ScrollEventArgs.hpp"
 
 #include "../Cursor/Cursors.hpp"
 
@@ -89,6 +90,11 @@ namespace OSHGui
 	 */
 	typedef Event<void(Control*)> ValueChangedEvent;
 	typedef EventHandler<void(Control*)> ValueChangedEventHandler;
+	/**
+	 * Tritt auf, wenn der ScrollBalken verschoben wird.
+	 */
+	typedef Event<void(Control*, ScrollEventArgs&)> ScrollEvent;
+	typedef EventHandler<void(Control*, ScrollEventArgs&)> ScrollEventHandler;
 	/**
 	 * Tritt ein, wenn die Location-Eigenschaft geändert wird.
 	 */

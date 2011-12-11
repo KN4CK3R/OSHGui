@@ -11,7 +11,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ColorPicker::ColorPicker()
-		: Control()
 	{
 		type = CONTROL_COLORPICKER;
 		

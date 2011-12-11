@@ -15,7 +15,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Form::Form()
-		: Panel()
 	{
 		parent = this;
 

@@ -14,7 +14,6 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabControl::TabControl()
-		: ContainerControl()
 	{
 		type = CONTROL_TABCONTROL;
 
