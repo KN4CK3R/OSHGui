@@ -16,8 +16,13 @@ namespace OSHGui
 		
 		selectedIndex = 0;
 		firstVisibleItemIndex = 0;
-		drag = false;
 		
+		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
+
+		scrollBar = new ScrollBar();
+		scrollBar->SetVisible(false);
+		AddSubControl(scrollBar);
+
 		SetSize(DefaultSize);
 
 		SetBackColor(Drawing::Color(0xFF171614));
@@ -27,11 +32,32 @@ namespace OSHGui
 	ListBox::~ListBox()
 	{
 		Clear();
-
-		delete scrollBar;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void ListBox::SetSize(const Drawing::Size &size)
+	{
+		ContainerControl::SetSize(size);
+
+		itemAreaSize = size.InflateEx(-8, -8);
+		if (scrollBar->GetVisible())
+		{
+			itemAreaSize.Width -= scrollBar->GetWidth();
+		}
+
+		maxVisibleItems = itemAreaSize.Height / (font->GetSize() + 2);
+
+		scrollBar->SetLocation(size.Width - scrollBar->GetWidth(), 0);
+		scrollBar->SetSize(scrollBar->GetWidth(), size.Height);
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	{
+		ContainerControl::SetFont(font);
+
+		maxVisibleItems = itemAreaSize.Height / (font->GetSize() + 2);
+	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ListBox::GetItem(int index) const
 	{
@@ -96,7 +122,20 @@ namespace OSHGui
 	{
 		items.insert(items.begin() + index, text);
 
-		//scrollBar->SetRange(items.size());
+		if (items.size() * (font->GetSize() + 2) > itemAreaSize.Height)
+		{
+			if (!scrollBar->GetVisible())
+			{
+				itemAreaSize.Width -= scrollBar->GetWidth();
+			}
+			scrollBar->SetMaximum(items.size());
+			scrollBar->SetVisible(true);
+		}
+		else if (scrollBar->GetVisible())
+		{
+			scrollBar->SetVisible(false);
+			itemAreaSize.Width += scrollBar->GetWidth();
+		}
 
 		Invalidate();
 	}
@@ -112,7 +151,7 @@ namespace OSHGui
 		
 		items.erase(items.begin() + index);
 
-		//scrollBar->SetRange(items.size());
+		scrollBar->SetMaximum(items.size());
 		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
@@ -127,7 +166,7 @@ namespace OSHGui
 	{
 		items.clear();
 		
-		//scrollBar->SetRange(1);
+		scrollBar->SetMaximum(1);
 		
 		selectedIndex = -1;
 
@@ -156,7 +195,9 @@ namespace OSHGui
 
 		if (oldSelectedIndex != selectedIndex)
 		{
-			if (scrollBar->ShowItem(selectedIndex))
+			scrollBar->SetValue(selectedIndex);
+			//if (selectedIndex > firstVisibleItemIndex
+			//if (scrollBar->ShowItem(selectedIndex))
 			{
 				//firstVisibleItemIndex = scrollBar->GetPosition();
 			}
@@ -388,25 +429,28 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(clientArea);
+		renderer->Fill(absoluteLocation, size);
 		
 		renderer->SetRenderColor(backColor + Drawing::Color(0, 54, 53, 52));
-		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetTop(), clientArea.GetWidth() - 2, 1);
-		renderer->Fill(clientArea.GetLeft(), clientArea.GetTop() + 1, 1, clientArea.GetHeight() - 2);
-		renderer->Fill(clientArea.GetRight() - 1, clientArea.GetTop() + 1, 1, clientArea.GetHeight() - 2);
-		renderer->Fill(clientArea.GetLeft() + 1, clientArea.GetBottom() - 1, clientArea.GetWidth() - 2, 1);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, size.Width - 2, 1);
+		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, 1, size.Height - 2);
+		renderer->Fill(absoluteLocation.Left + size.Width - 1, absoluteLocation.Top + 1, 1, size.Height - 2);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + size.Height - 1, size.Width - 2, 1);
 
 		renderer->SetRenderColor(foreColor);
-		for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i + firstVisibleItemIndex < items.size(); ++i)
+		int itemX = absoluteLocation.Left + 4;
+		int itemY = absoluteLocation.Top + 4;
+		int padding = font->GetSize() + 2;
+		for (unsigned int i = 0; (int)i < maxVisibleItems && i + firstVisibleItemIndex < items.size(); ++i)
 		{
 			if (firstVisibleItemIndex + i == selectedIndex)
 			{
 				renderer->SetRenderColor(Drawing::Color::Black());
-				renderer->Fill(itemsRect.GetLeft() - 1, itemsRect.GetTop() + i * (font->GetSize() + 2) - 1, itemsRect.GetWidth() + 2, font->GetSize() + 4);
+				renderer->Fill(itemX - 1, itemY + i * padding - 1, itemAreaSize.Width + 2, padding + 2);
 				renderer->SetRenderColor(foreColor);
 			}
 
-			renderer->RenderText(font, itemsRect.GetLeft(), itemsRect.GetTop() + i * (font->GetSize() + 2), itemsRect.GetWidth(), font->GetSize() + 2, items[firstVisibleItemIndex + i]);
+			renderer->RenderText(font, itemX, itemY + i * padding, itemAreaSize.Width, padding, items[firstVisibleItemIndex + i]);
 		}
 	
 		scrollBar->Render(renderer);
