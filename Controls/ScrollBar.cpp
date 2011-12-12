@@ -11,11 +11,8 @@ namespace OSHGui
 		type = CONTROL_SCROLLBAR;
 		
 		drag = false;
-		//isVisible = false;
 				
 		value = 0;
-		maximum = 1;
-		pageSize = 1;
 		
 		upButton = new ScrollBarButton(0);
 		upButton->GetClickEvent() += ClickEventHandler([this](Control *control)
@@ -24,8 +21,6 @@ namespace OSHGui
 			{
 				SetValueInternal(value - 1);
 			}
-					
-			UpdateSliderRect();
 		});
 		AddSubControl(upButton);
 		downButton = new ScrollBarButton(1);
@@ -35,8 +30,6 @@ namespace OSHGui
 			{
 				SetValueInternal(value + 1);
 			}
-					
-			UpdateSliderRect();
 		});
 		AddSubControl(downButton);
 
@@ -44,6 +37,8 @@ namespace OSHGui
 
 		SetBackColor(Drawing::Color(0xFF585552));
 		SetForeColor(Drawing::Color(0xFFAFADAD));
+
+		SetMaximum(0); //indirect init
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -58,6 +53,15 @@ namespace OSHGui
 		downButton->SetLocation(0, size.Height - downButton->GetHeight());
 
 		trackSize = Drawing::Size(size.Width, size.Height - 2 - upButton->GetHeight() * 2);
+
+		sliderSize.Width = size.Width;
+		sliderSize.Height = trackSize.Height / (maximum + 1);
+		if (sliderSize.Height < MinimumSliderHeight)
+		{
+			sliderSize.Height = MinimumSliderHeight;
+		}
+
+		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetForeColor(const Drawing::Color &color)
@@ -70,9 +74,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetMaximum(int maximum)
 	{
+		if (maximum < 0)
+		{
+			#ifndef OSHGUI_DONTUSEEXCEPTIONS
+			throw Misc::ArgumentOutOfRangeException("maximum", __FILE__, __LINE__);
+			#endif
+			return;
+		}
+
 		this->maximum = maximum;
 
-		sliderSize.Height = (trackRect.GetHeight() - 2) * (pageSize / (float)maximum);
+		sliderSize.Height = trackSize.Height / (maximum + 1);
 		if (sliderSize.Height < MinimumSliderHeight)
 		{
 			sliderSize.Height = MinimumSliderHeight;
@@ -107,7 +119,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetValueInternal(int value)
 	{
-		pixelsPerTick = (GetHeight() - sliderSize.Height) / maximum;
+		pixelsPerTick = (trackSize.Height - sliderSize.Height) / (maximum > 0 ? maximum : 1);
 
 		if (value < 0)
 		{
@@ -125,10 +137,10 @@ namespace OSHGui
 			this->value = value;
 			
 			scrollEvent.Invoke(this, args);
-
-			sliderLocation.Top = value * pixelsPerTick;
-			sliderAbsoluteLocation.Top = absoluteLocation.Top + sliderLocation.Top;
 		}
+
+		sliderLocation.Top = trackLocation.Top + value * pixelsPerTick;
+		sliderAbsoluteLocation.Top = absoluteLocation.Top + sliderLocation.Top;
 	}
 	//---------------------------------------------------------------------------
 	bool ScrollBar::Intersect(const Drawing::Point &point) const
@@ -152,16 +164,10 @@ namespace OSHGui
 	{
 		if (maximum > pageSize)
 		{
-			int sliderHeight = (int)((trackRect.GetHeight() - 2) * (pageSize / (float)maximum));
-			if (sliderHeight < MinimumSliderHeight)
-			{
-				sliderHeight = MinimumSliderHeight;
-			}
-			
-			float positionPerPixel = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)maximum - pageSize);
+			float positionPerPixel;// = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)maximum - pageSize);
 			int yPos = (int)(trackRect.GetTop() + 1 + positionPerPixel * (position));
 			
-			sliderRect = Drawing::Rectangle(absoluteLocation.Left, yPos, GetWidth(), sliderHeight);
+			//sliderRect = Drawing::Rectangle(absoluteLocation.Left, yPos, GetWidth(), sliderHeight);
 			
 			isVisible = true;
 		}
@@ -247,19 +253,22 @@ namespace OSHGui
 
 		if (drag)
 		{
-			float positionPerPixel = (float)maximum / (trackSize.Height - 2 - sliderSize.Height);
-
-			int yPos = mouse.Position.Y - upButton->GetHeight() - sliderSize.Height / 2;
-			if (yPos < 0)
+			if (maximum > 1)
 			{
-				yPos = 0;
-			}
-			else if (yPos + sliderSize.Height + trackLocation.Top > downButton->GetTop())
-			{
-				yPos = downButton->GetTop() - sliderSize.Height - trackLocation.Top - 1;
-			}
+				float valuePerPixel = (float)maximum / (trackSize.Height - sliderSize.Height);
 
-			SetValueInternal(yPos * positionPerPixel);
+				int yPos = mouse.Position.Y - trackAbsoluteLocation.Top - sliderSize.Height / 2;
+				if (yPos < 0)
+				{
+					yPos = 0;
+				}
+				else if (yPos + sliderSize.Height + trackLocation.Top > trackSize.Height)
+				{
+					yPos = trackSize.Height - sliderSize.Height;
+				}
+
+				SetValueInternal(yPos * valuePerPixel + 0.5f);
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -392,23 +401,24 @@ namespace OSHGui
 			return;
 		}
 
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(absoluteLocation, size);
+		//renderer->SetRenderColor(backColor);
+		//renderer->Fill(absoluteLocation, size);
 
 		upButton->Render(renderer);
 		downButton->Render(renderer);
 
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop() + 1, sliderRect.GetWidth() - 2, sliderRect.GetHeight() - 2);
-		renderer->Fill(sliderRect.GetRight() - 1, sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
-		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetBottom() - 1, sliderRect.GetWidth() - 2, 1);
-		renderer->Fill(sliderRect.GetLeft(), sliderRect.GetTop() + 1, 1, sliderRect.GetHeight() - 2);
-		renderer->Fill(sliderRect.GetLeft() + 1, sliderRect.GetTop(), sliderRect.GetWidth() - 2, 1);
-		renderer->SetRenderColor(foreColor);
-		int sliderHalfHeight = sliderRect.GetTop() + sliderRect.GetHeight() / 2 - 3;
+		renderer->Fill(sliderAbsoluteLocation.Left + 1, sliderAbsoluteLocation.Top + 1, sliderSize.Width - 2, sliderSize.Height - 2);
+		renderer->Fill(sliderAbsoluteLocation.Left + sliderSize.Width - 1, sliderAbsoluteLocation.Top + 1, 1, sliderSize.Height - 2);
+		renderer->Fill(sliderAbsoluteLocation.Left + 1, sliderAbsoluteLocation.Top + sliderSize.Height - 1, sliderSize.Width - 2, 1);
+		renderer->Fill(sliderAbsoluteLocation.Left, sliderAbsoluteLocation.Top + 1, 1, sliderSize.Height - 2);
+		renderer->Fill(sliderAbsoluteLocation.Left + 1, sliderAbsoluteLocation.Top, sliderSize.Width - 2, 1);
+		renderer->SetRenderColor(isInside ? foreColor + Drawing::Color(0, 50, 50, 50) : foreColor);
+		int sliderHalfHeight = sliderAbsoluteLocation.Top + sliderSize.Height / 2 - 3;
+		int sliderLeftPos = sliderAbsoluteLocation.Left + 5;
 		for (int i = 0; i < 3; ++i)
 		{
-			renderer->Fill(sliderRect.GetLeft() + 5, sliderHalfHeight + i * 3, 5, 1);
+			renderer->Fill(sliderLeftPos, sliderHalfHeight + i * 3, 5, 1);
 		}
 	}
 	//---------------------------------------------------------------------------
