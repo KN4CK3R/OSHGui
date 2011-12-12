@@ -54,25 +54,7 @@ namespace OSHGui
 		 * @return maximum
 		 */
 		int GetMaximum() const;
-		/**
-		 * Legt die Größe des sichtbaren Ausschnitts fest.
-		 *
-		 * @param pageSize
-		 */
-		void SetPageSize(int pageSize);
-		/**
-		 * Gibt die Größe des sichtbaren Ausschnitts zurück.
-		 *
-		 * @return die Größe des sichtbaren Ausschnitts
-		 */
-		int GetPageSize();
-		
-		/**
-		 * Verschiebt den ScrollButton, damit er den Index anzeigt.
-		 *
-		 * @return false, falls die ScrollBar nicht aktiv ist
-		 */
-		bool ShowItem(int index);
+
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
@@ -100,25 +82,14 @@ namespace OSHGui
 
 	private:
 		static const int MinimumSliderHeight = 25;
-		static const int DefaultScrollBarWidth = 14;
+		static const Drawing::Size DefaultSize;
 
 		void SetValueInternal(int value);
-		void Scroll(int delta);
-		void UpdateSliderRect();
-		void Capture();
-		
-		int position,
-			range,
-			pageSize;
+
 		bool drag;
-		
-		Drawing::Rectangle upButtonRect,
-						   downButtonRect,
-						   trackRect,
-						   sliderRect;
 		///////////////////////////
 		int value;
-		int pixelsPerTick;
+		float pixelsPerTick;
 		int maximum;
 
 		Drawing::Point trackLocation;
@@ -153,29 +124,6 @@ namespace OSHGui
 		};
 		ScrollBarButton *upButton;
 		ScrollBarButton *downButton;
-
-		/*class ScrollBarSliderTrack : public Control
-		{
-		public:
-			using Control::SetSize;
-
-			ScrollBarSliderTrack();
-
-			virtual bool Intersect(const Drawing::Point &point) const;
-
-		protected:
-			virtual void OnMouseDown(const MouseMessage &mouse);
-			virtual void OnMouseUp(const MouseMessage &mouse);
-			virtual void OnMouseClick(const MouseMessage &mouse);
-			virtual void OnMouseMove(const MouseMessage &mouse);
-
-		private:
-			Drawing::Point sliderLocation;
-			Drawing::Point sliderAbsoluteLocation;
-			Drawing::Size sliderSize;
-			int pixelsPerTick;
-			bool drag;
-		};*/
 	};
 }
 

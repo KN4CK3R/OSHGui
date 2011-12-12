@@ -227,10 +227,10 @@ namespace OSHGui
 
 		itemsRect = Drawing::Rectangle(dropDownRect.GetLeft() + 4, dropDownRect.GetTop() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8);
 		
-		scrollBar.SetPageSize(COMBOBOX_MAX_HEIGHT / (font->GetSize() + 2));
+		//scrollBar.SetPageSize(COMBOBOX_MAX_HEIGHT / (font->GetSize() + 2));
 		//if (items.size() > 0)
 		{
-			scrollBar.ShowItem(selectedIndex);
+			//scrollBar.ShowItem(selectedIndex);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -426,10 +426,10 @@ namespace OSHGui
 									mouseOverItemIndex = items.size() - 1;
 									break;
 								case Key::PageUp:
-									mouseOverItemIndex += scrollBar.GetPageSize() - 1;
+									//mouseOverItemIndex += scrollBar.GetPageSize() - 1;
 									break;
 								case Key::PageDown:
-									mouseOverItemIndex -= scrollBar.GetPageSize() - 1;
+									//mouseOverItemIndex -= scrollBar.GetPageSize() - 1;
 									break;
 							}
 
@@ -444,7 +444,7 @@ namespace OSHGui
 
 							if (oldMouseOverItemIndex != mouseOverItemIndex)
 							{
-								if (scrollBar.ShowItem(mouseOverItemIndex))
+								//if (scrollBar.ShowItem(mouseOverItemIndex))
 								{
 									//firstVisibleItemIndex = scrollBar.GetPosition();
 								}
@@ -520,7 +520,7 @@ namespace OSHGui
 					{
 						selectedIndex = foundIndex;
 						
-						scrollBar.ShowItem(selectedIndex);
+						//scrollBar.ShowItem(selectedIndex);
 						
 						textHelper.SetText(GetSelectedItem());
 						

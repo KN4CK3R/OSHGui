@@ -4,6 +4,10 @@
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
+	//static attributes
+	//---------------------------------------------------------------------------
+	const Drawing::Size ScrollBar::DefaultSize(14, 110);
+	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	ScrollBar::ScrollBar()
@@ -33,6 +37,7 @@ namespace OSHGui
 		});
 		AddSubControl(downButton);
 
+		SetSize(DefaultSize);
 		trackLocation = Drawing::Point(0, upButton->GetBottom() + 1);
 
 		SetBackColor(Drawing::Color(0xFF585552));
@@ -90,7 +95,7 @@ namespace OSHGui
 			sliderSize.Height = MinimumSliderHeight;
 		}
 
-		SetValueInternal(value);
+		SetValueInternal(value > maximum ? maximum : value);
 	}
 	//---------------------------------------------------------------------------
 	int ScrollBar::GetMaximum() const
@@ -98,28 +103,28 @@ namespace OSHGui
 		return maximum;
 	}
 	//---------------------------------------------------------------------------
+	void ScrollBar::SetValue(int value)
+	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (value < 0 || value > maximum)
+		{
+			throw Misc::ArgumentOutOfRangeException("value", __FILE__, __LINE__);
+		}
+		#endif
+
+		SetValueInternal(value);
+	}
+	//---------------------------------------------------------------------------
 	int ScrollBar::GetValue() const
 	{
-		return position;
-	}
-	//---------------------------------------------------------------------------
-	void ScrollBar::SetPageSize(int pageSize)
-	{
-		this->pageSize = pageSize;
-		Capture();
-		UpdateSliderRect();
-	}
-	//---------------------------------------------------------------------------
-	int ScrollBar::GetPageSize()
-	{
-		return pageSize;
+		return value;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetValueInternal(int value)
 	{
-		pixelsPerTick = (trackSize.Height - sliderSize.Height) / (maximum > 0 ? maximum : 1);
+		pixelsPerTick = (trackSize.Height - sliderSize.Height) / (maximum > 0 ? (float)maximum : 1.0f);
 
 		if (value < 0)
 		{
@@ -146,84 +151,6 @@ namespace OSHGui
 	bool ScrollBar::Intersect(const Drawing::Point &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
-	//---------------------------------------------------------------------------
-	/*void ScrollBar::Invalidate()
-	{
-		bounds = Drawing::Rectangle(parent->GetRight() - scrollbarDefaultBoundsWidth - 2, parent->GetTop(), scrollbarDefaultBoundsWidth, parent->GetHeight());
-
-		clientArea = bounds;
-		trackRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, clientArea.GetHeight() - scrollbarDefaultButtonHeight * 2);
-		upButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop(), scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight);
-		downButtonRect = Drawing::Rectangle(clientArea.GetLeft(), clientArea.GetTop() + clientArea.GetHeight() - scrollbarDefaultButtonHeight, scrollbarDefaultButtonWidth, scrollbarDefaultButtonHeight);
-		
-		UpdateSliderRect();
-	}
-	//---------------------------------------------------------------------------*/
-	void ScrollBar::UpdateSliderRect()
-	{
-		if (maximum > pageSize)
-		{
-			float positionPerPixel;// = (trackRect.GetHeight() - 2 - sliderHeight) / ((float)maximum - pageSize);
-			int yPos = (int)(trackRect.GetTop() + 1 + positionPerPixel * (position));
-			
-			//sliderRect = Drawing::Rectangle(absoluteLocation.Left, yPos, GetWidth(), sliderHeight);
-			
-			isVisible = true;
-		}
-		else
-		{
-			isVisible = false;
-		}
-	}
-	//---------------------------------------------------------------------------
-	void ScrollBar::Capture()
-	{
-		if (position < 0)
-		{
-			position = 0;
-		}
-		else if (position > maximum - pageSize)
-		{
-			position = maximum - pageSize;
-		}
-	}
-	//---------------------------------------------------------------------------
-	void ScrollBar::Scroll(int delta)
-	{
-		position += delta;
-
-		Capture();
-
-		UpdateSliderRect();
-	}
-	//---------------------------------------------------------------------------
-	bool ScrollBar::ShowItem(int index)
-	{
-		if (!isVisible)
-		{
-			return false;
-		}
-
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= maximum)
-		{
-			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
-		}
-		#endif
-
-		if (position > index)
-		{
-			position = index;
-		}
-		else if (position + pageSize <= index)
-		{
-			position = index - pageSize + 1;
-		}
-
-		UpdateSliderRect();
-
-		return true;
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::CalculateAbsoluteLocation()
@@ -400,9 +327,6 @@ namespace OSHGui
 		{
 			return;
 		}
-
-		//renderer->SetRenderColor(backColor);
-		//renderer->Fill(absoluteLocation, size);
 
 		upButton->Render(renderer);
 		downButton->Render(renderer);
