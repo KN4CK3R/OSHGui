@@ -31,6 +31,12 @@ namespace OSHGui
 		 */
 		virtual void SetForeColor(const Drawing::Color &color);
 		/**
+		 * Legt den aktuellen Wert des Bildlauffelds fets.
+		 *
+		 * @param value
+		 */
+		void SetValue(int value);
+		/**
 		 * Ruft den aktuellen Wert des Bildlauffelds ab.
 		 *
 		 * @return die Position
