@@ -120,6 +120,11 @@ namespace OSHGui
 		return value;
 	}
 	//---------------------------------------------------------------------------
+	ScrollEvent& ScrollBar::GetScrollEvent()
+	{
+		return scrollEvent;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetValueInternal(int value)
@@ -214,11 +219,13 @@ namespace OSHGui
 	{
 		Control::OnMouseClick(mouse);
 
-		if (!drag)
+		if (!drag && maximum > 1)
 		{
 			if (Intersection::TestRectangle(trackAbsoluteLocation, trackSize, mouse.Position))
 			{
-				value = value;
+				float valuePerPixel = (float)maximum / (trackSize.Height - sliderSize.Height);
+				int yPos = mouse.Position.Y - trackAbsoluteLocation.Top - sliderSize.Height / 2;
+				SetValueInternal(yPos * valuePerPixel + 0.5f);
 			}
 		}
 	}

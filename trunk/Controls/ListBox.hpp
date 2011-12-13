@@ -40,13 +40,25 @@ namespace OSHGui
 		 */
 		const Misc::AnsiString& GetItem(int index) const;
 		/**
+		 * Legt den ausgewählten Index fest.
+		 *
+		 * @param index
+		 */
+		void SetSelectedIndex(int index);
+		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
 		 * @return der ausgewählte Index
 		 */
 		int GetSelectedIndex() const;
 		/**
-		 * Gibt das ausgewählte Item zurück.
+		 * Legt das ausgewählte Item fest.
+		 *
+		 * @param item
+		 */
+		void SetSelectedItem(const Misc::AnsiString &item);
+		/**
+		 * Ruft das ausgewählte Item ab.
 		 *
 		 * @return das Item
 		 */
@@ -109,6 +121,10 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 	
+	protected:
+		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
+
 	private:
 		static const Drawing::Size DefaultSize;
 		
