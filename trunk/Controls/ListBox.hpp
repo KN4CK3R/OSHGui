@@ -99,12 +99,6 @@ namespace OSHGui
 		 * Löscht alle Items.
 		 */
 		void Clear();
-		/**
-		 * Selektiert ein Item.
-		 *
-		 * @param index
-		 */
-		void SelectItem(int index);
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -123,6 +117,7 @@ namespace OSHGui
 	
 	protected:
 		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
 
 	private:
