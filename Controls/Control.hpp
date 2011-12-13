@@ -605,7 +605,7 @@ namespace OSHGui
 		 * @return NextEventTypes
 		 */
 		bool ChildProcessEvent(IEvent *event);
-		bool ProcessMouseMessage(MouseMessage &mouse);
+		bool ProcessMouseMessage(const MouseMessage &mouse);
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.

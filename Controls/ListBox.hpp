@@ -117,6 +117,7 @@ namespace OSHGui
 	
 	protected:
 		virtual void OnMouseClick(const MouseMessage &mouse);
+		virtual void OnMouseScroll(const MouseMessage &mouse);
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
 

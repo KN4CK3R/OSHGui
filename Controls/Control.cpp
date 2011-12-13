@@ -623,7 +623,7 @@ namespace OSHGui
 		return args.Handled;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessMouseMessage(MouseMessage &mouse)
+	bool Control::ProcessMouseMessage(const MouseMessage &mouse)
 	{
 		switch (mouse.State)
 		{

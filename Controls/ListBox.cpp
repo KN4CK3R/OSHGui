@@ -225,6 +225,13 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void ListBox::OnMouseScroll(const MouseMessage &mouse)
+	{
+		ContainerControl::OnMouseScroll(mouse);
+
+		scrollBar->ProcessMouseMessage(MouseMessage(MouseMessage::Scroll, absoluteLocation + scrollBar->GetLocation().OffsetEx(3, scrollBar->GetHeight() / 2), mouse.Delta));
+	}
+	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyDown(const KeyboardMessage &keyboard)
 	{
 		if (!ContainerControl::OnKeyDown(keyboard))
