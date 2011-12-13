@@ -1,3 +1,4 @@
+#include <locale>
 #include "ListBox.hpp"
 #include "..\Misc\Exceptions.hpp"
 
@@ -14,7 +15,7 @@ namespace OSHGui
 	{
 		type = CONTROL_LISTBOX;
 		
-		selectedIndex = 0;
+		selectedIndex = -1;
 		firstVisibleItemIndex = 0;
 		
 		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
@@ -91,15 +92,18 @@ namespace OSHGui
 
 		selectedIndex = index;
 
-		scrollBar->SetValue(index);
-
 		selectedIndexChangedEvent.Invoke(this);
 
-		for (firstVisibleItemIndex = 0; firstVisibleItemIndex <= index; firstVisibleItemIndex += maxVisibleItems);
-		firstVisibleItemIndex -= maxVisibleItems;
-		if (firstVisibleItemIndex < 0)
+		if (index - firstVisibleItemIndex > maxVisibleItems)
 		{
-			firstVisibleItemIndex = 0;
+			scrollBar->SetValue(index);
+
+			for (firstVisibleItemIndex = 0; firstVisibleItemIndex <= index; firstVisibleItemIndex += maxVisibleItems);
+			firstVisibleItemIndex -= maxVisibleItems;
+			if (firstVisibleItemIndex < 0)
+			{
+				firstVisibleItemIndex = 0;
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -205,39 +209,6 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::SelectItem(int index)
-	{
-		if (items.size() == 0)
-		{
-			return;
-		}
-
-		int oldSelectedIndex = selectedIndex;
-
-		selectedIndex = index;
-
-		if (selectedIndex < 0)
-		{
-			selectedIndex = 0;
-		}
-		if (selectedIndex >= (int)items.size())
-		{
-			selectedIndex = items.size() - 1;
-		}
-
-		if (oldSelectedIndex != selectedIndex)
-		{
-			scrollBar->SetValue(selectedIndex);
-			//if (selectedIndex > firstVisibleItemIndex
-			//if (scrollBar->ShowItem(selectedIndex))
-			{
-				//firstVisibleItemIndex = scrollBar->GetPosition();
-			}
-			
-			selectedIndexChangedEvent.Invoke(this);
-		}
-	}
-	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void ListBox::OnMouseClick(const MouseMessage &mouse)
@@ -246,13 +217,17 @@ namespace OSHGui
 
 		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Position))
 		{
-
+			int clickedIndex = firstVisibleItemIndex + (mouse.Position.Y - absoluteLocation.Y - 4) / (font->GetSize() + 2);
+			if (clickedIndex < items.size())
+			{
+				SetSelectedIndex(clickedIndex);
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool ListBox::OnKeyPress(const KeyboardMessage &keyboard)
+	bool ListBox::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		if (!ContainerControl::OnKeyPress(keyboard))
+		if (!ContainerControl::OnKeyDown(keyboard))
 		{
 			switch (keyboard.KeyCode)
 			{
@@ -262,72 +237,77 @@ namespace OSHGui
 				case Key::End:
 				case Key::PageUp:
 				case Key::PageDown:
-					{
-						int oldSelectedIndex = selectedIndex;
-						int newSelectedIndex = selectedIndex;
-
-						switch (keyboard.KeyCode)
-						{
-							case Key::Up:
-								--newSelectedIndex;
-								break;
-							case Key::Down:
-								++newSelectedIndex;
-								break;
-							case Key::Home:
-								newSelectedIndex = 0;
-								break;
-							case Key::End:
-								newSelectedIndex = items.size() - 1;
-								break;
-							case Key::PageUp:
-								newSelectedIndex += maxVisibleItems;
-								break;
-							case Key::PageDown:
-								newSelectedIndex -= maxVisibleItems;
-								break;
-						}
-
-						if (newSelectedIndex < 0)
-						{
-							newSelectedIndex = 0;
-						}
-						if (newSelectedIndex >= (int)items.size())
-						{
-							newSelectedIndex = items.size() - 1;
-						}
-
-						if (oldSelectedIndex != newSelectedIndex)
-						{
-							SetSelectedIndex(newSelectedIndex);
-						}
-					}
-					break;
-			}
-				/*if (!args.Handled && keyboard->KeyChar != '\0')
 				{
-					int foundIndex = 0;
-					for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+					int newSelectedIndex = selectedIndex;
+
+					switch (keyboard.KeyCode)
 					{
-						if ((*it)[0] == keyboard->KeyChar && foundIndex != selectedIndex)
-						{
+						case Key::Up:
+							--newSelectedIndex;
 							break;
-						}
+						case Key::Down:
+							++newSelectedIndex;
+							break;
+						case Key::Home:
+							newSelectedIndex = 0;
+							break;
+						case Key::End:
+							newSelectedIndex = items.size() - 1;
+							break;
+						case Key::PageUp:
+							newSelectedIndex += maxVisibleItems;
+							break;
+						case Key::PageDown:
+							newSelectedIndex -= maxVisibleItems;
+							break;
 					}
-					
-					if (foundIndex < (int)items.size())
+
+					if (newSelectedIndex < 0)
 					{
-						selectedIndex = foundIndex;
-						
-						if (scrollBar.ShowItem(selectedIndex))
-						{
-							firstVisibleItemIndex = scrollBar.GetPosition();
-						}
-						
-						selectedIndexChangedEvent.Invoke(this);
+						newSelectedIndex = 0;
 					}
-				}*/
+					if (newSelectedIndex >= (int)items.size())
+					{
+						newSelectedIndex = items.size() - 1;
+					}
+
+					if (selectedIndex != newSelectedIndex)
+					{
+						SetSelectedIndex(newSelectedIndex);
+					}
+
+					return true;
+				}
+			}
 		}
+	}
+	//---------------------------------------------------------------------------
+	bool ListBox::OnKeyPress(const KeyboardMessage &keyboard)
+	{
+		if (!ContainerControl::OnKeyPress(keyboard))
+		{
+			if (keyboard.IsAlphaNumeric())
+			{
+				std::locale loc;
+				Misc::AnsiChar keyChar = std::tolower(keyboard.KeyChar, loc);
+				int foundIndex = 0;
+				for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+				{
+					Misc::AnsiChar check = std::tolower((*it)[0], loc);
+
+					if (check == keyChar && foundIndex != selectedIndex)
+					{
+						break;
+					}
+				}
+					
+				if (foundIndex < (int)items.size())
+				{
+					SetSelectedIndex(foundIndex);
+				}
+			}
+		}
+
 		return true;
 	}
 	//---------------------------------------------------------------------------

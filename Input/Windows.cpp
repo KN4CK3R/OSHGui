@@ -21,6 +21,8 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
+					static Drawing::Point lastMouseLocation;
+
 					MouseMessage mouse(MouseMessage::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
@@ -46,9 +48,12 @@ namespace OSHGui
 							break;
 						case WM_MOUSEWHEEL:
 							mouse.State = MouseMessage::Scroll;
+							mouse.Position = lastMouseLocation; //not valid when scrolling
 							mouse.Delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
 							break;
 					}
+
+					lastMouseLocation = mouse.Position;
 
 					if (Application::Instance()->ProcessMouseMessage(mouse) == true)
 					{
