@@ -54,6 +54,12 @@ namespace OSHGui
 		 * @return maximum
 		 */
 		int GetMaximum() const;
+		/**
+		 * Ruft das ScrollEvent für das Steuerelement ab.
+		 *
+		 * @return scrollEvent
+		 */
+		ScrollEvent& GetScrollEvent();
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -87,7 +93,6 @@ namespace OSHGui
 		void SetValueInternal(int value);
 
 		bool drag;
-		///////////////////////////
 		int value;
 		float pixelsPerTick;
 		int maximum;

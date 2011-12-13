@@ -21,6 +21,10 @@ namespace OSHGui
 
 		scrollBar = new ScrollBar();
 		scrollBar->SetVisible(false);
+		scrollBar->GetScrollEvent() += ScrollEventHandler([this](Control*, ScrollEventArgs &args)
+		{
+			firstVisibleItemIndex = args.NewValue;
+		});
 		AddSubControl(scrollBar);
 
 		SetSize(DefaultSize);
@@ -71,9 +75,49 @@ namespace OSHGui
 		return items[index];
 	}
 	//---------------------------------------------------------------------------
+	void ListBox::SetSelectedIndex(int index)
+	{
+		if (selectedIndex == index)
+		{
+			return;
+		}
+
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (index < 0 || index >= (int)items.size())
+		{
+			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+		}
+		#endif
+
+		selectedIndex = index;
+
+		scrollBar->SetValue(index);
+
+		selectedIndexChangedEvent.Invoke(this);
+
+		for (firstVisibleItemIndex = 0; firstVisibleItemIndex <= index; firstVisibleItemIndex += maxVisibleItems);
+		firstVisibleItemIndex -= maxVisibleItems;
+		if (firstVisibleItemIndex < 0)
+		{
+			firstVisibleItemIndex = 0;
+		}
+	}
+	//---------------------------------------------------------------------------
 	int ListBox::GetSelectedIndex() const
 	{
 		return selectedIndex;
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::SetSelectedItem(const Misc::AnsiString &item)
+	{
+		for (int i = items.size() - 1; i >= 0; --i)
+		{
+			if (items[i] == item)
+			{
+				SetSelectedIndex(i);
+				return;
+			}
+		}
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ListBox::GetSelectedItem() const
@@ -98,21 +142,6 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	/*void ListBox::Invalidate()
-	{
-		clientArea = bounds;
-		
-		scrollBar.Invalidate();
-
-		itemsRect = Drawing::Rectangle(clientArea.GetLeft() + 4, clientArea.GetTop() + 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8);
-
-		scrollBar.SetPageSize(itemsRect.GetHeight() / (font->GetSize() + 2));
-		if (scrollBar.ShowItem(selectedIndex))
-		{
-			firstVisibleItemIndex = scrollBar.GetPosition();
-		}
-	}
-	//---------------------------------------------------------------------------*/
 	void ListBox::AddItem(const Misc::AnsiString &text)
 	{
 		InsertItem(items.size() > 0 ? items.size() : 0, text);
@@ -128,7 +157,7 @@ namespace OSHGui
 			{
 				itemAreaSize.Width -= scrollBar->GetWidth();
 			}
-			scrollBar->SetMaximum(items.size());
+			scrollBar->SetMaximum(items.size() - maxVisibleItems);
 			scrollBar->SetVisible(true);
 		}
 		else if (scrollBar->GetVisible())
@@ -151,7 +180,10 @@ namespace OSHGui
 		
 		items.erase(items.begin() + index);
 
-		scrollBar->SetMaximum(items.size());
+		if (scrollBar->GetVisible())
+		{
+			scrollBar->SetMaximum(items.size() - maxVisibleItems);
+		}
 		if (selectedIndex >= (int)items.size())
 		{
 			selectedIndex = items.size() - 1;
@@ -207,6 +239,98 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
+	//---------------------------------------------------------------------------
+	void ListBox::OnMouseClick(const MouseMessage &mouse)
+	{
+		ContainerControl::OnMouseClick(mouse);
+
+		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Position))
+		{
+
+		}
+	}
+	//---------------------------------------------------------------------------
+	bool ListBox::OnKeyPress(const KeyboardMessage &keyboard)
+	{
+		if (!ContainerControl::OnKeyPress(keyboard))
+		{
+			switch (keyboard.KeyCode)
+			{
+				case Key::Up:
+				case Key::Down:
+				case Key::Home:
+				case Key::End:
+				case Key::PageUp:
+				case Key::PageDown:
+					{
+						int oldSelectedIndex = selectedIndex;
+						int newSelectedIndex = selectedIndex;
+
+						switch (keyboard.KeyCode)
+						{
+							case Key::Up:
+								--newSelectedIndex;
+								break;
+							case Key::Down:
+								++newSelectedIndex;
+								break;
+							case Key::Home:
+								newSelectedIndex = 0;
+								break;
+							case Key::End:
+								newSelectedIndex = items.size() - 1;
+								break;
+							case Key::PageUp:
+								newSelectedIndex += maxVisibleItems;
+								break;
+							case Key::PageDown:
+								newSelectedIndex -= maxVisibleItems;
+								break;
+						}
+
+						if (newSelectedIndex < 0)
+						{
+							newSelectedIndex = 0;
+						}
+						if (newSelectedIndex >= (int)items.size())
+						{
+							newSelectedIndex = items.size() - 1;
+						}
+
+						if (oldSelectedIndex != newSelectedIndex)
+						{
+							SetSelectedIndex(newSelectedIndex);
+						}
+					}
+					break;
+			}
+				/*if (!args.Handled && keyboard->KeyChar != '\0')
+				{
+					int foundIndex = 0;
+					for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+					{
+						if ((*it)[0] == keyboard->KeyChar && foundIndex != selectedIndex)
+						{
+							break;
+						}
+					}
+					
+					if (foundIndex < (int)items.size())
+					{
+						selectedIndex = foundIndex;
+						
+						if (scrollBar.ShowItem(selectedIndex))
+						{
+							firstVisibleItemIndex = scrollBar.GetPosition();
+						}
+						
+						selectedIndexChangedEvent.Invoke(this);
+					}
+				}*/
+		}
+		return true;
+	}
+	//---------------------------------------------------------------------------
 	//---------------------------------------------------------------------------
 	/*bool ListBox::ProcessEvent(IEvent *event)
 	{
@@ -441,12 +565,12 @@ namespace OSHGui
 		int itemX = absoluteLocation.Left + 4;
 		int itemY = absoluteLocation.Top + 4;
 		int padding = font->GetSize() + 2;
-		for (unsigned int i = 0; (int)i < maxVisibleItems && i + firstVisibleItemIndex < items.size(); ++i)
+		for (int i = 0; i < maxVisibleItems && i + firstVisibleItemIndex < (int)items.size(); ++i)
 		{
 			if (firstVisibleItemIndex + i == selectedIndex)
 			{
-				renderer->SetRenderColor(Drawing::Color::Black());
-				renderer->Fill(itemX - 1, itemY + i * padding - 1, itemAreaSize.Width + 2, padding + 2);
+				renderer->SetRenderColor(Drawing::Color::Red());
+				renderer->Fill(itemX - 1, itemY + i * padding - 1, itemAreaSize.Width + 2, padding);
 				renderer->SetRenderColor(foreColor);
 			}
 
