@@ -126,6 +126,13 @@ namespace OSHGui
 		{
 			this->mouse.Position = mouse.Position;
 		}
+		else
+		{
+			if (FocusedControl != 0)
+			{
+				FocusedControl->ProcessMouseMessage(mouse);
+			}
+		}
 
 		if (CaptureControl != 0)
 		{
