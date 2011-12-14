@@ -65,7 +65,10 @@ namespace OSHGui
 		int formWidth = textLabel->GetWidth() + 20;
 		int formHeight = textLabel->GetHeight() + 40;
 
-		formHeight += Button::DefaultSize.Height;
+		Button *button = new Button();
+		int buttonWidth = button->GetWidth();
+		formHeight += button->GetHeight();
+		delete button;
 		int neededWidthForButtons = 0;
 		
 		std::vector<Misc::AnsiString> label;
@@ -74,7 +77,7 @@ namespace OSHGui
 		{
 			default:
 			case ButtonOK:
-				neededWidthForButtons = Button::DefaultSize.Width + 20;
+				neededWidthForButtons = buttonWidth + 20;
 
 				label.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
@@ -84,7 +87,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonOKCancel:
-				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
+				neededWidthForButtons = 2 * (buttonWidth + 10) + 10;
 
 				label.push_back("Cancel");
 				label.push_back("OK");
@@ -100,7 +103,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonAbortRetryIgnore:
-				neededWidthForButtons = 3 * (Button::DefaultSize.Width + 10) + 10;
+				neededWidthForButtons = 3 * (buttonWidth + 10) + 10;
 
 				label.push_back("Ignore");
 				label.push_back("Retry");
@@ -122,7 +125,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonYesNo:
-				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
+				neededWidthForButtons = 2 * (buttonWidth + 10) + 10;
 
 				label.push_back("No");
 				label.push_back("Yes");
@@ -138,7 +141,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonYesNoCancel:
-				neededWidthForButtons = 3 * (Button::DefaultSize.Width + 10) + 10;
+				neededWidthForButtons = 3 * (buttonWidth + 10) + 10;
 
 				label.push_back("Cancel");
 				label.push_back("No");
@@ -160,7 +163,7 @@ namespace OSHGui
 				}));
 				break;
 			case ButtonRetryCancel:
-				neededWidthForButtons = 2 * (Button::DefaultSize.Width + 10) + 10;
+				neededWidthForButtons = 2 * (buttonWidth + 10) + 10;
 
 				label.push_back("Cancel");
 				label.push_back("Retry");

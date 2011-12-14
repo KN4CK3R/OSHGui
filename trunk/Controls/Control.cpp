@@ -18,16 +18,11 @@ namespace OSHGui
 		isEnabled = true;
 		isVisible = true;
 		
-		isSubComponent = false;
-		mouseOver = false;
 		isFocused = false;
 		isClicked = false;
 		isInside = false;
 		isFocusable = true;
 		hasCaptured = false;
-
-		focusControl = 0;
-		mouseOverControl = 0;
 
 		font = Application::Instance()->GetRenderer()->GetDefaultFont();
 		
@@ -71,21 +66,6 @@ namespace OSHGui
 	bool Control::GetVisible() const
 	{
 		return isVisible;
-	}
-	//---------------------------------------------------------------------------
-	void Control::SetFocus(bool focus)
-	{
-		isFocused = focus;
-	}
-	//---------------------------------------------------------------------------
-	void Control::SetMouseOver(bool mouseOver)
-	{
-		this->mouseOver = mouseOver;
-		
-		if (mouseOver)
-		{
-			Application::Instance()->SetCursor(cursor);
-		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetAutoSize(bool autoSize)
@@ -357,31 +337,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Control::CanHaveFocus() const
-	{
-		return false;
-	}
-	//---------------------------------------------------------------------------
-	void Control::Invalidate()
-	{
-		return;
-	}
-	//---------------------------------------------------------------------------
-	void Control::InvalidateChildren()
-	{
-		/*for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
-		{
-			Control *control = *it;
-
-			if (control == 0)
-			{
-				continue;
-			}
-
-			control->Invalidate();
-		}*/
-	}
-	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
 	{
 		return point - absoluteLocation;
@@ -413,60 +368,6 @@ namespace OSHGui
 		if (parent == this)
 		{
 			absoluteLocation = location;
-		}
-	}
-	//---------------------------------------------------------------------------
-	void Control::RequestFocus(Control *control)
-	{
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (control == 0)
-		{
-			throw Misc::ArgumentNullException("control", __FILE__, __LINE__);
-		}
-		#endif
-		
-		if (!control->CanHaveFocus())
-		{
-			return;
-		}
-
-		//walk up parentStack
-		Control *baseParent = this;
-		while (baseParent->GetParent() != baseParent)
-		{
-			baseParent = baseParent->GetParent();
-		}
-
-		if (baseParent->focusControl == control)
-		{
-			return;
-		}
-
-		if (baseParent->focusControl != 0)
-		{
-			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusLostEvent.Invoke(this);
-		}
-		
-		control->SetFocus(true);
-		control->focusGotEvent.Invoke(this);
-		baseParent->focusControl = control;
-	}
-	//---------------------------------------------------------------------------
-	void Control::ClearFocus()
-	{
-		//walk up parentStack
-		Control *baseParent = this;
-		while (baseParent->GetParent() != baseParent)
-		{
-			baseParent = baseParent->GetParent();
-		}
-
-		if (baseParent->focusControl != 0)
-		{
-			baseParent->focusControl->SetFocus(false);
-			baseParent->focusControl->focusLostEvent.Invoke(this);
-			baseParent->focusControl = 0;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -635,9 +536,18 @@ namespace OSHGui
 					{
 						OnMouseDown(mouse);
 						
-						if (isFocusable && !isFocused)
+						if (isFocusable)
 						{
-							OnGotFocus();
+							Application *app = Application::Instance();
+							if (!isFocused && app->FocusedControl != 0)
+							{
+								app->FocusedControl->OnLostFocus();
+							}
+
+							if (!isFocused)
+							{
+								OnGotFocus();
+							}
 						}
 					}
 
@@ -721,98 +631,9 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessEvent(IEvent *event)
-	{
-		return true;
-	}
-	//---------------------------------------------------------------------------
-	bool Control::ChildProcessEvent(IEvent *event)
-	{
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
-		#endif
-		
-		//someone is focused, so let him handle the event expect the mouse
-		if (event->Type != IEvent::Mouse && focusControl != 0 && focusControl->GetVisible() && focusControl->GetEnabled())
-		{
-			if (focusControl->ProcessEvent(event) == true)
-			{
-				return true;
-			}
-		}
-		
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			
-			//find mouseOverControl
-			Control *control;// = GetChildAtPoint(mouse->Position);
-			if (control != mouseOverControl && mouseOverControl != 0)
-			{
-				mouseOverControl->SetMouseOver(false);
-				//mouseOverControl->mouseLeaveEvent.Invoke(this);
-				mouseOverControl = 0;
-			}
-
-			if (control != 0 && control != mouseOverControl)
-			{
-				mouseOverControl = control;
-				mouseOverControl->SetMouseOver(true);
-				//mouseOverControl->mouseEnterEvent.Invoke(this);
-			}
-			
-			//someone is focused
-			if (focusControl != 0 && focusControl->GetEnabled())
-			{
-				if (!(mouse->State == MouseMessage::LeftDown && focusControl != mouseOverControl))
-				{
-					if (focusControl->ProcessEvent(mouse) == true)
-					{
-						return true;
-					}
-				}
-			}
-			
-			//let mouseOverControl handle the mouse
-			if (mouseOverControl != 0)
-			{
-				if (mouseOverControl->ProcessEvent(event) == true)
-				{
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------
 	void Control::Render(Drawing::IRenderer *renderer)
 	{
 		return;
-	}
-	//---------------------------------------------------------------------------
-	void Control::ChildRender(Drawing::IRenderer *renderer)
-	{
-		Control *focusedControl = 0;
-		/*for (std::list<Control*>::iterator it = controls.begin(); it != controls.end(); ++it)
-		{
-			Control *control = *it;
-			if (control->isFocused)
-			{
-				focusedControl = control;
-			}
-			else
-			{
-				control->Render(renderer);
-			}
-		}*/
-		if (focusedControl != 0)
-		{
-			focusedControl->Render(renderer);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

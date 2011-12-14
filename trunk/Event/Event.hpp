@@ -60,6 +60,11 @@ namespace OSHGui
 		template <typename T>
 		void Invoke(T&& param1)
 		{
+			if (eventHandlers.empty())
+			{
+				return;
+			}
+
 			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end(); ++it)
 			{
 				EventHandler<Signature> &eventHandler = *it;
@@ -76,6 +81,11 @@ namespace OSHGui
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)
 		{
+			if (eventHandlers.empty())
+			{
+				return;
+			}
+
 			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end(); ++it)
 			{
 				EventHandler<Signature> &eventHandler = *it;

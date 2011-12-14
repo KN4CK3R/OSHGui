@@ -239,7 +239,7 @@ namespace OSHGui
 			renderer->Fill(absoluteLocation, size);
 		}
 
-		renderer->SetRenderColor(isFocused || mouseOver ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
+		renderer->SetRenderColor(isFocused || isInside ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
 
 		int tickCount = 1 + (maximum - minimum) / tickFrequency;
 		

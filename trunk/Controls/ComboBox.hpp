@@ -1,28 +1,43 @@
 #ifndef OSHGUI_COMBOBOX_HPP_
 #define OSHGUI_COMBOBOX_HPP_
 
+#include "ContainerControl.hpp"
 #include "Button.hpp"
-#include "ScrollBar.hpp"
 
 #define COMBOBOX_ITEM_HEIGHT 22
 #define COMBOBOX_MAX_HEIGHT 220
 
 namespace OSHGui
 {
+	class ListBox;
+	class ScrollBar;
+
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */
-	class OSHGUI_EXPORT ComboBox : public Button
+	class OSHGUI_EXPORT ComboBox : public ContainerControl
 	{
 	public:
+		using ContainerControl::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
-		 *
-		 * @param parent das Elternsteuerelement
 		 */
-		ComboBox(Control *parent);
+		ComboBox();
 		virtual ~ComboBox();
 		
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
 		 * Legt die Hintergrundfarbe des DropDown-Steuerelements fest.
 		 *
@@ -43,13 +58,25 @@ namespace OSHGui
 		 */
 		const Misc::AnsiString& GetItem(int index) const;
 		/**
+		 * Legt den ausgewählten Index fest.
+		 *
+		 * @param index
+		 */
+		void SetSelectedIndex(int index);
+		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
 		 * @return der ausgewählte Index
 		 */
 		int GetSelectedIndex() const;
 		/**
-		 * Gibt das ausgewählte Item zurück.
+		 * Legt das ausgewählte Item fest.
+		 *
+		 * @param item
+		 */
+		void SetSelectedItem(const Misc::AnsiString &item);
+		/**
+		 * Ruft das ausgewählte Item ab.
 		 *
 		 * @return das Item
 		 */
@@ -66,32 +93,6 @@ namespace OSHGui
 		 * @return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
-		/**
-		 * Ruft das KeyDownEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyDownEvent& GetKeyDownEvent();
-		/**
-		 * Ruft das KeyPressEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyPressEvent& GetKeyPressEvent();
-		/**
-		 * Ruft das KeyUpEvent für das Steuerelement ab.
-		 *
-		 * @return keyPressEvent
-		 */
-		KeyUpEvent& GetKeyUpEvent();
-		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
 		
 		/**
 		 * Fügt ein neues Item hinzu.
@@ -117,27 +118,13 @@ namespace OSHGui
 		 */
 		void Clear();
 		/**
-		 * Selektiert ein Item.
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param newIndex
+		 * @param point
+		 * @return ja / nein
 		 */
-		void SelectItem(int newIndex);
+		virtual bool Intersect(const Drawing::Point &point) const;
 
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-		
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -145,35 +132,29 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 	
-
+	protected:
+		virtual void OnLostFocus();
 
 	private:
 		static const Drawing::Size DefaultSize;
-		static const int MaxDropDownHeight;
 
-		virtual void SetFocus(bool focus);
-
-		ScrollBar scrollBar;
+		void Expand();
+		void Collapse();
 		
-		int dropdownHeight;
+		bool droppedDown;
 		
-		int selectedIndex,
-			firstVisibleItemIndex,
-			mouseOverItemIndex;
-		bool open;
-		
-		Drawing::Rectangle dropDownRect,
-						   itemsRect;
 		Drawing::Color dropDownColor;
 		
-		std::vector<Misc::AnsiString> items;
-
-		SelectedIndexChangedEvent selectedIndexChangedEvent;
-
-		Misc::TextHelper textHelper;
-
 		class ComboBoxButton : public Button
 		{
+		public:
+			using Button::SetSize;
+
+			virtual void SetSize(const Drawing::Size &size);
+
+			virtual bool Intersect(const Drawing::Point &point) const;
+
+			virtual void Render(Drawing::IRenderer *renderer);
 
 		protected:
 			virtual bool OnKeyDown(const KeyboardMessage &keyboard);
@@ -181,7 +162,10 @@ namespace OSHGui
 		private:
 			Drawing::Size realSize;
 			Drawing::Point arrowAbsoluteLocation;
-		}
+		};
+		ComboBoxButton *button;
+
+		ListBox *listBox;
 	};
 }
 

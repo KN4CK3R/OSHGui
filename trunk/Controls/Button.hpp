@@ -71,11 +71,11 @@ namespace OSHGui
 	protected:
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 
+		Label *label;
+
 	private:
 		static const Drawing::Size DefaultSize;
 		static const Drawing::Point DefaultLabelOffset;
-
-		Label *label;
 	};
 }
 
