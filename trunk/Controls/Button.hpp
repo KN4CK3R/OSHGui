@@ -12,8 +12,6 @@ namespace OSHGui
 	class OSHGUI_EXPORT Button : public Control
 	{
 	public:
-		static const Drawing::Size DefaultSize;
-
 		/**
 		 * Konstruktor der Klasse.
 		 */
@@ -71,9 +69,11 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 
 	protected:
-		static const Drawing::Point DefaultLabelOffset;
-
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
+
+	private:
+		static const Drawing::Size DefaultSize;
+		static const Drawing::Point DefaultLabelOffset;
 
 		Label *label;
 	};

@@ -122,17 +122,7 @@ namespace OSHGui
 			return false;
 		}
 
-		if (mouse.State != MouseMessage::Scroll)
-		{
-			this->mouse.Position = mouse.Position;
-		}
-		else
-		{
-			if (FocusedControl != 0)
-			{
-				FocusedControl->ProcessMouseMessage(mouse);
-			}
-		}
+		this->mouse.Position = mouse.Position;
 
 		if (CaptureControl != 0)
 		{

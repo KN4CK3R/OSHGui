@@ -110,6 +110,7 @@ namespace OSHGui
 		virtual void OnMouseUp(const MouseMessage &mouse);
 		virtual void OnMouseClick(const MouseMessage &mouse);
 		virtual void OnMouseMove(const MouseMessage &mouse);
+		virtual void OnMouseScroll(const MouseMessage &mouse);
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 	
 		int minimum;

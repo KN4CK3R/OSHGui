@@ -664,7 +664,6 @@ namespace OSHGui
 				}
 				break;
 			case MouseMessage::Move:
-			case MouseMessage::Scroll:
 				if (hasCaptured || Intersect(mouse.Position))
 				{
 					if (canRaiseEvents)
@@ -674,12 +673,21 @@ namespace OSHGui
 							OnMouseEnter(mouse);
 						}
 
+						OnMouseMove(mouse);
+					}
+
+					return true;
+				}
+				break;
+			case MouseMessage::Scroll:
+				if (hasCaptured || isFocused)
+				{
+					if (canRaiseEvents)
+					{
 						if (mouse.Delta != 0)
 						{
 							OnMouseScroll(mouse);
 						}
-
-						OnMouseMove(mouse);
 					}
 
 					return true;

@@ -187,6 +187,13 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void TrackBar::OnMouseScroll(const MouseMessage &mouse)
+	{
+		Control::OnMouseScroll(mouse);
+
+		SetValueInternal(value + mouse.Delta);
+	}
+	//---------------------------------------------------------------------------
 	bool TrackBar::OnKeyDown(const KeyboardMessage &keyboard)
 	{
 		if (!Control::OnKeyDown(keyboard))
