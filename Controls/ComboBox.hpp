@@ -145,7 +145,12 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 	
-	protected:
+
+
+	private:
+		static const Drawing::Size DefaultSize;
+		static const int MaxDropDownHeight;
+
 		virtual void SetFocus(bool focus);
 
 		ScrollBar scrollBar;
@@ -164,13 +169,19 @@ namespace OSHGui
 		std::vector<Misc::AnsiString> items;
 
 		SelectedIndexChangedEvent selectedIndexChangedEvent;
-		KeyDownEvent keyDownEvent;
-		KeyPressEvent keyPressEvent;
-		KeyUpEvent keyUpEvent;
 
+		Misc::TextHelper textHelper;
 
+		class ComboBoxButton : public Button
+		{
 
-		Misc::TextHelper textHelper;;
+		protected:
+			virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+
+		private:
+			Drawing::Size realSize;
+			Drawing::Point arrowAbsoluteLocation;
+		}
 	};
 }
 

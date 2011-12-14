@@ -94,16 +94,15 @@ namespace OSHGui
 
 		selectedIndexChangedEvent.Invoke(this);
 
-		if (index - firstVisibleItemIndex > maxVisibleItems)
+		if (index - firstVisibleItemIndex >= maxVisibleItems || index - firstVisibleItemIndex < 0)
 		{
-			scrollBar->SetValue(index);
-
 			for (firstVisibleItemIndex = 0; firstVisibleItemIndex <= index; firstVisibleItemIndex += maxVisibleItems);
 			firstVisibleItemIndex -= maxVisibleItems;
 			if (firstVisibleItemIndex < 0)
 			{
 				firstVisibleItemIndex = 0;
 			}
+			scrollBar->SetValue(firstVisibleItemIndex);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -229,7 +228,16 @@ namespace OSHGui
 	{
 		ContainerControl::OnMouseScroll(mouse);
 
-		scrollBar->ProcessMouseMessage(MouseMessage(MouseMessage::Scroll, absoluteLocation + scrollBar->GetLocation().OffsetEx(3, scrollBar->GetHeight() / 2), mouse.Delta));
+		int newScrollValue = scrollBar->GetValue() + mouse.Delta;
+		if (newScrollValue < 0)
+		{
+			newScrollValue = 0;
+		}
+		else if (newScrollValue > items.size() - maxVisibleItems)
+		{
+			newScrollValue = items.size() - maxVisibleItems;
+		}
+		scrollBar->SetValue(newScrollValue);
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyDown(const KeyboardMessage &keyboard)
@@ -301,7 +309,6 @@ namespace OSHGui
 				for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
 				{
 					Misc::AnsiChar check = std::tolower((*it)[0], loc);
-
 					if (check == keyChar && foundIndex != selectedIndex)
 					{
 						break;
@@ -321,113 +328,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	/*bool ListBox::ProcessEvent(IEvent *event)
 	{
-		if (event == 0)
-		{
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-		}
-
-		if (!isVisible || !isEnabled)
-		{
-			return false;
-		}
-
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			Drawing::Point mousePositionBackup = mouse->Position;
-			mouse->Position = PointToClient(mouse->Position);
-
-			if (mouse->State == MouseMessage::LeftDown)
-			{
-				if (Drawing::Rectangle(0, 0, clientArea.GetWidth(), clientArea.GetHeight()).Contains(mouse->Position)) //clientArea
-				{
-					if (!isFocused)
-					{
-						parent->RequestFocus(this);
-					}
-
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-				}
-				else
-				{
-					mouse->Position = mousePositionBackup;
-
-					return false;
-				}
-			}
-			else if (mouse->State == MouseMessage::Scroll)
-			{
-				if (!isFocused)
-				{
-					mouse->Position = mousePositionBackup;
-
-					return false;
-				}
-			}
-		}
-		
-		if (scrollBar.ProcessEvent(event) == true)
-		{
-			firstVisibleItemIndex = scrollBar.GetPosition();
-		
-			return true;
-		}
-	
-		if (event->Type == IEvent::Mouse)
-		{
-			MouseMessage *mouse = (MouseMessage*)event;
-			
-			if (mouse->State == MouseMessage::LeftDown)
-			{
-				if (items.size() != 0 && Drawing::Rectangle(4, 4, clientArea.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, clientArea.GetHeight() - 8).Contains(mouse->Position)) //itemsRect
-				{
-					int itemIndex = -1;
-					for (unsigned int i = 0; (int)i < itemsRect.GetHeight() / (font->GetSize() + 2) && i < items.size(); ++i)
-					{
-						if ((int)i * (font->GetSize() + 2) + (font->GetSize() + 2) > mouse->Position.Y - (itemsRect.GetTop() - bounds.GetTop()))
-						{
-							itemIndex = i;
-							break;
-						}
-					}
-
-					if (itemIndex != -1)
-					{
-						selectedIndex = itemIndex + firstVisibleItemIndex;
-						selectedIndexChangedEvent.Invoke(this);
-					}
-
-					MouseEventArgs args(mouse);
-					mouseDownEvent.Invoke(this, args);
-				}
-
-				return true;
-			}
-			else if (Drawing::Rectangle(0, 0, bounds.GetWidth(), bounds.GetHeight()).Contains(mouse->Position))
-			{
-				if (mouse->State == MouseMessage::Move)
-				{
-					MouseEventArgs args(mouse);
-					mouseMoveEvent.Invoke(this, args);
-
-					return true;
-				}
-				else if (mouse->State == MouseMessage::LeftDown || mouse->State == MouseMessage::RightUp)
-				{
-					clickEvent.Invoke(this);
-
-					MouseEventArgs args(mouse);
-					mouseClickEvent.Invoke(this, args);
-
-					args = MouseEventArgs(mouse);
-					mouseUpEvent.Invoke(this, args);
-
-					return true;
-				}
-			}
-		}
-		else if (event->Type == IEvent::Keyboard)
+		if (event->Type == IEvent::Keyboard)
 		{
 			if (items.size() == 0)
 			{
@@ -492,41 +393,6 @@ namespace OSHGui
 						}
 				}
 			}
-			else if (keyboard->State == KeyboardMessage::Character)
-			{
-				KeyPressEventArgs args(keyboard);
-				keyPressEvent.Invoke(this, args);
-				if (!args.Handled && keyboard->KeyChar != '\0')
-				{
-					int foundIndex = 0;
-					for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
-					{
-						if ((*it)[0] == keyboard->KeyChar && foundIndex != selectedIndex)
-						{
-							break;
-						}
-					}
-					
-					if (foundIndex < (int)items.size())
-					{
-						selectedIndex = foundIndex;
-						
-						if (scrollBar.ShowItem(selectedIndex))
-						{
-							firstVisibleItemIndex = scrollBar.GetPosition();
-						}
-						
-						selectedIndexChangedEvent.Invoke(this);
-					}
-				}
-			}
-			else if (keyboard->State == KeyboardMessage::KeyUp)
-			{
-				KeyEventArgs args(keyboard);
-				keyUpEvent.Invoke(this, args);
-			}
-			
-			return true;
 		}
 		
 		return false;
