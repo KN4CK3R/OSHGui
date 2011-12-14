@@ -1,5 +1,6 @@
 #include <locale>
 #include "ListBox.hpp"
+#include "ScrollBar.hpp"
 #include "..\Misc\Exceptions.hpp"
 
 namespace OSHGui
@@ -168,8 +169,6 @@ namespace OSHGui
 			scrollBar->SetVisible(false);
 			itemAreaSize.Width += scrollBar->GetWidth();
 		}
-
-		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::RemoveItem(int index)
@@ -193,8 +192,6 @@ namespace OSHGui
 			
 			selectedIndexChangedEvent.Invoke(this);
 		}
-
-		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::Clear()
@@ -204,8 +201,6 @@ namespace OSHGui
 		scrollBar->SetMaximum(1);
 		
 		selectedIndex = -1;
-
-		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -286,15 +281,12 @@ namespace OSHGui
 						newSelectedIndex = items.size() - 1;
 					}
 
-					if (selectedIndex != newSelectedIndex)
-					{
-						SetSelectedIndex(newSelectedIndex);
-					}
-
-					return true;
+					SetSelectedIndex(newSelectedIndex);
 				}
 			}
 		}
+
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyPress(const KeyboardMessage &keyboard)
@@ -431,10 +423,6 @@ namespace OSHGui
 		}
 	
 		scrollBar->Render(renderer);
-
-		Drawing::Rectangle renderRect = renderer->GetRenderRectangle();
-		renderer->SetRenderRectangle(clientArea + bounds.GetPosition() + renderRect.GetPosition());
-		renderer->SetRenderRectangle(renderRect);
 	}
 	//---------------------------------------------------------------------------
 }

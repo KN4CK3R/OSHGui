@@ -64,7 +64,7 @@ namespace OSHGui
 	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
 	 */
 	typedef Event<void(Control*)> SelectedIndexChangedEvent;
-	typedef EventHandler<void(Control*)> SelectedIndexEventHandler;
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
 	/**
 	 * Tritt ein, wenn sich der Wert der Color-Eigenschaft ändert.
 	 */
@@ -543,31 +543,12 @@ namespace OSHGui
 		Control* GetParent() const;
 
 		/**
-		 * Überprüft, ob das Steuerelement den Fokus übernehmen kann.
-		 *
-		 * @return ja / nein
-		 */
-		virtual bool CanHaveFocus() const;
-		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
 		 * @param point
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const = 0;
-		/**
-		 * Veranlasst das Steuerelemt seine interne Struktur neu zu berechnen.
-		 * Wird außerdem für alle Kindelemente aufgerufen.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		virtual void Invalidate();
-		/**
-		 * Ruft Invalidate für alle Kindelemente auf.
-		 *
-		 * Sollte nicht vom Benutzer aufgerufen werden!
-		 */
-		void InvalidateChildren();
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -580,31 +561,13 @@ namespace OSHGui
 		 * @return der neue Punkt
 		 */
 		virtual const Drawing::Point PointToScreen(const Drawing::Point &point) const;
-		/**
-		 * Legt das übergebene Control als fokusiert fest.
-		 *
-		 * @param control
-		 */
-		void RequestFocus(Control *control);
-		/**
-		 * Löst den Fokus.
-		 */
-		void ClearFocus();
 		
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Wird von ProcessEvent verwendet, um Kindelemete Events verarbeiten zu lassen.
 		 *
 		 * @param event
 		 * @return NextEventTypes
 		 */
-		bool ChildProcessEvent(IEvent *event);
 		bool ProcessMouseMessage(const MouseMessage &mouse);
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
@@ -619,12 +582,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Control();
-	
-		bool ContainerProcessEvent(IEvent *event);
-		void ChildRender(Drawing::IRenderer *renderer);
-
-		virtual void SetFocus(bool focus);
-		virtual void SetMouseOver(bool mouseOver);
 
 		virtual void OnLocationChanged();
 		virtual void OnSizeChanged();
@@ -647,16 +604,14 @@ namespace OSHGui
 		
 		Misc::AnsiString name;
 
-		bool isSubComponent;
 		bool canRaiseEvents;
 		bool isEnabled;
 		bool isVisible;
+		bool isInside;
 		bool isClicked;
 		bool isFocusable;
 		bool isFocused;
 		bool hasCaptured;
-		bool isInside; //remove!!!
-		bool mouseOver;
 		bool autoSize;
 			 
 		Misc::Any tag;
@@ -664,9 +619,6 @@ namespace OSHGui
 		Drawing::Point location;
 		Drawing::Point absoluteLocation;
 		Drawing::Size size;
-		
-		Drawing::Rectangle bounds,
-						   clientArea;
 		
 		LocationChangedEvent locationChangedEvent;
 		SizeChangedEvent sizeChangedEvent;
@@ -693,12 +645,6 @@ namespace OSHGui
 		std::shared_ptr<Cursor> cursor;
 
 		Control *parent;
-
-		std::list<Control*> controls_;
-		std::list<Control*> internalControls_;
-
-		Control *focusControl,
-				*mouseOverControl;
 
 	private:
 		//copying prohibited

@@ -2,7 +2,6 @@
 #define OSHGUI_EVENT_EVENTHANDLER_HPP_
 
 #include <functional>
-
 #include "../Exports.hpp"
 
 namespace OSHGui

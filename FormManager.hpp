@@ -34,7 +34,6 @@ namespace OSHGui
 		void UnregisterForm(const std::shared_ptr<Form> &form);
 		void BringToFront(const std::shared_ptr<Form> &form);
 		
-		bool ForwardEventToForms(IEvent *event);
 		void RenderForms(Drawing::IRenderer *renderer);
 
 		FormIterator GetEnumerator();

@@ -31,7 +31,7 @@ namespace OSHGui
 		 *
 		 * @param interval die Frequenz in Millisekunden
 		 */
-		void SetInterval(long long interval);
+		void SetInterval(int interval);
 		/**
 		 * Ruft die Frequenz des Timers in Millisekunden ab.
 		 *
@@ -55,7 +55,7 @@ namespace OSHGui
 		void Stop();
 
 	private:
-		long long interval;
+		int interval;
 
 		TickEvent tickEvent;
 	};

@@ -14,7 +14,7 @@ namespace OSHGui
 		type = CONTROL_TIMER;
 
 		isEnabled = false;
-		interval = 100LL;
+		interval = 100;
 	}
 	//---------------------------------------------------------------------------
 	Timer::~Timer()
@@ -41,25 +41,23 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Timer::SetInterval(long long interval)
+	void Timer::SetInterval(int interval)
 	{
 		if (this->interval != interval)
 		{
-			if (interval > 0)
-			{
-				this->interval = interval;
-				if (isEnabled)
-				{
-					Application::Instance()->timerManager.UnregisterTimer(this);
-					Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
-				}
-			}
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			else
+			if (interval < 1)
 			{
 				throw Misc::ArgumentOutOfRangeException("interval", __FILE__, __LINE__);
 			}
 			#endif
+			
+			this->interval = interval;
+			if (isEnabled)
+			{
+				Application::Instance()->timerManager.UnregisterTimer(this);
+				Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
+			}
 		}
 	}
 	//---------------------------------------------------------------------------

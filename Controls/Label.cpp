@@ -63,14 +63,15 @@ namespace OSHGui
 			return;
 		}
 		
+		Drawing::Size renderSize = GetParent()->GetSize();
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(bounds);
+			renderer->Fill(absoluteLocation, renderSize);
 		}
 	
 		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, absoluteLocation, GetParent()->GetSize(), textHelper.GetText());
+		renderer->RenderText(font, absoluteLocation, renderSize, textHelper.GetText());
 	}
 	//---------------------------------------------------------------------------
 }

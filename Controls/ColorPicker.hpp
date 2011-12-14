@@ -46,14 +46,14 @@ namespace OSHGui
 		 * @param y
 		 * @return color
 		 */
-		const Drawing::Color& GetColorAtPoint(int x, int y) const;
+		const Drawing::Color GetColorAtPoint(int x, int y) const;
 		/**
 		 * Ruft die Farbe an einem bestimmten Punkt ab.
 		 *
 		 * @param point
 		 * @return color
 		 */
-		const Drawing::Color& GetColorAtPoint(const Drawing::Point &point) const;
+		const Drawing::Color GetColorAtPoint(const Drawing::Point &point) const;
 
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.

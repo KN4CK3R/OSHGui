@@ -159,42 +159,6 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool FormManager::ForwardEventToForms(IEvent *event)
-	{
-		if (event == 0)
-		{
-			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("event", __FILE__, __LINE__);
-			#endif
-			return false;
-		}
-		
-		if (forms.size() > 0)
-		{
-			std::shared_ptr<Form> foreMost = GetForeMost();
-			if (foreMost != 0 && foreMost->IsModal())
-			{
-				return foreMost->ProcessEvent(event);
-			}
-			
-			for (std::vector<FormInfo>::reverse_iterator it = forms.rbegin(); it != forms.rend(); ++it)
-			{
-				FormInfo info = *it;
-				if (info.form->ProcessEvent(event) == true)
-				{
-					if (info.form != foreMost)
-					{
-						BringToFront(info.form);
-					}
-
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------
 	void FormManager::RenderForms(Drawing::IRenderer *renderer)
 	{		
 		if (forms.size() > 0)

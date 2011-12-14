@@ -2,10 +2,11 @@
 #define OSHGUI_LISTBOX_HPP_
 
 #include "ContainerControl.hpp"
-#include "ScrollBar.hpp"
 
 namespace OSHGui
 {
+	class ScrollBar;
+
 	/**
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */

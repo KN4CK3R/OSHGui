@@ -150,9 +150,9 @@ namespace OSHGui
 			{
 				std::shared_ptr<Form> &form = *it;
 				
-				for (ContainerControl::PostOrderVisibleIterator it = form->GetPostOrderVisibleEnumerator(); it(); ++it)
+				for (ContainerControl::PostOrderVisibleIterator it2 = form->GetPostOrderVisibleEnumerator(); it2(); ++it2)
 				{
-					Control *control = *it;
+					Control *control = *it2;
 					if (control->ProcessMouseMessage(mouse))
 					{
 						if (form != foreMost)
@@ -204,7 +204,19 @@ namespace OSHGui
 
 		timerManager.Update();
 
-		formManager.RenderForms(renderer);
+		std::shared_ptr<Form> foreMost = formManager.GetForeMost();
+		for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
+		{
+			std::shared_ptr<Form> &form = *it;
+			if (form != foreMost)
+			{
+				form->Render(renderer);
+			}
+		}
+		if (foreMost)
+		{
+			foreMost->Render(renderer);
+		}
 		
 		mouse.Cursor->Render(renderer, mouse.Position);
 	}
