@@ -1,5 +1,5 @@
-#ifndef OSHGUI_PICTUREBOX_HPP_
-#define OSHGUI_PICTUREBOX_HPP_
+#ifndef OSHGUI_PICTUREBOX_HPP
+#define OSHGUI_PICTUREBOX_HPP
 
 #include <memory>
 #include "Control.hpp"

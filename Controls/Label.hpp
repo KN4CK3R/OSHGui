@@ -1,5 +1,5 @@
-#ifndef OSHGUI_LABEL_HPP_
-#define OSHGUI_LABEL_HPP_
+#ifndef OSHGUI_LABEL_HPP
+#define OSHGUI_LABEL_HPP
 
 #include "Control.hpp"
 #include "..\Misc\TextHelper.hpp"

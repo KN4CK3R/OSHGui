@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CONTROL_HPP_
-#define OSHGUI_CONTROL_HPP_
+#ifndef OSHGUI_CONTROL_HPP
+#define OSHGUI_CONTROL_HPP
 
 #include <vector>
 #include <algorithm>

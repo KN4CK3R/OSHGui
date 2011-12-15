@@ -1,5 +1,5 @@
-#ifndef OSHGUI_COMBOBOX_HPP_
-#define OSHGUI_COMBOBOX_HPP_
+#ifndef OSHGUI_COMBOBOX_HPP
+#define OSHGUI_COMBOBOX_HPP
 
 #include "ContainerControl.hpp"
 #include "Button.hpp"

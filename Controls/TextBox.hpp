@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TEXTBOX_HPP_
-#define OSHGUI_TEXTBOX_HPP_
+#ifndef OSHGUI_TEXTBOX_HPP
+#define OSHGUI_TEXTBOX_HPP
 
 #include "Control.hpp"
 #include "..\Misc\TextHelper.hpp"

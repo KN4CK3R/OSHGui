@@ -1,5 +1,5 @@
-#ifndef OSHGUI_MISC_STRINGS_HPP_
-#define OSHGUI_MISC_STRINGS_HPP_
+#ifndef OSHGUI_MISC_STRINGS_HPP
+#define OSHGUI_MISC_STRINGS_HPP
 
 #include <string>
 #include <stdarg.h>

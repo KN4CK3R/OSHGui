@@ -1,5 +1,5 @@
-#ifndef OSHGUI_LISTBOX_HPP_
-#define OSHGUI_LISTBOX_HPP_
+#ifndef OSHGUI_LISTBOX_HPP
+#define OSHGUI_LISTBOX_HPP
 
 #include "ContainerControl.hpp"
 

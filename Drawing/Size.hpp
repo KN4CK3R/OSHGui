@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_SIZE_HPP_
-#define OSHGUI_DRAWING_SIZE_HPP_
+#ifndef OSHGUI_DRAWING_SIZE_HPP
+#define OSHGUI_DRAWING_SIZE_HPP
 
 #include "../Exports.hpp"
 #include "Point.hpp"

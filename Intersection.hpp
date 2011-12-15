@@ -1,5 +1,5 @@
-#ifndef OSHGUI_INTERSECTION_HPP_
-#define OSHGUI_INTERSECTION_HPP_
+#ifndef OSHGUI_INTERSECTION_HPP
+#define OSHGUI_INTERSECTION_HPP
 
 #include "Drawing/Point.hpp"
 #include "Drawing/Size.hpp"

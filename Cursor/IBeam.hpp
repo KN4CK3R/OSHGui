@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CURSOR_IBEAM_HPP_
-#define OSHGUI_CURSOR_IBEAM_HPP_
+#ifndef OSHGUI_CURSOR_IBEAM_HPP
+#define OSHGUI_CURSOR_IBEAM_HPP
 
 #include "Cursor.hpp"
 

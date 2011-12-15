@@ -1,5 +1,5 @@
-#ifndef OSHGUI_SCROLLBAR_HPP_
-#define OSHGUI_SCROLLBAR_HPP_
+#ifndef OSHGUI_SCROLLBAR_HPP
+#define OSHGUI_SCROLLBAR_HPP
 
 #include "ContainerControl.hpp"
 
