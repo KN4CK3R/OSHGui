@@ -216,9 +216,9 @@ namespace OSHGui
 	{
 		ContainerControl::OnMouseClick(mouse);
 
-		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Position))
+		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Location))
 		{
-			int clickedIndex = firstVisibleItemIndex + (mouse.Position.Y - absoluteLocation.Y - 4) / (font->GetSize() + 2);
+			int clickedIndex = firstVisibleItemIndex + (mouse.Location.Y - absoluteLocation.Y - 4) / (font->GetSize() + 2);
 			if (clickedIndex < items.size())
 			{
 				SetSelectedIndex(clickedIndex);

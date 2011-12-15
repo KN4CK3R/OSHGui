@@ -88,9 +88,9 @@ namespace OSHGui
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 
 		bool checked;
-		Drawing::Point checkBoxPosition;
-		Drawing::Point textPosition;
-		Drawing::Point checkBoxAbsolutePosition;
+		Drawing::Point checkBoxLocation;
+		Drawing::Point textLocation;
+		Drawing::Point checkBoxAbsoluteLocation;
 					   
 		CheckedChangedEvent checkedChangedEvent;
 

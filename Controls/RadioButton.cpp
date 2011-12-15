@@ -83,26 +83,26 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(checkBoxAbsolutePosition.Left, checkBoxAbsolutePosition.Top, DefaultCheckBoxSize, DefaultCheckBoxSize);
+		renderer->Fill(checkBoxAbsoluteLocation.Left, checkBoxAbsoluteLocation.Top, DefaultCheckBoxSize, DefaultCheckBoxSize);
 
 		Drawing::Color white = Drawing::Color::White();
 		renderer->SetRenderColor(white);
-		renderer->FillGradient(checkBoxAbsolutePosition.Left + 1, checkBoxAbsolutePosition.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
+		renderer->FillGradient(checkBoxAbsoluteLocation.Left + 1, checkBoxAbsoluteLocation.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
 		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(checkBoxAbsolutePosition.Left + 2, checkBoxAbsolutePosition.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
+		renderer->FillGradient(checkBoxAbsoluteLocation.Left + 2, checkBoxAbsoluteLocation.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
 		
 		if (checked)
 		{
-			renderer->Fill(checkBoxAbsolutePosition.Left + 6, checkBoxAbsolutePosition.Top + 4, 5, 9);
-			renderer->Fill(checkBoxAbsolutePosition.Left + 4, checkBoxAbsolutePosition.Top + 6, 9, 5);
-			renderer->Fill(checkBoxAbsolutePosition.Left + 5, checkBoxAbsolutePosition.Top + 5, 7, 7);
+			renderer->Fill(checkBoxAbsoluteLocation.Left + 6, checkBoxAbsoluteLocation.Top + 4, 5, 9);
+			renderer->Fill(checkBoxAbsoluteLocation.Left + 4, checkBoxAbsoluteLocation.Top + 6, 9, 5);
+			renderer->Fill(checkBoxAbsoluteLocation.Left + 5, checkBoxAbsoluteLocation.Top + 5, 7, 7);
 			
 			renderer->SetRenderColor(white - Drawing::Color(0, 128, 128, 128));
-			renderer->Fill(checkBoxAbsolutePosition.Left + 5, checkBoxAbsolutePosition.Top + 7, 7, 3);
+			renderer->Fill(checkBoxAbsoluteLocation.Left + 5, checkBoxAbsoluteLocation.Top + 7, 7, 3);
 			
 			renderer->SetRenderColor(white);
-			renderer->FillGradient(checkBoxAbsolutePosition.Left + 7, checkBoxAbsolutePosition.Top + 5, 3, 7, white - Drawing::Color(0, 137, 137, 137));
-			renderer->FillGradient(checkBoxAbsolutePosition.Left + 6, checkBoxAbsolutePosition.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
+			renderer->FillGradient(checkBoxAbsoluteLocation.Left + 7, checkBoxAbsoluteLocation.Top + 5, 3, 7, white - Drawing::Color(0, 137, 137, 137));
+			renderer->FillGradient(checkBoxAbsoluteLocation.Left + 6, checkBoxAbsoluteLocation.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
 		}
 
 		label->Render(renderer);

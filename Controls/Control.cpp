@@ -91,7 +91,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetBounds(const Drawing::Rectangle &bounds)
 	{
-		SetBounds(bounds.GetPosition(), bounds.GetSize());
+		SetBounds(bounds.GetLocation(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Rectangle Control::GetBounds() const
@@ -409,14 +409,14 @@ namespace OSHGui
 		Application::Instance()->ClickedControl = this;
 
         MouseEventArgs args(mouse);
-		args.Position -= absoluteLocation;
+		args.Location -= absoluteLocation;
 		mouseDownEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseClick(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Position -= absoluteLocation;
+		args.Location -= absoluteLocation;
 		mouseClickEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
@@ -426,21 +426,21 @@ namespace OSHGui
 		Application::Instance()->ClickedControl = 0;
 
 		MouseEventArgs args(mouse);
-		args.Position -= absoluteLocation;
+		args.Location -= absoluteLocation;
 		mouseUpEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseMove(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Position -= absoluteLocation;
+		args.Location -= absoluteLocation;
 		mouseMoveEvent.Invoke(this, args);		
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseScroll(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Position -= absoluteLocation;
+		args.Location -= absoluteLocation;
 		mouseScrollEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
@@ -547,7 +547,7 @@ namespace OSHGui
 		{
 			case MouseMessage::LeftDown:
 			case MouseMessage::RightDown:
-				if (canRaiseEvents && Intersect(mouse.Position))
+				if (canRaiseEvents && Intersect(mouse.Location))
 				{
 					if (mouse.State == MouseMessage::LeftDown && !isClicked && isEnabled)
 					{
@@ -564,7 +564,7 @@ namespace OSHGui
 				break;
 			case MouseMessage::LeftUp:
 			case MouseMessage::RightUp:
-				if (canRaiseEvents && (hasCaptured || Intersect(mouse.Position)))
+				if (canRaiseEvents && (hasCaptured || Intersect(mouse.Location)))
 				{
 					if (isClicked)
 					{
@@ -582,7 +582,7 @@ namespace OSHGui
 				}
 				break;
 			case MouseMessage::Move:
-				if (hasCaptured || Intersect(mouse.Position))
+				if (hasCaptured || Intersect(mouse.Location))
 				{
 					if (canRaiseEvents)
 					{

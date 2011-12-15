@@ -152,7 +152,7 @@ namespace OSHGui
 		for (int i = 0; i < 3; ++i)
 		{
 			Drawing::Point barLocation = Drawing::Point(absoluteLocation.Left, absoluteLocation.Top + i * 15);
-			if (Intersection::TestRectangle(barLocation, DefaultBarSize, mouse.Position))
+			if (Intersection::TestRectangle(barLocation, DefaultBarSize, mouse.Location))
 			{
 				barIndex = i;
 
@@ -160,7 +160,7 @@ namespace OSHGui
 
 				OnGotMouseCapture();
 
-				int localLocation = mouse.Position.Left - absoluteLocation.Left;
+				int localLocation = mouse.Location.Left - absoluteLocation.Left;
 				if (localLocation < 0)
 				{
 					barSliderLocation[barIndex].Left = 0;
@@ -205,7 +205,7 @@ namespace OSHGui
 
 		if (drag[barIndex])
 		{
-			int localLocation = mouse.Position.Left - absoluteLocation.Left;
+			int localLocation = mouse.Location.Left - absoluteLocation.Left;
 			if (localLocation < 0)
 			{
 				barSliderLocation[barIndex].Left = 0;

@@ -13,19 +13,16 @@ namespace OSHGui
 	{
 	public:
 		MouseMessage::MouseStates State;
-		Drawing::Point Position;
+		Drawing::Point Location;
 		
 	public:
-		MouseEventArgs(MouseMessage *mouseEvent)
-		{
-			State = mouseEvent->State;
-			Position = mouseEvent->Position;
-		}
-
+		/**
+		 * Konstruktor der Klasse
+		 */
 		MouseEventArgs(const MouseMessage &mouseEvent)
 		{
 			State = mouseEvent.State;
-			Position = mouseEvent.Position;
+			Location = mouseEvent.Location;
 		}
 	};
 }

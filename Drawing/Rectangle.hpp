@@ -108,7 +108,7 @@ namespace OSHGui
 			 *
 			 * @return position
 			 */
-			Point GetPosition() const;
+			Point GetLocation() const;
 			/**
 			 * Ruft die Größe des Rechtecks ab.
 			 *

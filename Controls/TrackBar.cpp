@@ -129,8 +129,8 @@ namespace OSHGui
 			
 			valueChangedEvent.Invoke(this);
 
-			int tickPosition = value / tickFrequency;
-			sliderLocation.Left = tickPosition * pixelsPerTick;
+			int tick = value / tickFrequency;
+			sliderLocation.Left = tick * pixelsPerTick;
 			sliderAbsoluteLocation.Left = absoluteLocation.Left + sliderLocation.Left;
 		}
 	}
@@ -148,7 +148,7 @@ namespace OSHGui
 	{
 		Control::OnMouseDown(mouse);
 
-		if (Intersection::TestRectangle(sliderAbsoluteLocation, SliderSize, mouse.Position))
+		if (Intersection::TestRectangle(sliderAbsoluteLocation, SliderSize, mouse.Location))
 		{
 			drag = true;
 			OnGotMouseCapture();
@@ -169,8 +169,8 @@ namespace OSHGui
 
 		if (!drag)
 		{
-			int tickPosition = (mouse.Position.Left - absoluteLocation.Left) / pixelsPerTick;
-			SetValueInternal(tickPosition * tickFrequency);
+			int tick = (mouse.Location.Left - absoluteLocation.Left) / pixelsPerTick;
+			SetValueInternal(tick * tickFrequency);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -180,8 +180,8 @@ namespace OSHGui
 
 		if (drag)
 		{
-			int tickPosition = (mouse.Position.Left - absoluteLocation.Left) / pixelsPerTick;
-			SetValueInternal(tickPosition * tickFrequency);
+			int tick = (mouse.Location.Left - absoluteLocation.Left) / pixelsPerTick;
+			SetValueInternal(tick * tickFrequency);
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -155,7 +155,7 @@ namespace OSHGui
 		Control::OnMouseDown(mouse);
 
 		Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
-		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Position - absoluteLocation + Drawing::Point(strWidth.Width - 7, 0)) - 1);
+		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Location - absoluteLocation + Drawing::Point(strWidth.Width - 7, 0)) - 1);
 	}
 	//---------------------------------------------------------------------------
 	bool TextBox::OnKeyPress(const KeyboardMessage &keyboard)

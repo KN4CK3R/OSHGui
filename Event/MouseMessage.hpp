@@ -2,14 +2,13 @@
 #define OSHGUI_EVENT_MOUSEMESSAGE_HPP_
 
 #include "Drawing\Point.hpp"
-#include "IEvent.hpp"
 
 namespace OSHGui
 {
 	/**
-	 * Mausevent
+	 * Mausnachricht
 	 */
-	class OSHGUI_EXPORT MouseMessage : public IEvent
+	class OSHGUI_EXPORT MouseMessage
 	{
 	public:
 		enum MouseStates
@@ -45,20 +44,14 @@ namespace OSHGui
 		};
 	
 		MouseStates State;
-		Drawing::Point Position;
+		Drawing::Point Location;
 		int Delta;
 		
-	public:
-		MouseMessage() : IEvent(IEvent::Mouse)
-		{
-			State = Unknown;
-			Delta = 0;
-		}
-		
-		MouseMessage(MouseStates State, Drawing::Point Position, int Delta) : IEvent(IEvent::Mouse)
+	public:		
+		MouseMessage(MouseStates State, Drawing::Point Location, int Delta)
 		{
 			this->State = State;
-			this->Position = Position;
+			this->Location = Location;
 			this->Delta = Delta;
 		}
 	};
