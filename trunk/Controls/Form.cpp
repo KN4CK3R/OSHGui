@@ -230,9 +230,10 @@ namespace OSHGui
 		return titleLabel->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::SetForeColor(Drawing::Color color)
+	void Form::CaptionBar::SetForeColor(const Drawing::Color &color)
 	{
 		ContainerControl::SetForeColor(color);
+
 		closeButton->SetForeColor(color);
 		titleLabel->SetForeColor(color);
 	}

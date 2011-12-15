@@ -58,7 +58,6 @@ namespace OSHGui
 		SetSize(160, 24);
 		
 		SetBackColor(Drawing::Color(0xFF4E4E4E));
-		SetDropDownColor(Drawing::Color(0xFF171614));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------

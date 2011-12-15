@@ -2,7 +2,6 @@
 #define OSHGUI_EVENT_KEYBOARDMESSAGE_HPP_
 
 #include "Key.hpp"
-#include "IEvent.hpp"
 #include "Misc\Strings.hpp"
 
 namespace OSHGui
@@ -10,7 +9,7 @@ namespace OSHGui
 	/**
 	 * Tastaturevent
 	 */
-	class OSHGUI_EXPORT KeyboardMessage : public IEvent
+	class OSHGUI_EXPORT KeyboardMessage
 	{
 	public:
 		enum KeyboardStates
@@ -41,7 +40,10 @@ namespace OSHGui
 			 Shift;
 		
 	public:
-		KeyboardMessage() : IEvent(IEvent::Keyboard)
+		/**
+		 * Konstruktor der Klasse.
+		 */
+		KeyboardMessage()
 		{
 			State = Unknown;
 			Menu = false;
@@ -49,15 +51,6 @@ namespace OSHGui
 			Shift = false;
 			KeyCode = Key::None;
 			KeyChar = '\0';
-		}
-	
-		KeyboardMessage(bool Menu, bool Control, bool Shift, Key::Keys KeyCode, Misc::AnsiChar KeyChar) : IEvent(IEvent::Keyboard)
-		{
-			this->Menu = Menu;
-			this->Control = Control;
-			this->Shift = Shift;
-			this->KeyCode = KeyCode;
-			this->KeyChar = KeyChar;
 		}
 
 		/**
@@ -67,7 +60,10 @@ namespace OSHGui
 		 */
 		bool IsAlphaNumeric() const
 		{
-			return Misc::String::IsLetterOrDigit(KeyChar) || Misc::String::IsPunctuation(KeyChar) || Misc::String::IsSeperator(KeyChar) || Misc::String::IsSymbol(KeyChar);
+			return Misc::String::IsLetterOrDigit(KeyChar)
+				|| Misc::String::IsPunctuation(KeyChar)
+				|| Misc::String::IsSeperator(KeyChar)
+				|| Misc::String::IsSymbol(KeyChar);
 		}
 	};
 }

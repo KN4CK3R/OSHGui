@@ -17,7 +17,9 @@ namespace OSHGui
 		 */
 		class OSHGUI_EXPORT IFont
 		{
-		public:			
+		public:
+			virtual ~IFont() { }
+
 			/**
 			 * Ruft den Namen der Schriftart ab.
 			 *

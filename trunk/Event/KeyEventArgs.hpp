@@ -20,16 +20,6 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
-		KeyEventArgs(KeyboardMessage *keyboardEvent)
-		{
-			KeyCode = keyboardEvent->KeyCode;
-			KeyChar = keyboardEvent->KeyChar;
-			Menu = keyboardEvent->Menu;
-			Control = keyboardEvent->Control;
-			Shift = keyboardEvent->Shift;
-			Handled = false;
-		}
-
 		KeyEventArgs(const KeyboardMessage &keyboardEvent)
 		{
 			KeyCode = keyboardEvent.KeyCode;

@@ -20,7 +20,9 @@ namespace OSHGui
 		 */
 		class OSHGUI_EXPORT IRenderer
 		{
-		public:		
+		public:
+			virtual ~IRenderer() { }
+
 			/**
 			 * Leitet das Zeichnen ein.
 			 */

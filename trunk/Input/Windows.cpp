@@ -1,3 +1,4 @@
+#include <locale>
 #include "Windows.hpp"
 #include "..\Event\MouseMessage.hpp"
 #include "..\Event\KeyboardMessage.hpp"
@@ -199,7 +200,8 @@ namespace OSHGui
 								break;
 							default:
 								keyboard.KeyChar = (Misc::AnsiChar)message->wParam;
-								Misc::AnsiChar keyChar = tolower(keyboard.KeyChar);
+								std::locale loc;
+								Misc::AnsiChar keyChar = std::tolower(keyboard.KeyChar, loc);
 								
 								if (keyChar >= 'a' && keyChar <= 'z')
 								{
