@@ -47,7 +47,10 @@ namespace OSHGui
 		Drawing::Point Location;
 		int Delta;
 		
-	public:		
+	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		MouseMessage(MouseStates State, Drawing::Point Location, int Delta)
 		{
 			this->State = State;

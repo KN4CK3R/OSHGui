@@ -5,9 +5,15 @@
 
 namespace OSHGui
 {
+	/**
+	 * Hand-Cursor
+	 */
 	class HandCursor : public Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		HandCursor();
 		virtual ~HandCursor();
 		

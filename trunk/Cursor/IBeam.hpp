@@ -5,9 +5,15 @@
 
 namespace OSHGui
 {
+	/**
+	 * Textauswahl-Cursor
+	 */
 	class IBeamCursor : public Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		IBeamCursor();
 		virtual ~IBeamCursor();
 		

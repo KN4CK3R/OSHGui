@@ -9,12 +9,24 @@
 
 namespace OSHGui
 {
+	/**
+	 * Standard-Cursor
+	 */
 	class OSHGUI_EXPORT Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		Cursor();
 		virtual ~Cursor();
 	
+		/**
+		 * Zeichnet den Cursor.
+		 *
+		 * @param renderer
+		 * @param cursorLocation
+		 */
 		virtual void Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation);
 		
 	protected:
