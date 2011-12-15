@@ -27,6 +27,13 @@ namespace OSHGui
 		{
 			firstVisibleItemIndex = args.NewValue;
 		});
+		scrollBar->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
+		{
+			if (newFocusedControl != this)
+			{
+				OnLostFocus(newFocusedControl);
+			}
+		});
 		AddSubControl(scrollBar);
 
 		SetSize(DefaultSize);

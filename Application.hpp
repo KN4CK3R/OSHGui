@@ -25,6 +25,7 @@ namespace OSHGui
 	 */
 	class OSHGUI_EXPORT Application
 	{
+		friend Control;
 		friend Form;
 		friend Timer;
 
@@ -113,9 +114,7 @@ namespace OSHGui
 	private:
 		static Application *instance;
 		Application();
-	
-		bool isEnabled;
-		
+			
 		Drawing::IRenderer *renderer;
 	
 		FormManager formManager;
@@ -130,11 +129,12 @@ namespace OSHGui
 		} MouseInfo;
 		MouseInfo mouse;
 
-	public:
 		Control *FocusedControl;
 		Control *ClickedControl;
 		Control *CaptureControl;
 		Control *MouseEnteredControl;
+
+		bool isEnabled;
 	};
 }
 

@@ -16,12 +16,6 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
-		KeyPressEventArgs(KeyboardMessage *keyboardEvent)
-		{
-			KeyChar = keyboardEvent->KeyChar;
-			Handled = false;
-		}
-
 		KeyPressEventArgs(const KeyboardMessage &keyboardEvent)
 		{
 			KeyChar = keyboardEvent.KeyChar;

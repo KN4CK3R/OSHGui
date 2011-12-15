@@ -56,9 +56,6 @@ namespace OSHGui
 		class CaptionBar;
 
 	public:
-		static const Drawing::Point DefaultLocation;
-		static const Drawing::Size DefaultSize;
-
 		using Panel::SetSize;
 
 		/**
@@ -72,8 +69,7 @@ namespace OSHGui
 		 *
 		 * @return modal
 		 */
-		bool IsModal() const;
-		
+		bool IsModal() const;		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -146,12 +142,15 @@ namespace OSHGui
 		DialogResult dialogResult;
 
 	private:
-		bool isModal;
+		static const Drawing::Point DefaultLocation;
+		static const Drawing::Size DefaultSize;
 
 		std::weak_ptr<Form> instance;
 
 		CaptionBar *captionBar;
 		Panel *containerPanel;
+
+		bool isModal;
 
 		class CaptionBar : public ContainerControl
 		{
@@ -185,7 +184,7 @@ namespace OSHGui
 			void SetSize(const Drawing::Size &size);
 			void SetText(const Misc::AnsiString &text);
 			const Misc::AnsiString& GetText() const;
-			void SetForeColor(Drawing::Color color);
+			void SetForeColor(const Drawing::Color &color);
 
 			void Render(Drawing::IRenderer *renderer);
 

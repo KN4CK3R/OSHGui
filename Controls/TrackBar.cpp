@@ -167,11 +167,9 @@ namespace OSHGui
 	{
 		Control::OnMouseClick(mouse);
 
-		float oldSliderValue = value;
-		int tickPosition;
 		if (!drag)
 		{
-			tickPosition = (mouse.Position.Left - absoluteLocation.Left) / pixelsPerTick;
+			int tickPosition = (mouse.Position.Left - absoluteLocation.Left) / pixelsPerTick;
 			SetValueInternal(tickPosition * tickFrequency);
 		}
 	}

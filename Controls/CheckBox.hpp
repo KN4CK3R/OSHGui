@@ -53,7 +53,7 @@ namespace OSHGui
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(Drawing::Color color);
+		virtual void SetForeColor(const Drawing::Color &color);
 		/**
 		 * Ruft das CheckedChangeEvent für das Steuerelement ab.
 		 *

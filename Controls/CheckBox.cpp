@@ -94,7 +94,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::SetForeColor(Drawing::Color color)
+	void CheckBox::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 

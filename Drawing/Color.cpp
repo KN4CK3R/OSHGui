@@ -113,13 +113,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Color& Color::operator -= (const Color &color)
 		{
-			unsigned int alpha = A - color.A;
+			int alpha = A - color.A;
 			A = (alpha < 0 ? 0 : alpha) & 0xFF;
-			unsigned int red = R - color.R;
+			int red = R - color.R;
 			R = (red < 0 ? 0 : red) & 0xFF;
-			unsigned int green = G - color.G;
+			int green = G - color.G;
 			G = (green < 0 ? 0 : green) & 0xFF;
-			unsigned int blue = B - color.B;
+			int blue = B - color.B;
 			B = (blue < 0 ? 0 : blue) & 0xFF;
 
 			return *this;

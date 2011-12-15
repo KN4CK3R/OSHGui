@@ -21,7 +21,7 @@ namespace OSHGui
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 */
 			FontDX9(IDirect3DDevice9 *device, const Misc::AnsiString &fontName, int size, bool bold, bool italic);
-			~FontDX9();
+			virtual ~FontDX9();
 			
 			/**
 			 * Ruft das zugrundeliegende IDirect3DFont-Objekt ab.

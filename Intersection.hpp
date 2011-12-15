@@ -9,15 +9,17 @@ namespace OSHGui
 	class Intersection
 	{
 	public:
+		/**
+		 * Prüft, ob sich der Punkt test innerhalb des von location und size aufgespannten Rechtecks liegt.
+		 *
+		 * @param location
+		 * @param size
+		 * @param test
+		 */
 		static bool TestRectangle(const Drawing::Point &location, const Drawing::Size &size, const Drawing::Point &test)
 		{
-			int testX = test.X;
-			int testY = test.Y;
-			int locationX = location.X;
-			int locationY = location.Y;
-
-			return ((testX >= locationX && testX <= locationX + size.Width)
-				&& (testY >= locationY && testY <= locationY + size.Height));
+			return (test.X >= location.X && test.X <= location.X + size.Width)
+				&& (test.Y >= location.Y && test.Y <= location.Y + size.Height);
 		}
 	};
 }

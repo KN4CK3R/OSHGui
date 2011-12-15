@@ -51,7 +51,7 @@ namespace OSHGui
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(Drawing::Color color);
+		virtual void SetForeColor(const Drawing::Color &color);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
