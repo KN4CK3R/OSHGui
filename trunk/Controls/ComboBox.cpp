@@ -87,16 +87,6 @@ namespace OSHGui
 		listBox->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::SetDropDownColor(const Drawing::Color &color)
-	{
-		dropDownColor = color;
-	}
-	//---------------------------------------------------------------------------
-	Drawing::Color ComboBox::GetDropDownColor() const
-	{
-		return dropDownColor;
-	}
-	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ComboBox::GetItem(int index) const
 	{
 		return listBox->GetItem(index);

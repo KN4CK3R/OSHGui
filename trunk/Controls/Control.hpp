@@ -542,6 +542,9 @@ namespace OSHGui
 		 */
 		Control* GetParent() const;
 
+		/**
+		 * Setzt den Eingabefokus auf das Steuerelement.
+		 */
 		void Focus();
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -554,22 +557,34 @@ namespace OSHGui
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation();
+		/**
+		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
+		 *
+		 * @param point
+		 * @return Clientkoordinaten
+		 */
 		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
 		/**
 		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
 		 *
 		 * @param point
-		 * @return der neue Punkt
+		 * @return Bildschirmkoordinaten
 		 */
 		virtual const Drawing::Point PointToScreen(const Drawing::Point &point) const;
 		
 		/**
-		 * Wird von ProcessEvent verwendet, um Kindelemete Events verarbeiten zu lassen.
+		 * Verarbeitet eine Maus-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
 		 *
-		 * @param event
-		 * @return NextEventTypes
+		 * @param mouse
+		 * @return true, falls die Nachricht verarbeitet wurde
 		 */
 		bool ProcessMouseMessage(const MouseMessage &mouse);
+		/**
+		 * Verarbeitet eine Tastatur-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
+		 *
+		 * @param keyboard
+		 * @return true, falls die Nachricht verarbeitet wurde
+		 */
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -638,9 +653,9 @@ namespace OSHGui
 		FocusGotEvent focusGotEvent;
 		FocusLostEvent focusLostEvent;
 		
-		Drawing::Color foreColor,
-					   backColor,
-					   mouseOverFocusColor;
+		Drawing::Color foreColor;
+		Drawing::Color backColor;
+		Drawing::Color mouseOverFocusColor;
 		
 		std::shared_ptr<Drawing::IFont> font;
 		std::shared_ptr<Cursor> cursor;

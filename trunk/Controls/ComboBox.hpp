@@ -39,18 +39,6 @@ namespace OSHGui
 		 */
 		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
-		 * Legt die Hintergrundfarbe des DropDown-Steuerelements fest.
-		 *
-		 * @param color
-		 */
-		void SetDropDownColor(const Drawing::Color &color);
-		/**
-		 * Ruft die Hintergrundfarbe des DropDown-Steuerelements ab.
-		 *
-		 * @return color
-		 */
-		Drawing::Color GetDropDownColor() const;
-		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
 		 * @param index
