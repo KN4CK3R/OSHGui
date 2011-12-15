@@ -5,7 +5,6 @@
 #include "Drawing/IRenderer.hpp"
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"
-#include "Event/IEvent.hpp"
 #include "Event/MouseMessage.hpp"
 #include "Event/KeyboardMessage.hpp"
 #include "Exports.hpp"

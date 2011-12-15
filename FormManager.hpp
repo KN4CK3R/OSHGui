@@ -4,7 +4,6 @@
 #include <vector>
 #include <memory>
 #include <functional>
-#include "Event\IEvent.hpp"
 #include "Exports.hpp"
 
 namespace OSHGui
