@@ -316,6 +316,16 @@ namespace OSHGui
 		return keyUpEvent;
 	}
 	//---------------------------------------------------------------------------
+	FocusGotEvent& Control::GetFocusGotEvent()
+	{
+		return focusGotEvent;
+	}
+	//---------------------------------------------------------------------------
+	FocusLostEvent& Control::GetFocusLostEvent()
+	{
+		return focusLostEvent;
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetParent(Control *parent)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -336,6 +346,14 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
+	//---------------------------------------------------------------------------
+	void Control::Focus()
+	{
+		if (isFocusable && !isFocused)
+		{
+			OnGotFocus(this);
+		}
+	}
 	//---------------------------------------------------------------------------
 	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
 	{
@@ -475,29 +493,29 @@ namespace OSHGui
 		mouseCaptureChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnGotFocus()
+	void Control::OnGotFocus(Control *newFocusedControl)
 	{
 		Application *app = Application::Instance();
-		if (this != app->FocusedControl)
+		if (newFocusedControl != app->FocusedControl)
 		{
 			if (app->FocusedControl != 0)
 			{
-				app->FocusedControl->OnLostFocus();
+				app->FocusedControl->OnLostFocus(newFocusedControl);
 			}
 
-			app->FocusedControl = this;
+			app->FocusedControl = newFocusedControl;
 			isFocused = true;
 
 			focusGotEvent.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Control::OnLostFocus()
+	void Control::OnLostFocus(Control *newFocusedControl)
 	{
 		isFocused = isClicked = false;
 		Application::Instance()->FocusedControl = 0;
 
-		focusLostEvent.Invoke(this);
+		focusLostEvent.Invoke(this, newFocusedControl);
 	}
 	//---------------------------------------------------------------------------
 	bool Control::OnKeyDown(const KeyboardMessage &keyboard)
@@ -536,18 +554,9 @@ namespace OSHGui
 					{
 						OnMouseDown(mouse);
 						
-						if (isFocusable)
+						if (isFocusable && !isFocused)
 						{
-							Application *app = Application::Instance();
-							if (!isFocused && app->FocusedControl != 0)
-							{
-								app->FocusedControl->OnLostFocus();
-							}
-
-							if (!isFocused)
-							{
-								OnGotFocus();
-							}
+							OnGotFocus(this);
 						}
 					}
 

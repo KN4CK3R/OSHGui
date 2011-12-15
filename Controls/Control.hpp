@@ -173,8 +173,8 @@ namespace OSHGui
 	/**
 	 * Tritt auf, wenn das Steuerelement nicht mehr das aktive Steuerelement auf dem Formular ist.
 	 */
-	typedef Event<void(Control*)> FocusLostEvent;
-	typedef EventHandler<void(Control*)> FocusLostEventHandler;
+	typedef Event<void(Control*, Control*)> FocusLostEvent;
+	typedef EventHandler<void(Control*, Control*)> FocusLostEventHandler;
 
 	/**
 	 * Definiert die Basisklasse für Steuerelemente, die Komponenten mit visueller Darstellung sind.
@@ -542,6 +542,7 @@ namespace OSHGui
 		 */
 		Control* GetParent() const;
 
+		void Focus();
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
@@ -594,8 +595,8 @@ namespace OSHGui
 		virtual void OnMouseLeave(const MouseMessage &mouse);
 		virtual void OnGotMouseCapture();
 		virtual void OnLostMouseCapture();
-		virtual void OnGotFocus();
-		virtual void OnLostFocus();
+		virtual void OnGotFocus(Control *newFocusedControl);
+		virtual void OnLostFocus(Control *newFocusedControl);
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
