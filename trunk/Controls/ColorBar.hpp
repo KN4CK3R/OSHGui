@@ -1,5 +1,5 @@
-#ifndef OSHGUI_COLORBAR_HPP_
-#define OSHGUI_COLORBAR_HPP_
+#ifndef OSHGUI_COLORBAR_HPP
+#define OSHGUI_COLORBAR_HPP
 
 #include <memory>
 #include "Control.hpp"

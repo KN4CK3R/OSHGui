@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TABCONTROL_HPP_
-#define OSHGUI_TABCONTROL_HPP_
+#ifndef OSHGUI_TABCONTROL_HPP
+#define OSHGUI_TABCONTROL_HPP
 
 #include "ContainerControl.hpp"
 

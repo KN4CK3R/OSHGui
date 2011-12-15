@@ -1,5 +1,5 @@
-#ifndef OSHGUI_APPLICATION_HPP_
-#define OSHGUI_APPLICATION_HPP_
+#ifndef OSHGUI_APPLICATION_HPP
+#define OSHGUI_APPLICATION_HPP
 
 #include <memory>
 #include "Drawing/IRenderer.hpp"

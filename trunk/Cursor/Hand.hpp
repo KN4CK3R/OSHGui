@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CURSOR_HAND_HPP_
-#define OSHGUI_CURSOR_HAND_HPP_
+#ifndef OSHGUI_CURSOR_HAND_HPP
+#define OSHGUI_CURSOR_HAND_HPP
 
 #include "Cursor.hpp"
 

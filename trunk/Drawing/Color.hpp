@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_COLOR_HPP_
-#define OSHGUI_DRAWING_COLOR_HPP_
+#ifndef OSHGUI_DRAWING_COLOR_HPP
+#define OSHGUI_DRAWING_COLOR_HPP
 
 #include "../Exports.hpp"
 

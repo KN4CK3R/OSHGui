@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_IRENDERER_HPP_
-#define OSHGUI_DRAWING_IRENDERER_HPP_
+#ifndef OSHGUI_DRAWING_IRENDERER_HPP
+#define OSHGUI_DRAWING_IRENDERER_HPP
 
 #include <memory>
 #include "../Exports.hpp"

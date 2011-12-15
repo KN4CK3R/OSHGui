@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP_
-#define OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP_
+#ifndef OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP
+#define OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP
 
 #include "Misc\Strings.hpp"
 #include "KeyboardMessage.hpp"
@@ -16,6 +16,9 @@ namespace OSHGui
 		bool Handled;
 		
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		KeyPressEventArgs(const KeyboardMessage &keyboardEvent)
 		{
 			KeyChar = keyboardEvent.KeyChar;

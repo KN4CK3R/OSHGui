@@ -1,5 +1,5 @@
-#ifndef OSHGUI_CURSOR_PEN_HPP_
-#define OSHGUI_CURSOR_PEN_HPP_
+#ifndef OSHGUI_CURSOR_PEN_HPP
+#define OSHGUI_CURSOR_PEN_HPP
 
 #include "Cursor.hpp"
 

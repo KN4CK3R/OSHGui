@@ -1,5 +1,5 @@
-#ifndef OSHGUI_TIMERMANAGER_HPP_
-#define OSHGUI_TIMERMANAGER_HPP_
+#ifndef OSHGUI_TIMERMANAGER_HPP
+#define OSHGUI_TIMERMANAGER_HPP
 
 #include <list>
 #include "Misc\DateTime.hpp"

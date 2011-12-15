@@ -1,5 +1,5 @@
-#ifndef OSHGUI_GROUPBOX_HPP_
-#define OSHGUI_GROUPBOX_HPP_
+#ifndef OSHGUI_GROUPBOX_HPP
+#define OSHGUI_GROUPBOX_HPP
 
 #include "Panel.hpp"
 

@@ -1,5 +1,5 @@
-#ifndef OSHGUI_PANEL_HPP_
-#define OSHGUI_PANEL_HPP_
+#ifndef OSHGUI_PANEL_HPP
+#define OSHGUI_PANEL_HPP
 
 #include "ContainerControl.hpp"
 

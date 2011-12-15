@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EXPORTS_HPP_
-#define OSHGUI_EXPORTS_HPP_
+#ifndef OSHGUI_EXPORTS_HPP
+#define OSHGUI_EXPORTS_HPP
 
 #ifdef OSHGUI_COMPILE_DLL
 	#ifdef __GNUC__

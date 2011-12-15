@@ -1,5 +1,5 @@
-#ifndef OSHGUI_MISC_TIMESPAN_HPP_
-#define OSHGUI_MISC_TIMESPAN_HPP_
+#ifndef OSHGUI_MISC_TIMESPAN_HPP
+#define OSHGUI_MISC_TIMESPAN_HPP
 #include "../Exports.hpp"
 #include "Strings.hpp"
 

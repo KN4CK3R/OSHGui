@@ -1,5 +1,5 @@
-#ifndef OSHGUI_DRAWING_POINT_HPP_
-#define OSHGUI_DRAWING_POINT_HPP_
+#ifndef OSHGUI_DRAWING_POINT_HPP
+#define OSHGUI_DRAWING_POINT_HPP
 
 #include "../Exports.hpp"
 

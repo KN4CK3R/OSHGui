@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EVENT_SCROLLEVENTARGS_HPP_
-#define OSHGUI_EVENT_SCROLLEVENTARGS_HPP_
+#ifndef OSHGUI_EVENT_SCROLLEVENTARGS_HPP
+#define OSHGUI_EVENT_SCROLLEVENTARGS_HPP
 
 namespace OSHGui
 {
@@ -13,6 +13,12 @@ namespace OSHGui
 		int OldValue;
 		
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 *
+		 * @param newValue der neue Scroll-Wert
+		 * @param oldValue der alte Scroll-Wert
+		 */
 		ScrollEventArgs(int newValue, int oldValue)
 		{
 			NewValue = newValue;

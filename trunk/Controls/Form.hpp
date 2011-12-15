@@ -1,5 +1,5 @@
-#ifndef OSHGUI_FORM_HPP_
-#define OSHGUI_FORM_HPP_
+#ifndef OSHGUI_FORM_HPP
+#define OSHGUI_FORM_HPP
 
 #include <functional>
 #include "Panel.hpp"

@@ -1,5 +1,5 @@
-#ifndef OSHGUI_EXCEPTIONS_HPP_
-#define OSHGUI_EXCEPTIONS_HPP_
+#ifndef OSHGUI_EXCEPTIONS_HPP
+#define OSHGUI_EXCEPTIONS_HPP
 
 #include <exception>
 #include "../Exports.hpp"
