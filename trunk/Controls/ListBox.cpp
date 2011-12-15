@@ -317,79 +317,6 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
-	/*bool ListBox::ProcessEvent(IEvent *event)
-	{
-		if (event->Type == IEvent::Keyboard)
-		{
-			if (items.size() == 0)
-			{
-				return true;
-			}
-		
-			KeyboardMessage *keyboard = (KeyboardMessage*)event;
-			if (keyboard->State == KeyboardMessage::KeyDown)
-			{
-				KeyEventArgs args(keyboard);
-				keyDownEvent.Invoke(this, args);
-			
-				switch (keyboard->KeyCode)
-				{
-					case Key::Up:
-					case Key::Down:
-					case Key::Home:
-					case Key::End:
-					case Key::PageUp:
-					case Key::PageDown:
-						int oldSelectedIndex = selectedIndex;
-
-						switch (keyboard->KeyCode)
-						{
-							case Key::Up:
-								--selectedIndex;
-								break;
-							case Key::Down:
-								++selectedIndex;
-								break;
-							case Key::Home:
-								selectedIndex = 0;
-								break;
-							case Key::End:
-								selectedIndex = items.size() - 1;
-								break;
-							case Key::PageUp:
-								selectedIndex += scrollBar.GetPageSize() - 1;
-								break;
-							case Key::PageDown:
-								selectedIndex -= scrollBar.GetPageSize() - 1;
-								break;
-						}
-
-						if (selectedIndex < 0)
-						{
-							selectedIndex = 0;
-						}
-						if (selectedIndex >= (int)items.size())
-						{
-							selectedIndex = items.size() - 1;
-						}
-
-						if (oldSelectedIndex != selectedIndex)
-						{
-							if (scrollBar.ShowItem(selectedIndex))
-							{
-								firstVisibleItemIndex = scrollBar.GetPosition();
-							}
-						
-							selectedIndexChangedEvent.Invoke(this);
-						}
-				}
-			}
-		}
-		
-		return false;
-	}
-	//---------------------------------------------------------------------------*/
 	void ListBox::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -398,7 +325,7 @@ namespace OSHGui
 		}
 		
 		renderer->SetRenderColor(backColor);
-		renderer->Fill(absoluteLocation, size);
+		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 2);
 		
 		renderer->SetRenderColor(backColor + Drawing::Color(0, 54, 53, 52));
 		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, size.Width - 2, 1);

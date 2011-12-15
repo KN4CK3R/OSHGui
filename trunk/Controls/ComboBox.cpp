@@ -27,6 +27,14 @@ namespace OSHGui
 				Collapse();
 			}
 		});
+		button->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
+		{
+			if (newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
+			{
+				return;
+			}
+			Collapse();
+		});
 		AddSubControl(button);
 
 		listBox = new ListBox();
@@ -36,6 +44,14 @@ namespace OSHGui
 		{
 			Collapse();
 			button->SetText(listBox->GetSelectedItem());
+		});
+		listBox->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
+		{
+			if (newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
+			{
+				return;
+			}
+			Collapse();
 		});
 		AddSubControl(listBox);
 
@@ -90,7 +106,7 @@ namespace OSHGui
 	{
 		listBox->SetSelectedIndex(index);
 
-		OnLostFocus();
+		Collapse();
 	}
 	//---------------------------------------------------------------------------
 	int ComboBox::GetSelectedIndex() const
@@ -102,7 +118,7 @@ namespace OSHGui
 	{
 		listBox->SetSelectedItem(item);
 
-		OnLostFocus();
+		Collapse();
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ComboBox::GetSelectedItem() const
@@ -126,6 +142,7 @@ namespace OSHGui
 	{
 		droppedDown = true;
 		listBox->SetVisible(true);
+		listBox->Focus();
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::Collapse()
@@ -169,47 +186,7 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	/*void ComboBox::Invalidate()
-	{
-		//Button::Invalidate();
-
-		dropDownRect = Drawing::Rectangle(bounds.GetLeft(), bounds.GetBottom() + 1, bounds.GetWidth(), 0);
-		if (items.size() == 0)
-		{
-			dropDownRect.SetHeight(font->GetSize() + 4);
-		}
-		else
-		{
-			int height = items.size() * (font->GetSize() + 4) + 4;
-			if (height > COMBOBOX_MAX_HEIGHT)
-			{
-				height = COMBOBOX_MAX_HEIGHT;
-			}
-			dropDownRect.SetHeight(height);
-		}
-
-		Drawing::Rectangle boundsBackup = bounds;
-		bounds = dropDownRect;
-
-		bounds = boundsBackup;
-
-		//itemsRect = Drawing::Rectangle(dropDownRect.GetLeft() + 4, dropDownRect.GetTop() + 4, dropDownRect.GetWidth() - (scrollBar.GetVisible() ? scrollBar.GetWidth() : 0) - 8, dropDownRect.GetHeight() - 8);
-		
-		//scrollBar.SetPageSize(COMBOBOX_MAX_HEIGHT / (font->GetSize() + 2));
-		//if (items.size() > 0)
-		{
-			//scrollBar.ShowItem(selectedIndex);
-		}
-	}*/
-	//---------------------------------------------------------------------------
 	//Event-Handling
-	//---------------------------------------------------------------------------
-	void ComboBox::OnLostFocus()
-	{
-		ContainerControl::OnLostFocus();
-
-		Collapse();
-	}
 	//---------------------------------------------------------------------------
 	void ComboBox::Render(Drawing::IRenderer *renderer)
 	{

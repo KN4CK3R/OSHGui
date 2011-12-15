@@ -132,9 +132,6 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 	
-	protected:
-		virtual void OnLostFocus();
-
 	private:
 		static const Drawing::Size DefaultSize;
 
