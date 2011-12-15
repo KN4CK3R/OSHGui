@@ -5,9 +5,15 @@
 
 namespace OSHGui
 {
+	/**
+	 * Stift-Cursor
+	 */
 	class PenCursor : public Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		PenCursor();
 		virtual ~PenCursor();
 		

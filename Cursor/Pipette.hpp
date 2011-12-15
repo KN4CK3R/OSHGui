@@ -5,9 +5,15 @@
 
 namespace OSHGui
 {
+	/**
+	 * Pipetten-Cursor
+	 */
 	class PipetteCursor : public Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		PipetteCursor();
 		virtual ~PipetteCursor();
 		

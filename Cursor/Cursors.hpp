@@ -8,7 +8,7 @@
 namespace OSHGui
 {
 	/**
-	 * Stellt Tastencodes bereit.
+	 * Stellt eine Auflistung von Cursorn bereit.
 	 */
 	class Cursors
 	{

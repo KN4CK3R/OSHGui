@@ -5,9 +5,15 @@
 
 namespace OSHGui
 {
+	/**
+	 * Kreis-Cursor
+	 */
 	class CircleCursor : public Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		CircleCursor();
 		virtual ~CircleCursor();
 		

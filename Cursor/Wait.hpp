@@ -5,9 +5,15 @@
 
 namespace OSHGui
 {
+	/**
+	 * Warte-Cursor
+	 */
 	class WaitCursor : public Cursor
 	{
 	public:
+		/**
+		 * Konstruktor der Klasse
+		 */
 		WaitCursor();
 		virtual ~WaitCursor();
 		
