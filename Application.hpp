@@ -108,6 +108,7 @@ namespace OSHGui
 		/**
 		 * Ruft die aktuelle Instanz der Application ab.
 		 *
+		 * @return instance
 		 */
 		static Application* Instance();
 
@@ -122,12 +123,11 @@ namespace OSHGui
 		
 		Misc::DateTime now;
 
-		typedef struct
+		struct
 		{
 			Drawing::Point Position;
 			std::shared_ptr<Cursor> Cursor;
-		} MouseInfo;
-		MouseInfo mouse;
+		} mouse;
 
 		Control *FocusedControl;
 		Control *ClickedControl;

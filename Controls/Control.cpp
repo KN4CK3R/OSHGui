@@ -473,8 +473,7 @@ namespace OSHGui
 		Application *app = Application::Instance();
 		if (app->CaptureControl != 0)
 		{
-			app->CaptureControl->hasCaptured = false;
-			app->CaptureControl = 0;
+			app->CaptureControl->OnLostMouseCapture();
 		}
 		app->CaptureControl = this;
 		hasCaptured = true;
