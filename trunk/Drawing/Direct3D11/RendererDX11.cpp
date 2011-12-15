@@ -37,6 +37,8 @@ namespace OSHGui
 			{
 				return;
 			}
+			
+			//not implemented
 		}
 		//---------------------------------------------------------------------------
 		Drawing::Size RendererDX11::MeasureText(Drawing::IFont *font, const Misc::UnicodeString &text)
@@ -69,6 +71,8 @@ namespace OSHGui
 			{
 				return;
 			}
+			
+			//not implemented
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX11::Fill(const Drawing::Point &point, D3DCOLOR color)
@@ -88,7 +92,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX11::Fill(int x, int y, int w, int h, D3DCOLOR color)
 		{
-		
+			//not implemented
 		}
 		//---------------------------------------------------------------------------
 	}

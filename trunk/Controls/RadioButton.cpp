@@ -73,7 +73,7 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	//
+	//Event-Handling
 	//---------------------------------------------------------------------------
 	void RadioButton::Render(Drawing::IRenderer *renderer)
 	{
