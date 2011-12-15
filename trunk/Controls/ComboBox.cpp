@@ -27,6 +27,54 @@ namespace OSHGui
 				Collapse();
 			}
 		});
+		button->GetKeyDownEvent() += KeyDownEventHandler([this](Control*, KeyEventArgs &args)
+		{
+			switch (args.KeyCode)
+			{
+				case Key::Up:
+				case Key::Down:
+				case Key::Home:
+				case Key::End:
+				case Key::PageUp:
+				case Key::PageDown:
+				{
+					int newSelectedIndex = listBox->GetSelectedIndex();
+
+					switch (args.KeyCode)
+					{
+						case Key::Up:
+							--newSelectedIndex;
+							break;
+						case Key::Down:
+							++newSelectedIndex;
+							break;
+						case Key::Home:
+							newSelectedIndex = 0;
+							break;
+						case Key::End:
+							newSelectedIndex = listBox->GetItemsCount() - 1;
+							break;
+						case Key::PageUp:
+							newSelectedIndex += 4;
+							break;
+						case Key::PageDown:
+							newSelectedIndex -= 4;
+							break;
+					}
+
+					if (newSelectedIndex < 0)
+					{
+						newSelectedIndex = 0;
+					}
+					if (newSelectedIndex >= listBox->GetItemsCount())
+					{
+						newSelectedIndex = listBox->GetItemsCount() - 1;
+					}
+
+					listBox->SetSelectedIndex(newSelectedIndex);
+				}
+			}
+		});
 		button->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
 			if (newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
