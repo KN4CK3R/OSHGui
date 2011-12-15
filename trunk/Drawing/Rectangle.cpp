@@ -95,7 +95,7 @@ namespace OSHGui
 			return bottom;
 		}
 		//---------------------------------------------------------------------------
-		Point Rectangle::GetPosition() const
+		Point Rectangle::GetLocation() const
 		{
 			return Point(left, top);
 		}

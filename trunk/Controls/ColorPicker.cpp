@@ -237,7 +237,7 @@ namespace OSHGui
 		
 		if (drag)
 		{
-			colorCursorLocation = mouse.Position - absoluteLocation;
+			colorCursorLocation = mouse.Location - absoluteLocation;
 								
 			color = GetColorAtPoint(colorCursorLocation);
 			Drawing::Color args = color;
@@ -253,7 +253,7 @@ namespace OSHGui
 		{
 			drag = false;
 
-			colorCursorLocation = mouse.Position - absoluteLocation;
+			colorCursorLocation = mouse.Location - absoluteLocation;
 					
 			color = GetColorAtPoint(colorCursorLocation);
 			Drawing::Color colorArgs = color;
@@ -273,11 +273,11 @@ namespace OSHGui
 			renderer->SetRenderColor(Drawing::Color::White());
 			renderer->RenderTexture(gradient, absoluteLocation);
 			
-			Drawing::Point tmpPosition = (absoluteLocation + colorCursorLocation).OffsetEx(-2, -2);
+			Drawing::Point tmpLocation = (absoluteLocation + colorCursorLocation).OffsetEx(-2, -2);
 			renderer->SetRenderColor(Drawing::Color::Black());
-			renderer->Fill(tmpPosition.Left, tmpPosition.Top, 4, 4);
+			renderer->Fill(tmpLocation.Left, tmpLocation.Top, 4, 4);
 			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->Fill(tmpPosition.Left + 1, tmpPosition.Top + 1, 2, 2);
+			renderer->Fill(tmpLocation.Left + 1, tmpLocation.Top + 1, 2, 2);
 		}
 	}
 	//---------------------------------------------------------------------------

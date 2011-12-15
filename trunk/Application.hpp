@@ -52,9 +52,9 @@ namespace OSHGui
 		/**
 		 * Ruft die aktuelle Mausposition ab.
 		 *
-		 * @return cursorPosition
+		 * @return cursorLocation
 		 */
-		const Drawing::Point& GetCursorPosition() const;
+		const Drawing::Point& GetCursorLocation() const;
 		/**
 		 * Ruft den Cursor ab.
 		 *
@@ -125,7 +125,7 @@ namespace OSHGui
 
 		struct
 		{
-			Drawing::Point Position;
+			Drawing::Point Location;
 			std::shared_ptr<Cursor> Cursor;
 		} mouse;
 

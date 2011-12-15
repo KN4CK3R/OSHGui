@@ -172,7 +172,7 @@ namespace OSHGui
 	{
 		Control::OnMouseDown(mouse);
 
-		if (Intersection::TestRectangle(sliderAbsoluteLocation, sliderSize, mouse.Position))
+		if (Intersection::TestRectangle(sliderAbsoluteLocation, sliderSize, mouse.Location))
 		{
 			drag = true;
 			OnGotMouseCapture();
@@ -189,7 +189,7 @@ namespace OSHGui
 			{
 				float valuePerPixel = (float)maximum / (trackSize.Height - sliderSize.Height);
 
-				int yPos = mouse.Position.Y - trackAbsoluteLocation.Top - sliderSize.Height / 2;
+				int yPos = mouse.Location.Y - trackAbsoluteLocation.Top - sliderSize.Height / 2;
 				if (yPos < 0)
 				{
 					yPos = 0;
@@ -221,10 +221,10 @@ namespace OSHGui
 
 		if (!drag && maximum > 1)
 		{
-			if (Intersection::TestRectangle(trackAbsoluteLocation, trackSize, mouse.Position))
+			if (Intersection::TestRectangle(trackAbsoluteLocation, trackSize, mouse.Location))
 			{
 				float valuePerPixel = (float)maximum / (trackSize.Height - sliderSize.Height);
-				int yPos = mouse.Position.Y - trackAbsoluteLocation.Top - sliderSize.Height / 2;
+				int yPos = mouse.Location.Y - trackAbsoluteLocation.Top - sliderSize.Height / 2;
 				SetValueInternal(yPos * valuePerPixel + 0.5f);
 			}
 		}

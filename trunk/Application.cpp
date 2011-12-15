@@ -50,9 +50,9 @@ namespace OSHGui
 		return renderer;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point& Application::GetCursorPosition() const
+	const Drawing::Point& Application::GetCursorLocation() const
 	{
-		return mouse.Position;
+		return mouse.Location;
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Cursor>& Application::GetCursor() const
@@ -122,7 +122,7 @@ namespace OSHGui
 			return false;
 		}
 
-		this->mouse.Position = mouse.Position;
+		this->mouse.Location = mouse.Location;
 
 		if (CaptureControl != 0)
 		{
@@ -218,7 +218,7 @@ namespace OSHGui
 			foreMost->Render(renderer);
 		}
 		
-		mouse.Cursor->Render(renderer, mouse.Position);
+		mouse.Cursor->Render(renderer, mouse.Location);
 	}
 	//---------------------------------------------------------------------------
 }

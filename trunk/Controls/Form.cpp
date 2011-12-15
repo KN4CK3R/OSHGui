@@ -244,7 +244,7 @@ namespace OSHGui
 
 		drag = true;
 		OnGotMouseCapture();
-		dragStart = mouse.Position;
+		dragStart = mouse.Location;
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseMove(const MouseMessage &mouse)
@@ -253,8 +253,8 @@ namespace OSHGui
 		
 		if (drag)
 		{
-			GetParent()->SetLocation(GetParent()->GetLocation() + (mouse.Position - dragStart));
-			dragStart = mouse.Position;
+			GetParent()->SetLocation(GetParent()->GetLocation() + (mouse.Location - dragStart));
+			dragStart = mouse.Location;
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -49,12 +49,12 @@ namespace OSHGui
 							break;
 						case WM_MOUSEWHEEL:
 							mouse.State = MouseMessage::Scroll;
-							mouse.Position = lastMouseLocation; //not valid when scrolling
+							mouse.Location = lastMouseLocation; //not valid when scrolling
 							mouse.Delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
 							break;
 					}
 
-					lastMouseLocation = mouse.Position;
+					lastMouseLocation = mouse.Location;
 
 					if (Application::Instance()->ProcessMouseMessage(mouse) == true)
 					{

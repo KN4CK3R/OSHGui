@@ -92,8 +92,8 @@ namespace OSHGui
 		bool showCaret;
 		Misc::TimeSpan blinkTime;
 		Misc::DateTime nextBlinkTime;
-		int caretPosition,
-			firstVisibleCharacter;
+		int caretPosition;
+		int firstVisibleCharacter;
 
 		TextChangedEvent textChangedEvent;
 	};

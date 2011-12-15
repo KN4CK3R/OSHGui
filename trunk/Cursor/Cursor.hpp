@@ -15,7 +15,7 @@ namespace OSHGui
 		Cursor();
 		virtual ~Cursor();
 	
-		virtual void Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorPosition);
+		virtual void Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation);
 		
 	protected:
 		virtual void CreateCursor();
