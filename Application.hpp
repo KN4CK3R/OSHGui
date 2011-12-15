@@ -57,7 +57,7 @@ namespace OSHGui
 		/**
 		 * Ruft den Cursor ab.
 		 *
-		 * @cursor
+		 * @return cursor
 		 */
 		const std::shared_ptr<Cursor>& GetCursor() const;
 		/**

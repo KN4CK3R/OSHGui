@@ -24,26 +24,7 @@ namespace OSHGui
 		 * @param checked
 		 */
 		virtual void SetChecked(bool checked);
-		/**
-		 * Legt die Gruppe fest zu der dieser RadioButton gehört.
-		 *
-		 * @param group
-		 */
-		void SetGroup(int group);
-		/**
-		 * Gibt die Gruppe zurück zu der dieser RadioButton gehört.
-		 *
-		 * @return die Gruppe
-		 */
-		int GetGroup() const;
 		
-		/**
-		 * Verarbeitet ein Event und gibt es wenn nötig an Kindelemente weiter.
-		 *
-		 * @param event
-		 * @return NextEventTypes
-		 */
-		//virtual bool ProcessEvent(IEvent *event);
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -56,8 +37,6 @@ namespace OSHGui
 
 		virtual void OnMouseClick(const MouseMessage &mouse);
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
-	
-		int group;
 	};
 }
 

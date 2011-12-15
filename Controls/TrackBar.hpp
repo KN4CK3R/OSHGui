@@ -28,25 +28,25 @@ namespace OSHGui
 		/**
 		 * Legt den minimalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
-		 * @param min
+		 * @param minimum
 		 */
 		void SetMinimum(int minimum);
 		/**
 		 * Ruft den minimalen Wert für die Schiebereglerposition auf der TrackBar ab.
 		 *
-		 * @return min
+		 * @return minimum
 		 */
 		int GetMinimum() const;
 		/**
 		 * Legt den maximalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
-		 * @param min
+		 * @param maximum
 		 */
 		void SetMaximum(int maximum);
 		/**
 		 * Ruft den maximalen Wert für die Schiebereglerposition auf der TrackBar ab.
 		 *
-		 * @return min
+		 * @return maximum
 		 */
 		int GetMaximum() const;
 		/**
