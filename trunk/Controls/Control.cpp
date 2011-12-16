@@ -413,7 +413,6 @@ namespace OSHGui
 	void Control::OnMouseDown(const MouseMessage &mouse)
 	{
 		isClicked = true;
-		Application::Instance()->ClickedControl = this;
 
         MouseEventArgs args(mouse);
 		args.Location -= absoluteLocation;
@@ -430,7 +429,6 @@ namespace OSHGui
 	void Control::OnMouseUp(const MouseMessage &mouse)
 	{
 		isClicked = false;
-		Application::Instance()->ClickedControl = 0;
 
 		MouseEventArgs args(mouse);
 		args.Location -= absoluteLocation;

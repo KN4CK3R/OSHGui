@@ -129,7 +129,6 @@ namespace OSHGui
 		} mouse;
 
 		Control *FocusedControl;
-		Control *ClickedControl;
 		Control *CaptureControl;
 		Control *MouseEnteredControl;
 
