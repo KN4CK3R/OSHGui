@@ -1,8 +1,16 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include <locale>
 #include "Windows.hpp"
-#include "..\Event\MouseMessage.hpp"
-#include "..\Event\KeyboardMessage.hpp"
-#include "..\Application.hpp"
+#include "../Event/MouseMessage.hpp"
+#include "../Event/KeyboardMessage.hpp"
+#include "../Application.hpp"
 
 namespace OSHGui
 {

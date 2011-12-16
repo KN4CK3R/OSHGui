@@ -6,8 +6,8 @@
  * See license in OSHGui.hpp
  */
 
-#ifndef OSHGUI_DRAWING_FONTDX10_HPP_
-#define OSHGUI_DRAWING_FONTDX10_HPP_
+#ifndef OSHGUI_DRAWING_FONTDX10_HPP
+#define OSHGUI_DRAWING_FONTDX10_HPP
 
 #include <d3dx10.h>
 

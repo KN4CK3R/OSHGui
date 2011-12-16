@@ -1,10 +1,18 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "Application.hpp"
-#include "Controls\Form.hpp"
-#include "Drawing\TextureAnimator.hpp"
-#include "Misc\Exceptions.hpp"
+#include "Controls/Form.hpp"
+#include "Drawing/TextureAnimator.hpp"
+#include "Misc/Exceptions.hpp"
 #include "FormManager.hpp"
 #include "TimerManager.hpp"
-#include "Cursor\Cursors.hpp"
+#include "Cursor/Cursors.hpp"
 
 namespace OSHGui
 {

@@ -1,7 +1,15 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "TextureAnimator.hpp"
 #include "ITexture.hpp"
-#include "..\Application.hpp"
-#include "..\Misc\Exceptions.hpp"
+#include "../Application.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {

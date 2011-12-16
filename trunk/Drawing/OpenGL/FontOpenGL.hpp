@@ -10,8 +10,8 @@
 #define OSHGUI_DRAWING_FONTOPENGL_HPP
 
 #include <windows.h>
-#include <gl\GL.h>
-#include <gl\GLU.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLu32.lib")

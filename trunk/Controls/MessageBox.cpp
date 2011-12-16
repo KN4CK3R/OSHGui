@@ -1,9 +1,17 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "MessageBox.hpp"
 #include "Form.hpp"
 #include "Label.hpp"
 #include "Button.hpp"
 #include "PictureBox.hpp"
-#include "..\Misc\Exceptions.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {

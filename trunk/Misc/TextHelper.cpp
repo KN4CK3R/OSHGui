@@ -1,3 +1,11 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "TextHelper.hpp"
 #include "Exceptions.hpp"
 

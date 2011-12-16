@@ -1,5 +1,13 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "ColorBar.hpp"
-#include "..\Misc\Exceptions.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {
