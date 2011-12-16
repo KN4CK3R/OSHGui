@@ -16,7 +16,14 @@ namespace OSHGui
 	class OSHGUI_EXPORT Event
 	{
 	private:
-		std::list<EventHandler<Signature> > eventHandlers;
+		class EventHandlerInfo
+		{
+		public:
+			EventHandler<Signature> eventHandler;
+			bool remove;
+		};
+
+		std::list<EventHandlerInfo> eventHandlerInfos;
 
 	public:		
 		/**
@@ -26,7 +33,11 @@ namespace OSHGui
 		 */
 		Event& operator += (const EventHandler<Signature> &eventHandler)
 		{
-			eventHandlers.push_back(eventHandler);
+			EventHandlerInfo info;
+			info.eventHandler = eventHandler;
+			info.remove = false;
+			eventHandlerInfos.push_back(info);
+
 			return *this;
 		}
 		
@@ -37,18 +48,15 @@ namespace OSHGui
 		 */
 		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
-			typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin();
-			while (it != eventHandlers.end())
+			for (typename std::list<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end(); ++it)
 			{
-				if (*it == eventHandler)
+				EventHandlerInfo &info = *it;
+				if (info.eventHandler == eventHandler)
 				{
-					it = eventHandlers.erase(it);
-				}
-				else
-				{
-					++it;
+					info.remove = true;
 				}
 			}
+
 			return *this;
 		}
 		
@@ -60,16 +68,26 @@ namespace OSHGui
 		template <typename T>
 		void Invoke(T&& param1)
 		{
-			if (eventHandlers.empty())
+			if (eventHandlerInfos.empty())
 			{
 				return;
 			}
 
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end();)
+			for (typename std::list<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
 			{
-				typename std::list<EventHandler<Signature> >::iterator tmpit = it++;
-				EventHandler<Signature> &eventHandler = *tmpit;
-				eventHandler.GetHandler()(std::forward<T>(param1));
+				EventHandlerInfo &info = *it;
+				if (!info.remove)
+				{
+					info.eventHandler.GetHandler()(std::forward<T>(param1));
+				}
+				if (info.remove)
+				{
+					it = eventHandlerInfos.erase(it);
+				}
+				else
+				{
+					++it;
+				}
 			}
 		}
 
@@ -82,16 +100,26 @@ namespace OSHGui
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)
 		{
-			if (eventHandlers.empty())
+			if (eventHandlerInfos.empty())
 			{
 				return;
 			}
 
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end();)
+			for (typename std::list<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
 			{
-				typename std::list<EventHandler<Signature> >::iterator tmpit = it++;
-				EventHandler<Signature> &eventHandler = *tmpit;
-				eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
+				EventHandlerInfo &info = *it;
+				if (!info.remove)
+				{
+					info.eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
+				}
+				if (info.remove)
+				{
+					it = eventHandlerInfos.erase(it);
+				}
+				else
+				{
+					++it;
+				}
 			}
 		}
 	};
