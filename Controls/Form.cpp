@@ -3,6 +3,7 @@
 #include "..\FormManager.hpp"
 #include "..\Misc\Exceptions.hpp"
 #include "Label.hpp"
+#include "Panel.hpp"
 
 namespace OSHGui
 {
