@@ -67,8 +67,7 @@ namespace OSHGui
 
 			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end();)
 			{
-				typename std::list<EventHandler<Signature> >::iterator tmpit = it;
-				++it;
+				typename std::list<EventHandler<Signature> >::iterator tmpit = it++;
 				EventHandler<Signature> &eventHandler = *tmpit;
 				eventHandler.GetHandler()(std::forward<T>(param1));
 			}
@@ -90,8 +89,7 @@ namespace OSHGui
 
 			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end();)
 			{
-				typename std::list<EventHandler<Signature> >::iterator tmpit = it;
-				++it;
+				typename std::list<EventHandler<Signature> >::iterator tmpit = it++;
 				EventHandler<Signature> &eventHandler = *tmpit;
 				eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
 			}
