@@ -10,7 +10,7 @@
 #define OSHGUI_FORM_HPP
 
 #include <functional>
-#include "Panel.hpp"
+#include "ContainerControl.hpp"
 #include "../Misc/TextHelper.hpp"
 
 namespace OSHGui
@@ -55,16 +55,17 @@ namespace OSHGui
 	};
 
 	class Label;
+	class Panel;
 
 	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
 	 */
-	class OSHGUI_EXPORT Form : public Panel
+	class OSHGUI_EXPORT Form : public ContainerControl
 	{
 		class CaptionBar;
 
 	public:
-		using Panel::SetSize;
+		using ContainerControl::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.
