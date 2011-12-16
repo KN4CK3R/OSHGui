@@ -40,6 +40,19 @@ namespace OSHGui
 			virtual void Fill(Rectangle &rect);
 			virtual void Fill(int x, int y, int w, int h);
 
+		protected:
+			void Flush();
+			void AddVertex(int x, int y);
+
+		private:
+			struct glLoc
+			{
+				float x, y, z;
+			};
+			struct glUV
+			{
+				float u, v;
+			};
 			struct
 			{
 				int x;
@@ -47,19 +60,6 @@ namespace OSHGui
 				int width;
 				int height;
 			} glViewport;
-
-		protected:
-			void Flush();
-			void AddVertex(int x, int y);
-
-			struct glLoc
-			{
-				float x, y, z/*, w*/;
-			};
-			struct glUV
-			{
-				float u, v;
-			};
 
 			static const int maxVertices = 1024;
 			glLoc verticesLoc[maxVertices];
