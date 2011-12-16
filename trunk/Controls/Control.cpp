@@ -33,7 +33,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-
+		if (isInside)
+		{
+			Application::Instance()->MouseEnteredControl = 0;
+		}
+		if (isFocused)
+		{
+			Application::Instance()->FocusedControl = 0;
+		}
 	}
 	//---------------------------------------------------------------------------
 	CONTROL_TYPE Control::GetType() const
@@ -464,6 +471,8 @@ namespace OSHGui
 	void Control::OnMouseLeave(const MouseMessage &mouse)
 	{
 		isInside = false;
+
+		Application::Instance()->MouseEnteredControl = 0;
 
 		mouseLeaveEvent.Invoke(this);
 	}
