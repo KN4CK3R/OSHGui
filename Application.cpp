@@ -16,7 +16,6 @@ namespace OSHGui
 		renderer = 0;
 		now = Misc::DateTime::GetNow();
 		FocusedControl = 0;
-		ClickedControl = 0;
 		CaptureControl = 0;
 		MouseEnteredControl = 0;
 	}
