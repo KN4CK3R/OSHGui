@@ -17,7 +17,6 @@ namespace OSHGui
 	{
 	private:
 		std::list<EventHandler<Signature> > eventHandlers;
-		std::list<EventHandler<Signature> > removeEventHandlers;
 
 	public:		
 		/**
@@ -38,11 +37,16 @@ namespace OSHGui
 		 */
 		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandler.end(); ++it)
+			typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin();
+			while (it != eventHandlers.end())
 			{
 				if (*it == eventHandler)
 				{
-					removeEventHandlers.push_back(*it);
+					it = eventHandlers.erase(it);
+				}
+				else
+				{
+					++it;
 				}
 			}
 			return *this;
@@ -61,19 +65,12 @@ namespace OSHGui
 				return;
 			}
 
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end(); ++it)
+			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end();)
 			{
-				EventHandler<Signature> &eventHandler = *it;
+				typename std::list<EventHandler<Signature> >::iterator tmpit = it;
+				++it;
+				EventHandler<Signature> &eventHandler = *tmpit;
 				eventHandler.GetHandler()(std::forward<T>(param1));
-			}
-			
-			if (!removeHandler.empty())
-			{
-				for (typename std::list<EventHandler<Signature> >::iterator it = removeEventHandlers.begin(); it != removeEventHandlers.end();)
-				{
-					eventHandlers.remove(*it);
-				}
-				removeEventHandlers.clear();
 			}
 		}
 
@@ -91,19 +88,12 @@ namespace OSHGui
 				return;
 			}
 
-			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end(); ++it)
+			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandlers.end();)
 			{
-				EventHandler<Signature> &eventHandler = *it;
+				typename std::list<EventHandler<Signature> >::iterator tmpit = it;
+				++it;
+				EventHandler<Signature> &eventHandler = *tmpit;
 				eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
-			}
-			
-			if (!removeHandler.empty())
-			{
-				for (typename std::list<EventHandler<Signature> >::iterator it = removeEventHandlers.begin(); it != removeEventHandlers.end();)
-				{
-					eventHandlers.remove(*it);
-				}
-				removeEventHandlers.clear();
 			}
 		}
 	};
