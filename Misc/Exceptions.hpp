@@ -1,13 +1,17 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_EXCEPTIONS_HPP
 #define OSHGUI_EXCEPTIONS_HPP
 
 #include <exception>
 #include "../Exports.hpp"
 #include "Strings.hpp"
-
-#define WIDEN2(x) L ## x
-#define WIDEN(x) WIDEN2(x)
-#define __WFILE__ WIDEN(__FILE__)
 
 namespace OSHGui
 {

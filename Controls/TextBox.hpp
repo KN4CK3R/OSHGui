@@ -1,8 +1,16 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_TEXTBOX_HPP
 #define OSHGUI_TEXTBOX_HPP
 
 #include "Control.hpp"
-#include "..\Misc\TextHelper.hpp"
+#include "../Misc/TextHelper.hpp"
 
 namespace OSHGui
 {

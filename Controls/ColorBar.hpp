@@ -1,9 +1,17 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_COLORBAR_HPP
 #define OSHGUI_COLORBAR_HPP
 
 #include <memory>
 #include "Control.hpp"
-#include "..\Drawing\ITexture.hpp"
+#include "../Drawing/ITexture.hpp"
 
 namespace OSHGui
 {

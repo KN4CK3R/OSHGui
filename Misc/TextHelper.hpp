@@ -1,12 +1,20 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_MISC_TEXTHELPER_HPP
 #define OSHGUI_MISC_TEXTHELPER_HPP
 
 #include <memory>
 #include "../Exports.hpp"
-#include "Misc\Strings.hpp"
-#include "Drawing\IFont.hpp"
-#include "Drawing\Point.hpp"
-#include "Drawing\Size.hpp"
+#include "Misc/Strings.hpp"
+#include "Drawing/IFont.hpp"
+#include "Drawing/Point.hpp"
+#include "Drawing/Size.hpp"
 
 namespace OSHGui
 {
