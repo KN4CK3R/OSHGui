@@ -1,8 +1,16 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "Timer.hpp"
 #include "Control.hpp"
-#include "..\Application.hpp"
-#include "..\TimerManager.hpp"
-#include "..\Misc\Exceptions.hpp"
+#include "../Application.hpp"
+#include "../TimerManager.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {

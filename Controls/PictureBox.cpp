@@ -1,6 +1,14 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #include "PictureBox.hpp"
-#include "..\Drawing\TextureAnimator.hpp"
-#include "..\Misc\Exceptions.hpp"
+#include "../Drawing/TextureAnimator.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {

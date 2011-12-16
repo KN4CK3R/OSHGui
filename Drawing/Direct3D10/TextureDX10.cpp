@@ -1,4 +1,12 @@
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\TextureDX10.hpp"
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
+#include "TextureDX10.hpp"
 
 namespace OSHGui
 {

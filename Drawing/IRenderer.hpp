@@ -17,7 +17,7 @@
 #include "Rectangle.hpp"
 #include "ITexture.hpp"
 #include "IFont.hpp"
-#include "..\Misc\TimeSpan.hpp"
+#include "../Misc/TimeSpan.hpp"
 
 namespace OSHGui
 {
