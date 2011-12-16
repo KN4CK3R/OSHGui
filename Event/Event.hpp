@@ -17,6 +17,7 @@ namespace OSHGui
 	{
 	private:
 		std::list<EventHandler<Signature> > eventHandlers;
+		std::list<EventHandler<Signature> > removeEventHandlers;
 
 	public:		
 		/**
@@ -37,16 +38,11 @@ namespace OSHGui
 		 */
 		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
-			typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin();
-			while (it != eventHandlers.end())
+			for (typename std::list<EventHandler<Signature> >::iterator it = eventHandlers.begin(); it != eventHandler.end(); ++it)
 			{
 				if (*it == eventHandler)
 				{
-					it = eventHandlers.erase(it);
-				}
-				else
-				{
-					++it;
+					removeEventHandlers.push_back(*it);
 				}
 			}
 			return *this;
@@ -70,6 +66,15 @@ namespace OSHGui
 				EventHandler<Signature> &eventHandler = *it;
 				eventHandler.GetHandler()(std::forward<T>(param1));
 			}
+			
+			if (!removeHandler.empty())
+			{
+				for (typename std::list<EventHandler<Signature> >::iterator it = removeEventHandlers.begin(); it != removeEventHandlers.end();)
+				{
+					eventHandlers.remove(*it);
+				}
+				removeEventHandlers.clear();
+			}
 		}
 
 		/**
@@ -90,6 +95,15 @@ namespace OSHGui
 			{
 				EventHandler<Signature> &eventHandler = *it;
 				eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
+			}
+			
+			if (!removeHandler.empty())
+			{
+				for (typename std::list<EventHandler<Signature> >::iterator it = removeEventHandlers.begin(); it != removeEventHandlers.end();)
+				{
+					eventHandlers.remove(*it);
+				}
+				removeEventHandlers.clear();
 			}
 		}
 	};
