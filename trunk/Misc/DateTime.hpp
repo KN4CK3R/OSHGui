@@ -1,3 +1,12 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
+//Credits Microsoft .NET
 #ifndef OSHGUI_MISC_DATETIME_HPP
 #define OSHGUI_MISC_DATETIME_HPP
 

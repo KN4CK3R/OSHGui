@@ -1,7 +1,15 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_EVENT_KEYEVENTARGS_HPP
 #define OSHGUI_EVENT_KEYEVENTARGS_HPP
 
-#include "Misc\Strings.hpp"
+#include "Misc/Strings.hpp"
 #include "KeyboardMessage.hpp"
 
 namespace OSHGui

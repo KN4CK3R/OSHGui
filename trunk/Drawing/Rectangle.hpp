@@ -1,3 +1,11 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_DRAWING_RECTANGLE_HPP
 #define OSHGUI_DRAWING_RECTANGLE_HPP
 

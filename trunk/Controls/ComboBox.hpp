@@ -1,11 +1,16 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_COMBOBOX_HPP
 #define OSHGUI_COMBOBOX_HPP
 
 #include "ContainerControl.hpp"
 #include "Button.hpp"
-
-#define COMBOBOX_ITEM_HEIGHT 22
-#define COMBOBOX_MAX_HEIGHT 220
 
 namespace OSHGui
 {

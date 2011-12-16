@@ -1,5 +1,13 @@
-#ifndef OSHGUI_DRAWING_FONTOPENGL_HPP_
-#define OSHGUI_DRAWING_FONTOPENGL_HPP_
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
+#ifndef OSHGUI_DRAWING_FONTOPENGL_HPP
+#define OSHGUI_DRAWING_FONTOPENGL_HPP
 
 #include <windows.h>
 #include <gl\GL.h>

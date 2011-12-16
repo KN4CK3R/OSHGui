@@ -1,10 +1,18 @@
-#ifndef OSHGUI_DRAWING_RENDEREROPENGL_HPP_
-#define OSHGUI_DRAWING_RENDEREROPENGL_HPP_
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
+#ifndef OSHGUI_DRAWING_RENDEREROPENGL_HPP
+#define OSHGUI_DRAWING_RENDEREROPENGL_HPP
 
 #include <windows.h>
 #include <stdio.h>
-#include <gl\GL.h>
-#include <gl\GLU.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLu32.lib")

@@ -1,9 +1,17 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_DRAWING_TEXTUREDX11_HPP_
 #define OSHGUI_DRAWING_TEXTUREDX11_HPP_
 
 #include <d3d11.h>
 
-#include "C:\Users\KN4CK3R\Desktop\gui\Drawing\ITexture.hpp"
+#include "ITexture.hpp"
 
 namespace OSHGui
 {

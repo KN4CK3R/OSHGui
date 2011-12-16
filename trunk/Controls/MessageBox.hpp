@@ -1,10 +1,18 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_CONTROLS_MESSAGEBOX_HPP
 #define OSHGUI_CONTROLS_MESSAGEBOX_HPP
 
 #include <functional>
 #include <vector>
 #include "Form.hpp"
-#include "..\Misc\Strings.hpp"
+#include "../Misc/Strings.hpp"
 
 namespace OSHGui
 {
