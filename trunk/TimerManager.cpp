@@ -41,7 +41,7 @@ namespace OSHGui
 			timers.push_back(info);
 		}
 	}
-
+	//---------------------------------------------------------------------------
 	void TimerManager::UnregisterTimer(Timer *timer)
 	{
 		if (timer == 0)
@@ -62,7 +62,7 @@ namespace OSHGui
 			}
 		}
 	}
-
+	//---------------------------------------------------------------------------
 	void TimerManager::Update()
 	{
 		if (timers.size() > 0)
@@ -79,4 +79,5 @@ namespace OSHGui
 			}
 		}
 	}
+	//---------------------------------------------------------------------------
 }
