@@ -7,6 +7,7 @@
  */
 
 #include "ContainerControl.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {
