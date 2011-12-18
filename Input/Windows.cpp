@@ -210,10 +210,13 @@ namespace OSHGui
 								keyboard.KeyChar = (Misc::AnsiChar)message->wParam;
 								std::locale loc;
 								Misc::AnsiChar keyChar = std::tolower(keyboard.KeyChar, loc);
-								
 								if (keyChar >= 'a' && keyChar <= 'z')
 								{
 									keyboard.KeyCode = (Key::Keys)((int)Key::A + (keyChar - 'a'));
+								}
+								else if (keyChar >= '0' && keyChar  <= '9')
+								{
+									keyboard.KeyCode = (Key::Keys)((int)Key::D0 + (keyChar - '0'));
 								}
 								else
 								{
