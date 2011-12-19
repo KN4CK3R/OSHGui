@@ -42,14 +42,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void FontDX9::Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
 		{			
-			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, fontName.c_str(), &font)))
+			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str(), &font)))
 			{
 				font = 0;
 			
 				throw Misc::Exception("Cannot create Font.", __FILE__, __LINE__);
 			}
 			
-			this->fontName = fontName;
+			this->name = name;
 			this->size = size;
 			this->bold = bold;
 			this->italic = italic;
