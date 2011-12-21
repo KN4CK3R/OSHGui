@@ -16,15 +16,15 @@
 		#define OSHGUI_EXPORT __declspec(dllexport)
 		#pragma warning(disable : 4251)
 	#endif
-#elif defined OSHGUI_COMPILE_STATIC
-	#define OSHGUI_EXPORT
-#else
+#elif defined OSHGUI_COMPILE_DLL_IMPORT
 	#ifdef __GNUC__
 		#define OSHGUI_EXPORT __attribute__((dllimport))
 	#else
 		#define OSHGUI_EXPORT __declspec(dllimport)
 		#pragma warning(disable : 4251)
 	#endif
+#else
+	#define OSHGUI_EXPORT
 #endif
 
 #endif
