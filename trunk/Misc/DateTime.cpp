@@ -122,7 +122,7 @@ namespace OSHGui
 			{
 				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
 			}
-			if (kind != Local)
+			if (kind != KindLocal)
 			{
 				throw ArgumentException("kind", "Internal Constructor is for local times only");	
 			}
