@@ -49,11 +49,21 @@ namespace OSHGui
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
-		 * Gibt den Text zurück.
+		 * Ruft den Text ab.
 		 *
 		 * @return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
+		/**
+		 * Legt das Zeichen fest, das bei der Kennworteingabe angezeigt wird.
+		 *
+		 * @param passwordChar
+		 */
+		void SetPasswordChar(const Misc::AnsiChar &passwordChar);
+		/**
+		 * Ruft das Zeichen ab, das bei der Kennworteingabe angezeigt wird.
+		 */
+		const Misc::AnsiChar& GetPasswordChar() const;
 		/**
 		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
@@ -94,6 +104,9 @@ namespace OSHGui
 			
 		Misc::TextHelper textHelper;
 		
+		Misc::AnsiChar passwordChar;
+		Misc::AnsiString realtext;
+
 		Drawing::Rectangle textRect,
 						   caretRect;
 		

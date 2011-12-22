@@ -31,6 +31,7 @@ namespace OSHGui
 
 		firstVisibleCharacter = 0;
 		caretPosition = 0;
+		passwordChar = '\0';
 		
 		cursor = Cursors::Get(Cursors::IBeam);
 
@@ -63,7 +64,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::SetText(const Misc::AnsiString &text)
 	{
-		textHelper.SetText(text);
+		realtext = text;
+		if (passwordChar == '\0')
+		{
+			textHelper.SetText(text);
+		}
+		else
+		{
+			textHelper.SetText(Misc::AnsiString(text.length(), passwordChar));
+		}
 
 		PlaceCaret(text.length());
 		
@@ -72,7 +81,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TextBox::GetText() const
 	{
-		return textHelper.GetText();
+		return passwordChar == '\0' ? textHelper.GetText() : realtext;
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::SetPasswordChar(const Misc::AnsiChar &passwordChar)
+	{
+		this->passwordChar = passwordChar;
+		SetText(realtext);
+	}
+	//---------------------------------------------------------------------------
+	const Misc::AnsiChar& TextBox::GetPasswordChar() const
+	{
+		return passwordChar;
 	}
 	//---------------------------------------------------------------------------
 	TextChangedEvent& TextBox::GetTextChangedEvent()
@@ -177,6 +197,7 @@ namespace OSHGui
 					if (caretPosition > 0 && textHelper.GetLength() > 0)
 					{
 						textHelper.Remove(caretPosition - 1, 1);
+						realtext.erase(caretPosition - 1, 1);
 						PlaceCaret(caretPosition - 1);
 
 						OnTextChanged();
@@ -184,7 +205,15 @@ namespace OSHGui
 				}
 				else if (keyboard.IsAlphaNumeric())
 				{
-					textHelper.Insert(caretPosition, keyboard.KeyChar);
+					realtext.insert(caretPosition, 1, keyboard.KeyChar);
+					if (passwordChar == '\0')
+					{
+						textHelper.Insert(caretPosition, keyboard.KeyChar);
+					}
+					else
+					{
+						textHelper.Insert(caretPosition, '*');
+					}
 					PlaceCaret(++caretPosition);
 					
 					OnTextChanged();
@@ -205,6 +234,7 @@ namespace OSHGui
 					if (caretPosition < textHelper.GetLength())
 					{
 						textHelper.Remove(caretPosition, 1);
+						realtext.erase(caretPosition, 1);
 						PlaceCaret(caretPosition);
 						
 						OnTextChanged();
