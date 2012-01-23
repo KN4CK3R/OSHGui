@@ -243,7 +243,7 @@ namespace OSHGui
 			 * @param to die Endfarbe
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, const Color &to);
-			
+
 		private:
 			void Flush();
 			void AddVertex(int x, int y);
