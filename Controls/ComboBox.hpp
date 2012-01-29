@@ -44,6 +44,12 @@ namespace OSHGui
 		 */
 		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
+		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
+		 *
+		 * @return isFocused
+		 */
+		virtual bool GetIsFocused() const;
+		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
 		 * @param index
@@ -117,6 +123,10 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::Point &point) const;
+		/**
+		 * Setzt den Eingabefokus auf das Steuerelement.
+		 */
+		virtual void Focus();
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.

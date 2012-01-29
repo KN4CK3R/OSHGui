@@ -553,7 +553,7 @@ namespace OSHGui
 		/**
 		 * Setzt den Eingabefokus auf das Steuerelement.
 		 */
-		void Focus();
+		virtual void Focus();
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *

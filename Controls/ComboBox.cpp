@@ -142,6 +142,11 @@ namespace OSHGui
 		listBox->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
+	bool ComboBox::GetIsFocused() const
+	{
+		return ContainerControl::GetIsFocused() || button->GetIsFocused() || listBox->GetIsFocused();
+	}
+	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ComboBox::GetItem(int index) const
 	{
 		return listBox->GetItem(index);
@@ -229,6 +234,11 @@ namespace OSHGui
 			return true;
 		}
 		return false;
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::Focus()
+	{
+		button->Focus();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
