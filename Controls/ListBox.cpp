@@ -67,7 +67,7 @@ namespace OSHGui
 			itemAreaSize.Width -= scrollBar->GetWidth();
 		}
 
-		maxVisibleItems = itemAreaSize.Height / (font->GetSize() + 2);
+		maxVisibleItems = std::max(1, itemAreaSize.Height / (font->GetSize() + 2));;
 
 		scrollBar->SetLocation(size.Width - scrollBar->GetWidth(), 0);
 		scrollBar->SetSize(scrollBar->GetWidth(), size.Height);
@@ -77,7 +77,7 @@ namespace OSHGui
 	{
 		ContainerControl::SetFont(font);
 
-		maxVisibleItems = itemAreaSize.Height / (font->GetSize() + 2);
+		maxVisibleItems = std::max(1, itemAreaSize.Height / (font->GetSize() + 2));
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ListBox::GetItem(int index) const

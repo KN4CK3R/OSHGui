@@ -141,6 +141,13 @@ namespace OSHGui
 			CaptureControl->ProcessMouseMessage(mouse);
 			return true;
 		}
+		if (FocusedControl != 0)
+		{
+			if (FocusedControl->ProcessMouseMessage(mouse))
+			{
+				return true;
+			}
+		}
 
 		if (formManager.GetFormCount() > 0)
 		{
