@@ -95,6 +95,7 @@ namespace OSHGui
 
 		listBox = new ListBox();
 		listBox->SetLocation(0, button->GetBottom() + 2);
+		listBox->SetSize(listBox->GetWidth(), 4);
 		listBox->SetVisible(false);
 		listBox->GetSelectedIndexChangedEvent() += SelectedIndexChangedEventHandler([this](Control*)
 		{
@@ -103,7 +104,7 @@ namespace OSHGui
 		});
 		listBox->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
-			if (newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
+			if (newFocusedControl == 0 || newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
 			{
 				return;
 			}
@@ -203,11 +204,25 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
 	{
+		int newHeight = MaxListBoxHeight;
+		if (listBox->GetHeight() + font->GetSize() + 2 < MaxListBoxHeight)
+		{
+			newHeight = listBox->GetHeight() + font->GetSize() + 4;
+		}
+		listBox->SetSize(listBox->GetWidth(), newHeight);
+
 		listBox->AddItem(text);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::InsertItem(int index, const Misc::AnsiString &text)
 	{
+		int newHeight = MaxListBoxHeight;
+		if (listBox->GetHeight() + font->GetSize() + 2 < MaxListBoxHeight)
+		{
+			newHeight = listBox->GetHeight() + font->GetSize() + 3;
+		}
+		listBox->SetSize(listBox->GetWidth(), newHeight);
+
 		listBox->InsertItem(index, text);
 	}
 	//---------------------------------------------------------------------------

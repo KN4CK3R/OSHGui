@@ -66,6 +66,10 @@ namespace OSHGui
 	void Control::SetEnabled(bool isEnabled)
 	{
 		this->isEnabled = isEnabled;
+		if (isEnabled == false && isFocused)
+		{
+			OnLostFocus(0);
+		}
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled() const
@@ -76,6 +80,10 @@ namespace OSHGui
 	void Control::SetVisible(bool isVisible)
 	{
 		this->isVisible = isVisible;
+		if (isVisible == false && isFocused)
+		{
+			OnLostFocus(0);
+		}
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetVisible() const

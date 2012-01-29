@@ -137,6 +137,7 @@ namespace OSHGui
 	
 	private:
 		static const Drawing::Size DefaultSize;
+		static const int MaxListBoxHeight = 80;
 
 		void Expand();
 		void Collapse();
