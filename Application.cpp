@@ -47,6 +47,11 @@ namespace OSHGui
 		mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
+	const bool Application::IsEnabled() const
+	{
+		return isEnabled;
+	}
+	//---------------------------------------------------------------------------
 	const Misc::DateTime& Application::GetNow() const
 	{
 		return now;
