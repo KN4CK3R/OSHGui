@@ -25,12 +25,12 @@ namespace OSHGui
 		
 		isEnabled = true;
 		isVisible = true;
-		
 		isFocused = false;
 		isClicked = false;
 		isInside = false;
 		isFocusable = true;
 		hasCaptured = false;
+		autoSize = false;
 
 		font = Application::Instance()->GetRenderer()->GetDefaultFont();
 		
