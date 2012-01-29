@@ -45,6 +45,12 @@ namespace OSHGui
 		void Create(Drawing::IRenderer *renderer);
 		
 		/**
+		 * Ruft ab, ob das GUI aktiviert ist.
+		 *
+		 * return isEnabled
+		 */
+		const bool IsEnabled() const;
+		/**
 		 * Ruft die aktuelle Uhrzeit ab.
 		 *
 		 * @return DateTime::Now
