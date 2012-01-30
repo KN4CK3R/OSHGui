@@ -31,6 +31,7 @@ namespace OSHGui
 		isFocusable = true;
 		hasCaptured = false;
 		autoSize = false;
+		canRaiseEvents = true;
 
 		font = Application::Instance()->GetRenderer()->GetDefaultFont();
 		
