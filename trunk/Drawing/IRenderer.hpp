@@ -84,7 +84,7 @@ namespace OSHGui
 			 *
 			 * @param color die Farbe
 			 */
-			virtual void SetRenderColor(Color color) { this->color = color; }
+			virtual void SetRenderColor(const Color &color) { this->color = color; }
 			/**
 			 * Ruft die Farbe zum Zeichnen ab.
 			 *

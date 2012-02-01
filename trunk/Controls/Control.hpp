@@ -69,6 +69,11 @@ namespace OSHGui
 	class Control;
 	
 	/**
+	 * Tritt ein, wenn die Form geschlossen werden soll.
+	 */
+	typedef Event<void(Control*, bool &canClose)> FormClosingEvent;
+	typedef EventHandler<void(Control*, bool &canClose)> FormClosingEventHandler;
+	/**
 	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
 	 */
 	typedef Event<void(Control*)> SelectedIndexChangedEvent;

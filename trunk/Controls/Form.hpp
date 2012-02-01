@@ -109,6 +109,12 @@ namespace OSHGui
 		 * @return dialogResult
 		 */
 		DialogResult GetDialogResult() const;
+		/**
+		 * Ruft das FormClosingEvent ab.
+		 *
+		 * @return formClosingEvent
+		 */
+		FormClosingEvent& GetFormClosingEvent();
 		
 		/**
 		 * Zeigt die Form an.
@@ -160,6 +166,7 @@ namespace OSHGui
 		Panel *containerPanel;
 
 		bool isModal;
+		FormClosingEvent formClosingEvent;
 
 		class CaptionBar : public ContainerControl
 		{
