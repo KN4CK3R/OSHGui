@@ -91,6 +91,11 @@ namespace OSHGui
 		return dialogResult;
 	}
 	//---------------------------------------------------------------------------
+	FormClosingEvent& Form::GetFormClosingEvent()
+	{
+		return formClosingEvent;
+	}
+	//---------------------------------------------------------------------------
 	bool Form::IsModal() const
 	{
 		return isModal;
@@ -136,7 +141,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::Close()
 	{
-		Application::Instance()->formManager.UnregisterForm(instance.lock());
+		bool canClose = true;
+		formClosingEvent.Invoke(this, canClose);
+		if (canClose)
+		{
+			Application::Instance()->formManager.UnregisterForm(instance.lock());
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
