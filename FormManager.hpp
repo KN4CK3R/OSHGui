@@ -39,10 +39,9 @@ namespace OSHGui
 		void RegisterForm(const std::shared_ptr<Form> &form);
 		void RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction);
 		void UnregisterForm(const std::shared_ptr<Form> &form);
+		void RemoveUnregisteredForms();
 		void BringToFront(const std::shared_ptr<Form> &form);
 		
-		void RenderForms(Drawing::IRenderer *renderer);
-
 		FormIterator GetEnumerator();
 
 	private:
@@ -50,6 +49,7 @@ namespace OSHGui
 		{
 			std::shared_ptr<Form> form;
 			std::function<void()> closeFunction;
+			bool remove;
 		};
 		std::vector<FormInfo> forms;
 

@@ -223,6 +223,8 @@ namespace OSHGui
 
 		timerManager.Update();
 
+		formManager.RemoveUnregisteredForms();
+
 		std::shared_ptr<Form> foreMost = formManager.GetForeMost();
 		for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
 		{
