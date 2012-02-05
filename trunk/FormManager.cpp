@@ -132,7 +132,7 @@ namespace OSHGui
 			return;
 		}
 
-		FormInfo info = { form, closeFunction };
+		FormInfo info = { form, closeFunction, false };
 		forms.push_back(info);
 	}
 	//---------------------------------------------------------------------------
@@ -149,14 +149,15 @@ namespace OSHGui
 		if (mainForm == form)
 		{
 			Application::Instance()->Disable();
+			return;
 		}
 
 		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
-			FormInfo info = *it;
+			FormInfo &info = *it;
 			if (info.form == form)
 			{
-				forms.erase(it);
+				info.remove = true;
 				if (info.closeFunction != 0)
 				{
 					info.closeFunction();
@@ -166,16 +167,18 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void FormManager::RenderForms(Drawing::IRenderer *renderer)
-	{		
-		if (forms.size() > 0)
+	void FormManager::RemoveUnregisteredForms()
+	{
+		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end();)
 		{
-			for (std::vector<FormInfo>::reverse_iterator it = ++forms.rbegin(); it != forms.rend(); ++it)
+			if ((*it).remove)
 			{
-				(*it).form->Render(renderer);
+				it = forms.erase(it);
 			}
-
-			GetForeMost()->Render(renderer);
+			else
+			{
+				++it;
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
