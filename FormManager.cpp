@@ -146,21 +146,22 @@ namespace OSHGui
 			return;
 		}
 
-		if (mainForm == form)
-		{
-			Application::Instance()->Disable();
-			return;
-		}
-
 		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
 		{
 			FormInfo &info = *it;
 			if (info.form == form)
 			{
-				info.remove = true;
 				if (info.closeFunction != 0)
 				{
 					info.closeFunction();
+				}
+				if (info.form != mainForm)
+				{
+					info.remove = true;
+				}
+				else
+				{
+					Application::Instance()->Disable();
 				}
 				return;
 			}
