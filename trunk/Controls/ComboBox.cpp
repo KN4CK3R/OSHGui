@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2011 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -201,6 +201,8 @@ namespace OSHGui
 	{
 		droppedDown = false;
 		listBox->SetVisible(false);
+
+		Focus();
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
