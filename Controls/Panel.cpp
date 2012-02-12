@@ -26,6 +26,8 @@ namespace OSHGui
 				
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
+
+		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions

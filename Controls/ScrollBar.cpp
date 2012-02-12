@@ -113,13 +113,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetValue(int value)
 	{
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (value < 0 || value > maximum)
-		{
-			throw Misc::ArgumentOutOfRangeException("value", __FILE__, __LINE__);
-		}
-		#endif
-
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
