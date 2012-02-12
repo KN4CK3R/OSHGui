@@ -82,6 +82,7 @@ namespace OSHGui
 					listBox->SetSelectedIndex(newSelectedIndex);
 				}
 			}
+			button->Focus();
 		});
 		button->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{

@@ -69,7 +69,7 @@ namespace OSHGui
 
 		maxVisibleItems = std::max(1, itemAreaSize.Height / (font->GetSize() + 2));;
 
-		scrollBar->SetLocation(size.Width - scrollBar->GetWidth(), 0);
+		scrollBar->SetLocation(size.Width - scrollBar->GetWidth() - 1, 0);
 		scrollBar->SetSize(scrollBar->GetWidth(), size.Height);
 	}
 	//---------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::Intersect(const Drawing::Point &point) const
 	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
+		return Intersection::TestRectangle(absoluteLocation, scrollBar->GetVisible() ? size.InflateEx(-scrollBar->GetWidth(), 0) : size, point);
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::AddItem(const Misc::AnsiString &text)

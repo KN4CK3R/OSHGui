@@ -27,6 +27,8 @@ namespace OSHGui
 		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
+
+		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
 	PictureBox::~PictureBox()
