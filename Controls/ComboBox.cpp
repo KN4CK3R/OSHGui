@@ -5,7 +5,7 @@
  *
  * See license in OSHGui.hpp
  */
-
+#include <Windows.h>
 #include "ComboBox.hpp"
 #include "ListBox.hpp"
 #include "ScrollBar.hpp"
@@ -86,7 +86,7 @@ namespace OSHGui
 		});
 		button->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
-			if (newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
+			if (newFocusedControl == 0 || newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
 			{
 				return;
 			}
@@ -100,8 +100,12 @@ namespace OSHGui
 		listBox->SetVisible(false);
 		listBox->GetSelectedIndexChangedEvent() += SelectedIndexChangedEventHandler([this](Control*)
 		{
-			Collapse();
 			button->SetText(listBox->GetSelectedItem());
+			if (listBox->GetVisible())
+			{
+				Collapse();
+				button->Focus();
+			}
 		});
 		listBox->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
@@ -201,8 +205,6 @@ namespace OSHGui
 	{
 		droppedDown = false;
 		listBox->SetVisible(false);
-
-		Focus();
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
