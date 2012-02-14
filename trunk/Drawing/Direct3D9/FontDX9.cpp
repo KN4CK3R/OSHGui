@@ -8,6 +8,8 @@
 
 #include "FontDX9.hpp"
 #include "../../Misc/Exceptions.hpp"
+#include <fstream>
+using namespace std;
 
 namespace OSHGui
 {
@@ -67,9 +69,9 @@ namespace OSHGui
 			{
 				return Size(0, size);
 			}
-			
+
 			RECT rect = { 0, 0, 0, 0 };
-			font->DrawTextA(0, str.c_str(), -1, &rect, DT_CALCRECT, 0);
+			font->DrawTextA(0, str.c_str(), str.length(), &rect, DT_CALCRECT, 0xFF000000);
 			
 			for (int i = str.length() - 1; i > 0; --i)
 			{
