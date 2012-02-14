@@ -7,6 +7,8 @@
  */
 
 #include "RendererDX9.hpp"
+#include <fstream>
+using namespace std;
 
 namespace OSHGui
 {
@@ -312,7 +314,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
 		{
-			if (font == 0)
+			if (font == 0 || text.empty())
 			{
 				return;
 			}
@@ -323,7 +325,7 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			std::static_pointer_cast<FontDX9>(font)->GetFont()->DrawTextA(0, text.c_str(), -1, &clip, DT_LEFT | DT_TOP, color.ARGB);
+			std::static_pointer_cast<FontDX9>(font)->GetFont()->DrawTextA(0, text.c_str(), text.length(), &clip, DT_LEFT | DT_TOP, color.ARGB);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(const Point &point)
