@@ -94,7 +94,7 @@ namespace OSHGui
 			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point);
 			/**
-			 * Zeichnet eine Textur an deb entsprechenden Koordinaten.
+			 * Zeichnet eine Textur an den entsprechenden Koordinaten.
 			 *
 			 * @param texture die Textur
 			 * @param x
