@@ -72,7 +72,7 @@ namespace OSHGui
 		const int DateTime::KindShift = 62;
 
 		const AnsiString DateTime::dayNames[7] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-		const AnsiString DateTime::monthNames[12] = { "January", "February", "March", "Apri", "May", "June", "July", "August", "September", "October", "November", "December" };
+		const AnsiString DateTime::monthNames[12] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
 		//---------------------------------------------------------------------------
 		//Constructor
