@@ -24,6 +24,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		RadioButton();
+		virtual ~RadioButton();
 		
 		/**
 		 * Legt den checked-Status fest und passt automatisch

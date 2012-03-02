@@ -42,7 +42,7 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
