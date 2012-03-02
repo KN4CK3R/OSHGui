@@ -54,6 +54,12 @@ namespace OSHGui
 		 * @return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
+		/**
+		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
+		 *
+		 * @return parent
+		 */
+		const std::list<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.

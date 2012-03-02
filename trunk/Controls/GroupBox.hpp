@@ -53,13 +53,19 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
 		virtual void SetForeColor(const Drawing::Color &color);
+		/**
+		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
+		 *
+		 * @return parent
+		 */
+		virtual const std::list<Control*>& GetControls() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

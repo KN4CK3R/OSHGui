@@ -33,7 +33,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		const std::list<Control*>& GetControls() const;
+		const virtual std::list<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
