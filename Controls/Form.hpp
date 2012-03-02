@@ -104,6 +104,12 @@ namespace OSHGui
 		 */
 		virtual void SetForeColor(const Drawing::Color &color);
 		/**
+		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
+		 *
+		 * @return parent
+		 */
+		virtual const std::list<Control*>& GetControls() const;
+		/**
 		 * Ruft das DialogResult für das Fenster ab.
 		 *
 		 * @return dialogResult

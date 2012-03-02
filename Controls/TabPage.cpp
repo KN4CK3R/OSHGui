@@ -71,6 +71,11 @@ namespace OSHGui
 		return text;
 	}
 	//---------------------------------------------------------------------------
+	const std::list<Control*>& TabPage::GetControls() const
+	{
+		return containerPanel->GetControls();
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void TabPage::AddControl(Control *control)

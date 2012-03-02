@@ -50,7 +50,7 @@ namespace OSHGui
 		SetLocation(DefaultLocation);
 		SetSize(DefaultSize);
 
-		SetBackColor(Drawing::Color(0xFF7c7b79));
+		SetBackColor(Drawing::Color(0xFF7C7B79));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 	}
 	//---------------------------------------------------------------------------
@@ -84,6 +84,11 @@ namespace OSHGui
 		ContainerControl::SetForeColor(color);
 
 		captionBar->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	const std::list<Control*>& Form::GetControls() const
+	{
+		return containerPanel->GetControls();
 	}
 	//---------------------------------------------------------------------------
 	DialogResult Form::GetDialogResult() const

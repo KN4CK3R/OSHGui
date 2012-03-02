@@ -74,6 +74,11 @@ namespace OSHGui
 		captionLabel->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
+	const std::list<Control*>& GroupBox::GetControls() const
+	{
+		return containerPanel->GetControls();
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool GroupBox::Intersect(const Drawing::Point &point) const
