@@ -124,7 +124,7 @@ namespace OSHGui
 	void CheckBox::CalculateAbsoluteLocation()
 	{
 		Control::CalculateAbsoluteLocation();
-		
+
 		checkBoxAbsoluteLocation = absoluteLocation + checkBoxLocation;
 
 		label->SetParent(this);
