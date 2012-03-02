@@ -28,6 +28,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TabPage();
+		virtual ~TabPage();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -41,7 +42,7 @@ namespace OSHGui
 		 *
 		 * @param parent
 		 */
-		void SetParent(Control *parent);
+		virtual void SetParent(Control *parent);
 		/**
 		 * Legt den Text fest.
 		 *
@@ -59,7 +60,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		const std::list<Control*>& GetControls() const;
+		virtual const std::list<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.

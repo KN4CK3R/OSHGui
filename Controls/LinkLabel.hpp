@@ -23,7 +23,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		LinkLabel();
-		~LinkLabel();
+		virtual ~LinkLabel();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

@@ -49,7 +49,7 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *

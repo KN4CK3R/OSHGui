@@ -23,6 +23,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Panel();
+		virtual ~Panel();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

@@ -25,7 +25,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TrackBar();
-		~TrackBar();
+		virtual ~TrackBar();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.

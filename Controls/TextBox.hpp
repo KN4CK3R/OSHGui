@@ -88,7 +88,7 @@ namespace OSHGui
 		 *
 		 * @param renderer
 		 */
-		void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer);
 	
 	protected:
 		virtual void OnMouseDown(const MouseMessage &mouse);

@@ -26,7 +26,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Timer();
-		~Timer();
+		virtual ~Timer();
 		
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.

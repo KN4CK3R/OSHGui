@@ -156,7 +156,7 @@ namespace OSHGui
 			virtual bool Intersect(const Drawing::Point &point) const;
 			virtual void CalculateAbsoluteLocation();
 
-			void Render(Drawing::IRenderer *renderer);
+			virtual void Render(Drawing::IRenderer *renderer);
 
 		protected:
 			virtual void OnMouseClick(const MouseMessage &mouse);
@@ -182,7 +182,7 @@ namespace OSHGui
 
 			virtual bool Intersect(const Drawing::Point &point) const;
 
-			void Render(Drawing::IRenderer *renderer);
+			virtual void Render(Drawing::IRenderer *renderer);
 
 		private:
 			int direction;
