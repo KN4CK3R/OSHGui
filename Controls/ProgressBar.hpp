@@ -24,7 +24,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		ProgressBar();
-		virtual ~ProgressBar();
 	
 		/**
 		 * Legt den minimalen Wert fest.

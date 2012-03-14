@@ -25,7 +25,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		ScrollBar();
-		virtual ~ScrollBar();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
