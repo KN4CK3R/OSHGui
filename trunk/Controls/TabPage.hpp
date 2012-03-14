@@ -28,7 +28,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TabPage();
-		virtual ~TabPage();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
