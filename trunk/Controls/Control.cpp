@@ -456,7 +456,7 @@ namespace OSHGui
 	{
 		MouseEventArgs args(mouse);
 		args.Location -= absoluteLocation;
-		mouseMoveEvent.Invoke(this, args);		
+		mouseMoveEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseScroll(const MouseMessage &mouse)
