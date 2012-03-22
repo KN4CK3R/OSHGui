@@ -21,7 +21,7 @@ namespace OSHGui
 		FontDX9::FontDX9(IDirect3DDevice9 *device, const Misc::AnsiString &fontName, int size, bool bold, bool italic)
 		{
 			this->device = device;
-						
+			
 			Create(fontName, size, bold, italic);
 		}
 		//---------------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace OSHGui
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void FontDX9::Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
-		{			
+		{
 			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str(), &font)))
 			{
 				font = 0;

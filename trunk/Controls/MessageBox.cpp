@@ -74,7 +74,7 @@ namespace OSHGui
 		int formHeight = textLabel->GetHeight() + 40;
 
 		Button *button = new Button();
-		int buttonWidth = button->GetWidth();
+		int buttonWidth = 60;//button->GetWidth();
 		formHeight += button->GetHeight();
 		delete button;
 		int neededWidthForButtons = 0;
@@ -205,13 +205,14 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (label.size() != eventHandler.size())
 		{
-			throw new Misc::ArgumentException("label + eventHandler");
+			throw new Misc::ArgumentException("label, eventHandler");
 		}
 		#endif
 
 		for (unsigned int i = 0; i < label.size(); ++i)
 		{
 			Button *button = new Button();
+			button->SetSize(60, button->GetSize().Height);
 			button->SetText(label[i]);
 			button->GetClickEvent() += ClickEventHandler(eventHandler[i]);
 			button->SetLocation(GetWidth() - (i + 1) * (button->GetWidth() + 10) , GetHeight() - button->GetHeight() - 25);

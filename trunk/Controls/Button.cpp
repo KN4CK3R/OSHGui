@@ -24,10 +24,7 @@ namespace OSHGui
 		type = CONTROL_BUTTON;
 
 		label = new Label();
-		label->SetName("Button_Label");
 		label->SetLocation(DefaultLabelOffset);
-		label->SetText("Button");
-		label->SetAutoSize(false);
 
 		SetSize(DefaultSize);
 		
@@ -49,6 +46,12 @@ namespace OSHGui
 		label->SetAutoSize(autoSize);
 	}
 	//---------------------------------------------------------------------------
+	void Button::SetSize(const Drawing::Size &size)
+	{
+		Control::SetSize(size);
+		CalculateLabelLocation();
+	}
+	//---------------------------------------------------------------------------
 	void Button::SetText(const Misc::AnsiString &text)
 	{
 		label->SetText(text);
@@ -56,6 +59,7 @@ namespace OSHGui
 		{
 			size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 		}
+		CalculateLabelLocation();
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Button::GetText() const
@@ -93,6 +97,11 @@ namespace OSHGui
 		Control::CalculateAbsoluteLocation();
 
 		label->SetParent(this);
+	}
+	//---------------------------------------------------------------------------
+	void Button::CalculateLabelLocation()
+	{
+		label->SetLocation(Drawing::Point(GetSize().Width / 2 - label->GetSize().Width / 2, GetSize().Height / 2 - label->GetSize().Height / 2));
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
