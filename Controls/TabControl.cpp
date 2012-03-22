@@ -17,7 +17,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size TabControl::DefaultSize(200, 100);
+	const Drawing::Size TabControl::DefaultSize(200, 200);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -386,13 +386,6 @@ namespace OSHGui
 		Control::SetForeColor(color);
 
 		label->SetForeColor(color);
-	}
-	//---------------------------------------------------------------------------
-	void TabControl::TabControlButton::SetBackColor(const Drawing::Color &color)
-	{
-		Control::SetBackColor(color);
-
-		label->SetBackColor(color);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::SetText(const Misc::AnsiString &text)

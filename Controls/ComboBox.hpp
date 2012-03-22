@@ -50,6 +50,18 @@ namespace OSHGui
 		 */
 		virtual bool GetIsFocused() const;
 		/**
+		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
+		 *
+		 * @param text
+		 */
+		void SetText(const Misc::AnsiString &text);
+		/**
+		 * Ruft den Text ab.
+		 *
+		 * @return der Text
+		 */
+		const Misc::AnsiString& GetText() const;
+		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
 		 * @param index
@@ -158,6 +170,8 @@ namespace OSHGui
 			virtual void Render(Drawing::IRenderer *renderer);
 
 		protected:
+			virtual void CalculateLabelLocation();
+
 			virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 
 		private:
