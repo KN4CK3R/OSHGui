@@ -149,7 +149,6 @@ namespace OSHGui
 			~TabControlButton();
 
 			virtual void SetForeColor(const Drawing::Color &color);
-			virtual void SetBackColor(const Drawing::Color &color);
 			virtual void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 

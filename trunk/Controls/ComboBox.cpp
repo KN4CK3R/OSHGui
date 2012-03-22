@@ -148,6 +148,16 @@ namespace OSHGui
 		listBox->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
+	void ComboBox::SetText(const Misc::AnsiString &text)
+	{
+		button->SetText(text);
+	}
+	//---------------------------------------------------------------------------
+	const Misc::AnsiString& ComboBox::GetText() const
+	{
+		return button->GetText();
+	}
+	//---------------------------------------------------------------------------
 	bool ComboBox::GetIsFocused() const
 	{
 		return ContainerControl::GetIsFocused() || button->GetIsFocused() || listBox->GetIsFocused();
@@ -290,6 +300,11 @@ namespace OSHGui
 	bool ComboBox::ComboBoxButton::Intersect(const Drawing::Point &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, realSize, point);
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::ComboBoxButton::CalculateLabelLocation()
+	{
+		label->SetLocation(Drawing::Point(6, GetSize().Height / 2 - label->GetSize().Height / 2));
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::ComboBoxButton::OnKeyDown(const KeyboardMessage &keyboard)

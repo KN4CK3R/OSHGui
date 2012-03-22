@@ -85,6 +85,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 
 	protected:
+		virtual void CalculateLabelLocation();
+
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 
 		Label *label;
@@ -92,8 +94,6 @@ namespace OSHGui
 	private:
 		static const Drawing::Size DefaultSize;
 		static const Drawing::Point DefaultLabelOffset;
-
-		void CalculateLabelLocation();
 	};
 }
 
