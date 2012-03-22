@@ -26,8 +26,8 @@ namespace OSHGui
 		 */
 		static bool TestRectangle(const Drawing::Point &location, const Drawing::Size &size, const Drawing::Point &test)
 		{
-			return (test.X >= location.X && test.X <= location.X + size.Width)
-				&& (test.Y >= location.Y && test.Y <= location.Y + size.Height);
+			return (test.X >= location.X && test.X < location.X + size.Width)
+				&& (test.Y >= location.Y && test.Y < location.Y + size.Height);
 		}
 	};
 }
