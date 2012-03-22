@@ -18,13 +18,10 @@ namespace OSHGui
 	TabPage::TabPage()
 	{
 		type = CONTROL_TABPAGE;
-		
-		text = "TabPage";
 
 		button = 0;
 
 		containerPanel = new Panel();
-		containerPanel->SetName("TabPage_Panel");
 		containerPanel->SetLocation(Drawing::Point(2, 2));
 		AddSubControl(containerPanel);
 		

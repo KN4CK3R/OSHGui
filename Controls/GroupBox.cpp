@@ -20,13 +20,10 @@ namespace OSHGui
 		type = CONTROL_GROUPBOX;
 
 		captionLabel = new Label();
-		captionLabel->SetName("GroupBox_Label");
 		captionLabel->SetLocation(Drawing::Point(5, -1));
-		captionLabel->SetText("GroupBox");
 		AddSubControl(captionLabel);
 
 		containerPanel = new Panel();
-		containerPanel->SetName("GroupBox_Panel");
 		containerPanel->SetLocation(Drawing::Point(3, 10));
 		AddSubControl(containerPanel);
 

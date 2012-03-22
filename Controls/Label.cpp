@@ -20,8 +20,6 @@ namespace OSHGui
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
-
-		SetText("Label");
 				
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
@@ -36,7 +34,7 @@ namespace OSHGui
 		textHelper.SetText(text);
 		if (autoSize)
 		{
-			size = textHelper.GetSize();
+			Control::SetSize(textHelper.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------

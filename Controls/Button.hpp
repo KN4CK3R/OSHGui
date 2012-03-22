@@ -20,6 +20,8 @@ namespace OSHGui
 	class OSHGUI_EXPORT Button : public Control
 	{
 	public:
+		using Control::SetSize;
+
 		/**
 		 * Konstruktor der Klasse.
 		 */
@@ -32,6 +34,12 @@ namespace OSHGui
 		 * @param autoSize
 		 */
 		virtual void SetAutoSize(bool autoSize);
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *
@@ -84,6 +92,8 @@ namespace OSHGui
 	private:
 		static const Drawing::Size DefaultSize;
 		static const Drawing::Point DefaultLabelOffset;
+
+		void CalculateLabelLocation();
 	};
 }
 

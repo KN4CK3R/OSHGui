@@ -25,9 +25,7 @@ namespace OSHGui
 		autoSize = true;
 
 		label = new Label();
-		label->SetName("CheckBox_Label");
 		label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
-		SetText("CheckBox");
 
 		checked = false;
 

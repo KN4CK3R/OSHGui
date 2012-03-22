@@ -37,13 +37,10 @@ namespace OSHGui
 		dialogResult = ResultNone;
 
 		captionBar = new CaptionBar();
-		captionBar->SetName("Form_CaptionBar");
 		captionBar->SetLocation(Drawing::Point(0, 0));
-		captionBar->SetText("Form");
 		AddSubControl(captionBar);
 
 		containerPanel = new Panel();
-		containerPanel->SetName("Form_ContainerPanel");
 		containerPanel->SetLocation(Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
 		AddSubControl(containerPanel);
 

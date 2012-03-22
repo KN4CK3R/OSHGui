@@ -18,8 +18,6 @@ namespace OSHGui
 	RadioButton::RadioButton()
 	{
 		type = CONTROL_RADIOBUTTON;
-
-		SetText("RadioButton");
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
