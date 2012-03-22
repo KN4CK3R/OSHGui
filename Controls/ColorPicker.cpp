@@ -246,7 +246,7 @@ namespace OSHGui
 		if (drag)
 		{
 			colorCursorLocation = mouse.Location - absoluteLocation;
-								
+			
 			color = GetColorAtPoint(colorCursorLocation);
 			Drawing::Color args = color;
 			colorChangedEvent.Invoke(this, args);
