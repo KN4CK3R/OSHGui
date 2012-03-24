@@ -133,8 +133,10 @@ namespace OSHGui
 			if ((*it)->index == index)
 			{
 				selected->button->SetActive(false);
+				selected->tabPage->SetVisible(false);
 				selected = *it;
 				selected->button->SetActive(true);
+				selected->tabPage->SetVisible(true);
 				CalculateButtonLocationAndCount();
 
 				selectedIndexChangedEvent.Invoke(this);
@@ -155,9 +157,11 @@ namespace OSHGui
 		{
 			if ((*it)->tabPage == tabPage)
 			{
+				selected->tabPage->SetVisible(false);
 				selected->button->SetActive(false);
 				selected = *it;
 				selected->button->SetActive(true);
+				selected->tabPage->SetVisible(true);
 				CalculateButtonLocationAndCount();
 
 				selectedIndexChangedEvent.Invoke(this);
