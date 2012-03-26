@@ -76,12 +76,12 @@ namespace OSHGui
 			handler = hotkey.handler;
 		}
 
-		Key::Keys GetKey()
+		Key::Keys GetKey() const
 		{
 			return key;
 		}
 
-		Key::Keys GetModifier()
+		Key::Keys GetModifier() const
 		{
 			return modifier;
 		}
