@@ -77,6 +77,11 @@ namespace OSHGui
 		mouse.Cursor = cursor;
 	}
 	//---------------------------------------------------------------------------
+	void Application::SetCursorEnabled(bool enabled)
+	{
+		mouse.Enabled = enabled;
+	}
+	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
 		isEnabled = true;
@@ -239,7 +244,10 @@ namespace OSHGui
 			foreMost->Render(renderer);
 		}
 		
-		mouse.Cursor->Render(renderer, mouse.Location);
+		if (mouse.Enabled)
+		{
+			mouse.Cursor->Render(renderer, mouse.Location);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

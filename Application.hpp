@@ -80,6 +80,12 @@ namespace OSHGui
 		 * @param cursor
 		 */
 		void SetCursor(const std::shared_ptr<Cursor> &cursor);
+		/**
+		 * Legt fest, ob der Cursor gezeichnet werden soll.
+		 *
+		 * @param enabled
+		 */
+		void SetCursorEnabled(bool enabled);
 	
 		/**
 		 * Aktiviert das GUI.
