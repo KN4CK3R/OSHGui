@@ -43,9 +43,7 @@ namespace OSHGui
 		KeyboardStates State;
 		Key::Keys KeyCode;
 		Misc::AnsiChar KeyChar;
-		bool Menu,
-			 Control,
-			 Shift;
+		Key::Keys Modifier;
 		
 	public:
 		/**
@@ -54,11 +52,9 @@ namespace OSHGui
 		KeyboardMessage()
 		{
 			State = Unknown;
-			Menu = false;
-			Control = false;
-			Shift = false;
 			KeyCode = Key::None;
 			KeyChar = '\0';
+			Modifier = Key::None;
 		}
 
 		/**

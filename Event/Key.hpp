@@ -32,9 +32,31 @@ namespace OSHGui
 			Alt, Control, Shift, Tab,
 			Return, Escape,
 			Up, Right, Down, Left,
-			Divide, Multiply, Substract, Add
+			Divide, Multiply, Substract, Add,
 		};
 	};
+ 
+	inline Key::Keys operator | (const Key::Keys a, const Key::Keys b)
+	{
+		return Key::Keys(int(a) | int(b));
+	}
+
+	inline Key::Keys& operator |= (Key::Keys& a, const Key::Keys b)
+	{
+		a = a | b;
+		return a;
+	}
+
+	inline Key::Keys operator & (const Key::Keys a, const Key::Keys b)
+	{
+		return Key::Keys(int(a) & int(b));
+	}
+
+	inline Key::Keys& operator &= (Key::Keys& a, const Key::Keys b)
+	{
+		a = a & b;
+		return a;
+	}
 }
 
 #endif
