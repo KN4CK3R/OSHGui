@@ -73,7 +73,7 @@ namespace OSHGui
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, renderSize);
+			renderer->Fill(absoluteLocation, size);
 		}
 	
 		renderer->SetRenderColor(foreColor);
