@@ -260,7 +260,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Application::RegisterHotkey(Hotkey hotkey)
+	void Application::RegisterHotkey(const Hotkey &hotkey)
 	{
 		for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
 		{
@@ -273,7 +273,7 @@ namespace OSHGui
 		hotkeys.push_back(hotkey);
 	}
 	//---------------------------------------------------------------------------
-	void Application::UnregisterHotkey(Hotkey hotkey)
+	void Application::UnregisterHotkey(const Hotkey &hotkey)
 	{
 		for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
 		{
