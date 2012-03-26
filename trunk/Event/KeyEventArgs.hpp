@@ -22,9 +22,7 @@ namespace OSHGui
 	public:
 		Key::Keys KeyCode;
 		Misc::AnsiChar KeyChar;
-		bool Menu,
-			 Control,
-			 Shift;
+		Key::Keys Modifier;
 		bool Handled;
 		
 	public:
@@ -37,9 +35,7 @@ namespace OSHGui
 		{
 			KeyCode = keyboardEvent.KeyCode;
 			KeyChar = keyboardEvent.KeyChar;
-			Menu = keyboardEvent.Menu;
-			Control = keyboardEvent.Control;
-			Shift = keyboardEvent.Shift;
+			Modifier = keyboardEvent.Modifier;
 			Handled = false;
 		}
 	};

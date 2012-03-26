@@ -10,6 +10,7 @@
 #define OSHGUI_APPLICATION_HPP
 
 #include <memory>
+#include <vector>
 #include "Drawing/IRenderer.hpp"
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"
@@ -18,6 +19,7 @@
 #include "Exports.hpp"
 #include "FormManager.hpp"
 #include "TimerManager.hpp"
+#include "Event/Hotkey.hpp"
 
 namespace OSHGui
 {
@@ -123,6 +125,19 @@ namespace OSHGui
 		 * Zeichnet die geöffneten Formen.
 		 */
 		void Render();
+
+		/**
+		 * Registriert einen neuen Hotkey.
+		 *
+		 * @param hotkey
+		 */
+		void RegisterHotkey(const Hotkey &hotkey);
+		/**
+		 * Deregistriert einen Hotkey.
+		 *
+		 * @param hotkey
+		 */
+		void UnregisterHotkey(const Hotkey &hotkey);
 		
 		/**
 		 * Ruft die aktuelle Instanz der Application ab.
@@ -146,7 +161,10 @@ namespace OSHGui
 		{
 			Drawing::Point Location;
 			std::shared_ptr<Cursor> Cursor;
+			bool Enabled;
 		} mouse;
+
+		std::vector<Hotkey> hotkeys;
 
 		Control *FocusedControl;
 		Control *CaptureControl;

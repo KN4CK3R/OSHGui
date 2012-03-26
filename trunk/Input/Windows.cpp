@@ -78,9 +78,13 @@ namespace OSHGui
 				{
 					KeyboardMessage keyboard;
 					keyboard.State = KeyboardMessage::Unknown;
-					keyboard.Control = (GetKeyState(VK_CONTROL) & 0x8000) > 0;
-					keyboard.Shift = (GetKeyState(VK_SHIFT) & 0x8000) > 0;
-					keyboard.Menu = (GetKeyState(VK_MENU) & 0x8000) > 0;
+					keyboard.Modifier = Key::None;
+					if ((GetKeyState(VK_CONTROL) & 0x8000) > 0)
+						keyboard.Modifier |= Key::Control;
+					if ((GetKeyState(VK_SHIFT) & 0x8000) > 0)
+						keyboard.Modifier |= Key::Shift;
+					if ((GetKeyState(VK_MENU) & 0x8000) > 0)
+						keyboard.Modifier |= Key::Alt;
 
 					if (message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN || message->message == WM_KEYUP || message->message == WM_SYSKEYUP)
 					{

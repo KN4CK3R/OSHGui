@@ -195,14 +195,24 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
-		if (!isEnabled)
+		if (isEnabled)
 		{
-			return false;
+			if (FocusedControl != 0)
+			{
+				FocusedControl->ProcessKeyboardMessage(keyboard);
+			}
 		}
 
-		if (FocusedControl != 0)
+		if (keyboard.State == KeyboardMessage::KeyUp)
 		{
-			FocusedControl->ProcessKeyboardMessage(keyboard);
+			for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
+			{
+				Hotkey &temp = *it;
+				if (temp.GetKey() == keyboard.KeyCode && temp.GetModifier() == keyboard.Modifier)
+				{
+					temp();
+				}
+			}
 		}
 
 		return false;
@@ -247,6 +257,32 @@ namespace OSHGui
 		if (mouse.Enabled)
 		{
 			mouse.Cursor->Render(renderer, mouse.Location);
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Application::RegisterHotkey(Hotkey hotkey)
+	{
+		for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
+		{
+			Hotkey &temp = *it;
+			if (temp.GetKey() == hotkey.GetKey() && temp.GetModifier() == hotkey.GetModifier())
+			{
+				return;
+			}
+		}
+		hotkeys.push_back(hotkey);
+	}
+	//---------------------------------------------------------------------------
+	void Application::UnregisterHotkey(Hotkey hotkey)
+	{
+		for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
+		{
+			Hotkey &temp = *it;
+			if (temp.GetKey() == hotkey.GetKey() && temp.GetModifier() == hotkey.GetModifier())
+			{
+				hotkeys.erase(it);
+				return;
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
