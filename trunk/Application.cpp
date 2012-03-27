@@ -267,6 +267,8 @@ namespace OSHGui
 			Hotkey &temp = *it;
 			if (temp.GetKey() == hotkey.GetKey() && temp.GetModifier() == hotkey.GetModifier())
 			{
+				it = hotkeys.erase(it);
+				hotkeys.insert(it, hotkey);
 				return;
 			}
 		}
