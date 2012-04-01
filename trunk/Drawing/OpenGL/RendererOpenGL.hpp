@@ -9,6 +9,8 @@
 #ifndef OSHGUI_DRAWING_RENDEREROPENGL_HPP
 #define OSHGUI_DRAWING_RENDEREROPENGL_HPP
 
+#error OpenGL not implemented, exclude all OpenGL files
+
 #include <windows.h>
 #include <stdio.h>
 #include <gl/GL.h>

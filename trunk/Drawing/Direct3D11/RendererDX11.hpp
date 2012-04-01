@@ -9,6 +9,8 @@
 #ifndef OSHGUI_DRAWING_RENDERERDX11_HPP
 #define OSHGUI_DRAWING_RENDERERDX11_HPP
 
+#error DX11 not implemented, exclude all DX11 files
+
 #include <d3d11.h>
 
 #include "IRenderer.hpp"
