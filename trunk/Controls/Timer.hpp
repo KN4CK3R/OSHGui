@@ -61,6 +61,13 @@ namespace OSHGui
 		 * Hält den Timer an. Equivalent zu SetEnabled(false);
 		 */
 		void Stop();
+		/**
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 *
+		 * @param point
+		 * @return ja / nein
+		 */
+		virtual bool Intersect(const Drawing::Point &point) const;
 
 	private:
 		int interval;
