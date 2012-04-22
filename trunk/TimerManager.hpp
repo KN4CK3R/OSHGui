@@ -31,6 +31,7 @@ namespace OSHGui
 			Timer *timer;
 			Misc::TimeSpan interval;
 			Misc::DateTime next;
+			bool remove;
 		};
 		std::list<TimerInfo> timers;
 	};
