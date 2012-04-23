@@ -82,7 +82,7 @@ namespace OSHGui
 			}
 
 			for (int i = 0; i < frameCount; ++i)
-			{			
+			{
 				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 				{
 					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
@@ -96,7 +96,7 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::LoadFromFile(const Misc::AnsiString &filename)
-		{			
+		{
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileA(filename.c_str(), &info)))
 			{
