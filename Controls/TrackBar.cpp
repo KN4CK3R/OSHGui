@@ -120,7 +120,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
-		pixelsPerTick = (GetWidth() - SliderSize.Width) / ((maximum - minimum) / tickFrequency);
+		pixelsPerTick = (float)(GetWidth() - SliderSize.Width) / ((maximum - minimum) / tickFrequency);
 
 		if (value < 0)
 		{
