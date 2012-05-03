@@ -125,7 +125,7 @@ namespace OSHGui
 		int maximum;
 		int value;
 		int tickFrequency;
-		int pixelsPerTick;
+		float pixelsPerTick;
 		bool drag;
 		
 		Drawing::Point sliderLocation;
