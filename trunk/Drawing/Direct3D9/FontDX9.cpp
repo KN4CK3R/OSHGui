@@ -47,8 +47,11 @@ namespace OSHGui
 			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str(), &font)))
 			{
 				font = 0;
-			
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::Exception("Cannot create Font.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
 			}
 			
 			this->name = name;

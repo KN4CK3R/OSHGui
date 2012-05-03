@@ -85,7 +85,11 @@ namespace OSHGui
 			{
 				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
 				{
+					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
+					#else
+					throw 1;
+					#endif
 				}
 				frames.push_back(texture);
 			}
@@ -100,7 +104,11 @@ namespace OSHGui
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileA(filename.c_str(), &info)))
 			{
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::Exception("Cannot get ImageInfo.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
 			}
 			
 			size = Drawing::Size(info.Width, info.Height);
@@ -122,7 +130,11 @@ namespace OSHGui
 				}
 				texture = 0;
 				
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::Exception("Cannot load Texture.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
 			}
 			
 			texture = frames[frame];
