@@ -109,7 +109,22 @@ namespace OSHGui
 		});
 		listBox->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
-			if (newFocusedControl == 0 || newFocusedControl->GetParent() == this || newFocusedControl->GetParent()->GetParent() == this)
+			if (newFocusedControl == nullptr)
+			{
+				return;
+			}
+			Control *parent = newFocusedControl->GetParent();
+			if (parent == this)
+			{
+				return;
+			}
+			parent = parent->GetParent();
+			if (parent == this)
+			{
+				return;
+			}
+			parent = parent->GetParent();
+			if (parent == this)
 			{
 				return;
 			}

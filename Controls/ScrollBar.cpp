@@ -156,7 +156,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ScrollBar::Intersect(const Drawing::Point &point) const
 	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
+		return Intersection::TestRectangle(absoluteLocation.OffsetEx(0, upButton->GetHeight()), size.InflateEx(0, -upButton->GetHeight() * 2), point);
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::CalculateAbsoluteLocation()
@@ -186,7 +186,7 @@ namespace OSHGui
 
 		if (drag)
 		{
-			if (maximum > 1)
+			if (maximum >= 1)
 			{
 				float valuePerPixel = (float)maximum / (trackSize.Height - sliderSize.Height);
 
