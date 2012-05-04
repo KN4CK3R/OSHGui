@@ -222,7 +222,7 @@ namespace OSHGui
 		int newHeight = MaxListBoxHeight;
 		if (listBox->GetHeight() + font->GetSize() + 2 < MaxListBoxHeight)
 		{
-			newHeight = listBox->GetHeight() + font->GetSize() + 4;
+			newHeight = listBox->GetHeight() + font->GetSize() + 6;
 		}
 		listBox->SetSize(listBox->GetWidth(), newHeight);
 
