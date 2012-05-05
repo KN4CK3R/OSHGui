@@ -52,6 +52,7 @@ namespace OSHGui
 		SetForeColor(Drawing::Color(0xFFAFADAD));
 
 		SetMaximum(0); //indirect init
+		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
