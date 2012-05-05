@@ -275,6 +275,8 @@ namespace OSHGui
 
 		SetLocation(0, 0);
 		SetSize(DefaultButtonSize);
+
+		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::ScrollBarButton::SetSize(const Drawing::Size &size)
