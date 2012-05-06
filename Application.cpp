@@ -188,6 +188,11 @@ namespace OSHGui
 					}
 				}
 			}
+
+			if (MouseEnteredControl)
+			{
+				MouseEnteredControl->OnMouseLeave(mouse);
+			}
 		}
 
 		return false;
