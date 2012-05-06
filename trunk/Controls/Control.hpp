@@ -194,6 +194,8 @@ namespace OSHGui
 	 */
 	class OSHGUI_EXPORT Control
 	{
+		friend Application;
+
 	public:
 		virtual ~Control();
 		
