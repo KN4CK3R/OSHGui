@@ -245,6 +245,7 @@ namespace OSHGui
 			virtual void FillGradient(int x, int y, int w, int h, const Color &to);
 
 		private:
+			void InitializeDevice();
 			void Flush();
 			void AddVertex(int x, int y);
 			void AddVertex(int x, int y, float u, float v);
@@ -267,6 +268,7 @@ namespace OSHGui
 			
 			Vertex2D vertices[maxVertices];
 			
+			IDirect3DStateBlock9 *stateBlockBackup;
 			IDirect3DStateBlock9 *stateBlock;
 		};
 	}

@@ -35,7 +35,7 @@ namespace OSHGui
 
 			defaultFont = CreateNewFont("Arial", 14, false, false);
 
-			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
+			InitializeDevice(); 
 		}
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()
@@ -61,10 +61,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void RendererDX9::Begin()
+		void RendererDX9::InitializeDevice()
 		{
-			stateBlock->Capture();
-		
+			device->CreateStateBlock(D3DSBT_ALL, &stateBlockBackup);
+			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
+
+			device->BeginStateBlock();
 			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 			device->SetTexture(0, 0);
 			device->SetVertexShader(0);
@@ -78,6 +80,7 @@ namespace OSHGui
 			device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
 			device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, FALSE);
 
 			// setup texture addressing settings
 			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
@@ -108,6 +111,15 @@ namespace OSHGui
 			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 			device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_INVDESTALPHA);
 			device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
+
+			device->EndStateBlock(&stateBlock);
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::Begin()
+		{
+			stateBlockBackup->Capture();
+		
+			stateBlock->Apply();
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
@@ -116,7 +128,7 @@ namespace OSHGui
 		{
 			Flush();
 			
-			stateBlock->Apply();
+			stateBlockBackup->Apply();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::PreReset()
@@ -154,6 +166,7 @@ namespace OSHGui
 				}
 			}
 
+			stateBlockBackup->Release();
 			stateBlock->Release();
 		}
 		//---------------------------------------------------------------------------
@@ -192,7 +205,7 @@ namespace OSHGui
 				}
 			}
 
-			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
+			InitializeDevice();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Flush()
