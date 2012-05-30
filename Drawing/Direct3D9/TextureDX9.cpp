@@ -581,15 +581,15 @@ namespace OSHGui
 				D3DLOCKED_RECT sourceLock;
 				source->LockRect(0, &sourceLock, 0, 0);
 				BYTE *sourceRaw = (BYTE*)sourceLock.pBits;
-					
+				
 				for (int y = 0; y < size.Height; ++y)
 				{
 					int row = y * lock.Pitch;
-								
+					
 					for (int x = 0; x < size.Width; ++x)
 					{
 						int index = x * 4 + row;
-								
+					
 						copyRaw[index] = sourceRaw[index];
 						copyRaw[index + 1] = sourceRaw[index + 1];
 						copyRaw[index + 2] = sourceRaw[index + 2];
@@ -614,6 +614,50 @@ namespace OSHGui
 			this->frame = frame;
 
 			texture = frames[this->frame];
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::PreReset()
+		{
+			D3DLOCKED_RECT lock;
+			for (std::size_t i = 0; i < frames.size(); ++i)
+			{
+				frames[i]->LockRect(0, &lock, 0, 0);
+				
+				int *raw = (int*)lock.pBits;
+				framesReset.push_back(std::vector<int>(raw, raw + size.Height * lock.Pitch));
+				
+				frames[i]->UnlockRect(0);
+				frames[i]->Release();
+			}
+			frames.clear();
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::PostReset()
+		{
+			D3DLOCKED_RECT lock;
+			for (std::size_t i = 0; i < framesReset.size(); ++i)
+			{
+				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
+				{
+					#ifndef OSHGUI_DONTUSEEXCEPTIONS
+					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
+					#else
+					throw 1;
+					#endif
+				}
+				
+				texture->LockRect(0, &lock, 0, 0);
+				
+				std::memcopy(lock.pBits, framesReset[i].data(), size.Height * lock.Pitch);
+				
+				texture->UnlockRect(0);
+				
+				frames.push_back(texture);
+			}
+			
+			texture = frames[0];
+			
+			framesReset.clear();
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -43,6 +43,10 @@ namespace OSHGui
 			 * @return die Maﬂe
 			 */
 			virtual const Size MeasureText(const Misc::AnsiString &str);
+			
+			void PreReset();
+			
+			void PostReset();
 
 		protected:
 			/**

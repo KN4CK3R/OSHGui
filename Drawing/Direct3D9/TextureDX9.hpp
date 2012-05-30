@@ -216,6 +216,10 @@ namespace OSHGui
 			 */
 			virtual void SelectActiveFrame(int frame);
 			
+			void PreReset();
+			
+			void PostReset();
+			
 		protected:
 			/**
 			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe und der Anzahl der Frames.
@@ -244,6 +248,8 @@ namespace OSHGui
 			Misc::TimeSpan frameChangeInterval;
 			std::vector<IDirect3DTexture9*> frames;
 			int frame;
+			
+			std::vector<std::vector<BYTE> > framesReset;
 		};
 	}
 }
