@@ -169,6 +169,10 @@ namespace OSHGui
 								keyboard.KeyCode = Key::None;
 								break;
 						}
+						if (VK_F1 >= message->wParam && message->wParam <= VK_F12)
+						{
+							keyboard.KeyCode = static_cast<Key::Keys>(Key::F1 + (message->wParam - VK_F1));
+						}
 					}
 					else if (message->message == WM_CHAR)
 					{
