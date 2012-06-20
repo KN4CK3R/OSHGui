@@ -58,6 +58,12 @@ namespace OSHGui
 				FinalQuotePunctuation
 			};
 
+			/**
+			 * Ruft die Latin1Category des Zeichens ab.
+			 *
+			 * @param c das Zeichen
+			 * @return die Latin1Category
+			 */
 			inline Latin1Category GetLatin1Category(const AnsiChar c)
 			{
 				static Latin1Category latin1Category[] =
@@ -99,11 +105,23 @@ namespace OSHGui
 				return latin1Category[(unsigned char)c];
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen zum ASCII Zeichensatz gehört.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsAscii(const AnsiChar c)
 			{
 				return c <= '\x7F';
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen eine Zahl ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsDigit(const AnsiChar c)
 			{
 				if (IsAscii(c))
@@ -113,6 +131,12 @@ namespace OSHGui
 				return GetLatin1Category(c) == DecimalDigitNumber;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen eine Nummer ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsNumber(const AnsiChar c)
 			{
 				if (IsAscii(c))
@@ -128,6 +152,12 @@ namespace OSHGui
 				return false;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen eine druckbare Ziffer ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsLetter(const AnsiChar c)
 			{
 				if (IsAscii(c))
@@ -144,11 +174,23 @@ namespace OSHGui
 				return false;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen ein Whitespace ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsWhiteSpace(const AnsiChar c)
 			{
 				return ((c == ' ') || (c >= '\x09' && c <= '\x0d') || c == '\xa0' || c == '\x85');
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen ein Großbuchstabe ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsUpper(const AnsiChar c)
 			{
 				if (IsAscii(c))
@@ -158,6 +200,12 @@ namespace OSHGui
 				return GetLatin1Category(c) == UppercaseLetter;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen ein Kleinbuchstabe ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsLower(const AnsiChar c)
 			{
 				if (IsAscii(c))
@@ -167,6 +215,12 @@ namespace OSHGui
 				return GetLatin1Category(c) == LowercaseLetter;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen ein Symbol ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsSymbol(const AnsiChar c)
 			{
 				switch (GetLatin1Category(c))
@@ -180,6 +234,12 @@ namespace OSHGui
 				return false;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen eine Punktion ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsPunctuation(const AnsiChar c)
 			{
 				switch (GetLatin1Category(c))
@@ -194,13 +254,25 @@ namespace OSHGui
 						return true;
 				} 
 				return false;
-		}
+			}
 
+			/**
+			 * Ruft ab, ob das Zeichen ein Seperator ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsSeperator(const AnsiChar c)
 			{
 				return c == '\x20' || c == '\xa0';
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen eine Ziffer oder Zahl ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsLetterOrDigit(const AnsiChar c)
 			{
 				switch (GetLatin1Category(c))
@@ -213,6 +285,12 @@ namespace OSHGui
 				return false;
 			}
 
+			/**
+			 * Ruft ab, ob das Zeichen ein Steuersymbol ist.
+			 *
+			 * @param c
+			 * @return
+			 */
 			inline bool IsControl(const AnsiChar c)
 			{
 				return GetLatin1Category(c) == Control;

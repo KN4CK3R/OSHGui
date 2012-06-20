@@ -15,7 +15,7 @@ namespace OSHGui
 {
 	void TimerManager::RegisterTimer(Timer *timer, const Misc::TimeSpan &interval)
 	{
-		if (timer == 0)
+		if (timer == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("timer", __FILE__, __LINE__);
@@ -45,7 +45,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TimerManager::UnregisterTimer(Timer *timer)
 	{
-		if (timer == 0)
+		if (timer == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("timer", __FILE__, __LINE__);

@@ -37,6 +37,8 @@ namespace OSHGui
 		friend Control;
 		friend Form;
 		friend Timer;
+		friend FormManager;
+		friend TimerManager;
 
 	public:
 		/**
@@ -133,7 +135,7 @@ namespace OSHGui
 		 */
 		void RegisterHotkey(const Hotkey &hotkey);
 		/**
-		 * Deregistriert einen Hotkey.
+		 * Entfernt einen Hotkey.
 		 *
 		 * @param hotkey
 		 */
@@ -149,7 +151,7 @@ namespace OSHGui
 	private:
 		static Application *instance;
 		Application();
-			
+		
 		Drawing::IRenderer *renderer;
 	
 		FormManager formManager;

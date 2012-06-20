@@ -16,35 +16,90 @@
 
 namespace OSHGui
 {
-	namespace Drawing {	class IRenderer; }
 	class Form;
 
 	class OSHGUI_EXPORT FormManager
 	{
-	public:
+	private:
 		class FormIterator;
 
 		/**
-		 * Ruft die 
+		 * Ruft die Fenster ab, das aktuell oben liegt.
+		 *
+		 * @return das oberste Fenster
 		 */
 		const std::shared_ptr<Form> GetForeMost() const;
-
+		/**
+		 * Ruft das Fenster an Position index ab.
+		 *
+		 * @return
+		 */
 		const std::shared_ptr<Form>& operator [] (int index) const;
-
+		/**
+		 * Ruft die Anzahl der registrierten Fenster.
+		 *
+		 * @return Anzahl registrierter Fenster
+		 */
 		int GetFormCount() const;
-
-		void RegisterMainForm(const std::shared_ptr<Form> &mainForm);
-		const std::shared_ptr<Form>& GetMainForm() const;
-		bool IsRegistered(const std::shared_ptr<Form> &form);
-		void RegisterForm(const std::shared_ptr<Form> &form);
-		void RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction);
-		void UnregisterForm(const std::shared_ptr<Form> &form);
-		void RemoveUnregisteredForms();
-		void BringToFront(const std::shared_ptr<Form> &form);
 		
+		/**
+		 * Registriert das Hauptfenster.
+		 *
+		 * @param mainForm das Hauptfenster
+		 */
+		void RegisterMainForm(const std::shared_ptr<Form> &mainForm);
+		/**
+		 * Ruft das Hauptfenster ab.
+		 *
+		 * @return das Hauptfenster
+		 */
+		const std::shared_ptr<Form>& GetMainForm() const;
+		/**
+		 * Prüft, ob das Fenster schon registriert ist.
+		 *
+		 * @param form das Fenster
+		 * @return true, falls registriert
+		 */
+		bool IsRegistered(const std::shared_ptr<Form> &form);
+		/**
+		 * Registriert das Fenster.
+		 *
+		 * @param form das Fenster
+		 */
+		void RegisterForm(const std::shared_ptr<Form> &form);
+		/**
+		 * Registriert das Fenster und legt die Funktion fest, die beim Schließen des Fensters aufgerufen werden soll.
+		 *
+		 * @param form das Fenster
+		 * @param closeFunction
+		 */
+		void RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction);
+		/**
+		 * Entfernt das Fenster.
+		 *
+		 * @param form das Fenster
+		 */
+		void UnregisterForm(const std::shared_ptr<Form> &form);
+		/**
+		 * Entfernt Fenster aus der internen Liste.
+		 *
+		 * @param form das Fenster
+		 */
+		void RemoveUnregisteredForms();
+		
+		/**
+		 * Bringt das Fenster in den Vordergrund.
+		 *
+		 * @param form das Fenster
+		 */
+		void BringToFront(const std::shared_ptr<Form> &form);
+		/**
+		 * Ruft einen Iterator für die Fenster ab.
+		 *
+		 * @return Fensteriterator
+		 */
 		FormIterator GetEnumerator();
 
-	private:
 		struct FormInfo
 		{
 			std::shared_ptr<Form> form;
@@ -55,7 +110,6 @@ namespace OSHGui
 
 		std::shared_ptr<Form> mainForm;
 
-	public:
 		class FormIterator
 		{
 		public:

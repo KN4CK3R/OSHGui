@@ -20,12 +20,26 @@ namespace OSHGui
 
 	class OSHGUI_EXPORT TimerManager
 	{
-	public:
+	private:
+		/**
+		 * Registriert den Timer mit dem entsprechenden Interval.
+		 *
+		 * @param timer der Timer
+		 * @param interval das Interval
+		 */
 		void RegisterTimer(Timer *timer, const Misc::TimeSpan &interval);
+		/**
+		 * Entfernt den Timer.
+		 *
+		 * @param timer der Timer
+		 */
 		void UnregisterTimer(Timer *timer);
+		
+		/**
+		 * Updatet die Timer.
+		 */
 		void Update();
 
-	private:
 		struct TimerInfo
 		{
 			Timer *timer;

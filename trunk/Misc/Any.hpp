@@ -30,7 +30,8 @@ namespace OSHGui
 				virtual void* GetObject() = 0;
 			};
 			//---------------------------------------------------------------------------
-			template<class T> class TypeWrapper : public AnyTypeWrapper
+			template<class T>
+			class TypeWrapper : public AnyTypeWrapper
 			{
 			private:
 				T obj;
@@ -74,7 +75,7 @@ namespace OSHGui
 			Any()
 			{
 				id = 0;
-				wrapper = 0;
+				wrapper = nullptr;
 			}
 			~Any()
 			{
@@ -111,10 +112,10 @@ namespace OSHGui
 				if (this != &any)
 				{
 					delete wrapper;
-					wrapper = 0;
+					wrapper = nullptr;
 					
 					id = any.id;
-					if (any.wrapper != 0)
+					if (any.wrapper != nullptr)
 					{
 						wrapper = any.wrapper->Copy();
 					}
@@ -129,9 +130,9 @@ namespace OSHGui
 			 */
 			template<class T>
 			Any& operator= (const T &obj)
-			{			     
+			{
 				delete wrapper;
-			     
+			
 				id = TypeID<T>();
 				wrapper = new TypeWrapper<T>(obj);
 				
@@ -142,7 +143,7 @@ namespace OSHGui
 			 */
 			operator void *() const
 			{
-				return (id == 0 ? 0 : (void*)1);
+				return id == 0 ? nullptr : (void*)1;
 			}
 
 			/**
@@ -160,7 +161,10 @@ namespace OSHGui
 				}
 				else
 				{
+					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw InvalidOperationException("Cannot cast object", __FILE__, __LINE__);
+					#endif
+					throw 1;
 				}
 			}
 		};

@@ -33,7 +33,7 @@ namespace OSHGui
 
 		std::list<EventHandlerInfo> eventHandlerInfos;
 
-	public:		
+	public:
 		/**
 		 * Registriert einen EventHandler.
 		 *
