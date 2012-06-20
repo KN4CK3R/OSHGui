@@ -47,7 +47,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::BringToFront(const std::shared_ptr<Form> &form)
 	{
-		if (form == 0)
+		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
@@ -114,12 +114,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::RegisterForm(const std::shared_ptr<Form> &form)
 	{
-		RegisterForm(form, 0);
+		RegisterForm(form, nullptr);
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::RegisterForm(const std::shared_ptr<Form> &form, std::function<void()> closeFunction)
 	{
-		if (form == 0)
+		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
@@ -138,7 +138,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::UnregisterForm(const std::shared_ptr<Form> &form)
 	{
-		if (form == 0)
+		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
@@ -151,7 +151,7 @@ namespace OSHGui
 			FormInfo &info = *it;
 			if (info.form == form)
 			{
-				if (info.closeFunction != 0)
+				if (info.closeFunction != nullptr)
 				{
 					info.closeFunction();
 				}

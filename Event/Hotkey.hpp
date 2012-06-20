@@ -31,6 +31,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 *
 		 * @param key
+		 * @param handler die aufzurufende Funktion
 		 */
 		Hotkey(Key::Keys key, const Handler &handler)
 		{
@@ -48,6 +49,7 @@ namespace OSHGui
 		 *
 		 * @param key
 		 * @param modifier Strg / Alt / Shift
+		 * @param handler die aufzurufende Funktion
 		 */
 		Hotkey(Key::Keys key, Key::Keys modifier, const Handler &handler)
 		{
@@ -76,11 +78,20 @@ namespace OSHGui
 			handler = hotkey.handler;
 		}
 
+		/**
+		 * Ruft die Taste des Hotkeys ab.
+		 *
+		 * @return die Taste
+		 */
 		Key::Keys GetKey() const
 		{
 			return key;
 		}
-
+		/**
+		 * Ruft den Modifier des Hotkeys ab.
+		 *
+		 * @return der Modifier
+		 */
 		Key::Keys GetModifier() const
 		{
 			return modifier;
