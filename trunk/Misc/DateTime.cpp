@@ -8,13 +8,9 @@
 
 #include <time.h>
 
-#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <windows.h>
-#else //Unix
-#include <sys/time.h>
-#endif
 
 #include "DateTime.hpp"
 #include "Exceptions.hpp"
@@ -294,16 +290,7 @@ namespace OSHGui
 		DateTime DateTime::GetUtcNow()
 		{
 			long long ticks;
-#ifdef _WIN32
-			GetSystemTimeAsFileTime((LPFILETIME)&ticks);
-#else //Unix
-			timeval tv;
-			gettimeofday(&tv, 0);
-			ticks = (long long)tv.tv_usec;
-			ticks += (long long)(tv.tv_sec / 0.000001);
-			ticks += 11644473600000000i64;
-			ticks *= 10i64;
-#endif
+			GetSystemTimeAsFileTime(reinterpret_cast<LPFILETIME>(&ticks));
 			
 			return DateTime((unsigned long long)(ticks + FileTimeOffset) | DateTime::KindUtc);
 		}
