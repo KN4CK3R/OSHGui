@@ -20,7 +20,7 @@ namespace OSHGui
 
 	class OSHGUI_EXPORT TimerManager
 	{
-	private:
+	public:
 		/**
 		 * Registriert den Timer mit dem entsprechenden Interval.
 		 *
@@ -40,6 +40,7 @@ namespace OSHGui
 		 */
 		void Update();
 
+	private:
 		struct TimerInfo
 		{
 			Timer *timer;

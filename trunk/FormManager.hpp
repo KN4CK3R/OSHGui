@@ -20,7 +20,7 @@ namespace OSHGui
 
 	class OSHGUI_EXPORT FormManager
 	{
-	private:
+	public:
 		class FormIterator;
 
 		/**
@@ -100,6 +100,7 @@ namespace OSHGui
 		 */
 		FormIterator GetEnumerator();
 
+	private:
 		struct FormInfo
 		{
 			std::shared_ptr<Form> form;
@@ -110,6 +111,7 @@ namespace OSHGui
 
 		std::shared_ptr<Form> mainForm;
 
+	public:
 		class FormIterator
 		{
 		public:

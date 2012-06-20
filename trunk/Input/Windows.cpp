@@ -169,9 +169,22 @@ namespace OSHGui
 								keyboard.KeyCode = Key::None;
 								break;
 						}
-						if (VK_F1 >= message->wParam && message->wParam <= VK_F12)
+						if (VK_F1 <= message->wParam && message->wParam <= VK_F12)
 						{
 							keyboard.KeyCode = static_cast<Key::Keys>(Key::F1 + (message->wParam - VK_F1));
+						}
+						else
+						{
+							std::locale loc;
+							Misc::AnsiChar keyChar = std::tolower(message->wParam, loc);
+							if (keyChar >= 'a' && keyChar <= 'z')
+							{
+								keyboard.KeyCode = (Key::Keys)((int)Key::A + (keyChar - 'a'));
+							}
+							else if (keyChar >= '0' && keyChar  <= '9')
+							{
+								keyboard.KeyCode = (Key::Keys)((int)Key::D0 + (keyChar - '0'));
+							}
 						}
 					}
 					else if (message->message == WM_CHAR)
