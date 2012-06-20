@@ -37,8 +37,6 @@ namespace OSHGui
 		friend Control;
 		friend Form;
 		friend Timer;
-		friend FormManager;
-		friend TimerManager;
 
 	public:
 		/**
