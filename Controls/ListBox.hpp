@@ -42,6 +42,18 @@ namespace OSHGui
 		 */
 		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
+		 * Legt fest, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
+		 *
+		 * @param autoScrollEnabled
+		 */
+		void SetAutoScrollEnabled(bool autoScrollEnabled);
+		/**
+		 * Ruft ab, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
+		 *
+		 * @return autoScrollEnabled
+		 */
+		bool GetAutoScrollEnabled() const;
+		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
 		 * @param index
@@ -136,6 +148,7 @@ namespace OSHGui
 		int selectedIndex;
 		int firstVisibleItemIndex;
 		int maxVisibleItems;
+		bool autoScrollEnabled;
 		
 		Drawing::Rectangle itemsRect;
 		Drawing::Size itemAreaSize;

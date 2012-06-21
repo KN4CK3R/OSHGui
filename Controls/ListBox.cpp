@@ -26,6 +26,7 @@ namespace OSHGui
 		
 		selectedIndex = -1;
 		firstVisibleItemIndex = 0;
+		autoScrollEnabled = false;
 		
 		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
 
@@ -78,6 +79,16 @@ namespace OSHGui
 		ContainerControl::SetFont(font);
 
 		maxVisibleItems = std::max(1, itemAreaSize.Height / (font->GetSize() + 2));
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::SetAutoScrollEnabled(bool autoScrollEnabled)
+	{
+		this->autoScrollEnabled = autoScrollEnabled;
+	}
+	//---------------------------------------------------------------------------
+	bool ListBox::GetAutoScrollEnabled() const
+	{
+		return autoScrollEnabled;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ListBox::GetItem(int index) const
@@ -183,6 +194,11 @@ namespace OSHGui
 		{
 			scrollBar->SetVisible(false);
 			itemAreaSize.Width += scrollBar->GetWidth();
+		}
+
+		if (autoScrollEnabled)
+		{
+			scrollBar->SetValue(index);
 		}
 	}
 	//---------------------------------------------------------------------------
