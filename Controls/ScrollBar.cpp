@@ -168,6 +168,16 @@ namespace OSHGui
 		trackAbsoluteLocation = absoluteLocation + trackLocation;
 	}
 	//---------------------------------------------------------------------------
+	void ScrollBar::ScrollToTop()
+	{
+		SetValue(0);
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::ScrollToBottom()
+	{
+		SetValue(GetMaximum());
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void ScrollBar::OnMouseDown(const MouseMessage &mouse)
