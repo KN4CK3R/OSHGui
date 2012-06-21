@@ -80,6 +80,14 @@ namespace OSHGui
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation();
+		/**
+		 * Verschiebt die ScrollBar zum Anfang.
+		 */
+		void ScrollToTop();
+		/**
+		 * Verschiebt die ScrollBar zum Ende.
+		 */
+		void ScrollToBottom();
 		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
