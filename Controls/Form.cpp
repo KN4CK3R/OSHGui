@@ -114,7 +114,7 @@ namespace OSHGui
 	{
 		this->instance = std::weak_ptr<Form>(instance);
 	
-		Application::Instance()->formManager.RegisterForm(this->instance.lock());
+		Application::Instance()->formManager.RegisterForm(instance);
 
 		isVisible = true;
 		isEnabled = true;
@@ -198,7 +198,7 @@ namespace OSHGui
 	{
 		Control::OnMouseUp(mouse);
 
-		Form *owner = (Form*)parent->GetParent();
+		Form *owner = static_cast<Form*>(parent->GetParent());
 		owner->Close();
 	}
 	//---------------------------------------------------------------------------

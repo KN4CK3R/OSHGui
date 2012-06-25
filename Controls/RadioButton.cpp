@@ -29,13 +29,13 @@ namespace OSHGui
 			if (GetParent() != 0)
 			{
 				//uncheck other radiobuttons
-				const std::list<Control*> &controls = ((ContainerControl*)GetParent())->GetControls();
+				const std::list<Control*> &controls = static_cast<ContainerControl*>(GetParent())->GetControls();
 				for (std::list<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
 				{
 					Control *control = *it;
 					if (control->GetType() == CONTROL_RADIOBUTTON)
 					{
-						RadioButton *radio = (RadioButton*)control;
+						RadioButton *radio = static_cast<RadioButton*>(control);
 						radio->SetCheckedInternal(false);
 					}
 				}

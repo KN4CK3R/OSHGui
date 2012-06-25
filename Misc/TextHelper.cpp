@@ -70,9 +70,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextHelper::Remove(int index, int length)
 		{
+			if (index >= text.length())
+			{
+				return;
+			}
 			if (index + length > (int)text.length())
 			{
-				index = index;
+				length = text.length() - index;
 			}
 			text.erase(index, length);
 			RefreshSize();

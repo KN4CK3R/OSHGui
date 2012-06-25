@@ -174,7 +174,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::AddItem(const Misc::AnsiString &text)
 	{
-		InsertItem(items.size() > 0 ? items.size() : 0, text);
+		InsertItem(!items.empty() ? items.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::InsertItem(int index, const Misc::AnsiString &text)

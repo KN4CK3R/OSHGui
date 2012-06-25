@@ -21,11 +21,11 @@ namespace OSHGui
 	Application::Application()
 	{
 		isEnabled = false;
-		renderer = 0;
+		renderer = nullptr;
 		now = Misc::DateTime::GetNow();
-		FocusedControl = 0;
-		CaptureControl = 0;
-		MouseEnteredControl = 0;
+		FocusedControl = nullptr;
+		CaptureControl = nullptr;
+		MouseEnteredControl = nullptr;
 	}
 	//---------------------------------------------------------------------------
 	Application* Application::Instance()
@@ -36,7 +36,7 @@ namespace OSHGui
 	void Application::Create(Drawing::IRenderer *renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (renderer == 0)
+		if (renderer == nullptr)
 		{
 			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
 		}
@@ -87,7 +87,7 @@ namespace OSHGui
 		isEnabled = true;
 
 		std::shared_ptr<Form> mainForm = formManager.GetMainForm();
-		if (mainForm != 0)
+		if (mainForm != nullptr)
 		{
 			if (!formManager.IsRegistered(mainForm))
 			{
@@ -116,13 +116,13 @@ namespace OSHGui
 	void Application::Run(const std::shared_ptr<Form> &mainForm)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (mainForm == 0)
+		if (mainForm == nullptr)
 		{
 			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
 		}
 		#endif
 
-		if (formManager.GetMainForm() != 0)
+		if (formManager.GetMainForm() != nullptr)
 		{
 			return;
 		}
@@ -141,12 +141,12 @@ namespace OSHGui
 
 		this->mouse.Location = mouse.Location;
 
-		if (CaptureControl != 0)
+		if (CaptureControl != nullptr)
 		{
 			CaptureControl->ProcessMouseMessage(mouse);
 			return true;
 		}
-		if (FocusedControl != 0)
+		if (FocusedControl != nullptr)
 		{
 			if (FocusedControl->ProcessMouseMessage(mouse))
 			{
@@ -202,7 +202,7 @@ namespace OSHGui
 	{
 		if (isEnabled)
 		{
-			if (FocusedControl != 0)
+			if (FocusedControl != nullptr)
 			{
 				FocusedControl->ProcessKeyboardMessage(keyboard);
 			}
@@ -226,7 +226,7 @@ namespace OSHGui
 	void Application::Render()
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (renderer == 0)
+		if (renderer == nullptr)
 		{
 			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
 		}

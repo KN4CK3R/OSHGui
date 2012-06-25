@@ -16,11 +16,11 @@ namespace OSHGui
 {
 	const std::shared_ptr<Form> FormManager::GetForeMost() const
 	{
-		if (forms.size() != 0)
+		if (!forms.empty())
 		{
 			return forms[forms.size() - 1].form;
 		}
-		return 0;
+		return nullptr;
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Form>& FormManager::operator [] (int index) const
@@ -196,7 +196,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::FormIterator::operator++()
 	{
-		it++;
+		++it;
 	}
 	//---------------------------------------------------------------------------
 	bool FormManager::FormIterator::operator()()
