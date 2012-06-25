@@ -19,13 +19,14 @@ namespace OSHGui
 	Application* Application::instance = new Application();
 	//---------------------------------------------------------------------------
 	Application::Application()
+		: isEnabled(false),
+		  renderer(nullptr),
+		  now(Misc::DateTime::GetNow()),
+		  FocusedControl(nullptr),
+		  CaptureControl(nullptr),
+		  MouseEnteredControl(nullptr)
 	{
-		isEnabled = false;
-		renderer = nullptr;
-		now = Misc::DateTime::GetNow();
-		FocusedControl = nullptr;
-		CaptureControl = nullptr;
-		MouseEnteredControl = nullptr;
+
 	}
 	//---------------------------------------------------------------------------
 	Application* Application::Instance()

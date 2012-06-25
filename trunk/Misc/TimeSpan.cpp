@@ -45,18 +45,21 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan()
+			: ticks(0)
 		{
-			ticks = 0;
+			
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(long long ticks)
+			: ticks(ticks)
 		{
-			this->ticks = ticks;
+
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(int hours, int minutes, int seconds)
+			: ticks(TimeToTicks(hours, minutes, seconds))
 		{
-			ticks = TimeToTicks(hours, minutes, seconds);
+
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(int days, int hours, int minutes, int seconds)
