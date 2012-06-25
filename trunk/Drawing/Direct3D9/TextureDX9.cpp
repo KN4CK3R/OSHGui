@@ -54,10 +54,11 @@ namespace OSHGui
 				EndUpdate();
 			}
 		
-			if (texture != 0)
+			for (std::size_t i = 0; i < frames.size(); ++i)
 			{
-				texture->Release();
+				frames[i]->Release();
 			}
+			frames.clear();
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -582,20 +583,7 @@ namespace OSHGui
 				source->LockRect(0, &sourceLock, 0, 0);
 				BYTE *sourceRaw = (BYTE*)sourceLock.pBits;
 				
-				for (int y = 0; y < size.Height; ++y)
-				{
-					int row = y * lock.Pitch;
-					
-					for (int x = 0; x < size.Width; ++x)
-					{
-						int index = x * 4 + row;
-					
-						copyRaw[index] = sourceRaw[index];
-						copyRaw[index + 1] = sourceRaw[index + 1];
-						copyRaw[index + 2] = sourceRaw[index + 2];
-						copyRaw[index + 3] = sourceRaw[index + 3];
-					}
-				}
+				std::memcpy(copyRaw, sourceRaw, size.Height * lock.Pitch);
 
 				source->UnlockRect(0);
 				copy->UnlockRect(0);
@@ -623,8 +611,9 @@ namespace OSHGui
 			{
 				frames[i]->LockRect(0, &lock, 0, 0);
 				
-				int *raw = (int*)lock.pBits;
-				framesReset.push_back(std::vector<int>(raw, raw + size.Height * lock.Pitch));
+				unsigned char *raw = (unsigned char*)lock.pBits;
+				std::vector<unsigned char> data(raw, raw + size.Height * lock.Pitch);
+				framesReset.push_back(data);
 				
 				frames[i]->UnlockRect(0);
 				frames[i]->Release();
@@ -647,8 +636,8 @@ namespace OSHGui
 				}
 				
 				texture->LockRect(0, &lock, 0, 0);
-				
-				std::memcopy(lock.pBits, framesReset[i].data(), size.Height * lock.Pitch);
+			
+				std::memcpy(lock.pBits, framesReset[i].data(), size.Height * lock.Pitch);
 				
 				texture->UnlockRect(0);
 				

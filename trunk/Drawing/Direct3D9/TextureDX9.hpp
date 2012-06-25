@@ -249,7 +249,7 @@ namespace OSHGui
 			std::vector<IDirect3DTexture9*> frames;
 			int frame;
 			
-			std::vector<std::vector<BYTE> > framesReset;
+			std::vector<std::vector<unsigned char> > framesReset;
 		};
 	}
 }

@@ -23,7 +23,7 @@ namespace OSHGui
 			
 			verticesNum = 0;
 
-			texture = 0;
+			texture = nullptr;
 
 			for (int i = 0; i < maxVertices; ++i)
 			{
@@ -33,9 +33,9 @@ namespace OSHGui
 				vertices[i].v = 0.0f;
 			}
 
-			defaultFont = CreateNewFont("Arial", 14, false, false);
+			InitializeDevice();
 
-			InitializeDevice(); 
+			defaultFont = CreateNewFont("Arial", 14, false, false);
 		}
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()
@@ -44,13 +44,6 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
-		//---------------------------------------------------------------------------
-		void RendererDX9::SetRenderRectangle(const Rectangle &rect)
-		{
-			IRenderer::SetRenderRectangle(rect);
-			//RECT scissor = { rect.GetLeft(), rect.GetTop(), rect.GetLeft() + rect.GetWidth(), rect.GetTop() + rect.GetHeight() };
-			//device->SetScissorRect(&scissor);
-		}
 		//---------------------------------------------------------------------------
 		const Size RendererDX9::GetRenderDimension() const
 		{
@@ -64,7 +57,6 @@ namespace OSHGui
 		void RendererDX9::InitializeDevice()
 		{
 			device->CreateStateBlock(D3DSBT_ALL, &stateBlockBackup);
-			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
 
 			device->BeginStateBlock();
 			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
@@ -86,7 +78,7 @@ namespace OSHGui
 			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-			// setup colour calculations
+			// setup color calculations
 			device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 			device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 			device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
@@ -118,7 +110,6 @@ namespace OSHGui
 		void RendererDX9::Begin()
 		{
 			stateBlockBackup->Capture();
-		
 			stateBlock->Apply();
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
@@ -133,36 +124,30 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::PreReset()
 		{
+			for (auto it = textureList.begin(); it != textureList.end();)
 			{
-				std::list<std::weak_ptr<TextureDX9> >::iterator it = textureList.begin();
-				while (it != textureList.end())
+				std::weak_ptr<TextureDX9> &texture = *it;
+				if (texture.expired())
 				{
-					std::weak_ptr<TextureDX9> &texture = *it;
-					if (texture.expired())
-					{
-						it = textureList.erase(it);
-					}
-					else
-					{
-						//texture.lock()->GetTexture()->OnLostDevice();
-						++it;
-					}
+					it = textureList.erase(it);
+				}
+				else
+				{
+					texture.lock()->PreReset();
+					++it;
 				}
 			}
+			for (auto it = fontList.begin(); it != fontList.end();)
 			{
-				std::list<std::weak_ptr<FontDX9> >::iterator it = fontList.begin();
-				while (it != fontList.end())
+				std::weak_ptr<FontDX9> &font = *it;
+				if (font.expired())
 				{
-					std::weak_ptr<FontDX9> &font = *it;
-					if (font.expired())
-					{
-						it = fontList.erase(it);
-					}
-					else
-					{
-						font.lock()->GetFont()->OnLostDevice();
-						++it;
-					}
+					it = fontList.erase(it);
+				}
+				else
+				{
+					font.lock()->PreReset();
+					++it;
 				}
 			}
 
@@ -172,36 +157,30 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::PostReset()
 		{
+			for (auto it = textureList.begin(); it != textureList.end();)
 			{
-				std::list<std::weak_ptr<TextureDX9> >::iterator it = textureList.begin();
-				while (it != textureList.end())
+				std::weak_ptr<TextureDX9> &texture = *it;
+				if (texture.expired())
 				{
-					std::weak_ptr<TextureDX9> &texture = *it;
-					if (texture.expired())
-					{
-						it = textureList.erase(it);
-					}
-					else
-					{
-						//texture.lock()->GetTexture()->OnResetDevice();
-						++it;
-					}
+					it = textureList.erase(it);
+				}
+				else
+				{
+					texture.lock()->PostReset();
+					++it;
 				}
 			}
+			for (auto it = fontList.begin(); it != fontList.end();)
 			{
-				std::list<std::weak_ptr<FontDX9> >::iterator it = fontList.begin();
-				while (it != fontList.end())
+				std::weak_ptr<FontDX9> &font = *it;
+				if (font.expired())
 				{
-					std::weak_ptr<FontDX9> &font = *it;
-					if (font.expired())
-					{
-						it = fontList.erase(it);
-					}
-					else
-					{
-						font.lock()->GetFont()->OnResetDevice();
-						++it;
-					}
+					it = fontList.erase(it);
+				}
+				else
+				{
+					font.lock()->PostReset();
+					++it;
 				}
 			}
 
@@ -270,7 +249,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h)
 		{
-			if (texture == 0)
+			if (texture == nullptr)
 			{
 				return;
 			}

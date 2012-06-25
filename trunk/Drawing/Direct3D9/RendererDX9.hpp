@@ -76,14 +76,6 @@ namespace OSHGui
 			 */
 			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic);
 
-
-			/**
-			 * Legt das Rechteck fest, in dem gezeichnet wird.
-			 *
-			 * @param rect das Rechteck
-			 */
-			virtual void SetRenderRectangle(const Rectangle &rect);
-
 			virtual const Size GetRenderDimension() const;
 			
 			/**

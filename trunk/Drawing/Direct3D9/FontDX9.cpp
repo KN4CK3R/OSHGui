@@ -18,16 +18,35 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		FontDX9::FontDX9(IDirect3DDevice9 *device, const Misc::AnsiString &fontName, int size, bool bold, bool italic)
+		FontDX9::FontDX9(IDirect3DDevice9 *device, const Misc::AnsiString &name, int size, bool bold, bool italic)
 		{
 			this->device = device;
 			
-			Create(fontName, size, bold, italic);
+			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str(), &font)))
+			{
+				font = 0;
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::Exception("Cannot create Font.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
+			}
+
+			this->name = name;
+			this->size = size;
+			this->bold = bold;
+			this->italic = italic;
+
+			RECT rect = { 0, 0, 0, 0},
+				 rect2 = { 0, 0, 0, 0 };
+			font->DrawTextA(0, "_", -1, &rect, DT_CALCRECT, 0);
+			font->DrawTextA(0, "_ _", -1, &rect2, DT_CALCRECT, 0);
+			spaceWidth = rect2.right - rect.right * 2;
 		}
 		//---------------------------------------------------------------------------
 		FontDX9::~FontDX9()
 		{
-			if (font != 0)
+			if (font != nullptr)
 			{
 				font->Release();
 			}
@@ -44,26 +63,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void FontDX9::Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
 		{
-			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str(), &font)))
-			{
-				font = 0;
-				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw Misc::Exception("Cannot create Font.", __FILE__, __LINE__);
-				#else
-				throw 1;
-				#endif
-			}
 			
-			this->name = name;
-			this->size = size;
-			this->bold = bold;
-			this->italic = italic;
-			
-			RECT rect = { 0, 0, 0, 0},
-				 rect2 = { 0, 0, 0, 0 };
-			font->DrawTextA(0, "_", -1, &rect, DT_CALCRECT, 0);
-			font->DrawTextA(0, "_ _", -1, &rect2, DT_CALCRECT, 0);
-			spaceWidth = rect2.right - rect.right * 2;
 		}
 		//---------------------------------------------------------------------------
 		const Size FontDX9::MeasureText(const Misc::AnsiString &str)
