@@ -66,7 +66,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TimerManager::Update()
 	{
-		if (timers.size() > 0)
+		if (!timers.empty())
 		{
 			Application *app = Application::Instance();
 			for (std::list<TimerInfo>::iterator it = timers.begin(); it != timers.end(); )
