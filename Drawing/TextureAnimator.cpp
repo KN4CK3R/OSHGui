@@ -19,14 +19,13 @@ namespace OSHGui
 		bool TextureAnimator::anyFrameDirty = false;
 
 		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
+			: replayMode(replayMode),
+			  bounceBackwards(false),
+			  frameDirty(false),
+			  texture(texture),
+			  frame(0),
+			  frameChangeFunction(frameChangeFunction)
 		{
-			this->replayMode = replayMode;
-			bounceBackwards = false;
-			frameDirty = false;
-			this->texture = texture;
-			frame = 0;
-			this->frameChangeFunction = frameChangeFunction;
-
 			frameCount = texture->GetFrameCount(); 
 			frameChangeInterval = texture->GetFrameChangeInterval();
 		}

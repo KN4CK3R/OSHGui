@@ -16,33 +16,33 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Rectangle::Rectangle()
+			: left(0),
+			  top(0)
 		{
-			left = 0;
-			top = 0;
 			SetWidth(0);
 			SetHeight(0);
 		}
 		//---------------------------------------------------------------------------
 		Rectangle::Rectangle(const Size &size)
+			: left(0),
+			  top(0)
 		{
-			left = 0;
-			top = 0;
 			SetWidth(size.Width);
 			SetHeight(size.Height);
 		}
 		//---------------------------------------------------------------------------
 		Rectangle::Rectangle(const Point &location, const Size &size)
+			: left(location.Left),
+			  top(location.Top)
 		{
-			left = location.Left;
-			top = location.Top;
 			SetWidth(size.Width);
 			SetHeight(size.Height);
 		}
 		//---------------------------------------------------------------------------
 		Rectangle::Rectangle(int left, int top, int width, int height)
+			: left(left),
+			  top(top)
 		{
-			this->left = left;
-			this->top = top;
 			SetWidth(width);
 			SetHeight(height);
 		}

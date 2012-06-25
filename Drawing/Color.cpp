@@ -16,32 +16,36 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Color::Color()
+			: A(0),
+			  R(0),
+			  G(0),
+			  B(0)
 		{
-			A = 0;
-			R = 0;
-			G = 0;
-			B = 0;
+
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(unsigned long argb)
+			: ARGB(argb)
 		{
-			ARGB = argb;
+
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(unsigned int red, unsigned int green, unsigned int blue)
+			: A(255),
+			  R(red & 0xFF),
+			  G(green & 0xFF),
+			  B(blue & 0xFF)
 		{
-			A = 255;
-			R = red & 0xFF;
-			G = green & 0xFF;
-			B = blue & 0xFF;
+
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue)
+			: A((alpha > 255 ? 255 : alpha) & 0xFF),
+			  R((red > 255 ? 255 : red) & 0xFF),
+			  G((green > 255 ? 255 : green) & 0xFF),
+			  B((blue > 255 ? 255 : blue) & 0xFF)
 		{
-			A = (alpha > 255 ? 255 : alpha) & 0xFF;
-			R = (red > 255 ? 255 : red) & 0xFF;
-			G = (green > 255 ? 255 : green) & 0xFF;
-			B = (blue > 255 ? 255 : blue) & 0xFF;
+			
 		}
 		//---------------------------------------------------------------------------
 		//predefined colors

@@ -16,15 +16,15 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Size::Size()
+			: Width(0), Height(0)
 		{
-			Width = 0;
-			Height = 0;
+			
 		}
 		//---------------------------------------------------------------------------
 		Size::Size(int width, int height)
+			: Width(width), Height(height)
 		{
-			this->Width = width;
-			this->Height = height;
+
 		}
 		//---------------------------------------------------------------------------
 		//Operator
