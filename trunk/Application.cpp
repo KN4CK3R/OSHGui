@@ -201,11 +201,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
+		bool processed = false;
 		if (isEnabled)
 		{
 			if (FocusedControl != nullptr)
 			{
-				FocusedControl->ProcessKeyboardMessage(keyboard);
+				processed = FocusedControl->ProcessKeyboardMessage(keyboard);
 			}
 		}
 
@@ -221,7 +222,7 @@ namespace OSHGui
 			}
 		}
 
-		return false;
+		return processed;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Render()
