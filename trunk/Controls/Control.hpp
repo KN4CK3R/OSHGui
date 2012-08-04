@@ -65,8 +65,26 @@ namespace OSHGui
 		CONTROL_COLORPICKER,
 		CONTROL_COLORBAR
 	};
+
+	enum AnchorStyle
+	{
+		AnchorTop = 1,
+		AnchorLeft = 2,
+		AnchorRight = 4,
+		AnchorBottom = 8
+	};
+
+	inline AnchorStyle operator|(AnchorStyle lhs, AnchorStyle rhs)
+	{
+		return static_cast<AnchorStyle>(static_cast<int>(lhs)|static_cast<int>(rhs));
+	}
+	inline AnchorStyle operator&(AnchorStyle lhs, AnchorStyle rhs)
+	{
+		return static_cast<AnchorStyle>(static_cast<int>(lhs)&static_cast<int>(rhs));
+	}
 	
 	class Control;
+	class ContainerControl;
 	
 	/**
 	 * Tritt ein, wenn die Form geschlossen werden soll.
@@ -195,6 +213,7 @@ namespace OSHGui
 	class OSHGUI_EXPORT Control
 	{
 		friend Application;
+		friend ContainerControl;
 
 	public:
 		virtual ~Control();
@@ -364,6 +383,20 @@ namespace OSHGui
 		 * @return height
 		 */
 		virtual int GetHeight() const;
+		/**
+		 * Legt die Ränder des Containers ab, an die ein Steuerelement gebunden ist,
+		 * und bestimmt, wie die Größe des Steuerelements mit dessen übergeordnetem Element geändert wird.
+		 *
+		 * @param anchor
+		 */
+		virtual void SetAnchor(AnchorStyle anchor);
+		/**
+		 * Ruft die Ränder des Containers ab, an die ein Steuerelement gebunden ist,
+		 * und bestimmt, wie die Größe des Steuerelements mit dessen übergeordnetem Element geändert wird.
+		 *
+		 * @return anchor
+		 */
+		virtual AnchorStyle GetAnchor() const;
 		/**
 		 * Legt die mit dem Steuerelement verknüpften benutzerdefinierten Daten fest.
 		 *
@@ -681,6 +714,8 @@ namespace OSHGui
 		//copying prohibited
 		Control(const Control&);
 		void operator = (const Control&);
+
+		AnchorStyle anchor;
 	};
 }
 

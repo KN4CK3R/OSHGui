@@ -17,6 +17,8 @@ namespace OSHGui
 {
 	class ContainerControl : public Control
 	{
+		using Control::SetSize;
+
 	public:
 		class PostOrderVisibleIterator;
 
@@ -28,6 +30,12 @@ namespace OSHGui
 		ContainerControl();
 		~ContainerControl();
 
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
