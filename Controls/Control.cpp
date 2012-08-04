@@ -22,6 +22,8 @@ namespace OSHGui
 
 		location = Drawing::Point(6, 6);
 		size = Drawing::Size(0, 0);
+
+		anchor = (AnchorTop|AnchorLeft);
 		
 		isEnabled = true;
 		isVisible = true;
@@ -196,6 +198,16 @@ namespace OSHGui
 	int Control::GetHeight() const
 	{
 		return size.Height;
+	}
+	//---------------------------------------------------------------------------
+	void Control::SetAnchor(AnchorStyle anchor)
+	{
+		this->anchor = anchor;
+	}
+	//---------------------------------------------------------------------------
+	AnchorStyle Control::GetAnchor() const
+	{
+		return anchor;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetTag(Misc::Any &tag)

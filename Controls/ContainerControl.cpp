@@ -32,6 +32,44 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	void ContainerControl::SetSize(const Drawing::Size &size)
+	{
+		Drawing::Size offset = size - GetSize();
+
+		Control::SetSize(size);
+
+		for (auto it = std::begin(controls); it != std::end(controls); ++it)
+		{
+			auto control = *it;
+			AnchorStyle anchor = control->GetAnchor();
+			int ianchor = anchor;
+
+			int tl = (AnchorTop|AnchorLeft);
+			int tlbr = (AnchorTop|AnchorLeft|AnchorBottom|AnchorRight);
+			int tlr = (AnchorTop|AnchorLeft|AnchorRight);
+			int blr = (AnchorBottom|AnchorLeft|AnchorRight);
+			int tr = (AnchorTop|AnchorRight);
+			int br = (AnchorBottom|AnchorRight);
+
+			if (anchor != (AnchorTop|AnchorLeft))
+			{
+				if (anchor == (AnchorTop|AnchorLeft|AnchorBottom|AnchorRight))
+				{
+					control->SetSize(control->GetSize() + offset);
+				}
+				else if (anchor == (AnchorTop|AnchorLeft|AnchorRight) || anchor == (AnchorBottom|AnchorLeft|AnchorRight))
+				{
+					control->SetLocation(control->GetLocation() + Drawing::Point(0, offset.Height));
+					control->SetSize(control->GetSize() + Drawing::Size(offset.Width, 0));
+				}
+				else if (anchor == (AnchorTop|AnchorRight) || anchor == (AnchorBottom|AnchorRight))
+				{
+					control->SetLocation(control->GetLocation() + Drawing::Point(offset.Width, offset.Height));
+				}
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
 	const std::list<Control*>& ContainerControl::GetControls() const
 	{
 		return controls;
