@@ -70,7 +70,7 @@ namespace OSHGui
 				std::function<void(const std::shared_ptr<ITexture> &texture)> frameChangeFunction;
 				
 			};
-			static std::list<TextureInfo> textureInfoList;
+			static std::vector<TextureInfo> textureInfoList;
 		};
 	}
 }

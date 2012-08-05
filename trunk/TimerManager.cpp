@@ -24,7 +24,7 @@ namespace OSHGui
 		}
 	
 		bool found = false;
-		for (std::list<TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
+		for (std::vector<TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
 		{
 			if ((*it).timer == timer)
 			{
@@ -53,7 +53,7 @@ namespace OSHGui
 			return;
 		}
 	
-		for (std::list<TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
+		for (std::vector<TimerInfo>::iterator it = timers.begin(); it != timers.end(); ++it)
 		{
 			TimerInfo &info = *it;
 			if (info.timer == timer)
@@ -69,7 +69,7 @@ namespace OSHGui
 		if (!timers.empty())
 		{
 			Application *app = Application::Instance();
-			for (std::list<TimerInfo>::iterator it = timers.begin(); it != timers.end(); )
+			for (std::vector<TimerInfo>::iterator it = timers.begin(); it != timers.end(); )
 			{
 				TimerInfo &info = *it;
 				if (!info.remove && info.next < app->GetNow())

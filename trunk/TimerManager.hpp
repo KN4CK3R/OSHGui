@@ -48,7 +48,7 @@ namespace OSHGui
 			Misc::DateTime next;
 			bool remove;
 		};
-		std::list<TimerInfo> timers;
+		std::vector<TimerInfo> timers;
 	};
 }
 

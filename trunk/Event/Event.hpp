@@ -31,7 +31,7 @@ namespace OSHGui
 			bool remove;
 		};
 
-		std::list<EventHandlerInfo> eventHandlerInfos;
+		std::vector<EventHandlerInfo> eventHandlerInfos;
 
 	public:
 		/**
@@ -56,7 +56,7 @@ namespace OSHGui
 		 */
 		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
-			for (typename std::list<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end(); ++it)
+			for (typename std::vector<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end(); ++it)
 			{
 				EventHandlerInfo &info = *it;
 				if (info.eventHandler == eventHandler)
@@ -81,7 +81,7 @@ namespace OSHGui
 				return;
 			}
 
-			for (typename std::list<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
+			for (typename std::vector<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
 			{
 				EventHandlerInfo &info = *it;
 				if (!info.remove)
@@ -113,7 +113,7 @@ namespace OSHGui
 				return;
 			}
 
-			for (typename std::list<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
+			for (typename std::vector<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
 			{
 				EventHandlerInfo &info = *it;
 				if (!info.remove)

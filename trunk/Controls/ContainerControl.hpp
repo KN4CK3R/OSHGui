@@ -41,7 +41,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		const virtual std::list<Control*>& GetControls() const;
+		const virtual std::vector<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
@@ -89,8 +89,8 @@ namespace OSHGui
 	protected:
 		void AddSubControl(Control* subcontrol);
 
-		std::list<Control*> internalControls;
-		std::list<Control*> controls;
+		std::vector<Control*> internalControls;
+		std::vector<Control*> controls;
 
 	public:
 		class PostOrderVisibleIterator
