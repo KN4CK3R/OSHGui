@@ -15,7 +15,7 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		std::list<TextureAnimator::TextureInfo> TextureAnimator::textureInfoList;
+		std::vector<TextureAnimator::TextureInfo> TextureAnimator::textureInfoList;
 		bool TextureAnimator::anyFrameDirty = false;
 
 		TextureAnimator::TextureInfo::TextureInfo(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
@@ -172,7 +172,7 @@ namespace OSHGui
 
 			Application *app = Application::Instance();
 
-			std::list<TextureInfo>::iterator it = textureInfoList.begin();
+			std::vector<TextureInfo>::iterator it = textureInfoList.begin();
 			while (it != textureInfoList.end())
 			{
 				TextureInfo &textureInfo = *it;
@@ -204,7 +204,7 @@ namespace OSHGui
 				return;
 			}
 
-			for (std::list<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
+			for (std::vector<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
 			{
 				it->UpdateFrame();
 			}
@@ -250,7 +250,7 @@ namespace OSHGui
 				return;
 			}
 
-			for (std::list<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
+			for (std::vector<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
 			{
 				if (it->GetTexture() == texture)
 				{

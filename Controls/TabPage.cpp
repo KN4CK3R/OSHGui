@@ -68,7 +68,7 @@ namespace OSHGui
 		return text;
 	}
 	//---------------------------------------------------------------------------
-	const std::list<Control*>& TabPage::GetControls() const
+	const std::vector<Control*>& TabPage::GetControls() const
 	{
 		return containerPanel->GetControls();
 	}

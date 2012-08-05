@@ -69,9 +69,9 @@ namespace OSHGui
 	enum AnchorStyle
 	{
 		AnchorTop = 1,
-		AnchorLeft = 2,
-		AnchorRight = 4,
-		AnchorBottom = 8
+		AnchorBottom = 2,
+		AnchorLeft = 4,
+		AnchorRight = 8
 	};
 
 	inline AnchorStyle operator|(AnchorStyle lhs, AnchorStyle rhs)
