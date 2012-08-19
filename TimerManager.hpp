@@ -9,7 +9,7 @@
 #ifndef OSHGUI_TIMERMANAGER_HPP
 #define OSHGUI_TIMERMANAGER_HPP
 
-#include <list>
+#include <vector>
 #include "Misc\DateTime.hpp"
 #include "Misc\TimeSpan.hpp"
 #include "Exports.hpp"

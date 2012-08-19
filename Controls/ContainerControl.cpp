@@ -23,7 +23,7 @@ namespace OSHGui
 	{
 		controls.clear();
 
-		for (std::vector<Control*>::iterator it = internalControls.begin(); it != internalControls.end(); ++it)
+		for (auto it = std::begin(internalControls); it != std::end(internalControls); ++it)
 		{
 			delete *it;
 		}
@@ -62,7 +62,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const std::vector<Control*>& ContainerControl::GetControls() const
+	const std::deque<Control*>& ContainerControl::GetControls() const
 	{
 		return controls;
 	}
@@ -90,13 +90,31 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ContainerControl::RemoveControl(Control *control)
 	{
-		if (control == 0)
+		if (control != nullptr)
 		{
-			return;
+			for (auto it = std::begin(controls); it != std::end(controls); )
+			{
+				if (*it == control)
+				{
+					it = controls.erase(it);
+				}
+				else
+				{
+					++it;
+				}
+			}
+			for (auto it = std::begin(internalControls); it != std::end(internalControls); )
+			{
+				if (*it == control)
+				{
+					it = controls.erase(it);
+				}
+				else
+				{
+					++it;
+				}
+			}
 		}
-
-		controls.remove(control);
-		internalControls.remove(control);
 	}
 	//---------------------------------------------------------------------------
 	void ContainerControl::AddSubControl(Control* subcontrol)
@@ -113,7 +131,7 @@ namespace OSHGui
 			return;
 		}
 		
-		for (std::vector<Control*>::iterator it = internalControls.begin(); it != internalControls.end(); ++it)
+		for (auto it = std::begin(internalControls); it != std::end(internalControls); ++it)
 		{
 			Control *control = *it;
 			if (subcontrol == control || subcontrol->GetName() != "" && subcontrol->GetName() == control->GetName())
@@ -136,7 +154,7 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		
-		for (std::vector<Control*>::iterator it = internalControls.begin(); it != internalControls.end(); ++it)
+		for (auto it = std::begin(internalControls); it != internalControls.end(); ++it)
 		{
 			(*it)->CalculateAbsoluteLocation();
 		}
@@ -144,7 +162,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* ContainerControl::GetChildAtPoint(const Drawing::Point &point) const
 	{
-		for (std::vector<Control*>::const_reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		for (auto it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control *control = *it;
 
@@ -159,7 +177,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* ContainerControl::GetChildByName(const Misc::AnsiString &name) const
 	{
-		for (std::vector<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
+		for (auto it = std::begin(controls); it != std::end(controls); ++it)
 		{
 			Control *control = *it;
 			
@@ -180,7 +198,7 @@ namespace OSHGui
 	void ContainerControl::Render(Drawing::IRenderer *renderer)
 	{
 		Control *focusedControl = 0;
-		for (std::vector<Control*>::reverse_iterator it = controls.rbegin(); it != controls.rend(); ++it)
+		for (auto it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control *control = *it;
 			if (control->GetIsFocused())
@@ -211,15 +229,15 @@ namespace OSHGui
 		else
 		{
 			LoopThrough(this->start);
-			current = controlStack.top();
-			controlStack.pop();
+			current = controlStack.back();
+			controlStack.pop_back();
 		}
 	}
 	//---------------------------------------------------------------------------
 	void ContainerControl::PostOrderVisibleIterator::LoopThrough(ContainerControl *container)
 	{
-		controlStack.push(container);
-		for (std::vector<Control*>::reverse_iterator it = container->internalControls.rbegin(); it != container->internalControls.rend(); ++it)
+		controlStack.push_back(container);
+		for (auto it = container->internalControls.rbegin(); it != container->internalControls.rend(); ++it)
 		{
 			Control *control = *it;
 			if (control->GetVisible())
@@ -231,7 +249,7 @@ namespace OSHGui
 				}
 				else
 				{
-					controlStack.push(control);
+					controlStack.push_back(control);
 				}
 			}
 		}
@@ -239,8 +257,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ContainerControl::PostOrderVisibleIterator::operator++()
 	{
-		current = controlStack.top();
-		controlStack.pop();
+		current = controlStack.back();
+		controlStack.pop_back();
 	}
 	//---------------------------------------------------------------------------
 	bool ContainerControl::PostOrderVisibleIterator::operator()()

@@ -9,8 +9,8 @@
 #ifndef OSHGUI_CONTAINERCONTROL_HPP
 #define OSHGUI_CONTAINERCONTROL_HPP
 
-#include <list>
-#include <stack>
+#include <deque>
+#include <vector>
 #include "Control.hpp"
 
 namespace OSHGui
@@ -41,7 +41,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		const virtual std::vector<Control*>& GetControls() const;
+		const virtual std::deque<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
@@ -89,8 +89,8 @@ namespace OSHGui
 	protected:
 		void AddSubControl(Control* subcontrol);
 
-		std::vector<Control*> internalControls;
-		std::vector<Control*> controls;
+		std::deque<Control*> internalControls;
+		std::deque<Control*> controls;
 
 	public:
 		class PostOrderVisibleIterator
@@ -107,7 +107,7 @@ namespace OSHGui
 
 			ContainerControl *start;
 			Control *current;
-			std::stack<Control*> controlStack;
+			std::vector<Control*> controlStack;
 		};
 	};
 }

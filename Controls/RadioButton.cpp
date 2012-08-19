@@ -29,8 +29,8 @@ namespace OSHGui
 			if (GetParent() != 0)
 			{
 				//uncheck other radiobuttons
-				const std::vector<Control*> &controls = static_cast<ContainerControl*>(GetParent())->GetControls();
-				for (std::vector<Control*>::const_iterator it = controls.begin(); it != controls.end(); ++it)
+				auto controls = static_cast<ContainerControl*>(GetParent())->GetControls();
+				for (auto it = std::begin(controls); it != std::end(controls); ++it)
 				{
 					Control *control = *it;
 					if (control->GetType() == CONTROL_RADIOBUTTON)
