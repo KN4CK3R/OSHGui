@@ -9,7 +9,6 @@
 #ifndef OSHGUI_EVENT_EVENT_HPP
 #define OSHGUI_EVENT_EVENT_HPP
 
-#include <list>
 #include <functional>
 
 #include "EventHandler.hpp"
@@ -56,7 +55,7 @@ namespace OSHGui
 		 */
 		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
-			for (typename std::vector<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end(); ++it)
+			for (auto it = std::begin(eventHandlerInfos); it != std::end(eventHandlerInfos); ++it)
 			{
 				EventHandlerInfo &info = *it;
 				if (info.eventHandler == eventHandler)
@@ -76,25 +75,23 @@ namespace OSHGui
 		template <typename T>
 		void Invoke(T&& param1)
 		{
-			if (eventHandlerInfos.empty())
+			if (!eventHandlerInfos.empty())
 			{
-				return;
-			}
-
-			for (typename std::vector<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
-			{
-				EventHandlerInfo &info = *it;
-				if (!info.remove)
+				for (auto it = std::begin(eventHandlerInfos); it != std::end(eventHandlerInfos);)
 				{
-					info.eventHandler.GetHandler()(std::forward<T>(param1));
-				}
-				if (info.remove)
-				{
-					it = eventHandlerInfos.erase(it);
-				}
-				else
-				{
-					++it;
+					EventHandlerInfo &info = *it;
+					if (!info.remove)
+					{
+						info.eventHandler.GetHandler()(std::forward<T>(param1));
+					}
+					if (info.remove)
+					{
+						it = eventHandlerInfos.erase(it);
+					}
+					else
+					{
+						++it;
+					}
 				}
 			}
 		}
@@ -108,25 +105,23 @@ namespace OSHGui
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)
 		{
-			if (eventHandlerInfos.empty())
+			if (!eventHandlerInfos.empty())
 			{
-				return;
-			}
-
-			for (typename std::vector<EventHandlerInfo>::iterator it = eventHandlerInfos.begin(); it != eventHandlerInfos.end();)
-			{
-				EventHandlerInfo &info = *it;
-				if (!info.remove)
+				for (auto it = std::begin(eventHandlerInfos); it != std::end(eventHandlerInfos);)
 				{
-					info.eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
-				}
-				if (info.remove)
-				{
-					it = eventHandlerInfos.erase(it);
-				}
-				else
-				{
-					++it;
+					EventHandlerInfo &info = *it;
+					if (!info.remove)
+					{
+						info.eventHandler.GetHandler()(std::forward<T>(param1), std::forward<T2>(param2));
+					}
+					if (info.remove)
+					{
+						it = eventHandlerInfos.erase(it);
+					}
+					else
+					{
+						++it;
+					}
 				}
 			}
 		}
