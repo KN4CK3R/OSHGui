@@ -83,7 +83,7 @@ namespace OSHGui
 		captionBar->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
-	const std::vector<Control*>& Form::GetControls() const
+	const std::deque<Control*>& Form::GetControls() const
 	{
 		return containerPanel->GetControls();
 	}

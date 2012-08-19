@@ -9,7 +9,7 @@
 #ifndef OSHGUI_DRAWING_IMAGEANIMATOR_HPP
 #define OSHGUI_DRAWING_IMAGEANIMATOR_HPP
 
-#include <list>
+#include <vector>
 #include <functional>
 #include <memory>
 #include "../Exports.hpp"

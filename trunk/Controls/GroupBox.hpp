@@ -65,7 +65,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		virtual const std::vector<Control*>& GetControls() const;
+		virtual const std::deque<Control*>& GetControls() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.

@@ -71,7 +71,7 @@ namespace OSHGui
 		captionLabel->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
-	const std::vector<Control*>& GroupBox::GetControls() const
+	const std::deque<Control*>& GroupBox::GetControls() const
 	{
 		return containerPanel->GetControls();
 	}

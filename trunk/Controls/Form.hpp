@@ -108,7 +108,7 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		virtual const std::vector<Control*>& GetControls() const;
+		virtual const std::deque<Control*>& GetControls() const;
 		/**
 		 * Ruft das DialogResult für das Fenster ab.
 		 *
