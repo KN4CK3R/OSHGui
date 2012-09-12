@@ -134,19 +134,19 @@ namespace OSHGui
 			 *
 			 * @return der Farbton
 			 */
-			float Hue();
+			float Hue() const;
 			/**
 			 * Berechnet die Sättigung der Farbe.
 			 *
 			 * @return die Sättigung
 			 */
-			float Saturation();
+			float Saturation() const;
 			/**
 			 * Berechnet die Helligkeit der Farbe.
 			 *
 			 * @return die Helligkeit
 			 */
-			float Brightness();
+			float Brightness() const;
 
 			/**
 			 * Wandelt HSB Farbinformationen in ein Color-Objekt um.
