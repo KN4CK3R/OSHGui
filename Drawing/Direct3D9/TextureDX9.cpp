@@ -7,8 +7,11 @@
  */
 
 #include "TextureDX9.hpp"
+#define NOMINMAX
 #include <D3dx9tex.h>
 #include "../../Misc/Exceptions.hpp"
+
+#include <fstream>
 
 namespace OSHGui
 {
@@ -20,7 +23,7 @@ namespace OSHGui
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			this->device = device;
-			lock.pBits = 0;
+			lock.pBits = nullptr;
 			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
@@ -30,7 +33,7 @@ namespace OSHGui
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			this->device = device;
-			lock.pBits = 0;
+			lock.pBits = nullptr;
 			frame = 0;
 			this->frameChangeInterval = frameChangeInterval;
 
@@ -70,7 +73,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TextureDX9::IsLocked() const
 		{
-			return lock.pBits != 0;
+			return lock.pBits != nullptr;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
@@ -84,7 +87,7 @@ namespace OSHGui
 
 			for (int i = 0; i < frameCount; ++i)
 			{
-				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
+				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, 0)))
 				{
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
@@ -114,22 +117,22 @@ namespace OSHGui
 			
 			size = Drawing::Size(info.Width, info.Height);
 			
-			if (!frames.empty() && frames[frame] != 0)
+			if (!frames.empty() && frames[frame] != nullptr)
 			{
 				frames[frame]->Release();
 			}
 			else
 			{
-				frames.push_back(0);
+				frames.push_back(nullptr);
 			}
 			
 			if (FAILED(D3DXCreateTextureFromFileA(device, filename.c_str(), &frames[frame])))
 			{
 				if (!frames.empty())
 				{
-					frames[frame] = 0;
+					frames[frame] = nullptr;
 				}
-				texture = 0;
+				texture = nullptr;
 				
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::Exception("Cannot load Texture.", __FILE__, __LINE__);
@@ -149,173 +152,92 @@ namespace OSHGui
 		void TextureDX9::EndUpdate()
 		{
 			texture->UnlockRect(0);
-			lock.pBits = 0;
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Clear()
-		{
-			Fill(0, 0, size.Width, size.Height, Color::Empty());
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Clear(const Point &point)
-		{
-			Fill(point.X, point.Y, 1, 1, Color::Empty());
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Clear(int x, int y)
-		{
-			Fill(x, y, 1, 1, Color::Empty());
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Clear(const Rectangle &rect)
-		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), Color::Empty());
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Clear(int x, int y, int w, int h)
-		{
-			Fill(x, y, w, h, Color::Empty());
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(Color color)
-		{
-			Fill(0, 0, size.Width, size.Height, color);
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(const Point &point, Color color)
-		{
-			Fill(point.X, point.Y, 1, 1, color);
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(int x, int y, Color color)
-		{
-			Fill(x, y, 1, 1, color);
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::Fill(const Rectangle &rect, Color color)
-		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
+			lock.pBits = nullptr;
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::Fill(int x, int y, int w, int h, Color _color)
-		{
-			BYTE color[4] = { _color.B, _color.G, _color.R, _color.A };
-		
+		{		
 			int fromX = w < 0 ? x + w : x;
 			int fromY = h < 0 ? y + h : y;
 			int toX = std::abs(w);
 			int toY = std::abs(h);
 
-			BYTE *raw = (BYTE*)lock.pBits;
+			int *raw = static_cast<int*>(lock.pBits);
 			for (int j = 0; j < toY; ++j)
 			{
-				int row = (fromY + j) * lock.Pitch;
-				
+				int row = (fromY + j) * lock.Pitch / 4;
+
 				for (int i = 0; i < toX; ++i)
 				{
-					int index = (fromX + i) * 4 + row;
-					
-					raw[index] = color[0];
-					raw[index + 1] = color[1];
-					raw[index + 2] = color[2];
-					raw[index + 3] = color[3];
+					int index = (fromX + i) + row;
+
+					raw[index] = _color.ARGB;
 				}
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(Color from, Color to, bool updown)
-		{
-			FillGradient(0, 0, size.Width, size.Height, from, to, updown);
-		}
-		//---------------------------------------------------------------------------
-		void TextureDX9::FillGradient(const Rectangle &rect, Color from, Color to, bool updown)
-		{
-			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
-		}
-		//---------------------------------------------------------------------------
 		void TextureDX9::FillGradient(int j, int i, int w, int h, Color from, Color to, bool updown)
 		{
-			BYTE color[4] = { from.B, from.G, from.R, from.A };
 			float step[4];
 		
-			BYTE *raw = (BYTE*)lock.pBits;
 			int fromX = w < 0 ? j + w : j;
 			int fromY = h < 0 ? i + h : i;
 			int toX = std::abs(w);
 			int toY = std::abs(h);
+
+			int *raw = static_cast<int*>(lock.pBits);
 			
 			if (updown)
 			{
-				step[0] = (to.B - color[0]) / (float)toY;
-				step[1] = (to.G - color[1]) / (float)toY;
-				step[2] = (to.R - color[2]) / (float)toY;
-				step[3] = (to.A - color[3]) / (float)toY;
+				step[0] = (to.B - from.B) / (float)toY;
+				step[1] = (to.G - from.G) / (float)toY;
+				step[2] = (to.R - from.R) / (float)toY;
+				step[3] = (to.A - from.A) / (float)toY;
 				
 				for (int y = 0; y < toY; ++y)
 				{
-					int row = (fromY + y) * lock.Pitch;
+					int row = (fromY + y) * lock.Pitch / 4;
 
-					BYTE newColor[4] = {
-						color[0] + (BYTE)(y * step[0]),
-						color[1] + (BYTE)(y * step[1]),
-						color[2] + (BYTE)(y * step[2]),
-						color[3] + (BYTE)(y * step[3])
-					};
+					Drawing::Color newColor(
+						from.B + (y * step[0]),
+						from.G + (y * step[1]),
+						from.R + (y * step[2]),
+						from.A + (y * step[3])
+					);
 					
 					for (int x = 0; x < toX; ++x)
 					{
-						int index = (fromX + x) * 4 + row;
+						int index = (fromX + x) + row;
 						
-						raw[index] = newColor[0];
-						raw[index + 1] = newColor[1];
-						raw[index + 2] = newColor[2];
-						raw[index + 3] = newColor[3];
+						raw[index] = newColor.ARGB;
 					}
 				}
 			}
 			else
 			{
-				step[0] = (to.B - color[0]) / (float)toX;
-				step[1] = (to.G - color[1]) / (float)toX;
-				step[2] = (to.R - color[2]) / (float)toX;
-				step[3] = (to.A - color[3]) / (float)toX;
+				step[0] = (to.B - from.B) / (float)toX;
+				step[1] = (to.G - from.G) / (float)toX;
+				step[2] = (to.R - from.R) / (float)toX;
+				step[3] = (to.A - from.A) / (float)toX;
 
 				for (int x = 0; x < toX; ++x)
 				{
-					int line = (fromX + x) * 4;
+					int column = (fromX + x);
 
-					BYTE newColor[4] = {
-						color[0] + (BYTE)(x * step[0]),
-						color[1] + (BYTE)(x * step[1]),
-						color[2] + (BYTE)(x * step[2]),
-						color[3] + (BYTE)(x * step[3])
-					};
+					Drawing::Color newColor(						
+						from.A + (x * step[3]),
+						from.R + (x * step[2]),
+						from.G + (x * step[1]),
+						from.B + (x * step[0])
+					);
 
 					for (int y = 0; y < toY; ++y)
 					{
-						int index = (fromY + y) * lock.Pitch + line;
+						int index = (fromY + y) * lock.Pitch / 4 + column;
 
-						raw[index] = newColor[0];
-						raw[index + 1] = newColor[1];
-						raw[index + 2] = newColor[2];
-						raw[index + 3] = newColor[3];
+						raw[index] = newColor.ARGB;
 					}
 				}
-			
-				/*for (int y = 0; y < toY; ++y)
-				{
-					int row = (fromY + y) * lock.Pitch;
-					
-					for (int x = 0; x < toX; ++x)
-					{
-						int index = (fromX + x) * 4 + row;
-						
-						raw[index] = color[0] + (BYTE)(x * step[0]);
-						raw[index + 1] = color[1] + (BYTE)(x * step[1]);
-						raw[index + 2] = color[2] + (BYTE)(x * step[2]);
-						raw[index + 3] = color[3] + (BYTE)(x * step[3]);
-					}
-				}*/
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -340,7 +262,7 @@ namespace OSHGui
 					tempSize.Height = w;
 				}
 				
-				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &temp, 0)))
+				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &temp, 0)))
 				{
 					size = tempSize;
 					tempSize.Inflate(-1, -1);
@@ -410,7 +332,7 @@ namespace OSHGui
 					
 					texture->UnlockRect(0);
 					temp->UnlockRect(0);
-					if (texture != 0)
+					if (texture != nullptr)
 					{
 						texture->Release();
 					}
@@ -441,7 +363,7 @@ namespace OSHGui
 				Drawing::Size tempSize((int)ceil(fabs(maxx) - minx), (int)ceil(fabs(maxy) - miny)),
 							  bckSize = size;
 
-				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &temp, 0)))
+				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &temp, 0)))
 				{
 					size = tempSize;
 
@@ -480,7 +402,7 @@ namespace OSHGui
 					
 					texture->UnlockRect(0);
 					temp->UnlockRect(0);
-					if (texture != 0)
+					if (texture != nullptr)
 					{
 						texture->Release();
 					}
@@ -491,20 +413,15 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Insert(const Point &point, const std::shared_ptr<ITexture> &texture)
-		{
-			Insert(point.X, point.Y, texture);
-		}
-		//---------------------------------------------------------------------------
 		void TextureDX9::Insert(int j, int i, const std::shared_ptr<ITexture> &texture)
 		{
-			if (texture == 0 || texture->IsLocked())
+			if (texture == nullptr || texture->IsLocked())
 			{
 				return;
 			}
 		
 			IDirect3DTexture9 *temp = std::static_pointer_cast<TextureDX9>(texture)->GetTexture();
-			if (temp == 0)
+			if (temp == nullptr)
 			{
 				return;
 			}
@@ -554,11 +471,6 @@ namespace OSHGui
 			return frames.size();
 		}
 		//---------------------------------------------------------------------------
-		const Misc::TimeSpan& TextureDX9::GetFrameChangeInterval() const
-		{
-			return frameChangeInterval;
-		}
-		//---------------------------------------------------------------------------
 		void TextureDX9::AddFrame(const std::shared_ptr<ITexture> &frame)
 		{
 			if (frame->GetSize() != GetSize())
@@ -567,13 +479,13 @@ namespace OSHGui
 			}
 
 			IDirect3DTexture9 *source = std::static_pointer_cast<TextureDX9>(frame)->GetTexture();
-			if (source == 0)
+			if (source == nullptr)
 			{
 				throw 1;
 			}
 
 			IDirect3DTexture9 *copy;
-			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &copy, 0)))
+			if (!FAILED(device->CreateTexture(size.Width, size.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &copy, 0)))
 			{
 				D3DLOCKED_RECT copyLock;
 				copy->LockRect(0, &copyLock, 0, 0);
@@ -626,7 +538,7 @@ namespace OSHGui
 			D3DLOCKED_RECT lock;
 			for (std::size_t i = 0; i < framesReset.size(); ++i)
 			{
-				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &texture, 0)))
+				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, 0)))
 				{
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
@@ -647,6 +559,42 @@ namespace OSHGui
 			texture = frames[0];
 			
 			framesReset.clear();
+		}
+		//---------------------------------------------------------------------------
+		TextureDX9::TextureDX9Iterator::TextureDX9Iterator(const D3DLOCKED_RECT &lock)
+			: data(static_cast<int*>(lock.pBits)),
+			  pitch(lock.Pitch),
+			  position(0)
+		{
+			
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::TextureDX9Iterator::GoTo(int x, int y)
+		{
+			this->x = x;
+			this->y = y;
+			position = y * pitch / 4 + x;
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::TextureDX9Iterator::NextLine()
+		{
+			position = ++y * pitch / 4 + x;
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::TextureDX9Iterator::NextColumn()
+		{
+			++x;
+			++position;
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::TextureDX9Iterator::SetColor(const Drawing::Color &color)
+		{
+			data[position] = color.ARGB;
+		}
+		//---------------------------------------------------------------------------
+		const Drawing::Color TextureDX9::TextureDX9Iterator::GetColor() const
+		{
+			return Color(data[position]);
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -29,7 +29,7 @@ namespace OSHGui
 		class OSHGUI_EXPORT IRenderer
 		{
 		public:
-			virtual ~IRenderer() { }
+			virtual ~IRenderer();
 
 			/**
 			 * Leitet das Zeichnen ein.
@@ -77,33 +77,37 @@ namespace OSHGui
 			 *
 			 * @return die Standard-Schrift
 			 */
-			std::shared_ptr<IFont> GetDefaultFont() { return defaultFont; }
+			std::shared_ptr<IFont> GetDefaultFont() const;
 			
 			/**
 			 * Legt die Farbe zum Zeichnen fest.
 			 *
 			 * @param color die Farbe
 			 */
-			virtual void SetRenderColor(const Color &color) { this->color = color; }
+			virtual void SetRenderColor(const Color &color);
 			/**
 			 * Ruft die Farbe zum Zeichnen ab.
 			 *
 			 * @return die Farbe
 			 */
-			virtual const Color& GetRenderColor() const { return color; }
+			virtual const Color& GetRenderColor() const;
 			/**
 			 * Legt das Rechteck fest, in dem gezeichnet wird.
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void SetRenderRectangle(const Rectangle &rect) { renderRect = rect; }
+			virtual void SetRenderRectangle(const Rectangle &rect);
 			/**
 			 * Ruft das Rechteck fest, in dem gezeichnet wird.
 			 *
 			 * @return das Rechteck
 			 */
-			virtual const Rectangle& GetRenderRectangle() const { return renderRect; }
-
+			virtual const Rectangle& GetRenderRectangle() const;
+			/**
+			 * Ruft die Größe des Zeichenbereichs ab.
+			 *
+			 * @return Größe des Zeichenbereichs
+			 */
 			virtual const Size GetRenderDimension() const = 0;
 			
 			/**
@@ -112,7 +116,7 @@ namespace OSHGui
 			 * @param texture die Textur
 			 * @param point der Ursprung
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point) = 0;
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point);
 			/**
 			 * Zeichnet eine Textur an deb entsprechenden Koordinaten.
 			 *
@@ -120,7 +124,7 @@ namespace OSHGui
 			 * @param x
 			 * @param y
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y) = 0;
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y);
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
@@ -128,14 +132,14 @@ namespace OSHGui
 			 * @param point der Startpunkt
 			 * @param size die Größe
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size) = 0;
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size);
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
 			 * @param texture die Textur
 			 * @param rect das Rechteck
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect) = 0;
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect);
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
@@ -154,7 +158,7 @@ namespace OSHGui
 			 * @param text der Text
 			 * @return size
 			 */
-			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text) = 0;
+			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text);
 
 			/**
 			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
@@ -163,7 +167,7 @@ namespace OSHGui
 			 * @param location der Ursprung
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Misc::AnsiString &text) = 0;
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
 			 *
@@ -172,7 +176,7 @@ namespace OSHGui
 			 * @param y
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::AnsiString &text) = 0;
+			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -181,7 +185,7 @@ namespace OSHGui
 			 * @param size die Größe
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text) = 0;
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -189,7 +193,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rect, const Misc::AnsiString &text) = 0;
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rect, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -207,21 +211,27 @@ namespace OSHGui
 			 *
 			 * @param point der Punkt
 			 */
-			virtual void Fill(const Point &point) = 0;
-			/**
-			 * Füllt das Rechteck.
-			 *
-			 * @param location
-			 * @param size
-			 */
-			virtual void Fill(const Point &location, const Size &size) = 0;
+			virtual void Fill(const Point &point);
 			/**
 			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
 			 *
 			 * @param x
 			 * @param y
 			 */
-			virtual void Fill(int x, int y) = 0;
+			virtual void Fill(int x, int y);
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param location
+			 * @param size
+			 */
+			virtual void Fill(const Point &location, const Size &size);
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param rect das Rechteck
+			 */
+			virtual void Fill(const Rectangle &rect);
 			/**
 			 * Füllt das Rechteck.
 			 *
@@ -231,12 +241,6 @@ namespace OSHGui
 			 * @param h
 			 */
 			virtual void Fill(int x, int y, int w, int h) = 0;
-			/**
-			 * Füllt das Rechteck.
-			 *
-			 * @param rect das Rechteck
-			 */
-			virtual void Fill(const Rectangle &rect) = 0;
 			
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
@@ -244,7 +248,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Rectangle &rect, const Color &to) = 0;
+			virtual void FillGradient(const Rectangle &rect, const Color &to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -252,7 +256,7 @@ namespace OSHGui
 			 * @param size die Größe
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Point &point, const Size &size, const Color &to) = 0;
+			virtual void FillGradient(const Point &point, const Size &size, const Color &to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -263,6 +267,31 @@ namespace OSHGui
 			 * @param to die Endfarbe
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, const Color &to) = 0;
+
+			/**
+			 * Beginnt das Zeichnen von Linien. Bevor "normal" gezeichnet wird, muss EndLines aufgerufen werden.
+			 */
+			virtual void BeginLines() = 0;
+			/**
+			 * Zeichnet eine Linie von from nach to.
+			 *
+			 * @param from
+			 * @param to
+			 */
+			virtual void RenderLine(const Point &from, const Point &to);
+			/**
+			 * Zeichnet eine Linie von (x1,y1) nach (x2,y2).
+			 *
+			 * @param x1
+			 * @param y1
+			 * @param x2
+			 * @param y2
+			 */
+			virtual void RenderLine(int x1, int y1, int x2, int y2) = 0;
+			/**
+			 * Beendet das Zeichnen von Linien.
+			 */
+			virtual void EndLines() = 0;
 
 		protected:
 			Color color;

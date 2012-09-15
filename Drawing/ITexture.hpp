@@ -28,12 +28,14 @@ namespace OSHGui
 		class OSHGUI_EXPORT ITexture
 		{
 		public:
+			virtual ~ITexture();
+
 			/**
 			 * Ruft die Größe der Textur ab.
 			 *
 			 * @return size
 			 */
-			const Size& GetSize() const { return size; }
+			const Size& GetSize() const;
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
@@ -53,26 +55,26 @@ namespace OSHGui
 			/**
 			 * Löscht den Inhalt der Textur.
 			 */
-			virtual void Clear() = 0;
+			virtual void Clear();
 			/**
 			 * Löscht einen 1x1 Pixel an der entsprechenden Position.
 			 *
 			 * @param point die Position
 			 */
-			virtual void Clear(const Point &point) = 0;
+			virtual void Clear(const Point &point);
 			/**
 			 * Löscht einen 1x1 Pixel an der entsprechenden Position.
 			 *
 			 * @param x
 			 * @param y
 			 */
-			virtual void Clear(int x, int y) = 0;
+			virtual void Clear(int x, int y);
 			/**
 			 * Löscht das Rechteck.
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void Clear(const Rectangle &rect) = 0;
+			virtual void Clear(const Rectangle &rect);
 			/**
 			 * Löscht das Rechteck.
 			 *
@@ -81,21 +83,21 @@ namespace OSHGui
 			 * @param w
 			 * @param h
 			 */
-			virtual void Clear(int x, int y, int w, int h) = 0;
+			virtual void Clear(int x, int y, int w, int h);
 
 			/**
 			 * Füllt die Textur mit der angegebenen Farbe.
 			 *
 			 * @param color die Farbe
 			 */
-			virtual void Fill(Color color) = 0;
+			virtual void Fill(Color color);
 			/**
 			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
 			 *
 			 * @param point der Punkt
 			 * @param color die Farbe
 			 */
-			virtual void Fill(const Point &point, Color color) = 0;
+			virtual void Fill(const Point &point, Color color);
 			/**
 			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
 			 *
@@ -103,14 +105,14 @@ namespace OSHGui
 			 * @param y
 			 * @param color die Farbe
 			 */
-			virtual void Fill(int x, int y, Color color) = 0;
+			virtual void Fill(int x, int y, Color color);
 			/**
 			 * Füllt das Rechteck.
 			 *
 			 * @param rect das Rechteck
 			 * @param color die Farbe
 			 */
-			virtual void Fill(const Rectangle &rect, Color color) = 0;
+			virtual void Fill(const Rectangle &rect, Color color);
 			/**
 			 * Füllt das Rechteck.
 			 *
@@ -129,7 +131,7 @@ namespace OSHGui
 			 * @param to die Endfarbe
 			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
 			 */
-			virtual void FillGradient(Color from, Color to, bool updown = true) = 0;
+			virtual void FillGradient(Color from, Color to, bool updown = true);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -138,7 +140,7 @@ namespace OSHGui
 			 * @param to die Endfarbe
 			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
 			 */
-			virtual void FillGradient(const Rectangle &rect, Color from, Color to, bool updown = true) = 0;
+			virtual void FillGradient(const Rectangle &rect, Color from, Color to, bool updown = true);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -166,7 +168,7 @@ namespace OSHGui
 			 * @param point der Ursprung
 			 * @param texture die Textur
 			 */
-			virtual void Insert(const Point &point, const std::shared_ptr<ITexture> &texture) = 0;
+			virtual void Insert(const Point &point, const std::shared_ptr<ITexture> &texture);
 			/**
 			 * Fügt eine Textur am angegebenen Punkt in diese Textur ein.
 			 *
@@ -188,7 +190,12 @@ namespace OSHGui
 			 *
 			 * @return frameChangeInterval
 			 */
-			virtual const Misc::TimeSpan& GetFrameChangeInterval() const = 0;
+			virtual const Misc::TimeSpan& GetFrameChangeInterval() const;
+			/**
+			 * Fügt einen neuen Frame hinzu.
+			 *
+			 * @param frame der Frame
+			 */
 			virtual void AddFrame(const std::shared_ptr<ITexture> &frame) = 0;
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
@@ -215,6 +222,7 @@ namespace OSHGui
 			virtual void LoadFromFile(const Misc::AnsiString &filename) = 0;
 		
 			Size size;
+			Misc::TimeSpan frameChangeInterval;
 		};
 	}
 }

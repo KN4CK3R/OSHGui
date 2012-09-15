@@ -10,7 +10,6 @@
 #define OSHGUI_DRAWING_TEXTUREDX9_HPP
 
 #include <vector>
-#define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <d3d9.h>
 #pragma comment(lib, "d3d9.lib")
@@ -75,67 +74,6 @@ namespace OSHGui
 			virtual void EndUpdate();
 			
 			/**
-			 * Löscht den Inhalt der Textur.
-			 */
-			virtual void Clear();
-			/**
-			 * Löscht einen 1x1 Pixel an der entsprechenden Position.
-			 *
-			 * @param point die Position
-			 */
-			virtual void Clear(const Point &point);
-			/**
-			 * Löscht einen 1x1 Pixel an der entsprechenden Position.
-			 *
-			 * @param x
-			 * @param y
-			 */
-			virtual void Clear(int x, int y);
-			/**
-			 * Löscht das Rechteck.
-			 *
-			 * @param rect das Rechteck
-			 */
-			virtual void Clear(const Rectangle &rect);
-			/**
-			 * Löscht das Rechteck.
-			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 */
-			virtual void Clear(int x, int y, int w, int h);
-
-			/**
-			 * Füllt die Textur mit der angegebenen Farbe.
-			 *
-			 * @param color die Farbe
-			 */
-			virtual void Fill(Color color);
-			/**
-			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
-			 *
-			 * @param point der Punkt
-			 * @param color die Farbe
-			 */
-			virtual void Fill(const Point &point, Color color);
-			/**
-			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
-			 *
-			 * @param x
-			 * @param y
-			 * @param color die Farbe
-			 */
-			virtual void Fill(int x, int y, Color color);
-			/**
-			 * Füllt das Rechteck.
-			 *
-			 * @param rect das Rechteck
-			 * @param color die Farbe
-			 */
-			virtual void Fill(const Rectangle &rect, Color color);
-			/**
 			 * Füllt das Rechteck.
 			 *
 			 * @param x
@@ -146,23 +84,6 @@ namespace OSHGui
 			 */
 			virtual void Fill(int x, int y, int w, int h, Color color);
 
-			/**
-			 * Füllt die Textur mit einem Farbverlauf.
-			 *
-			 * @param from die Startfarbe
-			 * @param to die Endfarbe
-			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
-			 */
-			virtual void FillGradient(Color from, Color to, bool updown = true);
-			/**
-			 * Füllt das Rechteck mit einem Farbverlauf.
-			 *
-			 * @param rect das Rechteckt
-			 * @param from die Startfarbe
-			 * @param to die Endfarbe
-			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
-			 */
-			virtual void FillGradient(const Rectangle &rect, Color from, Color to, bool updown = true);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -187,13 +108,6 @@ namespace OSHGui
 			/**
 			 * Fügt eine Textur am angegebenen Punkt in diese Textur ein.
 			 *
-			 * @param point der Ursprung
-			 * @param texture die Textur
-			 */
-			virtual void Insert(const Point &point, const std::shared_ptr<ITexture> &texture);
-			/**
-			 * Fügt eine Textur am angegebenen Punkt in diese Textur ein.
-			 *
 			 * @param x
 			 * @param y
 			 * @param texture die Textur
@@ -207,7 +121,11 @@ namespace OSHGui
 			 * @return Anzahl der Frames
 			 */
 			virtual int GetFrameCount() const;
-			virtual const Misc::TimeSpan& GetFrameChangeInterval() const;
+			/**
+			 * Fügt einen neuen Frame hinzu.
+			 *
+			 * @param frame der Frame
+			 */
 			virtual void AddFrame(const std::shared_ptr<ITexture> &frame);
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
@@ -245,11 +163,31 @@ namespace OSHGui
 			IDirect3DTexture9 *texture;
 
 			//Animation
-			Misc::TimeSpan frameChangeInterval;
 			std::vector<IDirect3DTexture9*> frames;
 			int frame;
 			
 			std::vector<std::vector<unsigned char> > framesReset;
+
+			class TextureDX9Iterator
+			{
+			public:
+				TextureDX9Iterator(const D3DLOCKED_RECT &lock);
+
+				void GoTo(int x, int y);
+				void NextLine();
+				void NextColumn();
+
+				void SetColor(const Drawing::Color &color);
+				const Drawing::Color GetColor() const;
+
+			private:
+				D3DLOCKED_RECT lock;
+				int *data;
+				int pitch;
+				int position;
+				int x;
+				int y;
+			};
 		};
 	}
 }

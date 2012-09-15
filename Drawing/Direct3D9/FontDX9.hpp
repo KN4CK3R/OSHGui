@@ -9,12 +9,10 @@
 #ifndef OSHGUI_DRAWING_FONTDX9_HPP
 #define OSHGUI_DRAWING_FONTDX9_HPP
 
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <d3dx9.h>
-#pragma comment(lib, "d3dx9.lib")
-
 #include "../IFont.hpp"
+
+struct ID3DXFont;
+struct IDirect3DDevice9;
 
 namespace OSHGui
 {
@@ -34,7 +32,7 @@ namespace OSHGui
 			/**
 			 * Ruft das zugrundeliegende IDirect3DFont-Objekt ab.
 			 */
-			LPD3DXFONT GetFont();
+			ID3DXFont* GetFont();
 			
 			/**
 			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
@@ -60,7 +58,7 @@ namespace OSHGui
 			virtual void Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic);
 		
 			IDirect3DDevice9 *device;
-			LPD3DXFONT font;
+			ID3DXFont *font;
 			
 			int spaceWidth;
 		};
