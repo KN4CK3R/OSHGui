@@ -9,17 +9,15 @@
 #ifndef OSHGUI_DRAWING_RENDERERDX9_HPP
 #define OSHGUI_DRAWING_RENDERERDX9_HPP
 
-#include <stdio.h>
 #include <list>
-
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <d3d9.h>
-#pragma comment(lib, "d3d9.lib")
 
 #include "../IRenderer.hpp"
 #include "TextureDX9.hpp"
 #include "FontDX9.hpp"
+
+struct ID3DXSprite;
+struct IDirect3DDevice9;
+struct IDirect3DStateBlock9;
 
 namespace OSHGui
 {
@@ -31,6 +29,12 @@ namespace OSHGui
 		class OSHGUI_EXPORT RendererDX9 : public IRenderer
 		{
 		public:
+			using IRenderer::Fill;
+			using IRenderer::FillGradient;
+			using IRenderer::RenderTexture;
+			using IRenderer::RenderText;
+			using IRenderer::RenderLine;
+
 			/**
 			 * Konstruktor der Klasse.
 			 *
@@ -75,39 +79,13 @@ namespace OSHGui
 			 * @return eine neue Schriftart
 			 */
 			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic);
-
+			/**
+			 * Ruft die Größe des Zeichenbereichs ab.
+			 *
+			 * @return Größe des Zeichenbereichs
+			 */
 			virtual const Size GetRenderDimension() const;
 			
-			/**
-			 * Zeichnet eine Textur am entsprechenden Punkt.
-			 *
-			 * @param texture die Textur
-			 * @param point der Ursprung
-			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point);
-			/**
-			 * Zeichnet eine Textur an den entsprechenden Koordinaten.
-			 *
-			 * @param texture die Textur
-			 * @param x
-			 * @param y
-			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y);
-			/**
-			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
-			 *
-			 * @param texture die Textur
-			 * @param point der Startpunkt
-			 * @param size die Größe
-			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size);
-			/**
-			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
-			 *
-			 * @param texture die Textur
-			 * @param rect das Rechteck
-			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect);
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
@@ -119,49 +97,6 @@ namespace OSHGui
 			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h);
 
-			/**
-			 * Ruft die Maße des übergebenen Texts unter Verwendung der entsprechenden Schriftart ab.
-			 *
-			 * @param font die Schriftart
-			 * @param text der Text
-			 * @return size
-			 */
-			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text);
-
-			/**
-			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
-			 *
-			 * @param font die Schriftart
-			 * @param point der Ursprung
-			 * @param text der Text
-			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &point, const Misc::AnsiString &text);
-			/**
-			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
-			 *
-			 * @param font die Schriftart
-			 * @param x
-			 * @param y
-			 * @param text der Text
-			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::AnsiString &text);
-			/**
-			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
-			 *
-			 * @param font die Schriftart
-			 * @param location der Ursprung
-			 * @param size die Größe
-			 * @param text der Text
-			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text);
-			/**
-			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
-			 *
-			 * @param font die Schriftart
-			 * @param rect das Rechteck
-			 * @param text der Text
-			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rect, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -175,26 +110,6 @@ namespace OSHGui
 			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text);
 
 			/**
-			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
-			 *
-			 * @param point der Punkt
-			 */
-			virtual void Fill(const Point &point);
-			/**
-			 * Füllt das Rechteck.
-			 *
-			 * @param location
-			 * @param size
-			 */
-			virtual void Fill(const Point &location, const Size &size);
-			/**
-			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
-			 *
-			 * @param x
-			 * @param y
-			 */
-			virtual void Fill(int x, int y);
-			/**
 			 * Füllt das Rechteck.
 			 *
 			 * @param x
@@ -203,28 +118,7 @@ namespace OSHGui
 			 * @param h
 			 */
 			virtual void Fill(int x, int y, int w, int h);
-			/**
-			 * Füllt das Rechteck.
-			 *
-			 * @param rect das Rechteck
-			 */
-			virtual void Fill(const Rectangle &rect);
 
-			/**
-			 * Füllt das Rechteck mit einem Farbverlauf.
-			 *
-			 * @param point der Ursprung
-			 * @param size die Größe
-			 * @param to die Endfarbe
-			 */
-			virtual void FillGradient(const Point &point, const Size &size, const Color &to);
-			/**
-			 * Füllt das Rechteck mit einem Farbverlauf.
-			 *
-			 * @param rect das Rechteck
-			 * @param to die Endfarbe
-			 */
-			virtual void FillGradient(const Rectangle &rect, const Color &to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -236,6 +130,24 @@ namespace OSHGui
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, const Color &to);
 
+			/**
+			 * Beginnt das Zeichnen von Linien. Bevor "normal" gezeichnet wird, muss EndLines aufgerufen werden.
+			 */
+			virtual void BeginLines();
+			/**
+			 * Zeichnet eine Linie von (x1,y1) nach (x2,y2).
+			 *
+			 * @param x1
+			 * @param y1
+			 * @param x2
+			 * @param y2
+			 */
+			virtual void RenderLine(int x1, int y1, int x2, int y2);
+			/**
+			 * Beendet das Zeichnen von Linien.
+			 */
+			virtual void EndLines();
+
 		private:
 			void InitializeDevice();
 			void Flush();
@@ -245,23 +157,28 @@ namespace OSHGui
 			IDirect3DDevice9 *device;
 
 			std::shared_ptr<TextureDX9> texture;
-			std::list<std::weak_ptr<TextureDX9> > textureList;
-			std::list<std::weak_ptr<FontDX9> > fontList;
+			std::vector<std::weak_ptr<TextureDX9> > textureList;
+			std::vector<std::weak_ptr<FontDX9> > fontList;
 			
 			static const int maxVertices = 1024;
 			int verticesNum;
+			bool flushSprite;
 			
 			struct Vertex2D
 			{
-				float x, y, z, rhw;
+				float x;
+				float y;
+				float z;
+				//float rhw;
 				D3DCOLOR color;
-				float u, v;
+				float u;
+				float v;
 			};
 			
 			Vertex2D vertices[maxVertices];
 			
 			IDirect3DStateBlock9 *stateBlockBackup;
-			IDirect3DStateBlock9 *stateBlock;
+			ID3DXSprite *sprite;
 		};
 	}
 }

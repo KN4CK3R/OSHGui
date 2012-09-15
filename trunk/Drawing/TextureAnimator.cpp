@@ -172,31 +172,33 @@ namespace OSHGui
 
 			Application *app = Application::Instance();
 
-			std::vector<TextureInfo>::iterator it = textureInfoList.begin();
-			while (it != textureInfoList.end())
 			{
-				TextureInfo &textureInfo = *it;
-
-				if (textureInfo.GetNextFrameChangeTime() < app->GetNow())
+				std::vector<TextureInfo>::iterator it = textureInfoList.begin();
+				while (it != textureInfoList.end())
 				{
-					int nextFrame = textureInfo.GetNextFrame();
-					if (nextFrame != -1)
+					TextureInfo &textureInfo = *it;
+
+					if (textureInfo.GetNextFrameChangeTime() < app->GetNow())
 					{
-						textureInfo.SetFrame(nextFrame);
-					}
-					else
-					{
-						it = textureInfoList.erase(it);
-						continue;
+						int nextFrame = textureInfo.GetNextFrame();
+						if (nextFrame != -1)
+						{
+							textureInfo.SetFrame(nextFrame);
+						}
+						else
+						{
+							it = textureInfoList.erase(it);
+							continue;
+						}
+
+						if (textureInfo.IsFrameDirty())
+						{ 
+							anyFrameDirty = true;
+						}
 					}
 
-					if (textureInfo.IsFrameDirty())
-					{ 
-						anyFrameDirty = true;
-					}
-   				}
-
-				++it;
+					++it;
+				}
 			}
 
 			if (!anyFrameDirty)
@@ -204,7 +206,7 @@ namespace OSHGui
 				return;
 			}
 
-			for (std::vector<TextureInfo>::iterator it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
+			for (auto it = textureInfoList.begin(); it != textureInfoList.end(); ++it)
 			{
 				it->UpdateFrame();
 			}

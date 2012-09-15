@@ -6,10 +6,10 @@
  * See license in OSHGui.hpp
  */
 
+#include <d3dx9.h>
+#pragma comment(lib, "d3dx9.lib")
 #include "FontDX9.hpp"
 #include "../../Misc/Exceptions.hpp"
-#include <fstream>
-using namespace std;
 
 namespace OSHGui
 {
@@ -54,7 +54,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		LPD3DXFONT FontDX9::GetFont()
+		ID3DXFont* FontDX9::GetFont()
 		{
 			return font;
 		}

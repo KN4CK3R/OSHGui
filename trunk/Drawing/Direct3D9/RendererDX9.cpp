@@ -7,8 +7,10 @@
  */
 
 #include "RendererDX9.hpp"
-#include <fstream>
-using namespace std;
+#define NOMINMAX
+#include <d3dx9.h>
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
 
 namespace OSHGui
 {
@@ -24,11 +26,11 @@ namespace OSHGui
 			verticesNum = 0;
 
 			texture = nullptr;
+			sprite = nullptr;
 
 			for (int i = 0; i < maxVertices; ++i)
 			{
 				vertices[i].z = 0.0f;
-				vertices[i].rhw = 1.0f;
 				vertices[i].u = 0.0f;
 				vertices[i].v = 0.0f;
 			}
@@ -40,7 +42,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		RendererDX9::~RendererDX9()
 		{
-
+			sprite->Release();
+			stateBlockBackup->Release();
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -56,61 +59,30 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::InitializeDevice()
 		{
+			flushSprite = false;
+
+			if (sprite == nullptr)
+			{
+				D3DXCreateSprite(device, &sprite);
+			}
+			else
+			{
+				sprite->OnResetDevice();
+			}
+
 			device->CreateStateBlock(D3DSBT_ALL, &stateBlockBackup);
-
-			device->BeginStateBlock();
-			device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
-			device->SetTexture(0, 0);
-			device->SetVertexShader(0);
-			device->SetPixelShader(0);
-
-			device->SetRenderState(D3DRS_LIGHTING, FALSE);
-			device->SetRenderState(D3DRS_FOGENABLE, FALSE);
-			device->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
-			device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-			device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-			device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-			device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
-			device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, FALSE);
-
-			// setup texture addressing settings
-			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-
-			// setup color calculations
-			device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-			device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-			device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-
-			// setup alpha calculations
-			device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-			device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
-			device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-
-			// setup filtering
-			device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-
-			// disable texture stages we do not need.
-			device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-
-			// setup scene alpha blending
-			device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-
-			device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-			device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_INVDESTALPHA);
-			device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
-
-			device->EndStateBlock(&stateBlock);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
 		{
 			stateBlockBackup->Capture();
-			stateBlock->Apply();
+
+			sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+			device->SetFVF(D3DFVF_XYZ | D3DFVF_SPECULAR | D3DFVF_TEX1);
+			device->SetTexture(0, nullptr);
+			device->SetVertexShader(nullptr);
+			device->SetPixelShader(nullptr);
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
@@ -118,7 +90,9 @@ namespace OSHGui
 		void RendererDX9::End()
 		{
 			Flush();
-			
+
+			sprite->End();
+
 			stateBlockBackup->Apply();
 		}
 		//---------------------------------------------------------------------------
@@ -151,8 +125,9 @@ namespace OSHGui
 				}
 			}
 
+			sprite->OnLostDevice();
+
 			stateBlockBackup->Release();
-			stateBlock->Release();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::PostReset()
@@ -191,7 +166,7 @@ namespace OSHGui
 		{
 			if (verticesNum > 0)
 			{
-				device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, verticesNum / 3, &vertices[0], sizeof(Vertex2D));
+				device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, verticesNum / 3, vertices, sizeof(Vertex2D));
 
 				verticesNum = 0;
 			}
@@ -225,28 +200,6 @@ namespace OSHGui
 			return font;
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point)
-		{
-			Drawing::Size size = texture->GetSize();
-			RenderTexture(texture, point.X, point.Y, size.Width, size.Height);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y)
-		{
-			Drawing::Size size = texture->GetSize();
-			RenderTexture(texture, x, y, size.Width, size.Height);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size)
-		{
-			RenderTexture(texture, point.Left, point.Top, size.Width, size.Height);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect)
-		{
-			RenderTexture(texture, rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
-		}
-		//---------------------------------------------------------------------------
 		void RendererDX9::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h)
 		{
 			if (texture == nullptr)
@@ -256,7 +209,7 @@ namespace OSHGui
 			
 			std::shared_ptr<TextureDX9> temp = std::static_pointer_cast<TextureDX9>(texture);
 			
-			if (this->texture != temp)
+			/*if (this->texture != temp)
 			{
 				Flush();
 				device->SetTexture(0, temp->GetTexture());
@@ -271,37 +224,10 @@ namespace OSHGui
 			AddVertex(x, y + h, 0.0f, 1.0f);
 			AddVertex(x + w, y, 1.0f, 0.0f);
 			AddVertex(x + w, y + h, 1.0f, 1.0f);
-			AddVertex(x, y + h, 0.0f, 1.0f);
-		}
-		//---------------------------------------------------------------------------
-		Size RendererDX9::MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text)
-		{
-			if (font == 0)
-			{
-				return Size();
-			}
+			AddVertex(x, y + h, 0.0f, 1.0f);*/
 			
-			return font->MeasureText(text);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, const Point &point, const Misc::AnsiString &text)
-		{
-			RenderText(font, point.X, point.Y, 1000, 100, text);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, const Misc::AnsiString &text)
-		{
-			RenderText(font, x, y, 1000, 100, text);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rectangle, const Misc::AnsiString &text)
-		{
-			RenderText(font, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text)
-		{
-			RenderText(font, location.Left, location.Top, size.Width, size.Height, text);
+			D3DXVECTOR3 v = D3DXVECTOR3(x, y, 0.0f);
+			sprite->Draw(temp->GetTexture(), nullptr, nullptr, &v, 0xFFFFFFFF);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
@@ -317,22 +243,9 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			RECT clip = { x, y, x + w, y + h };
-			std::static_pointer_cast<FontDX9>(font)->GetFont()->DrawTextA(0, text.c_str(), text.length(), &clip, DT_LEFT | DT_TOP, color.ARGB);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::Fill(const Point &point)
-		{
-			Fill(point.X, point.Y, 1, 1);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::Fill(const Point &point, const Size &size)
-		{
-			Fill(point.X, point.Y, size.Width, size.Height);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::Fill(int x, int y)
-		{
-			Fill(x, y, 1, 1);
+			std::static_pointer_cast<FontDX9>(font)->GetFont()->DrawTextA(sprite, text.c_str(), text.length(), &clip, DT_LEFT | DT_TOP, color.ARGB);
+
+			flushSprite = true;
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Fill(int x, int y, int w, int h)
@@ -340,8 +253,14 @@ namespace OSHGui
 			if (texture != 0)
 			{
 				Flush();
-				device->SetTexture(0, 0);
-				texture = 0;
+				device->SetTexture(0, nullptr);
+				texture = nullptr;
+			}
+			if (flushSprite)
+			{
+				sprite->Flush();
+				flushSprite = false;
+				device->SetTexture(0, nullptr);
 			}
 
 			x = x + renderRect.GetLeft();
@@ -353,21 +272,6 @@ namespace OSHGui
 			AddVertex(x + w, y);
 			AddVertex(x + w, y + h);
 			AddVertex(x, y + h);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::Fill(const Rectangle &rect)
-		{
-			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(const Point &point, const Size &size, const Color &to)
-		{
-			FillGradient(point.Left, point.Top, size.Width, size.Height, to);
-		}
-		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(const Rectangle &rect, const Color &to)
-		{
-			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), to);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::FillGradient(int x, int y, int w, int h, const Color &to)
@@ -397,6 +301,41 @@ namespace OSHGui
 			SetRenderColor(bckColor);
 
 			AddVertex(x + w, y);
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::BeginLines()
+		{
+			Flush();
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::RenderLine(int x1, int y1, int x2, int y2)
+		{
+			if (verticesNum >= maxVertices - 2)
+			{
+				EndLines();
+			}
+
+			vertices[verticesNum].x = (float)x1;
+			vertices[verticesNum].y = (float)y1;
+			vertices[verticesNum].color = color.ARGB;
+
+			++verticesNum;
+
+			vertices[verticesNum].x = (float)x2;
+			vertices[verticesNum].y = (float)y2;
+			vertices[verticesNum].color = color.ARGB;
+
+			++verticesNum;
+		}
+		//---------------------------------------------------------------------------
+		void RendererDX9::EndLines()
+		{
+			if (verticesNum > 0)
+			{
+				device->DrawPrimitiveUP(D3DPT_LINELIST, verticesNum / 2, vertices, sizeof(Vertex2D));
+
+				verticesNum = 0;
+			}
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::AddVertex(int x, int y)
