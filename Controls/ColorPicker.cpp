@@ -19,15 +19,13 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ColorPicker::ColorPicker()
+		: drag(false),
+		  color(Drawing::Color::White())
 	{
 		type = CONTROL_COLORPICKER;
 		
-		drag = false;
-
-		color = Drawing::Color::White();
-		
 		cursor = Cursors::Get(Cursors::Pipette);
-		
+
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color::Empty());
 

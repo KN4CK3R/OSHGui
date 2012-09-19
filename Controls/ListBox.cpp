@@ -21,15 +21,12 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ListBox::ListBox()
+		: selectedIndex(-1),
+		  firstVisibleItemIndex(0),
+		  autoScrollEnabled(false)
 	{
 		type = CONTROL_LISTBOX;
-		
-		selectedIndex = -1;
-		firstVisibleItemIndex = 0;
-		autoScrollEnabled = false;
-		
-		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
-
+	
 		scrollBar = new ScrollBar();
 		scrollBar->SetVisible(false);
 		scrollBar->GetScrollEvent() += ScrollEventHandler([this](Control*, ScrollEventArgs &args)
@@ -46,6 +43,8 @@ namespace OSHGui
 		AddSubControl(scrollBar);
 
 		SetSize(DefaultSize);
+		
+		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
 
 		SetBackColor(Drawing::Color(0xFF171614));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));

@@ -17,11 +17,10 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ComboBox::ComboBox()
+		: droppedDown(false)
 	{
 		type = CONTROL_COMBOBOX;
-		
-		droppedDown = false;
-
+	
 		button = new ComboBoxButton();
 		button->SetLocation(0, 0);
 		button->GetClickEvent() += ClickEventHandler([this](Control*)

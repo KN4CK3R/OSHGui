@@ -18,11 +18,11 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Timer::Timer()
+		: interval(100)
 	{
 		type = CONTROL_TIMER;
-
+	
 		isEnabled = false;
-		interval = 100;
 	}
 	//---------------------------------------------------------------------------
 	Timer::~Timer()

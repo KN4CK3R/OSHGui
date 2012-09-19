@@ -20,17 +20,14 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TrackBar::TrackBar()
+		: drag(false),
+		  minimum(1),
+		  maximum(10),
+		  tickFrequency(1),
+		  sliderLocation(-SliderSize.Width / 2, 1)
 	{
 		type = CONTROL_TRACKBAR;
-		
-		drag = false;
-		
-		minimum = 1;
-		maximum = 10;
-		tickFrequency = 1;
-
-		sliderLocation = Drawing::Point(-SliderSize.Width / 2, 1);
-
+	
 		SetSize(DefaultSize);
 
 		SetValueInternal(0);

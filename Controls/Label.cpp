@@ -20,7 +20,7 @@ namespace OSHGui
 		type = CONTROL_LABEL;
 		
 		SetAutoSize(true);
-				
+		
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 
