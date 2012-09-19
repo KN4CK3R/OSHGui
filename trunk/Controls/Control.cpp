@@ -15,31 +15,24 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Control::Control()
+		: parent(nullptr),
+		  location(6, 6),
+		  size(0, 0),
+		  anchor(AnchorTop | AnchorLeft),
+		  isEnabled(true),
+		  isVisible(true),
+		  isFocused(false),
+		  isClicked(false),
+		  isInside(false),
+		  isFocusable(true),
+		  hasCaptured(false),
+		  autoSize(false),
+		  canRaiseEvents(true),
+		  font(Application::Instance()->GetRenderer()->GetDefaultFont()),
+		  cursor(Cursors::Get(Cursors::Default)),
+		  mouseOverFocusColor(0, 20, 20, 20)
 	{
-		type = CONTROL_ROOT;
 
-		parent = 0;
-
-		location = Drawing::Point(6, 6);
-		size = Drawing::Size(0, 0);
-
-		anchor = (AnchorTop|AnchorLeft);
-		
-		isEnabled = true;
-		isVisible = true;
-		isFocused = false;
-		isClicked = false;
-		isInside = false;
-		isFocusable = true;
-		hasCaptured = false;
-		autoSize = false;
-		canRaiseEvents = true;
-
-		font = Application::Instance()->GetRenderer()->GetDefaultFont();
-		
-		cursor = Cursors::Get(Cursors::Default);
-		
-		mouseOverFocusColor = Drawing::Color(0, 20, 20, 20);
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
@@ -54,12 +47,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	CONTROL_TYPE Control::GetType() const
+	//Getter/Setter
+	//---------------------------------------------------------------------------
+	const Misc::AnsiString& Control::GetType() const
 	{
 		return type;
 	}
-	//---------------------------------------------------------------------------
-	//Getter/Setter
 	//---------------------------------------------------------------------------
 	bool Control::GetIsFocused() const
 	{
@@ -678,6 +671,13 @@ namespace OSHGui
 	void Control::Render(Drawing::IRenderer *renderer)
 	{
 		return;
+	}
+	//---------------------------------------------------------------------------
+	void Control::ApplyTheme(const Drawing::Theme &theme)
+	{
+		auto &controlTheme = theme.GetControlColorTheme(type);
+		SetForeColor(controlTheme.ForeColor);
+		SetBackColor(controlTheme.BackColor);
 	}
 	//---------------------------------------------------------------------------
 }

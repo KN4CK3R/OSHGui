@@ -10,7 +10,6 @@
 #define OSHGUI_CONTROL_HPP
 
 #include <vector>
-#include <algorithm>
 
 #include "../Exports.hpp"
 
@@ -20,6 +19,7 @@
 #include "../Drawing/Size.hpp"
 #include "../Drawing/Rectangle.hpp"
 #include "../Drawing/IRenderer.hpp"
+#include "../Drawing/Theme.hpp"
 
 #include "../Misc/Strings.hpp"
 #include "../Misc/Any.hpp"
@@ -39,33 +39,32 @@
 namespace OSHGui
 {
 	/**
-	 * Enum über die Arten von Steuerelementen.
+	 * Auflistung der Arten von Steuerelementen.
 	 */
-	enum CONTROL_TYPE
-	{
-		CONTROL_ROOT,
-		CONTROL_PANEL,
-		CONTROL_FORM,
-		CONTROL_GROUPBOX,
-		CONTROL_LABEL,
-		CONTROL_LINKLABEL,
-		CONTROL_BUTTON,
-		CONTROL_CHECKBOX,
-		CONTROL_RADIOBUTTON,
-		CONTROL_SCROLLBAR,
-		CONTROL_LISTBOX,
-		CONTROL_PROGRESSBAR,
-		CONTROL_TRACKBAR,
-		CONTROL_COMBOBOX,
-		CONTROL_TEXTBOX,
-		CONTROL_TIMER,
-		CONTROL_TABCONTROL,
-		CONTROL_TABPAGE,
-		CONTROL_PICTUREBOX,
-		CONTROL_COLORPICKER,
-		CONTROL_COLORBAR
-	};
+	const Misc::AnsiString CONTROL_PANEL = "panel";
+	const Misc::AnsiString CONTROL_FORM = "form";
+	const Misc::AnsiString CONTROL_GROUPBOX = "groupbox";
+	const Misc::AnsiString CONTROL_LABEL = "label";
+	const Misc::AnsiString CONTROL_LINKLABEL = "linklabel";
+	const Misc::AnsiString CONTROL_BUTTON = "button";
+	const Misc::AnsiString CONTROL_CHECKBOX = "checkbox";
+	const Misc::AnsiString CONTROL_RADIOBUTTON = "radiobutton";
+	const Misc::AnsiString CONTROL_SCROLLBAR = "scrollbar";
+	const Misc::AnsiString CONTROL_LISTBOX = "listbox";
+	const Misc::AnsiString CONTROL_PROGRESSBAR = "progressbar";
+	const Misc::AnsiString CONTROL_TRACKBAR = "trackbar";
+	const Misc::AnsiString CONTROL_COMBOBOX = "combobox";
+	const Misc::AnsiString CONTROL_TEXTBOX = "textbox";
+	const Misc::AnsiString CONTROL_TIMER = "timer";
+	const Misc::AnsiString CONTROL_TABCONTROL = "tabcontrol";
+	const Misc::AnsiString CONTROL_TABPAGE = "tabpage";
+	const Misc::AnsiString CONTROL_PICTUREBOX = "picturebox";
+	const Misc::AnsiString CONTROL_COLORPICKER = "colorpicker";
+	const Misc::AnsiString CONTROL_COLORBAR = "colorbar";
 
+	/**
+	 * Auflistung der Anker.
+	 */
 	enum AnchorStyle
 	{
 		AnchorTop = 1,
@@ -223,7 +222,7 @@ namespace OSHGui
 		 *
 		 * @return der Typ
 		 */
-		virtual CONTROL_TYPE GetType() const;
+		virtual const Misc::AnsiString& GetType() const;
 		
 		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
@@ -640,6 +639,12 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
+		/**
+		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
+		 *
+		 * @param theme
+		 */
+		virtual void ApplyTheme(const Drawing::Theme &theme);
 	
 	protected:
 		/**
@@ -664,9 +669,8 @@ namespace OSHGui
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 		
-		CONTROL_TYPE type;
-		
 		Misc::AnsiString name;
+		Misc::AnsiString type;
 
 		bool canRaiseEvents;
 		bool isEnabled;

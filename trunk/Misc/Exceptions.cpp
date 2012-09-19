@@ -246,5 +246,21 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
+		InvalidThemeException::InvalidThemeException(const Misc::AnsiString &message) :
+							   Exception("OSHGui::InvalidThemeException", message)
+		{
+
+		}
+		//---------------------------------------------------------------------------
+		InvalidThemeException::InvalidThemeException(const Misc::AnsiString &message,
+													 const Misc::AnsiString &file,
+													 int line) :
+							   Exception("OSHGui::InvalidThemeException", message, file, line)
+		{
+
+		}
+		//---------------------------------------------------------------------------
 	}
 }
