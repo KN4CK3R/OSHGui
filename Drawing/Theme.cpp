@@ -78,7 +78,7 @@ namespace OSHGui
 						stringstream ss(value.asString());
 						int argb;
 						ss >> hex >> argb;
-						if (ss)
+						if (ss.good())
 						{
 							return Color(argb);
 						}
@@ -165,7 +165,7 @@ namespace OSHGui
 				Json::StyledWriter writer;
 				file << writer.write(root);
 
-				return file;
+				return file.good();
 			}
 
 			return false;
