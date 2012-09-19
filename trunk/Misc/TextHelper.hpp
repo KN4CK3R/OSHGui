@@ -11,10 +11,10 @@
 
 #include <memory>
 #include "../Exports.hpp"
-#include "Misc/Strings.hpp"
-#include "Drawing/IFont.hpp"
-#include "Drawing/Point.hpp"
-#include "Drawing/Size.hpp"
+#include "Strings.hpp"
+#include "../Drawing/IFont.hpp"
+#include "../Drawing/Point.hpp"
+#include "../Drawing/Size.hpp"
 
 namespace OSHGui
 {

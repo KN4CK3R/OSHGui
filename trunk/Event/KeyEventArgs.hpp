@@ -9,7 +9,7 @@
 #ifndef OSHGUI_EVENT_KEYEVENTARGS_HPP
 #define OSHGUI_EVENT_KEYEVENTARGS_HPP
 
-#include "Misc/Strings.hpp"
+#include "../Misc/Strings.hpp"
 #include "KeyboardMessage.hpp"
 
 namespace OSHGui
@@ -32,11 +32,12 @@ namespace OSHGui
 		 * @param keyboardEvent
 		 */
 		KeyEventArgs(const KeyboardMessage &keyboardEvent)
+			: KeyCode(keyboardEvent.KeyCode),
+			  KeyChar(keyboardEvent.KeyChar),
+			  Modifier(keyboardEvent.Modifier),
+			  Handled(false)
 		{
-			KeyCode = keyboardEvent.KeyCode;
-			KeyChar = keyboardEvent.KeyChar;
-			Modifier = keyboardEvent.Modifier;
-			Handled = false;
+			
 		}
 	};
 }

@@ -9,7 +9,7 @@
 #ifndef OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP
 #define OSHGUI_EVENT_KEYPRESSEVENTARGS_HPP
 
-#include "Misc/Strings.hpp"
+#include "../Misc/Strings.hpp"
 #include "KeyboardMessage.hpp"
 
 namespace OSHGui
