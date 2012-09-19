@@ -22,11 +22,10 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabControl::TabControl()
+		: startIndex(0),
+		  maxIndex(0)
 	{
 		type = CONTROL_TABCONTROL;
-
-		startIndex = 0;
-		maxIndex = 0;
 
 		lastSwitchButton = new TabControlSwitchButton(0);
 		lastSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)

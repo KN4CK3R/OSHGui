@@ -19,12 +19,10 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ScrollBar::ScrollBar()
+		: drag(false),
+		  value(0)
 	{
 		type = CONTROL_SCROLLBAR;
-		
-		drag = false;
-				
-		value = 0;
 		
 		upButton = new ScrollBarButton(0);
 		upButton->GetClickEvent() += ClickEventHandler([this](Control *control)

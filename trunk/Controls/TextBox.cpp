@@ -20,23 +20,18 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TextBox::TextBox()
-		: textHelper(font)
+		: textHelper(font),
+		  blinkTime(Misc::TimeSpan::FromMilliseconds(500)),
+		  firstVisibleCharacter(0),
+		  caretPosition(0),
+		  passwordChar('\0')
 	{
 		type = CONTROL_TEXTBOX;
-
-		SetSize(DefaultSize);
-
-		blinkTime = Misc::TimeSpan::FromMilliseconds(500);
-		nextBlinkTime = Application::Instance()->GetNow();
-
-		firstVisibleCharacter = 0;
-		caretPosition = 0;
-		passwordChar = '\0';
-		
-		cursor = Cursors::Get(Cursors::IBeam);
-
+	
 		SetBackColor(Drawing::Color(0xFF242321));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		
+		cursor = Cursors::Get(Cursors::IBeam);
 	}
 	//---------------------------------------------------------------------------
 	TextBox::~TextBox()

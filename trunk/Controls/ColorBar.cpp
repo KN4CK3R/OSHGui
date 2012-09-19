@@ -20,11 +20,11 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ColorBar::ColorBar()
+		: barIndex(0),
+		  color(Drawing::Color::Black())
 	{
 		type = CONTROL_COLORBAR;
-		
-		barIndex = 0;
-		
+	
 		for (int i = 0; i < 3; ++i)
 		{
 			bars.push_back(0);
@@ -35,8 +35,6 @@ namespace OSHGui
 				
 		SetSize(DefaultSize);
 		
-		color = Drawing::Color::Black();
-
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
 

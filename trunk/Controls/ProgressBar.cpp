@@ -19,15 +19,14 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ProgressBar::ProgressBar()
+		: min(0),
+		  max(100),
+		  value(0)
 	{
 		type = CONTROL_PROGRESSBAR;
 
 		SetSize(DefaultSize);
 		
-		min = 0;
-		max = 100;
-		value = 0;
-
 		SetBackColor(Drawing::Color::Empty());
 		SetForeColor(Drawing::Color(0xFF5A5857));
 		SetBarColor(Drawing::Color(0xFF67AFF5));

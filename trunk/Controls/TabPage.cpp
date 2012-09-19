@@ -16,11 +16,10 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabPage::TabPage()
+		: button(nullptr)
 	{
 		type = CONTROL_TABPAGE;
-
-		button = 0;
-
+	
 		containerPanel = new Panel();
 		containerPanel->SetLocation(Drawing::Point(2, 2));
 		AddSubControl(containerPanel);
@@ -56,7 +55,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::SetText(const Misc::AnsiString &text)
 	{
-		if (button != 0)
+		if (button != nullptr)
 		{
 			button->SetText(text);
 		}

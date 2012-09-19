@@ -19,20 +19,17 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	CheckBox::CheckBox()
+		: checked(false)
 	{
 		type = CONTROL_CHECKBOX;
 		
-		autoSize = true;
+		SetAutoSize(true);
 
 		label = new Label();
 		label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
 
-		checked = false;
-
 		SetBackColor(Drawing::Color(0xFF222222));
 		SetForeColor(Drawing::Color(0xFFE5E0E4));
-
-		canRaiseEvents = true;
 	}
 	//---------------------------------------------------------------------------
 	CheckBox::~CheckBox()

@@ -24,17 +24,15 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Form::Form()
+		: isModal(false),
+		  dialogResult(ResultNone)
 	{
-		parent = this;
-
 		type = CONTROL_FORM;
 		
+		parent = this;
 		isVisible = false;
 		isEnabled = false;
-		isModal = false;
 		isFocusable = true;
-
-		dialogResult = ResultNone;
 
 		captionBar = new CaptionBar();
 		captionBar->SetLocation(Drawing::Point(0, 0));
