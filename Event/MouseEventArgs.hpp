@@ -9,7 +9,7 @@
 #ifndef OSHGUI_EVENT_MOUSEEVENTARGS_HPP
 #define OSHGUI_EVENT_MOUSEEVENTARGS_HPP
 
-#include "Drawing/Point.hpp"
+#include "../Drawing/Point.hpp"
 #include "MouseMessage.hpp"
 
 namespace OSHGui

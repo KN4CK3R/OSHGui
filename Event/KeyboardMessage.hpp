@@ -10,7 +10,7 @@
 #define OSHGUI_EVENT_KEYBOARDMESSAGE_HPP
 
 #include "Key.hpp"
-#include "Misc/Strings.hpp"
+#include "../Misc/Strings.hpp"
 
 namespace OSHGui
 {

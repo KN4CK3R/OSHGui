@@ -9,7 +9,7 @@
 #ifndef OSHGUI_EVENT_KEY_HPP
 #define OSHGUI_EVENT_KEY_HPP
 
-#include "Exports.hpp"
+#include "../Exports.hpp"
 
 namespace OSHGui
 {
