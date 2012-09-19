@@ -216,6 +216,16 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void ContainerControl::ApplyTheme(const Drawing::Theme &theme)
+	{
+		Control::ApplyTheme(theme);
+		for (auto it = std::begin(controls); it != std::end(controls); ++it)
+		{
+			Control *control = *it;
+			control->ApplyTheme(theme);
+		}
+	}
+	//---------------------------------------------------------------------------
 	//ContainerControl::PostOrderVisibleIterator
 	//---------------------------------------------------------------------------
 	ContainerControl::PostOrderVisibleIterator::PostOrderVisibleIterator(ContainerControl *start)

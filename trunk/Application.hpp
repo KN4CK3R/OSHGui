@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include "Drawing/IRenderer.hpp"
+#include "Drawing/Theme.hpp"
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"
 #include "Event/MouseMessage.hpp"
@@ -88,6 +89,8 @@ namespace OSHGui
 		 * @param enabled
 		 */
 		void SetCursorEnabled(bool enabled);
+		void SetTheme(const Drawing::Theme &theme);
+		const Drawing::Theme& GetTheme() const;
 	
 		/**
 		 * Aktiviert das GUI.
@@ -151,6 +154,8 @@ namespace OSHGui
 		Application();
 		
 		Drawing::IRenderer *renderer;
+		Drawing::Theme defaultTheme;
+		Drawing::Theme currentTheme;
 	
 		FormManager formManager;
 		TimerManager timerManager;
