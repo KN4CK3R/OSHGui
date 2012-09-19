@@ -291,7 +291,7 @@ namespace OSHGui
 			 *
 			 * @param message die Meldung, in der der Fehler beschrieben wird
 			 */
-			InvalidOperationException(const Misc::AnsiString &message = "Operation is not valid due to the current state of the object.");
+			InvalidOperationException(const Misc::AnsiString &message);
 			/**
 			 * Initialisiert eine neue Instanz der InvalidOperationException-Klasse.
 			 *
@@ -302,6 +302,31 @@ namespace OSHGui
 			InvalidOperationException(const Misc::AnsiString &message,
 									  const Misc::AnsiString &file,
 									  int line);
+		};
+		
+		/**
+		 * Die Ausnahme, die ausgelöst wird, wenn beim Verarbeiten eines Themes
+		 * ein Fehler aufgetreten ist.
+		 */
+		class OSHGUI_EXPORT InvalidThemeException : public Exception
+		{
+		public:
+			/**
+			 * Initialisiert eine neue Instanz der InvalidThemeException-Klasse.
+			 *
+			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 */
+			InvalidThemeException(const Misc::AnsiString &message);
+			/**
+			 * Initialisiert eine neue Instanz der InvalidThemeException-Klasse.
+			 *
+			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * @param file der Name der Datei, in der der Fehler auftrat
+			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 */
+			InvalidThemeException(const Misc::AnsiString &message,
+								  const Misc::AnsiString &file,
+								  int line);
 		};
 	}
 }
