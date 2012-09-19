@@ -86,6 +86,8 @@ namespace OSHGui
 
 		virtual void Render(Drawing::IRenderer *renderer);
 
+		virtual void ApplyTheme(const Drawing::Theme &theme);
+
 	protected:
 		void AddSubControl(Control* subcontrol);
 

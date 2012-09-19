@@ -10,12 +10,12 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		void Theme::SetControlColorTheme(const std::string &controlClass, const Theme::ControlTheme &controlTheme)
+		void Theme::SetControlColorTheme(const Misc::AnsiString &controlClass, const Theme::ControlTheme &controlTheme)
 		{
 			controlThemes[controlClass] = controlTheme;
 		}
 		//---------------------------------------------------------------------------
-		const Theme::ControlTheme& Theme::GetControlColorTheme(const std::string &controlClass) const
+		const Theme::ControlTheme& Theme::GetControlColorTheme(const Misc::AnsiString &controlClass) const
 		{
 			auto it = controlThemes.find(controlClass);
 			if (it == controlThemes.end())
@@ -26,7 +26,7 @@ namespace OSHGui
 			return it->second;
 		}
 		//---------------------------------------------------------------------------
-		void Theme::Load(const std::string pathToThemeFile)
+		void Theme::Load(const Misc::AnsiString pathToThemeFile)
 		{
 			Name = string();
 			Author = string();
@@ -114,7 +114,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		bool Theme::Save(const std::string pathToThemeFile, ColorStyle style) const
+		bool Theme::Save(const Misc::AnsiString pathToThemeFile, ColorStyle style) const
 		{
 			ofstream file(pathToThemeFile);
 			if (!file.bad())

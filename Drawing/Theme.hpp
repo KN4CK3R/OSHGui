@@ -2,7 +2,7 @@
 #define OSHGUI_THEME_HPP
 
 #include "Color.hpp"
-#include <string>
+#include "../Misc/Strings.hpp"
 #include <map>
 
 namespace OSHGui
@@ -14,6 +14,18 @@ namespace OSHGui
 		public:
 			struct ControlTheme
 			{
+				ControlTheme()
+				{
+
+				}
+
+				ControlTheme(const Color &foreColor, const Color &backColor)
+					: ForeColor(foreColor),
+					  BackColor(backColor)
+				{
+
+				}
+
 				Color ForeColor;
 				Color BackColor;
 			};
@@ -25,18 +37,18 @@ namespace OSHGui
 				Integer
 			};
 
-			std::string Name;
-			std::string Author;
+			Misc::AnsiString Name;
+			Misc::AnsiString Author;
 			ControlTheme DefaultColor;
 
-			void SetControlColorTheme(const std::string &controlClass, const ControlTheme &controlTheme);
-			const ControlTheme& GetControlColorTheme(const std::string &controlClass) const;
+			void SetControlColorTheme(const Misc::AnsiString &controlClass, const ControlTheme &controlTheme);
+			const ControlTheme& GetControlColorTheme(const Misc::AnsiString &controlClass) const;
 
-			void Load(const std::string pathToThemeFile);
-			bool Save(const std::string pathToThemeFile, ColorStyle style) const;
+			void Load(const Misc::AnsiString pathToThemeFile);
+			bool Save(const Misc::AnsiString pathToThemeFile, ColorStyle style) const;
 
 		private:
-			std::map<std::string, ControlTheme> controlThemes;
+			std::map<Misc::AnsiString, ControlTheme> controlThemes;
 		};
 	}
 }

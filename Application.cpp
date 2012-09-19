@@ -26,7 +26,13 @@ namespace OSHGui
 		  CaptureControl(nullptr),
 		  MouseEnteredControl(nullptr)
 	{
+		#define MakeTheme(control, color1, color2) defaultTheme.SetControlColorTheme(control, Drawing::Theme::ControlTheme(color1, color2))
 
+		MakeTheme(CONTROL_LABEL, 0xFFE5E0E4, Drawing::Color::Empty());
+		MakeTheme(CONTROL_LINKLABEL, 0xFFE5E0E4, Drawing::Color::Empty());
+		MakeTheme(CONTROL_BUTTON, 0xFFE5E0E4, 0xFF4E4E4E);
+		MakeTheme(CONTROL_CHECKBOX, 0xFFE5E0E4, 0xFF222222);
+		MakeTheme(CONTROL_RADIOBUTTON, 0xFFE5E0E4, 0xFF222222);
 	}
 	//---------------------------------------------------------------------------
 	Application* Application::Instance()
@@ -81,6 +87,21 @@ namespace OSHGui
 	void Application::SetCursorEnabled(bool enabled)
 	{
 		mouse.Enabled = enabled;
+	}
+	//---------------------------------------------------------------------------
+	void Application::SetTheme(const Drawing::Theme &theme)
+	{
+		currentTheme = theme;
+		for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
+		{
+			std::shared_ptr<Form> &form = *it;
+			form->ApplyTheme(theme);
+		}
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::Theme& Application::GetTheme() const
+	{
+		return currentTheme;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Enable()
