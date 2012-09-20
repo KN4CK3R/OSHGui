@@ -27,7 +27,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
 	{
-		Show(text, caption, buttons, 0);
+		Show(text, caption, buttons, std::function<void(DialogResult result)>());
 	}
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::AnsiString &text, std::function<void(DialogResult result)> closeFunction)

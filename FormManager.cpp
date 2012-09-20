@@ -151,7 +151,7 @@ namespace OSHGui
 			FormInfo &info = *it;
 			if (info.form == form)
 			{
-				if (info.closeFunction != nullptr)
+				if (info.closeFunction)
 				{
 					info.closeFunction();
 				}
