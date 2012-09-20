@@ -122,7 +122,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::ShowDialog(const std::shared_ptr<Form> &instance)
 	{
-		ShowDialog(instance, 0);
+		ShowDialog(instance, std::function<void()>());
 	}
 	//---------------------------------------------------------------------------
 	void Form::ShowDialog(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction)

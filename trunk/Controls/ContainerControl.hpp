@@ -15,7 +15,7 @@
 
 namespace OSHGui
 {
-	class ContainerControl : public Control
+	class OSHGUI_EXPORT ContainerControl : public Control
 	{
 		using Control::SetSize;
 
