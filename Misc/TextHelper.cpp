@@ -20,7 +20,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextHelper::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 		{
-			if (font == 0)
+			if (font == nullptr)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw ArgumentNullException("font", __FILE__, __LINE__);

@@ -142,7 +142,7 @@ namespace OSHGui
 			{
 				texture->SelectActiveFrame(frame);
 				
-				if (frameChangeFunction != 0)
+				if (frameChangeFunction)
 				{
 					frameChangeFunction(texture);
 				}
@@ -155,7 +155,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TextureAnimator::CanAnimate(const std::shared_ptr<ITexture> &texture)
 		{
-			if (texture == 0)
+			if (texture == nullptr)
 			{
 				return false;
 			}
@@ -214,12 +214,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureAnimator::Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode)
 		{
-			Animate(texture, replayMode, 0);
+			Animate(texture, replayMode, nullptr);
 		}
 		//---------------------------------------------------------------------------
 		void TextureAnimator::Animate(const std::shared_ptr<ITexture> &texture, ReplayMode replayMode, const std::function<void(const std::shared_ptr<ITexture> &texture)> &frameChangeFunction)
 		{
-			if (texture == 0)
+			if (texture == nullptr)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::ArgumentNullException("texture", __FILE__, __LINE__);
@@ -239,7 +239,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureAnimator::StopAnimate(const std::shared_ptr<ITexture> &texture)
 		{
-			if (texture == 0)
+			if (texture == nullptr)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::ArgumentNullException("texture", __FILE__, __LINE__);

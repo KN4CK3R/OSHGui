@@ -26,7 +26,7 @@ namespace OSHGui
 	{
 		if (this->checked != checked)
 		{
-			if (GetParent() != 0)
+			if (GetParent() != nullptr)
 			{
 				//uncheck other radiobuttons
 				auto controls = static_cast<ContainerControl*>(GetParent())->GetControls();

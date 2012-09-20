@@ -72,7 +72,7 @@ namespace OSHGui
 	void ContainerControl::AddControl(Control *control)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (control == 0)
+		if (control == nullptr)
 		{
 			throw Misc::ArgumentNullException("control", __FILE__, __LINE__);
 		}
@@ -120,7 +120,7 @@ namespace OSHGui
 	void ContainerControl::AddSubControl(Control* subcontrol)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (subcontrol == 0)
+		if (subcontrol == nullptr)
 		{
 			throw Misc::ArgumentNullException("subcontrol", __FILE__, __LINE__);
 		}
@@ -187,7 +187,7 @@ namespace OSHGui
 			}
 		}
 
-		return 0;
+		return nullptr;
 	}
 	//---------------------------------------------------------------------------
 	ContainerControl::PostOrderVisibleIterator ContainerControl::GetPostOrderVisibleEnumerator()
@@ -197,7 +197,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ContainerControl::Render(Drawing::IRenderer *renderer)
 	{
-		Control *focusedControl = 0;
+		Control *focusedControl = nullptr;
 		for (auto it = controls.rbegin(); it != controls.rend(); ++it)
 		{
 			Control *control = *it;
@@ -210,7 +210,7 @@ namespace OSHGui
 				control->Render(renderer);
 			}
 		}
-		if (focusedControl != 0)
+		if (focusedControl != nullptr)
 		{
 			focusedControl->Render(renderer);
 		}
@@ -253,7 +253,7 @@ namespace OSHGui
 			if (control->GetVisible())
 			{
 				ContainerControl *nextContainer = dynamic_cast<ContainerControl*>(control);
-				if (nextContainer != 0)
+				if (nextContainer != nullptr)
 				{
 					LoopThrough(nextContainer);
 				}

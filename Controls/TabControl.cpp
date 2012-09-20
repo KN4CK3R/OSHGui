@@ -184,7 +184,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::AddTabPage(TabPage *tabPage)
 	{
-		if (tabPage == 0)
+		if (tabPage == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
@@ -236,7 +236,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::RemoveTabPage(TabPage *tabPage)
 	{
-		if (tabPage == 0)
+		if (tabPage == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
@@ -255,7 +255,7 @@ namespace OSHGui
 				RemoveControl(binding->tabPage);
 
 				delete binding->button;
-				binding->tabPage->button = 0;
+				binding->tabPage->button = nullptr;
 				bindings.erase(it);
 
 				if (selected->tabPage == temp)
@@ -268,8 +268,8 @@ namespace OSHGui
 					else
 					{
 						selected->index = -1;
-						selected->tabPage = 0;
-						selected->button = 0;
+						selected->tabPage = nullptr;
+						selected->button = nullptr;
 					}
 				}
 
@@ -350,7 +350,7 @@ namespace OSHGui
 			return;
 		}
 
-		if (selected->tabPage != 0)
+		if (selected->tabPage != nullptr)
 		{
 			for (int i = startIndex; i < maxIndex; ++i)
 			{
@@ -421,7 +421,7 @@ namespace OSHGui
 
 		if (!active)
 		{
-			if (parent != 0)
+			if (parent != nullptr)
 			{
 				TabControl *tc = static_cast<TabControl*>(parent);
 				tc->SetSelectedIndex(binding->index);
@@ -488,7 +488,7 @@ namespace OSHGui
 		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 2);
 		
 		int x = absoluteLocation.Left + 3;
-		renderer->SetRenderColor(foreColor);		
+		renderer->SetRenderColor(foreColor);
 		if (direction == 0)
 		{
 			int y = absoluteLocation.Top + 4;

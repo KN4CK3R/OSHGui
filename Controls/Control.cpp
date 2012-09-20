@@ -32,18 +32,18 @@ namespace OSHGui
 		  cursor(Cursors::Get(Cursors::Default)),
 		  mouseOverFocusColor(0, 20, 20, 20)
 	{
-
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
 		if (isInside)
 		{
-			Application::Instance()->MouseEnteredControl = 0;
+			Application::Instance()->MouseEnteredControl = nullptr;
 		}
 		if (isFocused)
 		{
-			Application::Instance()->FocusedControl = 0;
+			Application::Instance()->FocusedControl = nullptr;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace OSHGui
 		this->isEnabled = isEnabled;
 		if (isEnabled == false && isFocused)
 		{
-			OnLostFocus(0);
+			OnLostFocus(nullptr);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ namespace OSHGui
 		this->isVisible = isVisible;
 		if (isVisible == false && isFocused)
 		{
-			OnLostFocus(0);
+			OnLostFocus(nullptr);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -256,7 +256,7 @@ namespace OSHGui
 	void Control::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (font == 0)
+		if (font == nullptr)
 		{
 			throw Misc::ArgumentNullException("font", __FILE__, __LINE__);
 		}
@@ -358,7 +358,7 @@ namespace OSHGui
 	void Control::SetParent(Control *parent)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (parent == 0)
+		if (parent == nullptr)
 		{
 			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
 		}
@@ -408,7 +408,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::CalculateAbsoluteLocation()
 	{
-		if (parent != 0 && parent != this)
+		if (parent != nullptr && parent != this)
 		{
 			absoluteLocation = parent->absoluteLocation + location;
 		}
@@ -477,7 +477,7 @@ namespace OSHGui
 
 		Application *app = Application::Instance();
 
-		if (app->MouseEnteredControl != 0 && app->MouseEnteredControl->isInside)
+		if (app->MouseEnteredControl != nullptr && app->MouseEnteredControl->isInside)
 		{
 			app->MouseEnteredControl->OnMouseLeave(mouse);
 		}
@@ -492,7 +492,7 @@ namespace OSHGui
 	{
 		isInside = false;
 
-		Application::Instance()->MouseEnteredControl = 0;
+		Application::Instance()->MouseEnteredControl = nullptr;
 
 		mouseLeaveEvent.Invoke(this);
 	}
@@ -500,7 +500,7 @@ namespace OSHGui
 	void Control::OnGotMouseCapture()
 	{
 		Application *app = Application::Instance();
-		if (app->CaptureControl != 0)
+		if (app->CaptureControl != nullptr)
 		{
 			app->CaptureControl->OnLostMouseCapture();
 		}
@@ -516,7 +516,7 @@ namespace OSHGui
 	{
 		hasCaptured = false;
 
-		Application::Instance()->CaptureControl = 0;
+		Application::Instance()->CaptureControl = nullptr;
 
 		mouseCaptureChangedEvent.Invoke(this);
 	}
@@ -526,7 +526,7 @@ namespace OSHGui
 		Application *app = Application::Instance();
 		if (newFocusedControl != app->FocusedControl)
 		{
-			if (app->FocusedControl != 0)
+			if (app->FocusedControl != nullptr)
 			{
 				app->FocusedControl->OnLostFocus(newFocusedControl);
 			}
@@ -541,7 +541,7 @@ namespace OSHGui
 	void Control::OnLostFocus(Control *newFocusedControl)
 	{
 		isFocused = isClicked = false;
-		Application::Instance()->FocusedControl = 0;
+		Application::Instance()->FocusedControl = nullptr;
 
 		focusLostEvent.Invoke(this, newFocusedControl);
 	}

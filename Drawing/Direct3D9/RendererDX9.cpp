@@ -276,11 +276,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::FillGradient(int x, int y, int w, int h, const Color &to)
 		{
-			if (texture != 0)
+			if (texture != nullptr)
 			{
 				Flush();
-				device->SetTexture(0, 0);
-				texture = 0;
+				device->SetTexture(0, nullptr);
+				texture = nullptr;
 			}
 
 			x = x + renderRect.GetLeft();
