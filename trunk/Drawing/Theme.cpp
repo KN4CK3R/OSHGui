@@ -96,16 +96,15 @@ namespace OSHGui
 
 				if (root["themes"].isObject())
 				{
-					throw "themes missing";
-				}
-				auto &themes = root["themes"];
-				auto member = themes.getMemberNames();
-				for (auto it = member.begin(); it != member.end(); ++it)
-				{
-					ControlTheme theme;
-					theme.ForeColor = JsonToColor(themes[*it]["forecolor"]);
-					theme.BackColor = JsonToColor(themes[*it]["backcolor"]);
-					SetControlColorTheme(*it, theme);
+					auto &themes = root["themes"];
+					auto member = themes.getMemberNames();
+					for (auto it = member.begin(); it != member.end(); ++it)
+					{
+						ControlTheme theme;
+						theme.ForeColor = JsonToColor(themes[*it]["forecolor"]);
+						theme.BackColor = JsonToColor(themes[*it]["backcolor"]);
+						SetControlColorTheme(*it, theme);
+					}
 				}
 			}
 			else
