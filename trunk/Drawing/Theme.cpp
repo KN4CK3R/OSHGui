@@ -1,4 +1,5 @@
 #include "Theme.hpp"
+#include "../Misc/Exceptions.hpp"
 #include <json/json.h>
 #include <fstream>
 #include <sstream>
@@ -44,7 +45,7 @@ namespace OSHGui
 				Json::Reader reader;
 				if (reader.parse(ss.str(), root) == false)
 				{
-					throw "can't parse file";
+					throw Misc::InvalidThemeException("Can't parse theme.", __FILE__, __LINE__);
 				}
 
 				Name = root.get("name", "").asString();
@@ -83,12 +84,12 @@ namespace OSHGui
 							return Color(argb);
 						}
 					}
-					throw "invalid color";
+					throw Misc::InvalidThemeException("Invalid color.", __FILE__, __LINE__);
 				};
 
 				if (!root["default"].isObject())
 				{
-					throw "'default' missing";
+					throw Misc::InvalidThemeException("'default' is missing.", __FILE__, __LINE__);
 				}
 				auto &defaultColor = root["default"];
 				DefaultColor.ForeColor = JsonToColor(defaultColor["forecolor"]);
@@ -109,7 +110,7 @@ namespace OSHGui
 			}
 			else
 			{
-				throw "can't open file";
+				throw Misc::InvalidThemeException("Can't open file.", __FILE__, __LINE__);
 			}
 		}
 		//---------------------------------------------------------------------------
