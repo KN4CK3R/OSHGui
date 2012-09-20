@@ -44,7 +44,7 @@ namespace OSHGui
 		{
 			Control::SetSize(size);
 
-			if (image != 0)
+			if (image != nullptr)
 			{
 				std::shared_ptr<Drawing::ITexture> newImage = Application::Instance()->GetRenderer()->CreateNewTexture(GetSize());
 				newImage->BeginUpdate();
@@ -58,14 +58,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
 	{
-		if (this->image != 0)
+		if (this->image != nullptr)
 		{
 			Drawing::TextureAnimator::StopAnimate(this->image);
 		}
 		
 		this->image = image;
 		
-		if (this->image != 0)
+		if (this->image != nullptr)
 		{
 			Drawing::TextureAnimator::Animate(this->image, Drawing::TextureAnimator::Loop);
 		}
@@ -98,7 +98,7 @@ namespace OSHGui
 			renderer->Fill(absoluteLocation, size);
 		}
 		
-		if (image != 0)
+		if (image != nullptr)
 		{
 			renderer->SetRenderColor(Drawing::Color::White());
 			renderer->RenderTexture(image, absoluteLocation, size);

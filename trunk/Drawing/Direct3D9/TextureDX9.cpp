@@ -43,7 +43,7 @@ namespace OSHGui
 		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::AnsiString &filename)
 		{
 			this->device = device;
-			lock.pBits = 0;
+			lock.pBits = nullptr;
 			frame = 0;
 			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
 
@@ -224,7 +224,7 @@ namespace OSHGui
 				{
 					int column = (fromX + x);
 
-					Drawing::Color newColor(						
+					Drawing::Color newColor(
 						from.A + (x * step[3]),
 						from.R + (x * step[2]),
 						from.G + (x * step[1]),
@@ -360,8 +360,8 @@ namespace OSHGui
 				float maxx = std::max(p1x, std::max(p2x, p3x));
 				float maxy = std::max(p1y, std::max(p2y, p3y));
 
-				Drawing::Size tempSize((int)ceil(fabs(maxx) - minx), (int)ceil(fabs(maxy) - miny)),
-							  bckSize = size;
+				Drawing::Size tempSize((int)ceil(fabs(maxx) - minx), (int)ceil(fabs(maxy) - miny));
+				Drawing::Size bckSize = size;
 
 				if (!FAILED(device->CreateTexture(tempSize.Width, tempSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &temp, 0)))
 				{

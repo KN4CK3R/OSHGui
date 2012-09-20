@@ -40,7 +40,7 @@ namespace OSHGui
 	void TabPage::SetParent(Control *parent)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (parent == 0)
+		if (parent == nullptr)
 		{
 			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
 		}

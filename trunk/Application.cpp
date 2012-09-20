@@ -179,7 +179,7 @@ namespace OSHGui
 		if (formManager.GetFormCount() > 0)
 		{
 			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
-			if (foreMost != 0 && foreMost->IsModal())
+			if (foreMost != nullptr && foreMost->IsModal())
 			{
 				for (ContainerControl::PostOrderVisibleIterator it = foreMost->GetPostOrderVisibleEnumerator(); it(); ++it)
 				{

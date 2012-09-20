@@ -73,7 +73,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Size IRenderer::MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text)
 		{
-			if (font == 0)
+			if (font == nullptr)
 			{
 				return Size();
 			}

@@ -46,7 +46,7 @@ namespace OSHGui
 		
 		messageBox->ShowDialog(messageBox, [messageBox, closeFunction]()
 		{
-			if (closeFunction != 0)
+			if (closeFunction)
 			{
 				closeFunction(messageBox->GetDialogResult());
 			}
