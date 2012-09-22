@@ -88,6 +88,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;OSHGUI_DONTUSEEXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\ThirdParty\JsonCpp\Include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996;4244;4018</DisableSpecificWarnings>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
