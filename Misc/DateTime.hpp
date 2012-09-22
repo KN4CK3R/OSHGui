@@ -285,7 +285,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Anzahl der Ticks ab, die Datum und Uhrzeit dieser Instanz dargestellen.
 			 *
-			 * @return der Tag
+			 * @return die Ticks
 			 */
 			long long GetTicks() const;
 			
