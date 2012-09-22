@@ -134,7 +134,7 @@ namespace OSHGui
 		for (auto it = std::begin(internalControls); it != std::end(internalControls); ++it)
 		{
 			Control *control = *it;
-			if (subcontrol == control || subcontrol->GetName() != "" && subcontrol->GetName() == control->GetName())
+			if (subcontrol == control || (!subcontrol->GetName().empty() && subcontrol->GetName() == control->GetName()))
 			{
 				return;
 			}
