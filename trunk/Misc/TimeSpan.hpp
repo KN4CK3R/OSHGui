@@ -197,7 +197,7 @@ namespace OSHGui
 			 * Ruft die Anzahl der Ticks des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Tage
+			 * @return die Ticks
 			 */
 			long long GetTicks() const;
 			
