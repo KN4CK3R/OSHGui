@@ -23,6 +23,10 @@ namespace OSHGui
 		class OSHGUI_EXPORT TextureDX9 : public ITexture
 		{
 		public:
+			using ITexture::Fill;
+			using ITexture::FillGradient;
+			using ITexture::Insert;
+
 			/**
 			 * Konstruktor der Klasse.
 			 *
