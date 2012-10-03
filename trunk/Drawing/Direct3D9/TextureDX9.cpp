@@ -125,8 +125,8 @@ namespace OSHGui
 			{
 				frames.push_back(nullptr);
 			}
-			
-			if (FAILED(D3DXCreateTextureFromFileA(device, filename.c_str(), &frames[frame])))
+
+			if (FAILED(D3DXCreateTextureFromFileExA(device, filename.c_str(), info.Width, info.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &frames[frame])))
 			{
 				if (!frames.empty())
 				{

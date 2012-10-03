@@ -35,8 +35,9 @@ namespace OSHGui
 			 */
 			Size(int width, int height);
 			
-			bool operator == (const Size &equal) const;
-			bool operator != (const Size &equal) const;
+			friend bool operator==(const Size &lhs, const Size &rhs);
+			friend bool operator<(const Size &lhs, const Size &rhs);
+
 			const Size operator - (const Size &s) const;
 			Size& operator -= (const Size &s);
 			const Size operator + (const Size &s) const;
@@ -61,6 +62,13 @@ namespace OSHGui
 			int Width,
 				Height;
 		};
+
+		bool operator==(const Size &lhs, const Size &rhs);
+		inline bool operator!=(const Size &lhs, const Size &rhs) { return !(lhs == rhs); }
+		bool operator<(const Size &lhs, const Size &rhs);
+		inline bool operator>(const Size &lhs, const Size &rhs) { return rhs < lhs; }
+		inline bool operator>=(const Size &lhs, const Size &rhs) { return !(rhs < lhs); }
+		inline bool operator<=(const Size &lhs, const Size &rhs) { return !(rhs > lhs); }
 	}
 }
 

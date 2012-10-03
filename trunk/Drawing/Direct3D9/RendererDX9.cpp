@@ -225,11 +225,12 @@ namespace OSHGui
 			AddVertex(x, y + h, 0.0f, 1.0f);*/
 			
 			D3DXVECTOR2 screenPosition(x, y);
-			D3DXVECTOR2 spriteCentre(w / 2, h / 2);
-			D3DXVECTOR2 scaling(static_cast<float>(w) / texture->GetSize().Width, static_cast<float>(h) / texture->GetSize().Height);
+			float scaleWidth = static_cast<float>(w) / texture->GetSize().Width;
+			float scaleHeight = static_cast<float>(h) / texture->GetSize().Height;
+			D3DXVECTOR2 scaling = scaleWidth < scaleHeight ? D3DXVECTOR2(scaleWidth, scaleWidth) : D3DXVECTOR2(scaleHeight, scaleHeight);
 
 			D3DXMATRIX matrix;
-			D3DXMatrixTransformation2D(&matrix, NULL, 0.0f, &scaling, &spriteCentre, 0.0f, &screenPosition);
+			D3DXMatrixTransformation2D(&matrix, nullptr, 0.0f, &scaling, nullptr, 0.0f, &screenPosition);
 
 			D3DXMATRIX backupMatrix;
 			sprite->GetTransform(&backupMatrix);

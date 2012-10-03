@@ -62,7 +62,7 @@ namespace OSHGui
 	void Cursor::Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation)
 	{
 		renderer->SetRenderColor(Drawing::Color::White());
-		renderer->RenderTexture(cursor, cursorLocation + offset);
+		renderer->RenderTexture(cursor, cursorLocation + offset, Drawing::Size(16, 16));
 	}
 	//---------------------------------------------------------------------------
 }
