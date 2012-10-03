@@ -29,16 +29,6 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		bool Size::operator == (const Size &equal) const
-		{
-			return Width == equal.Width && Height == equal.Height;
-		}
-		//---------------------------------------------------------------------------
-		bool Size::operator != (const Size &equal) const
-		{
-			return Width != equal.Width || Height != equal.Height;
-		}
-		//---------------------------------------------------------------------------
 		const Size Size::operator - (const Size &s) const
 		{
 			return InflateEx(-s.Width, -s.Height);
@@ -72,6 +62,16 @@ namespace OSHGui
 		Size Size::InflateEx(int width, int height) const
 		{
 			return Size(this->Width + width, this->Height + height);
+		}
+		//---------------------------------------------------------------------------
+		bool operator==(const Size &lhs, const Size &rhs)
+		{
+			return lhs.Width == rhs.Width && lhs.Height == rhs.Height;
+		}
+		//---------------------------------------------------------------------------
+		bool operator<(const Size &lhs, const Size &rhs)
+		{
+			return lhs.Width < rhs.Width && lhs.Height < rhs.Height;
 		}
 		//---------------------------------------------------------------------------
 	}

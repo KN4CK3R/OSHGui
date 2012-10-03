@@ -40,13 +40,25 @@ namespace OSHGui
 		 *
 		 * @param image das Bild
 		 */
-		void SetImage(const std::shared_ptr<Drawing::ITexture> &image);
+		virtual void SetImage(const std::shared_ptr<Drawing::ITexture> &image);
 		/**
 		 * Ruft das in der PictureBox dargestellte Bild ab.
 		 *
 		 * @return das Bild
 		 */
-		std::shared_ptr<Drawing::ITexture> GetImage() const;
+		virtual std::shared_ptr<Drawing::ITexture> GetImage() const;
+		/**
+		 * Legt fest, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
+		 *
+		 * @param strech
+		 */
+		virtual void SetStretch(bool strech);
+		/**
+		 * Ruft ab, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
+		 *
+		 * @return strech
+		 */
+		virtual bool GetStretch() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -63,11 +75,11 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
 		
-	protected:
-		std::shared_ptr<Drawing::ITexture> image;
-
 	private:
 		static const Drawing::Size DefaultSize;
+
+		std::shared_ptr<Drawing::ITexture> image;
+		bool stretch;
 	};
 }
 

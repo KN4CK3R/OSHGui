@@ -31,16 +31,13 @@ namespace OSHGui
 			 */
 			Point(int x, int y);
 			
-			bool operator == (const Point &equal) const;
-			bool operator != (const Point &equal) const;
-			bool operator < (const Point &greater) const;
-			bool operator <= (const Point &greaterEqual) const;
-			bool operator > (const Point &lower) const;
-			bool operator >= (const Point &lowerEqual) const;
-			const Point operator - (const Point &p) const;
-			Point& operator -= (const Point &p);
-			const Point operator + (const Point &p) const;
-			Point& operator += (const Point &p);
+			friend bool operator==(const Point &lhs, const Point &rhs);
+			friend bool operator<(const Point &lhs, const Point &rhs);
+
+			const Point operator-(const Point &p) const;
+			Point& operator-=(const Point &p);
+			const Point operator+(const Point &p) const;
+			Point& operator+=(const Point &p);
 			
 			/**
 			 * Verschiebt den Punkt um X/Y.
@@ -69,6 +66,13 @@ namespace OSHGui
 				int Top;
 			};
 		};
+
+		bool operator==(const Point &lhs, const Point &rhs);
+		inline bool operator!=(const Point &lhs, const Point &rhs) { return !(lhs == rhs); }
+		bool operator<(const Point &lhs, const Point &rhs);
+		inline bool operator>(const Point &lhs, const Point &rhs) { return rhs < lhs; }
+		inline bool operator>=(const Point &lhs, const Point &rhs) { return !(rhs < lhs); }
+		inline bool operator<=(const Point &lhs, const Point &rhs) { return !(rhs > lhs); }
 	}
 }
 

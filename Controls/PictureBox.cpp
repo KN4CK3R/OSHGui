@@ -20,6 +20,7 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	PictureBox::PictureBox()
+		: stretch(false)
 	{
 		type = CONTROL_PICTUREBOX;
 
@@ -76,6 +77,16 @@ namespace OSHGui
 		return image;
 	}
 	//---------------------------------------------------------------------------
+	void PictureBox::SetStretch(bool stretch)
+	{
+		this->stretch = stretch;
+	}
+	//---------------------------------------------------------------------------
+	bool PictureBox::GetStretch() const
+	{
+		return stretch;
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool PictureBox::Intersect(const Drawing::Point &point) const
@@ -100,8 +111,12 @@ namespace OSHGui
 		
 		if (image != nullptr)
 		{
-			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->RenderTexture(image, absoluteLocation, size);
+			Drawing::Size renderSize = size;
+			if (!stretch && image->GetSize() < size)
+			{
+				renderSize = image->GetSize();
+			}
+			renderer->RenderTexture(image, absoluteLocation, renderSize);
 		}
 	}
 	//---------------------------------------------------------------------------
