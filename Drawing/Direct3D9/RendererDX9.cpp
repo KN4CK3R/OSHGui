@@ -207,7 +207,8 @@ namespace OSHGui
 				return;
 			}
 			
-			std::shared_ptr<TextureDX9> temp = std::static_pointer_cast<TextureDX9>(texture);
+			x = x + renderRect.GetLeft();
+			y = y + renderRect.GetTop();
 			
 			/*if (this->texture != temp)
 			{
@@ -215,9 +216,6 @@ namespace OSHGui
 				device->SetTexture(0, temp->GetTexture());
 				this->texture = temp;
 			}
-
-			x = x + renderRect.GetLeft();
-			y = y + renderRect.GetTop();
 			
 			AddVertex(x, y, 0.0f, 0.0f);
 			AddVertex(x + w, y, 1.0f, 0.0f);
@@ -226,8 +224,18 @@ namespace OSHGui
 			AddVertex(x + w, y + h, 1.0f, 1.0f);
 			AddVertex(x, y + h, 0.0f, 1.0f);*/
 			
-			D3DXVECTOR3 v = D3DXVECTOR3(x, y, 0.0f);
-			sprite->Draw(temp->GetTexture(), nullptr, nullptr, &v, 0xFFFFFFFF);
+			D3DXVECTOR2 screenPosition(x, y);
+			D3DXVECTOR2 spriteCentre(w / 2, h / 2);
+			D3DXVECTOR2 scaling(static_cast<float>(w) / texture->GetSize().Width, static_cast<float>(h) / texture->GetSize().Height);
+
+			D3DXMATRIX matrix;
+			D3DXMatrixTransformation2D(&matrix, NULL, 0.0f, &scaling, &spriteCentre, 0.0f, &screenPosition);
+
+			D3DXMATRIX backupMatrix;
+			sprite->GetTransform(&backupMatrix);
+			sprite->SetTransform(&matrix);
+			sprite->Draw(std::static_pointer_cast<TextureDX9>(texture)->GetTexture(), nullptr, nullptr, nullptr, 0xFFFFFFFF);
+			sprite->SetTransform(&backupMatrix);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
