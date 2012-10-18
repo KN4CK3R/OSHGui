@@ -51,8 +51,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		SetBackColor(Drawing::Color(0xFF737373));
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 
 		canRaiseEvents = false;
 	}

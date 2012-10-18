@@ -46,8 +46,7 @@ namespace OSHGui
 		
 		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
 
-		SetBackColor(Drawing::Color(0xFF171614));
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	ListBox::~ListBox()

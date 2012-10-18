@@ -28,11 +28,27 @@ namespace OSHGui
 	{
 		#define MakeTheme(control, color1, color2) defaultTheme.SetControlColorTheme(control, Drawing::Theme::ControlTheme(color1, color2))
 
-		MakeTheme(CONTROL_LABEL, 0xFFE5E0E4, Drawing::Color::Empty());
-		MakeTheme(CONTROL_LINKLABEL, 0xFFE5E0E4, Drawing::Color::Empty());
-		MakeTheme(CONTROL_BUTTON, 0xFFE5E0E4, 0xFF4E4E4E);
-		MakeTheme(CONTROL_CHECKBOX, 0xFFE5E0E4, 0xFF222222);
-		MakeTheme(CONTROL_RADIOBUTTON, 0xFFE5E0E4, 0xFF222222);
+		MakeTheme(CONTROL_LABEL,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
+		MakeTheme(CONTROL_LINKLABEL,	Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
+		MakeTheme(CONTROL_BUTTON,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF4E4E4E));
+		MakeTheme(CONTROL_CHECKBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF222222));
+		MakeTheme(CONTROL_RADIOBUTTON,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF222222));
+		MakeTheme(CONTROL_COLORBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
+		MakeTheme(CONTROL_COLORPICKER,	Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeTheme(CONTROL_COMBOBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF4E4E4E));
+		MakeTheme(CONTROL_FORM,			Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF7C7B79));
+		MakeTheme(CONTROL_GROUPBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
+		MakeTheme(CONTROL_LISTBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF171614));
+		MakeTheme(CONTROL_PANEL,		Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeTheme(CONTROL_PICTUREBOX,	Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeTheme(CONTROL_PROGRESSBAR,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
+		MakeTheme(CONTROL_SCROLLBAR,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
+		MakeTheme(CONTROL_TABCONTROL,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF737373));
+		MakeTheme(CONTROL_TABPAGE,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF474747));
+		MakeTheme(CONTROL_TEXTBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
+		MakeTheme(CONTROL_TRACKBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
+
+		SetTheme(defaultTheme);
 	}
 	//---------------------------------------------------------------------------
 	Application* Application::Instance()
@@ -92,10 +108,16 @@ namespace OSHGui
 	void Application::SetTheme(const Drawing::Theme &theme)
 	{
 		currentTheme = theme;
-		for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
+		for (auto it = formManager.GetEnumerator(); it(); ++it)
 		{
 			std::shared_ptr<Form> &form = *it;
 			form->ApplyTheme(theme);
+
+			for (auto it2 = form->GetControlEnumerator(); it2(); ++it2)
+			{
+				Control *control = *it2;
+				control->ApplyTheme(theme);
+			}
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -181,7 +203,7 @@ namespace OSHGui
 			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
 			if (foreMost != nullptr && foreMost->IsModal())
 			{
-				for (ContainerControl::PostOrderVisibleIterator it = foreMost->GetPostOrderVisibleEnumerator(); it(); ++it)
+				for (auto it = foreMost->GetPostOrderVisibleEnumerator(); it(); ++it)
 				{
 					Control *control = *it;
 					if (control->ProcessMouseMessage(mouse))
@@ -192,11 +214,11 @@ namespace OSHGui
 				return false;
 			}
 			
-			for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
+			for (auto it = formManager.GetEnumerator(); it(); ++it)
 			{
 				std::shared_ptr<Form> &form = *it;
 				
-				for (ContainerControl::PostOrderVisibleIterator it2 = form->GetPostOrderVisibleEnumerator(); it2(); ++it2)
+				for (auto it2 = form->GetPostOrderVisibleEnumerator(); it2(); ++it2)
 				{
 					Control *control = *it2;
 					if (control->ProcessMouseMessage(mouse))
@@ -269,7 +291,7 @@ namespace OSHGui
 		formManager.RemoveUnregisteredForms();
 
 		std::shared_ptr<Form> foreMost = formManager.GetForeMost();
-		for (FormManager::FormIterator it = formManager.GetEnumerator(); it(); ++it)
+		for (auto it = formManager.GetEnumerator(); it(); ++it)
 		{
 			std::shared_ptr<Form> &form = *it;
 			if (form != foreMost)

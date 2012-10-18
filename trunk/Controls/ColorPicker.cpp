@@ -26,8 +26,7 @@ namespace OSHGui
 		
 		cursor = Cursors::Get(Cursors::Pipette);
 
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color::Empty());
+		ApplyTheme(Application::Instance()->GetTheme());
 
 		SetSize(DefaultSize);
 	}

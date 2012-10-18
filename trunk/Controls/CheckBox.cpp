@@ -28,8 +28,7 @@ namespace OSHGui
 		label = new Label();
 		label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
 
-		SetBackColor(Drawing::Color(0xFF222222));
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	CheckBox::~CheckBox()

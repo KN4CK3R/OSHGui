@@ -28,8 +28,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		SetBackColor(Drawing::Color(0xFF4E4E4E));
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	Button::~Button()

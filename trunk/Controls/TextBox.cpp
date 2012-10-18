@@ -28,8 +28,7 @@ namespace OSHGui
 	{
 		type = CONTROL_TEXTBOX;
 	
-		SetBackColor(Drawing::Color(0xFF242321));
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 		
 		cursor = Cursors::Get(Cursors::IBeam);
 	}

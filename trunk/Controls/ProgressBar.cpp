@@ -27,8 +27,8 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFF5A5857));
+		ApplyTheme(Application::Instance()->GetTheme());
+
 		SetBarColor(Drawing::Color(0xFF67AFF5));
 
 		canRaiseEvents = false;

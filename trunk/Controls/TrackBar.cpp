@@ -32,8 +32,7 @@ namespace OSHGui
 
 		SetValueInternal(0);
 
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFA6A4A1));
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	TrackBar::~TrackBar()

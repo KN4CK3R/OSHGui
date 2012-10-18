@@ -23,9 +23,8 @@ namespace OSHGui
 		type = CONTROL_PANEL;
 
 		SetSize(DefaultSize);
-				
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color::Empty());
+		
+		ApplyTheme(Application::Instance()->GetTheme());
 
 		isFocusable = false;
 	}
