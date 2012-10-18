@@ -46,8 +46,7 @@ namespace OSHGui
 		SetSize(DefaultSize);
 		trackLocation = Drawing::Point(0, upButton->GetBottom() + 1);
 
-		SetBackColor(Drawing::Color(0xFF585552));
-		SetForeColor(Drawing::Color(0xFFAFADAD));
+		ApplyTheme(Application::Instance()->GetTheme());
 
 		SetMaximum(0); //indirect init
 		isFocusable = false;

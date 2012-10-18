@@ -26,8 +26,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color::Empty());
+		ApplyTheme(Application::Instance()->GetTheme());
 
 		isFocusable = false;
 	}

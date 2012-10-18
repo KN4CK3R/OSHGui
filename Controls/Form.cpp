@@ -45,8 +45,7 @@ namespace OSHGui
 		SetLocation(DefaultLocation);
 		SetSize(DefaultSize);
 
-		SetBackColor(Drawing::Color(0xFF7C7B79));
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	Form::~Form()

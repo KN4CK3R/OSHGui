@@ -27,8 +27,7 @@ namespace OSHGui
 		containerPanel->SetLocation(Drawing::Point(3, 10));
 		AddSubControl(containerPanel);
 
-		SetBackColor(Drawing::Color::Empty());
-		SetForeColor(Drawing::Color(0xFFE5E0E4));
+		ApplyTheme(Application::Instance()->GetTheme());
 
 		canRaiseEvents = false;
 	}

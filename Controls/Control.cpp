@@ -32,7 +32,7 @@ namespace OSHGui
 		  cursor(Cursors::Get(Cursors::Default)),
 		  mouseOverFocusColor(0, 20, 20, 20)
 	{
-		ApplyTheme(Application::Instance()->GetTheme());
+		
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
