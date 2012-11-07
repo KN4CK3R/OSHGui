@@ -85,7 +85,7 @@ namespace OSHGui
 {
 	"name" : "Test Theme",
 	"author" : "KN4CK3R",
-	"default" : { //required
+	"default" : {
 		"forecolor" : [ 0, 0, 0, 0 ],
 		"backcolor" : [ 0, 0, 0, 0 ]
 	},
@@ -109,7 +109,7 @@ namespace OSHGui
 {
 	"name" : "New Test Theme",
 	"author" : "KN4CK3R",
-	"default" : { //required
+	"default" : {
 		"forecolor" : {
 			"r" : 0,
 			"g" : 0,
@@ -173,7 +173,7 @@ namespace OSHGui
 {
 	"name" : "Test Theme",
 	"author" : "KN4CK3R",
-	"default" : { //required
+	"default" : {
 		"forecolor" : "00000000",
 		"backcolor" : "00000000"
 	},
@@ -191,4 +191,4 @@ namespace OSHGui
 			"backcolor" : "04050607"
 		}
 	}
-    }*/
+}*/

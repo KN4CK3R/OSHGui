@@ -65,7 +65,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2010</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <AdditionalDependencies>jsoncpp_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -96,7 +96,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2010</AdditionalLibraryDirectories>
       <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>

@@ -74,7 +74,7 @@
       <AdditionalDependencies>jsoncpp_d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2010</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <AdditionalDependencies>jsoncpp.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2010</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

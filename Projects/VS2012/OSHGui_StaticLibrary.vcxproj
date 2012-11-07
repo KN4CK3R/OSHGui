@@ -69,7 +69,7 @@
       <AdditionalDependencies>jsoncpp_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2012;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
@@ -92,7 +92,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>jsoncpp.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2012</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
