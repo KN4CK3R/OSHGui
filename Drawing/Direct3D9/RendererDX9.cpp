@@ -43,7 +43,6 @@ namespace OSHGui
 		RendererDX9::~RendererDX9()
 		{
 			sprite->Release();
-			stateBlockBackup->Release();
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -69,20 +68,11 @@ namespace OSHGui
 			{
 				sprite->OnResetDevice();
 			}
-
-			device->CreateStateBlock(D3DSBT_ALL, &stateBlockBackup);
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
 		{
-			stateBlockBackup->Capture();
-
 			sprite->Begin(D3DXSPRITE_ALPHABLEND);
-
-			device->SetFVF(D3DFVF_XYZ | D3DFVF_SPECULAR | D3DFVF_TEX1);
-			device->SetTexture(0, nullptr);
-			device->SetVertexShader(nullptr);
-			device->SetPixelShader(nullptr);
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
@@ -92,8 +82,6 @@ namespace OSHGui
 			Flush();
 
 			sprite->End();
-
-			stateBlockBackup->Apply();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::PreReset()
@@ -126,8 +114,6 @@ namespace OSHGui
 			}
 
 			sprite->OnLostDevice();
-
-			stateBlockBackup->Release();
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::PostReset()
