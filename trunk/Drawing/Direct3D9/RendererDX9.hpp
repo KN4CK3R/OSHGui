@@ -17,7 +17,6 @@
 
 struct ID3DXSprite;
 struct IDirect3DDevice9;
-struct IDirect3DStateBlock9;
 
 namespace OSHGui
 {
@@ -177,7 +176,6 @@ namespace OSHGui
 			
 			Vertex2D vertices[maxVertices];
 			
-			IDirect3DStateBlock9 *stateBlockBackup;
 			ID3DXSprite *sprite;
 		};
 	}
