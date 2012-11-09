@@ -44,6 +44,18 @@ namespace OSHGui
 		 */
 		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
 		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(const Drawing::Color &color);
+		/**
+		 * Legt die Hintergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetBackColor(const Drawing::Color &color);
+		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
 		 *
 		 * @return isFocused

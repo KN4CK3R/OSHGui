@@ -46,7 +46,7 @@ namespace OSHGui
 		MakeTheme(CONTROL_TABCONTROL,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF737373));
 		MakeTheme(CONTROL_TABPAGE,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF474747));
 		MakeTheme(CONTROL_TEXTBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
-		MakeTheme(CONTROL_TRACKBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
+		MakeTheme(CONTROL_TRACKBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
 
 		SetTheme(defaultTheme);
 	}
@@ -112,12 +112,6 @@ namespace OSHGui
 		{
 			std::shared_ptr<Form> &form = *it;
 			form->ApplyTheme(theme);
-
-			for (auto it2 = form->GetControlEnumerator(); it2(); ++it2)
-			{
-				Control *control = *it2;
-				control->ApplyTheme(theme);
-			}
 		}
 	}
 	//---------------------------------------------------------------------------
