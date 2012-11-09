@@ -190,11 +190,6 @@ namespace OSHGui
 		return nullptr;
 	}
 	//---------------------------------------------------------------------------
-	ContainerControl::ControlIterator ContainerControl::GetControlEnumerator()
-	{
-		return ControlIterator(this);
-	}
-	//---------------------------------------------------------------------------
 	ContainerControl::PostOrderVisibleIterator ContainerControl::GetPostOrderVisibleEnumerator()
 	{
 		return PostOrderVisibleIterator(this);
@@ -224,66 +219,13 @@ namespace OSHGui
 	void ContainerControl::ApplyTheme(const Drawing::Theme &theme)
 	{
 		Control::ApplyTheme(theme);
+
+		auto &controls = this->GetControls();
 		for (auto it = std::begin(controls); it != std::end(controls); ++it)
 		{
 			Control *control = *it;
 			control->ApplyTheme(theme);
 		}
-	}
-	//---------------------------------------------------------------------------
-	//ContainerControl::ControlIterator
-	//---------------------------------------------------------------------------
-	ContainerControl::ControlIterator::ControlIterator(ContainerControl *start)
-	{
-		this->start = start;
-
-		if (this->start->internalControls.empty())
-		{
-			current = this->start;
-		}
-		else
-		{
-			LoopThrough(this->start);
-			current = controlStack.back();
-			controlStack.pop_back();
-		}
-	}
-	//---------------------------------------------------------------------------
-	void ContainerControl::ControlIterator::LoopThrough(ContainerControl *container)
-	{
-		controlStack.push_back(container);
-		for (auto it = container->internalControls.rbegin(); it != container->internalControls.rend(); ++it)
-		{
-			Control *control = *it;
-			if (control->GetVisible())
-			{
-				ContainerControl *nextContainer = dynamic_cast<ContainerControl*>(control);
-				if (nextContainer != nullptr)
-				{
-					LoopThrough(nextContainer);
-				}
-				else
-				{
-					controlStack.push_back(control);
-				}
-			}
-		}
-	}
-	//---------------------------------------------------------------------------
-	void ContainerControl::ControlIterator::operator++()
-	{
-		current = controlStack.back();
-		controlStack.pop_back();
-	}
-	//---------------------------------------------------------------------------
-	bool ContainerControl::ControlIterator::operator()()
-	{
-		return !controlStack.empty();
-	}
-	//---------------------------------------------------------------------------
-	Control* ContainerControl::ControlIterator::operator*()
-	{
-		return current;
 	}
 	//---------------------------------------------------------------------------
 	//ContainerControl::PostOrderVisibleIterator

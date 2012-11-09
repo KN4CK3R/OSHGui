@@ -83,7 +83,6 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation();
 
-		ControlIterator GetControlEnumerator();
 		PostOrderVisibleIterator GetPostOrderVisibleEnumerator();
 
 		virtual void Render(Drawing::IRenderer *renderer);
@@ -97,23 +96,6 @@ namespace OSHGui
 		std::deque<Control*> controls;
 
 	public:
-		class ControlIterator
-		{
-		public:
-			ControlIterator(ContainerControl *start);
-
-			void operator++();
-			bool operator()();
-			Control* operator*();
-
-		private:
-			void LoopThrough(ContainerControl *container);
-
-			ContainerControl *start;
-			Control *current;
-			std::vector<Control*> controlStack;
-		};
-
 		class PostOrderVisibleIterator
 		{
 		public:

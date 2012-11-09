@@ -161,6 +161,22 @@ namespace OSHGui
 		listBox->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
+	void ComboBox::SetForeColor(const Drawing::Color &color)
+	{
+		ContainerControl::SetForeColor(color);
+
+		button->SetForeColor(color);
+		listBox->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::SetBackColor(const Drawing::Color &color)
+	{
+		ContainerControl::SetBackColor(color);
+
+		button->SetBackColor(color);
+		listBox->SetBackColor(color);
+	}
+	//---------------------------------------------------------------------------
 	void ComboBox::SetText(const Misc::AnsiString &text)
 	{
 		button->SetText(text);
