@@ -26,7 +26,7 @@ namespace OSHGui
 		  CaptureControl(nullptr),
 		  MouseEnteredControl(nullptr)
 	{
-		#define MakeTheme(control, color1, color2) defaultTheme.SetControlColorTheme(control, Drawing::Theme::ControlTheme(color1, color2))
+		#define MakeTheme(controlType, color1, color2) defaultTheme.SetControlColorTheme(Control::ControlTypeToString(controlType), Drawing::Theme::ControlTheme(color1, color2))
 
 		MakeTheme(CONTROL_LABEL,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
 		MakeTheme(CONTROL_LINKLABEL,	Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());

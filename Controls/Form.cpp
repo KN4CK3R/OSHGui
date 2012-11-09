@@ -221,12 +221,10 @@ namespace OSHGui
 		drag = false;
 
 		titleLabel = new Label();
-		titleLabel->SetName("CaptionBar_Label");
 		titleLabel->SetLocation(DefaultTitleOffset);
 
 		closeButton = new CaptionBarButton();
-		closeButton->SetName("CaptionBar_CaptionBarButton");
-
+		
 		AddSubControl(titleLabel);
 		AddSubControl(closeButton);
 	}
