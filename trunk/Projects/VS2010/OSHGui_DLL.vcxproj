@@ -147,11 +147,16 @@
     <ClInclude Include="..\..\Drawing\Size.hpp" />
     <ClInclude Include="..\..\Drawing\TextureAnimator.hpp" />
     <ClInclude Include="..\..\Drawing\Theme.hpp" />
+    <ClInclude Include="..\..\Event\Event.hpp" />
     <ClInclude Include="..\..\Event\EventHandler.hpp" />
+    <ClInclude Include="..\..\Event\Hotkey.hpp" />
     <ClInclude Include="..\..\Event\Key.hpp" />
+    <ClInclude Include="..\..\Event\KeyboardMessage.hpp" />
     <ClInclude Include="..\..\Event\KeyEventArgs.hpp" />
     <ClInclude Include="..\..\Event\KeyPressEventArgs.hpp" />
     <ClInclude Include="..\..\Event\MouseEventArgs.hpp" />
+    <ClInclude Include="..\..\Event\MouseMessage.hpp" />
+    <ClInclude Include="..\..\Event\ScrollEventArgs.hpp" />
     <ClInclude Include="..\..\Exports.hpp" />
     <ClInclude Include="..\..\FormManager.hpp" />
     <ClInclude Include="..\..\Input\Windows.hpp" />

@@ -361,5 +361,20 @@
     <ClInclude Include="..\..\Cursor\Wait.hpp">
       <Filter>Headerdateien\Cursor</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Event\ScrollEventArgs.hpp">
+      <Filter>Headerdateien\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Event\Event.hpp">
+      <Filter>Headerdateien\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Event\Hotkey.hpp">
+      <Filter>Headerdateien\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Event\KeyboardMessage.hpp">
+      <Filter>Headerdateien\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Event\MouseMessage.hpp">
+      <Filter>Headerdateien\Event</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
