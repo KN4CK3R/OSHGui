@@ -20,6 +20,8 @@ namespace OSHGui
 		cursor = Cursors::Get(Cursors::Hand);
 
 		canRaiseEvents = true;
+
+		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	LinkLabel::~LinkLabel()

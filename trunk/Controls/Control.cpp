@@ -15,7 +15,8 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Control::Control()
-		: parent(nullptr),
+		: type((CONTROL_TYPE)0),
+		  parent(nullptr),
 		  location(6, 6),
 		  size(0, 0),
 		  anchor(AnchorTop | AnchorLeft),
@@ -49,7 +50,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& Control::GetType() const
+	CONTROL_TYPE Control::GetType() const
 	{
 		return type;
 	}
@@ -675,9 +676,37 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::ApplyTheme(const Drawing::Theme &theme)
 	{
-		auto &controlTheme = theme.GetControlColorTheme(type);
+		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type));
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
+	}
+	//---------------------------------------------------------------------------
+	Misc::AnsiString Control::ControlTypeToString(CONTROL_TYPE controlType)
+	{
+		switch (controlType)
+		{
+			case CONTROL_PANEL: return "panel";
+			case CONTROL_FORM: return "form";
+			case CONTROL_GROUPBOX: return "groupbox";
+			case CONTROL_LABEL: return "label";
+			case CONTROL_LINKLABEL: return "linklabel";
+			case CONTROL_BUTTON: return "button";
+			case CONTROL_CHECKBOX: return "checkbox";
+			case CONTROL_RADIOBUTTON: return "radiobutton";
+			case CONTROL_SCROLLBAR: return "scrollbar";
+			case CONTROL_LISTBOX: return "listbox";
+			case CONTROL_PROGRESSBAR: return "progressbar";
+			case CONTROL_TRACKBAR: return "trackbar";
+			case CONTROL_COMBOBOX: return "combobox";
+			case CONTROL_TEXTBOX: return "textbox";
+			case CONTROL_TIMER: return "timer";
+			case CONTROL_TABCONTROL: return "tabcontrol";
+			case CONTROL_TABPAGE: return "tabpage";
+			case CONTROL_PICTUREBOX: return "picturebox";
+			case CONTROL_COLORPICKER: return "colorpicker";
+			case CONTROL_COLORBAR: return "colorbar";
+		}
+		throw 1;
 	}
 	//---------------------------------------------------------------------------
 }

@@ -41,26 +41,29 @@ namespace OSHGui
 	/**
 	 * Auflistung der Arten von Steuerelementen.
 	 */
-	const Misc::AnsiString CONTROL_PANEL = "panel";
-	const Misc::AnsiString CONTROL_FORM = "form";
-	const Misc::AnsiString CONTROL_GROUPBOX = "groupbox";
-	const Misc::AnsiString CONTROL_LABEL = "label";
-	const Misc::AnsiString CONTROL_LINKLABEL = "linklabel";
-	const Misc::AnsiString CONTROL_BUTTON = "button";
-	const Misc::AnsiString CONTROL_CHECKBOX = "checkbox";
-	const Misc::AnsiString CONTROL_RADIOBUTTON = "radiobutton";
-	const Misc::AnsiString CONTROL_SCROLLBAR = "scrollbar";
-	const Misc::AnsiString CONTROL_LISTBOX = "listbox";
-	const Misc::AnsiString CONTROL_PROGRESSBAR = "progressbar";
-	const Misc::AnsiString CONTROL_TRACKBAR = "trackbar";
-	const Misc::AnsiString CONTROL_COMBOBOX = "combobox";
-	const Misc::AnsiString CONTROL_TEXTBOX = "textbox";
-	const Misc::AnsiString CONTROL_TIMER = "timer";
-	const Misc::AnsiString CONTROL_TABCONTROL = "tabcontrol";
-	const Misc::AnsiString CONTROL_TABPAGE = "tabpage";
-	const Misc::AnsiString CONTROL_PICTUREBOX = "picturebox";
-	const Misc::AnsiString CONTROL_COLORPICKER = "colorpicker";
-	const Misc::AnsiString CONTROL_COLORBAR = "colorbar";
+	enum CONTROL_TYPE
+	{
+		CONTROL_PANEL = 1,
+		CONTROL_FORM,
+		CONTROL_GROUPBOX,
+		CONTROL_LABEL,
+		CONTROL_LINKLABEL,
+		CONTROL_BUTTON,
+		CONTROL_CHECKBOX,
+		CONTROL_RADIOBUTTON,
+		CONTROL_SCROLLBAR,
+		CONTROL_LISTBOX,
+		CONTROL_PROGRESSBAR,
+		CONTROL_TRACKBAR,
+		CONTROL_COMBOBOX,
+		CONTROL_TEXTBOX,
+		CONTROL_TIMER,
+		CONTROL_TABCONTROL,
+		CONTROL_TABPAGE,
+		CONTROL_PICTUREBOX,
+		CONTROL_COLORPICKER,
+		CONTROL_COLORBAR
+	};
 
 	/**
 	 * Auflistung der Anker.
@@ -222,7 +225,7 @@ namespace OSHGui
 		 *
 		 * @return der Typ
 		 */
-		virtual const Misc::AnsiString& GetType() const;
+		virtual CONTROL_TYPE GetType() const;
 		
 		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
@@ -646,6 +649,8 @@ namespace OSHGui
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme);
 	
+		static Misc::AnsiString ControlTypeToString(CONTROL_TYPE controlType);
+
 	protected:
 		/**
 		 * Konstruktor der Klasse.
@@ -670,7 +675,7 @@ namespace OSHGui
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 		
 		Misc::AnsiString name;
-		Misc::AnsiString type;
+		CONTROL_TYPE type;
 
 		bool canRaiseEvents;
 		bool isEnabled;
