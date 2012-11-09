@@ -36,9 +36,7 @@ namespace OSHGui
 			 * @param file der Name der Datei, in der der Fehler auftrat
 			 * @param line die Zeilennummer, in der der Fehler auftrat
 			 */
-			Exception(const Misc::AnsiString &message,
-					  const Misc::AnsiString &file,
-					  int line);
+			Exception(const Misc::AnsiString &message, const Misc::AnsiString &file, int line);
 			virtual ~Exception() throw();
 		
 			/**
@@ -47,12 +45,6 @@ namespace OSHGui
 			 * @return message
 			 */
 			const Misc::AnsiString& GetMessage() const;
-			/**
-			 * Ruft den Namen der Ausnahme ab.
-			 *
-			 * @return name
-			 */
-			const Misc::AnsiString& GetName() const;
 			/**
 			 * Ruft den Dateinamen ab, in dem die Ausnahme auftrat.
 			 *
@@ -70,39 +62,14 @@ namespace OSHGui
 			 *
 			 * @return
 			 */
-			const Misc::AnsiString& ToString() const;
-
 			//overwrite std::exception what()
 			const char* what() const throw();
 		
 		protected:
-			/**
-			 * Initialisiert eine neue Instanz der Exception-Klasse.
-			 *
-			 * @param name der Name der Exception
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 */
-			Exception(const Misc::AnsiString &name,
-					  const Misc::AnsiString &message);
-			/**
-			 * Initialisiert eine neue Instanz der Exception-Klasse.
-			 *
-			 * @param name der Name der Exception
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
-			 */
-			Exception(const Misc::AnsiString &name,
-					  const Misc::AnsiString &message,
-					  const Misc::AnsiString &file,
-					  int line);
-
 			Misc::AnsiString message;
-			Misc::AnsiString name;
 			Misc::AnsiString file;
 			int line;
-			Misc::AnsiString combinedMessage;
-	
+			
 		private:
 			//copying prohibited
 			/*Exception(const Exception&);

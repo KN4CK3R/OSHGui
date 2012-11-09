@@ -40,7 +40,10 @@ namespace OSHGui
 			this->handler = handler;
 			if (!handler)
 			{
-				throw Misc::ArgumentException("handler");
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::ArgumentException("handler", __FILE__, __LINE__);
+				#endif
+				throw 1;
 			}
 		}
 
@@ -57,12 +60,18 @@ namespace OSHGui
 			this->modifier = modifier;
 			if (modifier == key || !(modifier == Key::None || modifier == Key::Control || modifier == Key::Alt || modifier == Key::Shift))
 			{
-				throw Misc::Exception("not a valid modifier");
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::ArgumentException("modifier", __FILE__, __LINE__);
+				#endif
+				throw 1;
 			}
 			this->handler = handler;
 			if (!handler)
 			{
-				throw Misc::ArgumentException("handler");
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::ArgumentException("handler", __FILE__, __LINE__);
+				#endif
+				throw 1;
 			}
 		}
 		
@@ -97,17 +106,17 @@ namespace OSHGui
 			return modifier;
 		}
 
-		bool operator == (const Hotkey &hotkey)
+		bool operator==(const Hotkey &hotkey)
 		{
 			return key == hotkey.key && modifier == hotkey.modifier;
 		}
 
-		void operator () ()
+		void operator()()
 		{
 			handler();
 		}
 		
-		Hotkey& operator = (const Hotkey &hotkey)
+		Hotkey& operator=(const Hotkey &hotkey)
 		{
 			if (this != &hotkey)
 			{

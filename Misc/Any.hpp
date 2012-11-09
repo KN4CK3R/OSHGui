@@ -107,7 +107,7 @@ namespace OSHGui
 			 * @param any
 			 * @return this
 			 */
-			Any& operator= (Any const& any)
+			Any& operator=(Any const& any)
 			{
 				if (this != &any)
 				{
@@ -129,7 +129,7 @@ namespace OSHGui
 			 * @return this
 			 */
 			template<class T>
-			Any& operator= (const T &obj)
+			Any& operator=(const T &obj)
 			{
 				delete wrapper;
 			
