@@ -72,6 +72,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
 		{
+			device->SetTexture(0, nullptr);
+
 			sprite->Begin(D3DXSPRITE_ALPHABLEND);
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
