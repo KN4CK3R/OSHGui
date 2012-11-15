@@ -7,6 +7,8 @@
  */
 
 #include "FontOpenGL.hpp"
+#include <windows.h>
+#include <gl/glut.h>
 
 namespace OSHGui
 {
@@ -15,9 +17,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		FontOpenGL::FontOpenGL()
+		FontOpenGL::FontOpenGL(const Misc::AnsiString &name, int size, bool bold, bool italic)
+			: fontID(-1)
 		{
-			fontID = -1;
+			Create(name, size, bold, italic);
 		}
 		//---------------------------------------------------------------------------
 		FontOpenGL::~FontOpenGL()
@@ -29,33 +32,33 @@ namespace OSHGui
 		}
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		GLuint FontOpenGL::GetFont()
+		unsigned int FontOpenGL::GetFont()
 		{
 			return fontID;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void FontOpenGL::Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic)
+		void FontOpenGL::Create(const Misc::AnsiString &name, int size, bool bold, bool italic)
 		{
-			this->fontName = fontName;
+			this->name = name;
 			this->size = size;
 			this->bold = bold;
 			this->italic = italic;
 
 			HDC hDC = wglGetCurrentDC();
 			fontID = glGenLists(256);
-			HFONT hFont = CreateFontW(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, fontName.c_str());
-			HFONT hOldFont = (HFONT)SelectObject(hDC, hFont);
+			HFONT hFont = CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, name.c_str());
+			/*HFONT hOldFont = (HFONT)*/SelectObject(hDC, hFont);
 			wglUseFontBitmaps(hDC, 0, 255, fontID);
-			SelectObject(hDC, hOldFont);
-			DeleteObject(hFont);
+			//SelectObject(hDC, hOldFont);
+			//DeleteObject(hFont);
 		}
 		//---------------------------------------------------------------------------
-		const Size FontOpenGL::MeasureText(const Misc::UnicodeString &str)
-		{
-			return Size();
-		}
+ 		const Size FontOpenGL::MeasureText(const Misc::AnsiString &str)
+ 		{
+ 			return Size();
+ 		}
 		//---------------------------------------------------------------------------
 	}
 }

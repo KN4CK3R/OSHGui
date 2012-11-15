@@ -27,12 +27,12 @@ namespace OSHGui
 			return defaultFont;
 		}
 		//---------------------------------------------------------------------------
-		void IRenderer::SetRenderColor(const Color &color)
+		void IRenderer::SetRenderColor(Color color)
 		{
 			this->color = color;
 		}
 		//---------------------------------------------------------------------------
-		const Color& IRenderer::GetRenderColor() const
+		Color IRenderer::GetRenderColor() const
 		{
 			return color;
 		}

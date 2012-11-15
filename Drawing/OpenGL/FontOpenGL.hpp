@@ -9,14 +9,7 @@
 #ifndef OSHGUI_DRAWING_FONTOPENGL_HPP
 #define OSHGUI_DRAWING_FONTOPENGL_HPP
 
-#include <windows.h>
-#include <gl/GL.h>
-#include <gl/GLU.h>
-
-#pragma comment(lib, "OpenGL32.lib")
-#pragma comment(lib, "GLu32.lib")
-
-#include "IFont.hpp"
+#include "../IFont.hpp"
 
 namespace OSHGui
 {
@@ -25,17 +18,17 @@ namespace OSHGui
 		class FontOpenGL : public IFont
 		{
 		public:
-			FontOpenGL();
+			FontOpenGL(const Misc::AnsiString &name, int size, bool bold, bool italic);
 			virtual ~FontOpenGL();
 
-			GLuint GetFont();
+			unsigned int GetFont();
 
-			virtual void Create(const Misc::UnicodeString &fontName, int size, bool bold, bool italic);
+			virtual const Size MeasureText(const Misc::AnsiString &str);
 
-			virtual const Size MeasureText(const Misc::UnicodeString &str);
+		private:
+			virtual void Create(const Misc::AnsiString &name, int size, bool bold, bool italic);
 
-		protected:
-			GLuint fontID;
+			unsigned int fontID;
 		};
 	}
 }

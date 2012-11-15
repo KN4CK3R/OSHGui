@@ -84,13 +84,13 @@ namespace OSHGui
 			 *
 			 * @param color die Farbe
 			 */
-			virtual void SetRenderColor(const Color &color);
+			virtual void SetRenderColor(Color color);
 			/**
 			 * Ruft die Farbe zum Zeichnen ab.
 			 *
 			 * @return die Farbe
 			 */
-			virtual const Color& GetRenderColor() const;
+			virtual Color GetRenderColor() const;
 			/**
 			 * Legt das Rechteck fest, in dem gezeichnet wird.
 			 *
