@@ -7,7 +7,6 @@
  */
 
 #include "FontOpenGL.hpp"
-#include <windows.h>
 #include <gl/glut.h>
 
 namespace OSHGui
@@ -28,6 +27,7 @@ namespace OSHGui
 			if (fontID != -1)
 			{
 				glDeleteLists(fontID, 256);
+				DeleteObject(font);
 			}
 		}
 		//Getter/Setter
@@ -46,18 +46,24 @@ namespace OSHGui
 			this->bold = bold;
 			this->italic = italic;
 
-			HDC hDC = wglGetCurrentDC();
 			fontID = glGenLists(256);
-			HFONT hFont = CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, name.c_str());
-			/*HFONT hOldFont = (HFONT)*/SelectObject(hDC, hFont);
-			wglUseFontBitmaps(hDC, 0, 255, fontID);
-			//SelectObject(hDC, hOldFont);
-			//DeleteObject(hFont);
+
+			HDC dc = wglGetCurrentDC();
+			font = CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, name.c_str());
+			HFONT oldFont = static_cast<HFONT>(SelectObject(dc, font));
+			wglUseFontBitmapsA(dc, 0, 255, fontID);
+			SelectObject(dc, oldFont);
 		}
 		//---------------------------------------------------------------------------
  		const Size FontOpenGL::MeasureText(const Misc::AnsiString &str)
  		{
- 			return Size();
+			HDC dc = wglGetCurrentDC();
+			HFONT oldFont = static_cast<HFONT>(SelectObject(dc, font));
+			SIZE size;
+			GetTextExtentPoint32(dc, str.c_str(), str.length(), &size);
+			SelectObject(dc, oldFont);
+
+ 			return Size(size.cx, size.cy);
  		}
 		//---------------------------------------------------------------------------
 	}
