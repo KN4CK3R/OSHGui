@@ -10,7 +10,6 @@
 #define OSHGUI_DRAWING_RENDEREROPENGL_HPP
 
 #include "../IRenderer.hpp"
-#include "FontOpenGL.hpp"
 
 namespace OSHGui
 {

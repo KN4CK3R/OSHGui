@@ -10,6 +10,8 @@
 #define OSHGUI_DRAWING_FONTOPENGL_HPP
 
 #include "../IFont.hpp"
+#define NOMINMAX
+#include <windows.h>
 
 namespace OSHGui
 {
@@ -29,6 +31,7 @@ namespace OSHGui
 			virtual void Create(const Misc::AnsiString &name, int size, bool bold, bool italic);
 
 			unsigned int fontID;
+			HFONT font;
 		};
 	}
 }

@@ -9,6 +9,8 @@
 #include <windows.h>
 #include <gl/glut.h>
 #include "RendererOpenGL.hpp"
+#include "FontOpenGL.hpp"
+#include "TextureOpenGL.hpp"
 
 namespace OSHGui
 {
@@ -114,17 +116,17 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			return nullptr;
+			return std::make_shared<TextureOpenGL>(size, frameCount, frameChangeInterval);
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			return nullptr;
+			return std::make_shared<TextureOpenGL>(Size(width, height), frameCount, frameChangeInterval);
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(const Misc::AnsiString &filename)
 		{
-			return nullptr;
+			return std::make_shared<TextureOpenGL>(filename);
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<IFont> RendererOpenGL::CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
@@ -136,7 +138,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererOpenGL::RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h)
 		{
-			if (texture == nullptr)
+			if (!texture)
 			{
 				return;
 			}
@@ -147,10 +149,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererOpenGL::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
 		{
-			if (font == NULL)
+			if (!font || text.empty())
 			{
 				return;
 			}
+
+			Flush();
 
 			GLuint fontID = std::static_pointer_cast<FontOpenGL>(font)->GetFont();
 			if (fontID == -1)
@@ -159,7 +163,7 @@ namespace OSHGui
 			}
 
 			glPushAttrib(GL_LIST_BIT);
-			glRasterPos2f(x, y + font->GetSize());
+			glRasterPos2f(x, y + font->GetSize() - 3);
 			glListBase(fontID);
 			glCallLists(text.length(), GL_UNSIGNED_BYTE, text.c_str());
 			glPopAttrib();
