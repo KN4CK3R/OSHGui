@@ -141,9 +141,10 @@ namespace OSHGui
 			 */
 			virtual void EndLines();
 
-		//private:
+		private:
 			void Flush();
 			void AddVertex(int x, int y);
+			void AddVertex(int x, int y, float u, float v);
 
 			struct Vertex
 			{
@@ -159,9 +160,11 @@ namespace OSHGui
 
 			static const int maxVertices = 1024;
 			Vertex vertices[maxVertices];
+			VertexUV verticesUV[maxVertices];
 			DWORD verticesColor[maxVertices];
 
 			int verticesNum;
+			unsigned int texture;
 		};
 	}
 }

@@ -35,6 +35,13 @@ namespace OSHGui
 				vertices[i].v = 0.0f;
 			}
 
+			D3DCAPS9 caps;
+			device->GetDeviceCaps(&caps);
+
+			supportNonSquareTex = !(caps.TextureCaps & D3DPTEXTURECAPS_SQUAREONLY);
+
+			supportNPOTTex = !(caps.TextureCaps & D3DPTEXTURECAPS_POW2) || (caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL);
+
 			InitializeDevice();
 
 			defaultFont = CreateNewFont("Arial", 14, false, false);
@@ -55,6 +62,37 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		Size RendererDX9::AdjustSize(Size size) const
+		{
+			if (!supportNPOTTex)
+			{
+				auto PowerSize = [](int size) -> int
+				{
+					if ((size & (size - 1)) || !size)
+					{
+						int log = 0;
+
+						while (size >>= 1)
+						{
+							++log;
+						}
+
+						size = (2 << log);
+					}
+					return size;
+				};
+
+				size.Width  = PowerSize(size.Width);
+				size.Height = PowerSize(size.Height);
+			}
+			if (!supportNonSquareTex)
+			{
+				size.Width = size.Height = std::max(size.Width, size.Height);
+			}
+
+			return size;
+		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::InitializeDevice()
 		{
@@ -90,7 +128,7 @@ namespace OSHGui
 		{
 			for (auto it = textureList.begin(); it != textureList.end();)
 			{
-				std::weak_ptr<TextureDX9> &texture = *it;
+				std::weak_ptr<TextureDX9> texture = *it;
 				if (texture.expired())
 				{
 					it = textureList.erase(it);
@@ -103,7 +141,7 @@ namespace OSHGui
 			}
 			for (auto it = fontList.begin(); it != fontList.end();)
 			{
-				std::weak_ptr<FontDX9> &font = *it;
+				std::weak_ptr<FontDX9> font = *it;
 				if (font.expired())
 				{
 					it = fontList.erase(it);
@@ -122,7 +160,7 @@ namespace OSHGui
 		{
 			for (auto it = textureList.begin(); it != textureList.end();)
 			{
-				std::weak_ptr<TextureDX9> &texture = *it;
+				std::weak_ptr<TextureDX9> texture = *it;
 				if (texture.expired())
 				{
 					it = textureList.erase(it);
@@ -135,7 +173,7 @@ namespace OSHGui
 			}
 			for (auto it = fontList.begin(); it != fontList.end();)
 			{
-				std::weak_ptr<FontDX9> &font = *it;
+				std::weak_ptr<FontDX9> font = *it;
 				if (font.expired())
 				{
 					it = fontList.erase(it);
@@ -162,21 +200,21 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, size, frameCount, frameChangeInterval));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(this, device, size, frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
 			return texture;
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, width, height, frameCount, frameChangeInterval));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(this, device, Size(width, height), frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
 			return texture;
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Misc::AnsiString &filename)
 		{
-			std::shared_ptr<TextureDX9> texture(new TextureDX9(device, filename));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(this, device, filename));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
 			return texture;
 		}
@@ -229,7 +267,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
 		{
-			if (font == 0 || text.empty())
+			if (font == nullptr || text.empty())
 			{
 				return;
 			}
@@ -271,7 +309,7 @@ namespace OSHGui
 			AddVertex(x, y + h);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX9::FillGradient(int x, int y, int w, int h, const Color &to)
+		void RendererDX9::FillGradient(int x, int y, int w, int h, Color to)
 		{
 			if (texture != nullptr)
 			{

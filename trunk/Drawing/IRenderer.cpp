@@ -121,12 +121,12 @@ namespace OSHGui
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
 		}
 		//---------------------------------------------------------------------------
-		void IRenderer::FillGradient(const Point &point, const Size &size, const Color &to)
+		void IRenderer::FillGradient(const Point &point, const Size &size, Color to)
 		{
 			FillGradient(point.Left, point.Top, size.Width, size.Height, to);
 		}
 		//---------------------------------------------------------------------------
-		void IRenderer::FillGradient(const Rectangle &rect, const Color &to)
+		void IRenderer::FillGradient(const Rectangle &rect, Color to)
 		{
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), to);
 		}

@@ -17,12 +17,13 @@ namespace OSHGui
 	namespace Drawing
 	{
 		RendererOpenGL::RendererOpenGL()
-			: verticesNum(0)
+			: verticesNum(0),
+			  texture(0)
 		{
 			for (int i = 0; i < maxVertices; ++i)
 			{
 				vertices[i].z = 0.0f;
-				//verticesLoc[i].w = 1.0f;
+				verticesUV[i].u = verticesUV[i].v = 0.0f;
 			}
 
 			defaultFont = CreateNewFont("Arial", 14, false, false);
@@ -64,7 +65,7 @@ namespace OSHGui
 
 			glEnableClientState(GL_VERTEX_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
-			//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 			//glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
 			glDisableClientState(GL_INDEX_ARRAY);
 			glDisableClientState(GL_NORMAL_ARRAY);
@@ -105,7 +106,7 @@ namespace OSHGui
 			{
 				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), vertices);
 				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(DWORD), verticesColor);
-				//glTexCoordPointer(2, GL_FLOAT, sizeof(glUV), (const GLvoid *)m_pVertsUV);
+				glTexCoordPointer(2, GL_FLOAT, sizeof(VertexUV), verticesUV);
 				glDrawArrays(GL_TRIANGLES, 0, verticesNum);
 
 				verticesNum = 0;
@@ -145,6 +146,15 @@ namespace OSHGui
 			
 			x = x + renderRect.GetLeft();
 			y = y + renderRect.GetTop();
+
+			glBindTexture(GL_TEXTURE_2D, std::static_pointer_cast<TextureOpenGL>(texture)->GetTexture());
+
+			AddVertex(x, y, 0.0f, 0.0f);
+			AddVertex(x + w, y, 1.0f, 0.0f);
+			AddVertex(x, y + h, 0.0f, 1.0f);
+			AddVertex(x + w, y, 1.0f, 0.0f);
+			AddVertex(x + w, y + h, 1.0f, 1.0f);
+			AddVertex(x, y + h, 0.0f, 1.0f);
 		}
 		//---------------------------------------------------------------------------
 		void RendererOpenGL::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
@@ -235,7 +245,6 @@ namespace OSHGui
 			{
 				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), vertices);
 				glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(DWORD), verticesColor);
-				//glTexCoordPointer(2, GL_FLOAT, sizeof(glUV), (const GLvoid *)m_pVertsUV);
 				glDrawArrays(GL_LINES, 0, verticesNum);
 
 				verticesNum = 0;
@@ -253,6 +262,24 @@ namespace OSHGui
 
 			vertices[verticesNum].x = (float)x;
 			vertices[verticesNum].y = (float)y;
+
+			verticesColor[verticesNum] = color.ARGB;
+
+			++verticesNum;
+		}
+		//---------------------------------------------------------------------------
+		void RendererOpenGL::AddVertex(int x, int y, float u, float v)
+		{
+			if (verticesNum >= maxVertices - 1)
+			{
+				Flush();
+			}
+
+			vertices[verticesNum].x = (float)x;
+			vertices[verticesNum].y = (float)y;
+
+			verticesUV[verticesNum].u = u;
+			verticesUV[verticesNum].v = v;
 
 			verticesColor[verticesNum] = color.ARGB;
 

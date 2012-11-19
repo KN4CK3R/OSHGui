@@ -10,7 +10,6 @@
 #define OSHGUI_DRAWING_TEXTUREOPENGL_HPP
 
 #include <vector>
-
 #include "../ITexture.hpp"
 
 namespace OSHGui
@@ -37,21 +36,16 @@ namespace OSHGui
 			 * Konstruktor der Klasse.
 			 *
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
-			 * @param width
-			 * @param height
-			 * @param frameCount die Anzahl der Frames (default: 1)
-			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
-			 */
-			TextureOpenGL(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
-			/**
-			 * Konstruktor der Klasse.
-			 *
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 * @param filename Pfad zur zu ladenden Datei
 			 */
 			TextureOpenGL(const Misc::AnsiString &filename);
 			virtual ~TextureOpenGL();
 			
+			/**
+			 * Ruft die Textur ab.
+			 */
+			unsigned int GetTexture() const;
+
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
@@ -148,6 +142,11 @@ namespace OSHGui
 			virtual void Create(const Size &size, int frameCount = 1);
 
 		private:
+			int frame;
+			std::vector<unsigned int> frames;
+
+			unsigned int texture;
+			unsigned int frameBuffer;
 		};
 	}
 }
