@@ -27,7 +27,6 @@ namespace OSHGui
 		public:
 			using ITexture::Fill;
 			using ITexture::FillGradient;
-			using ITexture::Insert;
 
 			/**
 			 * Konstruktor der Klasse.
@@ -77,12 +76,12 @@ namespace OSHGui
 		
 			/**
 			 * Sperrt die Textur, damit sie verändert werden kann.
-			 * Muss einmalig vor dem Aufrufen von Clear, Fill, FillGradient, Rotate oder Insert aufgerufen werden.
+			 * Muss einmalig vor dem Aufrufen von Clear, Fill oder FillGradient aufgerufen werden.
 			 */
 			virtual void BeginUpdate();
 			/**
 			 * Entsperrt die Textur.
-			 * Muss einmalig nach dem Aufrufen von Clear, Fill, FillGradient, Rotate oder Insert aufgerufen werden.
+			 * Muss einmalig nach dem Aufrufen von Clear, Fill oder FillGradient aufgerufen werden.
 			 */
 			virtual void EndUpdate();
 			
@@ -109,23 +108,6 @@ namespace OSHGui
 			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, Color from, Color to, bool updown = true);
-			
-			/**
-			 * Dreht die Textur um die angegebene Gradzahl.
-			 * Achtung: Bei einer Gradzahl != x*90° verändert sich die Größe der Textur!
-			 *
-			 * @param degrees die Gradzahl 0-360
-			 */
-			virtual void Rotate(int degrees);
-
-			/**
-			 * Fügt eine Textur am angegebenen Punkt in diese Textur ein.
-			 *
-			 * @param x
-			 * @param y
-			 * @param texture die Textur
-			 */
-			virtual void Insert(int x, int y, const std::shared_ptr<ITexture> &texture);
 
 			//Animation
 			/**
@@ -134,12 +116,6 @@ namespace OSHGui
 			 * @return Anzahl der Frames
 			 */
 			virtual int GetFrameCount() const;
-			/**
-			 * Fügt einen neuen Frame hinzu.
-			 *
-			 * @param frame der Frame
-			 */
-			virtual void AddFrame(const std::shared_ptr<ITexture> &frame);
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
 			 *

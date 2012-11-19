@@ -167,41 +167,9 @@ namespace OSHGui
 			glEnd();
 		}
 		//---------------------------------------------------------------------------
-		void TextureOpenGL::Rotate(int degrees)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		void TextureOpenGL::Insert(int x, int y, const std::shared_ptr<ITexture> &texture)
-		{
-			auto openglTexture = std::static_pointer_cast<TextureOpenGL>(texture);
-
-			glBindTexture(GL_TEXTURE_2D, openglTexture->GetTexture());
-
-			auto size = openglTexture->GetSize();
-			glBegin(GL_QUADS);
-			{
-				glVertex2f(x, y);
-				glVertex2f(x, y + size.Height);
-				glVertex2f(x + size.Width, y + size.Height);
-				glVertex2f(x + size.Width, y);
-			}
-			glEnd();
-		}
-		//---------------------------------------------------------------------------
 		int TextureOpenGL::GetFrameCount() const
 		{
 			return frames.size();
-		}
-		//---------------------------------------------------------------------------
-		void TextureOpenGL::AddFrame(const std::shared_ptr<ITexture> &frame)
-		{
-			if (frame->GetSize() != GetSize())
-			{
-				throw 1;
-			}
-
-			unsigned int newFrame;
 		}
 		//---------------------------------------------------------------------------
 		void TextureOpenGL::SelectActiveFrame(int frame)
