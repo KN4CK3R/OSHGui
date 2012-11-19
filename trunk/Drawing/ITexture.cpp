@@ -84,11 +84,6 @@ namespace OSHGui
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void ITexture::Insert(const Point &point, const std::shared_ptr<ITexture> &texture)
-		{
-			Insert(point.X, point.Y, texture);
-		}
-		//---------------------------------------------------------------------------
 		const Misc::TimeSpan& ITexture::GetFrameChangeInterval() const
 		{
 			return frameChangeInterval;
