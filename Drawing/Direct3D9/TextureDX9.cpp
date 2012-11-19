@@ -95,7 +95,7 @@ namespace OSHGui
 
 			for (int i = 0; i < frameCount; ++i)
 			{
-				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, 0)))
+				if (FAILED(device->CreateTexture(realSize.Width, realSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, 0)))
 				{
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
