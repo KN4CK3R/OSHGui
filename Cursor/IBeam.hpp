@@ -26,7 +26,7 @@ namespace OSHGui
 		virtual ~IBeamCursor();
 		
 	protected:
-		virtual void CreateCursor();
+		virtual void CreateCursor() override;
 	};
 }
 

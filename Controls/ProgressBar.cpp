@@ -87,12 +87,12 @@ namespace OSHGui
 		return value;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetBarColor(const Drawing::Color &color)
+	void ProgressBar::SetBarColor(Drawing::Color color)
 	{
 		barColor = color;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& ProgressBar::GetBarColor() const
+	Drawing::Color ProgressBar::GetBarColor() const
 	{
 		return barColor;
 	}

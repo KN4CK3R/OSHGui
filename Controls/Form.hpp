@@ -84,7 +84,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -102,13 +102,13 @@ namespace OSHGui
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
 		 * @return parent
 		 */
-		virtual const std::deque<Control*>& GetControls() const;
+		virtual const std::deque<Control*>& GetControls() const override;
 		/**
 		 * Ruft das DialogResult für das Fenster ab.
 		 *
@@ -150,14 +150,14 @@ namespace OSHGui
 		 *
 		 * @param control
 		 */
-		virtual void AddControl(Control *control);
+		virtual void AddControl(Control *control) override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	protected:
 		DialogResult dialogResult;
@@ -184,13 +184,13 @@ namespace OSHGui
 
 				CaptionBarButton();
 
-				virtual void CalculateAbsoluteLocation();
-				virtual bool Intersect(const Drawing::Point &point) const;
+				virtual void CalculateAbsoluteLocation() override;
+				virtual bool Intersect(const Drawing::Point &point) const override;
 
-				void Render(Drawing::IRenderer *renderer);
+				virtual void Render(Drawing::IRenderer *renderer) override;
 
 			protected:
-				virtual void OnMouseUp(const MouseMessage &mouse);
+				virtual void OnMouseUp(const MouseMessage &mouse) override;
 
 			private:
 				static const Drawing::Point DefaultCrossOffset;
@@ -203,17 +203,17 @@ namespace OSHGui
 
 			CaptionBar();
 
-			void SetSize(const Drawing::Size &size);
+			virtual void SetSize(const Drawing::Size &size) override;
 			void SetText(const Misc::AnsiString &text);
 			const Misc::AnsiString& GetText() const;
-			void SetForeColor(const Drawing::Color &color);
+			virtual void SetForeColor(Drawing::Color color) override;
 
-			void Render(Drawing::IRenderer *renderer);
+			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		protected:
-			void OnMouseDown(const MouseMessage &mouse);
-			void OnMouseMove(const MouseMessage &mouse);
-			void OnMouseUp(const MouseMessage &mouse);
+			virtual void OnMouseDown(const MouseMessage &mouse) override;
+			virtual void OnMouseMove(const MouseMessage &mouse) override;
+			virtual void OnMouseUp(const MouseMessage &mouse) override;
 
 		private:
 			static const int DefaultButtonPadding = 6;

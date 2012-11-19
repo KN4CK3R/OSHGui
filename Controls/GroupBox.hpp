@@ -35,7 +35,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -53,19 +53,19 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
 		 * @return parent
 		 */
-		virtual const std::deque<Control*>& GetControls() const;
+		virtual const std::deque<Control*>& GetControls() const override;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -73,20 +73,20 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
 		 * @param control
 		 */
-		virtual void AddControl(Control *control);
+		virtual void AddControl(Control *control) override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	private:
 		Label *captionLabel;

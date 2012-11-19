@@ -34,19 +34,19 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt die ausgewählte Farbe fest.
 		 *
 		 * @param color die Farbe
 		 */
-		void SetColor(const Drawing::Color &color);
+		void SetColor(Drawing::Color color);
 		/**
 		 * Ruft die ausgewählte Farbe ab.
 		 *
 		 * @return color
 		 */
-		const Drawing::Color& GetColor() const;
+		Drawing::Color GetColor() const;
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
 		 *
@@ -60,14 +60,14 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	protected:
 		static const Drawing::Size DefaultSize;
@@ -76,10 +76,10 @@ namespace OSHGui
 		void CreateBarTexture(int index);
 		void UpdateBars();
 
-		virtual void OnMouseDown(const MouseMessage &mouse);
-		virtual void OnMouseUp(const MouseMessage &mouse);
-		virtual void OnMouseMove(const MouseMessage &mouse);
-		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+		virtual void OnMouseDown(const MouseMessage &mouse) override;
+		virtual void OnMouseUp(const MouseMessage &mouse) override;
+		virtual void OnMouseMove(const MouseMessage &mouse) override;
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 	
 		int barIndex;
 		bool drag[3];

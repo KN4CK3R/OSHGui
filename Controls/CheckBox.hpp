@@ -55,13 +55,13 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Ruft das CheckedChangeEvent für das Steuerelement ab.
 		 *
@@ -75,25 +75,25 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void CalculateAbsoluteLocation();
+		virtual void CalculateAbsoluteLocation() override;
 		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
 		static const Drawing::Size DefaultLabelOffset;
 		static const int DefaultCheckBoxSize = 17;
 
-		virtual void OnMouseClick(const MouseMessage &mouse);
-		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
+		virtual void OnMouseClick(const MouseMessage &mouse) override;
+		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
 		bool checked;
 		Drawing::Point checkBoxLocation;

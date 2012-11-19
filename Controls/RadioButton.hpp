@@ -31,20 +31,20 @@ namespace OSHGui
 		 *
 		 * @param checked
 		 */
-		virtual void SetChecked(bool checked);
+		virtual void SetChecked(bool checked) override;
 		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	protected:
-		virtual void SetCheckedInternal(bool checked);
+		void SetCheckedInternal(bool checked);
 
-		virtual void OnMouseClick(const MouseMessage &mouse);
-		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
+		virtual void OnMouseClick(const MouseMessage &mouse) override;
+		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 	};
 }
 

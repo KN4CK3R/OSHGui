@@ -32,7 +32,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt den minimalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
@@ -94,32 +94,32 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void CalculateAbsoluteLocation();
+		virtual void CalculateAbsoluteLocation() override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	protected:
 		static const Drawing::Size SliderSize;
 		static const Drawing::Size DefaultSize;
 		static const int DefaultTickOffset = 7;
 
-		virtual void SetValueInternal(int value);
+		void SetValueInternal(int value);
 
-		virtual void OnMouseDown(const MouseMessage &mouse);
-		virtual void OnMouseUp(const MouseMessage &mouse);
-		virtual void OnMouseClick(const MouseMessage &mouse);
-		virtual void OnMouseMove(const MouseMessage &mouse);
-		virtual void OnMouseScroll(const MouseMessage &mouse);
-		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+		virtual void OnMouseDown(const MouseMessage &mouse) override;
+		virtual void OnMouseUp(const MouseMessage &mouse) override;
+		virtual void OnMouseClick(const MouseMessage &mouse) override;
+		virtual void OnMouseMove(const MouseMessage &mouse) override;
+		virtual void OnMouseScroll(const MouseMessage &mouse) override;
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 	
 		int minimum;
 		int maximum;

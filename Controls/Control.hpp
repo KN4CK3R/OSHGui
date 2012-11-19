@@ -452,37 +452,37 @@ namespace OSHGui
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color);
 		/**
 		 * Ruft die Fordergrundfarbe des Steuerelements ab.
 		 *
 		 * @return color
 		 */
-		virtual const Drawing::Color& GetForeColor() const;
+		virtual Drawing::Color GetForeColor() const;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetBackColor(const Drawing::Color &color);
+		virtual void SetBackColor(Drawing::Color color);
 		/**
 		 * Ruft die Hintergrundfarbe des Steuerelements ab.
 		 *
 		 * @return color
 		 */
-		virtual const Drawing::Color& GetBackColor() const;
+		virtual Drawing::Color GetBackColor() const;
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetMouseOverFocusColor(const Drawing::Color &color);
+		virtual void SetMouseOverFocusColor(Drawing::Color color);
 		/**
 		 * Ruft die Farbe für das fokusierte Steuerelement ab.
 		 *
 		 * @return color
 		 */
-		virtual const Drawing::Color& GetMouseOverFocusColor() const;
+		virtual Drawing::Color GetMouseOverFocusColor() const;
 		/**
 		 * Ruft das LocationChangedEvent für das Steuerelement ab.
 		 *
@@ -584,13 +584,13 @@ namespace OSHGui
 		 *
 		 * @param parent
 		 */
-		void SetParent(Control *parent);
+		virtual void SetParent(Control *parent);
 		/**
 		 * Ruft das übergeordnete Steuerelement ab.
 		 *
 		 * @return parent
 		 */
-		Control* GetParent() const;
+		virtual Control* GetParent() const;
 
 		/**
 		 * Setzt den Eingabefokus auf das Steuerelement.
@@ -649,6 +649,12 @@ namespace OSHGui
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme);
 	
+		/**
+		 * Ruft die Stringrepresentation des Controltypes ab.
+		 *
+		 * @param controlType controltype
+		 * @return Stringrepresentation
+		 */
 		static Misc::AnsiString ControlTypeToString(CONTROL_TYPE controlType);
 
 	protected:

@@ -26,7 +26,7 @@ namespace OSHGui
 		virtual ~PenCursor();
 		
 	protected:
-		virtual void CreateCursor();
+		virtual void CreateCursor() override;
 	};
 }
 

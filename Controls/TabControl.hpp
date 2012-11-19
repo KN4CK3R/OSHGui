@@ -37,19 +37,19 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetBackColor(const Drawing::Color &color);
+		virtual void SetBackColor(Drawing::Color color) override;
 		/**
 		 * Ruft die TabPage mit dem entsprechenden Namen ab.
 		 *
@@ -114,18 +114,18 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void CalculateAbsoluteLocation();
+		virtual void CalculateAbsoluteLocation() override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	private:
 		static const Drawing::Size DefaultSize;
@@ -148,17 +148,17 @@ namespace OSHGui
 			TabControlButton(TabPageButtonBinding *binding);
 			~TabControlButton();
 
-			virtual void SetForeColor(const Drawing::Color &color);
-			virtual void SetText(const Misc::AnsiString &text);
+			virtual void SetForeColor(Drawing::Color color) override;
+			void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 
-			virtual bool Intersect(const Drawing::Point &point) const;
-			virtual void CalculateAbsoluteLocation();
+			virtual bool Intersect(const Drawing::Point &point) const override;
+			virtual void CalculateAbsoluteLocation() override;
 
-			virtual void Render(Drawing::IRenderer *renderer);
+			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		protected:
-			virtual void OnMouseClick(const MouseMessage &mouse);
+			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
 		private:
 			static const Drawing::Point DefaultLabelOffset;
@@ -179,9 +179,9 @@ namespace OSHGui
 
 			TabControlSwitchButton(int direction);
 
-			virtual bool Intersect(const Drawing::Point &point) const;
+			virtual bool Intersect(const Drawing::Point &point) const override;
 
-			virtual void Render(Drawing::IRenderer *renderer);
+			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		private:
 			int direction;

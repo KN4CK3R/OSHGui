@@ -38,24 +38,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void PictureBox::SetSize(const Drawing::Size &size)
-	{
-		if (this->size != size)
-		{
-			Control::SetSize(size);
-
-			if (image != nullptr)
-			{
-				std::shared_ptr<Drawing::ITexture> newImage = Application::Instance()->GetRenderer()->CreateNewTexture(GetSize());
-				newImage->BeginUpdate();
-				newImage->Insert(0, 0, image);
-				newImage->EndUpdate();
-
-				image = newImage;
-			}
-		}
-	}
-	//---------------------------------------------------------------------------
 	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
 	{
 		if (this->image != nullptr)
@@ -71,7 +53,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Drawing::ITexture> PictureBox::GetImage() const
+	const std::shared_ptr<Drawing::ITexture>& PictureBox::GetImage() const
 	{
 		return image;
 	}

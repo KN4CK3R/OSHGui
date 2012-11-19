@@ -77,7 +77,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Button::SetForeColor(const Drawing::Color &color)
+	void Button::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 
