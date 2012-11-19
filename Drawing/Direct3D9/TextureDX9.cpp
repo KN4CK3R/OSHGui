@@ -7,10 +7,11 @@
  */
 
 #include "TextureDX9.hpp"
+#include "RendererDX9.hpp"
 #define NOMINMAX
 #include <D3dx9tex.h>
 #include "../../Misc/Exceptions.hpp"
-
+#include "../../static_project/resource.h"
 #include <fstream>
 
 namespace OSHGui
@@ -20,31 +21,24 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
+		TextureDX9::TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const Size &size, int frameCount, const Misc::TimeSpan &frameChangeInterval)
+			: renderer(renderer),
+			  device(device),
+			  frame(0)
 		{
-			this->device = device;
 			lock.pBits = nullptr;
-			frame = 0;
+			
 			this->frameChangeInterval = frameChangeInterval;
 
 			Create(size, frameCount);
 		}
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
+		TextureDX9::TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const Misc::AnsiString &filename)
+			: renderer(renderer),
+			  device(device),
+			  frame(0)
 		{
-			this->device = device;
 			lock.pBits = nullptr;
-			frame = 0;
-			this->frameChangeInterval = frameChangeInterval;
-
-			Create(Size(width, height), frameCount);
-		}
-		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(IDirect3DDevice9 *device, const Misc::AnsiString &filename)
-		{
-			this->device = device;
-			lock.pBits = nullptr;
-			frame = 0;
 			frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125);
 
 			LoadFromFile(filename);
@@ -52,16 +46,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		TextureDX9::~TextureDX9()
 		{
-			if (IsLocked())
-			{
-				EndUpdate();
-			}
-		
-			for (std::size_t i = 0; i < frames.size(); ++i)
-			{
-				frames[i]->Release();
-			}
-			frames.clear();
+			ClearInternalData();
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -78,12 +63,35 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
+		void TextureDX9::ClearInternalData()
+		{
+			if (IsLocked())
+			{
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::Exception("Texture is locked.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
+			}
+
+			for (std::size_t i = 0; i < frames.size(); ++i)
+			{
+				frames[i]->Release();
+			}
+			frames.clear();
+			framesData.clear();
+			texture = nullptr;
+		}
+		//---------------------------------------------------------------------------
 		void TextureDX9::Create(const Size &size, int frameCount)
 		{
 			if (frameCount < 1)
 			{
 				frameCount = 1;
 			}
+
+			this->size = size;
+			realSize = renderer->AdjustSize(size);
 
 			for (int i = 0; i < frameCount; ++i)
 			{
@@ -96,15 +104,23 @@ namespace OSHGui
 					#endif
 				}
 				frames.push_back(texture);
-			}
 
-			this->size = size;
+				D3DLOCKED_RECT lock = { 0 };
+				if (SUCCEEDED(texture->LockRect(0, &lock, 0, 0)))
+				{
+					framesData.push_back(std::vector<Color>(realSize.Height * lock.Pitch / 4));
+
+					texture->UnlockRect(0);
+				}
+			}
 			
-			texture = frames[0];
+			SelectActiveFrame(0);
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::LoadFromFile(const Misc::AnsiString &filename)
 		{
+			ClearInternalData();
+
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileA(filename.c_str(), &info)))
 			{
@@ -115,23 +131,15 @@ namespace OSHGui
 				#endif
 			}
 			
-			size = Drawing::Size(info.Width, info.Height);
+			size = Size(info.Width, info.Height);
+			realSize = renderer->AdjustSize(size);
 			
-			if (!frames.empty() && frames[frame] != nullptr)
-			{
-				frames[frame]->Release();
-			}
-			else
-			{
-				frames.push_back(nullptr);
-			}
+			frames.push_back(nullptr);
+			framesData.push_back(std::vector<Color>());
 
-			if (FAILED(D3DXCreateTextureFromFileExA(device, filename.c_str(), info.Width, info.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &frames[frame])))
+			if (FAILED(D3DXCreateTextureFromFileExA(device, filename.c_str(), realSize.Width, realSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &frames[frame])))
 			{
-				if (!frames.empty())
-				{
-					frames[frame] = nullptr;
-				}
+				frames[frame] = nullptr;
 				texture = nullptr;
 				
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -140,8 +148,63 @@ namespace OSHGui
 				throw 1;
 				#endif
 			}
+
+			SelectActiveFrame(frame);
 			
-			texture = frames[frame];
+			D3DLOCKED_RECT lock = { 0 };
+			if (SUCCEEDED(texture->LockRect(0, &lock, 0, 0)))
+			{
+				Color *raw = (Color*)lock.pBits;
+				std::vector<Color> data(raw, raw + realSize.Height * lock.Pitch / 4);
+				framesData[frame] = data;
+
+				texture->UnlockRect(0);
+			}
+		}
+		//---------------------------------------------------------------------------
+		void TextureDX9::LoadFromWin32Resource(HMODULE module, LPCSTR name)
+		{
+			ClearInternalData();
+
+			D3DXIMAGE_INFO info;
+			if (FAILED(D3DXGetImageInfoFromResourceA(module, name, &info)))
+			{
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::Exception("Cannot get ImageInfo.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
+			}
+
+			size = Drawing::Size(info.Width, info.Height);
+			realSize = renderer->AdjustSize(size);
+
+			frames.push_back(nullptr);
+			framesData.push_back(std::vector<Color>());
+			
+			if (FAILED(D3DXCreateTextureFromResourceExA(device, module, name, realSize.Width, realSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &frames[frame])))
+			{
+				frames[frame] = nullptr;
+				texture = nullptr;
+
+				#ifndef OSHGUI_DONTUSEEXCEPTIONS
+				throw Misc::Exception("Cannot load Texture.", __FILE__, __LINE__);
+				#else
+				throw 1;
+				#endif
+			}
+
+			SelectActiveFrame(frame);
+
+			D3DLOCKED_RECT lock = { 0 };
+			if (SUCCEEDED(texture->LockRect(0, &lock, 0, 0)))
+			{
+				Color *raw = (Color*)lock.pBits;
+				std::vector<Color> data(raw, raw + realSize.Height * lock.Pitch / 4);
+				framesData[frame] = data;
+
+				texture->UnlockRect(0);
+			}
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::BeginUpdate()
@@ -162,7 +225,9 @@ namespace OSHGui
 			int toX = std::abs(w);
 			int toY = std::abs(h);
 
+			auto& data = framesData[frame];
 			int *raw = static_cast<int*>(lock.pBits);
+
 			for (int j = 0; j < toY; ++j)
 			{
 				int row = (fromY + j) * lock.Pitch / 4;
@@ -172,6 +237,7 @@ namespace OSHGui
 					int index = (fromX + i) + row;
 
 					raw[index] = _color.ARGB;
+					data[index] = _color;
 				}
 			}
 		}
@@ -185,6 +251,7 @@ namespace OSHGui
 			int toX = std::abs(w);
 			int toY = std::abs(h);
 
+			auto& data = framesData[frame];
 			int *raw = static_cast<int*>(lock.pBits);
 			
 			if (updown)
@@ -210,6 +277,7 @@ namespace OSHGui
 						int index = (fromX + x) + row;
 						
 						raw[index] = newColor.ARGB;
+						data[index] = newColor;
 					}
 				}
 			}
@@ -236,6 +304,7 @@ namespace OSHGui
 						int index = (fromY + y) * lock.Pitch / 4 + column;
 
 						raw[index] = newColor.ARGB;
+						data[index] = newColor;
 					}
 				}
 			}
@@ -243,6 +312,9 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::Rotate(int degrees)
 		{
+			//will be removed
+			throw 1;
+
 			if (degrees == 0 || degrees == 360)
 			{
 				return;
@@ -415,6 +487,9 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::Insert(int j, int i, const std::shared_ptr<ITexture> &texture)
 		{
+			//will be removed
+			throw 1;
+
 			if (texture == nullptr || texture->IsLocked())
 			{
 				return;
@@ -473,6 +548,9 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::AddFrame(const std::shared_ptr<ITexture> &frame)
 		{
+			//will be removed
+			throw 1;
+
 			if (frame->GetSize() != GetSize())
 			{
 				throw 1;
@@ -518,16 +596,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::PreReset()
 		{
-			D3DLOCKED_RECT lock;
 			for (std::size_t i = 0; i < frames.size(); ++i)
 			{
-				frames[i]->LockRect(0, &lock, 0, 0);
-				
-				unsigned char *raw = (unsigned char*)lock.pBits;
-				std::vector<unsigned char> data(raw, raw + size.Height * lock.Pitch);
-				framesReset.push_back(data);
-				
-				frames[i]->UnlockRect(0);
 				frames[i]->Release();
 			}
 			frames.clear();
@@ -535,10 +605,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::PostReset()
 		{
-			D3DLOCKED_RECT lock;
-			for (std::size_t i = 0; i < framesReset.size(); ++i)
+			D3DLOCKED_RECT lock = { 0 };
+			for (std::size_t i = 0; i < framesData.size(); ++i)
 			{
-				if (FAILED(device->CreateTexture(size.Width, size.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, 0)))
+				if (FAILED(device->CreateTexture(realSize.Width, realSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &texture, 0)))
 				{
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
 					throw Misc::Exception("Cannot create Texture.", __FILE__, __LINE__);
@@ -547,18 +617,18 @@ namespace OSHGui
 					#endif
 				}
 				
-				texture->LockRect(0, &lock, 0, 0);
-			
-				std::memcpy(lock.pBits, framesReset[i].data(), size.Height * lock.Pitch);
-				
-				texture->UnlockRect(0);
-				
-				frames.push_back(texture);
+				long result = texture->LockRect(0, &lock, 0, 0);
+				if (SUCCEEDED(result))
+				{
+					std::memcpy(lock.pBits, framesData[i].data(), framesData[i].size() * 4);
+
+					texture->UnlockRect(0);
+
+					frames.push_back(texture);
+				}
 			}
 			
-			texture = frames[0];
-			
-			framesReset.clear();
+			SelectActiveFrame(0);
 		}
 		//---------------------------------------------------------------------------
 		TextureDX9::TextureDX9Iterator::TextureDX9Iterator(const D3DLOCKED_RECT &lock)

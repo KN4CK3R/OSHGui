@@ -248,7 +248,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Rectangle &rect, const Color &to);
+			virtual void FillGradient(const Rectangle &rect, Color to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -256,7 +256,7 @@ namespace OSHGui
 			 * @param size die Größe
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Point &point, const Size &size, const Color &to);
+			virtual void FillGradient(const Point &point, const Size &size, Color to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -266,7 +266,7 @@ namespace OSHGui
 			 * @param h
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(int x, int y, int w, int h, const Color &to) = 0;
+			virtual void FillGradient(int x, int y, int w, int h, Color to) = 0;
 
 			/**
 			 * Beginnt das Zeichnen von Linien. Bevor "normal" gezeichnet wird, muss EndLines aufgerufen werden.

@@ -20,6 +20,8 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		class RendererDX9;
+
 		class OSHGUI_EXPORT TextureDX9 : public ITexture
 		{
 		public:
@@ -30,29 +32,21 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
+			 * @param renderer Zeiger auf den Parent RendererDX9
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 * @param size die Größe
 			 * @param frameCount die Anzahl der Frames (default: 1)
 			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
 			 */
-			TextureDX9(IDirect3DDevice9 *device, const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
+			TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const Size &size, int frameCount = 1, const Misc::TimeSpan &frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
-			 * @param width
-			 * @param height
-			 * @param frameCount die Anzahl der Frames (default: 1)
-			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
-			 */
-			TextureDX9(IDirect3DDevice9 *device, int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
-			/**
-			 * Konstruktor der Klasse.
-			 *
+			 * @param renderer Zeiger auf den Parent RendererDX9
 			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 * @param filename Pfad zur zu ladenden Datei
 			 */
-			TextureDX9(IDirect3DDevice9 *device, const Misc::AnsiString &filename);
+			TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const Misc::AnsiString &filename);
 			virtual ~TextureDX9();
 		
 			/**
@@ -60,11 +54,26 @@ namespace OSHGui
 			 *
 			 * @return texture
 			 */
-			IDirect3DTexture9* GetTexture() const;
+			virtual IDirect3DTexture9* GetTexture() const;
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
 			virtual bool IsLocked() const;
+
+			/**
+			 * Lädt eine Textur aus einer Datei.
+			 *
+			 * @param filename der Dateipfad
+			 * @return gibt den Status der Operation zurück
+			 */
+			virtual void LoadFromFile(const Misc::AnsiString &filename);
+			/**
+			 * Lädt eine Texture aus der Resource.
+			 *
+			 * @param module Modul mit der Resource
+			 * @param name Name der Resource
+			 */
+			virtual void LoadFromWin32Resource(HMODULE module, LPCSTR name);
 		
 			/**
 			 * Sperrt die Textur, damit sie verändert werden kann.
@@ -138,39 +147,26 @@ namespace OSHGui
 			 */
 			virtual void SelectActiveFrame(int frame);
 			
-			void PreReset();
+			virtual void PreReset();
 			
-			void PostReset();
-			
-		protected:
-			/**
-			 * Erzeugt intern eine neue Textur mit der entsprechenden Größe und der Anzahl der Frames.
-			 *
-			 * @param size die Größe
-			 * @param frameCount die Anzahl der Frames
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual void Create(const Size &size, int frameCount = 1);
-			/**
-			 * Lädt eine Textur aus einer Datei.
-			 *
-			 * @param filename der Dateipfad
-			 * @return gibt den Status der Operation zurück
-			 */
-			virtual void LoadFromFile(const Misc::AnsiString &filename);
+			virtual void PostReset();
 
 		private:
+			void Create(const Size &size, int frameCount = 1);
+
+			void ClearInternalData();
+
+			RendererDX9 *renderer;
 			IDirect3DDevice9 *device;
+
+			Size realSize;
 			
 			D3DLOCKED_RECT lock;
-			
 			IDirect3DTexture9 *texture;
+			std::vector<std::vector<Color> > framesData;
 
-			//Animation
-			std::vector<IDirect3DTexture9*> frames;
 			int frame;
-			
-			std::vector<std::vector<unsigned char> > framesReset;
+			std::vector<IDirect3DTexture9*> frames;
 
 			class TextureDX9Iterator
 			{
