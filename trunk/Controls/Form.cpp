@@ -73,7 +73,7 @@ namespace OSHGui
 		return captionBar->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Form::SetForeColor(const Drawing::Color &color)
+	void Form::SetForeColor(Drawing::Color color)
 	{
 		ContainerControl::SetForeColor(color);
 
@@ -246,7 +246,7 @@ namespace OSHGui
 		return titleLabel->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::SetForeColor(const Drawing::Color &color)
+	void Form::CaptionBar::SetForeColor(Drawing::Color color)
 	{
 		ContainerControl::SetForeColor(color);
 

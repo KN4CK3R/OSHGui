@@ -35,13 +35,13 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -77,23 +77,23 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void CalculateAbsoluteLocation();
+		virtual void CalculateAbsoluteLocation() override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
-		virtual void OnMouseDown(const MouseMessage &mouse);
-		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
-		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+		virtual void OnMouseDown(const MouseMessage &mouse) override;
+		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 		virtual void OnTextChanged();
 
 	private:

@@ -48,7 +48,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorPicker::SetColor(const Drawing::Color &color)
+	void ColorPicker::SetColor(Drawing::Color color)
 	{
 		if (this->color != color)
 		{
@@ -61,12 +61,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& ColorPicker::GetColor() const
+	Drawing::Color ColorPicker::GetColor() const
 	{
 		return color;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
+	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (x < 0 || x >= GetWidth())
@@ -152,7 +152,7 @@ namespace OSHGui
 		return tmpColor;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::Point &point) const
+	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::Point &point) const
 	{
 		return GetColorAtPoint(point.X, point.Y);
 	}

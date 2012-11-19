@@ -224,32 +224,32 @@ namespace OSHGui
 		return name;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetForeColor(const Drawing::Color &color)
+	void Control::SetForeColor(Drawing::Color color)
 	{
 		foreColor = color;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& Control::GetForeColor() const
+	Drawing::Color Control::GetForeColor() const
 	{
 		return foreColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBackColor(const Drawing::Color &color)
+	void Control::SetBackColor(Drawing::Color color)
 	{
 		backColor = color;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& Control::GetBackColor() const
+	Drawing::Color Control::GetBackColor() const
 	{
 		return backColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetMouseOverFocusColor(const Drawing::Color &color)
+	void Control::SetMouseOverFocusColor(Drawing::Color color)
 	{
 		mouseOverFocusColor = color;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& Control::GetMouseOverFocusColor() const
+	Drawing::Color Control::GetMouseOverFocusColor() const
 	{
 		return mouseOverFocusColor;
 	}

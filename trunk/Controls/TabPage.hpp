@@ -34,14 +34,14 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt das übergeordnete Steuerelement fest.
 		 * Kann nur ein TabControl sein!
 		 *
 		 * @param parent
 		 */
-		virtual void SetParent(Control *parent);
+		virtual void SetParent(Control *parent) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -59,21 +59,21 @@ namespace OSHGui
 		 *
 		 * @return parent
 		 */
-		virtual const std::deque<Control*>& GetControls() const;
+		virtual const std::deque<Control*>& GetControls() const override;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
 		 * @param control
 		 */
-		virtual void AddControl(Control *control);
+		virtual void AddControl(Control *control) override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	private:
 		Misc::AnsiString text;

@@ -66,13 +66,13 @@ namespace OSHGui
 		 *
 		 * @param color
 		 */
-		void SetBarColor(const Drawing::Color &color);
+		void SetBarColor(Drawing::Color color);
 		/**
 		 * Gibt die Farbe des Fortschrittsbalken zurück.
 		 *
 		 * @return die Farbe
 		 */
-		const Drawing::Color& GetBarColor() const;
+		Drawing::Color GetBarColor() const;
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -80,14 +80,14 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 	
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	private:
 		static const Drawing::Size DefaultSize;

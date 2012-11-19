@@ -63,7 +63,7 @@ namespace OSHGui
 		captionLabel->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::SetForeColor(const Drawing::Color &color)
+	void GroupBox::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 

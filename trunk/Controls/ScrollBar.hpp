@@ -31,13 +31,13 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Legt den aktuellen Wert des Bildlauffelds fets.
 		 *
@@ -75,11 +75,11 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void CalculateAbsoluteLocation();
+		virtual void CalculateAbsoluteLocation() override;
 		/**
 		 * Verschiebt die ScrollBar zum Anfang.
 		 */
@@ -94,14 +94,14 @@ namespace OSHGui
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
-		virtual void OnMouseDown(const MouseMessage &mouse);
-		virtual void OnMouseUp(const MouseMessage &mouse);
-		virtual void OnMouseClick(const MouseMessage &mouse);
-		virtual void OnMouseMove(const MouseMessage &mouse);
-		virtual void OnMouseScroll(const MouseMessage &mouse);
+		virtual void OnMouseDown(const MouseMessage &mouse) override;
+		virtual void OnMouseUp(const MouseMessage &mouse) override;
+		virtual void OnMouseClick(const MouseMessage &mouse) override;
+		virtual void OnMouseMove(const MouseMessage &mouse) override;
+		virtual void OnMouseScroll(const MouseMessage &mouse) override;
 
 	private:
 		static const int MinimumSliderHeight = 25;
@@ -132,12 +132,12 @@ namespace OSHGui
 
 			ScrollBarButton(int direction);
 			
-			virtual void SetSize(const Drawing::Size &size);
+			virtual void SetSize(const Drawing::Size &size) override;
 
-			virtual bool Intersect(const Drawing::Point &point) const;
-			virtual void CalculateAbsoluteLocation();
+			virtual bool Intersect(const Drawing::Point &point) const override;
+			virtual void CalculateAbsoluteLocation() override;
 
-			virtual void Render(Drawing::IRenderer *renderer);
+			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		private:
 			int direction;

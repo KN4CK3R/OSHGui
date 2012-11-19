@@ -34,13 +34,13 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
 		/**
 		 * Legt fest, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
 		 *
@@ -127,20 +127,20 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
-		virtual void OnMouseClick(const MouseMessage &mouse);
-		virtual void OnMouseScroll(const MouseMessage &mouse);
-		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
-		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
+		virtual void OnMouseClick(const MouseMessage &mouse) override;
+		virtual void OnMouseScroll(const MouseMessage &mouse) override;
+		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
+		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
 
 	private:
 		static const Drawing::Size DefaultSize;

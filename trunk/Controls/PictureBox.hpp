@@ -30,35 +30,29 @@ namespace OSHGui
 		virtual ~PictureBox();
 		
 		/**
-		 * Legt die Höhe und Breite des Steuerelements fest.
-		 *
-		 * @param size
-		 */
-		virtual void SetSize(const Drawing::Size &size);
-		/**
 		 * Legt das in der PictureBox dargestellte Bild fest.
 		 *
 		 * @param image das Bild
 		 */
-		virtual void SetImage(const std::shared_ptr<Drawing::ITexture> &image);
+		void SetImage(const std::shared_ptr<Drawing::ITexture> &image);
 		/**
 		 * Ruft das in der PictureBox dargestellte Bild ab.
 		 *
 		 * @return das Bild
 		 */
-		virtual std::shared_ptr<Drawing::ITexture> GetImage() const;
+		const std::shared_ptr<Drawing::ITexture>& GetImage() const;
 		/**
 		 * Legt fest, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
 		 *
 		 * @param strech
 		 */
-		virtual void SetStretch(bool strech);
+		void SetStretch(bool strech);
 		/**
 		 * Ruft ab, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
 		 *
 		 * @return strech
 		 */
-		virtual bool GetStretch() const;
+		bool GetStretch() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -66,14 +60,14 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	private:
 		static const Drawing::Size DefaultSize;

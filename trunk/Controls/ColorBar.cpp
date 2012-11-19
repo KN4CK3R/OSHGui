@@ -66,7 +66,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorBar::SetColor(const Drawing::Color &color)
+	void ColorBar::SetColor(Drawing::Color color)
 	{
 		if (this->color != color)
 		{
@@ -79,7 +79,7 @@ namespace OSHGui
 		colorChangedEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Color& ColorBar::GetColor() const
+	Drawing::Color ColorBar::GetColor() const
 	{
 		return color;
 	}

@@ -75,7 +75,7 @@ namespace OSHGui
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetForeColor(const Drawing::Color &color)
+	void ScrollBar::SetForeColor(Drawing::Color color)
 	{
 		ContainerControl::SetForeColor(color);
 

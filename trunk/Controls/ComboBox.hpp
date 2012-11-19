@@ -36,31 +36,31 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color);
+		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * @param color
 		 */
-		virtual void SetBackColor(const Drawing::Color &color);
+		virtual void SetBackColor(Drawing::Color color) override;
 		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
 		 *
 		 * @return isFocused
 		 */
-		virtual bool GetIsFocused() const;
+		virtual bool GetIsFocused() const override;
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *

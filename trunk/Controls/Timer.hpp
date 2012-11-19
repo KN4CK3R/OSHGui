@@ -33,7 +33,7 @@ namespace OSHGui
 		 *
 		 * @param isEnabled
 		 */
-		virtual void SetEnabled(bool isEnabled);
+		virtual void SetEnabled(bool isEnabled) override;
 		/**
 		 * Legt die Frequenz des Timers in Millisekunden fest.
 		 *
@@ -67,7 +67,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 
 	private:
 		int interval;

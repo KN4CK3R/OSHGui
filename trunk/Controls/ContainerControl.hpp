@@ -36,13 +36,13 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::Size &size) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
 		 * @return parent
 		 */
-		const virtual std::deque<Control*>& GetControls() const;
+		virtual const std::deque<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
@@ -77,17 +77,17 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
-		virtual void CalculateAbsoluteLocation();
+		virtual void CalculateAbsoluteLocation() override;
 
 		PostOrderVisibleIterator GetPostOrderVisibleEnumerator();
 
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Render(Drawing::IRenderer *renderer) override;
 
-		virtual void ApplyTheme(const Drawing::Theme &theme);
+		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 
 	protected:
 		void AddSubControl(Control* subcontrol);

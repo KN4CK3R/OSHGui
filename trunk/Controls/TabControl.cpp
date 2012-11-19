@@ -73,7 +73,7 @@ namespace OSHGui
 		nextSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, TabControlSwitchButton::DefaultSize.Height + 1);
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::SetForeColor(const Drawing::Color &color)
+	void TabControl::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 
@@ -87,7 +87,7 @@ namespace OSHGui
 		nextSwitchButton->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::SetBackColor(const Drawing::Color &color)
+	void TabControl::SetBackColor(Drawing::Color color)
 	{
 		Control::SetBackColor(color);
 
@@ -383,7 +383,7 @@ namespace OSHGui
 		delete label;
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlButton::SetForeColor(const Drawing::Color &color)
+	void TabControl::TabControlButton::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 
