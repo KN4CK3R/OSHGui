@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * @return das Bild
 		 */
-		const std::shared_ptr<Drawing::ITexture>& GetImage() const;
+		std::shared_ptr<Drawing::ITexture>& GetImage();
 		/**
 		 * Legt fest, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
 		 *
