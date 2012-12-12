@@ -191,6 +191,9 @@
     <ClCompile Include="..\..\Cursor\Pen.cpp">
       <Filter>Quelldateien\Cursor</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Controls\HotkeyControl.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Misc\Any.hpp">
@@ -375,6 +378,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Event\MouseMessage.hpp">
       <Filter>Headerdateien\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Controls\HotkeyControl.hpp">
+      <Filter>Headerdateien\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

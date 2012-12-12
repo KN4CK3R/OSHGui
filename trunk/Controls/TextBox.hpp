@@ -47,29 +47,31 @@ namespace OSHGui
 		 *
 		 * @param text
 		 */
-		void SetText(const Misc::AnsiString &text);
+		virtual void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
 		 * @return der Text
 		 */
-		const Misc::AnsiString& GetText() const;
+		virtual const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt das Zeichen fest, das bei der Kennworteingabe angezeigt wird.
 		 *
 		 * @param passwordChar
 		 */
-		void SetPasswordChar(const Misc::AnsiChar &passwordChar);
+		virtual void SetPasswordChar(const Misc::AnsiChar &passwordChar);
 		/**
 		 * Ruft das Zeichen ab, das bei der Kennworteingabe angezeigt wird.
 		 */
-		const Misc::AnsiChar& GetPasswordChar() const;
+		virtual const Misc::AnsiChar& GetPasswordChar() const;
 		/**
 		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
 		 * @return textChangedEvent
 		 */
 		TextChangedEvent& GetTextChangedEvent();
+
+		virtual void ShowCaret(bool showCaret);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -111,6 +113,7 @@ namespace OSHGui
 						   caretRect;
 		
 		bool showCaret;
+		bool drawCaret;
 		Misc::TimeSpan blinkTime;
 		Misc::DateTime nextBlinkTime;
 		int caretPosition;

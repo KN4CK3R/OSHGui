@@ -116,6 +116,7 @@
     <ClInclude Include="..\..\Controls\Control.hpp" />
     <ClInclude Include="..\..\Controls\Form.hpp" />
     <ClInclude Include="..\..\Controls\GroupBox.hpp" />
+    <ClInclude Include="..\..\Controls\HotkeyControl.hpp" />
     <ClInclude Include="..\..\Controls\Label.hpp" />
     <ClInclude Include="..\..\Controls\LinkLabel.hpp" />
     <ClInclude Include="..\..\Controls\ListBox.hpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="..\..\Controls\Control.cpp" />
     <ClCompile Include="..\..\Controls\Form.cpp" />
     <ClCompile Include="..\..\Controls\GroupBox.cpp" />
+    <ClCompile Include="..\..\Controls\HotkeyControl.cpp" />
     <ClCompile Include="..\..\Controls\Label.cpp" />
     <ClCompile Include="..\..\Controls\LinkLabel.cpp" />
     <ClCompile Include="..\..\Controls\ListBox.cpp" />
