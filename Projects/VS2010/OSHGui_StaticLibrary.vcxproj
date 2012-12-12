@@ -115,6 +115,7 @@
     <ClCompile Include="..\..\Controls\Control.cpp" />
     <ClCompile Include="..\..\Controls\Form.cpp" />
     <ClCompile Include="..\..\Controls\GroupBox.cpp" />
+    <ClCompile Include="..\..\Controls\HotkeyControl.cpp" />
     <ClCompile Include="..\..\Controls\Label.cpp" />
     <ClCompile Include="..\..\Controls\LinkLabel.cpp" />
     <ClCompile Include="..\..\Controls\ListBox.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="..\..\Cursor\Pipette.cpp" />
     <ClCompile Include="..\..\Cursor\Wait.cpp" />
     <ClCompile Include="..\..\Drawing\Color.cpp" />
+    <ClCompile Include="..\..\Drawing\Graphics.cpp" />
     <ClCompile Include="..\..\Drawing\IRenderer.cpp" />
     <ClCompile Include="..\..\Drawing\ITexture.cpp" />
     <ClCompile Include="..\..\Drawing\Point.cpp" />
@@ -165,6 +167,7 @@
     <ClInclude Include="..\..\Controls\Control.hpp" />
     <ClInclude Include="..\..\Controls\Form.hpp" />
     <ClInclude Include="..\..\Controls\GroupBox.hpp" />
+    <ClInclude Include="..\..\Controls\HotkeyControl.hpp" />
     <ClInclude Include="..\..\Controls\Label.hpp" />
     <ClInclude Include="..\..\Controls\LinkLabel.hpp" />
     <ClInclude Include="..\..\Controls\ListBox.hpp" />
@@ -188,6 +191,7 @@
     <ClInclude Include="..\..\Cursor\Pipette.hpp" />
     <ClInclude Include="..\..\Cursor\Wait.hpp" />
     <ClInclude Include="..\..\Drawing\Color.hpp" />
+    <ClInclude Include="..\..\Drawing\Graphics.hpp" />
     <ClInclude Include="..\..\Drawing\IFont.hpp" />
     <ClInclude Include="..\..\Drawing\IRenderer.hpp" />
     <ClInclude Include="..\..\Drawing\ITexture.hpp" />

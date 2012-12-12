@@ -92,15 +92,6 @@ namespace OSHGui
 
 						switch (message->wParam)
 						{
-							case VK_CONTROL:
-								keyboard.KeyCode = Key::Control;
-								break;
-							case VK_SHIFT:
-								keyboard.KeyCode = Key::Shift;
-								break;
-							case VK_MENU:
-								keyboard.KeyCode = Key::Alt;
-								break;
 							case VK_BACK:
 								keyboard.KeyCode = Key::Back;
 								break;

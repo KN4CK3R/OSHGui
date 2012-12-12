@@ -24,7 +24,8 @@ namespace OSHGui
 		  blinkTime(Misc::TimeSpan::FromMilliseconds(500)),
 		  firstVisibleCharacter(0),
 		  caretPosition(0),
-		  passwordChar('\0')
+		  passwordChar('\0'),
+		  showCaret(true)
 	{
 		type = CONTROL_TEXTBOX;
 	
@@ -47,6 +48,9 @@ namespace OSHGui
 		Control::SetSize(fixxed);
 
 		textRect = Drawing::Rectangle(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+
+		firstVisibleCharacter = 0;
+		PlaceCaret(textHelper.GetText().length());
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
@@ -68,6 +72,7 @@ namespace OSHGui
 			textHelper.SetText(Misc::AnsiString(text.length(), passwordChar));
 		}
 
+		firstVisibleCharacter = 0;
 		PlaceCaret(text.length());
 		
 		textChangedEvent.Invoke(this);
@@ -75,7 +80,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TextBox::GetText() const
 	{
-		return passwordChar == '\0' ? textHelper.GetText() : realtext;
+		return realtext;
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::SetPasswordChar(const Misc::AnsiChar &passwordChar)
@@ -96,6 +101,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
+	void TextBox::ShowCaret(bool showCaret)
+	{
+		this->showCaret = showCaret;
+	}
+	//---------------------------------------------------------------------------
 	bool TextBox::Intersect(const Drawing::Point &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
@@ -111,7 +121,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::ResetCaretBlink()
 	{
-		showCaret = true;
+		drawCaret = true;
 		nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
 	}
 	//---------------------------------------------------------------------------
@@ -272,15 +282,18 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
 
-		if (Application::Instance()->GetNow() > nextBlinkTime)
+		if (showCaret)
 		{
-			showCaret = !showCaret;
-			nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
-		}
+			if (Application::Instance()->GetNow() > nextBlinkTime)
+			{
+				drawCaret = !drawCaret;
+				nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
+			}
 
-		if (isFocused && showCaret)
-		{
-			renderer->Fill(caretRect);
+			if (isFocused && drawCaret)
+			{
+				renderer->Fill(caretRect);
+			}
 		}
 	}
 	//---------------------------------------------------------------------------

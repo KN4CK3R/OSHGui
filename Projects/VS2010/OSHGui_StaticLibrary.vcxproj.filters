@@ -191,6 +191,12 @@
     <ClCompile Include="..\..\Drawing\Theme.cpp">
       <Filter>Quelldateien\Drawing</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Drawing\Graphics.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\HotkeyControl.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Misc\Any.hpp">
@@ -381,6 +387,12 @@
     </ClInclude>
     <ClInclude Include="..\..\TimerManager.hpp">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Drawing\Graphics.hpp">
+      <Filter>Headerdateien\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Controls\HotkeyControl.hpp">
+      <Filter>Headerdateien\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

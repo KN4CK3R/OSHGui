@@ -16,24 +16,24 @@ namespace OSHGui
 	/**
 	 * Stellt Tastencodes bereit.
 	 */
-	class OSHGUI_EXPORT Key
+	namespace Key
 	{
-	public:
 		/**
 		 * Aufzählung der Tastencodes
 		 */
 		enum Keys
 		{
-			None,
+			None = 0,
 			D0, D1, D2, D3, D4, D5, D6, D7, D8, D9,
 			A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
 			Space, Back,
 			Insert, Home, End, Delete, PageUp, PageDown,
-			Alt, Control, Shift, Tab,
+			Tab,
 			Return, Escape,
 			Up, Right, Down, Left,
 			Divide, Multiply, Substract, Add,
-			F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12
+			F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12,
+			Alt = 64, Control = 128, Shift = 256
 		};
 	};
  

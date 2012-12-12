@@ -236,6 +236,9 @@
     <ClInclude Include="..\..\Misc\TimeSpan.hpp">
       <Filter>Headerdateien\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Controls\HotkeyControl.hpp">
+      <Filter>Headerdateien\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Application.cpp">
@@ -381,6 +384,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Misc\TimeSpan.cpp">
       <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\HotkeyControl.cpp">
+      <Filter>Quelldateien\Controls</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

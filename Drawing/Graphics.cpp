@@ -95,9 +95,9 @@ namespace OSHGui
 							{
 								nodes[i + 1] = size.Width;
 							}
-							for (int x = nodes[i]; x < nodes[i + 1]; ++x)
+							if (nodes[i] < nodes[i + 1])
 							{
-								texture->Fill(x, y, color);
+								texture->Fill(nodes[i], y, nodes[i + 1] - nodes[i], 1, color);
 							}
 						}
 					}
@@ -192,5 +192,6 @@ namespace OSHGui
 				}
 			}
 		}
+		//---------------------------------------------------------------------------
 	}
 }
