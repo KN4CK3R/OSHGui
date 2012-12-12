@@ -32,7 +32,7 @@ namespace OSHGui
 
 					static Drawing::Point lastMouseLocation;
 
-					MouseMessage mouse(MouseMessage::Unknown, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
+					MouseMessage mouse(MouseMessage::Unknown, MouseButton::None, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
 					{
@@ -41,19 +41,33 @@ namespace OSHGui
 							break;
 						case WM_LBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseMessage::LeftDown;
+							mouse.State = MouseMessage::Down;
+							mouse.Button = MouseButton::Left;
 							break;
 						case WM_LBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseMessage::LeftUp;
+							mouse.State = MouseMessage::Up;
+							mouse.Button = MouseButton::Left;
 							break;
 						case WM_RBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseMessage::RightDown;
+							mouse.State = MouseMessage::Down;
+							mouse.Button = MouseButton::Right;
 							break;
 						case WM_RBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseMessage::RightUp;
+							mouse.State = MouseMessage::Up;
+							mouse.Button = MouseButton::Right;
+							break;
+						case WM_MBUTTONDOWN:
+							SetCapture(message->hwnd);
+							mouse.State = MouseMessage::Down;
+							mouse.Button = MouseButton::Middle;
+							break;
+						case WM_MBUTTONUP:
+							ReleaseCapture();
+							mouse.State = MouseMessage::Up;
+							mouse.Button = MouseButton::Middle;
 							break;
 						case WM_MOUSEWHEEL:
 							mouse.State = MouseMessage::Scroll;
