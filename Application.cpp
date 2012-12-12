@@ -49,6 +49,7 @@ namespace OSHGui
 		MakeTheme(CONTROL_TABPAGE,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF474747));
 		MakeTheme(CONTROL_TEXTBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
 		MakeTheme(CONTROL_TRACKBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
+		MakeTheme(CONTROL_HOTKEYCONTROL,Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
 
 		SetTheme(defaultTheme);
 	}

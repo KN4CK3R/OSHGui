@@ -575,11 +575,10 @@ namespace OSHGui
 	{
 		switch (mouse.State)
 		{
-			case MouseMessage::LeftDown:
-			case MouseMessage::RightDown:
+			case MouseMessage::Down:
 				if (canRaiseEvents && Intersect(mouse.Location))
 				{
-					if (mouse.State == MouseMessage::LeftDown && !isClicked && isEnabled)
+					if (mouse.Button == MouseButton::Left && !isClicked && isEnabled)
 					{
 						OnMouseDown(mouse);
 						
@@ -592,13 +591,12 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseMessage::LeftUp:
-			case MouseMessage::RightUp:
+			case MouseMessage::Up:
 				if (canRaiseEvents && (hasCaptured || Intersect(mouse.Location)))
 				{
 					if (isClicked)
 					{
-						if (mouse.State != MouseMessage::Unknown)
+						if (mouse.Button == MouseButton::Left) //////
 						{
 							clickEvent.Invoke(this);
 
@@ -705,6 +703,7 @@ namespace OSHGui
 			case CONTROL_PICTUREBOX: return "picturebox";
 			case CONTROL_COLORPICKER: return "colorpicker";
 			case CONTROL_COLORBAR: return "colorbar";
+			case CONTROL_HOTKEYCONTROL: return "hotkeycontrol";
 		}
 		throw 1;
 	}

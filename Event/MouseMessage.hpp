@@ -10,6 +10,7 @@
 #define OSHGUI_EVENT_MOUSEMESSAGE_HPP
 
 #include "../Drawing/Point.hpp"
+#include "MouseButton.hpp"
 
 namespace OSHGui
 {
@@ -30,21 +31,13 @@ namespace OSHGui
 			 */
 			Move,
 			/**
-			 * Linke Maustaste wurde gedrückt.
+			 * Maustaste wurde gedrückt.
 			 */
-			LeftDown,
+			Down,
 			/**
-			 * Linke Maustaste wurde losgelassen.
+			 * Maustaste wurde losgelassen.
 			 */
-			LeftUp,
-			/**
-			 * Rechte Maustaste wurde gedrückt.
-			 */
-			RightDown,
-			/**
-			 * Rechte Maustaste wurde losgelassen.
-			 */
-			RightUp,
+			Up,
 			/**
 			 * Mausrad wurde gedreht.
 			 */
@@ -52,6 +45,7 @@ namespace OSHGui
 		};
 	
 		MouseStates State;
+		MouseButton::MouseButtons Button;
 		Drawing::Point Location;
 		int Delta;
 		
@@ -59,11 +53,12 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse
 		 */
-		MouseMessage(MouseStates State, Drawing::Point Location, int Delta)
+		MouseMessage(MouseStates state, MouseButton::MouseButtons button, Drawing::Point location, int delta)
 		{
-			this->State = State;
-			this->Location = Location;
-			this->Delta = Delta;
+			this->State = state;
+			this->Button = button;
+			this->Location = location;
+			this->Delta = delta;
 		}
 	};
 }

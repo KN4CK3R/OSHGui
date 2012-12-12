@@ -19,7 +19,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	HotkeyControl::HotkeyControl()		  
 	{
-		type = CONTROL_TEXTBOX;
+		type = CONTROL_HOTKEYCONTROL;
 	
 		ApplyTheme(Application::Instance()->GetTheme());
 		
@@ -75,6 +75,7 @@ namespace OSHGui
 	{
 		hotkey = Key::None;
 		modifier = Key::None;
+
 		HotkeyToText();
 	}
 	//---------------------------------------------------------------------------
