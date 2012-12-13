@@ -137,7 +137,7 @@ namespace OSHGui
 	{
 		if (!Control::OnKeyUp(keyboard))
 		{
-			if (keyboard.KeyCode == Key::Space)
+			if (keyboard.GetKeyCode() == Key::Space)
 			{
 				SetChecked(!GetChecked());
 			}

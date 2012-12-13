@@ -200,7 +200,7 @@ namespace OSHGui
 	{
 		if (!Control::OnKeyDown(keyboard))
 		{
-			switch (keyboard.KeyCode)
+			switch (keyboard.GetKeyCode())
 			{
 				case Key::Home:
 					SetValueInternal(0);

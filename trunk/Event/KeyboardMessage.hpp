@@ -39,22 +39,42 @@ namespace OSHGui
 			 */
 			KeyUp
 		};
-
-		KeyboardStates State;
-		Key::Keys KeyCode;
-		Misc::AnsiChar KeyChar;
-		Key::Keys Modifier;
 		
 	public:
 		/**
 		 * Konstruktor der Klasse.
 		 */
-		KeyboardMessage()
+		KeyboardMessage(KeyboardStates state, Key::Keys keyData, Misc::AnsiChar keyChar)
+			: state(state),
+			  keyData(keyData),
+			  keyChar(keyChar)
 		{
-			State = Unknown;
-			KeyCode = Key::None;
-			KeyChar = '\0';
-			Modifier = Key::None;
+
+		}
+
+		Key::Keys GetKeyData() const
+		{
+			return keyData;
+		}
+
+		Key::Keys GetKeyCode() const
+		{
+			return keyData & Key::KeyCode;
+		}
+
+		Key::Keys GetModifier() const
+		{
+			return keyData & Key::Modifiers;
+		}
+
+		KeyboardStates GetState() const
+		{
+			return state;
+		}
+
+		Misc::AnsiChar GetKeyChar() const
+		{
+			return keyChar;
 		}
 
 		/**
@@ -64,11 +84,17 @@ namespace OSHGui
 		 */
 		bool IsAlphaNumeric() const
 		{
-			return Misc::String::IsLetterOrDigit(KeyChar)
-				|| Misc::String::IsPunctuation(KeyChar)
-				|| Misc::String::IsSeperator(KeyChar)
-				|| Misc::String::IsSymbol(KeyChar);
+			return Misc::String::IsLetterOrDigit(keyChar)
+				|| Misc::String::IsPunctuation(keyChar)
+				|| Misc::String::IsSeperator(keyChar)
+				|| Misc::String::IsSymbol(keyChar);
 		}
+
+	private:
+		KeyboardStates state;
+		Misc::AnsiChar keyChar;
+		Key::Keys keyData;
+
 	};
 }
 

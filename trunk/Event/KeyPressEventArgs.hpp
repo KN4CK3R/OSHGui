@@ -28,9 +28,10 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		KeyPressEventArgs(const KeyboardMessage &keyboardEvent)
+			: KeyChar(keyboardEvent.GetKeyChar()),
+			  Handled(false)
 		{
-			KeyChar = keyboardEvent.KeyChar;
-			Handled = false;
+
 		}
 	};
 }

@@ -109,7 +109,7 @@ namespace OSHGui
 	{
 		if (!Control::OnKeyUp(keyboard))
 		{
-			if (keyboard.KeyCode == Key::Return)
+			if (keyboard.GetKeyCode() == Key::Return)
 			{
 				clickEvent.Invoke(this);
 			}

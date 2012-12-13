@@ -190,72 +190,71 @@ namespace OSHGui
 		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Location - absoluteLocation + Drawing::Point(strWidth.Width - 7, 0)) - 1);
 	}
 	//---------------------------------------------------------------------------
+	bool TextBox::OnKeyDown(const KeyboardMessage &keyboard)
+	{
+		Control::OnKeyDown(keyboard);
+
+		switch (keyboard.GetKeyCode())
+		{
+			case Key::Delete:
+				if (caretPosition < textHelper.GetLength())
+				{
+					textHelper.Remove(caretPosition, 1);
+					realtext.erase(caretPosition, 1);
+					PlaceCaret(caretPosition);
+
+					OnTextChanged();
+				}
+				break;
+			case Key::Back:
+				if (caretPosition > 0 && textHelper.GetLength() > 0)
+				{
+					textHelper.Remove(caretPosition - 1, 1);
+					realtext.erase(caretPosition - 1, 1);
+					PlaceCaret(caretPosition - 1);
+
+					OnTextChanged();
+				}
+				break;
+			case Key::Left:
+				PlaceCaret(caretPosition - 1);
+				break;
+			case Key::Right:
+				PlaceCaret(caretPosition + 1);
+				break;
+			case Key::Home:
+				PlaceCaret(0);
+				break;
+			case Key::End:
+				PlaceCaret(textHelper.GetLength());
+				break;
+		}
+
+		return false;
+	}
+	//---------------------------------------------------------------------------
 	bool TextBox::OnKeyPress(const KeyboardMessage &keyboard)
 	{
 		if (!Control::OnKeyPress(keyboard))
 		{
-			if (keyboard.KeyCode != Key::Return)
+			KeyEventArgs args(keyboard);
+			if (keyboard.GetKeyCode() != Key::Return)
 			{
-				if (keyboard.KeyCode == Key::Back)
+				if (keyboard.IsAlphaNumeric())
 				{
-					if (caretPosition > 0 && textHelper.GetLength() > 0)
-					{
-						textHelper.Remove(caretPosition - 1, 1);
-						realtext.erase(caretPosition - 1, 1);
-						PlaceCaret(caretPosition - 1);
-
-						OnTextChanged();
-					}
-				}
-				else if (keyboard.IsAlphaNumeric())
-				{
-					realtext.insert(caretPosition, 1, keyboard.KeyChar);
+					realtext.insert(caretPosition, 1, keyboard.GetKeyChar());
 					if (passwordChar == '\0')
 					{
-						textHelper.Insert(caretPosition, keyboard.KeyChar);
+						textHelper.Insert(caretPosition, keyboard.GetKeyChar());
 					}
 					else
 					{
 						textHelper.Insert(caretPosition, '*');
 					}
 					PlaceCaret(++caretPosition);
-					
+
 					OnTextChanged();
 				}
-			}
-		}
-
-		return true;
-	}
-	//---------------------------------------------------------------------------
-	bool TextBox::OnKeyDown(const KeyboardMessage &keyboard)
-	{
-		if (!Control::OnKeyDown(keyboard))
-		{
-			switch (keyboard.KeyCode)
-			{
-				case Key::Delete:
-					if (caretPosition < textHelper.GetLength())
-					{
-						textHelper.Remove(caretPosition, 1);
-						realtext.erase(caretPosition, 1);
-						PlaceCaret(caretPosition);
-						
-						OnTextChanged();
-					}
-					break;
-				case Key::Left:
-					PlaceCaret(caretPosition - 1);
-					break;
-				case Key::Right:
-					PlaceCaret(caretPosition + 1);
-					break;
-				case Key::Home:
-					PlaceCaret(0);
-					break;
-				case Key::End:
-					PlaceCaret(textHelper.GetLength());
-					break;
 			}
 		}
 
