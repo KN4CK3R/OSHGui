@@ -238,9 +238,9 @@ namespace OSHGui
 	{
 		if (!Control::OnKeyDown(keyboard))
 		{
-			if (keyboard.KeyCode == Key::Left || keyboard.KeyCode == Key::Right)
+			if (keyboard.GetKeyCode() == Key::Left || keyboard.GetKeyCode() == Key::Right)
 			{
-				barSliderLocation[barIndex].Left += keyboard.KeyCode == Key::Left ? -1 : 1;
+				barSliderLocation[barIndex].Left += keyboard.GetKeyCode() == Key::Left ? -1 : 1;
 						
 				if (barSliderLocation[barIndex].Left < 0)
 				{

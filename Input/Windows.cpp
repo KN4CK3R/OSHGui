@@ -16,6 +16,12 @@ namespace OSHGui
 {
 	namespace Input
 	{
+		Windows::Windows()
+			: ImeWmCharsToIgnore(0)
+		{
+
+		}
+
 		bool Windows::ProcessMessage(LPMSG message)
 		{
 			switch (message->message)
@@ -89,177 +95,53 @@ namespace OSHGui
 				case WM_KEYUP:
 				case WM_SYSKEYUP:
 				case WM_CHAR:
+				case WM_SYSCHAR:
+				case WM_IME_CHAR:
 				{
-					KeyboardMessage keyboard;
-					keyboard.State = KeyboardMessage::Unknown;
-					keyboard.Modifier = Key::None;
-					if ((GetKeyState(VK_CONTROL) & 0x8000) > 0)
-						keyboard.Modifier |= Key::Control;
-					if ((GetKeyState(VK_SHIFT) & 0x8000) > 0)
-						keyboard.Modifier |= Key::Shift;
-					if ((GetKeyState(VK_MENU) & 0x8000) > 0)
-						keyboard.Modifier |= Key::Alt;
+					KeyboardMessage::KeyboardStates state = KeyboardMessage::Unknown;
+					Misc::AnsiChar keyChar = '\0';
+					Key::Keys keyData = Key::None;
 
-					if (message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN || message->message == WM_KEYUP || message->message == WM_SYSKEYUP)
+					if (message->message == WM_CHAR || message->message == WM_SYSCHAR)
 					{
-						keyboard.State = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardMessage::KeyDown : KeyboardMessage::KeyUp;
-
-						switch (message->wParam)
+						if (ImeWmCharsToIgnore > 0)
 						{
-							case VK_BACK:
-								keyboard.KeyCode = Key::Back;
-								break;
-							case VK_SPACE:
-								keyboard.KeyCode = Key::Space;
-								keyboard.KeyChar = ' ';
-								break;
-							case VK_TAB:
-								keyboard.KeyCode = Key::Tab;
-								break;
-							case VK_CLEAR:
-							case VK_DELETE:
-								keyboard.KeyCode = Key::Delete;
-								break;
-							case VK_INSERT:
-								keyboard.KeyCode = Key::Insert;
-								break;
-							case VK_RETURN:
-								keyboard.KeyCode = Key::Return;
-								break;
-							case VK_PRIOR:
-								keyboard.KeyCode = Key::PageDown;
-								break;
-							case VK_NEXT:
-								keyboard.KeyCode = Key::PageUp;
-								break;
-							case VK_END:
-								keyboard.KeyCode = Key::End;
-								break;
-							case VK_HOME:
-								keyboard.KeyCode = Key::Home;
-								break;
-							case VK_LEFT:
-								keyboard.KeyCode = Key::Left;
-								break;
-							case VK_UP:
-								keyboard.KeyCode = Key::Up;
-								break;
-							case VK_RIGHT:
-								keyboard.KeyCode = Key::Right;
-								break;
-							case VK_DOWN:
-								keyboard.KeyCode = Key::Down;
-								break;
-							case 26:
-							case 1:
-							case 2:
-							case 14:
-							case 19:
-							case 4:
-							case 6:
-							case 7:
-							case 10:
-							case 11:
-							case 23:
-							case 5:
-							case 20:
-							case 25:
-							case 21:
-							case 22:
-							case 24:
-							case 15:
-							case 27:
-							case 29:
-							case 28:
-								keyboard.KeyCode = Key::None;
-								break;
-						}
-						if (VK_F1 <= message->wParam && message->wParam <= VK_F12)
-						{
-							keyboard.KeyCode = static_cast<Key::Keys>(Key::F1 + (message->wParam - VK_F1));
+							--ImeWmCharsToIgnore;
+							return false;
 						}
 						else
 						{
-							std::locale loc;
-							Misc::AnsiChar keyChar = std::tolower(message->wParam, loc);
-							if (keyChar >= 'a' && keyChar <= 'z')
-							{
-								keyboard.KeyCode = (Key::Keys)((int)Key::A + (keyChar - 'a'));
-							}
-							else if (keyChar >= '0' && keyChar  <= '9')
-							{
-								keyboard.KeyCode = (Key::Keys)((int)Key::D0 + (keyChar - '0'));
-							}
+							state = KeyboardMessage::Character;
+							keyChar = (Misc::AnsiChar)message->wParam;
 						}
 					}
-					else if (message->message == WM_CHAR)
+					else if (message->message == WM_IME_CHAR)
 					{
-						keyboard.State = KeyboardMessage::Character;
+						int charSize = SystemDefaultCharSize;
+					}
+					else
+					{
+						Key::Keys modifier = Key::None;
+						if (GetKeyState(Key::ControlKey) < 0)
+							modifier |= Key::Control;
+						if (GetKeyState(Key::ShiftKey) < 0)
+							modifier |= Key::Shift;
+						if (GetKeyState(Key::Menu) < 0)
+							modifier |= Key::Alt;
 
-						switch ((Misc::AnsiChar)message->wParam)
+						state = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardMessage::KeyDown : KeyboardMessage::KeyUp;
+
+						keyData = (Key::Keys)message->wParam | modifier;
+					}
+
+					if (state != KeyboardMessage::Unknown)
+					{
+						if (Application::Instance()->ProcessKeyboardMessage(KeyboardMessage(state, keyData, keyChar)) == true)
 						{
-							case VK_BACK:
-								keyboard.KeyCode = Key::Back;
-								break;
-							case 24:        // Ctrl-X Cut
-							case VK_CANCEL: // Ctrl-C Copy
-								break;
-							case 22: // Ctrl-V Paste
-								break;
-							case 1: // Ctrl-A Select All
-								break;
-							case 26:  // Ctrl Z
-							case 2:   // Ctrl B
-							case 14:  // Ctrl N
-							case 19:  // Ctrl S
-							case 4:   // Ctrl D
-							case 6:   // Ctrl F
-							case 7:   // Ctrl G
-							case 10:  // Ctrl J
-							case 11:  // Ctrl K
-							case 12:  // Ctrl L
-							case 17:  // Ctrl Q
-							case 23:  // Ctrl W
-							case 5:   // Ctrl E
-							case 18:  // Ctrl R
-							case 20:  // Ctrl T
-							case 25:  // Ctrl Y
-							case 21:  // Ctrl U
-							case 9:   // Ctrl I
-							case 15:  // Ctrl O
-							case 16:  // Ctrl P
-							case 27:  // Ctrl [
-							case 29:  // Ctrl ]
-							case 28:  // Ctrl \ 
-								break;
-							default:
-								keyboard.KeyChar = (Misc::AnsiChar)message->wParam;
-								std::locale loc;
-								Misc::AnsiChar keyChar = std::tolower(keyboard.KeyChar, loc);
-								if (keyChar >= 'a' && keyChar <= 'z')
-								{
-									keyboard.KeyCode = (Key::Keys)((int)Key::A + (keyChar - 'a'));
-								}
-								else if (keyChar >= '0' && keyChar  <= '9')
-								{
-									keyboard.KeyCode = (Key::Keys)((int)Key::D0 + (keyChar - '0'));
-								}
-								else
-								{
-									keyboard.KeyCode = Key::None;
-								}
-								break;
+							return true;
 						}
 					}
-					if (keyboard.State == KeyboardMessage::Unknown)
-					{
-						break;
-					}
-			
-					if (Application::Instance()->ProcessKeyboardMessage(keyboard) == true)
-					{
-						return true;
-					}
+
 					break;
 				}
 			}

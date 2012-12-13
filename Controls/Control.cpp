@@ -596,7 +596,7 @@ namespace OSHGui
 				{
 					if (isClicked)
 					{
-						if (mouse.Button == MouseButton::Left) //////
+						if (mouse.Button == MouseButton::Left)
 						{
 							clickEvent.Invoke(this);
 
@@ -648,20 +648,15 @@ namespace OSHGui
 	{
 		if (canRaiseEvents)
 		{
-			switch (keyboard.State)
+			switch (keyboard.GetState())
 			{
 				case KeyboardMessage::KeyDown:
-					OnKeyDown(keyboard);
-					break;
+					return OnKeyDown(keyboard);
 				case KeyboardMessage::KeyUp:
-					OnKeyUp(keyboard);
-					break;
+					return OnKeyUp(keyboard);
 				case KeyboardMessage::Character:
-					OnKeyPress(keyboard);
-					break;
+					return OnKeyPress(keyboard);
 			}
-			
-			return true;
 		}
 		
 		return false;

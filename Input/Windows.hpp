@@ -24,6 +24,8 @@ namespace OSHGui
 		class OSHGUI_EXPORT Windows
 		{
 		public:
+			Windows();
+
 			/**
 			 * Wandelt eine Windows Message in ein Event um.
 			 *
@@ -31,6 +33,11 @@ namespace OSHGui
 			 * @return
 			 */
 			bool ProcessMessage(LPMSG message);
+
+		private:
+			static const int SystemDefaultCharSize = 2;
+
+			int ImeWmCharsToIgnore;
 		};
 	}
 }

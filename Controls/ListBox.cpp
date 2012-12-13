@@ -268,7 +268,7 @@ namespace OSHGui
 	{
 		if (!ContainerControl::OnKeyDown(keyboard))
 		{
-			switch (keyboard.KeyCode)
+			switch (keyboard.GetKeyCode())
 			{
 				case Key::Up:
 				case Key::Down:
@@ -279,7 +279,7 @@ namespace OSHGui
 				{
 					int newSelectedIndex = selectedIndex;
 
-					switch (keyboard.KeyCode)
+					switch (keyboard.GetKeyCode())
 					{
 						case Key::Up:
 							--newSelectedIndex;
@@ -311,11 +311,13 @@ namespace OSHGui
 					}
 
 					SetSelectedIndex(newSelectedIndex);
+
+					return true;
 				}
 			}
 		}
 
-		return true;
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyPress(const KeyboardMessage &keyboard)
@@ -325,7 +327,7 @@ namespace OSHGui
 			if (keyboard.IsAlphaNumeric())
 			{
 				std::locale loc;
-				Misc::AnsiChar keyChar = std::tolower(keyboard.KeyChar, loc);
+				Misc::AnsiChar keyChar = std::tolower(keyboard.GetKeyChar(), loc);
 				int foundIndex = 0;
 				for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
 				{

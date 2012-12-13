@@ -36,7 +36,7 @@ namespace OSHGui
 		});
 		button->GetKeyDownEvent() += KeyDownEventHandler([this](Control*, KeyEventArgs &args)
 		{
-			switch (args.KeyCode)
+			switch (args.GetKeyCode())
 			{
 				case Key::Up:
 				case Key::Down:
@@ -47,7 +47,7 @@ namespace OSHGui
 				{
 					int newSelectedIndex = listBox->GetSelectedIndex();
 
-					switch (args.KeyCode)
+					switch (args.GetKeyCode())
 					{
 						case Key::Up:
 							--newSelectedIndex;

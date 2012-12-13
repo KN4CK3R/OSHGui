@@ -250,12 +250,12 @@ namespace OSHGui
 			}
 		}
 
-		if (keyboard.State == KeyboardMessage::KeyUp)
+		if (keyboard.GetState() == KeyboardMessage::KeyUp)
 		{
 			for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
 			{
 				Hotkey &temp = *it;
-				if (temp.GetKey() == keyboard.KeyCode && temp.GetModifier() == keyboard.Modifier)
+				if (temp.GetKey() == keyboard.GetKeyCode() && temp.GetModifier() == keyboard.GetModifier())
 				{
 					temp();
 				}

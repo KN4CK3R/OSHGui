@@ -20,25 +20,48 @@ namespace OSHGui
 	class OSHGUI_EXPORT KeyEventArgs
 	{
 	public:
-		Key::Keys KeyCode;
-		Misc::AnsiChar KeyChar;
-		Key::Keys Modifier;
-		bool Handled;
-		
-	public:
 		/**
 		 * Konstruktor der Klasse
 		 *
 		 * @param keyboardEvent
 		 */
 		KeyEventArgs(const KeyboardMessage &keyboardEvent)
-			: KeyCode(keyboardEvent.KeyCode),
-			  KeyChar(keyboardEvent.KeyChar),
-			  Modifier(keyboardEvent.Modifier),
+			: keyData(keyboardEvent.GetKeyData()),
 			  Handled(false)
 		{
 			
 		}
+
+		Key::Keys GetKeyCode() const
+		{
+			return keyData & Key::KeyCode;
+		}
+
+		Key::Keys GetModifier() const
+		{
+			return keyData & Key::Modifiers;
+		}
+
+		bool IsControl() const
+		{
+			return (keyData & Key::Control) == Key::Control;
+		}
+
+		bool IsMenu() const
+		{
+			return (keyData & Key::Alt) == Key::Alt;
+		}
+
+		bool IsShift() const
+		{
+			return (keyData & Key::Shift) == Key::Shift;
+		}
+
+	public:
+		bool Handled;
+
+	private:
+		Key::Keys keyData;
 	};
 }
 
