@@ -10,6 +10,7 @@
 #define OSHGUI_HOTKEYCONTROL_HPP
 
 #include "TextBox.hpp"
+#include <map>
 
 namespace OSHGui
 {
@@ -72,6 +73,8 @@ namespace OSHGui
 
 		Key::Keys hotkey;
 		Key::Keys modifier;
+
+		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
 	};
 }
 

@@ -14,79 +14,18 @@
 
 namespace OSHGui
 {
+	std::map<Key::Keys, Misc::AnsiString> HotkeyControl::hotkeyNames;
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	HotkeyControl::HotkeyControl()		  
 	{
 		type = CONTROL_HOTKEYCONTROL;
-	
-		ApplyTheme(Application::Instance()->GetTheme());
-		
-		cursor = Cursors::Get(Cursors::Default);
 
-		ClearHotkey();
-
-		TextBox::ShowCaret(false);
-	}
-	//---------------------------------------------------------------------------
-	HotkeyControl::~HotkeyControl()
-	{
-
-	}
-	//---------------------------------------------------------------------------
-	//Getter/Setter
-	//---------------------------------------------------------------------------
-	void HotkeyControl::SetText(const Misc::AnsiString &text)
-	{
-
-	}
-	//---------------------------------------------------------------------------
-	void HotkeyControl::SetHotkey(Key::Keys hotkey)
-	{
-		this->hotkey = hotkey;
-		HotkeyToText();
-	}
-	//---------------------------------------------------------------------------
-	Key::Keys HotkeyControl::GetHotkey() const
-	{
-		return hotkey;
-	}
-	//---------------------------------------------------------------------------
-	void HotkeyControl::SetHotkeyModifier(Key::Keys modifier)
-	{
-		this->modifier = modifier;
-		HotkeyToText();
-	}
-	//---------------------------------------------------------------------------
-	Key::Keys HotkeyControl::GetHotkeyModifier() const
-	{
-		return modifier;
-	}
-	//---------------------------------------------------------------------------
-	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	void HotkeyControl::ShowCaret(bool showCaret)
-	{
-
-	}
-	//---------------------------------------------------------------------------
-	void HotkeyControl::ClearHotkey()
-	{
-		hotkey = Key::None;
-		modifier = Key::None;
-
-		HotkeyToText();
-	}
-	//---------------------------------------------------------------------------
-	void HotkeyControl::HotkeyToText()
-	{
-		#define EnumToString(x) #x
-
-		using namespace Key;
-
-		std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
+		if (hotkeyNames.empty())
 		{
+			#define EnumToString(x) #x
+			using namespace Key;
 			hotkeyNames[None] = EnumToString(None);
 			hotkeyNames[LButton] = EnumToString(LButton);
 			hotkeyNames[RButton] = EnumToString(RButton);
@@ -278,7 +217,67 @@ namespace OSHGui
 			hotkeyNames[OemClear] = EnumToString(OemClear);
 		}
 
-		auto ModifierToString = [&hotkeyNames](Key::Keys modifier) -> Misc::AnsiString
+		ApplyTheme(Application::Instance()->GetTheme());
+		
+		cursor = Cursors::Get(Cursors::Default);
+
+		ClearHotkey();
+
+		TextBox::ShowCaret(false);
+	}
+	//---------------------------------------------------------------------------
+	HotkeyControl::~HotkeyControl()
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	//Getter/Setter
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetText(const Misc::AnsiString &text)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetHotkey(Key::Keys hotkey)
+	{
+		this->hotkey = hotkey;
+		HotkeyToText();
+	}
+	//---------------------------------------------------------------------------
+	Key::Keys HotkeyControl::GetHotkey() const
+	{
+		return hotkey;
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetHotkeyModifier(Key::Keys modifier)
+	{
+		this->modifier = modifier;
+		HotkeyToText();
+	}
+	//---------------------------------------------------------------------------
+	Key::Keys HotkeyControl::GetHotkeyModifier() const
+	{
+		return modifier;
+	}
+	//---------------------------------------------------------------------------
+	//Runtime-Functions
+	//---------------------------------------------------------------------------
+	void HotkeyControl::ShowCaret(bool showCaret)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::ClearHotkey()
+	{
+		hotkey = Key::None;
+		modifier = Key::None;
+
+		HotkeyToText();
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::HotkeyToText()
+	{
+		auto ModifierToString = [](Key::Keys modifier) -> Misc::AnsiString
 		{
 			std::vector<Misc::AnsiString> modifierNames;
 			if ((modifier & Key::Control) == Key::Control) modifierNames.push_back("Control");
