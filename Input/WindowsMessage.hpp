@@ -21,10 +21,10 @@ namespace OSHGui
 		/**
 		 * Verwaltet den Input unter Windows.
 		 */
-		class OSHGUI_EXPORT Windows
+		class OSHGUI_EXPORT WindowsMessage
 		{
 		public:
-			Windows();
+			WindowsMessage();
 
 			/**
 			 * Wandelt eine Windows Message in ein Event um.

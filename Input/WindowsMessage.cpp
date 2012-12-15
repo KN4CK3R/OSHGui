@@ -6,8 +6,7 @@
  * See license in OSHGui.hpp
  */
 
-#include <locale>
-#include "Windows.hpp"
+#include "WindowsMessage.hpp"
 #include "../Event/MouseMessage.hpp"
 #include "../Event/KeyboardMessage.hpp"
 #include "../Application.hpp"
@@ -16,13 +15,13 @@ namespace OSHGui
 {
 	namespace Input
 	{
-		Windows::Windows()
+		WindowsMessage::WindowsMessage()
 			: ImeWmCharsToIgnore(0)
 		{
 
 		}
 
-		bool Windows::ProcessMessage(LPMSG message)
+		bool WindowsMessage::ProcessMessage(LPMSG message)
 		{
 			switch (message->message)
 			{
