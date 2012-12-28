@@ -11,7 +11,6 @@
 #define NOMINMAX
 #include <D3dx9tex.h>
 #include "../../Misc/Exceptions.hpp"
-#include "../../static_project/resource.h"
 #include <fstream>
 
 namespace OSHGui
