@@ -160,7 +160,7 @@
     <ClInclude Include="..\..\Event\ScrollEventArgs.hpp" />
     <ClInclude Include="..\..\Exports.hpp" />
     <ClInclude Include="..\..\FormManager.hpp" />
-    <ClInclude Include="..\..\Input\Windows.hpp" />
+    <ClInclude Include="..\..\Input\WindowsMessage.hpp" />
     <ClInclude Include="..\..\Misc\Any.hpp" />
     <ClInclude Include="..\..\Misc\DateTime.hpp" />
     <ClInclude Include="..\..\Misc\Exceptions.hpp" />
@@ -213,7 +213,7 @@
     <ClCompile Include="..\..\Drawing\TextureAnimator.cpp" />
     <ClCompile Include="..\..\Drawing\Theme.cpp" />
     <ClCompile Include="..\..\FormManager.cpp" />
-    <ClCompile Include="..\..\Input\Windows.cpp" />
+    <ClCompile Include="..\..\Input\WindowsMessage.cpp" />
     <ClCompile Include="..\..\Misc\DateTime.cpp" />
     <ClCompile Include="..\..\Misc\Exceptions.cpp" />
     <ClCompile Include="..\..\Misc\Strings.cpp" />

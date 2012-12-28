@@ -215,9 +215,6 @@
     <ClInclude Include="..\..\Event\ScrollEventArgs.hpp">
       <Filter>Headerdateien\Event</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Input\Windows.hpp">
-      <Filter>Headerdateien\Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Misc\Any.hpp">
       <Filter>Headerdateien\Misc</Filter>
     </ClInclude>
@@ -238,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Controls\HotkeyControl.hpp">
       <Filter>Headerdateien\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Input\WindowsMessage.hpp">
+      <Filter>Headerdateien\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -367,9 +367,6 @@
     <ClCompile Include="..\..\Drawing\Theme.cpp">
       <Filter>Quelldateien\Drawing</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Input\Windows.cpp">
-      <Filter>Quelldateien\Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Misc\DateTime.cpp">
       <Filter>Quelldateien\Misc</Filter>
     </ClCompile>
@@ -387,6 +384,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Controls\HotkeyControl.cpp">
       <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Input\WindowsMessage.cpp">
+      <Filter>Quelldateien\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
