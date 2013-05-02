@@ -15,6 +15,12 @@
 namespace OSHGui
 {
 	/**
+	 * Tritt ein, wenn sich der Wert der Hotkey/Modifier-Eigenschaft ändert.
+	 */
+	typedef Event<void(Control*)> HotkeyChangedEvent;
+	typedef EventHandler<void(Control*)> HotkeyChangedEventHandler;
+
+	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
 	class OSHGUI_EXPORT HotkeyControl : public TextBox
@@ -53,14 +59,14 @@ namespace OSHGui
 		 */
 		virtual Key::Keys GetHotkeyModifier() const;
 
-		virtual void ShowCaret(bool showCaret);
-
 		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
+		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
-		 * @param renderer
+		 * @return textChangedEvent
 		 */
-		//virtual void Render(Drawing::IRenderer *renderer) override;
+		HotkeyChangedEvent& GetHotkeyChangedEvent();
+		
+		virtual void ShowCaret(bool showCaret);
 	
 	protected:
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
@@ -74,6 +80,8 @@ namespace OSHGui
 		Key::Keys hotkey;
 		Key::Keys modifier;
 
+		HotkeyChangedEvent hotkeyChangedEvent;
+		
 		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
 	};
 }
