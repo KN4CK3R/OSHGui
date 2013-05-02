@@ -242,6 +242,8 @@ namespace OSHGui
 	{
 		this->hotkey = hotkey;
 		HotkeyToText();
+
+		hotkeyChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	Key::Keys HotkeyControl::GetHotkey() const
@@ -253,11 +255,18 @@ namespace OSHGui
 	{
 		this->modifier = modifier;
 		HotkeyToText();
+
+		hotkeyChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	Key::Keys HotkeyControl::GetHotkeyModifier() const
 	{
 		return modifier;
+	}
+	//---------------------------------------------------------------------------
+	HotkeyChangedEvent& HotkeyControl::GetHotkeyChangedEvent()
+	{
+		return hotkeyChangedEvent;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -269,10 +278,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::ClearHotkey()
 	{
-		hotkey = Key::None;
-		modifier = Key::None;
-
-		HotkeyToText();
+		SetHotkey(Key::None);
+		SetHotkeyModifier(Key::None);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::HotkeyToText()
@@ -332,9 +339,8 @@ namespace OSHGui
 				break;
 			default:
 				KeyEventArgs args(keyboard);
-				hotkey = args.GetKeyCode();
-				modifier = args.GetModifier();
-				HotkeyToText();
+				SetHotkey(args.GetKeyCode());
+				SetHotkeyModifier(args.GetModifier());
 				break;
 		}
 
