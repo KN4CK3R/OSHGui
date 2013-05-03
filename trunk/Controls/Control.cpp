@@ -55,6 +55,11 @@ namespace OSHGui
 		return type;
 	}
 	//---------------------------------------------------------------------------
+	bool Control::IsContainer() const
+	{
+		return false;
+	}
+	//---------------------------------------------------------------------------
 	bool Control::GetIsFocused() const
 	{
 		return isFocused;

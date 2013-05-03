@@ -32,6 +32,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
+	bool ContainerControl::IsContainer() const
+	{
+		return true;
+	}
+	//---------------------------------------------------------------------------
 	void ContainerControl::SetSize(const Drawing::Size &size)
 	{
 		Drawing::Size offset = size - GetSize();
@@ -254,10 +259,9 @@ namespace OSHGui
 			Control *control = *it;
 			if (control->GetVisible())
 			{
-				ContainerControl *nextContainer = dynamic_cast<ContainerControl*>(control);
-				if (nextContainer != nullptr)
+				if (control->IsContainer())
 				{
-					LoopThrough(nextContainer);
+					LoopThrough(static_cast<ContainerControl*>(control));
 				}
 				else
 				{

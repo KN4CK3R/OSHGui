@@ -32,6 +32,13 @@ namespace OSHGui
 		~ContainerControl();
 
 		/**
+		 * Ruft ab, ob das Control ein Container ist.
+		 *
+		 * @return true, falls Container
+		 */
+		virtual bool IsContainer() const override;
+
+		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
 		 * @param size
