@@ -17,42 +17,42 @@
 
 namespace OSHGui
 {
-	std::map<int, std::shared_ptr<Cursor> > Cursors::cursors;
+	std::map<Cursors::CursorType, std::shared_ptr<Cursor> > Cursors::cursors;
 
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Cursor> Cursors::Get(Cursors::CursorType cursorType)
 	{
-		auto it = cursors.find((int)cursorType);
+		auto it = cursors.find(cursorType);
 		if (it == cursors.end())
 		{
 			std::shared_ptr<Cursor> cursor;
 			switch (cursorType)
 			{
 				case Cursors::IBeam:
-					cursor = std::shared_ptr<Cursor>(new IBeamCursor());
+					cursor = std::make_shared<IBeamCursor>();
 					break;
 				case Cursors::Pipette:
-					cursor = std::shared_ptr<Cursor>(new PipetteCursor());
+					cursor = std::make_shared<PipetteCursor>();
 					break;
 				case Cursors::Hand:
-					cursor = std::shared_ptr<Cursor>(new HandCursor());
+					cursor = std::make_shared<HandCursor>();
 					break;
 				case Cursors::Circle:
-					cursor = std::shared_ptr<Cursor>(new CircleCursor());
+					cursor = std::make_shared<CircleCursor>();
 					break;
 				case Cursors::Wait:
-					cursor = std::shared_ptr<Cursor>(new WaitCursor());
+					cursor = std::make_shared<WaitCursor>();
 					break;
 				case Cursors::Pen:
-					cursor = std::shared_ptr<Cursor>(new PenCursor());
+					cursor = std::make_shared<PenCursor>();
 					break;
 				default:
-					cursor = std::shared_ptr<Cursor>(new Cursor());
+					cursor = std::make_shared<Cursor>();
 					break;
 			}
-			cursors.insert(std::pair<int, std::shared_ptr<Cursor> >((int)cursorType, cursor));
+			cursors[cursorType] = cursor;
 			return cursor;
 		}
 		return (*it).second;

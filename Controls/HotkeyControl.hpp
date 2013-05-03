@@ -12,6 +12,8 @@
 #include "TextBox.hpp"
 #include <map>
 
+//TODO: inheritance of TextBox is wrong => should be a composition with a TextBox member => need to reimplement all Control methods
+
 namespace OSHGui
 {
 	/**
@@ -60,9 +62,9 @@ namespace OSHGui
 		virtual Key::Keys GetHotkeyModifier() const;
 
 		/**
-		 * Ruft das TextChangedEvent für das Steuerelement ab.
+		 * Ruft das HotkeyChangedEvent für das Steuerelement ab.
 		 *
-		 * @return textChangedEvent
+		 * @return hotkeyChangedEvent
 		 */
 		HotkeyChangedEvent& GetHotkeyChangedEvent();
 		

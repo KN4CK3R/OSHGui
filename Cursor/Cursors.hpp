@@ -62,7 +62,7 @@ namespace OSHGui
 		static const std::shared_ptr<Cursor> Get(CursorType cursorType);
 
 	private:
-		static std::map<int, std::shared_ptr<Cursor> > Cursors::cursors;
+		static std::map<CursorType, std::shared_ptr<Cursor> > Cursors::cursors;
 	};
 }
 

@@ -90,6 +90,7 @@
       <DisableSpecificWarnings>4996;4244;4018</DisableSpecificWarnings>
       <DebugInformationFormat>
       </DebugInformationFormat>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

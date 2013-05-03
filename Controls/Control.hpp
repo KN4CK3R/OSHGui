@@ -227,6 +227,13 @@ namespace OSHGui
 		 * @return der Typ
 		 */
 		virtual CONTROL_TYPE GetType() const;
+
+		/**
+		 * Ruft ab, ob das Control ein Container ist.
+		 *
+		 * @return true, falls Container
+		 */
+		virtual bool IsContainer() const;
 		
 		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.

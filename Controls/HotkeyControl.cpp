@@ -18,7 +18,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	HotkeyControl::HotkeyControl()		  
+	HotkeyControl::HotkeyControl()
 	{
 		type = CONTROL_HOTKEYCONTROL;
 
@@ -273,7 +273,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::ShowCaret(bool showCaret)
 	{
-
+		TextBox::ShowCaret(false);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::ClearHotkey()
@@ -312,7 +312,7 @@ namespace OSHGui
 			auto modifierText = ModifierToString(modifier);
 			auto hotkeyText = hotkeyNames[hotkey];
 
-			TextBox::SetText(modifierText + Misc::AnsiString(" + ") + hotkeyText);
+			TextBox::SetText(modifierText + " + " + hotkeyText);
 		}
 		else if (hotkey != Key::None && (hotkey != Key::ShiftKey && hotkey != Key::Menu && hotkey != Key::ControlKey))
 		{
@@ -330,8 +330,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool HotkeyControl::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		KeyEventArgs args(keyboard);
-		switch (args.GetKeyCode())
+		Control::OnKeyDown(keyboard);
+
+		switch (keyboard.GetKeyCode())
 		{
 			case Key::Delete:
 			case Key::Back:
