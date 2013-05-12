@@ -326,26 +326,39 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void HotkeyControl::CalculateAbsoluteLocation()
+	{
+		TextBox::CalculateAbsoluteLocation();
+
+		clearButtonAbsoluteLocation = Drawing::Point(absoluteLocation.Left + GetWidth() - 13, absoluteLocation.Top + GetHeight() * 0.5f - 4);
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
+	//---------------------------------------------------------------------------
+	void HotkeyControl::OnMouseClick(const MouseMessage &mouse)
+	{
+		if (Intersection::TestRectangle(clearButtonAbsoluteLocation, Drawing::Size(9, 8), mouse.Location))
+		{
+			ClearHotkey();
+		}
+		else
+		{
+			TextBox::OnMouseClick(mouse);
+		}
+	}
 	//---------------------------------------------------------------------------
 	bool HotkeyControl::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		Control::OnKeyDown(keyboard);
-
-		switch (keyboard.GetKeyCode())
+		if (!Control::OnKeyDown(keyboard))
 		{
-			case Key::Delete:
-			case Key::Back:
-				ClearHotkey();
-				break;
-			default:
-				KeyEventArgs args(keyboard);
-				SetHotkey(args.GetKeyCode());
-				SetHotkeyModifier(args.GetModifier());
-				break;
+			KeyEventArgs args(keyboard);
+			SetHotkey(args.GetKeyCode());
+			SetHotkeyModifier(args.GetModifier());
+
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 	//---------------------------------------------------------------------------
 	bool HotkeyControl::OnKeyPress(const KeyboardMessage &keyboard)
@@ -356,6 +369,20 @@ namespace OSHGui
 	bool HotkeyControl::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		return true;
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::Render(Drawing::IRenderer *renderer)
+	{
+		TextBox::Render(renderer);
+	
+		renderer->SetRenderColor(GetForeColor());
+		for (int i = 0; i < 4; ++i)
+		{
+			renderer->Fill(clearButtonAbsoluteLocation.Left + i, clearButtonAbsoluteLocation.Top + i, 3, 1);
+			renderer->Fill(clearButtonAbsoluteLocation.Left + 6 - i, clearButtonAbsoluteLocation.Top + i, 3, 1);
+			renderer->Fill(clearButtonAbsoluteLocation.Left + i, clearButtonAbsoluteLocation.Top + 7 - i, 3, 1);
+			renderer->Fill(clearButtonAbsoluteLocation.Left + 6 - i, clearButtonAbsoluteLocation.Top + 7 - i, 3, 1);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

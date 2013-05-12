@@ -78,7 +78,7 @@ namespace OSHGui
 		 *
 		 * @return modal
 		 */
-		bool IsModal() const;		
+		bool IsModal() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
