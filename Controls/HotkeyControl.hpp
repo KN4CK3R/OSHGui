@@ -68,16 +68,35 @@ namespace OSHGui
 		 */
 		HotkeyChangedEvent& GetHotkeyChangedEvent();
 		
+		/**
+		 * Setzt den Hotkey und den HotkeyModifier auf None.
+		 */
+		void ClearHotkey();
+
+		/**
+		 * Berechnet die absolute Position des Steuerelements.
+		 */
+		virtual void CalculateAbsoluteLocation() override;
+
 		virtual void ShowCaret(bool showCaret);
+
+		/**
+		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
+		 *
+		 * @param renderer
+		 */
+		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
+		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
 	private:
-		void ClearHotkey();
 		void HotkeyToText();
+
+		Drawing::Point clearButtonAbsoluteLocation;
 
 		Key::Keys hotkey;
 		Key::Keys modifier;
