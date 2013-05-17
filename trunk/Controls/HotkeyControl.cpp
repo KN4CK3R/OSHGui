@@ -240,10 +240,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetHotkey(Key::Keys hotkey)
 	{
+		bool isDifferent = this->hotkey != hotkey;
+
 		this->hotkey = hotkey;
 		HotkeyToText();
 
-		hotkeyChangedEvent.Invoke(this);
+		if (isDifferent)
+		{
+			hotkeyChangedEvent.Invoke(this);
+		}
 	}
 	//---------------------------------------------------------------------------
 	Key::Keys HotkeyControl::GetHotkey() const
@@ -253,10 +258,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetHotkeyModifier(Key::Keys modifier)
 	{
+		bool isDifferent = this->modifier != modifier;
+
 		this->modifier = modifier;
 		HotkeyToText();
 
-		hotkeyChangedEvent.Invoke(this);
+		if (isDifferent)
+		{
+			hotkeyChangedEvent.Invoke(this);
+		}
 	}
 	//---------------------------------------------------------------------------
 	Key::Keys HotkeyControl::GetHotkeyModifier() const
