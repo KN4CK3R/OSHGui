@@ -23,7 +23,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabControl::TabControl()
 		: startIndex(0),
-		  maxIndex(0)
+		  maxIndex(0),
+		  selected(nullptr)
 	{
 		type = CONTROL_TABCONTROL;
 
@@ -71,39 +72,51 @@ namespace OSHGui
 
 		lastSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, 0);
 		nextSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, TabControlSwitchButton::DefaultSize.Height + 1);
+
+		if (selected != nullptr)
+		{
+			auto tabPageSize = size.InflateEx(0, -selected->button->GetHeight());
+
+			for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+			{
+				(*it)->tabPage->SetSize(tabPageSize);
+			}
+		}
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		lastSwitchButton->SetForeColor(color);
+		nextSwitchButton->SetForeColor(color);
+
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
-			TabPageButtonBinding *binding = *it;
+			auto binding = *it;
 			binding->button->SetForeColor(color);
 			binding->tabPage->SetForeColor(color);
 		}
-		lastSwitchButton->SetForeColor(color);
-		nextSwitchButton->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetBackColor(Drawing::Color color)
 	{
 		Control::SetBackColor(color);
 
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		lastSwitchButton->SetBackColor(color);
+		nextSwitchButton->SetBackColor(color);
+
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
-			TabPageButtonBinding *binding = *it;
+			auto binding = *it;
 			binding->button->SetBackColor(color);
 			binding->tabPage->SetBackColor(color);
 		}
-		lastSwitchButton->SetBackColor(color);
-		nextSwitchButton->SetBackColor(color);
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
-		for (std::vector<TabPageButtonBinding*>::const_iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
 			if ((*it)->tabPage->GetText() == text)
 			{
@@ -126,7 +139,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedIndex(int index)
 	{
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
 			if ((*it)->index == index)
 			{
@@ -151,7 +164,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedTabPage(TabPage *tabPage)
 	{
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
 			if ((*it)->tabPage == tabPage)
 			{
@@ -191,15 +204,13 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
 			if ((*it)->tabPage == tabPage)
 			{
 				return;
 			}
 		}
-
-		tabPage->SetSize(size);
 
 		TabPageButtonBinding *binding = new TabPageButtonBinding();
 		binding->index = bindings.size();
@@ -212,6 +223,9 @@ namespace OSHGui
 		button->SetFont(font);
 
 		AddSubControl(button);
+
+		tabPage->SetSize(size.InflateEx(0, -button->GetHeight()));
+
 		AddSubControl(tabPage);
 
 		tabPage->button = button;
@@ -243,7 +257,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (std::vector<TabPageButtonBinding*>::iterator it = bindings.begin(); it != bindings.end(); ++it)
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 		{
 			if ((*it)->tabPage == tabPage)
 			{
@@ -297,16 +311,13 @@ namespace OSHGui
 		{
 			maxIndex = startIndex;
 
-			for (unsigned int i = 0; i < bindings.size(); ++i)
-			{
-				bindings[i]->button->SetVisible(false);
-			}
-
 			int tempWidth = 0;
 			int maxWidth = size.Width - TabControlSwitchButton::DefaultSize.Width;
-			for (int i = startIndex; i < (int)bindings.size(); ++i)
+			for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
 			{
-				TabControlButton *button = bindings[i]->button;
+				auto button = (*it)->button;
+				button->SetVisible(false);
+
 				if (tempWidth + button->GetSize().Width <= maxWidth)
 				{
 					button->SetLocation(tempWidth, 0);
@@ -321,7 +332,10 @@ namespace OSHGui
 				}
 			}
 
-			selected->tabPage->SetLocation(0, selected->button->GetSize().Height);
+			if (selected != nullptr)
+			{
+				selected->tabPage->SetLocation(0, selected->button->GetSize().Height);
+			}
 
 			if (startIndex != 0)
 			{
