@@ -20,7 +20,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ScrollBar::ScrollBar()
 		: drag(false),
-		  value(0)
+		  value(0),
+		  pixelsPerTick(1.0f),
+		  maximum(0),
+		  upButton(nullptr),
+		  downButton(nullptr)
 	{
 		type = CONTROL_SCROLLBAR;
 		
