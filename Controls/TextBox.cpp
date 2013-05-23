@@ -30,6 +30,8 @@ namespace OSHGui
 		type = CONTROL_TEXTBOX;
 	
 		ApplyTheme(Application::Instance()->GetTheme());
+
+		SetSize(DefaultSize);
 		
 		cursor = Cursors::Get(Cursors::IBeam);
 	}
