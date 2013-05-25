@@ -23,6 +23,7 @@ namespace OSHGui
 	{
 		type = CONTROL_CHECKBOX;
 		
+		SetSize(DefaultCheckBoxSize, DefaultCheckBoxSize);
 		SetAutoSize(true);
 
 		label = new Label();
