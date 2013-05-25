@@ -58,7 +58,7 @@ namespace OSHGui
 		 */
 		virtual void AddControl(Control *control);
 		/**
-		 * Entfern ein untergeordnetes Steuerelement.
+		 * Entfernt ein untergeordnetes Steuerelement.
 		 *
 		 * @param control
 		 */

@@ -78,6 +78,11 @@ namespace OSHGui
 		containerPanel->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
+	void TabPage::RemoveControl(Control *control)
+	{
+		containerPanel->RemoveControl(control);
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void TabPage::Render(Drawing::IRenderer *renderer)

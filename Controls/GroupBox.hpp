@@ -80,6 +80,12 @@ namespace OSHGui
 		 * @param control
 		 */
 		virtual void AddControl(Control *control) override;
+		/**
+		 * Entfernt ein untergeordnetes Steuerelement.
+		 *
+		 * @param control
+		 */
+		virtual void RemoveControl(Control *control) override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
