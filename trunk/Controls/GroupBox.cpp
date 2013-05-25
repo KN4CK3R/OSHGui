@@ -87,6 +87,11 @@ namespace OSHGui
 		containerPanel->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
+	void GroupBox::RemoveControl(Control *control)
+	{
+		containerPanel->RemoveControl(control);
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)

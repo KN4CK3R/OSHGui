@@ -6,6 +6,7 @@
  * See license in OSHGui.hpp
  */
 
+#include <algorithm>
 #include "ContainerControl.hpp"
 #include "../Misc/Exceptions.hpp"
 
@@ -97,28 +98,8 @@ namespace OSHGui
 	{
 		if (control != nullptr)
 		{
-			for (auto it = std::begin(controls); it != std::end(controls); )
-			{
-				if (*it == control)
-				{
-					it = controls.erase(it);
-				}
-				else
-				{
-					++it;
-				}
-			}
-			for (auto it = std::begin(internalControls); it != std::end(internalControls); )
-			{
-				if (*it == control)
-				{
-					it = controls.erase(it);
-				}
-				else
-				{
-					++it;
-				}
-			}
+			std::remove(std::begin(controls), std::end(controls), control);
+			std::remove(std::begin(internalControls), std::end(internalControls), control);
 		}
 	}
 	//---------------------------------------------------------------------------
