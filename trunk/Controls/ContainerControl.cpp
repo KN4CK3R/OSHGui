@@ -176,9 +176,9 @@ namespace OSHGui
 		return nullptr;
 	}
 	//---------------------------------------------------------------------------
-	ContainerControl::PostOrderVisibleIterator ContainerControl::GetPostOrderVisibleEnumerator()
+	ContainerControl::PostOrderIterator ContainerControl::GetPostOrderEnumerator()
 	{
-		return PostOrderVisibleIterator(this);
+		return PostOrderIterator(this);
 	}
 	//---------------------------------------------------------------------------
 	void ContainerControl::Render(Drawing::IRenderer *renderer)
@@ -216,7 +216,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//ContainerControl::PostOrderVisibleIterator
 	//---------------------------------------------------------------------------
-	ContainerControl::PostOrderVisibleIterator::PostOrderVisibleIterator(ContainerControl *start)
+	ContainerControl::PostOrderIterator::PostOrderIterator(ContainerControl *start)
 	{
 		this->start = start;
 
@@ -232,13 +232,13 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ContainerControl::PostOrderVisibleIterator::LoopThrough(ContainerControl *container)
+	void ContainerControl::PostOrderIterator::LoopThrough(ContainerControl *container)
 	{
 		controlStack.push_back(container);
 		for (auto it = container->internalControls.rbegin(); it != container->internalControls.rend(); ++it)
 		{
 			Control *control = *it;
-			if (control->GetVisible())
+			if (control->GetVisible() && control->GetEnabled())
 			{
 				if (control->IsContainer())
 				{
@@ -252,18 +252,18 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ContainerControl::PostOrderVisibleIterator::operator++()
+	void ContainerControl::PostOrderIterator::operator++()
 	{
 		current = controlStack.back();
 		controlStack.pop_back();
 	}
 	//---------------------------------------------------------------------------
-	bool ContainerControl::PostOrderVisibleIterator::operator()()
+	bool ContainerControl::PostOrderIterator::operator()()
 	{
 		return !controlStack.empty();
 	}
 	//---------------------------------------------------------------------------
-	Control* ContainerControl::PostOrderVisibleIterator::operator*()
+	Control* ContainerControl::PostOrderIterator::operator*()
 	{
 		return current;
 	}

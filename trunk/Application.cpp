@@ -200,7 +200,7 @@ namespace OSHGui
 			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
 			if (foreMost != nullptr && foreMost->IsModal())
 			{
-				for (auto it = foreMost->GetPostOrderVisibleEnumerator(); it(); ++it)
+				for (auto it = foreMost->GetPostOrderEnumerator(); it(); ++it)
 				{
 					Control *control = *it;
 					if (control->ProcessMouseMessage(mouse))
@@ -215,7 +215,7 @@ namespace OSHGui
 			{
 				std::shared_ptr<Form> &form = *it;
 				
-				for (auto it2 = form->GetPostOrderVisibleEnumerator(); it2(); ++it2)
+				for (auto it2 = form->GetPostOrderEnumerator(); it2(); ++it2)
 				{
 					Control *control = *it2;
 					if (control->ProcessMouseMessage(mouse))
