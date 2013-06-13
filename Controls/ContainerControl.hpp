@@ -21,7 +21,7 @@ namespace OSHGui
 
 	public:
 		class ControlIterator;
-		class PostOrderVisibleIterator;
+		class PostOrderIterator;
 
 		static const int DefaultBorderPadding = 6;
 
@@ -90,7 +90,7 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation() override;
 
-		PostOrderVisibleIterator GetPostOrderVisibleEnumerator();
+		PostOrderIterator GetPostOrderEnumerator();
 
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
@@ -103,10 +103,10 @@ namespace OSHGui
 		std::deque<Control*> controls;
 
 	public:
-		class PostOrderVisibleIterator
+		class PostOrderIterator
 		{
 		public:
-			PostOrderVisibleIterator(ContainerControl *start);
+			PostOrderIterator(ContainerControl *start);
 
 			void operator++();
 			bool operator()();
