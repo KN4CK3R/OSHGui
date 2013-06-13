@@ -214,7 +214,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	//ContainerControl::PostOrderVisibleIterator
+	//ContainerControl::PostOrderIterator
 	//---------------------------------------------------------------------------
 	ContainerControl::PostOrderIterator::PostOrderIterator(ContainerControl *start)
 	{
