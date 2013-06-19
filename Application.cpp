@@ -241,28 +241,34 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
-		bool processed = false;
-		if (isEnabled)
+		if (keyboard.GetState() == KeyboardMessage::KeyDown)
 		{
-			if (FocusedControl != nullptr)
-			{
-				processed = FocusedControl->ProcessKeyboardMessage(keyboard);
-			}
-		}
-
-		if (keyboard.GetState() == KeyboardMessage::KeyUp)
-		{
+			bool hotkeyFired = false;
 			for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
 			{
 				Hotkey &temp = *it;
 				if (temp.GetKey() == keyboard.GetKeyCode() && temp.GetModifier() == keyboard.GetModifier())
 				{
+					hotkeyFired = true;
 					temp();
 				}
 			}
+
+			if (hotkeyFired)
+			{
+				return true;
+			}
 		}
 
-		return processed;
+		if (isEnabled)
+		{
+			if (FocusedControl != nullptr)
+			{
+				return FocusedControl->ProcessKeyboardMessage(keyboard);
+			}
+		}
+
+		return false;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Render()
