@@ -7,6 +7,7 @@
  */
 
 #include "RadioButton.hpp"
+#include "Label.hpp"
 #include "../Misc/Exceptions.hpp"
 #include "ContainerControl.hpp"
 
