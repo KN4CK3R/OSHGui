@@ -386,7 +386,7 @@ namespace OSHGui
 		}
 		else
 		{
-			TextBox::OnMouseClick(mouse);
+			Control::OnMouseClick(mouse);
 		}
 	}
 	//---------------------------------------------------------------------------

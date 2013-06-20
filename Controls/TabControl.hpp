@@ -17,6 +17,12 @@ namespace OSHGui
 	class TabPage;
 
 	/**
+	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
+	 */
+	typedef Event<void(Control*)> SelectedIndexChangedEvent;
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
+
+	/**
 	 * Verwaltet eine Gruppe zusammengehöriger Registerkarten.
 	 */
 	class OSHGUI_EXPORT TabControl : public ContainerControl
