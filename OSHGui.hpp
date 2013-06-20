@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
  *
  * MIT License
  *
