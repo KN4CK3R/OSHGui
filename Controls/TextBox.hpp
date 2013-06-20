@@ -15,6 +15,12 @@
 namespace OSHGui
 {
 	/**
+	 * Tritt ein, wenn sich der Wert der Text-Eigenschaft ändert.
+	 */
+	typedef Event<void(Control*)> TextChangedEvent;
+	typedef EventHandler<void(Control*)> TextChangedEventHandler;
+
+	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
 	class OSHGUI_EXPORT TextBox : public Control

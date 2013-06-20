@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -9,12 +9,19 @@
 #ifndef OSHGUI_FORM_HPP
 #define OSHGUI_FORM_HPP
 
-#include <functional>
 #include "ContainerControl.hpp"
-#include "../Misc/TextHelper.hpp"
 
 namespace OSHGui
 {
+	class Label;
+	class Panel;
+
+	/**
+	 * Tritt ein, wenn die Form geschlossen werden soll.
+	 */
+	typedef Event<void(Control*, bool &canClose)> FormClosingEvent;
+	typedef EventHandler<void(Control*, bool &canClose)> FormClosingEventHandler;
+
 	/**
 	 * Gibt Bezeichner an, die den Rückgabewert eines Dialogfelds angeben.
 	 */
@@ -53,9 +60,6 @@ namespace OSHGui
 		 */
 		ResultNo
 	};
-
-	class Label;
-	class Panel;
 
 	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.

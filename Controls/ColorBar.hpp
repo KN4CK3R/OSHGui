@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -15,6 +15,12 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt ein, wenn sich der Wert der Color-Eigenschaft ändert.
+	 */
+	typedef Event<void(Control*, Drawing::Color &color)> ColorChangedEvent;
+	typedef EventHandler<void(Control*, Drawing::Color &color)> ColorChangedEventHandler;
+
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
 	 */
