@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -9,10 +9,8 @@
 #ifndef OSHGUI_HOTKEYCONTROL_HPP
 #define OSHGUI_HOTKEYCONTROL_HPP
 
-#include "TextBox.hpp"
+#include "Control.hpp"
 #include <map>
-
-//TODO: inheritance of TextBox is wrong => should be a composition with a TextBox member => need to reimplement all Control methods
 
 namespace OSHGui
 {
@@ -22,20 +20,55 @@ namespace OSHGui
 	typedef Event<void(Control*)> HotkeyChangedEvent;
 	typedef EventHandler<void(Control*)> HotkeyChangedEventHandler;
 
+	class TextBox;
+	
 	/**
 	 * Stellt ein Textfeld-Steuerelement dar.
 	 */
-	class OSHGUI_EXPORT HotkeyControl : public TextBox
+	class OSHGUI_EXPORT HotkeyControl : public Control
 	{
 	public:
+		using Control::SetLocation;
+		using Control::SetSize;
+	
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		HotkeyControl();
 		virtual ~HotkeyControl();
-		
-		virtual void SetText(const Misc::AnsiString &text) override;
 
+		/**
+		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
+		 * linken oberen Ecke des Containers fest.
+		 *
+		 * @param location
+		 */
+		virtual void SetLocation(const Drawing::Point &location);
+		/**
+		 * Legt die Höhe und Breite des Steuerelements fest.
+		 *
+		 * @param size
+		 */
+		virtual void SetSize(const Drawing::Size &size);
+		/**
+		 * Legt die Schriftart des Texts im Steuerelement fest.
+		 *
+		 * @param font
+		 */
+		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		/**
+		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetForeColor(Drawing::Color color);
+		/**
+		 * Legt die Hintergrundfarbe des Steuerelements fest.
+		 *
+		 * @param color
+		 */
+		virtual void SetBackColor(Drawing::Color color);
+		
 		/**
 		 * Legt den Hotkey fest.
 		 *
@@ -78,8 +111,6 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation() override;
 
-		virtual void ShowCaret(bool showCaret);
-
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
@@ -96,14 +127,17 @@ namespace OSHGui
 	private:
 		void HotkeyToText();
 
+		static const Drawing::Size DefaultSize;
+		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
+		
+		TextBox *textBox;
+		
 		Drawing::Point clearButtonAbsoluteLocation;
 
 		Key::Keys hotkey;
 		Key::Keys modifier;
 
 		HotkeyChangedEvent hotkeyChangedEvent;
-		
-		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
 	};
 }
 
