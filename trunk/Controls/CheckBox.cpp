@@ -1,12 +1,13 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
 
 #include "CheckBox.hpp"
+#include "Label.hpp"
 #include "../Misc/Exceptions.hpp"
 
 namespace OSHGui

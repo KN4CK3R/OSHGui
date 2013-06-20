@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -89,46 +89,6 @@ namespace OSHGui
 	class Control;
 	class ContainerControl;
 	
-	/**
-	 * Tritt ein, wenn die Form geschlossen werden soll.
-	 */
-	typedef Event<void(Control*, bool &canClose)> FormClosingEvent;
-	typedef EventHandler<void(Control*, bool &canClose)> FormClosingEventHandler;
-	/**
-	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
-	 */
-	typedef Event<void(Control*)> SelectedIndexChangedEvent;
-	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
-	/**
-	 * Tritt ein, wenn sich der Wert der Color-Eigenschaft ändert.
-	 */
-	typedef Event<void(Control*, Drawing::Color &color)> ColorChangedEvent;
-	typedef EventHandler<void(Control*, Drawing::Color &color)> ColorChangedEventHandler;
-	/**
-	 * Tritt ein, wenn sich der Wert der Checked-Eigenschaft ändert.
-	 */
-	typedef Event<void(Control*)> CheckedChangedEvent;
-	typedef EventHandler<void(Control*)> CheckedChangedEventHandler;
-	/**
-	 * Tritt ein, wenn sich der Wert der Text-Eigenschaft ändert.
-	 */
-	typedef Event<void(Control*)> TextChangedEvent;
-	typedef EventHandler<void(Control*)> TextChangedEventHandler;
-	/**
-	 * Tritt auf, wenn das angegebene Intervall verstrichen ist.
-	 */
-	typedef Event<void(Control*)> TickEvent;
-	typedef EventHandler<void(Control*)> TickEventHandler;
-	/**
-	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
-	 */
-	typedef Event<void(Control*)> ValueChangedEvent;
-	typedef EventHandler<void(Control*)> ValueChangedEventHandler;
-	/**
-	 * Tritt auf, wenn der ScrollBalken verschoben wird.
-	 */
-	typedef Event<void(Control*, ScrollEventArgs&)> ScrollEvent;
-	typedef EventHandler<void(Control*, ScrollEventArgs&)> ScrollEventHandler;
 	/**
 	 * Tritt ein, wenn die Location-Eigenschaft geändert wird.
 	 */

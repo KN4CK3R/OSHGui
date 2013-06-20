@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -13,6 +13,12 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt auf, wenn das angegebene Intervall verstrichen ist.
+	 */
+	typedef Event<void(Control*)> TickEvent;
+	typedef EventHandler<void(Control*)> TickEventHandler;
+
 	/**
 	 * Implementiert einen Zeitgeber, der ein Ereignis in benutzerdefinierten
 	 * Intervallen auslöst.

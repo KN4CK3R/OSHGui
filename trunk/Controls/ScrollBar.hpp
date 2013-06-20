@@ -14,6 +14,12 @@
 namespace OSHGui
 {
 	/**
+	 * Tritt auf, wenn der ScrollBalken verschoben wird.
+	 */
+	typedef Event<void(Control*, ScrollEventArgs&)> ScrollEvent;
+	typedef EventHandler<void(Control*, ScrollEventArgs&)> ScrollEventHandler;
+
+	/**
 	 * Implementiert die Basisfunktionen eines Schiebeleisten-Steuerelements.
 	 */
 	class OSHGUI_EXPORT ScrollBar : public ContainerControl

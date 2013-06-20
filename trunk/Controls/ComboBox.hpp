@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -16,6 +16,12 @@ namespace OSHGui
 {
 	class ListBox;
 	class ScrollBar;
+
+	/**
+	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
+	 */
+	typedef Event<void(Control*)> SelectedIndexChangedEvent;
+	typedef EventHandler<void(Control*)> SelectedIndexChangedEventHandler;
 
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.

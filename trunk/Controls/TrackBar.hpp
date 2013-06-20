@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2012 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -13,6 +13,12 @@
 
 namespace OSHGui
 {
+	/**
+	 * Tritt auf, wenn der TrackBar-Schieberegler verschoben wird.
+	 */
+	typedef Event<void(Control*)> ValueChangedEvent;
+	typedef EventHandler<void(Control*)> ValueChangedEventHandler;
+
 	/**
 	 * Stellt eine Standardtrackleiste dar.
 	 */
