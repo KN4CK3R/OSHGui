@@ -10,11 +10,13 @@
 #include <algorithm>
 #include <iterator>
 #include "HotkeyControl.hpp"
+#include "TextBox.hpp"
 #include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {
 	std::map<Key::Keys, Misc::AnsiString> HotkeyControl::hotkeyNames;
+	const Drawing::Size HotkeyControl::DefaultSize(100, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -217,25 +219,59 @@ namespace OSHGui
 			hotkeyNames[OemClear] = EnumToString(OemClear);
 		}
 
+		textBox = new TextBox();
+		textBox->SetLocation(0, 0);
+		textBox->ShowCaret(false);
+		
+		SetSize(DefaultSize);
+		
 		ApplyTheme(Application::Instance()->GetTheme());
 		
 		cursor = Cursors::Get(Cursors::Default);
 
 		ClearHotkey();
-
-		TextBox::ShowCaret(false);
 	}
 	//---------------------------------------------------------------------------
 	HotkeyControl::~HotkeyControl()
 	{
-
+		delete textBox;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetText(const Misc::AnsiString &text)
+	void HotkeyControl::SetLocation(const Drawing::Point &location)
 	{
+		Control::SetLocation(location);
 
+		textBox->SetLocation(GetLocation());
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetSize(const Drawing::Size &size)
+	{
+		Control::SetSize(size);
+		
+		textBox->SetSize(GetSize());
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	{
+		Control::SetFont(font);
+		
+		textBox->SetFont(GetFont());
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetForeColor(Drawing::Color color)
+	{
+		Control::SetForeColor(color);
+		
+		textBox->SetForeColor(GetForeColor());
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::SetBackColor(Drawing::Color color)
+	{
+		Control::SetBackColor(color);
+		
+		textBox->SetBackColor(GetForeColor());
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetHotkey(Key::Keys hotkey)
@@ -281,11 +317,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void HotkeyControl::ShowCaret(bool showCaret)
-	{
-		TextBox::ShowCaret(false);
-	}
-	//---------------------------------------------------------------------------
 	void HotkeyControl::ClearHotkey()
 	{
 		SetHotkey(Key::None);
@@ -315,30 +346,32 @@ namespace OSHGui
 
 		if (modifier == Key::None && hotkey == Key::None)
 		{
-			TextBox::SetText(hotkeyNames[hotkey]);
+			textBox->SetText(hotkeyNames[hotkey]);
 		}
 		else if (modifier != Key::None && hotkey != Key::None && (hotkey != Key::ShiftKey && hotkey != Key::Menu && hotkey != Key::ControlKey))
 		{
 			auto modifierText = ModifierToString(modifier);
 			auto hotkeyText = hotkeyNames[hotkey];
 
-			TextBox::SetText(modifierText + " + " + hotkeyText);
+			textBox->SetText(modifierText + " + " + hotkeyText);
 		}
 		else if (hotkey != Key::None && (hotkey != Key::ShiftKey && hotkey != Key::Menu && hotkey != Key::ControlKey))
 		{
 			auto hotkeyText = hotkeyNames[hotkey];
-			TextBox::SetText(hotkeyText);
+			textBox->SetText(hotkeyText);
 		}
 		else
 		{
 			auto modifierText = ModifierToString(modifier);
-			TextBox::SetText(modifierText);
+			textBox->SetText(modifierText);
 		}
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::CalculateAbsoluteLocation()
 	{
-		TextBox::CalculateAbsoluteLocation();
+		Control::CalculateAbsoluteLocation();
+		
+		textBox->CalculateAbsoluteLocation();
 
 		clearButtonAbsoluteLocation = Drawing::Point(absoluteLocation.Left + GetWidth() - 13, absoluteLocation.Top + GetHeight() * 0.5f - 4);
 	}
@@ -383,7 +416,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::Render(Drawing::IRenderer *renderer)
 	{
-		TextBox::Render(renderer);
+		textBox->Render(renderer);
 	
 		renderer->SetRenderColor(GetForeColor());
 		for (int i = 0; i < 4; ++i)
