@@ -222,6 +222,7 @@ namespace OSHGui
 		textBox = new TextBox();
 		textBox->SetLocation(0, 0);
 		textBox->ShowCaret(false);
+		textBox->SetParent(this);
 		
 		SetSize(DefaultSize);
 		
@@ -238,13 +239,6 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
-	//---------------------------------------------------------------------------
-	void HotkeyControl::SetLocation(const Drawing::Point &location)
-	{
-		Control::SetLocation(location);
-
-		textBox->SetLocation(GetLocation());
-	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetSize(const Drawing::Size &size)
 	{
@@ -365,6 +359,11 @@ namespace OSHGui
 			auto modifierText = ModifierToString(modifier);
 			textBox->SetText(modifierText);
 		}
+	}
+	//---------------------------------------------------------------------------
+	bool HotkeyControl::Intersect(const Drawing::Point &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::CalculateAbsoluteLocation()
