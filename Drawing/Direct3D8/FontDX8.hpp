@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -24,7 +24,7 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice8-Objekt.
 			 */
 			FontDX8(IDirect3DDevice8 *device, const Misc::AnsiString &fontName, int size, bool bold, bool italic);
 			virtual ~FontDX8();
