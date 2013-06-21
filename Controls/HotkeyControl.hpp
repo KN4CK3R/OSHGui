@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -28,7 +28,6 @@ namespace OSHGui
 	class OSHGUI_EXPORT HotkeyControl : public Control
 	{
 	public:
-		using Control::SetLocation;
 		using Control::SetSize;
 	
 		/**
@@ -37,13 +36,6 @@ namespace OSHGui
 		HotkeyControl();
 		virtual ~HotkeyControl();
 
-		/**
-		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
-		 * linken oberen Ecke des Containers fest.
-		 *
-		 * @param location
-		 */
-		virtual void SetLocation(const Drawing::Point &location);
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -106,6 +98,13 @@ namespace OSHGui
 		 */
 		void ClearHotkey();
 
+		/**
+		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
+		 *
+		 * @param point
+		 * @return ja / nein
+		 */
+		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
