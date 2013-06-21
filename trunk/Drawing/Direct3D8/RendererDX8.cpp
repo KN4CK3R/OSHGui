@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2013 KN4CK3R http://www.oldschoolhack.de
+ * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
  *
  * See license in OSHGui.hpp
  */
@@ -208,6 +208,7 @@ namespace OSHGui
 				DWORD fvf;
 				device->GetVertexShader(&fvf);
 				device->SetVertexShader(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1);
+				device->SetTexture(0, nullptr);
 				device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, verticesNum / 3, vertices, sizeof(Vertex2D));
 				device->SetVertexShader(fvf);
 				
