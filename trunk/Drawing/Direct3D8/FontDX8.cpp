@@ -19,8 +19,6 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		FontDX8::FontDX8(IDirect3DDevice8 *device, const Misc::AnsiString &name, int size, bool bold, bool italic)
 		{
-			this->device = device;
-			
 			HFONT hfont = CreateFontA(size, 0, 0, 0, bold ? 800 : 0, italic, 0, 0, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str());
 
 			if (FAILED(D3DXCreateFont(device, hfont, &font)))

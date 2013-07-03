@@ -13,7 +13,6 @@
 #include "TextureDX8.hpp"
 #include "FontDX8.hpp"
 
-struct ID3DXSprite;
 struct IDirect3DDevice8;
 
 namespace OSHGui
@@ -161,7 +160,6 @@ namespace OSHGui
 			
 			static const int maxVertices = 1024;
 			int verticesNum;
-			bool flushSprite;
 			bool supportNonSquareTex;
 			bool supportNPOTTex;
 			
@@ -176,8 +174,6 @@ namespace OSHGui
 			};
 			
 			Vertex2D vertices[maxVertices];
-			
-			ID3DXSprite *sprite;
 
 			DWORD stateBlockHandle;
 		};
