@@ -56,8 +56,7 @@ namespace OSHGui
 			 * @param italic kursiv
 			 */
 			virtual void Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic);
-		
-			IDirect3DDevice8 *device;
+			
 			ID3DXFont *font;
 			
 			int spaceWidth;
