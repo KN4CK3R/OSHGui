@@ -28,8 +28,6 @@ namespace OSHGui
 			virtual const Size MeasureText(const Misc::AnsiString &str);
 
 		private:
-			virtual void Create(const Misc::AnsiString &name, int size, bool bold, bool italic);
-
 			unsigned int fontID;
 			HFONT font;
 		};

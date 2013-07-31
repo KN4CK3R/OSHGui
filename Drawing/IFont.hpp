@@ -26,6 +26,15 @@ namespace OSHGui
 		class OSHGUI_EXPORT IFont
 		{
 		public:
+			/**
+			 * Erzeugt eine neue Schriftart.
+			 *
+			 * @param fontName der Name der Schriftart
+			 * @param size die Schriftgröße
+			 * @param bold fettgedruckt
+			 * @param italic kursiv
+			 */
+			IFont(const Misc::AnsiString &name, int size, bool bold, bool italic) : name(name), size(size), bold(bold), italic(italic) { }
 			virtual ~IFont() { }
 
 			/**
@@ -55,17 +64,7 @@ namespace OSHGui
 			 */
 			virtual const Size MeasureText(const Misc::AnsiString &text) = 0;
 			
-		protected:
-			/**
-			 * Erzeugt eine neue Schriftart.
-			 *
-			 * @param fontName der Name der Schriftart
-			 * @param size die Schriftgröße
-			 * @param bold fettgedruckt
-			 * @param italic kursiv
-			 */
-			virtual void Create(const Misc::AnsiString &name, int size, bool bold, bool italic) = 0;
-		
+		private:
 			Misc::AnsiString name;
 			int size;
 			bool bold;

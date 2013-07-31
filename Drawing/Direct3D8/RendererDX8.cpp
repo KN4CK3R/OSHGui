@@ -138,14 +138,6 @@ namespace OSHGui
 			device->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
 			device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 			device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-
-			/*D3DXMatrixIdentity(&mat);
-			device->SetTransform(D3DTS_WORLD, &mat);
-			device->SetTransform(D3DTS_VIEW, &object->view);
-			D3DVIEWPORT8 viewPort;
-			device->GetViewport(&viewPort);
-			D3DXMatrixOrthoOffCenterLH(&mat, viewPort.X+0.5f, (float)viewPort.Width+viewPort.X+0.5f, (float)viewPort.Height+viewPort.Y+0.5f, viewPort.Y+0.5f, viewPort.MinZ, viewPort.MaxZ);
-			device->SetTransform(object->device, D3DTS_PROJECTION, &mat);*/
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
 		}
@@ -268,7 +260,7 @@ namespace OSHGui
 			}
 
 			Flush();
-			
+
 			x = x + renderRect.GetLeft();
 			y = y + renderRect.GetTop();
 
@@ -377,6 +369,118 @@ namespace OSHGui
 			device->SetTexture(0, std::static_pointer_cast<TextureDX8>(texture)->GetTexture());
 			device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, vertices, sizeof(Vertex2D));
 		}
+		void RendererDX8::RenderTexture(IDirect3DTexture8 *texture, Size size, int x, int y, int w, int h)
+		{
+			Flush();
+			
+			x = x + renderRect.GetLeft();
+			y = y + renderRect.GetTop();
+
+			D3DXVECTOR2 screenPosition(x, y);
+			float scaleWidth = static_cast<float>(w) / size.Width;
+			float scaleHeight = static_cast<float>(h) / size.Height;
+			D3DXVECTOR2 scaling = scaleWidth < scaleHeight ? D3DXVECTOR2(scaleWidth, scaleWidth) : D3DXVECTOR2(scaleHeight, scaleHeight);
+
+			auto D3DXMatrixTransformation2D = [](D3DXMATRIX *pout, const D3DXVECTOR2 *pscalingcenter, float scalingrotation, const D3DXVECTOR2 *pscaling, const D3DXVECTOR2 *protationcenter, float rotation, const D3DXVECTOR2 *ptranslation) -> D3DXMATRIX*
+			{
+				D3DXQUATERNION rot, sca_rot;
+				D3DXVECTOR3 rot_center, sca, sca_center, trans;
+
+				if (pscalingcenter)
+				{
+					sca_center.x = pscalingcenter->x;
+					sca_center.y = pscalingcenter->y;
+					sca_center.z = 0.0f;
+				}
+				else
+				{
+					sca_center.x = 0.0f;
+					sca_center.y = 0.0f;
+					sca_center.z = 0.0f;
+				}
+
+				if (pscaling)
+				{
+					sca.x = pscaling->x;
+					sca.y = pscaling->y;
+					sca.z = 1.0f;
+				}
+				else
+				{
+					sca.x = 1.0f;
+					sca.y = 1.0f;
+					sca.z = 1.0f;
+				}
+
+				if (protationcenter)
+				{
+					rot_center.x = protationcenter->x;
+					rot_center.y = protationcenter->y;
+					rot_center.z = 0.0f;
+				}
+				else
+				{
+					rot_center.x = 0.0f;
+					rot_center.y = 0.0f;
+					rot_center.z = 0.0f;
+				}
+
+				if (ptranslation)
+				{
+					trans.x = ptranslation->x;
+					trans.y = ptranslation->y;
+					trans.z = 0.0f;
+				}
+				else
+				{
+					trans.x = 0.0f;
+					trans.y = 0.0f;
+					trans.z = 0.0f;
+				}
+
+				rot.w = cos(rotation / 2.0f);
+				rot.x = 0.0f;
+				rot.y = 0.0f;
+				rot.z = sin(rotation / 2.0f);
+
+				sca_rot.w = cos(scalingrotation / 2.0f);
+				sca_rot.x = 0.0f;
+				sca_rot.y = 0.0f;
+				sca_rot.z = sin(scalingrotation / 2.0f);
+
+				D3DXMatrixTransformation(pout, &sca_center, &sca_rot, &sca, &rot_center, &rot, &trans);
+
+				return pout;
+			};
+
+			D3DXMATRIX matrix;
+			D3DXMatrixTransformation2D(&matrix, nullptr, 0.0f, &scaling, nullptr, 0.0f, &screenPosition);
+
+			Vertex2D vertices[6] = {
+				//x     y     z     color       u     v
+				{ 0.0f, 0.0f, 0.0f, color.ARGB, 0.0f, 0.0f },
+				{ w,    0.0f, 0.0f, color.ARGB, 1.0f, 0.0f },
+				{ w,    h,    0.0f, color.ARGB, 1.0f, 1.0f },
+				{ 0.0f, h,    0.0f, color.ARGB, 0.0f, 1.0f },
+				{ 0.0f, 0.0f, 0.0f, color.ARGB, 0.0f, 0.0f },
+				{ w,    h,    0.0f, color.ARGB, 1.0f, 1.0f }
+			};
+
+			auto D3DXVec3TransformCoordArray = [](D3DXVECTOR3* out, UINT outstride, CONST D3DXVECTOR3* in, UINT instride, CONST D3DXMATRIX* matrix, UINT elements) -> D3DXVECTOR3*
+			{
+				for (auto i = 0; i < elements; ++i)
+				{
+					D3DXVec3TransformCoord((D3DXVECTOR3*)((char*)out + outstride * i), (CONST D3DXVECTOR3*)((const char*)in + instride * i), matrix);
+				}
+				return out;
+			};
+
+
+			D3DXVec3TransformCoordArray((D3DXVECTOR3*)&vertices[0].x, sizeof(Vertex2D), (D3DXVECTOR3*)&vertices[0].x, sizeof(Vertex2D), &matrix, 6);
+
+			device->SetTexture(0, texture);
+			device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, vertices, sizeof(Vertex2D));
+		}
 		//---------------------------------------------------------------------------
 		void RendererDX8::RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text)
 		{
@@ -390,12 +494,14 @@ namespace OSHGui
 			x = x + renderRect.GetLeft();
 			y = y + renderRect.GetTop();
 			
-			RECT clip = { x, y, x + w, y + h };
+			std::static_pointer_cast<FontDX8>(font)->RenderText(x, y, color, text);
+
+			/*RECT clip = { x, y, x + w, y + h };
 
 			DWORD fvf;
 			device->GetVertexShader(&fvf);
 			std::static_pointer_cast<FontDX8>(font)->GetFont()->DrawTextA(text.c_str(), text.length(), &clip, DT_LEFT | DT_TOP, color.ARGB);
-			device->SetVertexShader(fvf);
+			device->SetVertexShader(fvf);*/
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX8::Fill(int x, int y, int w, int h)

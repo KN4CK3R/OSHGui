@@ -110,8 +110,6 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void RendererDX9::Begin()
 		{
-			device->SetTexture(0, nullptr);
-
 			sprite->Begin(D3DXSPRITE_ALPHABLEND);
 			
 			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
@@ -219,7 +217,7 @@ namespace OSHGui
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<IFont> RendererDX9::CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
+		const std::shared_ptr<IFont> RendererDX9::CreateNewFont(const Misc::AnsiString &name, int size, bool bold, bool italic)
 		{
 			std::shared_ptr<FontDX9> font(new FontDX9(device, fontName, size, bold, italic));
 			fontList.push_back(std::weak_ptr<FontDX9>(font));

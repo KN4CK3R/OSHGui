@@ -19,10 +19,10 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		FontDX9::FontDX9(IDirect3DDevice9 *device, const Misc::AnsiString &name, int size, bool bold, bool italic)
+			: IFont(name, size, bold, italic),
+			  device(device)
 		{
-			this->device = device;
-			
-			if (FAILED(D3DXCreateFontA(device, size, 0, bold ? 800 : 0, 0, italic, DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name.c_str(), &font)))
+			if (FAILED(D3DXCreateFontA(device, GetSize(), 0, IsBold() ? 800 : 0, 0, IsItalic(), DEFAULT_CHARSET, OUT_TT_ONLY_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, GetName().c_str(), &font)))
 			{
 				font = nullptr;
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -31,11 +31,6 @@ namespace OSHGui
 				throw 1;
 				#endif
 			}
-
-			this->name = name;
-			this->size = size;
-			this->bold = bold;
-			this->italic = italic;
 
 			RECT rect = { 0, 0, 0, 0},
 				 rect2 = { 0, 0, 0, 0 };
@@ -61,16 +56,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void FontDX9::Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
-		{
-			
-		}
-		//---------------------------------------------------------------------------
 		const Size FontDX9::MeasureText(const Misc::AnsiString &str)
 		{
 			if (str.length() == 0)
 			{
-				return Size(0, size);
+				return Size(0, GetSize());
 			}
 
 			RECT rect = { 0, 0, 0, 0 };

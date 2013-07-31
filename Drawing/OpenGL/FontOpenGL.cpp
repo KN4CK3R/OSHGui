@@ -17,9 +17,16 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		FontOpenGL::FontOpenGL(const Misc::AnsiString &name, int size, bool bold, bool italic)
-			: fontID(-1)
+			: IFont(name, size, bold, italic),
+			  fontID(-1)
 		{
-			Create(name, size, bold, italic);
+			fontID = glGenLists(256);
+
+			auto hdc = wglGetCurrentDC();
+			font = CreateFontA(GetSize(), 0, 0, 0, IsBold() ? FW_HEAVY : 0, IsItalic(), 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, GetName().c_str());
+			auto oldFont = static_cast<HFONT>(SelectObject(hdc, font));
+			wglUseFontBitmapsA(hdc, 0, 255, fontID);
+			SelectObject(hdc, oldFont);
 		}
 		//---------------------------------------------------------------------------
 		FontOpenGL::~FontOpenGL()
@@ -39,29 +46,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void FontOpenGL::Create(const Misc::AnsiString &name, int size, bool bold, bool italic)
-		{
-			this->name = name;
-			this->size = size;
-			this->bold = bold;
-			this->italic = italic;
-
-			fontID = glGenLists(256);
-
-			HDC dc = wglGetCurrentDC();
-			font = CreateFontA(size, 0, 0, 0, bold ? FW_HEAVY : 0, italic, 0, 0, ANSI_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, FW_DONTCARE, name.c_str());
-			HFONT oldFont = static_cast<HFONT>(SelectObject(dc, font));
-			wglUseFontBitmapsA(dc, 0, 255, fontID);
-			SelectObject(dc, oldFont);
-		}
-		//---------------------------------------------------------------------------
  		const Size FontOpenGL::MeasureText(const Misc::AnsiString &str)
  		{
-			HDC dc = wglGetCurrentDC();
-			HFONT oldFont = static_cast<HFONT>(SelectObject(dc, font));
+			auto hdc = wglGetCurrentDC();
+			HFONT oldFont = static_cast<HFONT>(SelectObject(hdc, font));
 			SIZE size;
-			GetTextExtentPoint32(dc, str.c_str(), str.length(), &size);
-			SelectObject(dc, oldFont);
+			GetTextExtentPoint32(hdc, str.c_str(), str.length(), &size);
+			SelectObject(hdc, oldFont);
 
  			return Size(size.cx, size.cy);
  		}

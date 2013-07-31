@@ -18,22 +18,19 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		class Color;
+
 		class OSHGUI_EXPORT FontDX8 : public IFont
 		{
 		public:
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice8-Objekt.
+			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 */
-			FontDX8(IDirect3DDevice8 *device, const Misc::AnsiString &fontName, int size, bool bold, bool italic);
+			FontDX8(IDirect3DDevice8 *device, const Misc::AnsiString &name, int size, bool bold, bool italic);
 			virtual ~FontDX8();
-			
-			/**
-			 * Ruft das zugrundeliegende IDirect3DFont-Objekt ab.
-			 */
-			ID3DXFont* GetFont();
-			
+
 			/**
 			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
 			 *
@@ -41,25 +38,60 @@ namespace OSHGui
 			 * @return die Maﬂe
 			 */
 			virtual const Size MeasureText(const Misc::AnsiString &str);
-			
+
+			/**
+			 * Zeichnet den angegebenen Text.
+			 *
+			 * @param x X Position
+			 * @param y Y Position
+			 * @param color Farbe
+			 * @text der Text
+			 */
+			void RenderText(int x, int y, Color color, const Misc::AnsiString &text);
+
 			void PreReset();
-			
 			void PostReset();
 
-		protected:
-			/**
-			 * Erzeugt eine neue Schriftart.
-			 *
-			 * @param fontName der Name der Schriftart
-			 * @param size die Schriftgrˆﬂe
-			 * @param bold fettgedruckt
-			 * @param italic kursiv
-			 */
-			virtual void Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic);
-			
-			ID3DXFont *font;
-			
-			int spaceWidth;
+		private:
+			void Initialize();
+			void Destroy();
+
+			IDirect3DDevice8 *device;
+			IDirect3DVertexBuffer8 *vertexBuffer;
+			struct {
+				float Scale;
+				int Space;
+				Size Size;
+				float Coordinates[128 - 32][4];
+				IDirect3DTexture8 *Data;
+			} Texture;
+
+			static const int maxVertices = 300;
+			struct Vertex2D
+			{
+				float x;
+				float y;
+				float z;
+				float rhw;
+				DWORD color;
+				float tu;
+				float tv;
+
+				Vertex2D(float x, float y, DWORD color, float tu, float tv)
+					: x(x),
+					  y(y),
+					  z(0.9f),
+					  rhw(1.0f),
+					  color(color),
+					  tu(tu),
+					  tv(tv)
+				{
+
+				}
+			};
+
+			DWORD backupStateBlock;
+			DWORD drawStateBlock;
 		};
 	}
 }

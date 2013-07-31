@@ -77,7 +77,7 @@ namespace OSHGui
 			 *
 			 * @return eine neue Schriftart
 			 */
-			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic) override;
+			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::AnsiString &name, int size, bool bold, bool italic) override;
 			/**
 			 * Ruft die Größe des Zeichenbereichs ab.
 			 *
