@@ -9,7 +9,7 @@
 #include "TextureDX8.hpp"
 #include "RendererDX8.hpp"
 #define NOMINMAX
-#include <d3dx8tex.h>
+#include <d3d8.h>
 #include "../../Misc/Exceptions.hpp"
 #include <fstream>
 
@@ -118,7 +118,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX8::LoadFromFile(const Misc::AnsiString &filename)
 		{
-			ClearInternalData();
+			/*ClearInternalData();
 
 			D3DXIMAGE_INFO info;
 			if (FAILED(D3DXGetImageInfoFromFileA(filename.c_str(), &info)))
@@ -158,7 +158,7 @@ namespace OSHGui
 				framesData[frame] = data;
 
 				texture->UnlockRect(0);
-			}
+			}*/
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX8::BeginUpdate()

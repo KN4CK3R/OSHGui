@@ -8,9 +8,8 @@
 
 #include "RendererDX8.hpp"
 #define NOMINMAX
-#include <d3dx8.h>
+#include <d3d8.h>
 #pragma comment(lib, "d3d8.lib")
-#pragma comment(lib, "d3dx8.lib")
 
 namespace OSHGui
 {
@@ -336,6 +335,196 @@ namespace OSHGui
 				sca_rot.y = 0.0f;
 				sca_rot.z = sin(scalingrotation / 2.0f);
 
+				auto D3DXMatrixTransformation = [](D3DXMATRIX *pout, const D3DXVECTOR3 *pscalingcenter, const D3DXQUATERNION *pscalingrotation, const D3DXVECTOR3 *pscaling, const D3DXVECTOR3 *protationcenter, const D3DXQUATERNION *protation, const D3DXVECTOR3 *ptranslation) -> D3DXMATRIX*
+				{
+					D3DXMATRIX m1, m2, m3, m4, m5, m6, m7;
+					D3DXQUATERNION prc;
+					D3DXVECTOR3 psc, pt;
+
+					if (!pscalingcenter)
+					{
+						psc.x = 0.0f;
+						psc.y = 0.0f;
+						psc.z = 0.0f;
+					}
+					else
+					{
+						psc.x = pscalingcenter->x;
+						psc.y = pscalingcenter->y;
+						psc.z = pscalingcenter->z;
+					}
+
+					if (!protationcenter)
+					{
+						prc.x = 0.0f;
+						prc.y = 0.0f;
+						prc.z = 0.0f;
+					}
+					else
+					{
+						prc.x = protationcenter->x;
+						prc.y = protationcenter->y;
+						prc.z = protationcenter->z;
+					}
+
+					if (!ptranslation)
+					{
+						pt.x = 0.0f;
+						pt.y = 0.0f;
+						pt.z = 0.0f;
+					}
+					else
+					{
+						pt.x = ptranslation->x;
+						pt.y = ptranslation->y;
+						pt.z = ptranslation->z;
+					}
+
+					auto D3DXMatrixIdentity = [](D3DXMATRIX *pOut) -> D3DXMATRIX*
+					{
+						pOut->m[0][1] = pOut->m[0][2] = pOut->m[0][3] =
+						pOut->m[1][0] = pOut->m[1][2] = pOut->m[1][3] =
+						pOut->m[2][0] = pOut->m[2][1] = pOut->m[2][3] =
+						pOut->m[3][0] = pOut->m[3][1] = pOut->m[3][2] = 0.0f;
+
+						pOut->m[0][0] = pOut->m[1][1] = pOut->m[2][2] = pOut->m[3][3] = 1.0f;
+						return pOut;
+					};
+
+					auto D3DXMatrixTranslation = [D3DXMatrixIdentity](D3DXMATRIX *pout, FLOAT x, FLOAT y, FLOAT z) -> D3DXMATRIX*
+					{
+						D3DXMatrixIdentity(pout);
+						pout->m[3][0] = x;
+						pout->m[3][1] = y;
+						pout->m[3][2] = z;
+						return pout;
+					};
+
+					D3DXMatrixTranslation(&m1, -psc.x, -psc.y, -psc.z);
+
+					auto D3DXMatrixRotationQuaternion = [D3DXMatrixIdentity](D3DXMATRIX *pout, const D3DXQUATERNION *pq) -> D3DXMATRIX*
+					{
+						D3DXMatrixIdentity(pout);
+						pout->m[0][0] = 1.0f - 2.0f * (pq->y * pq->y + pq->z * pq->z);
+						pout->m[0][1] = 2.0f * (pq->x *pq->y + pq->z * pq->w);
+						pout->m[0][2] = 2.0f * (pq->x * pq->z - pq->y * pq->w);
+						pout->m[1][0] = 2.0f * (pq->x * pq->y - pq->z * pq->w);
+						pout->m[1][1] = 1.0f - 2.0f * (pq->x * pq->x + pq->z * pq->z);
+						pout->m[1][2] = 2.0f * (pq->y *pq->z + pq->x *pq->w);
+						pout->m[2][0] = 2.0f * (pq->x * pq->z + pq->y * pq->w);
+						pout->m[2][1] = 2.0f * (pq->y *pq->z - pq->x *pq->w);
+						pout->m[2][2] = 1.0f - 2.0f * (pq->x * pq->x + pq->y * pq->y);
+						return pout;
+					};
+
+					auto D3DXMatrixInverse = [](D3DXMATRIX *pout, FLOAT *pdeterminant, const D3DXMATRIX *pm) -> D3DXMATRIX*
+					{
+						D3DXMATRIX out;
+						D3DXVECTOR4 v, vec[3];
+
+						auto D3DXVec4Cross = [](D3DXVECTOR4 *pout, const D3DXVECTOR4 *pv1, const D3DXVECTOR4 *pv2, const D3DXVECTOR4 *pv3) -> D3DXVECTOR4*
+						{
+							D3DXVECTOR4 out;
+							out.x = pv1->y * (pv2->z * pv3->w - pv3->z * pv2->w) - pv1->z * (pv2->y * pv3->w - pv3->y * pv2->w) + pv1->w * (pv2->y * pv3->z - pv2->z *pv3->y);
+							out.y = -(pv1->x * (pv2->z * pv3->w - pv3->z * pv2->w) - pv1->z * (pv2->x * pv3->w - pv3->x * pv2->w) + pv1->w * (pv2->x * pv3->z - pv3->x * pv2->z));
+							out.z = pv1->x * (pv2->y * pv3->w - pv3->y * pv2->w) - pv1->y * (pv2->x *pv3->w - pv3->x * pv2->w) + pv1->w * (pv2->x * pv3->y - pv3->x * pv2->y);
+							out.w = -(pv1->x * (pv2->y * pv3->z - pv3->y * pv2->z) - pv1->y * (pv2->x * pv3->z - pv3->x *pv2->z) + pv1->z * (pv2->x * pv3->y - pv3->x * pv2->y));
+							*pout = out;
+							return pout;
+						};
+
+						auto D3DXMatrixDeterminant = [D3DXVec4Cross](const D3DXMATRIX *pm) -> float
+						{
+							D3DXVECTOR4 minor, v1, v2, v3;
+
+							v1.x = pm->m[0][0]; v1.y = pm->m[1][0]; v1.z = pm->m[2][0]; v1.w = pm->m[3][0];
+							v2.x = pm->m[0][1]; v2.y = pm->m[1][1]; v2.z = pm->m[2][1]; v2.w = pm->m[3][1];
+							v3.x = pm->m[0][2]; v3.y = pm->m[1][2]; v3.z = pm->m[2][2]; v3.w = pm->m[3][2];
+							D3DXVec4Cross(&minor, &v1, &v2, &v3);
+							float det =  - (pm->m[0][3] * minor.x + pm->m[1][3] * minor.y + pm->m[2][3] * minor.z + pm->m[3][3] * minor.w);
+							return det;
+						};
+
+						float det = D3DXMatrixDeterminant(pm);
+						if (!det) return nullptr;
+						if (pdeterminant) *pdeterminant = det;
+						for (int i = 0; i < 4; ++i)
+						{
+							for (int j = 0; j < 4; ++j)
+							{
+								if (j != i )
+								{
+									int a = j;
+									if (j > i) a = a-1;
+									vec[a].x = pm->m[j][0];
+									vec[a].y = pm->m[j][1];
+									vec[a].z = pm->m[j][2];
+									vec[a].w = pm->m[j][3];
+								}
+							}
+							D3DXVec4Cross(&v, &vec[0], &vec[1], &vec[2]);
+							out.m[0][i] = pow(-1.0f, i) * v.x / det;
+							out.m[1][i] = pow(-1.0f, i) * v.y / det;
+							out.m[2][i] = pow(-1.0f, i) * v.z / det;
+							out.m[3][i] = pow(-1.0f, i) * v.w / det;
+						}
+
+						*pout = out;
+						return pout;
+					};
+
+					if (!pscalingrotation)
+					{
+						D3DXMatrixIdentity(&m2);
+						D3DXMatrixIdentity(&m4);
+					}
+					else
+					{
+						D3DXMatrixRotationQuaternion(&m4, pscalingrotation);
+						D3DXMatrixInverse(&m2, nullptr, &m4);
+					}
+
+					auto D3DXMatrixScaling = [D3DXMatrixIdentity](D3DXMATRIX *pout, float sx, float sy, float sz) -> D3DXMATRIX*
+					{
+						D3DXMatrixIdentity(pout);
+						pout->m[0][0] = sx;
+						pout->m[1][1] = sy;
+						pout->m[2][2] = sz;
+						return pout;
+					};
+
+					if (!pscaling) D3DXMatrixIdentity(&m3);
+					else D3DXMatrixScaling(&m3, pscaling->x, pscaling->y, pscaling->z);
+
+					if (!protation) D3DXMatrixIdentity(&m6);
+					else D3DXMatrixRotationQuaternion(&m6, protation);
+
+					D3DXMatrixTranslation(&m5, psc.x - prc.x,  psc.y - prc.y,  psc.z - prc.z);
+					D3DXMatrixTranslation(&m7, prc.x + pt.x, prc.y + pt.y, prc.z + pt.z);
+
+					auto D3DXMatrixMultiply = [](D3DXMATRIX *pout, const D3DXMATRIX *pm1, const D3DXMATRIX *pm2) -> D3DXMATRIX*
+					{
+						D3DXMATRIX out;
+						for (int i = 0; i < 4; ++i)
+						{
+							for (int j = 0; j < 4; ++j)
+							{
+								out.m[i][j] = pm1->m[i][0] * pm2->m[0][j] + pm1->m[i][1] * pm2->m[1][j] + pm1->m[i][2] * pm2->m[2][j] + pm1->m[i][3] * pm2->m[3][j];
+							}
+						}
+						*pout = out;
+						return pout;
+					};
+
+					D3DXMatrixMultiply(&m1, &m1, &m2);
+					D3DXMatrixMultiply(&m1, &m1, &m3);
+					D3DXMatrixMultiply(&m1, &m1, &m4);
+					D3DXMatrixMultiply(&m1, &m1, &m5);
+					D3DXMatrixMultiply(&m1, &m1, &m6);
+					D3DXMatrixMultiply(pout, &m1, &m7);
+					return pout;
+				};
+
 				D3DXMatrixTransformation(pout, &sca_center, &sca_rot, &sca, &rot_center, &rot, &trans);
 
 				return pout;
@@ -354,131 +543,34 @@ namespace OSHGui
 				{ w,    h,    0.0f, color.ARGB, 1.0f, 1.0f }
 			};
 
-			auto D3DXVec3TransformCoordArray = [](D3DXVECTOR3* out, UINT outstride, CONST D3DXVECTOR3* in, UINT instride, CONST D3DXMATRIX* matrix, UINT elements) -> D3DXVECTOR3*
+			auto D3DXVec3TransformCoordArray = [](D3DXVECTOR3* out, UINT outstride, const D3DXVECTOR3* in, UINT instride, const D3DXMATRIX* matrix, UINT elements) -> D3DXVECTOR3*
 			{
+				auto D3DXVec3TransformCoord = [](D3DXVECTOR3 *pout, const D3DXVECTOR3 *pv, const D3DXMATRIX *pm) -> D3DXVECTOR3*
+				{
+					D3DXVECTOR3 out;
+					FLOAT norm;
+
+					norm = pm->m[0][3] * pv->x + pm->m[1][3] * pv->y + pm->m[2][3] *pv->z + pm->m[3][3];
+
+					out.x = (pm->m[0][0] * pv->x + pm->m[1][0] * pv->y + pm->m[2][0] * pv->z + pm->m[3][0]) / norm;
+					out.y = (pm->m[0][1] * pv->x + pm->m[1][1] * pv->y + pm->m[2][1] * pv->z + pm->m[3][1]) / norm;
+					out.z = (pm->m[0][2] * pv->x + pm->m[1][2] * pv->y + pm->m[2][2] * pv->z + pm->m[3][2]) / norm;
+
+					*pout = out;
+
+					return pout;
+				};
+
 				for (auto i = 0; i < elements; ++i)
 				{
-					D3DXVec3TransformCoord((D3DXVECTOR3*)((char*)out + outstride * i), (CONST D3DXVECTOR3*)((const char*)in + instride * i), matrix);
+					D3DXVec3TransformCoord((D3DXVECTOR3*)((char*)out + outstride * i), (const D3DXVECTOR3*)((const char*)in + instride * i), matrix);
 				}
 				return out;
 			};
-
 
 			D3DXVec3TransformCoordArray((D3DXVECTOR3*)&vertices[0].x, sizeof(Vertex2D), (D3DXVECTOR3*)&vertices[0].x, sizeof(Vertex2D), &matrix, 6);
 
 			device->SetTexture(0, std::static_pointer_cast<TextureDX8>(texture)->GetTexture());
-			device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, vertices, sizeof(Vertex2D));
-		}
-		void RendererDX8::RenderTexture(IDirect3DTexture8 *texture, Size size, int x, int y, int w, int h)
-		{
-			Flush();
-			
-			x = x + renderRect.GetLeft();
-			y = y + renderRect.GetTop();
-
-			D3DXVECTOR2 screenPosition(x, y);
-			float scaleWidth = static_cast<float>(w) / size.Width;
-			float scaleHeight = static_cast<float>(h) / size.Height;
-			D3DXVECTOR2 scaling = scaleWidth < scaleHeight ? D3DXVECTOR2(scaleWidth, scaleWidth) : D3DXVECTOR2(scaleHeight, scaleHeight);
-
-			auto D3DXMatrixTransformation2D = [](D3DXMATRIX *pout, const D3DXVECTOR2 *pscalingcenter, float scalingrotation, const D3DXVECTOR2 *pscaling, const D3DXVECTOR2 *protationcenter, float rotation, const D3DXVECTOR2 *ptranslation) -> D3DXMATRIX*
-			{
-				D3DXQUATERNION rot, sca_rot;
-				D3DXVECTOR3 rot_center, sca, sca_center, trans;
-
-				if (pscalingcenter)
-				{
-					sca_center.x = pscalingcenter->x;
-					sca_center.y = pscalingcenter->y;
-					sca_center.z = 0.0f;
-				}
-				else
-				{
-					sca_center.x = 0.0f;
-					sca_center.y = 0.0f;
-					sca_center.z = 0.0f;
-				}
-
-				if (pscaling)
-				{
-					sca.x = pscaling->x;
-					sca.y = pscaling->y;
-					sca.z = 1.0f;
-				}
-				else
-				{
-					sca.x = 1.0f;
-					sca.y = 1.0f;
-					sca.z = 1.0f;
-				}
-
-				if (protationcenter)
-				{
-					rot_center.x = protationcenter->x;
-					rot_center.y = protationcenter->y;
-					rot_center.z = 0.0f;
-				}
-				else
-				{
-					rot_center.x = 0.0f;
-					rot_center.y = 0.0f;
-					rot_center.z = 0.0f;
-				}
-
-				if (ptranslation)
-				{
-					trans.x = ptranslation->x;
-					trans.y = ptranslation->y;
-					trans.z = 0.0f;
-				}
-				else
-				{
-					trans.x = 0.0f;
-					trans.y = 0.0f;
-					trans.z = 0.0f;
-				}
-
-				rot.w = cos(rotation / 2.0f);
-				rot.x = 0.0f;
-				rot.y = 0.0f;
-				rot.z = sin(rotation / 2.0f);
-
-				sca_rot.w = cos(scalingrotation / 2.0f);
-				sca_rot.x = 0.0f;
-				sca_rot.y = 0.0f;
-				sca_rot.z = sin(scalingrotation / 2.0f);
-
-				D3DXMatrixTransformation(pout, &sca_center, &sca_rot, &sca, &rot_center, &rot, &trans);
-
-				return pout;
-			};
-
-			D3DXMATRIX matrix;
-			D3DXMatrixTransformation2D(&matrix, nullptr, 0.0f, &scaling, nullptr, 0.0f, &screenPosition);
-
-			Vertex2D vertices[6] = {
-				//x     y     z     color       u     v
-				{ 0.0f, 0.0f, 0.0f, color.ARGB, 0.0f, 0.0f },
-				{ w,    0.0f, 0.0f, color.ARGB, 1.0f, 0.0f },
-				{ w,    h,    0.0f, color.ARGB, 1.0f, 1.0f },
-				{ 0.0f, h,    0.0f, color.ARGB, 0.0f, 1.0f },
-				{ 0.0f, 0.0f, 0.0f, color.ARGB, 0.0f, 0.0f },
-				{ w,    h,    0.0f, color.ARGB, 1.0f, 1.0f }
-			};
-
-			auto D3DXVec3TransformCoordArray = [](D3DXVECTOR3* out, UINT outstride, CONST D3DXVECTOR3* in, UINT instride, CONST D3DXMATRIX* matrix, UINT elements) -> D3DXVECTOR3*
-			{
-				for (auto i = 0; i < elements; ++i)
-				{
-					D3DXVec3TransformCoord((D3DXVECTOR3*)((char*)out + outstride * i), (CONST D3DXVECTOR3*)((const char*)in + instride * i), matrix);
-				}
-				return out;
-			};
-
-
-			D3DXVec3TransformCoordArray((D3DXVECTOR3*)&vertices[0].x, sizeof(Vertex2D), (D3DXVECTOR3*)&vertices[0].x, sizeof(Vertex2D), &matrix, 6);
-
-			device->SetTexture(0, texture);
 			device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, vertices, sizeof(Vertex2D));
 		}
 		//---------------------------------------------------------------------------
@@ -495,13 +587,6 @@ namespace OSHGui
 			y = y + renderRect.GetTop();
 			
 			std::static_pointer_cast<FontDX8>(font)->RenderText(x, y, color, text);
-
-			/*RECT clip = { x, y, x + w, y + h };
-
-			DWORD fvf;
-			device->GetVertexShader(&fvf);
-			std::static_pointer_cast<FontDX8>(font)->GetFont()->DrawTextA(text.c_str(), text.length(), &clip, DT_LEFT | DT_TOP, color.ARGB);
-			device->SetVertexShader(fvf);*/
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX8::Fill(int x, int y, int w, int h)
