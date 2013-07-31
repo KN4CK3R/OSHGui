@@ -208,7 +208,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextureDX9::BeginUpdate()
 		{
-			texture->LockRect(0, &lock, 0, 0);
+			texture->LockRect(0, &lock, nullptr, D3DLOCK_DISCARD);
 		}
 		//---------------------------------------------------------------------------
 		void TextureDX9::EndUpdate()

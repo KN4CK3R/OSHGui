@@ -130,7 +130,7 @@ namespace OSHGui
 			return std::make_shared<TextureOpenGL>(filename);
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<IFont> RendererOpenGL::CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic)
+		const std::shared_ptr<IFont> RendererOpenGL::CreateNewFont(const Misc::AnsiString &name, int size, bool bold, bool italic)
 		{
 			std::shared_ptr<FontOpenGL> font(new FontOpenGL(fontName, size, bold, italic));
 			//fontList.push_back(std::weak_ptr<FontDX9>(font));
@@ -192,7 +192,7 @@ namespace OSHGui
 			AddVertex(x, y + h);
 		}
 		//---------------------------------------------------------------------------
-		void RendererOpenGL::FillGradient(int x, int y, int w, int h, const Color &to)
+		void RendererOpenGL::FillGradient(int x, int y, int w, int h, Color to)
 		{
 			x = x + renderRect.GetLeft();
 			y = y + renderRect.GetTop();

@@ -92,6 +92,7 @@ namespace OSHGui
 			 * @param h
 			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h) override;
+			void RenderTexture(IDirect3DTexture8 *texture, Size size, int x, int y, int w, int h);
 
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.

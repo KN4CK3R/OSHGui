@@ -46,17 +46,7 @@ namespace OSHGui
 			
 			void PostReset();
 
-		protected:
-			/**
-			 * Erzeugt eine neue Schriftart.
-			 *
-			 * @param fontName der Name der Schriftart
-			 * @param size die Schriftgröße
-			 * @param bold fettgedruckt
-			 * @param italic kursiv
-			 */
-			virtual void Create(const Misc::AnsiString &fontName, int size, bool bold, bool italic);
-		
+		private:
 			IDirect3DDevice9 *device;
 			ID3DXFont *font;
 			
