@@ -219,7 +219,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<IFont> RendererDX9::CreateNewFont(const Misc::AnsiString &name, int size, bool bold, bool italic)
 		{
-			std::shared_ptr<FontDX9> font(new FontDX9(device, fontName, size, bold, italic));
+			std::shared_ptr<FontDX9> font(new FontDX9(device, name, size, bold, italic));
 			fontList.push_back(std::weak_ptr<FontDX9>(font));
 			return font;
 		}
