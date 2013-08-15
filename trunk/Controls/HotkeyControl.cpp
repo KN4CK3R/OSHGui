@@ -265,7 +265,7 @@ namespace OSHGui
 	{
 		Control::SetBackColor(color);
 		
-		textBox->SetBackColor(GetForeColor());
+		textBox->SetBackColor(GetBackColor());
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetHotkey(Key::Keys hotkey)

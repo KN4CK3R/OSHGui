@@ -356,6 +356,17 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void TabControl::ApplyTheme(const Drawing::Theme &theme)
+	{
+		ContainerControl::ApplyTheme(theme);
+		
+		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		{
+			auto binding = *it;
+			binding->tabPage->ApplyTheme(theme);
+		}
+	}
+	//---------------------------------------------------------------------------
 	void TabControl::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -388,6 +399,7 @@ namespace OSHGui
 		label = new Label();
 		label->SetLocation(DefaultLabelOffset);
 		label->SetText(binding->tabPage->GetText());
+		label->SetBackColor(Drawing::Color::Empty());
 
 		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 	}

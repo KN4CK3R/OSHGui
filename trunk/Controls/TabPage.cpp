@@ -22,6 +22,7 @@ namespace OSHGui
 	
 		containerPanel = new Panel();
 		containerPanel->SetLocation(Drawing::Point(2, 2));
+		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 		
 		ApplyTheme(Application::Instance()->GetTheme());

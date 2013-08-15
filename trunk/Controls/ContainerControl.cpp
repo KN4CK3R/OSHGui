@@ -209,7 +209,7 @@ namespace OSHGui
 		auto &controls = this->GetControls();
 		for (auto it = std::begin(controls); it != std::end(controls); ++it)
 		{
-			Control *control = *it;
+			auto control = *it;
 			control->ApplyTheme(theme);
 		}
 	}

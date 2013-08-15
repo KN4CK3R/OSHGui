@@ -55,9 +55,10 @@ namespace OSHGui
 		 * @param handler die aufzurufende Funktion
 		 */
 		Hotkey(Key::Keys key, Key::Keys modifier, const Handler &handler)
+			: key(key),
+			  modifier(modifier),
+			  handler(handler)
 		{
-			this->key = key;
-			this->modifier = modifier;
 			if (modifier == key || !(modifier == Key::None || modifier == Key::Control || modifier == Key::Alt || modifier == Key::Shift))
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -65,7 +66,6 @@ namespace OSHGui
 				#endif
 				throw 1;
 			}
-			this->handler = handler;
 			if (!handler)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -81,10 +81,11 @@ namespace OSHGui
 		 * @param hotkey
 		 */
 		Hotkey(const Hotkey &hotkey)
+			: key(hotkey.key),
+			  modifier(hotkey.modifier),
+			  handler(hotkey.handler)
 		{
-			key = hotkey.key;
-			modifier = hotkey.modifier;
-			handler = hotkey.handler;
+			
 		}
 
 		/**

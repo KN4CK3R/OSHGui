@@ -113,7 +113,7 @@ namespace OSHGui
 		currentTheme = theme;
 		for (auto it = formManager.GetEnumerator(); it(); ++it)
 		{
-			std::shared_ptr<Form> &form = *it;
+			auto &form = *it;
 			form->ApplyTheme(theme);
 		}
 	}

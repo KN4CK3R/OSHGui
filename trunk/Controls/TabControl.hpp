@@ -125,6 +125,12 @@ namespace OSHGui
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation() override;
+		/**
+		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
+		 *
+		 * @param theme
+		 */
+		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.

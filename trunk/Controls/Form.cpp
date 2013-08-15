@@ -40,6 +40,7 @@ namespace OSHGui
 
 		containerPanel = new Panel();
 		containerPanel->SetLocation(Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
+		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 
 		SetLocation(DefaultLocation);
@@ -179,7 +180,7 @@ namespace OSHGui
 
 		SetSize(Drawing::Size(DefaultButtonWidth, DefaultButtonHeight));
 	}
-	//---------------------------------------------------------------------------	
+	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::CalculateAbsoluteLocation()
 	{
 		Control::CalculateAbsoluteLocation();
@@ -222,8 +223,10 @@ namespace OSHGui
 
 		titleLabel = new Label();
 		titleLabel->SetLocation(DefaultTitleOffset);
+		titleLabel->SetBackColor(Drawing::Color::Empty());
 
 		closeButton = new CaptionBarButton();
+		closeButton->SetBackColor(Drawing::Color::Empty());
 		
 		AddSubControl(titleLabel);
 		AddSubControl(closeButton);
