@@ -136,6 +136,13 @@ namespace OSHGui
 		virtual bool Intersect(const Drawing::Point &point) const override;
 
 		/**
+		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
+		 *
+		 * @param theme
+		 */
+		virtual void ApplyTheme(const Drawing::Theme &theme) override;
+
+		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer

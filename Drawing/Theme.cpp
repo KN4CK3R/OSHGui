@@ -27,7 +27,7 @@ namespace OSHGui
 			return it->second;
 		}
 		//---------------------------------------------------------------------------
-		void Theme::Load(const Misc::AnsiString pathToThemeFile)
+		void Theme::Load(const Misc::AnsiString &pathToThemeFile)
 		{
 			Name = string();
 			Author = string();
@@ -114,7 +114,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		bool Theme::Save(const Misc::AnsiString pathToThemeFile, ColorStyle style) const
+		bool Theme::Save(const Misc::AnsiString &pathToThemeFile, ColorStyle style) const
 		{
 			ofstream file(pathToThemeFile);
 			if (!file.bad())

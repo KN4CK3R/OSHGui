@@ -21,10 +21,12 @@ namespace OSHGui
 
 		captionLabel = new Label();
 		captionLabel->SetLocation(Drawing::Point(5, -1));
+		captionLabel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(captionLabel);
 
 		containerPanel = new Panel();
 		containerPanel->SetLocation(Drawing::Point(3, 10));
+		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 
 		ApplyTheme(Application::Instance()->GetTheme());

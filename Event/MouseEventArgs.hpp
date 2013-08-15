@@ -28,9 +28,10 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		MouseEventArgs(const MouseMessage &mouseEvent)
+			: State(mouseEvent.State),
+			  Location(mouseEvent.Location)
 		{
-			State = mouseEvent.State;
-			Location = mouseEvent.Location;
+			
 		}
 	};
 }

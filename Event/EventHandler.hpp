@@ -47,9 +47,9 @@ namespace OSHGui
 		 * @param handler die gebundene Funktion
 		 */
 		EventHandler(const Handler &handler)
+			: handler(handler)
 		{
 			id = NextID();
-			this->handler = handler;
 		}
 		
 		/**
@@ -58,9 +58,10 @@ namespace OSHGui
 		 * @param eventHandler
 		 */
 		EventHandler(const EventHandler &eventHandler)
+			: id(eventHandler.id),
+			  handler(eventHandler.handler)
 		{
-			id = eventHandler.id;
-			handler = eventHandler.handler;
+			
 		}
 
 		bool operator == (const EventHandler &eventHandler)

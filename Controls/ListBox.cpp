@@ -163,6 +163,12 @@ namespace OSHGui
 		return selectedIndexChangedEvent;
 	}
 	//---------------------------------------------------------------------------
+	void ListBox::ApplyTheme(const Drawing::Theme &theme)
+	{
+		ContainerControl::ApplyTheme(theme);
+
+		scrollBar->ApplyTheme(theme);
+	}
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ListBox::Intersect(const Drawing::Point &point) const

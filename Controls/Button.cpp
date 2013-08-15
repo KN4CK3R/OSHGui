@@ -25,6 +25,7 @@ namespace OSHGui
 
 		label = new Label();
 		label->SetLocation(DefaultLabelOffset);
+		label->SetBackColor(Drawing::Color::Empty());
 
 		SetSize(DefaultSize);
 		
