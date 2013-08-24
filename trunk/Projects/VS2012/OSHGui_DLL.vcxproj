@@ -66,6 +66,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2012</AdditionalLibraryDirectories>
+      <AdditionalDependencies>jsoncpp_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalDependencies>jsoncpp_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
