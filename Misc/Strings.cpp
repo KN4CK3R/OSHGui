@@ -34,7 +34,7 @@ namespace OSHGui
 
 				va_list s;
 				va_start(s, fmt);
-					vsnprintf(strOut, sizeof(strOut) / sizeof(AnsiChar), fmt, s);
+					vsnprintf_s(strOut, sizeof(strOut) / sizeof(AnsiChar), fmt, s);
 				va_end(s);
 
 				AnsiString str = strOut;

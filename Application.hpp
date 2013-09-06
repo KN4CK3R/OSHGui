@@ -45,7 +45,7 @@ namespace OSHGui
 		 *
 		 * @param renderer Instanz des verwendeten Renderers
 		 */
-		void Create(Drawing::IRenderer *renderer);
+		void Create(Drawing::IRenderer *renderer, bool useThreadedInput = true);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -116,14 +116,14 @@ namespace OSHGui
 		 * @param mouse
 		 * @return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessMouseMessage(MouseMessage &mouse);
+		bool InjectMouseMessage(MouseMessage &mouse);
 		/**
 		 * Gibt eine KeyboardMessage an die geöffneten Formen weiter.
 		 *
 		 * @param keyboard
 		 * @return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
+		bool InjectKeyboardMessage(KeyboardMessage &keyboard);
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
@@ -150,6 +150,9 @@ namespace OSHGui
 		static Application* Instance();
 
 	private:
+		bool ProcessMouseMessage(MouseMessage &mouse);
+		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
+
 		static Application *instance;
 		Application();
 		
@@ -176,6 +179,10 @@ namespace OSHGui
 		Control *MouseEnteredControl;
 
 		bool isEnabled;
+		bool useThreadedInput;
+
+		MouseMessageQueue mouseMessages;
+		KeyboardMessageQueue keyboardMessages;
 	};
 }
 
