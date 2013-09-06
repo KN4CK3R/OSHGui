@@ -11,6 +11,7 @@
 
 #include "../Drawing/Point.hpp"
 #include "MouseButton.hpp"
+#include "../Misc/ConcurrendBoundedBuffer.hpp"
 
 namespace OSHGui
 {
@@ -53,6 +54,14 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse
 		 */
+		MouseMessage()
+			: state(Unknown),
+			  button(MouseButton::None),
+			  delta(0)
+		{
+
+		}
+
 		MouseMessage(MouseStates state, MouseButton::MouseButtons button, Drawing::Point location, int delta)
 		{
 			this->State = state;
@@ -60,7 +69,15 @@ namespace OSHGui
 			this->Location = location;
 			this->Delta = delta;
 		}
+
+	private:
+		MouseStates state;
+		MouseButton::MouseButtons button;
+		Drawing::Point location;
+		int delta;
 	};
+
+	typedef Misc::BoundedBuffer<MouseMessage, 20> MouseMessageQueue;
 }
 
 #endif

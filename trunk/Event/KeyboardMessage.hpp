@@ -11,6 +11,7 @@
 
 #include "Key.hpp"
 #include "../Misc/Strings.hpp"
+#include "../Misc/ConcurrendBoundedBuffer.hpp"
 
 namespace OSHGui
 {
@@ -44,6 +45,14 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 */
+		KeyboardMessage()
+			: state(Unknown),
+			  keyData(Key::None),
+			  keyChar('\0')
+		{
+
+		}
+
 		KeyboardMessage(KeyboardStates state, Key::Keys keyData, Misc::AnsiChar keyChar)
 			: state(state),
 			  keyData(keyData),
@@ -96,6 +105,8 @@ namespace OSHGui
 		Key::Keys keyData;
 
 	};
+
+	typedef Misc::BoundedBuffer<KeyboardMessage, 20> KeyboardMessageQueue;
 }
 
 #endif

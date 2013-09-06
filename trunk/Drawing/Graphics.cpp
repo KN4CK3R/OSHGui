@@ -58,6 +58,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Graphics::FillPolygon(const std::vector<Point> &vertices, Color color)
 		{
+			if (vertices.empty())
+			{
+				return;
+			}
+
 			std::vector<int> nodes;
 
 			auto size = texture->GetSize();

@@ -571,8 +571,8 @@ namespace OSHGui
 			struct tm local, utc;
 			
 			time(&now);
-			local = *localtime(&now);
-			utc = *gmtime(&now);
+			localtime_s(&local, &now);
+			gmtime_s(&utc, &now);
 			
 			int diff = local.tm_hour - utc.tm_hour;
 						

@@ -83,7 +83,7 @@ namespace OSHGui
 
 					lastMouseLocation = mouse.Location;
 
-					if (Application::Instance()->ProcessMouseMessage(mouse) == true)
+					if (Application::Instance()->InjectMouseMessage(mouse) == true)
 					{
 						return true;
 					}
@@ -135,7 +135,7 @@ namespace OSHGui
 
 					if (state != KeyboardMessage::Unknown)
 					{
-						if (Application::Instance()->ProcessKeyboardMessage(KeyboardMessage(state, keyData, keyChar)) == true)
+						if (Application::Instance()->InjectKeyboardMessage(KeyboardMessage(state, keyData, keyChar)) == true)
 						{
 							return true;
 						}
