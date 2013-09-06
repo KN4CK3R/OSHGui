@@ -5,7 +5,6 @@
  *
  * See license in OSHGui.hpp
  */
-#include <Windows.h>
 #include "ComboBox.hpp"
 #include "ListBox.hpp"
 #include "ScrollBar.hpp"
@@ -13,11 +12,13 @@
 
 namespace OSHGui
 {
+	const int ComboBox::DefaultMaxShowItems(4);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	ComboBox::ComboBox()
-		: droppedDown(false)
+		: droppedDown(false),
+		  maxShowItems(DefaultMaxShowItems)
 	{
 		type = CONTROL_COMBOBOX;
 	
@@ -226,6 +227,16 @@ namespace OSHGui
 		return listBox->GetItemsCount();
 	}
 	//---------------------------------------------------------------------------
+	void ComboBox::SetMaxShowItems(int items)
+	{
+		maxShowItems = items;
+	}
+	//---------------------------------------------------------------------------
+	int ComboBox::GetMaxShowItems() const
+	{
+		return maxShowItems;
+	}
+	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& ComboBox::GetSelectedIndexChangedEvent()
 	{
 		return listBox->GetSelectedIndexChangedEvent();
@@ -248,26 +259,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
 	{
-		int newHeight = MaxListBoxHeight;
-		if (listBox->GetHeight() + font->GetSize() + 2 < MaxListBoxHeight)
-		{
-			newHeight = listBox->GetHeight() + font->GetSize() + 6;
-		}
-		listBox->SetSize(listBox->GetWidth(), newHeight);
-
-		listBox->AddItem(text);
+		InsertItem(listBox->GetItemsCount() > 0 ? listBox->GetItemsCount() : 0, text);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::InsertItem(int index, const Misc::AnsiString &text)
 	{
-		int newHeight = MaxListBoxHeight;
-		if (listBox->GetHeight() + font->GetSize() + 2 < MaxListBoxHeight)
-		{
-			newHeight = listBox->GetHeight() + font->GetSize() + 3;
-		}
-		listBox->SetSize(listBox->GetWidth(), newHeight);
-
 		listBox->InsertItem(index, text);
+
+		listBox->ExpandSizeToShowItems(std::min(listBox->GetItemsCount(), maxShowItems));
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::RemoveItem(int index)
