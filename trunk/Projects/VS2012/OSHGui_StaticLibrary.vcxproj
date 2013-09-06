@@ -130,6 +130,7 @@
     <ClInclude Include="..\..\Cursor\Pipette.hpp" />
     <ClInclude Include="..\..\Cursor\Wait.hpp" />
     <ClInclude Include="..\..\Drawing\Color.hpp" />
+    <ClInclude Include="..\..\Drawing\Graphics.hpp" />
     <ClInclude Include="..\..\Drawing\IFont.hpp" />
     <ClInclude Include="..\..\Drawing\IRenderer.hpp" />
     <ClInclude Include="..\..\Drawing\ITexture.hpp" />
@@ -151,8 +152,10 @@
     <ClInclude Include="..\..\Exports.hpp" />
     <ClInclude Include="..\..\FormManager.hpp" />
     <ClInclude Include="..\..\Input\WindowsMessage.hpp" />
+    <ClInclude Include="..\..\Input\WindowsMessageThreaded.hpp" />
     <ClInclude Include="..\..\Intersection.hpp" />
     <ClInclude Include="..\..\Misc\Any.hpp" />
+    <ClInclude Include="..\..\Misc\ConcurrendBoundedBuffer.hpp" />
     <ClInclude Include="..\..\Misc\DateTime.hpp" />
     <ClInclude Include="..\..\Misc\Exceptions.hpp" />
     <ClInclude Include="..\..\Misc\Strings.hpp" />
@@ -196,6 +199,7 @@
     <ClCompile Include="..\..\Cursor\Pipette.cpp" />
     <ClCompile Include="..\..\Cursor\Wait.cpp" />
     <ClCompile Include="..\..\Drawing\Color.cpp" />
+    <ClCompile Include="..\..\Drawing\Graphics.cpp" />
     <ClCompile Include="..\..\Drawing\IRenderer.cpp" />
     <ClCompile Include="..\..\Drawing\ITexture.cpp" />
     <ClCompile Include="..\..\Drawing\Point.cpp" />
@@ -205,6 +209,7 @@
     <ClCompile Include="..\..\Drawing\Theme.cpp" />
     <ClCompile Include="..\..\FormManager.cpp" />
     <ClCompile Include="..\..\Input\WindowsMessage.cpp" />
+    <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp" />
     <ClCompile Include="..\..\Misc\DateTime.cpp" />
     <ClCompile Include="..\..\Misc\Exceptions.cpp" />
     <ClCompile Include="..\..\Misc\Strings.cpp" />

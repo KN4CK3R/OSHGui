@@ -239,6 +239,15 @@
     <ClInclude Include="..\..\Input\WindowsMessage.hpp">
       <Filter>Headerdateien\Input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Drawing\Graphics.hpp">
+      <Filter>Headerdateien\Drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Misc\ConcurrendBoundedBuffer.hpp">
+      <Filter>Headerdateien\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Input\WindowsMessageThreaded.hpp">
+      <Filter>Headerdateien\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Application.cpp">
@@ -386,6 +395,12 @@
       <Filter>Quelldateien\Controls</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Input\WindowsMessage.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Graphics.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp">
       <Filter>Quelldateien\Input</Filter>
     </ClCompile>
   </ItemGroup>

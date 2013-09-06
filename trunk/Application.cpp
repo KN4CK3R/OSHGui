@@ -20,7 +20,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Application::Application()
 		: isEnabled(false),
-		  useThreadedInput(true),
 		  renderer(nullptr),
 		  now(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
@@ -60,7 +59,7 @@ namespace OSHGui
 		return instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::IRenderer *renderer, bool useThreadedInput)
+	void Application::Create(Drawing::IRenderer *renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (renderer == nullptr)
@@ -70,7 +69,6 @@ namespace OSHGui
 		#endif
 		
 		this->renderer = renderer;
-		this->useThreadedInput = useThreadedInput;
 
 		mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
@@ -173,34 +171,6 @@ namespace OSHGui
 		formManager.RegisterMainForm(mainForm);
 
 		mainForm->Show(mainForm);
-	}
-	//---------------------------------------------------------------------------
-	bool Application::InjectMouseMessage(MouseMessage &mouse)
-	{
-		if (useThreadedInput)
-		{
-			mouseMessages.Push(mouse);
-
-			return false;
-		}
-		else
-		{
-			return ProcessMouseMessage(mouse);
-		}
-	}
-	//---------------------------------------------------------------------------
-	bool Application::InjectKeyboardMessage(KeyboardMessage &keyboard)
-	{
-		if (useThreadedInput)
-		{
-			keyboardMessages.Push(keyboard);
-
-			return false;
-		}
-		else
-		{
-			return ProcessKeyboardMessage(keyboard);
-		}
 	}
 	//---------------------------------------------------------------------------
 	bool Application::ProcessMouseMessage(MouseMessage &mouse)
@@ -309,18 +279,6 @@ namespace OSHGui
 			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
 		}
 		#endif
-
-		if (useThreadedInput)
-		{
-			while (!mouseMessages.empty())
-			{
-				ProcessMouseMessage(mouseMessages.Get());
-			}
-			while (!keyboardMessages.empty())
-			{
-				ProcessKeyboardMessage(keyboardMessages.Get());
-			}
-		}
 	
 		if (!isEnabled)
 		{
