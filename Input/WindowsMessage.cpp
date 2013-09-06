@@ -20,7 +20,12 @@ namespace OSHGui
 		{
 
 		}
+		//---------------------------------------------------------------------------
+		WindowsMessage::~WindowsMessage()
+		{
 
+		}
+		//---------------------------------------------------------------------------
 		bool WindowsMessage::ProcessMessage(LPMSG message)
 		{
 			switch (message->message)
@@ -83,11 +88,7 @@ namespace OSHGui
 
 					lastMouseLocation = mouse.Location;
 
-					if (Application::Instance()->InjectMouseMessage(mouse) == true)
-					{
-						return true;
-					}
-					break;
+					return InjectMouseMessage(mouse);
 				}
 				case WM_KEYDOWN:
 				case WM_SYSKEYDOWN:
@@ -135,10 +136,7 @@ namespace OSHGui
 
 					if (state != KeyboardMessage::Unknown)
 					{
-						if (Application::Instance()->InjectKeyboardMessage(KeyboardMessage(state, keyData, keyChar)) == true)
-						{
-							return true;
-						}
+						return InjectKeyboardMessage(KeyboardMessage(state, keyData, keyChar));
 					}
 
 					break;
@@ -147,5 +145,16 @@ namespace OSHGui
 
 			return false;
 		}
+		//---------------------------------------------------------------------------
+		bool WindowsMessage::InjectMouseMessage(MouseMessage &mouse)
+		{
+			return Application::Instance()->ProcessMouseMessage(mouse);
+		}
+		//---------------------------------------------------------------------------
+		bool WindowsMessage::InjectKeyboardMessage(KeyboardMessage &keyboard)
+		{
+			return Application::Instance()->ProcessKeyboardMessage(keyboard);
+		}
+		//---------------------------------------------------------------------------
 	}
 }
