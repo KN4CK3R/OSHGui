@@ -102,6 +102,10 @@ namespace OSHGui
 		 * @return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
+		/**
+		 * Erweitert die Größe damit die angegebene Anzahl an Items sichtbar ist.
+		 */
+		void ExpandSizeToShowItems(int count);
 
 		/**
 		 * Fügt ein neues Item hinzu.
@@ -157,6 +161,10 @@ namespace OSHGui
 
 	private:
 		static const Drawing::Size DefaultSize;
+		static const Drawing::Size DefaultItemAreaPadding;
+		static const int DefaultItemPadding;
+
+		void CheckForScrollBar();
 		
 		int selectedIndex;
 		int firstVisibleItemIndex;

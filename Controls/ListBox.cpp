@@ -17,6 +17,8 @@ namespace OSHGui
 	//static attributes
 	//---------------------------------------------------------------------------
 	const Drawing::Size ListBox::DefaultSize(120, 95);
+	const Drawing::Size ListBox::DefaultItemAreaPadding(8, 8);
+	const int ListBox::DefaultItemPadding(2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -44,7 +46,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		maxVisibleItems = GetHeight() / (font->GetSize() + 2);
+		maxVisibleItems = GetHeight() / (font->GetSize() + DefaultItemPadding);
 
 		ApplyTheme(Application::Instance()->GetTheme());
 	}
@@ -66,17 +68,17 @@ namespace OSHGui
 			itemAreaSize.Width -= scrollBar->GetWidth();
 		}
 
-		maxVisibleItems = std::max(1, itemAreaSize.Height / (font->GetSize() + 2));;
-
 		scrollBar->SetLocation(size.Width - scrollBar->GetWidth() - 1, 0);
 		scrollBar->SetSize(scrollBar->GetWidth(), size.Height);
+
+		CheckForScrollBar();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
 	{
 		ContainerControl::SetFont(font);
 
-		maxVisibleItems = std::max(1, itemAreaSize.Height / (font->GetSize() + 2));
+		CheckForScrollBar();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::SetAutoScrollEnabled(bool autoScrollEnabled)
@@ -169,11 +171,20 @@ namespace OSHGui
 
 		scrollBar->ApplyTheme(theme);
 	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ListBox::Intersect(const Drawing::Point &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, scrollBar->GetVisible() ? size.InflateEx(-scrollBar->GetWidth(), 0) : size, point);
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::ExpandSizeToShowItems(int count)
+	{
+		auto itemHeight = font->GetSize() + DefaultItemPadding;
+		int newHeight = count * itemHeight;
+
+		SetSize(GetWidth(), newHeight + DefaultItemAreaPadding.Height);
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::AddItem(const Misc::AnsiString &text)
@@ -185,20 +196,7 @@ namespace OSHGui
 	{
 		items.insert(items.begin() + index, text);
 
-		if (items.size() * (font->GetSize() + 2) > itemAreaSize.Height)
-		{
-			if (!scrollBar->GetVisible())
-			{
-				itemAreaSize.Width -= scrollBar->GetWidth();
-			}
-			scrollBar->SetMaximum(items.size() - maxVisibleItems);
-			scrollBar->SetVisible(true);
-		}
-		else if (scrollBar->GetVisible())
-		{
-			scrollBar->SetVisible(false);
-			itemAreaSize.Width += scrollBar->GetWidth();
-		}
+		CheckForScrollBar();
 
 		if (autoScrollEnabled)
 		{
@@ -236,6 +234,30 @@ namespace OSHGui
 		scrollBar->SetMaximum(1);
 		
 		selectedIndex = -1;
+
+		CheckForScrollBar();
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::CheckForScrollBar()
+	{
+		auto itemHeight = font->GetSize() + DefaultItemPadding;
+
+		maxVisibleItems = std::max(1, itemAreaSize.Height / itemHeight);
+
+		if (items.size() * itemHeight > itemAreaSize.Height)
+		{
+			if (!scrollBar->GetVisible())
+			{
+				itemAreaSize.Width -= scrollBar->GetWidth();
+			}
+			scrollBar->SetMaximum(items.size() - maxVisibleItems - 1);
+			scrollBar->SetVisible(true);
+		}
+		else if (scrollBar->GetVisible())
+		{
+			scrollBar->SetVisible(false);
+			itemAreaSize.Width += scrollBar->GetWidth();
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -246,7 +268,7 @@ namespace OSHGui
 
 		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Location))
 		{
-			int clickedIndex = firstVisibleItemIndex + (mouse.Location.Y - absoluteLocation.Y - 4) / (font->GetSize() + 2);
+			int clickedIndex = firstVisibleItemIndex + (mouse.Location.Y - absoluteLocation.Y - 4) / (font->GetSize() + DefaultItemPadding);
 			if (clickedIndex < items.size())
 			{
 				SetSelectedIndex(clickedIndex);
@@ -373,7 +395,7 @@ namespace OSHGui
 		renderer->SetRenderColor(foreColor);
 		int itemX = absoluteLocation.Left + 4;
 		int itemY = absoluteLocation.Top + 4;
-		int padding = font->GetSize() + 2;
+		int padding = font->GetSize() + DefaultItemPadding;
 		for (int i = 0; i < maxVisibleItems && i + firstVisibleItemIndex < (int)items.size(); ++i)
 		{
 			if (firstVisibleItemIndex + i == selectedIndex)

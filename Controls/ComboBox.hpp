@@ -117,6 +117,18 @@ namespace OSHGui
 		 */
 		int GetItemsCount() const;
 		/**
+		 * Legt die anzahl an Items fest, die ausgeklappt angezeigt werden.
+		 *
+		 * @param items
+		 */
+		void SetMaxShowItems(int items);
+		/**
+		 * Ruft die Anzahl der Items ab, die ausgeklappt angezeigt werden.
+		 *
+		 * @return items
+		 */
+		int GetMaxShowItems() const;
+		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
 		 * @return selectedIndexEvent
@@ -166,12 +178,12 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer);
 	
 	private:
-		static const Drawing::Size DefaultSize;
-		static const int MaxListBoxHeight = 80;
+		static const int DefaultMaxShowItems;
 
 		void Expand();
 		void Collapse();
 		
+		int maxShowItems;
 		bool droppedDown;
 		
 		Drawing::Color dropDownColor;
