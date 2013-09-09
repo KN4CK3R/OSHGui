@@ -98,8 +98,8 @@ namespace OSHGui
 	{
 		if (control != nullptr)
 		{
-			std::remove(std::begin(controls), std::end(controls), control);
-			std::remove(std::begin(internalControls), std::end(internalControls), control);
+			controls.erase(std::remove(std::begin(controls), std::end(controls), control), std::end(controls));
+			internalControls.erase(std::remove(std::begin(internalControls), std::end(internalControls), control), std::end(internalControls));
 		}
 	}
 	//---------------------------------------------------------------------------
