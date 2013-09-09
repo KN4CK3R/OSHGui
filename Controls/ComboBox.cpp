@@ -12,7 +12,7 @@
 
 namespace OSHGui
 {
-	const int ComboBox::DefaultMaxShowItems(4);
+	const int ComboBox::DefaultMaxShowItems(10);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------

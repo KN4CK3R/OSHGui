@@ -315,30 +315,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::RegisterHotkey(const Hotkey &hotkey)
 	{
-		for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
-		{
-			Hotkey &temp = *it;
-			if (temp.GetKey() == hotkey.GetKey() && temp.GetModifier() == hotkey.GetModifier())
-			{
-				it = hotkeys.erase(it);
-				hotkeys.insert(it, hotkey);
-				return;
-			}
-		}
+		UnregisterHotkey(hotkey);
+
 		hotkeys.push_back(hotkey);
 	}
 	//---------------------------------------------------------------------------
 	void Application::UnregisterHotkey(const Hotkey &hotkey)
 	{
-		for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
-		{
-			Hotkey &temp = *it;
-			if (temp.GetKey() == hotkey.GetKey() && temp.GetModifier() == hotkey.GetModifier())
-			{
-				hotkeys.erase(it);
-				return;
-			}
-		}
+		hotkeys.erase(std::remove(std::begin(hotkeys), std::end(hotkeys), hotkey), std::end(hotkeys));
 	}
 	//---------------------------------------------------------------------------
 }

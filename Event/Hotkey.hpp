@@ -34,17 +34,11 @@ namespace OSHGui
 		 * @param handler die aufzurufende Funktion
 		 */
 		Hotkey(Key::Keys key, const Handler &handler)
+			: key(key),
+			  modifier(Key::None),
+			  handler(handler)
 		{
-			this->key = key;
-			this->modifier = Key::None;
-			this->handler = handler;
-			if (!handler)
-			{
-				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw Misc::ArgumentException("handler", __FILE__, __LINE__);
-				#endif
-				throw 1;
-			}
+
 		}
 
 		/**
@@ -63,13 +57,6 @@ namespace OSHGui
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
 				throw Misc::ArgumentException("modifier", __FILE__, __LINE__);
-				#endif
-				throw 1;
-			}
-			if (!handler)
-			{
-				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw Misc::ArgumentException("handler", __FILE__, __LINE__);
 				#endif
 				throw 1;
 			}
@@ -114,7 +101,10 @@ namespace OSHGui
 
 		void operator()()
 		{
-			handler();
+			if (handler)
+			{
+				handler();
+			}
 		}
 		
 		Hotkey& operator=(const Hotkey &hotkey)
