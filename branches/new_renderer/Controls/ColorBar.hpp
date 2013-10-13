@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die ausgewählte Farbe fest.
 		 *
@@ -66,7 +66,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -76,8 +76,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	protected:
-		static const Drawing::Size DefaultSize;
-		static const Drawing::Size DefaultBarSize;
+		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeF DefaultBarSize;
 
 		void CreateBarTexture(int index);
 		void UpdateBars();
@@ -91,8 +91,8 @@ namespace OSHGui
 		bool drag[3];
 		Drawing::Color color;
 		std::vector<std::shared_ptr<Drawing::ITexture> > bars;
-		std::vector<Drawing::Point> barSliderLocation;
-		std::vector<Drawing::Point> barSliderAbsoluteLocation;
+		std::vector<Drawing::PointF> barSliderLocation;
+		std::vector<Drawing::PointF> barSliderAbsoluteLocation;
 
 		ColorChangedEvent colorChangedEvent;
 	};

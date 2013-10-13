@@ -100,7 +100,7 @@ namespace OSHGui
 			 *
 			 * @return size
 			 */
-			const Drawing::Size& GetSize() const;
+			const Drawing::SizeF& GetSize() const;
 			
 			/**
 			 * Berechnet die Maße neu.
@@ -114,7 +114,7 @@ namespace OSHGui
 			 * @param trailing linker Rand des Zeichens / rechter Rand des Zeichens
 			 * @return position
 			 */
-			Drawing::Point GetCharacterPosition(int index, bool trailing = false) const;
+			Drawing::PointF GetCharacterPosition(int index, bool trailing = false) const;
 			/**
 			 * Gibt die Weite eines Teilstrings zurück.
 			 *
@@ -122,19 +122,19 @@ namespace OSHGui
 			 * @param size die Länge der Zeichenkette. -1 = bis zum Ende (default: -1)
 			 * @return die Größe
 			 */
-			Drawing::Size GetStringWidth(int index, int size = -1) const;
+			Drawing::SizeF GetStringWidth(int index, int size = -1) const;
 			/**
 			 * Gibt den Index des Zeichens zurück, das der Position am nächsten steht.
 			 *
 			 * @param position
 			 * @return index
 			 */
-			int GetClosestCharacterIndex(const Drawing::Point &position) const;
+			int GetClosestCharacterIndex(const Drawing::PointF &position) const;
 			
 		private:
 			AnsiString text;
 			
-			Drawing::Size size;
+			Drawing::SizeF size;
 			
 			std::shared_ptr<Drawing::IFont> font;
 		};

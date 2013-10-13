@@ -35,7 +35,7 @@ namespace OSHGui
 			 *
 			 * @return size
 			 */
-			const Size& GetSize() const;
+			const SizeF& GetSize() const;
 			/**
 			 * Ruft ab, ob die Textur gesperrt ist.
 			 */
@@ -69,7 +69,7 @@ namespace OSHGui
 			 *
 			 * @param point die Position
 			 */
-			virtual void Clear(const Point &point);
+			virtual void Clear(const PointF &point);
 			/**
 			 * Löscht einen 1x1 Pixel an der entsprechenden Position.
 			 *
@@ -82,7 +82,7 @@ namespace OSHGui
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void Clear(const Rectangle &rect);
+			virtual void Clear(const RectangleF &rect);
 			/**
 			 * Löscht das Rechteck.
 			 *
@@ -105,7 +105,7 @@ namespace OSHGui
 			 * @param point der Punkt
 			 * @param color die Farbe
 			 */
-			virtual void Fill(const Point &point, Color color);
+			virtual void Fill(const PointF &point, Color color);
 			/**
 			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
 			 *
@@ -120,7 +120,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param color die Farbe
 			 */
-			virtual void Fill(const Rectangle &rect, Color color);
+			virtual void Fill(const RectangleF &rect, Color color);
 			/**
 			 * Füllt das Rechteck.
 			 *
@@ -148,7 +148,7 @@ namespace OSHGui
 			 * @param to die Endfarbe
 			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
 			 */
-			virtual void FillGradient(const Rectangle &rect, Color from, Color to, bool updown = true);
+			virtual void FillGradient(const RectangleF &rect, Color from, Color to, bool updown = true);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -183,7 +183,7 @@ namespace OSHGui
 			virtual void SelectActiveFrame(int frame) = 0;
 
 		protected:		
-			Size size;
+			SizeF size;
 			Misc::TimeSpan frameChangeInterval;
 		};
 	}

@@ -82,7 +82,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -96,16 +96,16 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
-		static const Drawing::Size DefaultLabelOffset;
+		static const Drawing::SizeF DefaultLabelOffset;
 		static const int DefaultCheckBoxSize = 17;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
 		bool checked;
-		Drawing::Point checkBoxLocation;
-		Drawing::Point textLocation;
-		Drawing::Point checkBoxAbsoluteLocation;
+		Drawing::PointF checkBoxLocation;
+		Drawing::PointF textLocation;
+		Drawing::PointF checkBoxAbsoluteLocation;
 		
 		CheckedChangedEvent checkedChangedEvent;
 

@@ -194,7 +194,7 @@ namespace OSHGui
 		}
 
 		this->SetSize(formWidth, formHeight);
-		Drawing::Size screen = Application::Instance()->GetRenderer()->GetRenderDimension();
+		Drawing::SizeF screen = Application::Instance()->GetRenderer()->GetRenderDimension();
 		this->SetLocation(screen.Width / 2 - formWidth / 2, screen.Height / 2 - formHeight / 2);
 		
 		AddButtons(label, eventHandler);

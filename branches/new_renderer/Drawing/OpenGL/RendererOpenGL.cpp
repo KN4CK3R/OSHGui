@@ -31,11 +31,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		const Size RendererOpenGL::GetRenderDimension() const
+		const SizeF RendererOpenGL::GetRenderDimension() const
 		{
 			GLint viewport[4];
 			glGetIntegerv(GL_VIEWPORT, viewport);
-			return Size(viewport[2], viewport[3]);
+			return SizeF(viewport[2], viewport[3]);
 		}
 		//---------------------------------------------------------------------------
 		void RendererOpenGL::Begin()
@@ -115,14 +115,14 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
+		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(const SizeF &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			return std::make_shared<TextureOpenGL>(size, frameCount, frameChangeInterval);
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			return std::make_shared<TextureOpenGL>(Size(width, height), frameCount, frameChangeInterval);
+			return std::make_shared<TextureOpenGL>(SizeF(width, height), frameCount, frameChangeInterval);
 		}
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererOpenGL::CreateNewTexture(const Misc::AnsiString &filename)

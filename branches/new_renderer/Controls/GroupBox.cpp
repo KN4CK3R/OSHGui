@@ -20,12 +20,12 @@ namespace OSHGui
 		type = CONTROL_GROUPBOX;
 
 		captionLabel = new Label();
-		captionLabel->SetLocation(Drawing::Point(5, -1));
+		captionLabel->SetLocation(Drawing::PointF(5, -1));
 		captionLabel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(captionLabel);
 
 		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::Point(3, 10));
+		containerPanel->SetLocation(Drawing::PointF(3, 10));
 		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 
@@ -41,7 +41,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetSize(const Drawing::Size &size)
+	void GroupBox::SetSize(const Drawing::SizeF &size)
 	{
 		ContainerControl::SetSize(size);
 
@@ -79,7 +79,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool GroupBox::Intersect(const Drawing::Point &point) const
+	bool GroupBox::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}

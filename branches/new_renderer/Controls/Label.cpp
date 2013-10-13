@@ -54,7 +54,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Label::Intersect(const Drawing::Point &point) const
+	bool Label::Intersect(const Drawing::PointF &point) const
 	{
 		return false;
 	}
@@ -68,7 +68,7 @@ namespace OSHGui
 			return;
 		}
 		
-		Drawing::Size renderSize = GetParent()->GetSize();
+		Drawing::SizeF renderSize = GetParent()->GetSize();
 		if (backColor.A != 0)
 		{
 			renderer->SetRenderColor(backColor);

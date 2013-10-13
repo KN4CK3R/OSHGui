@@ -16,7 +16,7 @@
 namespace OSHGui
 {
 	std::map<Key::Keys, Misc::AnsiString> HotkeyControl::hotkeyNames;
-	const Drawing::Size HotkeyControl::DefaultSize(100, 24);
+	const Drawing::SizeF HotkeyControl::DefaultSize(100, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -240,7 +240,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetSize(const Drawing::Size &size)
+	void HotkeyControl::SetSize(const Drawing::SizeF &size)
 	{
 		Control::SetSize(size);
 		
@@ -361,7 +361,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool HotkeyControl::Intersect(const Drawing::Point &point) const
+	bool HotkeyControl::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -372,14 +372,14 @@ namespace OSHGui
 		
 		textBox->CalculateAbsoluteLocation();
 
-		clearButtonAbsoluteLocation = Drawing::Point(absoluteLocation.Left + GetWidth() - 13, absoluteLocation.Top + GetHeight() * 0.5f - 4);
+		clearButtonAbsoluteLocation = Drawing::PointF(absoluteLocation.Left + GetWidth() - 13, absoluteLocation.Top + GetHeight() * 0.5f - 4);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void HotkeyControl::OnMouseClick(const MouseMessage &mouse)
 	{
-		if (Intersection::TestRectangle(clearButtonAbsoluteLocation, Drawing::Size(9, 8), mouse.Location))
+		if (Intersection::TestRectangle(clearButtonAbsoluteLocation, Drawing::SizeF(9, 8), mouse.Location))
 		{
 			ClearHotkey();
 		}

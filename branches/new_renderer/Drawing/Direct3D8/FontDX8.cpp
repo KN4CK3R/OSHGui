@@ -79,17 +79,17 @@ namespace OSHGui
 			Texture.Scale = 1.0f;
 
 			int textureSize = GetSize() > 40 ? 1024 : GetSize() > 20 ? 512 : 256;
-			Texture.Size = Size(textureSize, textureSize);
+			Texture.SizeF = SizeF(textureSize, textureSize);
 
 			D3DCAPS8 d3dCaps;
 			device->GetDeviceCaps(&d3dCaps);
 			if (textureSize > d3dCaps.MaxTextureWidth)
 			{
 				Texture.Scale = d3dCaps.MaxTextureWidth / (float)textureSize;
-				Texture.Size = Size(d3dCaps.MaxTextureWidth, d3dCaps.MaxTextureWidth);
+				Texture.SizeF = SizeF(d3dCaps.MaxTextureWidth, d3dCaps.MaxTextureWidth);
 			}
 
-			if (FAILED(device->CreateTexture(Texture.Size.Width, Texture.Size.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A4R4G4B4, D3DPOOL_DEFAULT, &Texture.Data)))
+			if (FAILED(device->CreateTexture(Texture.SizeF.Width, Texture.SizeF.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A4R4G4B4, D3DPOOL_DEFAULT, &Texture.Data)))
 			{
 				return;
 			}
@@ -97,8 +97,8 @@ namespace OSHGui
 			BITMAPINFO bmi;
 			ZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
 			bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-			bmi.bmiHeader.biWidth = Texture.Size.Width;
-			bmi.bmiHeader.biHeight = -Texture.Size.Height;
+			bmi.bmiHeader.biWidth = Texture.SizeF.Width;
+			bmi.bmiHeader.biHeight = -Texture.SizeF.Height;
 			bmi.bmiHeader.biPlanes = 1;
 			bmi.bmiHeader.biCompression = BI_RGB;
 			bmi.bmiHeader.biBitCount = 32;
@@ -133,7 +133,7 @@ namespace OSHGui
 				char str[2] = { c, 0 };
 				GetTextExtentPoint32A(hdc, str, 1, &extend);
 
-				if (x + extend.cx + 1 > Texture.Size.Width)
+				if (x + extend.cx + 1 > Texture.SizeF.Width)
 				{
 					x = Texture.Space;
 					y += extend.cy + 1;
@@ -141,10 +141,10 @@ namespace OSHGui
 
 				ExtTextOutA(hdc, x, y, ETO_OPAQUE, nullptr, str, 1, nullptr);
 
-				Texture.Coordinates[c-32][0] = (float)(x + 0         - Texture.Space) / Texture.Size.Width;
-				Texture.Coordinates[c-32][1] = (float)(y + 0         + 0            ) / Texture.Size.Height;
-				Texture.Coordinates[c-32][2] = (float)(x + extend.cx + Texture.Space) / Texture.Size.Width;
-				Texture.Coordinates[c-32][3] = (float)(y + extend.cy + 0            ) / Texture.Size.Height;
+				Texture.Coordinates[c-32][0] = (float)(x + 0         - Texture.Space) / Texture.SizeF.Width;
+				Texture.Coordinates[c-32][1] = (float)(y + 0         + 0            ) / Texture.SizeF.Height;
+				Texture.Coordinates[c-32][2] = (float)(x + extend.cx + Texture.Space) / Texture.SizeF.Width;
+				Texture.Coordinates[c-32][3] = (float)(y + extend.cy + 0            ) / Texture.SizeF.Height;
 
 				x += extend.cx + (2 * Texture.Space);
 			}
@@ -153,12 +153,12 @@ namespace OSHGui
 			Texture.Data->LockRect(0, &d3dlr, 0, 0);
 			auto raw = (BYTE*)d3dlr.pBits;
 
-			for (y = 0; y < Texture.Size.Height; ++y)
+			for (y = 0; y < Texture.SizeF.Height; ++y)
 			{
 				auto raw16 = reinterpret_cast<WORD*>(raw);
-				for (x = 0; x < Texture.Size.Width; ++x)
+				for (x = 0; x < Texture.SizeF.Width; ++x)
 				{
-					auto alpha = (BYTE)((bitmapData[Texture.Size.Width*y + x] & 0xff) >> 4);
+					auto alpha = (BYTE)((bitmapData[Texture.SizeF.Width*y + x] & 0xff) >> 4);
 					if (alpha > 0)
 					{
 						*raw16++ = (alpha << 12) | 0x0fff;
@@ -192,17 +192,17 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		const Size FontDX8::MeasureText(const Misc::AnsiString &str)
+		const SizeF FontDX8::MeasureText(const Misc::AnsiString &str)
 		{
 			if (str.length() == 0)
 			{
-				return Size(0, GetSize());
+				return SizeF(0, GetSize());
 			}
 
 			auto lineWidth  = 0.0f;
-			auto lineHeight = (Texture.Coordinates[0][3] - Texture.Coordinates[0][1]) * Texture.Size.Height;
+			auto lineHeight = (Texture.Coordinates[0][3] - Texture.Coordinates[0][1]) * Texture.SizeF.Height;
 
-			Size size(0, lineHeight);
+			SizeF size(0, lineHeight);
 
 			for (auto it = std::begin(str); it != std::end(str); ++it)
 			{
@@ -221,7 +221,7 @@ namespace OSHGui
 				auto tx1 = Texture.Coordinates[c - 32][0];
 				auto tx2 = Texture.Coordinates[c - 32][2];
 
-				lineWidth += (tx2 - tx1) * Texture.Size.Width - 2 * Texture.Space;
+				lineWidth += (tx2 - tx1) * Texture.SizeF.Width - 2 * Texture.Space;
 
 				if (lineWidth > size.Width)
 				{
@@ -256,7 +256,7 @@ namespace OSHGui
 				if (c == '\n')
 				{
 					x = startX;
-					y += (Texture.Coordinates[0][3] - Texture.Coordinates[0][1]) * Texture.Size.Height;
+					y += (Texture.Coordinates[0][3] - Texture.Coordinates[0][1]) * Texture.SizeF.Height;
 				}
 
 				if (c - 32 < 0 || c - 32 >= 128 - 32)
@@ -269,8 +269,8 @@ namespace OSHGui
 				auto tx2 = Texture.Coordinates[c - 32][2];
 				auto ty2 = Texture.Coordinates[c - 32][3];
 
-				auto w = (tx2 - tx1) * Texture.Size.Width / Texture.Scale;
-				auto h = (ty2 - ty1) * Texture.Size.Height / Texture.Scale;
+				auto w = (tx2 - tx1) * Texture.SizeF.Width / Texture.Scale;
+				auto h = (ty2 - ty1) * Texture.SizeF.Height / Texture.Scale;
 
 				if (c != ' ')
 				{

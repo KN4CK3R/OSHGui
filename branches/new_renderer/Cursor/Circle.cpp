@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	CircleCursor::CircleCursor()
 	{
-		offset = Drawing::Point(-5, -5);
+		offset = Drawing::PointF(-5, -5);
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------

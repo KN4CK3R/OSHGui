@@ -15,7 +15,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Rectangle::Rectangle()
+		RectangleF::RectangleF()
 			: left(0),
 			  top(0)
 		{
@@ -23,7 +23,7 @@ namespace OSHGui
 			SetHeight(0);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle::Rectangle(const Size &size)
+		RectangleF::RectangleF(const SizeF &size)
 			: left(0),
 			  top(0)
 		{
@@ -31,7 +31,7 @@ namespace OSHGui
 			SetHeight(size.Height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle::Rectangle(const Point &location, const Size &size)
+		RectangleF::RectangleF(const PointF &location, const SizeF &size)
 			: left(location.Left),
 			  top(location.Top)
 		{
@@ -39,7 +39,7 @@ namespace OSHGui
 			SetHeight(size.Height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle::Rectangle(int left, int top, int width, int height)
+		RectangleF::RectangleF(int left, int top, int width, int height)
 			: left(left),
 			  top(top)
 		{
@@ -49,127 +49,139 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		void Rectangle::SetLeft(int left)
+		void RectangleF::SetLeft(int left)
 		{
 			this->left = left;
 			right = left + width;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetLeft() const
+		int RectangleF::GetLeft() const
 		{
 			return left;
 		}
 		//---------------------------------------------------------------------------
-		void Rectangle::SetTop(int top)
+		void RectangleF::SetTop(int top)
 		{
 			this->top = top;
 			bottom = top + height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetTop() const
+		int RectangleF::GetTop() const
 		{
 			return top;
 		}
 		//---------------------------------------------------------------------------
-		void Rectangle::SetWidth(int width)
+		void RectangleF::SetRight(int right)
+		{
+			this->right = right;
+			width = right - left;
+		}
+		//---------------------------------------------------------------------------
+		int RectangleF::GetRight() const
+		{
+			return right;
+		}
+		//---------------------------------------------------------------------------
+		void RectangleF::SetWidth(int width)
 		{
 			this->width = width;
 			right = left + width;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetWidth() const
+		int RectangleF::GetWidth() const
 		{
 			return width;
 		}
 		//---------------------------------------------------------------------------
-		void Rectangle::SetHeight(int height)
+		void RectangleF::SetHeight(int height)
 		{
 			this->height = height;
 			bottom = top + height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetHeight() const
+		int RectangleF::GetHeight() const
 		{
 			return height;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetRight() const
+		void RectangleF::SetBottom(int bottom)
 		{
-			return right;
+			this->bottom = bottom;
+			height = bottom - top;
 		}
 		//---------------------------------------------------------------------------
-		int Rectangle::GetBottom() const
+		int RectangleF::GetBottom() const
 		{
 			return bottom;
 		}
 		//---------------------------------------------------------------------------
-		Point Rectangle::GetLocation() const
+		PointF RectangleF::GetLocation() const
 		{
-			return Point(left, top);
+			return PointF(left, top);
 		}
 		//---------------------------------------------------------------------------
-		Size Rectangle::GetSize() const
+		SizeF RectangleF::GetSize() const
 		{
-			return Size(width, height);
+			return SizeF(width, height);
 		}
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		bool Rectangle::operator == (const Rectangle &equal) const
+		bool RectangleF::operator == (const RectangleF &equal) const
 		{
 			return left == equal.left && top == equal.top && width == equal.width && height == equal.height;
 		}
 		//---------------------------------------------------------------------------
-		bool Rectangle::operator != (const Rectangle &equal) const
+		bool RectangleF::operator != (const RectangleF &equal) const
 		{
 			return left != equal.left || top != equal.top || width != equal.width || height != equal.height;
 		}
 		//---------------------------------------------------------------------------
-		const Rectangle Rectangle::operator + (const Rectangle& add) const
+		const RectangleF RectangleF::operator + (const RectangleF& add) const
 		{
-			return Rectangle(left + add.left, top + add.top, width + add.width, height + add.height);
+			return RectangleF(left + add.left, top + add.top, width + add.width, height + add.height);
 		}
 		//---------------------------------------------------------------------------
-		const Rectangle Rectangle::operator + (const Point& add) const
+		const RectangleF RectangleF::operator + (const PointF& add) const
 		{
-			return Rectangle(left + add.Left, top + add.Top, width, height);
+			return RectangleF(left + add.Left, top + add.Top, width, height);
 		}
 		//---------------------------------------------------------------------------
-		const Rectangle Rectangle::operator - (const Rectangle& add) const
+		const RectangleF RectangleF::operator - (const RectangleF& add) const
 		{
-			return Rectangle(left - add.left, top - add.top, width - add.width, height - add.height);
+			return RectangleF(left - add.left, top - add.top, width - add.width, height - add.height);
 		}
 		//---------------------------------------------------------------------------
-		const Rectangle Rectangle::operator - (const Point& add) const
+		const RectangleF RectangleF::operator - (const PointF& add) const
 		{
-			return Rectangle(left - add.Left, top - add.Top, width, height);
+			return RectangleF(left - add.Left, top - add.Top, width, height);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void Rectangle::Offset(int left, int top)
+		void RectangleF::Offset(int left, int top)
 		{
 			SetLeft(this->left + left);
 			SetTop(this->top + top);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::OffsetEx(int left, int top) const
+		RectangleF RectangleF::OffsetEx(int left, int top) const
 		{
-			return Rectangle(this->left + left, this->top + top, width, height);
+			return RectangleF(this->left + left, this->top + top, width, height);
 		}
 		//---------------------------------------------------------------------------
-		void Rectangle::Inflate(int width, int height)
+		void RectangleF::Inflate(int width, int height)
 		{
 			SetWidth(this->width + width);
 			SetHeight(this->height + height);
 		}
 		//---------------------------------------------------------------------------
-		Rectangle Rectangle::InflateEx(int width, int height) const
+		RectangleF RectangleF::InflateEx(int width, int height) const
 		{
-			return Rectangle(left, top, this->width + width, this->height + height);
+			return RectangleF(left, top, this->width + width, this->height + height);
 		}
 		//---------------------------------------------------------------------------
-		bool Rectangle::Contains(const Point &point) const
+		bool RectangleF::Contains(const PointF &point) const
 		{
 			return (left <= point.Left && point.Left < right) && (top <= point.Top && point.Top < bottom);
 		}

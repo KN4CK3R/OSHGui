@@ -25,7 +25,7 @@ namespace OSHGui
 
 			unsigned int GetFont();
 
-			virtual const Size MeasureText(const Misc::AnsiString &str);
+			virtual const SizeF MeasureText(const Misc::AnsiString &str);
 
 		private:
 			unsigned int fontID;

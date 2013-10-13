@@ -14,8 +14,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size Button::DefaultSize(92, 24);
-	const Drawing::Point Button::DefaultLabelOffset(6, 5);
+	const Drawing::SizeF Button::DefaultSize(92, 24);
+	const Drawing::PointF Button::DefaultLabelOffset(6, 5);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ namespace OSHGui
 		label->SetAutoSize(autoSize);
 	}
 	//---------------------------------------------------------------------------
-	void Button::SetSize(const Drawing::Size &size)
+	void Button::SetSize(const Drawing::SizeF &size)
 	{
 		Control::SetSize(size);
 		CalculateLabelLocation();
@@ -87,7 +87,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Button::Intersect(const Drawing::Point &point) const
+	bool Button::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -101,7 +101,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::CalculateLabelLocation()
 	{
-		label->SetLocation(Drawing::Point(GetSize().Width / 2 - label->GetSize().Width / 2, GetSize().Height / 2 - label->GetSize().Height / 2));
+		label->SetLocation(Drawing::PointF(GetSize().Width / 2 - label->GetSize().Width / 2, GetSize().Height / 2 - label->GetSize().Height / 2));
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

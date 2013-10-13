@@ -14,8 +14,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size TextBox::DefaultSize(100, 24);
-	const Drawing::Point TextBox::DefaultTextOffset(7, 5);
+	const Drawing::SizeF TextBox::DefaultSize(100, 24);
+	const Drawing::PointF TextBox::DefaultTextOffset(7, 5);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -43,13 +43,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TextBox::SetSize(const Drawing::Size &size)
+	void TextBox::SetSize(const Drawing::SizeF &size)
 	{
-		Drawing::Size fixxed(size.Width, font->GetSize() + DefaultTextOffset.Top * 2);
+		Drawing::SizeF fixxed(size.Width, font->GetSize() + DefaultTextOffset.Top * 2);
 
 		Control::SetSize(fixxed);
 
-		textRect = Drawing::Rectangle(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+		textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 
 		firstVisibleCharacter = 0;
 		PlaceCaret(textHelper.GetText().length());
@@ -108,7 +108,7 @@ namespace OSHGui
 		this->showCaret = showCaret;
 	}
 	//---------------------------------------------------------------------------
-	bool TextBox::Intersect(const Drawing::Point &point) const
+	bool TextBox::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -117,7 +117,7 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		
-		textRect = Drawing::Rectangle(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+		textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 		PlaceCaret(caretPosition);
 	}
 	//---------------------------------------------------------------------------
@@ -135,9 +135,9 @@ namespace OSHGui
 		}
 		caretPosition = position;
 
-		Drawing::Point caretPositionTrail;
-		Drawing::Point firstVisibleCharacterPosition = textHelper.GetCharacterPosition(firstVisibleCharacter);
-		Drawing::Point newCaretPosition = textHelper.GetCharacterPosition(position);
+		Drawing::PointF caretPositionTrail;
+		Drawing::PointF firstVisibleCharacterPosition = textHelper.GetCharacterPosition(firstVisibleCharacter);
+		Drawing::PointF newCaretPosition = textHelper.GetCharacterPosition(position);
 
 		//if the new caretPosition is bigger than the text length
 		if (position > textHelper.GetLength())
@@ -165,9 +165,9 @@ namespace OSHGui
 		else if (caretPositionTrail.Left > firstVisibleCharacterPosition.Left + textRect.GetWidth()) //if the new caretPosition is bigger than the textRect
 		{
 			int newFirstVisibleCharacterPositionLeft = caretPositionTrail.Left - textRect.GetWidth();
-			int newFirstVisibleCharacter = textHelper.GetClosestCharacterIndex(Drawing::Point(newFirstVisibleCharacterPositionLeft, 0));
+			int newFirstVisibleCharacter = textHelper.GetClosestCharacterIndex(Drawing::PointF(newFirstVisibleCharacterPositionLeft, 0));
 
-			Drawing::Point newFirstVisibleCharacterPosition = textHelper.GetCharacterPosition(newFirstVisibleCharacter);
+			Drawing::PointF newFirstVisibleCharacterPosition = textHelper.GetCharacterPosition(newFirstVisibleCharacter);
 			if (newFirstVisibleCharacterPosition.Left < newFirstVisibleCharacterPositionLeft)
 			{
 				++newFirstVisibleCharacter;
@@ -176,8 +176,8 @@ namespace OSHGui
 			firstVisibleCharacter = newFirstVisibleCharacter;
 		}
 
-		Drawing::Size strWidth = textHelper.GetStringWidth(firstVisibleCharacter, caretPosition - firstVisibleCharacter);
-		caretRect = Drawing::Rectangle(textRect.GetLeft() + strWidth.Width, textRect.GetTop(), 1, textRect.GetHeight());
+		Drawing::SizeF strWidth = textHelper.GetStringWidth(firstVisibleCharacter, caretPosition - firstVisibleCharacter);
+		caretRect = Drawing::RectangleF(textRect.GetLeft() + strWidth.Width, textRect.GetTop(), 1, textRect.GetHeight());
 
 		ResetCaretBlink();
 	}
@@ -188,8 +188,8 @@ namespace OSHGui
 	{
 		Control::OnMouseDown(mouse);
 
-		Drawing::Size strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
-		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Location - absoluteLocation + Drawing::Point(strWidth.Width - 7, 0)) - 1);
+		Drawing::SizeF strWidth = textHelper.GetStringWidth(0, firstVisibleCharacter);
+		PlaceCaret(textHelper.GetClosestCharacterIndex(mouse.Location - absoluteLocation + Drawing::PointF(strWidth.Width - 7, 0)) - 1);
 	}
 	//---------------------------------------------------------------------------
 	bool TextBox::OnKeyDown(const KeyboardMessage &keyboard)

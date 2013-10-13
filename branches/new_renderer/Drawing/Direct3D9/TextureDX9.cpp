@@ -20,7 +20,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		TextureDX9::TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const Size &size, int frameCount, const Misc::TimeSpan &frameChangeInterval)
+		TextureDX9::TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const SizeF &size, int frameCount, const Misc::TimeSpan &frameChangeInterval)
 			: renderer(renderer),
 			  device(device),
 			  frame(0)
@@ -82,7 +82,7 @@ namespace OSHGui
 			texture = nullptr;
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX9::Create(const Size &size, int frameCount)
+		void TextureDX9::Create(const SizeF &size, int frameCount)
 		{
 			if (frameCount < 1)
 			{
@@ -130,7 +130,7 @@ namespace OSHGui
 				#endif
 			}
 			
-			size = Size(info.Width, info.Height);
+			size = SizeF(info.Width, info.Height);
 			realSize = renderer->AdjustSize(size);
 			
 			frames.push_back(nullptr);
@@ -154,7 +154,7 @@ namespace OSHGui
 			if (SUCCEEDED(texture->LockRect(0, &lock, 0, 0)))
 			{
 				Color *raw = (Color*)lock.pBits;
-				std::vector<Color> data(raw, raw + realSize.Height * lock.Pitch / 4);
+				std::vector<Color> data(raw, raw + (int)realSize.Height * lock.Pitch / 4);
 				framesData[frame] = data;
 
 				texture->UnlockRect(0);
@@ -175,7 +175,7 @@ namespace OSHGui
 				#endif
 			}
 
-			size = Drawing::Size(info.Width, info.Height);
+			size = Drawing::SizeF(info.Width, info.Height);
 			realSize = renderer->AdjustSize(size);
 
 			frames.push_back(nullptr);
@@ -199,7 +199,7 @@ namespace OSHGui
 			if (SUCCEEDED(texture->LockRect(0, &lock, 0, 0)))
 			{
 				Color *raw = (Color*)lock.pBits;
-				std::vector<Color> data(raw, raw + realSize.Height * lock.Pitch / 4);
+				std::vector<Color> data(raw, raw + (int)realSize.Height * lock.Pitch / 4);
 				framesData[frame] = data;
 
 				texture->UnlockRect(0);

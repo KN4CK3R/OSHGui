@@ -21,26 +21,39 @@ namespace OSHGui
 		 * Speichert einen Satz von vier ganzen Zahlen, die die Position und Größe
 		 * eines Rechtecks angeben.
 		 */
-		class OSHGUI_EXPORT Rectangle
+		template<typename Val>
+		class Rectangle
 		{
 		public:
 			/**
 			 * Erstellt ein Rechteck ohne Ausmaße.
 			 */
-			Rectangle();
+			Rectangle()
+			{
+
+			}
 			/**
 			 * Erstellt ein Rechteckt mit den Koordinaten (0, 0, size.Width, size.Height);
 			 *
 			 * @param size
 			 */
-			Rectangle(const Size &size);
+			Rectangle(const Size<Val> &size)
+				: size(size)
+			{
+
+			}
 			/**
 			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
 			 *
 			 * @param location
 			 * @param size
 			 */
-			Rectangle(const Point &location, const Size &size);
+			Rectangle(const Point<Val> &location, const Size<Val> &size)
+				: location(location),
+				  size(size)
+			{
+
+			}
 			/**
 			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
 			 *
@@ -49,87 +62,145 @@ namespace OSHGui
 			 * @param width
 			 * @param height
 			 */
-			Rectangle(int left, int top, int width, int height);
+			Rectangle(Val left, Val top, Val width, Val height)
+				: location(left, top),
+				  size(width, height)
+			{
+
+			}
 			
 			/**
 			 * Legt die Position des linken Rands fest.
 			 *
 			 * @param left
 			 */
-			void SetLeft(int left);
+			void SetLeft(const Val &left)
+			{
+				location.Left = left;
+			}
 			/**
 			 * Ruft die Position des linken Rands ab.
 			 *
 			 * @return linker Rand
 			 */
-			int GetLeft() const;
+			const Val& GetLeft() const
+			{
+				return location.Left;
+			}
 			/**
 			 * Legt die Position des oberen Rands fest.
 			 *
 			 * @param top
 			 */
-			void SetTop(int top);
+			void SetTop(const Val &top)
+			{
+				location.Top = top;
+			}
 			/**
 			 * Ruft die Position des oberen Rands ab.
 			 *
 			 * @return oberer Rand
 			 */
-			int GetTop() const;
+			const Val& GetTop() const
+			{
+				return location.Top;
+			}
 			/**
-			 * Legt die Breite des Rechtecks fest.
+			 * Legt die Position des rechten Rands fest.
 			 *
-			 * @param width
+			 * @param right
 			 */
-			void SetWidth(int width);
-			/**
-			 * Ruft die Breite des Rechtecks ab.
-			 *
-			 * @return die Breite
-			 */
-			int GetWidth() const;
-			/**
-			 * Legt die Höhe des Rechtecks fest.
-			 *
-			 * @param height
-			 */
-			void SetHeight(int height);
-			/**
-			 * Ruft die Höhe des Rechtecks ab.
-			 *
-			 * @return die Höhe
-			 */
-			int GetHeight() const;
+			void SetRight(const Val &right)
+			{
+				size.Width = right - location.Left;
+			}
 			/**
 			 * Ruft die Position des rechten Rands ab.
 			 *
 			 * @return rechter Rand
 			 */
-			int GetRight() const;
+			Val GetRight() const
+			{
+				return location.Left + size.Width;
+			}
 			/**
-			 * Ruft die Position des unteren Rands ab.
+			 * Legt die Breite des Rechtecks fest.
 			 *
-			 * @return unterer Rand
+			 * @param width
 			 */
-			int GetBottom() const;
+			void SetWidth(const Val &width)
+			{
+				size.Width = width;
+			}
+			/**
+			 * Ruft die Breite des Rechtecks ab.
+			 *
+			 * @return die Breite
+			 */
+			const Val& GetWidth() const
+			{
+				return size.Width;
+			}
+			/**
+			 * Legt die Höhe des Rechtecks fest.
+			 *
+			 * @param height
+			 */
+			void SetHeight(const Val &height)
+			{
+				size.Height = height;
+			}
+			/**
+			 * Ruft die Höhe des Rechtecks ab.
+			 *
+			 * @return die Höhe
+			 */
+			const Val& GetHeight() const
+			{
+				return size.Height;
+			}
+			/**
+			 * Legt die Höhe des Rechtecks fest.
+			 *
+			 * @param height
+			 */
+			void SetBottom(const Val &bottom)
+			{
+				size.Height = bottom - location.Top;
+			}
+			/**
+			 * Ruft die Höhe des Rechtecks ab.
+			 *
+			 * @return die Höhe
+			 */
+			Val GetBottom() const
+			{
+				return location.Top + size.Height;
+			}
 			/**
 			 * Ruft die Position des Rechtecks ab.
 			 *
 			 * @return position
 			 */
-			Point GetLocation() const;
+			const Point<Val>& GetLocation() const
+			{
+				return location;
+			}
 			/**
 			 * Ruft die Größe des Rechtecks ab.
 			 *
 			 * @return size
 			 */
-			Size GetSize() const;
+			const Size<Val>& GetSize() const
+			{
+				return size;
+			}
 			
-			bool operator == (const Rectangle &equal) const;
-			bool operator != (const Rectangle &equal) const;
-			const Rectangle operator + (const Rectangle& add) const;
-			const Rectangle operator + (const Point& add) const;
-			const Rectangle operator - (const Rectangle& add) const;
-			const Rectangle operator - (const Point& add) const;
+			friend bool operator==<>(const Rectangle<Val> &lhs, const Rectangle<Val> &rhs);
+			/*const RectangleF operator + (const RectangleF& add) const;
+			const RectangleF operator + (const PointF& add) const;
+			const RectangleF operator - (const RectangleF& add) const;
+			const RectangleF operator - (const PointF& add) const;*/
 			
 			/**
 			 * Verschiebt das Rechteck um X/Y.
@@ -137,30 +208,71 @@ namespace OSHGui
 			 * @param left
 			 * @param top
 			 */
-			void Offset(int left, int top);
+			void Offset(Val left, Val top)
+			{
+				//REMOVE ME
+
+				location.Offset(left, top);
+			}
 			/**
-			 * Kopiert das Rechteck und verschiebt ihn um X/Y.
+			 * Verschiebt das Rechteck um den Offset.
+			 *
+			 * @param p
+			 */
+			void Offset(const Point<Val> &offset)
+			{
+				location.Offset(offset);
+			}
+			/**
+			 * Kopiert das Rechteck und verschiebt es um X/Y.
 			 *
 			 * @param left
 			 * @param top
 			 * @return rectangle
 			 */
-			Rectangle OffsetEx(int left, int top) const;
+			Rectangle<Val> OffsetEx(Val left, Val top) const
+			{
+				//REMOVE ME
+
+				auto temp(*this);
+				temp.Offset(left, top);
+				return temp;
+			}
 			/**
-			 * Erweitert das Rectangle-Objekt um die angegebe Breite und Höhe.
+			 * Kopiert das Rechteck und verschiebt es um das Offset.
+			 *
+			 * @param p
+			 * @return rectangle
+			 */
+			Rectangle<Val> OffsetEx(const Point<Val> &offset) const
+			{
+				auto temp(*this);
+				temp.Offset(offset);
+				return temp;
+			}
+			/**
+			 * Erweitert das RectangleF-Objekt um die angegebe Breite und Höhe.
 			 *
 			 * @param width
 			 * @param height
 			 */
-			void Inflate(int width, int height);
+			void Inflate(Val width, Val height)
+			{
+				size.Inflate(width, height);
+			}
 			/**
-			 * Kopiert das Rectangle-Objekt und erweitert es um die angegebe Breite und Höhe.
+			 * Kopiert das RectangleF-Objekt und erweitert es um die angegebe Breite und Höhe.
 			 *
 			 * @param width
 			 * @param height
 			 * @return rectangle
 			 */
-			Rectangle InflateEx(int width, int height) const;
+			Rectangle<Val> InflateEx(Val width, Val height) const
+			{
+				auto temp(*this);
+				temp.Inflate(width, height);
+				return temp;
+			}
 			
 			/**
 			 * Gibt zurück, ob der Punkt innerhalb des Rechtecks liegt.
@@ -168,16 +280,44 @@ namespace OSHGui
 			 * @param point
 			 * @return ja/nein
 			 */
-			bool Contains(const Point &point) const;
+			bool Contains(const Point<Val> &point) const
+			{
+				return location.X <= point.X && point.X < GetRight() && location.Y <= point.Y && point.Y < GetBottom();
+			}
+
+			Rectangle<Val> GetIntersection(const Rectangle<Val>& rectangle) const
+			{
+				Rectangle<Val> ret;
+
+				if ((GetRight() > rectangle.location.X) &&
+					(location.X < rectangle.GetRight()) &&
+					(GetBottom() > rectangle.location.Y) &&
+					(location.Y < rectangle.GetBottom()))
+				{
+					ret.SetLeft((location.X > rectangle.location.X) ? location.X : rectangle.location.X);
+					ret.SetRight((GetRight() < rectangle.GetRight()) ? GetRight() : rectangle.GetRight());
+					ret.SetTop((location.Y > rectangle.location.Y) ? location.Y : rectangle.location.Y);
+					ret.SetBottom((GetBottom() < rectangle.GetBottom()) ? GetBottom() : rectangle.GetBottom());
+				}
+
+				return ret;
+			}
 
 		private:
-			int left,
-				top,
-				width,
-				height;
-			int bottom,
-				right;
+			Point<Val> location;
+			Size<Val> size;
 		};
+
+		template<typename Val>
+		bool operator==(const Rectangle<Val> &lhs, const Rectangle<Val> &rhs)
+		{
+			return lhs.location == rhs.location && lhs.size == rhs.size;
+		}
+		template<typename Val>
+		bool operator!=(const Rectangle<Val> &lhs, const Rectangle<Val> &rhs) { return !(lhs == rhs); }
+
+		typedef Rectangle<int> RectangleI;
+		typedef Rectangle<float> RectangleF;
 	}
 }
 

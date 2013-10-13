@@ -59,7 +59,7 @@ namespace OSHGui
 		return instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::IRenderer *renderer)
+	void Application::Create(Drawing::IRenderer *renderer, Drawing::Renderer *renderer_)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (renderer == nullptr)
@@ -69,6 +69,7 @@ namespace OSHGui
 		#endif
 		
 		this->renderer = renderer;
+		this->renderer_ = renderer_;
 
 		mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
@@ -88,7 +89,7 @@ namespace OSHGui
 		return renderer;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point& Application::GetCursorLocation() const
+	const Drawing::PointF& Application::GetCursorLocation() const
 	{
 		return mouse.Location;
 	}

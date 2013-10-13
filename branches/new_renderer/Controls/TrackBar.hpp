@@ -38,7 +38,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt den minimalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
@@ -100,7 +100,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -114,8 +114,8 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	protected:
-		static const Drawing::Size SliderSize;
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeF SliderSize;
+		static const Drawing::SizeF DefaultSize;
 		static const int DefaultTickOffset = 7;
 
 		void SetValueInternal(int value);
@@ -134,8 +134,8 @@ namespace OSHGui
 		float pixelsPerTick;
 		bool drag;
 		
-		Drawing::Point sliderLocation;
-		Drawing::Point sliderAbsoluteLocation;
+		Drawing::PointF sliderLocation;
+		Drawing::PointF sliderAbsoluteLocation;
 
 		ValueChangedEvent valueChangedEvent;
 	};

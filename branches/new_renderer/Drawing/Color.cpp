@@ -7,6 +7,7 @@
  */
 
 #include "Color.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {
@@ -24,26 +25,26 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(unsigned long argb)
+		Color::Color(std::uint32_t argb)
 			: ARGB(argb)
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(unsigned int red, unsigned int green, unsigned int blue)
-			: B(blue & 0xFF),
-			  G(green & 0xFF),
-			  R(red & 0xFF),
+		Color::Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
+			: B(blue),
+			  G(green),
+			  R(red),
 			  A(255)
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue)
-			: B((blue > 255 ? 255 : blue) & 0xFF),
-			  G((green > 255 ? 255 : green) & 0xFF),
-			  R((red > 255 ? 255 : red) & 0xFF),
-			  A((alpha > 255 ? 255 : alpha) & 0xFF)
+		Color::Color(std::uint8_t alpha, std::uint8_t red, std::uint8_t green, std::uint8_t blue)
+			: B(blue),
+			  G(green),
+			  R(red),
+			  A(alpha)
 		{
 			
 		}
@@ -71,68 +72,42 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool Color::operator == (const Color &color) const
+		Color& Color::operator+=(const Color &rhs)
 		{
-			return ARGB == color.ARGB;
-		}
-		//---------------------------------------------------------------------------
-		bool Color::operator != (const Color &color) const
-		{
-			return ARGB != color.ARGB;
-		}
-		//---------------------------------------------------------------------------
-		Color Color::operator + (const Color &color) const
-		{
-			unsigned int alpha = A + color.A;
-			alpha = alpha > 255 ? 255 : alpha ;
-			unsigned int red = R + color.R;
-			red = red > 255 ? 255 :red;
-			unsigned int green = G + color.G;
-			green = green > 255 ? 255 : green;
-			unsigned int blue = B + color.B;
-			blue = blue > 255 ? 255 : blue;
-
-			return Color(alpha, red, green, blue);
-		}
-		//---------------------------------------------------------------------------
-		Color& Color::operator += (const Color &color)
-		{
-			unsigned int alpha = A + color.A;
-			A = (alpha > 255 ? 255 : alpha) & 0xFF;
-			unsigned int red = R + color.R;
-			R = (red > 255 ? 255 : red) & 0xFF;
-			unsigned int green = G + color.G;
-			G = (green > 255 ? 255 : green) & 0xFF;
-			unsigned int blue = B + color.B;
-			B = (blue > 255 ? 255 : blue) & 0xFF;
+			A = std::max(0, std::min(255, A + rhs.A));
+			R = std::max(0, std::min(255, R + rhs.R));
+			G = std::max(0, std::min(255, G + rhs.G));
+			B = std::max(0, std::min(255, B + rhs.B));
 
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		Color Color::operator - (const Color &color) const
+		Color& Color::operator-=(const Color &rhs)
 		{
-			int alpha = A - color.A;
-			alpha = alpha < 0 ? 0 : alpha ;
-			int red = R - color.R;
-			red = red < 0 ? 0 :red;
-			int green = G - color.G;
-			green = green < 0 ? 0 : green;
-			int blue = B - color.B;
-			blue = blue < 0 ? 0 : blue;
+			A = std::max(0, std::min(255, A - rhs.A));
+			R = std::max(0, std::min(255, R - rhs.R));
+			G = std::max(0, std::min(255, G - rhs.G));
+			B = std::max(0, std::min(255, B - rhs.B));
 
-			return Color(alpha, red, green, blue);
+			return *this;
 		}
 		//---------------------------------------------------------------------------
-		Color& Color::operator -= (const Color &color)
+		Color& Color::operator*=(const Color &rhs)
 		{
-			int alpha = A - color.A;
-			A = (alpha < 0 ? 0 : alpha) & 0xFF;
-			int red = R - color.R;
-			R = (red < 0 ? 0 : red) & 0xFF;
-			int green = G - color.G;
-			G = (green < 0 ? 0 : green) & 0xFF;
-			int blue = B - color.B;
-			B = (blue < 0 ? 0 : blue) & 0xFF;
+			A = std::max(0, std::min(255, A * rhs.A));
+			R = std::max(0, std::min(255, R * rhs.R));
+			G = std::max(0, std::min(255, G * rhs.G));
+			B = std::max(0, std::min(255, B * rhs.B));
+
+			return *this;
+		}
+		//---------------------------------------------------------------------------
+		Color& Color::operator*=(float rhs)
+		{
+			A = std::max(0, std::min(255, (int)(A * rhs)));
+			R = std::max(0, std::min(255, (int)(R * rhs)));
+			G = std::max(0, std::min(255, (int)(G * rhs)));
+			B = std::max(0, std::min(255, (int)(B * rhs)));
 
 			return *this;
 		}
@@ -148,8 +123,8 @@ namespace OSHGui
 			float g = G / 255.0f;
 			float b = B / 255.0f; 
 
-			float max = r > g ? r : g > b ? g : b,
-				  min = r < g ? r : g < b ? g : b;
+			float max = r > g ? r : g > b ? g : b;
+			float min = r < g ? r : g < b ? g : b;
 			float delta = max - min; 
 			float hue = 0.0f;
 
@@ -180,14 +155,13 @@ namespace OSHGui
 			float g = G / 255.0f;
 			float b = B / 255.0f;
 
-			float max = r > g ? r : g > b ? g : b,
-				  min = r < g ? r : g < b ? g : b,
-				  l,
-				  s = 0;
+			float max = r > g ? r : g > b ? g : b;
+			float min = r < g ? r : g < b ? g : b;
+			float s = 0;
 
 			if (max != min)
 			{
-				l = (max + min) / 2;
+				float l = (max + min) / 2;
 
 				if (l <= 0.5f)
 				{
@@ -208,8 +182,8 @@ namespace OSHGui
 			float g = G / 255.0f;
 			float b = B / 255.0f;
 		 
-			float max = r > g ? r : g > b ? g : b,
-				  min = r < g ? r : g < b ? g : b;
+			float max = r > g ? r : g > b ? g : b;
+			float min = r < g ? r : g < b ? g : b;
 
 			return (max + min) / 2;
 		}
@@ -224,52 +198,66 @@ namespace OSHGui
 
 			if (h < 1)
 			{
-				return Color(
-							(unsigned char)(brightness * 255),
-							(unsigned char)(t * 255),
-							(unsigned char)(p * 255)
-							);
+				return Color(brightness * 255, t * 255, p * 255);
 			}
 			else if (h < 2)
 			{
-				return Color(
-							(unsigned char)(q * 255),
-							(unsigned char)(brightness * 255),
-							(unsigned char)(p * 255)
-							);
+				return Color(q * 255, brightness * 255, p * 255);
 			}
 			else if (h < 3)
 			{
-				return Color(
-							(unsigned char)(p * 255),
-							(unsigned char)(brightness * 255),
-							(unsigned char)(t * 255)
-							);
+				return Color(p * 255, brightness * 255, t * 255);
 			}
 			else if (h < 4)
 			{
-				return Color(
-							(unsigned char)(p * 255),
-							(unsigned char)(q * 255),
-							(unsigned char)(brightness * 255)
-							);
+				return Color(p * 255, q * 255, brightness * 255);
 			}
 			else if (h < 5)
 			{
-				return Color(
-							(unsigned char)(t * 255),
-							(unsigned char)(p * 255),
-							(unsigned char)(brightness * 255)
-							);
+				return Color(t * 255, p * 255, brightness * 255);
 			}
 			else
 			{
-				return Color(
-							(unsigned char)(brightness * 255),
-							(unsigned char)(p * 255),
-							(unsigned char)(q * 255)
-							);
+				return Color(brightness * 255, p * 255, q * 255);
 			}
+		}
+		//---------------------------------------------------------------------------
+		bool operator==(const Color &lhs, const Color &rhs)
+		{
+			return lhs.ARGB == rhs.ARGB;
+		}
+		//---------------------------------------------------------------------------
+		bool operator!=(const Color &lhs, const Color &rhs)
+		{
+			return !(lhs == rhs);
+		}
+		//---------------------------------------------------------------------------
+		const Color operator+(const Color &lhs, const Color &rhs)
+		{
+			auto temp(lhs);
+			temp += rhs;
+			return temp;
+		}
+		//---------------------------------------------------------------------------
+		const Color operator-(const Color &lhs, const Color &rhs)
+		{
+			auto temp(lhs);
+			temp -= rhs;
+			return temp;
+		}
+		//---------------------------------------------------------------------------
+		const Color operator*(const Color &lhs, const Color &rhs)
+		{
+			auto temp(lhs);
+			temp *= rhs;
+			return temp;
+		}
+		//---------------------------------------------------------------------------
+		const Color operator*(const Color &lhs, float rhs)
+		{
+			auto temp(lhs);
+			temp *= rhs;
+			return temp;
 		}
 		//---------------------------------------------------------------------------
 	}

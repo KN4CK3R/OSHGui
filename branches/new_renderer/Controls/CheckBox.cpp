@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size CheckBox::DefaultLabelOffset(20, 2);
+	const Drawing::SizeF CheckBox::DefaultLabelOffset(20, 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -28,7 +28,7 @@ namespace OSHGui
 		SetAutoSize(true);
 
 		label = new Label();
-		label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
+		label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
 		label->SetBackColor(Drawing::Color::Empty());
 
 		ApplyTheme(Application::Instance()->GetTheme());
@@ -58,7 +58,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void CheckBox::SetText(const Misc::AnsiString &text)
 	{
-		Drawing::Point offset = label->GetLocation();
+		Drawing::PointF offset = label->GetLocation();
 
 		label->SetText(text);
 		if (autoSize)
@@ -86,15 +86,15 @@ namespace OSHGui
 			size = label->GetSize();
 			if (font->GetSize() < DefaultCheckBoxSize)
 			{
-				checkBoxLocation = Drawing::Point(0, 0);
+				checkBoxLocation = Drawing::PointF(0, 0);
 				int y = (int)(DefaultCheckBoxSize / 2.0f - font->GetSize() / 2.0f + 0.5f);
-				label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, y));
+				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, y));
 			}
 			else
 			{
-				label->SetLocation(Drawing::Point(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
+				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
 				int y = (int)(font->GetSize() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
-				checkBoxLocation = Drawing::Point(0, y);
+				checkBoxLocation = Drawing::PointF(0, y);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool CheckBox::Intersect(const Drawing::Point &point) const
+	bool CheckBox::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}

@@ -52,16 +52,16 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		const Size RendererDX8::GetRenderDimension() const
+		const SizeF RendererDX8::GetRenderDimension() const
 		{
 			D3DVIEWPORT8 viewPort;
 			device->GetViewport(&viewPort);
-			return Size(viewPort.Width, viewPort.Height);
+			return SizeF(viewPort.Width, viewPort.Height);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		Size RendererDX8::AdjustSize(Size size) const
+		SizeF RendererDX8::AdjustSize(SizeF size) const
 		{
 			if (!supportNPOTTex)
 			{
@@ -138,7 +138,7 @@ namespace OSHGui
 			device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 			device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 			
-			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
+			SetRenderRectangle(Drawing::RectangleF(GetRenderDimension()));
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX8::End()
@@ -223,7 +223,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<ITexture> RendererDX8::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
+		const std::shared_ptr<ITexture> RendererDX8::CreateNewTexture(const SizeF &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			std::shared_ptr<TextureDX8> texture(new TextureDX8(this, device, size, frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX8>(texture));
@@ -232,7 +232,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererDX8::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			std::shared_ptr<TextureDX8> texture(new TextureDX8(this, device, Size(width, height), frameCount, frameChangeInterval));
+			std::shared_ptr<TextureDX8> texture(new TextureDX8(this, device, SizeF(width, height), frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX8>(texture));
 			return texture;
 		}

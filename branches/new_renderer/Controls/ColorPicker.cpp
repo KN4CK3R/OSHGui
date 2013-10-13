@@ -14,7 +14,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ColorPicker::DefaultSize(100, 150);
+	const Drawing::SizeF ColorPicker::DefaultSize(100, 150);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ColorPicker::SetSize(const Drawing::Size &size)
+	void ColorPicker::SetSize(const Drawing::SizeF &size)
 	{
 		if (this->size != size)
 		{
@@ -152,7 +152,7 @@ namespace OSHGui
 		return tmpColor;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::Point &point) const
+	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::PointF &point) const
 	{
 		return GetColorAtPoint(point.X, point.Y);
 	}
@@ -164,7 +164,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ColorPicker::Intersect(const Drawing::Point &point) const
+	bool ColorPicker::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -278,7 +278,7 @@ namespace OSHGui
 			renderer->SetRenderColor(Drawing::Color::White());
 			renderer->RenderTexture(gradient, absoluteLocation);
 			
-			Drawing::Point tmpLocation = (absoluteLocation + colorCursorLocation).OffsetEx(-2, -2);
+			Drawing::PointF tmpLocation = (absoluteLocation + colorCursorLocation).OffsetEx(-2, -2);
 			renderer->SetRenderColor(Drawing::Color::Black());
 			renderer->Fill(tmpLocation.Left, tmpLocation.Top, 4, 4);
 			renderer->SetRenderColor(Drawing::Color::White());

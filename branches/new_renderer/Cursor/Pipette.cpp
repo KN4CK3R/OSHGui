@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	PipetteCursor::PipetteCursor()
 	{
-		offset = Drawing::Point(0, -15);
+		offset = Drawing::PointF(0, -15);
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------

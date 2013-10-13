@@ -105,26 +105,26 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetBounds(int x, int y, int w, int h)
 	{
-		SetBounds(Drawing::Point(x, y), Drawing::Size(w, h));
+		SetBounds(Drawing::PointF(x, y), Drawing::SizeF(w, h));
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(const Drawing::Point &location, const Drawing::Size &size)
+	void Control::SetBounds(const Drawing::PointF &location, const Drawing::SizeF &size)
 	{
 		SetLocation(location);
 		SetSize(size);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(const Drawing::Rectangle &bounds)
+	void Control::SetBounds(const Drawing::RectangleF &bounds)
 	{
 		SetBounds(bounds.GetLocation(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Rectangle Control::GetBounds() const
+	const Drawing::RectangleF Control::GetBounds() const
 	{
-		return Drawing::Rectangle(location, size);
+		return Drawing::RectangleF(location, size);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(const Drawing::Point &location)
+	void Control::SetLocation(const Drawing::PointF &location)
 	{
 		this->location = location;
 
@@ -133,15 +133,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(int x, int y)
 	{
-		SetLocation(Drawing::Point(x, y));
+		SetLocation(Drawing::PointF(x, y));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point& Control::GetLocation() const
+	const Drawing::PointF& Control::GetLocation() const
 	{
 		return location;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetSize(const Drawing::Size &size)
+	void Control::SetSize(const Drawing::SizeF &size)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (size.Width < 0)
@@ -161,10 +161,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetSize(int width, int height)
 	{
-		SetSize(Drawing::Size(width, height));
+		SetSize(Drawing::SizeF(width, height));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Size& Control::GetSize() const
+	const Drawing::SizeF& Control::GetSize() const
 	{
 		return size;
 	}
@@ -390,12 +390,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
+	const Drawing::PointF Control::PointToClient(const Drawing::PointF &point) const
 	{
 		return point - absoluteLocation;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
+	const Drawing::PointF Control::PointToScreen(const Drawing::PointF &point) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (!parent)

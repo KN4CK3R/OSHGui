@@ -14,8 +14,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ColorBar::DefaultSize(150, 45);
-	const Drawing::Size ColorBar::DefaultBarSize(150, 10);
+	const Drawing::SizeF ColorBar::DefaultSize(150, 45);
+	const Drawing::SizeF ColorBar::DefaultBarSize(150, 10);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -28,8 +28,8 @@ namespace OSHGui
 		for (int i = 0; i < 3; ++i)
 		{
 			bars.push_back(0);
-			barSliderLocation.push_back(Drawing::Point(0, i * 15 + 9));
-			barSliderAbsoluteLocation.push_back(Drawing::Point(0, 0));
+			barSliderLocation.push_back(Drawing::PointF(0, i * 15 + 9));
+			barSliderAbsoluteLocation.push_back(Drawing::PointF(0, 0));
 			drag[i] = false;
 		}
 				
@@ -47,7 +47,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ColorBar::SetSize(const Drawing::Size &size)
+	void ColorBar::SetSize(const Drawing::SizeF &size)
 	{
 		if (this->size.Width != size.Width)
 		{
@@ -91,7 +91,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ColorBar::Intersect(const Drawing::Point &point) const
+	bool ColorBar::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -156,7 +156,7 @@ namespace OSHGui
 
 		for (int i = 0; i < 3; ++i)
 		{
-			Drawing::Point barLocation = Drawing::Point(absoluteLocation.Left, absoluteLocation.Top + i * 15);
+			Drawing::PointF barLocation = Drawing::PointF(absoluteLocation.Left, absoluteLocation.Top + i * 15);
 			if (Intersection::TestRectangle(barLocation, DefaultBarSize, mouse.Location))
 			{
 				barIndex = i;
@@ -277,7 +277,7 @@ namespace OSHGui
 			renderer->RenderTexture(bars[i], absoluteLocation.Left, absoluteLocation.Top + i * 15, GetWidth(), 8);
 			
 			renderer->SetRenderColor(foreColor);
-			Drawing::Point sliderPos = barSliderLocation[i].OffsetEx(absoluteLocation.Left + 1, absoluteLocation.Top);
+			Drawing::PointF sliderPos = barSliderLocation[i].OffsetEx(absoluteLocation.Left + 1, absoluteLocation.Top);
 			for (int j = 0; j < 3; ++j)
 			{
 				renderer->Fill(sliderPos.Left - j, sliderPos.Top + j, 1 + j * 2, 1);

@@ -35,7 +35,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -73,7 +73,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *

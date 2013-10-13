@@ -1,7 +1,9 @@
 #ifndef OSHGUI_GRAPHICS_HPP
 #define OSHGUI_GRAPHICS_HPP
 
-#include "ITexture.hpp"
+#include "GeometryBuffer.hpp"
+#include "ColorRectangle.hpp"
+#include "Font.hpp"
 #include <vector>
 
 namespace OSHGui
@@ -11,113 +13,130 @@ namespace OSHGui
 		class OSHGUI_EXPORT Graphics
 		{
 		public:
-			Graphics(std::shared_ptr<ITexture> &texture);
+			Graphics(GeometryBufferPtr &buffer);
 			~Graphics();
+
+			/**
+			 * Legt die Farbe fest, mit der gezeichnet wird.
+			 *
+			 * @param color die Farbe
+			 */
+			void SetClip(const RectangleF &clip);
 
 			/**
 			 * Löscht den Inhalt der Textur.
 			 */
 			void Clear();
 			/**
-			 * Zeichnet einen Pixel.
+			 * Füllt das Rechteck.
 			 *
-			 * @param origin der Punkt
-			 * @param color die Farbe
+			 * @param color
+			 * @param origin
+			 * @param size
 			 */
-			void SetPixel(const Point &origin, Color color);
-			/**
-			 * Zeichnet einen Pixel.
-			 *
-			 * @param x
-			 * @param y
-			 * @param color die Farbe
-			 */
-			void SetPixel(int x, int y, Color color);
+			void DrawRectangle(const Color &color, const PointF &origin, const SizeF &size);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param origin
-			 * @param size
-			 * @param color die Farbe
+			 * @param color
+			 * @param rectangle
 			 */
-			void FillRectangle(const Point &origin, const Size &size, Color color);
+			void DrawRectangle(const Color &color, const RectangleF &rectangle);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 * @param color die Farbe
+			 * @param color
+			 * @param rectangle
 			 */
-			void FillRectangle(int x, int y, int w, int h, Color color);
+			void DrawRectangle(const Color &color, float x, float y, float width, float height);
 			/**
-			 * Füllt die Textur mit einem Farbverlauf.
+			 * Füllt das Rechteck.
 			 *
+			 * @param color
 			 * @param origin
 			 * @param size
-			 * @param from die Startfarbe
-			 * @param to die Endfarbe
-			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
 			 */
-			void FillRectangleGradient(const Point &origin, const Size &size, Color from, Color to, bool updown = true);
+			void FillRectangle(const Color &color, const PointF &origin, const SizeF &size);
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param color
+			 * @param rectangle
+			 */
+			void FillRectangle(const Color &color, const RectangleF &rectangle);
+			/**
+			 * Füllt das Rechteck.
+			 *
+			 * @param color
+			 * @param rectangle
+			 */
+			void FillRectangle(const Color &color, float x, float y, float width, float height);
 			/**
 			 * Füllt die Textur mit einem Farbverlauf.
 			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 * @param from die Startfarbe
-			 * @param to die Endfarbe
-			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
+			 * @param colors die Eckfarben
+			 * @param origin
+			 * @param size
 			 */
-			void FillRectangleGradient(int x, int y, int w, int h, Color from, Color to, bool updown = true);
+			void FillRectangleGradient(const ColorRectangle &colors, const PointF &origin, const SizeF &size);
+			/**
+			 * Füllt die Textur mit einem Farbverlauf.
+			 *
+			 * @param colors die Eckfarben
+			 * @param origin
+			 * @param size
+			 */
+			void FillRectangleGradient(const ColorRectangle &colors, const RectangleF &rectangle);
+			/**
+			 * Füllt die Textur mit einem Farbverlauf.
+			 *
+			 * @param colors die Eckfarben
+			 * @param origin
+			 * @param size
+			 */
+			void FillRectangleGradient(const ColorRectangle &colors, float x, float y, float width, float height);
 			/**
 			 * Füllt den Bereich mit der Farbe, der zwischen den Ecken des Polygons liegt.
 			 *
 			 * @param vertices
-			 * @param color die Farbe
 			 */
-			void FillPolygon(const std::vector<Point> &vertices, Color color);
+			void FillPolygon(const std::vector<PointF> &vertices, const Color &color);
 			/**
 			 * Füllt einen Kreis.
 			 *
+			 * @param color
 			 * @param origin
 			 * @param radius
-			 * @param color die Farbe
 			 */
-			void FillCircle(const Point &origin, int radius, Color color);
+			void FillCircle(const Color &color, const PointF &origin, float radius);
 			/**
 			 * Füllt einen Kreis.
 			 *
+			 * @param color
 			 * @param x
 			 * @param y
 			 * @param radius
-			 * @param color die Farbe
 			 */
-			void FillCircle(int x, int y, int radius, Color color);
+			void FillCircle(const Color &color, float x, float y, float radius);
 			/**
 			 * Füllt eine Ellipse mit der entsprechenden Größe um den Mittelpunkt herum.
 			 *
+			 * @param color
 			 * @param origin
 			 * @param size
-			 * @param color die Farbe
 			 */
-			void FillEllipse(const Point &origin, const Size &size, Color color);
-			/**
-			 * Füllt eine Ellipse mit der entsprechenden Größe um den Mittelpunkt herum.
-			 *
-			 * @param centerX
-			 * @param centerY
-			 * @param width
-			 * @param height
-			 * @param color die Farbe
-			 */
-			void FillEllipse(int centerX, int centerY, int width, int height, Color color);
+			void FillEllipse(const Color &color, const PointF &origin, const SizeF &size);
+
+			void FillEllipse(const Color &color, const RectangleF &region);
+
+			void FillEllipse(const Color &color, float x, float y, float width, float height);
+
+			void DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, const PointF &origin);
+
+			void DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y);
 
 		private:
-			std::shared_ptr<ITexture> texture;
+			GeometryBufferPtr &buffer;
 		};
 	}
 }

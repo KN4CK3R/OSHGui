@@ -59,10 +59,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
-	void Cursor::Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation)
+	void Cursor::Render(Drawing::IRenderer *renderer, const Drawing::PointF &cursorLocation)
 	{
 		renderer->SetRenderColor(Drawing::Color::White());
-		renderer->RenderTexture(cursor, cursorLocation + offset, Drawing::Size(16, 16));
+		renderer->RenderTexture(cursor, cursorLocation + offset, Drawing::SizeF(16, 16));
 	}
 	//---------------------------------------------------------------------------
 }

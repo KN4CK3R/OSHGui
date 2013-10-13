@@ -62,7 +62,7 @@ namespace OSHGui
 			 * @param text der Text
 			 * @return die Maﬂe
 			 */
-			virtual const Size MeasureText(const Misc::AnsiString &text) = 0;
+			virtual const SizeF MeasureText(const Misc::AnsiString &text) = 0;
 			
 		private:
 			Misc::AnsiString name;

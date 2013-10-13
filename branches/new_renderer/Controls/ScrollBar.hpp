@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
@@ -81,7 +81,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -111,7 +111,7 @@ namespace OSHGui
 
 	private:
 		static const int MinimumSliderHeight = 25;
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeF DefaultSize;
 
 		void SetValueInternal(int value);
 
@@ -120,12 +120,12 @@ namespace OSHGui
 		float pixelsPerTick;
 		int maximum;
 
-		Drawing::Point trackLocation;
-		Drawing::Point trackAbsoluteLocation;
-		Drawing::Size trackSize;
-		Drawing::Point sliderLocation;
-		Drawing::Point sliderAbsoluteLocation;
-		Drawing::Size sliderSize;
+		Drawing::PointF trackLocation;
+		Drawing::PointF trackAbsoluteLocation;
+		Drawing::SizeF trackSize;
+		Drawing::PointF sliderLocation;
+		Drawing::PointF sliderAbsoluteLocation;
+		Drawing::SizeF sliderSize;
 
 		ScrollEvent scrollEvent;
 
@@ -134,13 +134,13 @@ namespace OSHGui
 		public:
 			using Control::SetSize;
 
-			static const Drawing::Size DefaultButtonSize;
+			static const Drawing::SizeF DefaultButtonSize;
 
 			ScrollBarButton(int direction);
 			
-			virtual void SetSize(const Drawing::Size &size) override;
+			virtual void SetSize(const Drawing::SizeF &size) override;
 
-			virtual bool Intersect(const Drawing::Point &point) const override;
+			virtual bool Intersect(const Drawing::PointF &point) const override;
 			virtual void CalculateAbsoluteLocation() override;
 
 			virtual void Render(Drawing::IRenderer *renderer) override;
@@ -148,7 +148,7 @@ namespace OSHGui
 		private:
 			int direction;
 
-			Drawing::Point iconLocation;
+			Drawing::PointF iconLocation;
 		};
 		ScrollBarButton *upButton;
 		ScrollBarButton *downButton;

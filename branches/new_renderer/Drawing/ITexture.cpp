@@ -22,7 +22,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		const Size& ITexture::GetSize() const
+		const SizeF& ITexture::GetSize() const
 		{
 			return size;
 		}
@@ -34,7 +34,7 @@ namespace OSHGui
 			Fill(0, 0, size.Width, size.Height, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
-		void ITexture::Clear(const Point &point)
+		void ITexture::Clear(const PointF &point)
 		{
 			Fill(point.X, point.Y, 1, 1, Color::Empty());
 		}
@@ -44,7 +44,7 @@ namespace OSHGui
 			Fill(x, y, 1, 1, Color::Empty());
 		}
 		//---------------------------------------------------------------------------
-		void ITexture::Clear(const Rectangle &rect)
+		void ITexture::Clear(const RectangleF &rect)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), Color::Empty());
 		}
@@ -59,7 +59,7 @@ namespace OSHGui
 			Fill(0, 0, size.Width, size.Height, color);
 		}
 		//---------------------------------------------------------------------------
-		void ITexture::Fill(const Point &point, Color color)
+		void ITexture::Fill(const PointF &point, Color color)
 		{
 			Fill(point.X, point.Y, 1, 1, color);
 		}
@@ -69,7 +69,7 @@ namespace OSHGui
 			Fill(x, y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void ITexture::Fill(const Rectangle &rect, Color color)
+		void ITexture::Fill(const RectangleF &rect, Color color)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}
@@ -79,7 +79,7 @@ namespace OSHGui
 			FillGradient(0, 0, size.Width, size.Height, from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void ITexture::FillGradient(const Rectangle &rect, Color from, Color to, bool updown)
+		void ITexture::FillGradient(const RectangleF &rect, Color from, Color to, bool updown)
 		{
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
 		}

@@ -19,6 +19,7 @@
 #include "../Drawing/Size.hpp"
 #include "../Drawing/Rectangle.hpp"
 #include "../Drawing/IRenderer.hpp"
+#include "../Drawing/Renderer.hpp"
 #include "../Drawing/Theme.hpp"
 
 #include "../Misc/Strings.hpp"
@@ -95,7 +96,7 @@ namespace OSHGui
 	typedef Event<void(Control*)> LocationChangedEvent;
 	typedef EventHandler<void(Control*)> LocationChangedEventHandler;
 	/**
-	 * Tritt ein, wenn die Size-Eigenschaft geändert wird.
+	 * Tritt ein, wenn die SizeF-Eigenschaft geändert wird.
 	 */
 	typedef Event<void(Control*)> SizeChangedEvent;
 	typedef EventHandler<void(Control*)> SizeChangedEventHandler;
@@ -246,7 +247,7 @@ namespace OSHGui
 		 *
 		 * @param bounds
 		 */
-		virtual void SetBounds(const Drawing::Rectangle &bounds);
+		virtual void SetBounds(const Drawing::RectangleF &bounds);
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -254,7 +255,7 @@ namespace OSHGui
 		 * @param location
 		 * @param size
 		 */
-		virtual void SetBounds(const Drawing::Point &location, const Drawing::Size &size);
+		virtual void SetBounds(const Drawing::PointF &location, const Drawing::SizeF &size);
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -271,7 +272,7 @@ namespace OSHGui
 		 *
 		 * @return bounds
 		 */
-		virtual const Drawing::Rectangle GetBounds() const;
+		virtual const Drawing::RectangleF GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
@@ -286,14 +287,14 @@ namespace OSHGui
 		 *
 		 * @param location
 		 */
-		virtual void SetLocation(const Drawing::Point &location);
+		virtual void SetLocation(const Drawing::PointF &location);
 		/**
 		 * Ruft die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers ab.
 		 *
 		 * @return location
 		 */
-		virtual const Drawing::Point& GetLocation() const;
+		virtual const Drawing::PointF& GetLocation() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -306,13 +307,13 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::SizeF &size);
 		/**
 		 * Ruft die Höhe und Breite des Steuerelements ab.
 		 *
 		 * @return size
 		 */
-		virtual const Drawing::Size& GetSize() const;
+		virtual const Drawing::SizeF& GetSize() const;
 		/**
 		 * Ruft den Abstand zwischen dem linken Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
@@ -570,7 +571,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const = 0;
+		virtual bool Intersect(const Drawing::PointF &point) const = 0;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -581,14 +582,14 @@ namespace OSHGui
 		 * @param point
 		 * @return Clientkoordinaten
 		 */
-		virtual const Drawing::Point PointToClient(const Drawing::Point &point) const;
+		virtual const Drawing::PointF PointToClient(const Drawing::PointF &point) const;
 		/**
 		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
 		 *
 		 * @param point
 		 * @return Bildschirmkoordinaten
 		 */
-		virtual const Drawing::Point PointToScreen(const Drawing::Point &point) const;
+		virtual const Drawing::PointF PointToScreen(const Drawing::PointF &point) const;
 		
 		/**
 		 * Verarbeitet eine Maus-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
@@ -663,9 +664,9 @@ namespace OSHGui
 			 
 		Misc::Any tag;
 		
-		Drawing::Point location;
-		Drawing::Point absoluteLocation;
-		Drawing::Size size;
+		Drawing::PointF location;
+		Drawing::PointF absoluteLocation;
+		Drawing::SizeF size;
 		
 		LocationChangedEvent locationChangedEvent;
 		SizeChangedEvent sizeChangedEvent;

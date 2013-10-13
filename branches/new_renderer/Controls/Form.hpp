@@ -88,7 +88,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -167,8 +167,8 @@ namespace OSHGui
 		DialogResult dialogResult;
 
 	private:
-		static const Drawing::Point DefaultLocation;
-		static const Drawing::Size DefaultSize;
+		static const Drawing::PointF DefaultLocation;
+		static const Drawing::SizeF DefaultSize;
 
 		std::weak_ptr<Form> instance;
 
@@ -189,7 +189,7 @@ namespace OSHGui
 				CaptionBarButton();
 
 				virtual void CalculateAbsoluteLocation() override;
-				virtual bool Intersect(const Drawing::Point &point) const override;
+				virtual bool Intersect(const Drawing::PointF &point) const override;
 
 				virtual void Render(Drawing::IRenderer *renderer) override;
 
@@ -197,9 +197,9 @@ namespace OSHGui
 				virtual void OnMouseUp(const MouseMessage &mouse) override;
 
 			private:
-				static const Drawing::Point DefaultCrossOffset;
+				static const Drawing::PointF DefaultCrossOffset;
 
-				Drawing::Point crossAbsoluteLocation;
+				Drawing::PointF crossAbsoluteLocation;
 			};
 
 		public:
@@ -207,7 +207,7 @@ namespace OSHGui
 
 			CaptionBar();
 
-			virtual void SetSize(const Drawing::Size &size) override;
+			virtual void SetSize(const Drawing::SizeF &size) override;
 			void SetText(const Misc::AnsiString &text);
 			const Misc::AnsiString& GetText() const;
 			virtual void SetForeColor(Drawing::Color color) override;
@@ -221,10 +221,10 @@ namespace OSHGui
 
 		private:
 			static const int DefaultButtonPadding = 6;
-			static const Drawing::Point DefaultTitleOffset;
+			static const Drawing::PointF DefaultTitleOffset;
 
 			bool drag;
-			Drawing::Point dragStart;
+			Drawing::PointF dragStart;
 
 			Label *titleLabel;
 			CaptionBarButton *closeButton;

@@ -17,7 +17,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size TabControl::DefaultSize(200, 200);
+	const Drawing::SizeF TabControl::DefaultSize(200, 200);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TabControl::SetSize(const Drawing::Size &size)
+	void TabControl::SetSize(const Drawing::SizeF &size)
 	{
 		Control::SetSize(size);
 
@@ -217,7 +217,7 @@ namespace OSHGui
 		binding->tabPage = tabPage;
 
 		TabControlButton *button = new TabControlButton(binding);
-		button->SetLocation(Drawing::Point(0, 0));
+		button->SetLocation(Drawing::PointF(0, 0));
 		button->SetForeColor(GetForeColor());
 		button->SetBackColor(GetBackColor());
 		button->SetFont(font);
@@ -293,7 +293,7 @@ namespace OSHGui
 		CalculateButtonLocationAndCount();
 	}
 	//---------------------------------------------------------------------------
-	bool TabControl::Intersect(const Drawing::Point &point) const
+	bool TabControl::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -388,7 +388,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point TabControl::TabControlButton::DefaultLabelOffset(4, 2);
+	const Drawing::PointF TabControl::TabControlButton::DefaultLabelOffset(4, 2);
 	//---------------------------------------------------------------------------
 	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding *binding)
 	{
@@ -428,7 +428,7 @@ namespace OSHGui
 		this->active = active;
 	}
 	//---------------------------------------------------------------------------
-	bool TabControl::TabControlButton::Intersect(const Drawing::Point &point) const
+	bool TabControl::TabControlButton::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -484,7 +484,7 @@ namespace OSHGui
 		label->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Size TabControl::TabControlSwitchButton::DefaultSize(9, 9);
+	const Drawing::SizeF TabControl::TabControlSwitchButton::DefaultSize(9, 9);
 	//---------------------------------------------------------------------------
 	TabControl::TabControlSwitchButton::TabControlSwitchButton(int direction)
 	{
@@ -493,7 +493,7 @@ namespace OSHGui
 		SetSize(DefaultSize);
 	}
 	//---------------------------------------------------------------------------
-	bool TabControl::TabControlSwitchButton::Intersect(const Drawing::Point &point) const
+	bool TabControl::TabControlSwitchButton::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}

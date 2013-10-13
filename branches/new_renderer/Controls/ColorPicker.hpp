@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die ausgewählte Farbe fest.
 		 *
@@ -67,7 +67,7 @@ namespace OSHGui
 		 * @param point
 		 * @return color
 		 */
-		Drawing::Color GetColorAtPoint(const Drawing::Point &point) const;
+		Drawing::Color GetColorAtPoint(const Drawing::PointF &point) const;
 
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
@@ -82,7 +82,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -92,7 +92,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 		
 	private:
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeF DefaultSize;
 
 		void CreateGradientTexture();
 		void CalculateColorCursorLocation();
@@ -102,7 +102,7 @@ namespace OSHGui
 		virtual void OnMouseMove(const MouseMessage &mouse) override;
 	
 		Drawing::Color color;
-		Drawing::Point colorCursorLocation;
+		Drawing::PointF colorCursorLocation;
 		std::shared_ptr<Drawing::ITexture> gradient;
 
 		ColorChangedEvent colorChangedEvent;

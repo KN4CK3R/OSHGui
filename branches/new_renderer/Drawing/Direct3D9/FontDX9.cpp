@@ -56,11 +56,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		const Size FontDX9::MeasureText(const Misc::AnsiString &str)
+		const SizeF FontDX9::MeasureText(const Misc::AnsiString &str)
 		{
 			if (str.length() == 0)
 			{
-				return Size(0, GetSize());
+				return SizeF(0, GetSize());
 			}
 
 			RECT rect = { 0, 0, 0, 0 };
@@ -75,7 +75,7 @@ namespace OSHGui
 				rect.right += spaceWidth;
 			}
 
-			return Size(rect.right, rect.bottom);
+			return SizeF(rect.right, rect.bottom);
 		}
 		//---------------------------------------------------------------------------
 		void FontDX9::PreReset()

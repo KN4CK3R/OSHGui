@@ -14,8 +14,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size TrackBar::SliderSize(8, 16);
-	const Drawing::Size TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
+	const Drawing::SizeF TrackBar::SliderSize(8, 16);
+	const Drawing::SizeF TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -42,11 +42,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TrackBar::SetSize(const Drawing::Size &size)
+	void TrackBar::SetSize(const Drawing::SizeF &size)
 	{
 		if (size.Height < SliderSize.Height + 2)
 		{
-			Control::SetSize(Drawing::Size(size.Width, SliderSize.Height + 2));
+			Control::SetSize(Drawing::SizeF(size.Width, SliderSize.Height + 2));
 		}
 		else
 		{
@@ -109,7 +109,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool TrackBar::Intersect(const Drawing::Point &point) const
+	bool TrackBar::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}

@@ -19,7 +19,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		TextureOpenGL::TextureOpenGL(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
+		TextureOpenGL::TextureOpenGL(const SizeF &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 			: frameBuffer(0)
 		{
 			Create(size, frameCount);
@@ -57,7 +57,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void TextureOpenGL::Create(const Size &size, int frameCount)
+		void TextureOpenGL::Create(const SizeF &size, int frameCount)
 		{
 			for (int i = 0; i < frameCount; ++i)
 			{

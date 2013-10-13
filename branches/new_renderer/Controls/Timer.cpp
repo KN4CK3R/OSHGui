@@ -91,7 +91,7 @@ namespace OSHGui
 		SetEnabled(false);
 	}
 	//---------------------------------------------------------------------------
-	bool Timer::Intersect(const Drawing::Point &point) const
+	bool Timer::Intersect(const Drawing::PointF &point) const
 	{
 		return false;
 	}

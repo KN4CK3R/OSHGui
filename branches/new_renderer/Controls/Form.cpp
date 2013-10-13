@@ -18,8 +18,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Point Form::DefaultLocation(50, 50);
-	const Drawing::Size Form::DefaultSize(300, 300);
+	const Drawing::PointF Form::DefaultLocation(50, 50);
+	const Drawing::SizeF Form::DefaultSize(300, 300);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -35,11 +35,11 @@ namespace OSHGui
 		isFocusable = true;
 
 		captionBar = new CaptionBar();
-		captionBar->SetLocation(Drawing::Point(0, 0));
+		captionBar->SetLocation(Drawing::PointF(0, 0));
 		AddSubControl(captionBar);
 
 		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::Point(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
+		containerPanel->SetLocation(Drawing::PointF(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
 		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 
@@ -56,7 +56,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Form::SetSize(const Drawing::Size &size)
+	void Form::SetSize(const Drawing::SizeF &size)
 	{
 		ContainerControl::SetSize(size);
 
@@ -171,14 +171,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
 	//---------------------------------------------------------------------------
-	const Drawing::Point Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
+	const Drawing::PointF Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBarButton::CaptionBarButton()
 		: Control()
 	{
 		isFocusable = false;
 
-		SetSize(Drawing::Size(DefaultButtonWidth, DefaultButtonHeight));
+		SetSize(Drawing::SizeF(DefaultButtonWidth, DefaultButtonHeight));
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::CalculateAbsoluteLocation()
@@ -187,7 +187,7 @@ namespace OSHGui
 		crossAbsoluteLocation = absoluteLocation + DefaultCrossOffset;
 	}
 	//---------------------------------------------------------------------------
-	bool Form::CaptionBar::CaptionBarButton::Intersect(const Drawing::Point &point) const
+	bool Form::CaptionBar::CaptionBarButton::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -213,7 +213,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Form::Captionbar
 	//---------------------------------------------------------------------------
-	const Drawing::Point Form::CaptionBar::DefaultTitleOffset(4, 2);
+	const Drawing::PointF Form::CaptionBar::DefaultTitleOffset(4, 2);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBar()
 		: ContainerControl()
@@ -232,11 +232,11 @@ namespace OSHGui
 		AddSubControl(closeButton);
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::SetSize(const Drawing::Size &size)
+	void Form::CaptionBar::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(Drawing::Size(size.Width, DefaultCaptionBarHeight));
+		ContainerControl::SetSize(Drawing::SizeF(size.Width, DefaultCaptionBarHeight));
 
-		closeButton->SetLocation(Drawing::Point(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
+		closeButton->SetLocation(Drawing::PointF(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::SetText(const Misc::AnsiString &text)

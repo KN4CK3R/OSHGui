@@ -42,7 +42,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -164,7 +164,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::PointF &point) const;
 		/**
 		 * Setzt den Eingabefokus auf das Steuerelement.
 		 */
@@ -193,9 +193,9 @@ namespace OSHGui
 		public:
 			using Button::SetSize;
 
-			virtual void SetSize(const Drawing::Size &size);
+			virtual void SetSize(const Drawing::SizeF &size);
 
-			virtual bool Intersect(const Drawing::Point &point) const;
+			virtual bool Intersect(const Drawing::PointF &point) const;
 
 			virtual void Render(Drawing::IRenderer *renderer);
 
@@ -205,8 +205,8 @@ namespace OSHGui
 			virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 
 		private:
-			Drawing::Size realSize;
-			Drawing::Point arrowAbsoluteLocation;
+			Drawing::SizeF realSize;
+			Drawing::PointF arrowAbsoluteLocation;
 		};
 		ComboBoxButton *button;
 

@@ -43,7 +43,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
@@ -70,7 +70,7 @@ namespace OSHGui
 		 * @param point
 		 * @return 0, falls sich dort kein Steuerelement befindet
 		 */
-		Control* GetChildAtPoint(const Drawing::Point &point) const;
+		Control* GetChildAtPoint(const Drawing::PointF &point) const;
 		/**
 		 * Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
 		 *
@@ -84,7 +84,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */

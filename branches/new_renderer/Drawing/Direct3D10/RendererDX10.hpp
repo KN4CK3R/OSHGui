@@ -27,24 +27,24 @@ namespace OSHGui
 			
 			virtual void SetRenderColor(D3DCOLOR color);
 			
-			void DrawTexture(const Drawing::Point &point, Drawing::ITexture *texture);
+			void DrawTexture(const Drawing::PointF &point, Drawing::ITexture *texture);
 			virtual void DrawTexture(int x, int y, Drawing::ITexture *texture);
 
-			virtual Size MeasureText(IFont *font, const Misc::UnicodeString &text);
+			virtual SizeF MeasureText(IFont *font, const Misc::UnicodeString &text);
 
-			virtual void RenderText(IFont *font, const Point &point, const Misc::UnicodeString &text);
+			virtual void RenderText(IFont *font, const PointF &point, const Misc::UnicodeString &text);
 			virtual void RenderText(IFont *font, int x, int y, const Misc::UnicodeString &text);
-			virtual void RenderText(IFont *font, Rectangle &rect, const Misc::UnicodeString &text);
+			virtual void RenderText(IFont *font, RectangleF &rect, const Misc::UnicodeString &text);
 			virtual void RenderText(IFont *font, int x, int y, int w, int h, const Misc::UnicodeString &text);
 			
-			virtual void Fill(const Point &point);
+			virtual void Fill(const PointF &point);
 			virtual void Fill(int x, int y);
-			virtual void Fill(Rectangle &rect);
+			virtual void Fill(RectangleF &rect);
 			virtual void Fill(int x, int y, int w, int h);
 
-			virtual void FillGradient(const Point &point, Color &to);
+			virtual void FillGradient(const PointF &point, Color &to);
 			virtual void FillGradient(int x, int y, Color &to);
-			virtual void FillGradient(Rectangle &rect, Color &to);
+			virtual void FillGradient(RectangleF &rect, Color &to);
 			virtual void FillGradient(int x, int y, int w, int h, Color &to);
 			
 		private:

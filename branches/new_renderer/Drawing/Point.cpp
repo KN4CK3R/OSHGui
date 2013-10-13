@@ -15,13 +15,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Point::Point()
+		PointF::PointF()
 			: X(0), Y(0)
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		Point::Point(int x, int y)
+		PointF::PointF(int x, int y)
 			: X(x), Y(y)
 		{
 
@@ -29,23 +29,23 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Operator
 		//---------------------------------------------------------------------------
-		const Point Point::operator-(const Point &p) const
+		const PointF PointF::operator-(const PointF &p) const
 		{
 			return OffsetEx(-p.X, -p.Y);
 		}
 		//---------------------------------------------------------------------------
-		Point& Point::operator-=(const Point &p)
+		PointF& PointF::operator-=(const PointF &p)
 		{
 			Offset(-p.X, -p.Y);
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		const Point Point::operator+(const Point &p) const
+		const PointF PointF::operator+(const PointF &p) const
 		{
 			return OffsetEx(p.X, p.Y);
 		}
 		//---------------------------------------------------------------------------
-		Point& Point::operator+=(const Point &p)
+		PointF& PointF::operator+=(const PointF &p)
 		{
 			Offset(p.X, p.Y);
 			return *this;
@@ -53,23 +53,23 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void Point::Offset(int x, int y)
+		void PointF::Offset(int x, int y)
 		{
 			this->X += x;
 			this->Y += y;
 		}
 		//---------------------------------------------------------------------------
-		const Point Point::OffsetEx(int x, int y) const
+		const PointF PointF::OffsetEx(int x, int y) const
 		{
-			return Point(this->X + x, this->Y + y);
+			return PointF(this->X + x, this->Y + y);
 		}
 		//---------------------------------------------------------------------------
-		bool operator==(const Point &lhs, const Point &rhs)
+		bool operator==(const PointF &lhs, const PointF &rhs)
 		{
 			return lhs.Left == rhs.Left && lhs.Top == rhs.Top;
 		}
 		//---------------------------------------------------------------------------
-		bool operator<(const Point &lhs, const Point &rhs)
+		bool operator<(const PointF &lhs, const PointF &rhs)
 		{
 			return lhs.Left < rhs.Left && lhs.Top < rhs.Top;
 		}

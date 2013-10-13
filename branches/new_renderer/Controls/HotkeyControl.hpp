@@ -41,7 +41,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::SizeF &size);
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -104,7 +104,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -126,12 +126,12 @@ namespace OSHGui
 	private:
 		void HotkeyToText();
 
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeF DefaultSize;
 		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
 		
 		TextBox *textBox;
 		
-		Drawing::Point clearButtonAbsoluteLocation;
+		Drawing::PointF clearButtonAbsoluteLocation;
 
 		Key::Keys hotkey;
 		Key::Keys modifier;

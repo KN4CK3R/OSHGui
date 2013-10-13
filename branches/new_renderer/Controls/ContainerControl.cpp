@@ -38,9 +38,9 @@ namespace OSHGui
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	void ContainerControl::SetSize(const Drawing::Size &size)
+	void ContainerControl::SetSize(const Drawing::SizeF &size)
 	{
-		Drawing::Size offset = size - GetSize();
+		Drawing::SizeF offset = size - GetSize();
 
 		Control::SetSize(size);
 
@@ -57,12 +57,12 @@ namespace OSHGui
 				}
 				else if (anchor == (AnchorTop|AnchorLeft|AnchorRight) || anchor == (AnchorBottom|AnchorLeft|AnchorRight))
 				{
-					control->SetLocation(control->GetLocation() + Drawing::Point(0, offset.Height));
-					control->SetSize(control->GetSize() + Drawing::Size(offset.Width, 0));
+					control->SetLocation(control->GetLocation() + Drawing::PointF(0, offset.Height));
+					control->SetSize(control->GetSize() + Drawing::SizeF(offset.Width, 0));
 				}
 				else if (anchor == (AnchorTop|AnchorRight) || anchor == (AnchorBottom|AnchorRight))
 				{
-					control->SetLocation(control->GetLocation() + Drawing::Point(offset.Width, offset.Height));
+					control->SetLocation(control->GetLocation() + Drawing::PointF(offset.Width, offset.Height));
 				}
 			}
 		}
@@ -131,7 +131,7 @@ namespace OSHGui
 		internalControls.push_front(subcontrol);
 	}
 	//---------------------------------------------------------------------------
-	bool ContainerControl::Intersect(const Drawing::Point &point) const
+	bool ContainerControl::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -146,7 +146,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	Control* ContainerControl::GetChildAtPoint(const Drawing::Point &point) const
+	Control* ContainerControl::GetChildAtPoint(const Drawing::PointF &point) const
 	{
 		for (auto it = controls.rbegin(); it != controls.rend(); ++it)
 		{

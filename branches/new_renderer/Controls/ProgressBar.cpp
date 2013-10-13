@@ -14,7 +14,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ProgressBar::DefaultSize(110, 24);
+	const Drawing::SizeF ProgressBar::DefaultSize(110, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ProgressBar::Intersect(const Drawing::Point &point) const
+	bool ProgressBar::Intersect(const Drawing::PointF &point) const
 	{
 		return false;
 	}

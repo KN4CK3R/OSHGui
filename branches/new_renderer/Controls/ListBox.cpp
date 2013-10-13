@@ -16,8 +16,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ListBox::DefaultSize(120, 95);
-	const Drawing::Size ListBox::DefaultItemAreaPadding(8, 8);
+	const Drawing::SizeF ListBox::DefaultSize(120, 95);
+	const Drawing::SizeF ListBox::DefaultItemAreaPadding(8, 8);
 	const int ListBox::DefaultItemPadding(2);
 	//---------------------------------------------------------------------------
 	//Constructor
@@ -58,7 +58,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ListBox::SetSize(const Drawing::Size &size)
+	void ListBox::SetSize(const Drawing::SizeF &size)
 	{
 		ContainerControl::SetSize(size);
 
@@ -174,7 +174,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ListBox::Intersect(const Drawing::Point &point) const
+	bool ListBox::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, scrollBar->GetVisible() ? size.InflateEx(-scrollBar->GetWidth(), 0) : size, point);
 	}
@@ -242,7 +242,7 @@ namespace OSHGui
 	{
 		auto itemHeight = font->GetSize() + DefaultItemPadding;
 
-		maxVisibleItems = std::max(1, itemAreaSize.Height / itemHeight);
+		maxVisibleItems = std::max(1.0f, itemAreaSize.Height / itemHeight);
 
 		if (items.size() * itemHeight > itemAreaSize.Height)
 		{

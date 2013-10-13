@@ -37,7 +37,7 @@ namespace OSHGui
 			 * @param str der Text
 			 * @return die Maﬂe
 			 */
-			virtual const Size MeasureText(const Misc::AnsiString &str);
+			virtual const SizeF MeasureText(const Misc::AnsiString &str);
 
 			/**
 			 * Zeichnet den angegebenen Text.
@@ -61,7 +61,7 @@ namespace OSHGui
 			struct {
 				float Scale;
 				int Space;
-				Size Size;
+				SizeF SizeF;
 				float Coordinates[128 - 32][4];
 				IDirect3DTexture8 *Data;
 			} Texture;

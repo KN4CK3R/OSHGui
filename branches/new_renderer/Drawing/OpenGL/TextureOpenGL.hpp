@@ -30,7 +30,7 @@ namespace OSHGui
 			 * @param frameCount die Anzahl der Frames (default: 1)
 			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
 			 */
-			TextureOpenGL(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
+			TextureOpenGL(const SizeF &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
@@ -108,7 +108,7 @@ namespace OSHGui
 			virtual void SelectActiveFrame(int frame);
 
 		private:
-			void Create(const Size &size, int frameCount = 1);
+			void Create(const SizeF &size, int frameCount = 1);
 			
 			int frame;
 			std::vector<unsigned int> frames;

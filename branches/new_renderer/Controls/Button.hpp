@@ -39,7 +39,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *
@@ -71,7 +71,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -92,8 +92,8 @@ namespace OSHGui
 		Label *label;
 
 	private:
-		static const Drawing::Size DefaultSize;
-		static const Drawing::Point DefaultLabelOffset;
+		static const Drawing::SizeF DefaultSize;
+		static const Drawing::PointF DefaultLabelOffset;
 	};
 }
 

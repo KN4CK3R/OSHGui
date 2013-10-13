@@ -29,7 +29,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		void RendererDX10::DrawTexture(const Drawing::Point &point, Drawing::ITexture *texture)
+		void RendererDX10::DrawTexture(const Drawing::PointF &point, Drawing::ITexture *texture)
 		{
 			DrawTexture(point.X, point.Y, texture);
 		}
@@ -44,16 +44,16 @@ namespace OSHGui
 			//not implemented
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size RendererDX10::MeasureText(Drawing::IFont *font, const Misc::UnicodeString &text)
+		Drawing::SizeF RendererDX10::MeasureText(Drawing::IFont *font, const Misc::UnicodeString &text)
 		{
 			if (font == NULL)
 			{
-				return Size();
+				return SizeF();
 			}
 			return font->MeasureText(text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::RenderText(Drawing::IFont *font, const Drawing::Point &point, const Misc::UnicodeString &text)
+		void RendererDX10::RenderText(Drawing::IFont *font, const Drawing::PointF &point, const Misc::UnicodeString &text)
 		{
 			RenderText(point.X, point.Y, 1000, 100, text);
 		}
@@ -63,7 +63,7 @@ namespace OSHGui
 			RenderText(x, y, 1000, 100, text);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::RenderText(Drawing::IFont *font, const Drawing::Rectangle &rectangle, const Misc::UnicodeString &text)
+		void RendererDX10::RenderText(Drawing::IFont *font, const Drawing::RectangleF &rectangle, const Misc::UnicodeString &text)
 		{
 			RenderText(rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight(), text);
 		}
@@ -78,7 +78,7 @@ namespace OSHGui
 			//not implemented
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::Fill(const Drawing::Point &point, D3DCOLOR color)
+		void RendererDX10::Fill(const Drawing::PointF &point, D3DCOLOR color)
 		{
 			Fill(point.X, point.Y, 1, 1, color);
 		}
@@ -88,7 +88,7 @@ namespace OSHGui
 			Fill(x, y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void RendererDX10::Fill(Drawing::Rectangle &rect, D3DCOLOR color)
+		void RendererDX10::Fill(Drawing::RectangleF &rect, D3DCOLOR color)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}

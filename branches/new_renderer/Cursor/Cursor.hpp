@@ -35,12 +35,12 @@ namespace OSHGui
 		 * @param renderer
 		 * @param cursorLocation
 		 */
-		virtual void Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation);
+		virtual void Render(Drawing::IRenderer *renderer, const Drawing::PointF &cursorLocation);
 		
 	protected:
 		virtual void CreateCursor();
 
-		Drawing::Point offset;
+		Drawing::PointF offset;
 		std::shared_ptr<Drawing::ITexture> cursor;
 	};
 }

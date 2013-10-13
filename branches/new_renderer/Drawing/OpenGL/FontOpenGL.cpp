@@ -46,7 +46,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
- 		const Size FontOpenGL::MeasureText(const Misc::AnsiString &str)
+ 		const SizeF FontOpenGL::MeasureText(const Misc::AnsiString &str)
  		{
 			auto hdc = wglGetCurrentDC();
 			HFONT oldFont = static_cast<HFONT>(SelectObject(hdc, font));
@@ -54,7 +54,7 @@ namespace OSHGui
 			GetTextExtentPoint32(hdc, str.c_str(), str.length(), &size);
 			SelectObject(hdc, oldFont);
 
- 			return Size(size.cx, size.cy);
+ 			return SizeF(size.cx, size.cy);
  		}
 		//---------------------------------------------------------------------------
 	}

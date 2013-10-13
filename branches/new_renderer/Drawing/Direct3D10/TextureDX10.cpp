@@ -41,7 +41,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		bool TextureDX10::Create(const Size &size)
+		bool TextureDX10::Create(const SizeF &size)
 		{
 			SAFE_RELEASE(texture);
 			
@@ -86,12 +86,12 @@ namespace OSHGui
 			Fill(x, y, 1, 1, 0x00000000);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX10::Clear(const Drawing::Point &point)
+		void TextureDX10::Clear(const Drawing::PointF &point)
 		{
 			Fill(point.X, point.Y, 1, 1, 0x00000000);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX10::Clear(Drawing::Rectangle &rect)
+		void TextureDX10::Clear(Drawing::RectangleF &rect)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), 0x00000000);
 		}
@@ -111,12 +111,12 @@ namespace OSHGui
 			Fill(x, y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX10::Fill(const Drawing::Point &point, D3DCOLOR color)
+		void TextureDX10::Fill(const Drawing::PointF &point, D3DCOLOR color)
 		{
 			Fill(point.X, point.Y, 1, 1, color);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX10::Fill(Drawing::Rectangle &rect, D3DCOLOR color)
+		void TextureDX10::Fill(Drawing::RectangleF &rect, D3DCOLOR color)
 		{
 			Fill(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), color);
 		}
@@ -147,7 +147,7 @@ namespace OSHGui
 			FillGradient(0, 0, size.Width, size.Height, from, to, updown);
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX10::FillGradient(Drawing::Rectangle &rect, D3DCOLOR from, D3DCOLOR to, bool updown)
+		void TextureDX10::FillGradient(Drawing::RectangleF &rect, D3DCOLOR from, D3DCOLOR to, bool updown)
 		{
 			FillGradient(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight(), from, to, updown);
 		}
@@ -214,7 +214,7 @@ namespace OSHGui
 		
 			ID3D10Texture2D *temp;
 			D3D10_MAPPED_TEXTURE2D tempLock;
-			Drawing::Size tempSize = size, bckSize = size;
+			Drawing::SizeF tempSize = size, bckSize = size;
 
 			if (degrees == 90 || degrees == 270)
 			{
@@ -312,7 +312,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX10::Insert(const Drawing::Point &point, Drawing::TextureDX10 *texture)
+		void TextureDX10::Insert(const Drawing::PointF &point, Drawing::TextureDX10 *texture)
 		{
 			Insert(point.X, point.Y, texture);
 		}
@@ -331,7 +331,7 @@ namespace OSHGui
 				return;
 			}
 			
-			Drawing::Size tempSize = texture->GetSize();
+			Drawing::SizeF tempSize = texture->GetSize();
 			
 			if (tempSize.Width + _x > size.Width || tempSize.Height + _y > size.Height)
 			{

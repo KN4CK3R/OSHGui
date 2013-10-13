@@ -144,7 +144,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ComboBox::SetSize(const Drawing::Size &size)
+	void ComboBox::SetSize(const Drawing::SizeF &size)
 	{
 		ContainerControl::SetSize(size);
 
@@ -281,7 +281,7 @@ namespace OSHGui
 		listBox->Clear();
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::Intersect(const Drawing::Point &point) const
+	bool ComboBox::Intersect(const Drawing::PointF &point) const
 	{
 		if (Intersection::TestRectangle(absoluteLocation, size, point))
 		{
@@ -318,21 +318,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//ComboBox::ComboBoxButton
 	//---------------------------------------------------------------------------
-	void ComboBox::ComboBoxButton::SetSize(const Drawing::Size &size)
+	void ComboBox::ComboBoxButton::SetSize(const Drawing::SizeF &size)
 	{
 		realSize = size;
 
 		Button::SetSize(size.InflateEx(-24, 0));
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::ComboBoxButton::Intersect(const Drawing::Point &point) const
+	bool ComboBox::ComboBoxButton::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, realSize, point);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::ComboBoxButton::CalculateLabelLocation()
 	{
-		label->SetLocation(Drawing::Point(6, GetSize().Height / 2 - label->GetSize().Height / 2));
+		label->SetLocation(Drawing::PointF(6, GetSize().Height / 2 - label->GetSize().Height / 2));
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::ComboBoxButton::OnKeyDown(const KeyboardMessage &keyboard)

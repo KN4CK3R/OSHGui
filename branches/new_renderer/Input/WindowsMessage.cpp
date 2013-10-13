@@ -40,9 +40,9 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-					static Drawing::Point lastMouseLocation;
+					static Drawing::PointF lastMouseLocation;
 
-					MouseMessage mouse(MouseMessage::Unknown, MouseButton::None, Drawing::Point(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
+					MouseMessage mouse(MouseMessage::Unknown, MouseButton::None, Drawing::PointF(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
 
 					switch (message->message)
 					{

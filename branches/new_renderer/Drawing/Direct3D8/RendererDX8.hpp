@@ -56,7 +56,7 @@ namespace OSHGui
 			 *
 			 * @return eine neue Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) override;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const SizeF &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) override;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
@@ -80,7 +80,7 @@ namespace OSHGui
 			 *
 			 * @return Größe des Zeichenbereichs
 			 */
-			virtual const Size GetRenderDimension() const override;
+			virtual const SizeF GetRenderDimension() const override;
 			
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
@@ -144,7 +144,7 @@ namespace OSHGui
 			 */
 			virtual void EndLines() override;
 
-			Size AdjustSize(Size size) const;
+			SizeF AdjustSize(SizeF size) const;
 
 		private:
 			void InitializeDevice();

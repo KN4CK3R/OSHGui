@@ -20,7 +20,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		TextureDX8::TextureDX8(RendererDX8 *renderer, IDirect3DDevice8 *device, const Size &size, int frameCount, const Misc::TimeSpan &frameChangeInterval)
+		TextureDX8::TextureDX8(RendererDX8 *renderer, IDirect3DDevice8 *device, const SizeF &size, int frameCount, const Misc::TimeSpan &frameChangeInterval)
 			: renderer(renderer),
 			  device(device),
 			  frame(0)
@@ -82,7 +82,7 @@ namespace OSHGui
 			texture = nullptr;
 		}
 		//---------------------------------------------------------------------------
-		void TextureDX8::Create(const Size &size, int frameCount)
+		void TextureDX8::Create(const SizeF &size, int frameCount)
 		{
 			if (frameCount < 1)
 			{
@@ -130,7 +130,7 @@ namespace OSHGui
 				#endif
 			}
 			
-			size = Size(info.Width, info.Height);
+			size = SizeF(info.Width, info.Height);
 			realSize = renderer->AdjustSize(size);
 			
 			frames.push_back(nullptr);

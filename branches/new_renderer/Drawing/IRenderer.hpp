@@ -48,7 +48,7 @@ namespace OSHGui
 			 * @param frameChangeInterval Interval der Framewechsel (optional für animierte Texturen)
 			 * @return die Textur
 			 */
-			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Size &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
+			virtual const std::shared_ptr<ITexture> CreateNewTexture(const SizeF &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) = 0;
 			/**
 			 * Erzeugt eine neue Textur mit der angebenen Größe, Anzahl der Frames und deren Wechselinterval.
 			 *
@@ -96,19 +96,19 @@ namespace OSHGui
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void SetRenderRectangle(const Rectangle &rect);
+			virtual void SetRenderRectangle(const RectangleF &rect);
 			/**
 			 * Ruft das Rechteck fest, in dem gezeichnet wird.
 			 *
 			 * @return das Rechteck
 			 */
-			virtual const Rectangle& GetRenderRectangle() const;
+			virtual const RectangleF& GetRenderRectangle() const;
 			/**
 			 * Ruft die Größe des Zeichenbereichs ab.
 			 *
 			 * @return Größe des Zeichenbereichs
 			 */
-			virtual const Size GetRenderDimension() const = 0;
+			virtual const SizeF GetRenderDimension() const = 0;
 			
 			/**
 			 * Zeichnet eine Textur am entsprechenden Punkt.
@@ -116,7 +116,7 @@ namespace OSHGui
 			 * @param texture die Textur
 			 * @param point der Ursprung
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point);
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const PointF &point);
 			/**
 			 * Zeichnet eine Textur an deb entsprechenden Koordinaten.
 			 *
@@ -132,14 +132,14 @@ namespace OSHGui
 			 * @param point der Startpunkt
 			 * @param size die Größe
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Point &point, const Size &size);
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const PointF &point, const SizeF &size);
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
 			 * @param texture die Textur
 			 * @param rect das Rechteck
 			 */
-			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const Rectangle &rect);
+			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, const RectangleF &rect);
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
@@ -158,7 +158,7 @@ namespace OSHGui
 			 * @param text der Text
 			 * @return size
 			 */
-			virtual Size MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text);
+			virtual SizeF MeasureText(const std::shared_ptr<IFont> &font, const Misc::AnsiString &text);
 
 			/**
 			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
@@ -167,7 +167,7 @@ namespace OSHGui
 			 * @param location der Ursprung
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Misc::AnsiString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const PointF &location, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text am entsprechenden Punkt mit der entsprechenden Schriftart.
 			 *
@@ -185,7 +185,7 @@ namespace OSHGui
 			 * @param size die Größe
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Point &location, const Size &size, const Misc::AnsiString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const PointF &location, const SizeF &size, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -193,7 +193,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param text der Text
 			 */
-			virtual void RenderText(const std::shared_ptr<IFont> &font, const Rectangle &rect, const Misc::AnsiString &text);
+			virtual void RenderText(const std::shared_ptr<IFont> &font, const RectangleF &rect, const Misc::AnsiString &text);
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
@@ -211,7 +211,7 @@ namespace OSHGui
 			 *
 			 * @param point der Punkt
 			 */
-			virtual void Fill(const Point &point);
+			virtual void Fill(const PointF &point);
 			/**
 			 * Zeichnet ein 1x1 Pixel am entsprechenden Punkt.
 			 *
@@ -225,13 +225,13 @@ namespace OSHGui
 			 * @param location
 			 * @param size
 			 */
-			virtual void Fill(const Point &location, const Size &size);
+			virtual void Fill(const PointF &location, const SizeF &size);
 			/**
 			 * Füllt das Rechteck.
 			 *
 			 * @param rect das Rechteck
 			 */
-			virtual void Fill(const Rectangle &rect);
+			virtual void Fill(const RectangleF &rect);
 			/**
 			 * Füllt das Rechteck.
 			 *
@@ -248,7 +248,7 @@ namespace OSHGui
 			 * @param rect das Rechteck
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Rectangle &rect, Color to);
+			virtual void FillGradient(const RectangleF &rect, Color to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -256,7 +256,7 @@ namespace OSHGui
 			 * @param size die Größe
 			 * @param to die Endfarbe
 			 */
-			virtual void FillGradient(const Point &point, const Size &size, Color to);
+			virtual void FillGradient(const PointF &point, const SizeF &size, Color to);
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
@@ -278,7 +278,7 @@ namespace OSHGui
 			 * @param from
 			 * @param to
 			 */
-			virtual void RenderLine(const Point &from, const Point &to);
+			virtual void RenderLine(const PointF &from, const PointF &to);
 			/**
 			 * Zeichnet eine Linie von (x1,y1) nach (x2,y2).
 			 *
@@ -295,7 +295,7 @@ namespace OSHGui
 
 		protected:
 			Color color;
-			Rectangle renderRect;
+			RectangleF renderRect;
 			std::shared_ptr<IFont> defaultFont;
 		};
 	}

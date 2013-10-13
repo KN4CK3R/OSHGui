@@ -21,7 +21,7 @@ namespace OSHGui
 		type = CONTROL_TABPAGE;
 	
 		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::Point(2, 2));
+		containerPanel->SetLocation(Drawing::PointF(2, 2));
 		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 		
@@ -30,7 +30,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TabPage::SetSize(const Drawing::Size &size)
+	void TabPage::SetSize(const Drawing::SizeF &size)
 	{
 		ContainerControl::SetSize(size);
 

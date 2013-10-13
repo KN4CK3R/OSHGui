@@ -10,6 +10,7 @@
 #define OSHGUI_DRAWING_COLOR_HPP
 
 #include "../Exports.hpp"
+#include <cstdint>
 
 namespace OSHGui
 {
@@ -25,12 +26,12 @@ namespace OSHGui
 			{
 				struct
 				{
-					unsigned char B;
-					unsigned char G;
-					unsigned char R;
-					unsigned char A;
+					std::uint8_t B;
+					std::uint8_t G;
+					std::uint8_t R;
+					std::uint8_t A;
 				};
-				unsigned long ARGB;
+				std::uint32_t ARGB;
 			};
 
 			/**
@@ -42,7 +43,7 @@ namespace OSHGui
 			 *
 			 * @param argb
 			 */
-			Color(unsigned long argb);
+			Color(std::uint32_t argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *
@@ -50,7 +51,7 @@ namespace OSHGui
 			 * @param green
 			 * @param blue
 			 */
-			Color(unsigned int red, unsigned int green, unsigned int blue);
+			Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue);
 			/**
 			 * Legt eine Farbe mit den Werten für Alpha, Rot, Grün und Blau an.
 			 *
@@ -59,14 +60,12 @@ namespace OSHGui
 			 * @param green
 			 * @param blue
 			 */
-			Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue);
+			Color(std::uint8_t alpha, std::uint8_t red, std::uint8_t green, std::uint8_t blue);
 
-			bool operator == (const Color &color) const;
-			bool operator != (const Color &color) const;
-			Color operator + (const Color &color) const;
-			Color& operator += (const Color &color);
-			Color operator - (const Color &color) const;
-			Color& operator -= (const Color &color);
+			Color& operator+=(const Color &rhs);
+			Color& operator-=(const Color &rhs);
+			Color& operator*=(const Color &rhs);
+			Color& operator*=(float rhs);
 
 			/**
 			 * Gibt eine leere Farbe (ARGB = 0) zurück.
@@ -158,6 +157,13 @@ namespace OSHGui
 			 */
 			static Color FromHSB(float hue, float saturation, float brightness);
 		};
+
+		bool operator==(const Color &lhs, const Color &rhs);
+		bool operator!=(const Color &lhs, const Color &rhs);
+		const Color operator+(const Color &lhs, const Color &rhs);
+		const Color operator-(const Color &lhs, const Color &rhs);
+		const Color operator*(const Color &lhs, const Color &rhs);
+		const Color operator*(const Color &lhs, float rhs);
 	}
 }
 

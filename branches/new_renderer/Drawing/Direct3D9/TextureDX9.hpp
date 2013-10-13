@@ -37,7 +37,7 @@ namespace OSHGui
 			 * @param frameCount die Anzahl der Frames (default: 1)
 			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
 			 */
-			TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const Size &size, int frameCount = 1, const Misc::TimeSpan &frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
+			TextureDX9(RendererDX9 *renderer, IDirect3DDevice9 *device, const SizeF &size, int frameCount = 1, const Misc::TimeSpan &frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
@@ -128,14 +128,14 @@ namespace OSHGui
 			virtual void PostReset();
 
 		private:
-			void Create(const Size &size, int frameCount = 1);
+			void Create(const SizeF &size, int frameCount = 1);
 
 			void ClearInternalData();
 
 			RendererDX9 *renderer;
 			IDirect3DDevice9 *device;
 
-			Size realSize;
+			SizeF realSize;
 			
 			D3DLOCKED_RECT lock;
 			IDirect3DTexture9 *texture;

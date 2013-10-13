@@ -11,6 +11,7 @@
 
 #include <memory>
 #include <vector>
+#include "Drawing/Renderer.hpp"
 #include "Drawing/IRenderer.hpp"
 #include "Drawing/Theme.hpp"
 #include "Misc/DateTime.hpp"
@@ -45,7 +46,7 @@ namespace OSHGui
 		 *
 		 * @param renderer Instanz des verwendeten Renderers
 		 */
-		void Create(Drawing::IRenderer *renderer);
+		void Create(Drawing::IRenderer *renderer, Drawing::Renderer *renderer_ = nullptr);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -65,12 +66,13 @@ namespace OSHGui
 		 * @return renderer
 		 */
 		Drawing::IRenderer* GetRenderer() const;
+		Drawing::Renderer* GetRenderer_() { return renderer_; }
 		/**
 		 * Ruft die aktuelle Mausposition ab.
 		 *
 		 * @return cursorLocation
 		 */
-		const Drawing::Point& GetCursorLocation() const;
+		const Drawing::PointF& GetCursorLocation() const;
 		/**
 		 * Ruft den Cursor ab.
 		 *
@@ -154,6 +156,7 @@ namespace OSHGui
 		Application();
 		
 		Drawing::IRenderer *renderer;
+		Drawing::Renderer *renderer_;
 		Drawing::Theme defaultTheme;
 		Drawing::Theme currentTheme;
 	
@@ -164,7 +167,7 @@ namespace OSHGui
 
 		struct
 		{
-			Drawing::Point Location;
+			Drawing::PointF Location;
 			std::shared_ptr<Cursor> Cursor;
 			bool Enabled;
 		} mouse;

@@ -39,7 +39,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -83,7 +83,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -103,8 +103,8 @@ namespace OSHGui
 		virtual void OnTextChanged();
 
 	private:
-		static const Drawing::Size DefaultSize;
-		static const Drawing::Point DefaultTextOffset;
+		static const Drawing::SizeF DefaultSize;
+		static const Drawing::PointF DefaultTextOffset;
 
 		void ResetCaretBlink();
 		void PlaceCaret(int position);
@@ -114,7 +114,7 @@ namespace OSHGui
 		Misc::AnsiChar passwordChar;
 		Misc::AnsiString realtext;
 
-		Drawing::Rectangle textRect,
+		Drawing::RectangleF textRect,
 						   caretRect;
 		
 		bool showCaret;

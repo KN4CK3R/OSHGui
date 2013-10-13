@@ -54,16 +54,16 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		const Size RendererDX9::GetRenderDimension() const
+		const SizeF RendererDX9::GetRenderDimension() const
 		{
 			D3DVIEWPORT9 viewPort;
 			device->GetViewport(&viewPort);
-			return Size(viewPort.Width, viewPort.Height);
+			return SizeF(viewPort.Width, viewPort.Height);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		Size RendererDX9::AdjustSize(Size size) const
+		SizeF RendererDX9::AdjustSize(SizeF size) const
 		{
 			if (!supportNPOTTex)
 			{
@@ -112,7 +112,7 @@ namespace OSHGui
 		{
 			sprite->Begin(D3DXSPRITE_ALPHABLEND);
 			
-			SetRenderRectangle(Drawing::Rectangle(GetRenderDimension()));
+			SetRenderRectangle(Drawing::RectangleF(GetRenderDimension()));
 		}
 		//---------------------------------------------------------------------------
 		void RendererDX9::End()
@@ -196,7 +196,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const Size &size, int frameCount, Misc::TimeSpan frameChangeInterval)
+		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(const SizeF &size, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
 			std::shared_ptr<TextureDX9> texture(new TextureDX9(this, device, size, frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
@@ -205,7 +205,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const std::shared_ptr<ITexture> RendererDX9::CreateNewTexture(int width, int height, int frameCount, Misc::TimeSpan frameChangeInterval)
 		{
-			std::shared_ptr<TextureDX9> texture(new TextureDX9(this, device, Size(width, height), frameCount, frameChangeInterval));
+			std::shared_ptr<TextureDX9> texture(new TextureDX9(this, device, SizeF(width, height), frameCount, frameChangeInterval));
 			textureList.push_back(std::weak_ptr<TextureDX9>(texture));
 			return texture;
 		}

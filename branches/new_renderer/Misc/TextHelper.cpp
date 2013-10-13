@@ -92,7 +92,7 @@ namespace OSHGui
 			return text;
 		}
 		//---------------------------------------------------------------------------
-		const Drawing::Size& TextHelper::GetSize() const
+		const Drawing::SizeF& TextHelper::GetSize() const
 		{
 			return size;
 		}
@@ -102,31 +102,31 @@ namespace OSHGui
 			size = GetStringWidth(0);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Point TextHelper::GetCharacterPosition(int index, bool trailing) const
+		Drawing::PointF TextHelper::GetCharacterPosition(int index, bool trailing) const
 		{
 			if (GetLength() == 0)
 			{
-				return Drawing::Point(0, 0);
+				return Drawing::PointF(0, 0);
 			}
 			if (index == 0)
 			{
 				if (!trailing)
 				{
-					return Drawing::Point(0, 0);
+					return Drawing::PointF(0, 0);
 				}
 			}
 			
 			AnsiString substring = text.substr(0, trailing ? index + 1 : index);
-			Drawing::Size size = font->MeasureText(substring);
+			Drawing::SizeF size = font->MeasureText(substring);
 			
-			return Drawing::Point(size.Width, size.Height);//Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
+			return Drawing::PointF(size.Width, size.Height);//Drawing::PointF(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size TextHelper::GetStringWidth(int index, int size) const
+		Drawing::SizeF TextHelper::GetStringWidth(int index, int size) const
 		{
 			if (GetLength() == 0 || size == 0)
 			{
-				return Drawing::Size(0, font->GetSize());
+				return Drawing::SizeF(0, font->GetSize());
 			}
 			if (index >= GetLength())
 			{
@@ -137,7 +137,7 @@ namespace OSHGui
 			return font->MeasureText(substring);
 		}
 		//---------------------------------------------------------------------------
-		int TextHelper::GetClosestCharacterIndex(const Drawing::Point &position) const
+		int TextHelper::GetClosestCharacterIndex(const Drawing::PointF &position) const
 		{
 			int distance = 0xFFFF;
 			int result = 0;
@@ -149,7 +149,7 @@ namespace OSHGui
 
 			for (unsigned int i = 0; i < text.length(); ++i)
 			{
-				Drawing::Point charPosition = GetCharacterPosition(i);
+				Drawing::PointF charPosition = GetCharacterPosition(i);
 
 				int actualDistance = abs(charPosition.Left - position.Left);
 

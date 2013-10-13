@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size PictureBox::DefaultSize(100, 100);
+	const Drawing::SizeF PictureBox::DefaultSize(100, 100);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -70,7 +70,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool PictureBox::Intersect(const Drawing::Point &point) const
+	bool PictureBox::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -92,7 +92,7 @@ namespace OSHGui
 		
 		if (image != nullptr)
 		{
-			Drawing::Size renderSize = size;
+			Drawing::SizeF renderSize = size;
 			if (!stretch && image->GetSize() < size)
 			{
 				renderSize = image->GetSize();

@@ -30,7 +30,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		
 		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
@@ -40,7 +40,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	private:
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeF DefaultSize;
 	};
 }
 

@@ -43,7 +43,7 @@ namespace OSHGui
 		 *
 		 * @param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
@@ -120,7 +120,7 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -140,7 +140,7 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
 	private:
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeF DefaultSize;
 
 		void CalculateButtonLocationAndCount();
 
@@ -164,7 +164,7 @@ namespace OSHGui
 			void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 
-			virtual bool Intersect(const Drawing::Point &point) const override;
+			virtual bool Intersect(const Drawing::PointF &point) const override;
 			virtual void CalculateAbsoluteLocation() override;
 
 			virtual void Render(Drawing::IRenderer *renderer) override;
@@ -173,7 +173,7 @@ namespace OSHGui
 			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
 		private:
-			static const Drawing::Point DefaultLabelOffset;
+			static const Drawing::PointF DefaultLabelOffset;
 
 			TabPageButtonBinding *binding;
 			Label *label;
@@ -187,11 +187,11 @@ namespace OSHGui
 		class TabControlSwitchButton : public Control
 		{
 		public:
-			static const Drawing::Size DefaultSize;
+			static const Drawing::SizeF DefaultSize;
 
 			TabControlSwitchButton(int direction);
 
-			virtual bool Intersect(const Drawing::Point &point) const override;
+			virtual bool Intersect(const Drawing::PointF &point) const override;
 
 			virtual void Render(Drawing::IRenderer *renderer) override;
 

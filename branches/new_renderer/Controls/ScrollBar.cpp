@@ -14,7 +14,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ScrollBar::DefaultSize(14, 110);
+	const Drawing::SizeF ScrollBar::DefaultSize(14, 110);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace OSHGui
 		AddSubControl(downButton);
 
 		SetSize(DefaultSize);
-		trackLocation = Drawing::Point(0, upButton->GetBottom() + 1);
+		trackLocation = Drawing::PointF(0, upButton->GetBottom() + 1);
 
 		ApplyTheme(Application::Instance()->GetTheme());
 
@@ -58,16 +58,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetSize(const Drawing::Size &size)
+	void ScrollBar::SetSize(const Drawing::SizeF &size)
 	{
 		ContainerControl::SetSize(size);
 
-		upButton->SetSize(Drawing::Size(size.Width, upButton->GetHeight()));
-		downButton->SetSize(Drawing::Size(size.Width, downButton->GetHeight()));
+		upButton->SetSize(Drawing::SizeF(size.Width, upButton->GetHeight()));
+		downButton->SetSize(Drawing::SizeF(size.Width, downButton->GetHeight()));
 
 		downButton->SetLocation(0, size.Height - downButton->GetHeight());
 
-		trackSize = Drawing::Size(size.Width, size.Height - 2 - upButton->GetHeight() * 2);
+		trackSize = Drawing::SizeF(size.Width, size.Height - 2 - upButton->GetHeight() * 2);
 
 		sliderSize.Width = size.Width;
 		sliderSize.Height = trackSize.Height / (maximum + 1);
@@ -156,7 +156,7 @@ namespace OSHGui
 		sliderAbsoluteLocation.Top = absoluteLocation.Top + sliderLocation.Top;
 	}
 	//---------------------------------------------------------------------------
-	bool ScrollBar::Intersect(const Drawing::Point &point) const
+	bool ScrollBar::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation.OffsetEx(0, upButton->GetHeight()), size.InflateEx(0, -upButton->GetHeight() * 2), point);
 	}
@@ -277,7 +277,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//ScrollBar::ScrollBarButton
 	//---------------------------------------------------------------------------
-	const Drawing::Size ScrollBar::ScrollBarButton::DefaultButtonSize(14, 14);
+	const Drawing::SizeF ScrollBar::ScrollBarButton::DefaultButtonSize(14, 14);
 	//---------------------------------------------------------------------------
 	ScrollBar::ScrollBarButton::ScrollBarButton(int direction)
 		: Control()
@@ -290,14 +290,14 @@ namespace OSHGui
 		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::ScrollBarButton::SetSize(const Drawing::Size &size)
+	void ScrollBar::ScrollBarButton::SetSize(const Drawing::SizeF &size)
 	{
 		Control::SetSize(size);
 
-		iconLocation = absoluteLocation + Drawing::Point(size.Width / 2, size.Height / 2);
+		iconLocation = absoluteLocation + Drawing::PointF(size.Width / 2, size.Height / 2);
 	}
 	//---------------------------------------------------------------------------
-	bool ScrollBar::ScrollBarButton::Intersect(const Drawing::Point &point) const
+	bool ScrollBar::ScrollBarButton::Intersect(const Drawing::PointF &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
@@ -306,7 +306,7 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 
-		iconLocation = absoluteLocation + Drawing::Point(GetWidth() / 2, GetHeight() / 2);
+		iconLocation = absoluteLocation + Drawing::PointF(GetWidth() / 2, GetHeight() / 2);
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::ScrollBarButton::Render(Drawing::IRenderer *renderer)

@@ -10,6 +10,7 @@
 #define OSHGUI_DRAWING_POINT_HPP
 
 #include "../Exports.hpp"
+#include <utility>
 
 namespace OSHGui
 {
@@ -19,25 +20,49 @@ namespace OSHGui
 		 * Stellt ein geordnetes Paar von x- und y-Koordinaten als ganze Zahlen dar,
 		 * das einen Punkt in einem zweidimensionalen Raum definiert.
 		 */
-		class OSHGUI_EXPORT Point
+		template<typename Val>
+		class Point
 		{
 		public:
 			/**
 			 * Erstellt einen Punkt mit den Koordinaten 0/0.
 			 */
-			Point();
+			Point()
+				: X(Val()), Y(Val())
+			{
+
+			}
 			/**
 			 * Erstellt einen Punkt mit den Koordinaten X/Y.
 			 */
-			Point(int x, int y);
-			
-			friend bool operator==(const Point &lhs, const Point &rhs);
-			friend bool operator<(const Point &lhs, const Point &rhs);
+			Point(Val x, Val y)
+				: X(x), Y(y)
+			{
 
-			const Point operator-(const Point &p) const;
-			Point& operator-=(const Point &p);
-			const Point operator+(const Point &p) const;
-			Point& operator+=(const Point &p);
+			}
+
+			Point<Val>& operator+=(const Point<Val> &rhs)
+			{
+				Offset(rhs.X, rhs.Y);
+
+				return *this;
+			}
+
+			Point<Val>& operator-=(const Point<Val> &rhs)
+			{
+				Offset(-rhs.X, -rhs.Y);
+
+				return *this;
+			}
+
+			template<typename Val2>
+			Point<Val>& operator*=(const std::pair<Val2, Val2> &rhs)
+			{
+				X *= rhs.first;
+				Y *= rhs.second;
+
+				return *this;
+			}
 			
 			/**
 			 * Verschiebt den Punkt um X/Y.
@@ -45,7 +70,23 @@ namespace OSHGui
 			 * @param x
 			 * @param y
 			 */
-			void Offset(int x, int y);
+			void Offset(Val x, Val y)
+			{
+				//REMOVE ME
+
+				X += x;
+				Y += y;
+			}
+			/**
+			 * Verschiebt den Punkt um das Offset.
+			 *
+			 * @param offset
+			 */
+			void Offset(const Point<Val> &offset)
+			{
+				X += offset.X;
+				Y += offset.Y;
+			}
 			/**
 			 * Kopiert den Punkt und verschiebt ihn um X/Y.
 			 *
@@ -53,26 +94,82 @@ namespace OSHGui
 			 * @param y
 			 * @return der neue Punkt
 			 */
-			const Point OffsetEx(int x, int y) const;
+			const Point<Val> OffsetEx(Val x, Val y) const
+			{
+				//REMOVE ME
+
+				auto temp(*this);
+				temp.Offset(x, y);
+				return temp;
+			}
+			/**
+			 * Kopiert den Punkt und verschiebt ihn um das Offset.
+			 *
+			 * @param offset
+			 * @return der neue Punkt
+			 */
+			const Point<Val> OffsetEx(const Point<Val> &offset) const
+			{
+				auto temp(*this);
+				temp.Offset(offset);
+				return temp;
+			}
 			
 			union
 			{
-				int X;
-				int Left;
+				Val X;
+				Val Left;
 			};
 			union
 			{
-				int Y;
-				int Top;
+				Val Y;
+				Val Top;
 			};
 		};
 
-		bool operator==(const Point &lhs, const Point &rhs);
-		inline bool operator!=(const Point &lhs, const Point &rhs) { return !(lhs == rhs); }
-		bool operator<(const Point &lhs, const Point &rhs);
-		inline bool operator>(const Point &lhs, const Point &rhs) { return rhs < lhs; }
-		inline bool operator>=(const Point &lhs, const Point &rhs) { return !(rhs < lhs); }
-		inline bool operator<=(const Point &lhs, const Point &rhs) { return !(rhs > lhs); }
+		template<typename Val>
+		bool operator==(const Point<Val> &lhs, const Point<Val> &rhs)
+		{
+			return lhs.X == rhs.X && lhs.Y == rhs.Y;
+		}
+		template<typename Val>
+		bool operator!=(const Point<Val> &lhs, const Point<Val> &rhs) { return !(lhs == rhs); }
+		template<typename Val>
+		bool operator<(const Point<Val> &lhs, const Point<Val> &rhs)
+		{
+			return lhs.X < rhs.X && lhs.Y < rhs.Y;
+		}
+		template<typename Val>
+		bool operator>(const Point<Val> &lhs, const Point<Val> &rhs) { return rhs < lhs; }
+		template<typename Val>
+		bool operator>=(const Point<Val> &lhs, const Point<Val> &rhs) { return !(rhs < lhs); }
+		template<typename Val>
+		bool operator<=(const Point<Val> &lhs, const Point<Val> &rhs) { return !(rhs > lhs); }
+
+		template<typename Val, typename Val2>
+		const Point<Val> operator+(const Point<Val> &lhs, const Point<Val2> &rhs)
+		{
+			auto temp(lhs);
+			temp += rhs;
+			return temp;
+		}
+		template<typename Val, typename Val2>
+		const Point<Val> operator-(const Point<Val> &lhs, const Point<Val2> &rhs)
+		{
+			auto temp(lhs);
+			temp -= rhs;
+			return temp;
+		}
+		template<typename Val, typename Val2>
+		const Point<Val> operator*(const Point<Val> &lhs, const std::pair<Val2, Val2> &rhs)
+		{
+			auto temp(lhs);
+			temp *= rhs;
+			return temp;
+		}
+
+		typedef Point<int> PointI;
+		typedef Point<float> PointF;
 	}
 }
 
