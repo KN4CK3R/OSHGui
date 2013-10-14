@@ -1,7 +1,6 @@
 #include "FreeTypeFont.hpp"
 #include "Texture.hpp"
 #include "Application.hpp"
-#include <fstream>
 
 namespace OSHGui
 {
@@ -102,8 +101,6 @@ namespace OSHGui
 				return;
 			}
 
-			std::ofstream o("C:/cegui2.txt", std::ios::app);
-
 			auto bck = start;
 			auto end = glyphMap.upper_bound(endCodepoint);
 			while (true)
@@ -113,8 +110,6 @@ namespace OSHGui
 				{
 					break;
 				}
-
-				o << textureSize << "\n" << start->first << "\n" << end->first << "\n";
 
 				auto texture = Application::Instance()->GetRenderer_()->CreateTexture(SizeF(textureSize, textureSize));
 				glyphTextures.push_back(texture);
@@ -138,8 +133,6 @@ namespace OSHGui
 				 */
 				while (start != glyphMap.end())
 				{
-					o << start->first << "\n";
-
 					// Check if we finished rendering all the required glyphs
 					finished |= (start == end);
 
@@ -159,8 +152,6 @@ namespace OSHGui
 							auto glyphWidth = fontFace->glyph->bitmap.width + GLYPH_PADDING;
 							auto glyphHeight = fontFace->glyph->bitmap.rows + GLYPH_PADDING;
 
-							o << glyphWidth << " " << glyphHeight << " ";
-
 							auto next = x + glyphWidth;
 							if (next > textureSize)
 							{
@@ -175,14 +166,10 @@ namespace OSHGui
 								break;
 							}
 
-							o << x << " " << next << " " << y << " " << bottom << "\n";
-
 							DrawGlyphToBuffer(buffer.data() + (y * textureSize) + x, textureSize);
 
 							RectangleF area(x, y, glyphWidth - GLYPH_PADDING, glyphHeight - GLYPH_PADDING);
 							PointF offset(fontFace->glyph->metrics.horiBearingX * FT_POS_COEFFICIENT, -fontFace->glyph->metrics.horiBearingY * FT_POS_COEFFICIENT);
-
-							o << area.GetLeft() << " " << area.GetTop() << " " << area.GetWidth() << " " << area.GetHeight() << " " << offset.X << " " << offset.Y << "\n";
 
 							auto image = std::make_shared<BasicImage>(texture, area, offset, AutoScaleMode::Disabled, nativeResolution);
 							glyphImages.push_back(image);
@@ -193,8 +180,6 @@ namespace OSHGui
 							{
 								yb = bottom;
 							}
-
-							o << x << " " << yb << "\n";
 						}
 					}
 

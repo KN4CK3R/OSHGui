@@ -246,12 +246,17 @@ namespace OSHGui
 		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, const PointF &origin)
 		{
 			font->DrawText(*buffer, text, origin, nullptr, color);
-			
 		}
 
 		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y)
 		{
 			DrawString(text, font, color, PointF(x, y));
+		}
+
+		void Graphics::Rotate(const PointF &pivot, const Vector &angles)
+		{
+			buffer->SetPivot(Vector(pivot.X, pivot.Y, 0.0f));
+			buffer->SetRotation(Quaternion::eulerAnglesDegrees(angles.x, angles.y, angles.z));
 		}
 	}
 }

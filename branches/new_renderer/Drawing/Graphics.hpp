@@ -135,6 +135,8 @@ namespace OSHGui
 
 			void DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y);
 
+			void Rotate(const PointF &pivot, const Vector &angles);
+
 		private:
 			GeometryBufferPtr &buffer;
 		};
