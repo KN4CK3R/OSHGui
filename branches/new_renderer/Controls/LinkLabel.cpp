@@ -51,4 +51,14 @@ namespace OSHGui
 		Label::Render(renderer);
 	}
 	//---------------------------------------------------------------------------
+	void LinkLabel::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Label::PopulateGeometry();
+
+		Graphics g(geometry);
+		g.FillRectangle(GetForeColor(), RectangleF(PointF(GetLeft(), GetHeight()), SizeF(GetWidth(), 1)));
+	}
+	//---------------------------------------------------------------------------
 }

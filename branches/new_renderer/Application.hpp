@@ -12,6 +12,8 @@
 #include <memory>
 #include <vector>
 #include "Drawing/Renderer.hpp"
+#include "Drawing/RenderContext.hpp"
+#include "Drawing/Font.hpp"
 #include "Drawing/IRenderer.hpp"
 #include "Drawing/Theme.hpp"
 #include "Misc/DateTime.hpp"
@@ -40,13 +42,15 @@ namespace OSHGui
 		friend Form;
 		friend Timer;
 
+		class GuiRenderSurface;
+
 	public:
 		/**
 		 * Initialisiert die Application-Klasse.
 		 *
 		 * @param renderer Instanz des verwendeten Renderers
 		 */
-		void Create(Drawing::IRenderer *renderer, Drawing::Renderer *renderer_ = nullptr);
+		static void Create(Drawing::IRenderer *renderer_, Drawing::RendererPtr renderer = nullptr);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -66,7 +70,11 @@ namespace OSHGui
 		 * @return renderer
 		 */
 		Drawing::IRenderer* GetRenderer() const;
-		Drawing::Renderer* GetRenderer_() { return renderer_; }
+
+		Drawing::RendererPtr GetRenderer_() { return renderer; }
+		GuiRenderSurface& GetRenderSurface();
+		Drawing::FontPtr& GetDefaultFont();
+		void SetDefaultFont(Drawing::FontPtr &defaultFont);
 		/**
 		 * Ruft die aktuelle Mausposition ab.
 		 *
@@ -151,12 +159,31 @@ namespace OSHGui
 		 */
 		static Application* Instance();
 
+		class GuiRenderSurface : public Drawing::RenderSurface
+		{
+		public:
+			GuiRenderSurface(Drawing::RenderTarget &target);
+
+			void Invalidate();
+
+			virtual void Draw() override;
+
+		private:
+			friend void Application::Render();
+
+			bool needsRedraw;
+		};
+
 	private:
 		static Application *instance;
-		Application();
+		Application(Drawing::RendererPtr renderer);
+
+		Drawing::RendererPtr renderer;
+		GuiRenderSurface guiSurface;
+		Drawing::FontPtr defaultFont;
+
+		Drawing::IRenderer *renderer__;
 		
-		Drawing::IRenderer *renderer;
-		Drawing::Renderer *renderer_;
 		Drawing::Theme defaultTheme;
 		Drawing::Theme currentTheme;
 	

@@ -66,8 +66,6 @@ namespace OSHGui
 			//! Collection of GeometryBuffer objects that comprise this RenderQueue.
 			BufferList buffers;
 		};
-
-		typedef std::shared_ptr<RenderQueue> RenderQueuePtr;
 	}
 }
 

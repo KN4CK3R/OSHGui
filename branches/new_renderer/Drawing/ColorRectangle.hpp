@@ -27,6 +27,7 @@ namespace OSHGui
 			*/
 			ColorRectangle(const Color &col);
 
+			ColorRectangle(const Color &top, const Color &bottom);
 
 			/*!
 			\brief

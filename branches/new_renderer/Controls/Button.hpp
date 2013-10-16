@@ -26,7 +26,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Button();
-		virtual ~Button();
 
 		/**
 		 * Legt fest, ob sich die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
@@ -84,12 +83,16 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 	protected:
 		virtual void CalculateLabelLocation();
+		
+		virtual void PopulateGeometry();
 
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
-		Label *label;
+		std::unique_ptr<Label> label;
 
 	private:
 		static const Drawing::SizeF DefaultSize;

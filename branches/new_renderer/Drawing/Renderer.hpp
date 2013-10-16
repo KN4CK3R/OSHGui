@@ -222,6 +222,8 @@ namespace OSHGui
 			*/
 			virtual std::uint32_t GetMaximumTextureSize() const = 0;
 		};
+
+		typedef std::shared_ptr<Renderer> RendererPtr;
 	}
 }
 

@@ -16,11 +16,13 @@
 
 namespace OSHGui
 {
-	Application* Application::instance = new Application();
+	Application* Application::instance;
 	//---------------------------------------------------------------------------
-	Application::Application()
-		: isEnabled(false),
-		  renderer(nullptr),
+	Application::Application(Drawing::RendererPtr _renderer)
+		: renderer(std::move(_renderer)),
+		  guiSurface(*renderer->GetDefaultRenderTarget()),
+		  isEnabled(false),
+		  renderer__(nullptr),
 		  now(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
 		  CaptureControl(nullptr),
@@ -59,7 +61,7 @@ namespace OSHGui
 		return instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::IRenderer *renderer, Drawing::Renderer *renderer_)
+	void Application::Create(Drawing::IRenderer *renderer_, Drawing::RendererPtr renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (renderer == nullptr)
@@ -67,11 +69,10 @@ namespace OSHGui
 			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
 		}
 		#endif
-		
-		this->renderer = renderer;
-		this->renderer_ = renderer_;
 
-		mouse.Cursor = Cursors::Get(Cursors::Default);
+		instance = new Application(std::move(renderer));
+		instance->renderer__ = renderer_;
+		instance->mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
 	const bool Application::IsEnabled() const
@@ -86,9 +87,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::IRenderer* Application::GetRenderer() const
 	{
-		return renderer;
+		return renderer__;
 	}
 	//---------------------------------------------------------------------------
+	Application::GuiRenderSurface& Application::GetRenderSurface()
+	{
+		return guiSurface;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::FontPtr& Application::GetDefaultFont()
+	{
+		return defaultFont;
+	}
+	//---------------------------------------------------------------------------
+	void Application::SetDefaultFont(Drawing::FontPtr &_defaultFont)
+	{
+		defaultFont = _defaultFont;
+	}
 	const Drawing::PointF& Application::GetCursorLocation() const
 	{
 		return mouse.Location;
@@ -275,7 +290,7 @@ namespace OSHGui
 	void Application::Render()
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (renderer == nullptr)
+		if (renderer__ == nullptr)
 		{
 			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
 		}
@@ -288,30 +303,37 @@ namespace OSHGui
 		
 		now = Misc::DateTime::GetNow();
 
-		Drawing::TextureAnimator::UpdateFrames();
+		//Drawing::TextureAnimator::UpdateFrames();
 
 		timerManager.Update();
 
 		formManager.RemoveUnregisteredForms();
 
-		std::shared_ptr<Form> foreMost = formManager.GetForeMost();
-		for (auto it = formManager.GetEnumerator(); it(); ++it)
+		if (guiSurface.needsRedraw)
 		{
-			std::shared_ptr<Form> &form = *it;
-			if (form != foreMost)
+			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
+			for (auto it = formManager.GetEnumerator(); it(); ++it)
 			{
-				form->Render(renderer);
+				std::shared_ptr<Form> &form = *it;
+				if (form != foreMost)
+				{
+					form->Render_();
+				}
 			}
+			if (foreMost)
+			{
+				foreMost->Render_();
+			}
+
+			guiSurface.needsRedraw = false;
 		}
-		if (foreMost)
-		{
-			foreMost->Render(renderer);
-		}
-		
+
 		if (mouse.Enabled)
 		{
-			mouse.Cursor->Render(renderer, mouse.Location);
+			//mouse.Cursor->Render(renderer__, mouse.Location);
 		}
+
+		guiSurface.Draw();
 	}
 	//---------------------------------------------------------------------------
 	void Application::RegisterHotkey(const Hotkey &hotkey)
@@ -326,4 +348,31 @@ namespace OSHGui
 		hotkeys.erase(std::remove(std::begin(hotkeys), std::end(hotkeys), hotkey), std::end(hotkeys));
 	}
 	//---------------------------------------------------------------------------
+	//
+	//---------------------------------------------------------------------------
+	Application::GuiRenderSurface::GuiRenderSurface(Drawing::RenderTarget &target)
+		: RenderSurface(target),
+		  needsRedraw(true)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void Application::GuiRenderSurface::Invalidate()
+	{
+		needsRedraw = true;
+
+		Reset();
+	}
+	//---------------------------------------------------------------------------
+	void Application::GuiRenderSurface::Draw()
+	{
+		if (needsRedraw)
+		{
+
+		}
+
+		RenderSurface::Draw();
+	}
+	//---------------------------------------------------------------------------
+
 }

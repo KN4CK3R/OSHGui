@@ -40,7 +40,7 @@ namespace OSHGui
 				RenderQueue object holding the geometry that should be drawn to the
 				RenderTarget.
 			*/
-			virtual void Draw(const std::shared_ptr<RenderQueue> &queue) = 0;
+			virtual void Draw(const RenderQueue &queue) = 0;
 
 			/*!
 			\brief

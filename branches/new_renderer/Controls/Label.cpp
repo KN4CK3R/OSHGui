@@ -67,7 +67,7 @@ namespace OSHGui
 		{
 			return;
 		}
-		
+
 		Drawing::SizeF renderSize = GetParent()->GetSize();
 		if (backColor.A != 0)
 		{
@@ -77,6 +77,21 @@ namespace OSHGui
 	
 		renderer->SetRenderColor(foreColor);
 		renderer->RenderText(font, absoluteLocation, renderSize, textHelper.GetText());
+	}
+	//---------------------------------------------------------------------------
+	void Label::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		if (backColor.A != 0)
+		{
+			g.FillRectangle(GetBackColor(), RectangleF(PointF(), GetSize()));
+		}
+		
+		g.DrawString(textHelper.GetText(), GetFont_(), GetForeColor(), PointF(0, 0));
 	}
 	//---------------------------------------------------------------------------
 }

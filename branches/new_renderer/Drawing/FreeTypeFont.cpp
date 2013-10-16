@@ -14,12 +14,30 @@ namespace OSHGui
 		FT_Library freeType;
 		int freeTypeUsageCounter = 0;
 		//---------------------------------------------------------------------------
-		FreeTypeFont::FreeTypeFont(const float _pointSize, const bool _antiAliased, const Misc::AnsiString &filename, const AutoScaleMode autoScaleMode, const SizeF &nativeResoultion, const float _lineSpacing)
-			: Font(filename, autoScaleMode, nativeResoultion),
+		FreeTypeFont::FreeTypeFont(const Misc::AnsiString &filename, const float _pointSize, const bool _antiAliased, const AutoScaleMode autoScaleMode, const SizeF &nativeResoultion, const float _lineSpacing)
+			: Font(autoScaleMode, nativeResoultion),
 			  lineSpacing(_lineSpacing),
 			  pointSize(_pointSize),
 			  antiAliased(_antiAliased),
 			  fontFace(nullptr)
+		{
+			if (!freeTypeUsageCounter++)
+			{
+				FT_Init_FreeType(&freeType);
+			}
+
+			data.LoadFromFile(filename);
+
+			UpdateFont();
+		}
+		//---------------------------------------------------------------------------
+		FreeTypeFont::FreeTypeFont(const Misc::RawDataContainer &_data, const float _pointSize, const bool _antiAliased, const AutoScaleMode autoScaleMode, const SizeF &nativeResoultion, const float _lineSpacing)
+			: Font(autoScaleMode, nativeResoultion),
+			lineSpacing(_lineSpacing),
+			pointSize(_pointSize),
+			antiAliased(_antiAliased),
+			fontFace(nullptr),
+			data(_data)
 		{
 			if (!freeTypeUsageCounter++)
 			{
@@ -263,8 +281,6 @@ namespace OSHGui
 		void FreeTypeFont::UpdateFont()
 		{
 			Free();
-
-			data.LoadFromFile(filename);
 
 			FT_Error error;
 			if ((error = FT_New_Memory_Face(freeType, data.GetDataPointer(), static_cast<FT_Long>(data.GetSize()), 0, &fontFace)) != 0)

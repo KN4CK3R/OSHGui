@@ -20,6 +20,8 @@
 #include "../Drawing/Rectangle.hpp"
 #include "../Drawing/IRenderer.hpp"
 #include "../Drawing/Renderer.hpp"
+#include "../Drawing/RenderContext.hpp"
+#include "../Drawing/Graphics.hpp"
 #include "../Drawing/Theme.hpp"
 
 #include "../Misc/Strings.hpp"
@@ -405,6 +407,12 @@ namespace OSHGui
 		 */
 		const std::shared_ptr<Drawing::IFont>& GetFont() const;
 		/**
+		 * Ruft die Schriftart des Texts im Steuerelement ab.
+		 *
+		 * @return font
+		 */
+		const Drawing::FontPtr& GetFont_() const;
+		/**
 		 * Legt den angezeigten Cursor fest, wenn sich die Maus über dem Steuerelement befindet.
 		 *
 		 * @param cursor
@@ -606,11 +614,19 @@ namespace OSHGui
 		 */
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
+		 * Veranlasst das Control sich neu zu zeichnen.
+		 */
+		void Invalidate();
+		/**
 		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
 		 *
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer);
+		/**
+		 * Zeichnet das Steuerelement.
+		 */
+		virtual void Render_();
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *
@@ -625,6 +641,9 @@ namespace OSHGui
 		 * @return Stringrepresentation
 		 */
 		static Misc::AnsiString ControlTypeToString(CONTROL_TYPE controlType);
+
+	private:
+		void GetRenderContext(Drawing::RenderContext &context) const;
 
 	protected:
 		/**
@@ -648,6 +667,11 @@ namespace OSHGui
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard);
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
+
+		virtual void DrawSelf(Drawing::RenderContext &context);
+		virtual void BufferGeometry(Drawing::RenderContext &context);
+		virtual void QueueGeometry(Drawing::RenderContext &context);
+		virtual void PopulateGeometry();
 		
 		Misc::AnsiString name;
 		CONTROL_TYPE type;
@@ -690,7 +714,12 @@ namespace OSHGui
 		Drawing::Color mouseOverFocusColor;
 		
 		std::shared_ptr<Drawing::IFont> font;
+		Drawing::FontPtr font_;
 		std::shared_ptr<Cursor> cursor;
+
+		bool needsRedraw;
+		Drawing::GeometryBufferPtr geometry;
+		std::unique_ptr<Drawing::RenderSurface> surface;
 
 		Control *parent;
 

@@ -66,11 +66,9 @@ namespace OSHGui
 				report for this font, regardless of what is mentioned in the font file
 				itself.
 			*/
-			FreeTypeFont(const float pointSize,
-						 const bool antiAliased, const Misc::AnsiString& filename,
-						 const AutoScaleMode autoScaleMode = AutoScaleMode::Disabled,
-						 const SizeF& nativeResoultion = SizeF(640.0f, 480.0f),
-						 const float lineSpacing = 0.0f);
+			FreeTypeFont(const Misc::AnsiString &filename, const float pointSize, const bool antiAliased, const AutoScaleMode autoScaleMode = AutoScaleMode::Disabled, const SizeF &nativeResoultion = SizeF(640.0f, 480.0f), const float lineSpacing = 0.0f);
+
+			FreeTypeFont(const Misc::RawDataContainer &data, const float pointSize, const bool antiAliased, const AutoScaleMode autoScaleMode = AutoScaleMode::Disabled, const SizeF &nativeResoultion = SizeF(640.0f, 480.0f), const float lineSpacing = 0.0f);
 
 			//! Destructor.
 			~FreeTypeFont();

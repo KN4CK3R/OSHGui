@@ -39,6 +39,9 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
+
+	protected:
+		virtual void PopulateGeometry() override;
 	};
 }
 

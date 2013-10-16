@@ -18,6 +18,15 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
+		ColorRectangle::ColorRectangle(const Color &top, const Color &bottom)
+			: TopLeft(top),
+			  TopRight(top),
+			  BottomLeft(bottom),
+			  BottomRight(bottom)
+		{
+
+		}
+		//---------------------------------------------------------------------------
 		ColorRectangle::ColorRectangle(const Color &topLeft, const Color &topRight, const Color &bottomLeft, const Color &bottomRight)
 			: TopLeft(topLeft),
 			  TopRight(topRight),

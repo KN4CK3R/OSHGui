@@ -25,7 +25,7 @@ namespace OSHGui
 	/**
 	 * Gibt Bezeichner an, die den Rückgabewert eines Dialogfelds angeben.
 	 */
-	enum DialogResult
+	enum class DialogResult
 	{
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Nothing.
@@ -163,7 +163,11 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 	protected:
+		virtual void PopulateGeometry() override;
+
 		DialogResult dialogResult;
 
 	private:
@@ -194,6 +198,8 @@ namespace OSHGui
 				virtual void Render(Drawing::IRenderer *renderer) override;
 
 			protected:
+				virtual void PopulateGeometry() override;
+
 				virtual void OnMouseUp(const MouseMessage &mouse) override;
 
 			private:
@@ -215,6 +221,8 @@ namespace OSHGui
 			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		protected:
+			virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 			virtual void OnMouseDown(const MouseMessage &mouse) override;
 			virtual void OnMouseMove(const MouseMessage &mouse) override;
 			virtual void OnMouseUp(const MouseMessage &mouse) override;

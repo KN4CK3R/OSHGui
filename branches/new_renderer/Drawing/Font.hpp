@@ -29,9 +29,6 @@ namespace OSHGui
 			//! Destructor.
 			virtual ~Font();
 
-			//! Return the filename of the used font.
-			const Misc::AnsiString& GetFileName() const;
-    
 			/*!
 			\brief
 				Return whether this Font can draw the specified code-point
@@ -325,7 +322,7 @@ namespace OSHGui
 
 		protected:
 			//! Constructor.
-			Font(const Misc::AnsiString& filename, const AutoScaleMode auto_scaled, const SizeF& native_res);
+			Font(const AutoScaleMode auto_scaled, const SizeF& native_res);
 
 			/*!
 			\brief

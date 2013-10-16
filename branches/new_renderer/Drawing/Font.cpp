@@ -10,11 +10,10 @@ namespace OSHGui
 		// must be a power of two
 		const auto GLYPHS_PER_PAGE = 256;
 		//---------------------------------------------------------------------------
-		Font::Font(const Misc::AnsiString &_filename, const AutoScaleMode _autoScaleMode, const SizeF &_nativeResolution)
-			: filename(_filename),
-			  ascender(0.f),
-			  descender(0.f),
-			  height(0.f),
+		Font::Font(const AutoScaleMode _autoScaleMode, const SizeF &_nativeResolution)
+			: ascender(0.0f),
+			  descender(0.0f),
+			  height(0.0f),
 			  autoScaleMode(_autoScaleMode),
 			  nativeResolution(_nativeResolution),
 			  maximumCodepoint(0)
@@ -26,11 +25,6 @@ namespace OSHGui
 		Font::~Font()
 		{
 			
-		}
-		//---------------------------------------------------------------------------
-		const Misc::AnsiString& Font::GetFileName() const
-		{
-			return filename;
 		}
 		//---------------------------------------------------------------------------
 		void Font::SetMaxCodepoint(std::uint32_t codepoint)

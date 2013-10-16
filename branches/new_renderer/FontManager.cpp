@@ -18,16 +18,6 @@ namespace OSHGui
 {
 	using namespace Drawing;
 
-	FontPtr& FontManager::GetDefaultFont()
-	{
-		return defaultFont;
-	}
-	//---------------------------------------------------------------------------
-	void FontManager::SetDefaultFont(FontPtr &defaultFont)
-	{
-		this->defaultFont = defaultFont;
-	}
-	//---------------------------------------------------------------------------
 	FontPtr FontManager::LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased)
 	{
 		return LoadFont(name, pointSize, antiAliased, AutoScaleMode::Disabled);
@@ -103,7 +93,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode)
 	{
-		return std::make_shared<FreeTypeFont>(pointSize, antiAliased, filename, autoScaleMode);
+		return std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased, autoScaleMode);
+	}
+	//---------------------------------------------------------------------------
+	FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased)
+	{
+		return LoadFontFromMemory(data, pointSize, antiAliased, AutoScaleMode::Disabled);
+	}
+	//---------------------------------------------------------------------------
+	FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode)
+	{
+		return std::make_shared<FreeTypeFont>(data, pointSize, antiAliased, autoScaleMode);
 	}
 	//---------------------------------------------------------------------------
 }

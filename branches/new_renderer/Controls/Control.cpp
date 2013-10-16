@@ -8,6 +8,8 @@
 
 #include "Control.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../FontManager.hpp"
+#include "../Drawing/Vector.hpp"
 
 namespace OSHGui
 {
@@ -29,9 +31,11 @@ namespace OSHGui
 		  hasCaptured(false),
 		  autoSize(false),
 		  canRaiseEvents(true),
+		  needsRedraw(true),
 		  font(Application::Instance()->GetRenderer()->GetDefaultFont()),
 		  cursor(Cursors::Get(Cursors::Default)),
-		  mouseOverFocusColor(0, 20, 20, 20)
+		  mouseOverFocusColor(0, 20, 20, 20),
+		  geometry(Application::Instance()->GetRenderer_()->CreateGeometryBuffer())
 	{
 		
 	}
@@ -276,6 +280,11 @@ namespace OSHGui
 		return font;
 	}
 	//---------------------------------------------------------------------------
+	const Drawing::FontPtr& Control::GetFont_() const
+	{
+		return font_ ? font_ : Application::Instance()->GetDefaultFont();
+	}
+	//---------------------------------------------------------------------------
 	void Control::SetCursor(const std::shared_ptr<Cursor> &cursor)
 	{
 		this->cursor = cursor;
@@ -380,6 +389,28 @@ namespace OSHGui
 		return parent;
 	}
 	//---------------------------------------------------------------------------
+	void Control::GetRenderContext(Drawing::RenderContext &context) const
+	{
+		if (surface)
+		{
+			context.Surface = surface.get();
+			context.Owner = this;
+			context.Offset = GetLocation();
+			context.QueueType = Drawing::RenderQueueType::Base;
+		}
+		else if (GetParent())
+		{
+			GetParent()->GetRenderContext(context);
+		}
+		else
+		{
+			context.Surface = &Application::Instance()->GetRenderSurface();
+			context.Owner = nullptr;
+			context.Offset = Drawing::PointF(0.0f, 0.0f);
+			context.QueueType = Drawing::RenderQueueType::Base;
+		}
+	}
+	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void Control::Focus()
@@ -414,14 +445,124 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::CalculateAbsoluteLocation()
 	{
-		if (parent != nullptr && parent != this)
+		if (parent != nullptr)
 		{
 			absoluteLocation = parent->absoluteLocation + location;
 		}
-		if (parent == this)
+		else
 		{
 			absoluteLocation = location;
 		}
+
+		geometry->SetTranslation(Drawing::Vector(absoluteLocation.X, absoluteLocation.Y, 0.0f));
+		//TODO: set clipping here
+	}
+	//---------------------------------------------------------------------------
+	void Control::Invalidate()
+	{
+		needsRedraw = true;
+
+		Application::Instance()->GetRenderSurface().Invalidate();
+	}
+	//---------------------------------------------------------------------------
+	void Control::Render(Drawing::IRenderer *renderer)
+	{
+		
+	}
+	//---------------------------------------------------------------------------
+	void Control::Render_()
+	{
+		using namespace Drawing;
+
+		RenderContext ctx;
+		GetRenderContext(ctx);
+
+		// clear geometry from surface if it's ours
+		if (ctx.Owner == this)
+		{
+			ctx.Surface->Reset();
+		}
+
+		// redraw if no surface set, or if surface is invalidated
+		if (!surface)// || surface->isInvalidated())
+		{
+			DrawSelf(ctx);
+
+			// render any child windows
+			/*for (ChildDrawList::iterator it = d_drawList.begin(); it != d_drawList.end(); ++it)
+			{
+				(*it)->render();
+			}*/
+		}
+
+		if (ctx.Owner == this)
+		{
+			ctx.Surface->Draw();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::DrawSelf(Drawing::RenderContext &context)
+	{
+		BufferGeometry(context);
+		QueueGeometry(context);
+	}
+	//---------------------------------------------------------------------------
+	void Control::BufferGeometry(Drawing::RenderContext &context)
+	{
+		if (needsRedraw)
+		{
+			geometry->Reset();
+
+			PopulateGeometry();
+
+			needsRedraw = false;
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::QueueGeometry(Drawing::RenderContext &context)
+	{
+		context.Surface->AddGeometry(context.QueueType, geometry);
+	}
+	//---------------------------------------------------------------------------
+	void Control::PopulateGeometry()
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void Control::ApplyTheme(const Drawing::Theme &theme)
+	{
+		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type));
+		SetForeColor(controlTheme.ForeColor);
+		SetBackColor(controlTheme.BackColor);
+	}
+	//---------------------------------------------------------------------------
+	Misc::AnsiString Control::ControlTypeToString(CONTROL_TYPE controlType)
+	{
+		switch (controlType)
+		{
+			case CONTROL_PANEL: return "panel";
+			case CONTROL_FORM: return "form";
+			case CONTROL_GROUPBOX: return "groupbox";
+			case CONTROL_LABEL: return "label";
+			case CONTROL_LINKLABEL: return "linklabel";
+			case CONTROL_BUTTON: return "button";
+			case CONTROL_CHECKBOX: return "checkbox";
+			case CONTROL_RADIOBUTTON: return "radiobutton";
+			case CONTROL_SCROLLBAR: return "scrollbar";
+			case CONTROL_LISTBOX: return "listbox";
+			case CONTROL_PROGRESSBAR: return "progressbar";
+			case CONTROL_TRACKBAR: return "trackbar";
+			case CONTROL_COMBOBOX: return "combobox";
+			case CONTROL_TEXTBOX: return "textbox";
+			case CONTROL_TIMER: return "timer";
+			case CONTROL_TABCONTROL: return "tabcontrol";
+			case CONTROL_TABPAGE: return "tabpage";
+			case CONTROL_PICTUREBOX: return "picturebox";
+			case CONTROL_COLORPICKER: return "colorpicker";
+			case CONTROL_COLORBAR: return "colorbar";
+			case CONTROL_HOTKEYCONTROL: return "hotkeycontrol";
+		}
+		throw 1;
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -492,6 +633,8 @@ namespace OSHGui
 		mouseEnterEvent.Invoke(this);
 
 		app->SetCursor(cursor);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseLeave(const MouseMessage &mouse)
@@ -501,6 +644,8 @@ namespace OSHGui
 		Application::Instance()->MouseEnteredControl = nullptr;
 
 		mouseLeaveEvent.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnGotMouseCapture()
@@ -541,6 +686,8 @@ namespace OSHGui
 			isFocused = true;
 
 			focusGotEvent.Invoke(this);
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -550,6 +697,8 @@ namespace OSHGui
 		Application::Instance()->FocusedControl = nullptr;
 
 		focusLostEvent.Invoke(this, newFocusedControl);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::OnKeyDown(const KeyboardMessage &keyboard)
@@ -665,47 +814,6 @@ namespace OSHGui
 		}
 		
 		return false;
-	}
-	//---------------------------------------------------------------------------
-	void Control::Render(Drawing::IRenderer *renderer)
-	{
-		return;
-	}
-	//---------------------------------------------------------------------------
-	void Control::ApplyTheme(const Drawing::Theme &theme)
-	{
-		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type));
-		SetForeColor(controlTheme.ForeColor);
-		SetBackColor(controlTheme.BackColor);
-	}
-	//---------------------------------------------------------------------------
-	Misc::AnsiString Control::ControlTypeToString(CONTROL_TYPE controlType)
-	{
-		switch (controlType)
-		{
-			case CONTROL_PANEL: return "panel";
-			case CONTROL_FORM: return "form";
-			case CONTROL_GROUPBOX: return "groupbox";
-			case CONTROL_LABEL: return "label";
-			case CONTROL_LINKLABEL: return "linklabel";
-			case CONTROL_BUTTON: return "button";
-			case CONTROL_CHECKBOX: return "checkbox";
-			case CONTROL_RADIOBUTTON: return "radiobutton";
-			case CONTROL_SCROLLBAR: return "scrollbar";
-			case CONTROL_LISTBOX: return "listbox";
-			case CONTROL_PROGRESSBAR: return "progressbar";
-			case CONTROL_TRACKBAR: return "trackbar";
-			case CONTROL_COMBOBOX: return "combobox";
-			case CONTROL_TEXTBOX: return "textbox";
-			case CONTROL_TIMER: return "timer";
-			case CONTROL_TABCONTROL: return "tabcontrol";
-			case CONTROL_TABPAGE: return "tabpage";
-			case CONTROL_PICTUREBOX: return "picturebox";
-			case CONTROL_COLORPICKER: return "colorpicker";
-			case CONTROL_COLORBAR: return "colorbar";
-			case CONTROL_HOTKEYCONTROL: return "hotkeycontrol";
-		}
-		throw 1;
 	}
 	//---------------------------------------------------------------------------
 }

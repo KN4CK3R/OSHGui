@@ -31,8 +31,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		CheckBox();
-		virtual ~CheckBox();
-		
+
 		/**
 		 * Legt den checked-Status fest.
 		 *
@@ -94,10 +93,14 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
+
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
 	
 	protected:
 		static const Drawing::SizeF DefaultLabelOffset;
 		static const int DefaultCheckBoxSize = 17;
+
+		virtual void PopulateGeometry() override;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
@@ -109,7 +112,7 @@ namespace OSHGui
 		
 		CheckedChangedEvent checkedChangedEvent;
 
-		Label *label;
+		std::unique_ptr<Label> label;
 	};
 }
 

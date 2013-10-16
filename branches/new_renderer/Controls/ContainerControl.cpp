@@ -202,6 +202,49 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void ContainerControl::Render_()
+	{
+		using namespace Drawing;
+
+		RenderContext ctx;
+		GetRenderContext(ctx);
+
+		// clear geometry from surface if it's ours
+		if (ctx.Owner == this)
+		{
+			ctx.Surface->Reset();
+		}
+
+		// redraw if no surface set, or if surface is invalidated
+		if (!surface)// || surface->isInvalidated())
+		{
+			DrawSelf(ctx);
+
+			Control *focusedControl = nullptr;
+			for (auto it = controls.rbegin(); it != controls.rend(); ++it)
+			{
+				Control *control = *it;
+				if (control->GetIsFocused())
+				{
+					focusedControl = control;
+				}
+				else
+				{
+					control->Render_();
+				}
+			}
+			if (focusedControl != nullptr)
+			{
+				focusedControl->Render_();
+			}
+		}
+
+		if (ctx.Owner == this)
+		{
+			ctx.Surface->Draw();
+		}
+	}
+	//---------------------------------------------------------------------------
 	void ContainerControl::ApplyTheme(const Drawing::Theme &theme)
 	{
 		Control::ApplyTheme(theme);

@@ -12,22 +12,22 @@
 #include <memory>
 #include "Exports.hpp"
 #include "Drawing/Font.hpp"
+#include "Misc/RawDataContainer.hpp"
 
 namespace OSHGui
 {
 	class OSHGUI_EXPORT FontManager
 	{
 	public:
-		Drawing::FontPtr& GetDefaultFont();
-		void SetDefaultFont(Drawing::FontPtr &defaultFont);
-
-		Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased);
-		Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
-		Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased);
-		Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
+		static Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased);
+		static Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
+		static Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased);
+		static Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
+		static Drawing::FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased);
+		static Drawing::FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
 
 	private:
-		Drawing::FontPtr defaultFont;
+		static Drawing::FontPtr defaultFont;
 	};
 }
 

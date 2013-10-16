@@ -99,6 +99,8 @@ namespace OSHGui
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
 
+		virtual void Render_() override;
+
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *

@@ -25,11 +25,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Form::Form()
 		: isModal(false),
-		  dialogResult(ResultNone)
+		  dialogResult(DialogResult::ResultNone)
 	{
 		type = CONTROL_FORM;
 		
-		parent = this;
+		parent = nullptr;//this;
 		isVisible = false;
 		isEnabled = false;
 		isFocusable = true;
@@ -149,8 +149,6 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
 	void Form::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -169,6 +167,27 @@ namespace OSHGui
 		containerPanel->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
+	void Form::DrawSelf(Drawing::RenderContext &context)
+	{
+		ContainerControl::DrawSelf(context);
+
+		captionBar->Render_();
+		containerPanel->Render_();
+	}
+	//---------------------------------------------------------------------------
+	void Form::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		g.FillRectangle(backColor - Drawing::Color(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
+		auto color = GetBackColor() - Color(0, 90, 90, 90);
+		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor(), color, color), RectangleF(PointF(1, 1), GetSize() - SizeF(2, 2)));
+		g.FillRectangle(backColor - Drawing::Color(0, 50, 50, 50), RectangleF(PointF(5, captionBar->GetBottom() + 2), SizeF(GetWidth() - 10, 1)));
+	}
+	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
 	//---------------------------------------------------------------------------
 	const Drawing::PointF Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
@@ -185,6 +204,8 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		crossAbsoluteLocation = absoluteLocation + DefaultCrossOffset;
+
+		geometry->SetTranslation(Drawing::Vector(crossAbsoluteLocation.X, crossAbsoluteLocation.Y, 0.0f));
 	}
 	//---------------------------------------------------------------------------
 	bool Form::CaptionBar::CaptionBarButton::Intersect(const Drawing::PointF &point) const
@@ -211,9 +232,27 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void Form::CaptionBar::CaptionBarButton::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		auto color = GetParent()->GetForeColor();
+
+		for (int i = 0; i < 4; ++i)
+		{
+			g.FillRectangle(color, PointF(i, i), SizeF(3, 1));
+			g.FillRectangle(color, PointF(6 - i, i), SizeF(3, 1));
+			g.FillRectangle(color, PointF(i, 7 - i), SizeF(3, 1));
+			g.FillRectangle(color, PointF(6 - i, 7 - i), SizeF(3, 1));
+		}
+	}
+	//---------------------------------------------------------------------------
 	//Form::Captionbar
 	//---------------------------------------------------------------------------
-	const Drawing::PointF Form::CaptionBar::DefaultTitleOffset(4, 2);
+	const Drawing::PointF Form::CaptionBar::DefaultTitleOffset(4, 4);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBar()
 		: ContainerControl()
@@ -225,10 +264,11 @@ namespace OSHGui
 		titleLabel->SetLocation(DefaultTitleOffset);
 		titleLabel->SetBackColor(Drawing::Color::Empty());
 
+		AddSubControl(titleLabel);
+
 		closeButton = new CaptionBarButton();
 		closeButton->SetBackColor(Drawing::Color::Empty());
 		
-		AddSubControl(titleLabel);
 		AddSubControl(closeButton);
 	}
 	//---------------------------------------------------------------------------
@@ -255,6 +295,15 @@ namespace OSHGui
 
 		closeButton->SetForeColor(color);
 		titleLabel->SetForeColor(color);
+	}
+	//---------------------------------------------------------------------------
+	void Form::CaptionBar::DrawSelf(Drawing::RenderContext &context)
+	{
+		BufferGeometry(context);
+		QueueGeometry(context);
+
+		titleLabel->Render_();
+		closeButton->Render_();
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseDown(const MouseMessage &mouse)

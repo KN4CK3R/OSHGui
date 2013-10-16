@@ -36,8 +36,6 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
 	void Panel::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -54,6 +52,21 @@ namespace OSHGui
 		}
 	
 		ContainerControl::Render(renderer);
+	}
+	//---------------------------------------------------------------------------
+	void Panel::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		if (backColor.A > 0)
+		{
+			g.FillRectangle(GetBackColor() - Color(0, 100, 100, 100), GetBounds());
+			auto color = GetBackColor() - Color(0, 90, 90, 90);
+			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor(), color, color), RectangleF(GetLocation() + PointF(1, 1), GetSize() - SizeF(2, 2)));
+		}
 	}
 	//---------------------------------------------------------------------------
 }
