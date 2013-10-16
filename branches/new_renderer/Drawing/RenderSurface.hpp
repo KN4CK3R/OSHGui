@@ -1,0 +1,43 @@
+#ifndef OSHGUI_DRAWING_RENDERSURFACE_HPP
+#define OSHGUI_DRAWING_RENDERSURFACE_HPP
+
+#include "RenderQueue.hpp"
+#include "Point.hpp"
+#include <vector>
+
+namespace OSHGui
+{
+	namespace Drawing
+	{
+		class RenderTarget;
+
+		enum class RenderQueueType
+		{
+			Underlay,
+			Base,
+			Overlay
+		};
+
+		class RenderSurface
+		{
+		public:
+			RenderSurface(RenderTarget &target);
+			virtual ~RenderSurface() { }
+
+			virtual void AddGeometry(RenderQueueType type, const GeometryBufferPtr &geometry);
+			virtual void RemoveGeometry(RenderQueueType type, const GeometryBufferPtr &geometry);
+			virtual void ResetQueue(RenderQueueType type);
+			virtual void Reset();
+
+			virtual void Draw();
+
+		private:
+			RenderTarget &target;
+
+			typedef std::vector<RenderQueue> RenderQueueList;
+			RenderQueueList queue;
+		};
+	}
+}
+
+#endif
