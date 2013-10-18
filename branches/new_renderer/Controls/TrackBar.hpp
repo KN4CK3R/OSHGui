@@ -120,6 +120,8 @@ namespace OSHGui
 
 		void SetValueInternal(int value);
 
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;
 		virtual void OnMouseClick(const MouseMessage &mouse) override;

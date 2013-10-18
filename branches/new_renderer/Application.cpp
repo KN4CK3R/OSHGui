@@ -11,7 +11,6 @@
 #include "Drawing/TextureAnimator.hpp"
 #include "Misc/Exceptions.hpp"
 #include "FormManager.hpp"
-#include "TimerManager.hpp"
 #include "Cursor/Cursors.hpp"
 
 namespace OSHGui
@@ -104,6 +103,7 @@ namespace OSHGui
 	{
 		defaultFont = _defaultFont;
 	}
+	//---------------------------------------------------------------------------
 	const Drawing::PointF& Application::GetCursorLocation() const
 	{
 		return mouse.Location;
@@ -287,6 +287,21 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
+	void Application::InjectTime()
+	{
+		now = Misc::DateTime::GetNow();
+
+		for (auto it = formManager.GetEnumerator(); it(); ++it)
+		{
+			(*it)->InjectTime(now);
+
+			for (auto it2 = (*it)->GetPostOrderEnumerator(); it2(); ++it2)
+			{
+				(*it2)->InjectTime(now);
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
 	void Application::Render()
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
@@ -301,13 +316,20 @@ namespace OSHGui
 			return;
 		}
 		
-		now = Misc::DateTime::GetNow();
+		InjectTime();
 
 		//Drawing::TextureAnimator::UpdateFrames();
 
-		timerManager.Update();
-
 		formManager.RemoveUnregisteredForms();
+
+		static Drawing::GeometryBufferPtr cursor = GetRenderer_()->CreateGeometryBuffer();
+		static bool once = true;
+		if (once)
+		{
+			once = false;
+			Drawing::Graphics g(cursor);
+			g.FillRectangle(Drawing::Color::White(), 0, 0, 3, 3);
+		}
 
 		if (guiSurface.needsRedraw)
 		{
@@ -325,11 +347,14 @@ namespace OSHGui
 				foreMost->Render_();
 			}
 
+			guiSurface.AddGeometry(Drawing::RenderQueueType::Overlay, cursor);
+
 			guiSurface.needsRedraw = false;
 		}
 
 		if (mouse.Enabled)
 		{
+			cursor->SetTranslation(Drawing::Vector(mouse.Location.X, mouse.Location.Y, 0));
 			//mouse.Cursor->Render(renderer__, mouse.Location);
 		}
 
@@ -348,7 +373,7 @@ namespace OSHGui
 		hotkeys.erase(std::remove(std::begin(hotkeys), std::end(hotkeys), hotkey), std::end(hotkeys));
 	}
 	//---------------------------------------------------------------------------
-	//
+	//Application::GuiRenderSurface
 	//---------------------------------------------------------------------------
 	Application::GuiRenderSurface::GuiRenderSurface(Drawing::RenderTarget &target)
 		: RenderSurface(target),

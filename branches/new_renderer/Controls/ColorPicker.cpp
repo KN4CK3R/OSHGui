@@ -8,6 +8,7 @@
 
 #include "ColorPicker.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Drawing/BasicImage.hpp"
 
 namespace OSHGui
 {
@@ -20,7 +21,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ColorPicker::ColorPicker()
 		: drag(false),
-		  color(Drawing::Color::White())
+		  color(Drawing::Color::White()),
+		  gradient(Application::Instance()->GetRenderer_()->CreateTexture())
 	{
 		type = CONTROL_COLORPICKER;
 		
@@ -29,11 +31,6 @@ namespace OSHGui
 		ApplyTheme(Application::Instance()->GetTheme());
 
 		SetSize(DefaultSize);
-	}
-	//---------------------------------------------------------------------------
-	ColorPicker::~ColorPicker()
-	{
-	
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -58,6 +55,8 @@ namespace OSHGui
 
 			Drawing::Color args = color;
 			colorChangedEvent.Invoke(this, args);
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -171,17 +170,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::CreateGradientTexture()
 	{
-		gradient = Application::Instance()->GetRenderer()->CreateNewTexture(size);
-	
-		gradient->BeginUpdate();
+		std::vector<std::uint32_t> buffer(GetWidth() * GetHeight());
+		auto ptr = buffer.data();
+		auto dst = reinterpret_cast<std::uint8_t*>(ptr);
 		for (int y = 0; y < GetHeight(); ++y)
 		{
 			for(int x = 0; x < GetWidth(); ++x)
 			{
-				gradient->Fill(x, y, GetColorAtPoint(x, y));
+				auto color = GetColorAtPoint(x, y);
+				*dst++ = color.R;
+				*dst++ = color.G;
+				*dst++ = color.B;
+				*dst++ = color.A;
 			}
 		}
-		gradient->EndUpdate();
+
+		gradient->LoadFromMemory(buffer.data(), GetSize(), Drawing::Texture::PixelFormat::RGBA);
 	}
 	//---------------------------------------------------------------------------
 	void ColorPicker::CalculateColorCursorLocation()
@@ -227,6 +231,25 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void ColorPicker::Render(Drawing::IRenderer *renderer)
+	{
+		
+	}
+	//---------------------------------------------------------------------------
+	void ColorPicker::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		BasicImage image(gradient, RectangleF(PointF(0, 0), GetSize()), PointF(0, 0), AutoScaleMode::Disabled, SizeF(1280, 720));
+		image.Render(*geometry, RectangleF(PointF(0, 0), GetSize()), nullptr, Color::White());
+
+		g.FillRectangle(Color::Black(), RectangleF(colorCursorLocation - PointF(2, 2), SizeF(4, 4)));
+		g.FillRectangle(Color::White(), RectangleF(colorCursorLocation - PointF(1, 1), SizeF(2, 2)));
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void ColorPicker::OnMouseDown(const MouseMessage &mouse)
@@ -247,6 +270,8 @@ namespace OSHGui
 			color = GetColorAtPoint(colorCursorLocation);
 			Drawing::Color args = color;
 			colorChangedEvent.Invoke(this, args);
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -259,30 +284,12 @@ namespace OSHGui
 			drag = false;
 
 			colorCursorLocation = mouse.Location - absoluteLocation;
-					
+			
 			color = GetColorAtPoint(colorCursorLocation);
 			Drawing::Color colorArgs = color;
 			colorChangedEvent.Invoke(this, colorArgs);
-		}
-	}
-	//---------------------------------------------------------------------------
-	void ColorPicker::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-		
-		if (gradient != 0)
-		{
-			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->RenderTexture(gradient, absoluteLocation);
-			
-			Drawing::PointF tmpLocation = (absoluteLocation + colorCursorLocation).OffsetEx(-2, -2);
-			renderer->SetRenderColor(Drawing::Color::Black());
-			renderer->Fill(tmpLocation.Left, tmpLocation.Top, 4, 4);
-			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->Fill(tmpLocation.Left + 1, tmpLocation.Top + 1, 2, 2);
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------

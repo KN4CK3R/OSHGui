@@ -9,9 +9,7 @@
 #ifndef OSHGUI_COLORBAR_HPP
 #define OSHGUI_COLORBAR_HPP
 
-#include <memory>
 #include "Control.hpp"
-#include "../Drawing/ITexture.hpp"
 
 namespace OSHGui
 {
@@ -33,7 +31,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		ColorBar();
-		virtual ~ColorBar();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -79,8 +76,9 @@ namespace OSHGui
 		static const Drawing::SizeF DefaultSize;
 		static const Drawing::SizeF DefaultBarSize;
 
-		void CreateBarTexture(int index);
 		void UpdateBars();
+
+		virtual void PopulateGeometry() override;
 
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;
@@ -90,7 +88,8 @@ namespace OSHGui
 		int barIndex;
 		bool drag[3];
 		Drawing::Color color;
-		std::vector<std::shared_ptr<Drawing::ITexture> > bars;
+
+		std::vector<Drawing::ColorRectangle> bars;
 		std::vector<Drawing::PointF> barSliderLocation;
 		std::vector<Drawing::PointF> barSliderAbsoluteLocation;
 

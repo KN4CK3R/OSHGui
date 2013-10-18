@@ -88,27 +88,27 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
-		int TimeSpan::GetDays()
+		int TimeSpan::GetDays() const
 		{
 			return (int)(ticks / TicksPerDay);
 		}
 		//---------------------------------------------------------------------------
-		int TimeSpan::GetHours()
+		int TimeSpan::GetHours() const
 		{
 			return (int)((ticks / TicksPerHour) % 24);
 		}
 		//---------------------------------------------------------------------------
-		int TimeSpan::GetMinutes()
+		int TimeSpan::GetMinutes() const
 		{
 			return (int)((ticks / TicksPerMinute) % 60);
 		}
 		//---------------------------------------------------------------------------
-		int TimeSpan::GetSeconds()
+		int TimeSpan::GetSeconds() const
 		{
 			return (int)((ticks / TicksPerSecond) % 60);
 		}
 		//---------------------------------------------------------------------------
-		int TimeSpan::GetMilliseconds()
+		int TimeSpan::GetMilliseconds() const
 		{
 			return (int)((ticks / TicksPerMillisecond) % 1000);
 		}
@@ -118,27 +118,27 @@ namespace OSHGui
 			return ticks;
 		}
 		//---------------------------------------------------------------------------
-		double TimeSpan::GetTotalDays()
+		double TimeSpan::GetTotalDays() const
 		{
 			return (double)ticks * DaysPerTick;
 		}
 		//---------------------------------------------------------------------------
-		double TimeSpan::GetTotalHours()
+		double TimeSpan::GetTotalHours() const
 		{
 			return (double)ticks * HoursPerTick;
 		}
 		//---------------------------------------------------------------------------
-		double TimeSpan::GetTotalMinutes()
+		double TimeSpan::GetTotalMinutes() const
 		{
 			return (double)ticks * MinutesPerTick;
 		}
 		//---------------------------------------------------------------------------
-		double TimeSpan::GetTotalSeconds()
+		double TimeSpan::GetTotalSeconds() const
 		{
 			return (double)ticks * SecondsPerTick;
 		}
 		//---------------------------------------------------------------------------
-		double TimeSpan::GetTotalMilliseconds()
+		double TimeSpan::GetTotalMilliseconds() const
 		{
 			double temp = (double)ticks * MillisecondsPerTick;
 			if (temp > MaxMilliSeconds)
@@ -228,7 +228,7 @@ namespace OSHGui
 			return Add(ts);
 		}
 		//---------------------------------------------------------------------------
-		TimeSpan TimeSpan::Duration()
+		TimeSpan TimeSpan::Duration() const
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks == MinValue.ticks)
@@ -239,7 +239,7 @@ namespace OSHGui
 			return TimeSpan(ticks >= 0 ? ticks : -ticks);
 		}
 		//---------------------------------------------------------------------------
-		TimeSpan TimeSpan::Negate()
+		TimeSpan TimeSpan::Negate() const
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks == MinValue.ticks)
@@ -309,7 +309,7 @@ namespace OSHGui
 			return totalSeconds * TicksPerSecond;
 		}
 		//---------------------------------------------------------------------------
-		AnsiString TimeSpan::ToString()
+		AnsiString TimeSpan::ToString() const
 		{
 			int days = GetDays();
 			int milliseconds = GetMilliseconds();

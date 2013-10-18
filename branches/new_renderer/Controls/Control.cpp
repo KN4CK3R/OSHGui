@@ -90,6 +90,8 @@ namespace OSHGui
 		{
 			OnLostFocus(nullptr);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetVisible() const
@@ -100,6 +102,8 @@ namespace OSHGui
 	void Control::SetAutoSize(bool autoSize)
 	{
 		this->autoSize = autoSize;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetAutoSize() const
@@ -161,6 +165,8 @@ namespace OSHGui
 		this->size = size;
 		
 		OnSizeChanged();
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetSize(int width, int height)
@@ -236,6 +242,8 @@ namespace OSHGui
 	void Control::SetForeColor(Drawing::Color color)
 	{
 		foreColor = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Color Control::GetForeColor() const
@@ -246,6 +254,8 @@ namespace OSHGui
 	void Control::SetBackColor(Drawing::Color color)
 	{
 		backColor = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Color Control::GetBackColor() const
@@ -256,6 +266,8 @@ namespace OSHGui
 	void Control::SetMouseOverFocusColor(Drawing::Color color)
 	{
 		mouseOverFocusColor = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Color Control::GetMouseOverFocusColor() const
@@ -273,6 +285,8 @@ namespace OSHGui
 		#endif
 		
 		this->font = font;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Drawing::IFont>& Control::GetFont() const
@@ -458,6 +472,11 @@ namespace OSHGui
 		//TODO: set clipping here
 	}
 	//---------------------------------------------------------------------------
+	void Control::InjectTime(const Misc::DateTime &time)
+	{
+
+	}
+	//---------------------------------------------------------------------------
 	void Control::Invalidate()
 	{
 		needsRedraw = true;
@@ -583,7 +602,7 @@ namespace OSHGui
 	{
 		isClicked = true;
 
-        MouseEventArgs args(mouse);
+		MouseEventArgs args(mouse);
 		args.Location -= absoluteLocation;
 		mouseDownEvent.Invoke(this, args);
 	}

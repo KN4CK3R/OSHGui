@@ -11,7 +11,7 @@
 
 #include <memory>
 #include "Control.hpp"
-#include "../Drawing/ITexture.hpp"
+#include "../Drawing/Texture.hpp"
 
 namespace OSHGui
 {
@@ -33,7 +33,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		ColorPicker();
-		virtual ~ColorPicker();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -97,13 +96,15 @@ namespace OSHGui
 		void CreateGradientTexture();
 		void CalculateColorCursorLocation();
 
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;
 		virtual void OnMouseMove(const MouseMessage &mouse) override;
 	
 		Drawing::Color color;
 		Drawing::PointF colorCursorLocation;
-		std::shared_ptr<Drawing::ITexture> gradient;
+		Drawing::TexturePtr gradient;
 
 		ColorChangedEvent colorChangedEvent;
 

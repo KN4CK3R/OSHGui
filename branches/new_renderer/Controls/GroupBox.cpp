@@ -94,30 +94,36 @@ namespace OSHGui
 		containerPanel->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
 	void GroupBox::Render(Drawing::IRenderer *renderer)
 	{
-		if (!isVisible)
-		{
-			return;
-		}
+		
+	}
+	//---------------------------------------------------------------------------
+	void GroupBox::DrawSelf(Drawing::RenderContext &context)
+	{
+		ContainerControl::DrawSelf(context);
+
+		captionLabel->Render_();
+		containerPanel->Render_();
+	}
+	//---------------------------------------------------------------------------
+	void GroupBox::PopulateGeometry()
+	{
+		using namespace Drawing;
+		
+		Graphics g(geometry);
+		g.Clear();
 
 		if (backColor.A != 0)
 		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
+			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}
-		
-		captionLabel->Render(renderer);
 
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 5, 3, 1);
-		renderer->Fill(absoluteLocation.Left + captionLabel->GetWidth() + 5, absoluteLocation.Top + 5, GetWidth() - captionLabel->GetWidth() - 6, 1);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 6, 1, GetHeight() - 7);
-		renderer->Fill(absoluteLocation.Left + GetWidth() - 1, absoluteLocation.Top + 6, 1, GetHeight() - 7);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + GetHeight() - 1, GetWidth() - 2, 1);
-
-		containerPanel->Render(renderer);
+		g.FillRectangle(GetForeColor(), PointF(1, 5), SizeF(3, 1));
+		g.FillRectangle(GetForeColor(), PointF(5 + captionLabel->GetWidth(), 5), SizeF(GetWidth() - captionLabel->GetWidth() - 6, 1));
+		g.FillRectangle(GetForeColor(), PointF(0, 6), SizeF(1, GetHeight() - 7));
+		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 6), SizeF(1, GetHeight() - 7));
+		g.FillRectangle(GetForeColor(), PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
 	}
 	//---------------------------------------------------------------------------
 }

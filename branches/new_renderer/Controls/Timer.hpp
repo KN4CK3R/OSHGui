@@ -25,14 +25,11 @@ namespace OSHGui
 	 */
 	class OSHGUI_EXPORT Timer : public Control
 	{
-		friend Application;
-
 	public:
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		Timer();
-		virtual ~Timer();
 		
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
@@ -51,7 +48,7 @@ namespace OSHGui
 		 *
 		 * @return interval
 		 */
-		long long GetInterval() const;
+		int GetInterval() const;
 		/**
 		 * Ruft das TickEvent für das Steuerelement ab.
 		 *
@@ -75,8 +72,12 @@ namespace OSHGui
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 
+	protected:
+		virtual void InjectTime(const Misc::DateTime &time) override;
+
 	private:
-		int interval;
+		Misc::TimeSpan interval;
+		Misc::DateTime next;
 
 		TickEvent tickEvent;
 	};

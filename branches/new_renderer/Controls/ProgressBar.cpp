@@ -38,17 +38,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ProgressBar::SetMin(int min)
 	{
-		if (min < max)
+		this->min = min;
+		if (min > max)
 		{
-			this->min = min;
-			Adjust();
+			max = min;
 		}
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		else
-		{
-			throw Misc::ArgumentException("min cannot be greater than max.", "min", __FILE__, __LINE__);
-		}
-		#endif
+
+		Adjust();
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMin() const
@@ -58,17 +54,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ProgressBar::SetMax(int max)
 	{
-		if (max > min)
+		this->max = max;
+		if (max < min)
 		{
-			this->max = max;
-			Adjust();
+			min = max;
 		}
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		else
-		{
-			throw Misc::ArgumentException("max cannot be lower than min.", "max", __FILE__, __LINE__);
-		}
-		#endif
+		
+		Adjust();
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMax() const
@@ -80,6 +72,8 @@ namespace OSHGui
 	{
 		this->value = value;
 		Adjust();
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetValue() const
@@ -90,6 +84,8 @@ namespace OSHGui
 	void ProgressBar::SetBarColor(Drawing::Color color)
 	{
 		barColor = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Color ProgressBar::GetBarColor() const
@@ -116,8 +112,6 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
 	void ProgressBar::Render(Drawing::IRenderer *renderer)
 	{
 		if (!isVisible)
@@ -142,6 +136,30 @@ namespace OSHGui
 		for (int i = (int)(value / ((max - min) / ((GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
 		{
 			renderer->Fill(absoluteLocation.Left + 4 + i * 12, absoluteLocation.Top + 4, 8, GetHeight() - 8);
+		}
+	}
+	//---------------------------------------------------------------------------
+	void ProgressBar::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		if (backColor.A != 0)
+		{
+			g.FillRectangle(GetBackColor(), PointF(1, 0), GetSize() - SizeF(2, 0));
+			g.FillRectangle(GetBackColor(), PointF(0, 1), GetSize() - SizeF(0, 2));
+		}
+
+		g.FillRectangle(GetForeColor(), PointF(1, 0), SizeF(GetWidth() - 2, 1));
+		g.FillRectangle(GetForeColor(), PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
+		g.FillRectangle(GetForeColor(), PointF(0, 1), SizeF(1, GetHeight() - 2));
+		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
+		
+		for (int i = (int)(value / ((max - min) / ((GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
+		{
+			g.FillRectangle(barColor, PointF(4 + i * 12, 4), SizeF(8, GetHeight() - 8));
 		}
 	}
 	//---------------------------------------------------------------------------

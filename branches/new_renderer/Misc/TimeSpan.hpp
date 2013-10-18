@@ -129,70 +129,70 @@ namespace OSHGui
 			 *
 			 * @return die Tage
 			 */
-			int GetDays();
+			int GetDays() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Tagen und
 			 * Bruchteilen von Tagen ab.
 			 *
 			 * @return die ganzen Tage und Bruchteile
 			 */
-			double GetTotalDays();
+			double GetTotalDays() const;
 			/**
 			 * Ruft die Stundenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
 			 * @return die Stunden
 			 */
-			int GetHours();
+			int GetHours() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Stunden und
 			 * Bruchteilen von Stunden ab.
 			 *
 			 * @return die ganzen Stunden und Bruchteile
 			 */
-			double GetTotalHours();
+			double GetTotalHours() const;
 			/**
 			 * Ruft die Minutenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
 			 * @return die Minuten
 			 */
-			int GetMinutes();
+			int GetMinutes() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Minuten und
 			 * Bruchteilen von Minuten ab.
 			 *
 			 * @return die ganzen Minuten und Bruchteile
 			 */
-			double GetTotalMinutes();
+			double GetTotalMinutes() const;
 			/**
 			 * Ruft die Sekundenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
 			 * @return die Sekunden
 			 */
-			int GetSeconds();
+			int GetSeconds() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Sekunden und
 			 * Bruchteilen von Sekunden ab.
 			 *
 			 * @return die ganzen Sekunden und Bruchteile
 			 */
-			double GetTotalSeconds();
+			double GetTotalSeconds() const;
 			/**
 			 * Ruft die Millisekundenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
 			 * @return die Millisekunden
 			 */
-			int GetMilliseconds();
+			int GetMilliseconds() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Millisekunden und
 			 * Bruchteilen von Millisekunden ab.
 			 *
 			 * @return die ganzen Millisekunden und Bruchteile
 			 */
-			double GetTotalMilliseconds();
+			double GetTotalMilliseconds() const;
 			/**
 			 * Ruft die Anzahl der Ticks des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
@@ -230,13 +230,13 @@ namespace OSHGui
 			 *
 			 * @return die TimeSpan
 			 */
-			TimeSpan Duration();
+			TimeSpan Duration() const;
 			/**
 			 * Gibt eine TimeSpan zurück, deren Wert der negierte Wert dieser Instanz ist.
 			 *
 			 * @return die TimeSpan
 			 */
-			TimeSpan Negate();
+			TimeSpan Negate() const;
 			
 			/**
 			 * Gibt eine TimeSpan zurück, die eine angegebene Anzahl von Tagen darstellt.
@@ -288,7 +288,7 @@ namespace OSHGui
 			/**
 			 * Gibt die Zeichenfolgendarstellung des Werts dieser Instanz zurück.
 			 */
-			AnsiString ToString();
+			AnsiString ToString() const;
 		};
 	}
 }

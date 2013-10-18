@@ -152,8 +152,12 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
+
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
 	
 	protected:
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual void OnMouseScroll(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;

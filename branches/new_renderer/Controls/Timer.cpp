@@ -7,9 +7,6 @@
  */
 
 #include "Timer.hpp"
-#include "Control.hpp"
-#include "../Application.hpp"
-#include "../TimerManager.hpp"
 #include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
@@ -18,60 +15,40 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Timer::Timer()
-		: interval(100)
+		: interval(Misc::TimeSpan::FromMilliseconds(100))
 	{
 		type = CONTROL_TIMER;
 	
-		isEnabled = false;
-	}
-	//---------------------------------------------------------------------------
-	Timer::~Timer()
-	{
 		SetEnabled(false);
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Timer::SetEnabled(bool isEnabled)
+	void Timer::SetEnabled(bool _isEnabled)
 	{
-		if (this->isEnabled != isEnabled)
+		if (isEnabled != _isEnabled)
 		{
-			if (isEnabled == true)
-			{
-				Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(interval));
-			}
-			else
-			{
-				Application::Instance()->timerManager.UnregisterTimer(this);
-			}
+			next = Misc::DateTime();
 			
 			Control::SetEnabled(isEnabled);
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Timer::SetInterval(int interval)
+	void Timer::SetInterval(int _interval)
 	{
-		if (this->interval != interval)
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (_interval < 1)
 		{
-			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if (interval < 1)
-			{
-				throw Misc::ArgumentOutOfRangeException("interval", __FILE__, __LINE__);
-			}
-			#endif
-			
-			this->interval = interval;
-			if (isEnabled)
-			{
-				Application::Instance()->timerManager.UnregisterTimer(this);
-				Application::Instance()->timerManager.RegisterTimer(this, Misc::TimeSpan::FromMilliseconds(this->interval));
-			}
+			throw Misc::ArgumentOutOfRangeException("interval", __FILE__, __LINE__);
 		}
+		#endif
+		
+		interval = Misc::TimeSpan::FromMilliseconds(_interval);
 	}
 	//---------------------------------------------------------------------------
-	long long Timer::GetInterval() const
+	int Timer::GetInterval() const
 	{
-		return interval;
+		return interval.GetTotalMilliseconds();
 	}
 	//---------------------------------------------------------------------------
 	TickEvent& Timer::GetTickEvent()
@@ -94,6 +71,16 @@ namespace OSHGui
 	bool Timer::Intersect(const Drawing::PointF &point) const
 	{
 		return false;
+	}
+	//---------------------------------------------------------------------------
+	void Timer::InjectTime(const Misc::DateTime &time)
+	{
+		if (time >= next)
+		{
+			next = time.Add(interval);
+			
+			tickEvent.Invoke(this);
+		}
 	}
 	//---------------------------------------------------------------------------
 }

@@ -93,6 +93,11 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
+
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
+	protected:
+		virtual void PopulateGeometry() override;
 		
 	private:
 		Label *captionLabel;

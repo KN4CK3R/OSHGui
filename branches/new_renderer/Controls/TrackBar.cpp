@@ -136,6 +136,8 @@ namespace OSHGui
 			int tick = value / tickFrequency;
 			sliderLocation.Left = tick * pixelsPerTick;
 			sliderAbsoluteLocation.Left = absoluteLocation.Left + sliderLocation.Left;
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -144,6 +146,35 @@ namespace OSHGui
 		Control::CalculateAbsoluteLocation();
 
 		sliderAbsoluteLocation = absoluteLocation + sliderLocation;
+	}
+	//---------------------------------------------------------------------------
+	void TrackBar::Render(Drawing::IRenderer *renderer)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void TrackBar::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		if (backColor.A != 0)
+		{
+			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
+		}
+
+		auto color = isFocused || isInside ? GetForeColor() + Color(0, 43, 43, 43) : GetForeColor();
+
+		auto tickCount = 1 + (maximum - minimum) / tickFrequency;
+		for (int i = 0; i < tickCount; ++i)
+		{
+			auto x = SliderSize.Width / 2 + i * pixelsPerTick;
+			g.FillRectangle(color, PointF(x, DefaultTickOffset), SizeF(1, 5));
+		}
+
+		g.FillRectangle(color, sliderLocation, SliderSize);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -226,34 +257,6 @@ namespace OSHGui
 		}
 
 		return true;
-	}
-	//---------------------------------------------------------------------------
-	void TrackBar::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
-
-		renderer->SetRenderColor(isFocused || isInside ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
-
-		int tickCount = 1 + (maximum - minimum) / tickFrequency;
-		
-		for (int i = 0; i < tickCount; ++i)
-		{
-			int x = absoluteLocation.Left + SliderSize.Width / 2 + i * pixelsPerTick;
-            int y = absoluteLocation.Top + DefaultTickOffset;
-			renderer->Fill(x, y, 1, 5);
-		}
-
-		renderer->SetRenderColor(foreColor);
-		renderer->Fill(sliderAbsoluteLocation, SliderSize);
 	}
 	//---------------------------------------------------------------------------
 }

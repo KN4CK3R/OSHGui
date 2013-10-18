@@ -22,9 +22,7 @@ namespace OSHGui
 		: drag(false),
 		  value(0),
 		  pixelsPerTick(1.0f),
-		  maximum(0),
-		  upButton(nullptr),
-		  downButton(nullptr)
+		  maximum(0)
 	{
 		type = CONTROL_SCROLLBAR;
 		
@@ -154,6 +152,8 @@ namespace OSHGui
 
 		sliderLocation.Top = trackLocation.Top + value * pixelsPerTick;
 		sliderAbsoluteLocation.Top = absoluteLocation.Top + sliderLocation.Top;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool ScrollBar::Intersect(const Drawing::PointF &point) const
@@ -177,6 +177,41 @@ namespace OSHGui
 	void ScrollBar::ScrollToBottom()
 	{
 		SetValue(GetMaximum());
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::Render(Drawing::IRenderer *renderer)
+	{
+		
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::DrawSelf(Drawing::RenderContext &context)
+	{
+		ContainerControl::DrawSelf(context);
+
+		upButton->Render_();
+		downButton->Render_();
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		g.FillRectangle(GetBackColor(), sliderLocation + PointF(1, 1), sliderSize - SizeF(2, 2));
+		g.FillRectangle(GetBackColor(), sliderLocation + PointF(sliderSize.Width - 1, 1), SizeF(1, sliderSize.Height - 2));
+		g.FillRectangle(GetBackColor(), sliderLocation + PointF(1, sliderSize.Height - 1), SizeF(sliderSize.Width - 2, 1));
+		g.FillRectangle(GetBackColor(), sliderLocation + PointF(0, 1), SizeF(1, sliderSize.Height - 2));
+		g.FillRectangle(GetBackColor(), sliderLocation + PointF(1, 0), SizeF(sliderSize.Width - 2, 1));
+
+		auto color = isInside ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
+		int sliderHalfHeight = sliderLocation.Y + sliderSize.Height / 2 - 3;
+		int sliderLeftPos = sliderLocation.X + 5;
+		for (int i = 0; i < 3; ++i)
+		{
+			g.FillRectangle(color, PointF(sliderLeftPos, sliderHalfHeight + i * 3), SizeF(5, 1));
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -250,40 +285,14 @@ namespace OSHGui
 		SetValueInternal(value + mouse.Delta);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		upButton->Render(renderer);
-		downButton->Render(renderer);
-
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(sliderAbsoluteLocation.Left + 1, sliderAbsoluteLocation.Top + 1, sliderSize.Width - 2, sliderSize.Height - 2);
-		renderer->Fill(sliderAbsoluteLocation.Left + sliderSize.Width - 1, sliderAbsoluteLocation.Top + 1, 1, sliderSize.Height - 2);
-		renderer->Fill(sliderAbsoluteLocation.Left + 1, sliderAbsoluteLocation.Top + sliderSize.Height - 1, sliderSize.Width - 2, 1);
-		renderer->Fill(sliderAbsoluteLocation.Left, sliderAbsoluteLocation.Top + 1, 1, sliderSize.Height - 2);
-		renderer->Fill(sliderAbsoluteLocation.Left + 1, sliderAbsoluteLocation.Top, sliderSize.Width - 2, 1);
-		renderer->SetRenderColor(isInside ? foreColor + Drawing::Color(0, 50, 50, 50) : foreColor);
-		int sliderHalfHeight = sliderAbsoluteLocation.Top + sliderSize.Height / 2 - 3;
-		int sliderLeftPos = sliderAbsoluteLocation.Left + 5;
-		for (int i = 0; i < 3; ++i)
-		{
-			renderer->Fill(sliderLeftPos, sliderHalfHeight + i * 3, 5, 1);
-		}
-	}
-	//---------------------------------------------------------------------------
 	//ScrollBar::ScrollBarButton
 	//---------------------------------------------------------------------------
 	const Drawing::SizeF ScrollBar::ScrollBarButton::DefaultButtonSize(14, 14);
 	//---------------------------------------------------------------------------
-	ScrollBar::ScrollBarButton::ScrollBarButton(int direction)
-		: Control()
+	ScrollBar::ScrollBarButton::ScrollBarButton(int _direction)
+		: Control(),
+		  direction(_direction)
 	{
-		this->direction = direction;
-
 		SetLocation(0, 0);
 		SetSize(DefaultButtonSize);
 
@@ -294,7 +303,7 @@ namespace OSHGui
 	{
 		Control::SetSize(size);
 
-		iconLocation = absoluteLocation + Drawing::PointF(size.Width / 2, size.Height / 2);
+		iconLocation = Drawing::PointF(size.Width / 2, size.Height / 2);
 	}
 	//---------------------------------------------------------------------------
 	bool ScrollBar::ScrollBarButton::Intersect(const Drawing::PointF &point) const
@@ -302,28 +311,32 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::ScrollBarButton::CalculateAbsoluteLocation()
-	{
-		Control::CalculateAbsoluteLocation();
-
-		iconLocation = absoluteLocation + Drawing::PointF(GetWidth() / 2, GetHeight() / 2);
-	}
-	//---------------------------------------------------------------------------
 	void ScrollBar::ScrollBarButton::Render(Drawing::IRenderer *renderer)
 	{
-		renderer->SetRenderColor(isInside ? foreColor + Drawing::Color(0, 50, 50, 50) : foreColor);
+		
+	}
+	//---------------------------------------------------------------------------
+	void ScrollBar::ScrollBarButton::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		auto color = isInside ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
+
 		if (direction == 0)
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				renderer->Fill(iconLocation.Left - i, iconLocation.Top + i, 1 + i * 2, 1);
+				g.FillRectangle(color, iconLocation + PointF(-i, i), SizeF(1 + i * 2, 1));
 			}
 		}
 		else
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				renderer->Fill(iconLocation.Left - i, iconLocation.Top - i, 1 + i * 2, 1);
+				g.FillRectangle(color, iconLocation - PointF(i, i), SizeF(1 + i * 2, 1));
 			}
 		}
 	}

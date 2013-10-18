@@ -22,14 +22,12 @@
 #include "Event/KeyboardMessage.hpp"
 #include "Exports.hpp"
 #include "FormManager.hpp"
-#include "TimerManager.hpp"
 #include "Event/Hotkey.hpp"
 
 namespace OSHGui
 {
 	class Control;
 	class Form;
-	class Timer;
 	
 	/**
 	 * Stellt Methoden und Eigenschaften für die Verwaltung einer
@@ -40,7 +38,6 @@ namespace OSHGui
 	{
 		friend Control;
 		friend Form;
-		friend Timer;
 
 		class GuiRenderSurface;
 
@@ -134,6 +131,7 @@ namespace OSHGui
 		 * @return true, falls die Nachricht verarbeitet wurde
 		 */
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
+		
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
@@ -178,6 +176,8 @@ namespace OSHGui
 		static Application *instance;
 		Application(Drawing::RendererPtr renderer);
 
+		void InjectTime();
+
 		Drawing::RendererPtr renderer;
 		GuiRenderSurface guiSurface;
 		Drawing::FontPtr defaultFont;
@@ -188,7 +188,6 @@ namespace OSHGui
 		Drawing::Theme currentTheme;
 	
 		FormManager formManager;
-		TimerManager timerManager;
 		
 		Misc::DateTime now;
 

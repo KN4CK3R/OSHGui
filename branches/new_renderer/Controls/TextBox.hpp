@@ -97,6 +97,10 @@ namespace OSHGui
 		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
+		virtual void InjectTime(const Misc::DateTime &time) override;
+
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
@@ -114,8 +118,8 @@ namespace OSHGui
 		Misc::AnsiChar passwordChar;
 		Misc::AnsiString realtext;
 
-		Drawing::RectangleF textRect,
-						   caretRect;
+		Drawing::RectangleF textRect;
+		Drawing::RectangleF caretRect;
 		
 		bool showCaret;
 		bool drawCaret;

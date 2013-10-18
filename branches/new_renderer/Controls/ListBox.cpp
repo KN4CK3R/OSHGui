@@ -260,6 +260,47 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
+	void ListBox::Render(Drawing::IRenderer *renderer)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::DrawSelf(Drawing::RenderContext &context)
+	{
+		ContainerControl::DrawSelf(context);
+
+		scrollBar->Render_();
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
+
+		auto color = GetBackColor() + Color(0, 54, 53, 52);
+		g.FillRectangle(color, PointF(1, 0), SizeF(GetWidth() - 2, 1));
+		g.FillRectangle(color, PointF(0, 1), SizeF(1, GetHeight() - 2));
+		g.FillRectangle(color, PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
+		g.FillRectangle(color, PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
+
+		int itemX = 4;
+		int itemY = 4;
+		int padding = font->GetSize() + DefaultItemPadding;
+		for (int i = 0; i < maxVisibleItems && i + firstVisibleItemIndex < (int)items.size(); ++i)
+		{
+			if (firstVisibleItemIndex + i == selectedIndex)
+			{
+				g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize.Width + 2, padding));
+			}
+
+			g.DrawString(items[firstVisibleItemIndex + i], GetFont_(), GetForeColor(), PointF(itemX, itemY + i * padding));//, SizeF(itemAreaSize.Width, padding));
+		}
+	}
+	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void ListBox::OnMouseClick(const MouseMessage &mouse)
@@ -374,41 +415,6 @@ namespace OSHGui
 		}
 
 		return true;
-	}
-	//---------------------------------------------------------------------------
-	void ListBox::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-		
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 2);
-		
-		renderer->SetRenderColor(backColor + Drawing::Color(0, 54, 53, 52));
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, size.Width - 2, 1);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, 1, size.Height - 2);
-		renderer->Fill(absoluteLocation.Left + size.Width - 1, absoluteLocation.Top + 1, 1, size.Height - 2);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + size.Height - 1, size.Width - 2, 1);
-
-		renderer->SetRenderColor(foreColor);
-		int itemX = absoluteLocation.Left + 4;
-		int itemY = absoluteLocation.Top + 4;
-		int padding = font->GetSize() + DefaultItemPadding;
-		for (int i = 0; i < maxVisibleItems && i + firstVisibleItemIndex < (int)items.size(); ++i)
-		{
-			if (firstVisibleItemIndex + i == selectedIndex)
-			{
-				renderer->SetRenderColor(Drawing::Color::Red());
-				renderer->Fill(itemX - 1, itemY + i * padding - 1, itemAreaSize.Width + 2, padding);
-				renderer->SetRenderColor(foreColor);
-			}
-
-			renderer->RenderText(font, itemX, itemY + i * padding, itemAreaSize.Width, padding, items[firstVisibleItemIndex + i]);
-		}
-	
-		scrollBar->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 }

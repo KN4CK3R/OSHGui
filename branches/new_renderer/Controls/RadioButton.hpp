@@ -43,6 +43,8 @@ namespace OSHGui
 	protected:
 		void SetCheckedInternal(bool checked);
 
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 	};

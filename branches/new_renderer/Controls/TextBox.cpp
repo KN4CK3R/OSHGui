@@ -49,7 +49,8 @@ namespace OSHGui
 
 		Control::SetSize(fixxed);
 
-		textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+		//textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+		textRect = Drawing::RectangleF(DefaultTextOffset.Left, DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 
 		firstVisibleCharacter = 0;
 		PlaceCaret(textHelper.GetText().length());
@@ -117,14 +118,15 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		
-		textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+		//textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
+		textRect = Drawing::RectangleF(DefaultTextOffset.Left, DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 		PlaceCaret(caretPosition);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::ResetCaretBlink()
 	{
-		drawCaret = true;
-		nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
+		drawCaret = false;
+		nextBlinkTime = Misc::DateTime();
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::PlaceCaret(int position)
@@ -180,6 +182,45 @@ namespace OSHGui
 		caretRect = Drawing::RectangleF(textRect.GetLeft() + strWidth.Width, textRect.GetTop(), 1, textRect.GetHeight());
 
 		ResetCaretBlink();
+
+		Invalidate();
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::InjectTime(const Misc::DateTime &time)
+	{
+		if (time > nextBlinkTime)
+		{
+			drawCaret = !drawCaret;
+			nextBlinkTime = time.Add(blinkTime);
+
+			Invalidate();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::Render(Drawing::IRenderer *renderer)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void TextBox::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+		g.Clear();
+
+		g.FillRectangle(GetBackColor() - Color(0, 20, 20, 20), PointF(0, 0), GetSize());
+		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
+
+		g.DrawString(textHelper.GetText().substr(firstVisibleCharacter), GetFont_(), GetForeColor(), textRect.GetLocation());
+
+		if (showCaret)
+		{
+			if (isFocused && drawCaret)
+			{
+				g.FillRectangle(GetForeColor(), caretRect);
+			}
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -266,36 +307,6 @@ namespace OSHGui
 	void TextBox::OnTextChanged()
 	{
 		textChangedEvent.Invoke(this);
-	}
-	//---------------------------------------------------------------------------
-	void TextBox::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-		
-		renderer->SetRenderColor(backColor - Drawing::Color(0, 20, 20, 20));
-		renderer->Fill(absoluteLocation, size);
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, GetWidth() - 2, GetHeight() - 2);
-		
-		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, textRect, textHelper.GetText().substr(firstVisibleCharacter));
-
-		if (showCaret)
-		{
-			if (Application::Instance()->GetNow() > nextBlinkTime)
-			{
-				drawCaret = !drawCaret;
-				nextBlinkTime = Application::Instance()->GetNow().Add(blinkTime);
-			}
-
-			if (isFocused && drawCaret)
-			{
-				renderer->Fill(caretRect);
-			}
-		}
 	}
 	//---------------------------------------------------------------------------
 }

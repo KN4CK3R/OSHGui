@@ -101,8 +101,12 @@ namespace OSHGui
 		 * @param renderer
 		 */
 		virtual void Render(Drawing::IRenderer *renderer) override;
-	
+
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 	protected:
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
@@ -141,15 +145,18 @@ namespace OSHGui
 			virtual void SetSize(const Drawing::SizeF &size) override;
 
 			virtual bool Intersect(const Drawing::PointF &point) const override;
-			virtual void CalculateAbsoluteLocation() override;
 
 			virtual void Render(Drawing::IRenderer *renderer) override;
+
+		protected:
+			virtual void PopulateGeometry() override;
 
 		private:
 			int direction;
 
 			Drawing::PointF iconLocation;
 		};
+
 		ScrollBarButton *upButton;
 		ScrollBarButton *downButton;
 	};

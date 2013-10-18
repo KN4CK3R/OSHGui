@@ -651,6 +651,8 @@ namespace OSHGui
 		 */
 		Control();
 
+		virtual void InjectTime(const Misc::DateTime &time);
+
 		virtual void OnLocationChanged();
 		virtual void OnSizeChanged();
 		virtual void OnMouseDown(const MouseMessage &mouse);
