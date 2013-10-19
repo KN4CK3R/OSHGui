@@ -26,7 +26,7 @@ namespace OSHGui
 		  maxIndex(0),
 		  selected(nullptr)
 	{
-		type = CONTROL_TABCONTROL;
+		type = ControlType::TabControl;
 
 		lastSwitchButton = new TabControlSwitchButton(0);
 		lastSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)

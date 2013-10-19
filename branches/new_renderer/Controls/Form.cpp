@@ -27,7 +27,7 @@ namespace OSHGui
 		: isModal(false),
 		  dialogResult(DialogResult::ResultNone)
 	{
-		type = CONTROL_FORM;
+		type = ControlType::Form;
 		
 		parent = nullptr;//this;
 		isVisible = false;

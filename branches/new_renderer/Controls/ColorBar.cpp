@@ -23,7 +23,7 @@ namespace OSHGui
 		: barIndex(0),
 		  color(Drawing::Color::Black())
 	{
-		type = CONTROL_COLORBAR;
+		type = ControlType::ColorBar;
 	
 		for (int i = 0; i < 3; ++i)
 		{

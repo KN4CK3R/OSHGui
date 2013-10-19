@@ -17,7 +17,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	GroupBox::GroupBox()
 	{
-		type = CONTROL_GROUPBOX;
+		type = ControlType::GroupBox;
 
 		captionLabel = new Label();
 		captionLabel->SetLocation(Drawing::PointF(5, -1));
@@ -58,7 +58,7 @@ namespace OSHGui
 		return captionLabel->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void GroupBox::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 

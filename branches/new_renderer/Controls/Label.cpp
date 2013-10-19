@@ -15,9 +15,9 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Label::Label()
-		: textHelper(font)
+		: textHelper(GetFont())
 	{
-		type = CONTROL_LABEL;
+		type = ControlType::Label;
 		
 		SetAutoSize(true);
 		
@@ -42,7 +42,7 @@ namespace OSHGui
 		return textHelper.GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Label::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void Label::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 		textHelper.SetFont(font);
@@ -70,7 +70,7 @@ namespace OSHGui
 			g.FillRectangle(GetBackColor(), RectangleF(PointF(), GetSize()));
 		}
 		
-		g.DrawString(textHelper.GetText(), GetFont_(), GetForeColor(), PointF(0, 0));
+		g.DrawString(textHelper.GetText(), GetFont(), GetForeColor(), PointF(0, 0));
 	}
 	//---------------------------------------------------------------------------
 }

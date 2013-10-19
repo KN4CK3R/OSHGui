@@ -23,7 +23,7 @@ namespace OSHGui
 		: checked(false),
 		  label(new Label())
 	{
-		type = CONTROL_CHECKBOX;
+		type = ControlType::CheckBox;
 		
 		SetSize(DefaultCheckBoxSize, DefaultCheckBoxSize);
 		SetAutoSize(true);
@@ -73,7 +73,7 @@ namespace OSHGui
 		return label->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void CheckBox::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 
@@ -81,16 +81,16 @@ namespace OSHGui
 		if (autoSize)
 		{
 			size = label->GetSize();
-			if (font->GetSize() < DefaultCheckBoxSize)
+			if (GetFont()->GetFontHeight() < DefaultCheckBoxSize)
 			{
 				checkBoxLocation = Drawing::PointF(0, 0);
-				int y = (int)(DefaultCheckBoxSize / 2.0f - font->GetSize() / 2.0f + 0.5f);
+				int y = (int)(DefaultCheckBoxSize / 2.0f - GetFont()->GetFontHeight() / 2.0f + 0.5f);
 				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, y));
 			}
 			else
 			{
 				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
-				int y = (int)(font->GetSize() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
+				int y = (int)(GetFont()->GetFontHeight() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
 				checkBoxLocation = Drawing::PointF(0, y);
 			}
 		}

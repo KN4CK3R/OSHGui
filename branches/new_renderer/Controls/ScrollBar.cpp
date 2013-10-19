@@ -24,7 +24,7 @@ namespace OSHGui
 		  pixelsPerTick(1.0f),
 		  maximum(0)
 	{
-		type = CONTROL_SCROLLBAR;
+		type = ControlType::ScrollBar;
 		
 		upButton = new ScrollBarButton(0);
 		upButton->GetClickEvent() += ClickEventHandler([this](Control *control)

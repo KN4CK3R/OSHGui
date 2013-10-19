@@ -24,7 +24,7 @@ namespace OSHGui
 		  color(Drawing::Color::White()),
 		  gradient(Application::Instance()->GetRenderer_()->CreateTexture())
 	{
-		type = CONTROL_COLORPICKER;
+		type = ControlType::ColorPicker;
 		
 		cursor = Cursors::Get(Cursors::Pipette);
 

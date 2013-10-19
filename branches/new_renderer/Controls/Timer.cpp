@@ -17,7 +17,7 @@ namespace OSHGui
 	Timer::Timer()
 		: interval(Misc::TimeSpan::FromMilliseconds(100))
 	{
-		type = CONTROL_TIMER;
+		type = ControlType::Timer;
 	
 		SetEnabled(false);
 	}

@@ -17,11 +17,11 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Control::Control()
-		: type((CONTROL_TYPE)0),
+		: type((ControlType)0),
 		  parent(nullptr),
 		  location(6, 6),
 		  size(0, 0),
-		  anchor(AnchorTop | AnchorLeft),
+		  anchor(AnchorStyles::Top | AnchorStyles::Left),
 		  isEnabled(true),
 		  isVisible(true),
 		  isFocused(false),
@@ -32,7 +32,6 @@ namespace OSHGui
 		  autoSize(false),
 		  canRaiseEvents(true),
 		  needsRedraw(true),
-		  font(Application::Instance()->GetRenderer()->GetDefaultFont()),
 		  cursor(Cursors::Get(Cursors::Default)),
 		  mouseOverFocusColor(0, 20, 20, 20),
 		  geometry(Application::Instance()->GetRenderer_()->CreateGeometryBuffer())
@@ -54,7 +53,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	CONTROL_TYPE Control::GetType() const
+	ControlType Control::GetType() const
 	{
 		return type;
 	}
@@ -209,12 +208,12 @@ namespace OSHGui
 		return size.Height;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetAnchor(AnchorStyle anchor)
+	void Control::SetAnchor(AnchorStyles anchor)
 	{
 		this->anchor = anchor;
 	}
 	//---------------------------------------------------------------------------
-	AnchorStyle Control::GetAnchor() const
+	AnchorStyles Control::GetAnchor() const
 	{
 		return anchor;
 	}
@@ -275,7 +274,7 @@ namespace OSHGui
 		return mouseOverFocusColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void Control::SetFont( const Drawing::FontPtr &font)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (font == nullptr)
@@ -289,14 +288,9 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Drawing::IFont>& Control::GetFont() const
+	const Drawing::FontPtr& Control::GetFont() const
 	{
-		return font;
-	}
-	//---------------------------------------------------------------------------
-	const Drawing::FontPtr& Control::GetFont_() const
-	{
-		return font_ ? font_ : parent ? parent->GetFont_() : Application::Instance()->GetDefaultFont();
+		return font ? font : parent ? parent->GetFont() : Application::Instance()->GetDefaultFont();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetCursor(const std::shared_ptr<Cursor> &cursor)
@@ -555,31 +549,31 @@ namespace OSHGui
 		SetBackColor(controlTheme.BackColor);
 	}
 	//---------------------------------------------------------------------------
-	Misc::AnsiString Control::ControlTypeToString(CONTROL_TYPE controlType)
+	Misc::AnsiString Control::ControlTypeToString(ControlType controlType)
 	{
 		switch (controlType)
 		{
-			case CONTROL_PANEL: return "panel";
-			case CONTROL_FORM: return "form";
-			case CONTROL_GROUPBOX: return "groupbox";
-			case CONTROL_LABEL: return "label";
-			case CONTROL_LINKLABEL: return "linklabel";
-			case CONTROL_BUTTON: return "button";
-			case CONTROL_CHECKBOX: return "checkbox";
-			case CONTROL_RADIOBUTTON: return "radiobutton";
-			case CONTROL_SCROLLBAR: return "scrollbar";
-			case CONTROL_LISTBOX: return "listbox";
-			case CONTROL_PROGRESSBAR: return "progressbar";
-			case CONTROL_TRACKBAR: return "trackbar";
-			case CONTROL_COMBOBOX: return "combobox";
-			case CONTROL_TEXTBOX: return "textbox";
-			case CONTROL_TIMER: return "timer";
-			case CONTROL_TABCONTROL: return "tabcontrol";
-			case CONTROL_TABPAGE: return "tabpage";
-			case CONTROL_PICTUREBOX: return "picturebox";
-			case CONTROL_COLORPICKER: return "colorpicker";
-			case CONTROL_COLORBAR: return "colorbar";
-			case CONTROL_HOTKEYCONTROL: return "hotkeycontrol";
+			case ControlType::Panel: return "panel";
+			case ControlType::Form: return "form";
+			case ControlType::GroupBox: return "groupbox";
+			case ControlType::Label: return "label";
+			case ControlType::LinkLabel: return "linklabel";
+			case ControlType::Button: return "button";
+			case ControlType::CheckBox: return "checkbox";
+			case ControlType::RadioButton: return "radiobutton";
+			case ControlType::ScrollBar: return "scrollbar";
+			case ControlType::ListBox: return "listbox";
+			case ControlType::ProgressBar: return "progressbar";
+			case ControlType::TrackBar: return "trackbar";
+			case ControlType::ComboBox: return "combobox";
+			case ControlType::TextBox: return "textbox";
+			case ControlType::Timer: return "timer";
+			case ControlType::TabControl: return "tabcontrol";
+			case ControlType::TabPage: return "tabpage";
+			case ControlType::PictureBox: return "picturebox";
+			case ControlType::ColorPicker: return "colorpicker";
+			case ControlType::ColorBar: return "colorbar";
+			case ControlType::HotkeyControl: return "hotkeycontrol";
 		}
 		throw 1;
 	}

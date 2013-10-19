@@ -23,7 +23,7 @@ namespace OSHGui
 	HotkeyControl::HotkeyControl()
 		: textBox(new TextBox())
 	{
-		type = CONTROL_HOTKEYCONTROL;
+		type = ControlType::HotkeyControl;
 
 		if (hotkeyNames.empty())
 		{
@@ -242,7 +242,7 @@ namespace OSHGui
 		clearButtonLocation = Drawing::PointF(GetWidth() - 13, GetHeight() * 0.5f - 4);
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void HotkeyControl::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 		

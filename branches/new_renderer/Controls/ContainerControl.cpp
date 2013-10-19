@@ -46,20 +46,20 @@ namespace OSHGui
 
 		for (auto &control : controls)
 		{
-			AnchorStyle anchor = control->GetAnchor();
+			AnchorStyles anchor = control->GetAnchor();
 
-			if (anchor != (AnchorTop|AnchorLeft))
+			if (anchor != (AnchorStyles::Top|AnchorStyles::Left))
 			{
-				if (anchor == (AnchorTop|AnchorLeft|AnchorBottom|AnchorRight))
+				if (anchor == (AnchorStyles::Top|AnchorStyles::Left|AnchorStyles::Bottom|AnchorStyles::Right))
 				{
 					control->SetSize(control->GetSize() + offset);
 				}
-				else if (anchor == (AnchorTop|AnchorLeft|AnchorRight) || anchor == (AnchorBottom|AnchorLeft|AnchorRight))
+				else if (anchor == (AnchorStyles::Top|AnchorStyles::Left|AnchorStyles::Right) || anchor == (AnchorStyles::Bottom|AnchorStyles::Left|AnchorStyles::Right))
 				{
 					control->SetLocation(control->GetLocation() + Drawing::PointF(0, offset.Height));
 					control->SetSize(control->GetSize() + Drawing::SizeF(offset.Width, 0));
 				}
-				else if (anchor == (AnchorTop|AnchorRight) || anchor == (AnchorBottom|AnchorRight))
+				else if (anchor == (AnchorStyles::Top|AnchorStyles::Right) || anchor == (AnchorStyles::Bottom|AnchorStyles::Right))
 				{
 					control->SetLocation(control->GetLocation() + Drawing::PointF(offset.Width, offset.Height));
 				}
@@ -83,7 +83,7 @@ namespace OSHGui
 		}
 		#endif
 
-		if (control->GetType() == CONTROL_FORM)
+		if (control->GetType() == ControlType::Form)
 		{
 			return;
 		}
@@ -111,7 +111,7 @@ namespace OSHGui
 		}
 		#endif
 
-		if (subcontrol->GetType() == CONTROL_FORM)
+		if (subcontrol->GetType() == ControlType::Form)
 		{
 			return;
 		}

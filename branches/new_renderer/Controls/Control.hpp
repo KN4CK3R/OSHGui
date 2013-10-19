@@ -44,49 +44,49 @@ namespace OSHGui
 	/**
 	 * Auflistung der Arten von Steuerelementen.
 	 */
-	enum CONTROL_TYPE
+	enum class ControlType
 	{
-		CONTROL_PANEL = 1,
-		CONTROL_FORM,
-		CONTROL_GROUPBOX,
-		CONTROL_LABEL,
-		CONTROL_LINKLABEL,
-		CONTROL_BUTTON,
-		CONTROL_CHECKBOX,
-		CONTROL_RADIOBUTTON,
-		CONTROL_SCROLLBAR,
-		CONTROL_LISTBOX,
-		CONTROL_PROGRESSBAR,
-		CONTROL_TRACKBAR,
-		CONTROL_COMBOBOX,
-		CONTROL_TEXTBOX,
-		CONTROL_TIMER,
-		CONTROL_TABCONTROL,
-		CONTROL_TABPAGE,
-		CONTROL_PICTUREBOX,
-		CONTROL_COLORPICKER,
-		CONTROL_COLORBAR,
-		CONTROL_HOTKEYCONTROL
+		Panel = 1,
+		Form,
+		GroupBox,
+		Label,
+		LinkLabel,
+		Button,
+		CheckBox,
+		RadioButton,
+		ScrollBar,
+		ListBox,
+		ProgressBar,
+		TrackBar,
+		ComboBox,
+		TextBox,
+		Timer,
+		TabControl,
+		TabPage,
+		PictureBox,
+		ColorPicker,
+		ColorBar,
+		HotkeyControl
 	};
 
 	/**
 	 * Auflistung der Anker.
 	 */
-	enum AnchorStyle
+	enum class AnchorStyles : int
 	{
-		AnchorTop = 1,
-		AnchorBottom = 2,
-		AnchorLeft = 4,
-		AnchorRight = 8
+		Top = 1,
+		Bottom = 2,
+		Left = 4,
+		Right = 8
 	};
 
-	inline AnchorStyle operator|(AnchorStyle lhs, AnchorStyle rhs)
+	inline AnchorStyles operator|(AnchorStyles lhs, AnchorStyles rhs)
 	{
-		return static_cast<AnchorStyle>(static_cast<int>(lhs)|static_cast<int>(rhs));
+		return static_cast<AnchorStyles>(static_cast<int>(lhs) | static_cast<int>(rhs));
 	}
-	inline AnchorStyle operator&(AnchorStyle lhs, AnchorStyle rhs)
+	inline AnchorStyles operator&(AnchorStyles lhs, AnchorStyles rhs)
 	{
-		return static_cast<AnchorStyle>(static_cast<int>(lhs)&static_cast<int>(rhs));
+		return static_cast<AnchorStyles>(static_cast<int>(lhs) & static_cast<int>(rhs));
 	}
 	
 	class Control;
@@ -189,7 +189,7 @@ namespace OSHGui
 		 *
 		 * @return der Typ
 		 */
-		virtual CONTROL_TYPE GetType() const;
+		virtual ControlType GetType() const;
 
 		/**
 		 * Ruft ab, ob das Control ein Container ist.
@@ -362,14 +362,14 @@ namespace OSHGui
 		 *
 		 * @param anchor
 		 */
-		virtual void SetAnchor(AnchorStyle anchor);
+		virtual void SetAnchor(AnchorStyles anchor);
 		/**
 		 * Ruft die Ränder des Containers ab, an die ein Steuerelement gebunden ist,
 		 * und bestimmt, wie die Größe des Steuerelements mit dessen übergeordnetem Element geändert wird.
 		 *
 		 * @return anchor
 		 */
-		virtual AnchorStyle GetAnchor() const;
+		virtual AnchorStyles GetAnchor() const;
 		/**
 		 * Legt die mit dem Steuerelement verknüpften benutzerdefinierten Daten fest.
 		 *
@@ -399,19 +399,13 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+		virtual void SetFont(const Drawing::FontPtr &font);
 		/**
 		 * Ruft die Schriftart des Texts im Steuerelement ab.
 		 *
 		 * @return font
 		 */
-		const std::shared_ptr<Drawing::IFont>& GetFont() const;
-		/**
-		 * Ruft die Schriftart des Texts im Steuerelement ab.
-		 *
-		 * @return font
-		 */
-		const Drawing::FontPtr& GetFont_() const;
+		const Drawing::FontPtr& GetFont() const;
 		/**
 		 * Legt den angezeigten Cursor fest, wenn sich die Maus über dem Steuerelement befindet.
 		 *
@@ -634,7 +628,7 @@ namespace OSHGui
 		 * @param controlType controltype
 		 * @return Stringrepresentation
 		 */
-		static Misc::AnsiString ControlTypeToString(CONTROL_TYPE controlType);
+		static Misc::AnsiString ControlTypeToString(ControlType controlType);
 
 	private:
 		void GetRenderContext(Drawing::RenderContext &context) const;
@@ -670,7 +664,7 @@ namespace OSHGui
 		virtual void PopulateGeometry();
 		
 		Misc::AnsiString name;
-		CONTROL_TYPE type;
+		ControlType type;
 
 		bool canRaiseEvents;
 		bool isEnabled;
@@ -709,8 +703,7 @@ namespace OSHGui
 		Drawing::Color backColor;
 		Drawing::Color mouseOverFocusColor;
 		
-		std::shared_ptr<Drawing::IFont> font;
-		Drawing::FontPtr font_;
+		Drawing::FontPtr font;
 		std::shared_ptr<Cursor> cursor;
 
 		bool needsRedraw;
@@ -724,7 +717,7 @@ namespace OSHGui
 		Control(const Control&) { }
 		void operator = (const Control&) { }
 
-		AnchorStyle anchor;
+		AnchorStyles anchor;
 	};
 }
 

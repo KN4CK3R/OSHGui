@@ -20,7 +20,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Panel::Panel()
 	{
-		type = CONTROL_PANEL;
+		type = ControlType::Panel;
 
 		SetSize(DefaultSize);
 		

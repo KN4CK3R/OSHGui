@@ -12,7 +12,7 @@
 #include <memory>
 #include "../Exports.hpp"
 #include "Strings.hpp"
-#include "../Drawing/IFont.hpp"
+#include "../Drawing/Font.hpp"
 #include "../Drawing/Point.hpp"
 #include "../Drawing/Size.hpp"
 
@@ -31,14 +31,14 @@ namespace OSHGui
 			 *
 			 * @param font
 			 */
-			TextHelper(const std::shared_ptr<Drawing::IFont> &font);
+			TextHelper(const Drawing::FontPtr &font);
 			
 			/**
 			 * Legt die Schriftart fest.
 			 *
 			 * @param font darf nicht 0 sein
 			 */
-			void SetFont(const std::shared_ptr<Drawing::IFont> &font);
+			void SetFont(const Drawing::FontPtr &font);
 			/**
 			 * Legt den Text fest.
 			 *
@@ -136,7 +136,7 @@ namespace OSHGui
 			
 			Drawing::SizeF size;
 			
-			std::shared_ptr<Drawing::IFont> font;
+			Drawing::FontPtr font;
 		};
 	}
 }

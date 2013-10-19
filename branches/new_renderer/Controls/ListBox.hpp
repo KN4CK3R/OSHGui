@@ -46,7 +46,7 @@ namespace OSHGui
 		 *
 		 * @param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt fest, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
 		 *

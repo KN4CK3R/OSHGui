@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	LinkLabel::LinkLabel()
 	{
-		type = CONTROL_LINKLABEL;
+		type = ControlType::LinkLabel;
 		
 		cursor = Cursors::Get(Cursors::Hand);
 

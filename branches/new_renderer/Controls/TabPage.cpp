@@ -18,7 +18,7 @@ namespace OSHGui
 	TabPage::TabPage()
 		: button(nullptr)
 	{
-		type = CONTROL_TABPAGE;
+		type = ControlType::TabPage;
 	
 		containerPanel = new Panel();
 		containerPanel->SetLocation(Drawing::PointF(2, 2));
@@ -44,7 +44,7 @@ namespace OSHGui
 		{
 			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
 		}
-		if (parent->GetType() != CONTROL_TABCONTROL)
+		if (parent->GetType() != ControlType::TabControl)
 		{
 			throw Misc::ArgumentException("parent", __FILE__, __LINE__);
 		}

@@ -20,7 +20,7 @@ namespace OSHGui
 		: droppedDown(false),
 		  maxShowItems(DefaultMaxShowItems)
 	{
-		type = CONTROL_COMBOBOX;
+		type = ControlType::ComboBox;
 	
 		button = new ComboBoxButton();
 		button->SetLocation(0, 0);
@@ -149,7 +149,7 @@ namespace OSHGui
 		listBox->SetSize(size.Width, listBox->GetHeight());
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void ComboBox::SetFont(const Drawing::FontPtr &font)
 	{
 		ContainerControl::SetFont(font);
 

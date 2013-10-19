@@ -23,7 +23,7 @@ namespace OSHGui
 		  max(100),
 		  value(0)
 	{
-		type = CONTROL_PROGRESSBAR;
+		type = ControlType::ProgressBar;
 
 		SetSize(DefaultSize);
 		

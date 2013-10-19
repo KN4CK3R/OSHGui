@@ -39,9 +39,9 @@ namespace OSHGui
 		friend Control;
 		friend Form;
 
+	public:
 		class GuiRenderSurface;
 
-	public:
 		/**
 		 * Initialisiert die Application-Klasse.
 		 *

@@ -26,7 +26,7 @@ namespace OSHGui
 		  tickFrequency(1),
 		  sliderLocation(-SliderSize.Width / 2, 1)
 	{
-		type = CONTROL_TRACKBAR;
+		type = ControlType::TrackBar;
 	
 		SetSize(DefaultSize);
 

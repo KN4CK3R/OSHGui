@@ -13,12 +13,12 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		TextHelper::TextHelper(const std::shared_ptr<Drawing::IFont> &font)
+		TextHelper::TextHelper(const Drawing::FontPtr &font)
 		{
 			SetFont(font);
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+		void TextHelper::SetFont(const Drawing::FontPtr &font)
 		{
 			if (font == nullptr)
 			{
@@ -56,9 +56,9 @@ namespace OSHGui
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::Insert(int position, const AnsiString &text)
+		void TextHelper::Insert(int position, const AnsiString &_text)
 		{
-			this->text.insert(position, text);
+			text.insert(position, _text);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
@@ -116,8 +116,8 @@ namespace OSHGui
 				}
 			}
 			
-			AnsiString substring = text.substr(0, trailing ? index + 1 : index);
-			Drawing::SizeF size = font->MeasureText(substring);
+			auto substring = text.substr(0, trailing ? index + 1 : index);
+			Drawing::SizeF size(font->GetTextExtent(substring), font->GetFontHeight());
 			
 			return Drawing::PointF(size.Width, size.Height);//Drawing::PointF(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
@@ -126,15 +126,15 @@ namespace OSHGui
 		{
 			if (GetLength() == 0 || size == 0)
 			{
-				return Drawing::SizeF(0, font->GetSize());
+				return Drawing::SizeF(0, font->GetFontHeight());
 			}
 			if (index >= GetLength())
 			{
 				index = GetLength() - 1;
 			}
 
-			AnsiString substring = size == -1 ? text.substr(index) : text.substr(index, size);
-			return font->MeasureText(substring);
+			auto substring = size == -1 ? text.substr(index) : text.substr(index, size);
+			return Drawing::SizeF(font->GetTextExtent(substring), font->GetFontHeight());
 		}
 		//---------------------------------------------------------------------------
 		int TextHelper::GetClosestCharacterIndex(const Drawing::PointF &position) const

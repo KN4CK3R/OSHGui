@@ -18,7 +18,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	RadioButton::RadioButton()
 	{
-		type = CONTROL_RADIOBUTTON;
+		type = ControlType::RadioButton;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -34,7 +34,7 @@ namespace OSHGui
 				for (auto it = std::begin(controls); it != std::end(controls); ++it)
 				{
 					Control *control = *it;
-					if (control->GetType() == CONTROL_RADIOBUTTON)
+					if (control->GetType() == ControlType::RadioButton)
 					{
 						RadioButton *radio = static_cast<RadioButton*>(control);
 						radio->SetCheckedInternal(false);

@@ -20,14 +20,14 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TextBox::TextBox()
-		: textHelper(font),
+		: textHelper(GetFont()),
 		  blinkTime(Misc::TimeSpan::FromMilliseconds(500)),
 		  firstVisibleCharacter(0),
 		  caretPosition(0),
 		  passwordChar('\0'),
 		  showCaret(true)
 	{
-		type = CONTROL_TEXTBOX;
+		type = ControlType::TextBox;
 	
 		ApplyTheme(Application::Instance()->GetTheme());
 
@@ -45,7 +45,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TextBox::SetSize(const Drawing::SizeF &size)
 	{
-		Drawing::SizeF fixxed(size.Width, font->GetSize() + DefaultTextOffset.Top * 2);
+		Drawing::SizeF fixxed(size.Width, GetFont()->GetFontHeight() + DefaultTextOffset.Top * 2);
 
 		Control::SetSize(fixxed);
 
@@ -56,7 +56,7 @@ namespace OSHGui
 		PlaceCaret(textHelper.GetText().length());
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void TextBox::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 
@@ -206,7 +206,7 @@ namespace OSHGui
 		g.FillRectangle(GetBackColor() - Color(0, 20, 20, 20), PointF(0, 0), GetSize());
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		g.DrawString(textHelper.GetText().substr(firstVisibleCharacter), GetFont_(), GetForeColor(), textRect.GetLocation());
+		g.DrawString(textHelper.GetText().substr(firstVisibleCharacter), GetFont(), GetForeColor(), textRect.GetLocation());
 
 		if (showCaret)
 		{

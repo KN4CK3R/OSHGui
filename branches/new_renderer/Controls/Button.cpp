@@ -22,7 +22,7 @@ namespace OSHGui
 	Button::Button()
 		: label(new Label())
 	{
-		type = CONTROL_BUTTON;
+		type = ControlType::Button;
 
 		label->SetLocation(DefaultLabelOffset);
 		label->SetBackColor(Drawing::Color::Empty());
@@ -63,7 +63,7 @@ namespace OSHGui
 		return label->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Button::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void Button::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 
