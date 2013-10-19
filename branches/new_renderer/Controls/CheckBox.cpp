@@ -128,33 +128,7 @@ namespace OSHGui
 	{
 		Control::DrawSelf(context);
 
-		label->Render_();
-	}
-	//---------------------------------------------------------------------------
-	void CheckBox::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(checkBoxAbsoluteLocation.Left, checkBoxAbsoluteLocation.Top, DefaultCheckBoxSize, DefaultCheckBoxSize);
-
-		Drawing::Color white = Drawing::Color::White();
-		renderer->SetRenderColor(white);
-		renderer->FillGradient(checkBoxAbsoluteLocation.Left + 1, checkBoxAbsoluteLocation.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
-		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(checkBoxAbsoluteLocation.Left + 2, checkBoxAbsoluteLocation.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
-
-		renderer->SetRenderColor(white);
-		if (checked)
-		{
-			renderer->Fill(checkBoxAbsoluteLocation.Left + 5, checkBoxAbsoluteLocation.Top + 5, 7, 7);
-			renderer->FillGradient(checkBoxAbsoluteLocation.Left + 6, checkBoxAbsoluteLocation.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
-		}
-
-		label->Render(renderer);
+		label->Render();
 	}
 	//---------------------------------------------------------------------------
 	void CheckBox::PopulateGeometry()
@@ -162,7 +136,6 @@ namespace OSHGui
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		g.FillRectangle(GetBackColor(), RectangleF(PointF(0, 0), SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize)));
 		

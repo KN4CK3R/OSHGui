@@ -35,7 +35,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		ComboBox();
-		virtual ~ComboBox();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -164,19 +163,15 @@ namespace OSHGui
 		 * @param point
 		 * @return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const;
+		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Setzt den Eingabefokus auf das Steuerelement.
 		 */
-		virtual void Focus();
-
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Focus() override;
 	
+	protected:
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 	private:
 		static const int DefaultMaxShowItems;
 
@@ -193,23 +188,24 @@ namespace OSHGui
 		public:
 			using Button::SetSize;
 
-			virtual void SetSize(const Drawing::SizeF &size);
+			virtual void SetSize(const Drawing::SizeF &size) override;
 
-			virtual bool Intersect(const Drawing::PointF &point) const;
-
-			virtual void Render(Drawing::IRenderer *renderer);
+			virtual bool Intersect(const Drawing::PointF &point) const override;
 
 		protected:
-			virtual void CalculateLabelLocation();
+			virtual void CalculateLabelLocation() override;
 
-			virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+			virtual void DrawSelf(Drawing::RenderContext &context) override;
+			virtual void PopulateGeometry() override;
+
+			virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 
 		private:
 			Drawing::SizeF realSize;
 			Drawing::PointF arrowAbsoluteLocation;
 		};
-		ComboBoxButton *button;
 
+		ComboBoxButton *button;
 		ListBox *listBox;
 	};
 }

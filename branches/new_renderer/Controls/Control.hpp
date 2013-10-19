@@ -618,15 +618,9 @@ namespace OSHGui
 		 */
 		void Invalidate();
 		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer);
-		/**
 		 * Zeichnet das Steuerelement.
 		 */
-		virtual void Render_();
+		virtual void Render();
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *

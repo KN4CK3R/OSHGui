@@ -197,17 +197,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::Render(Drawing::IRenderer *renderer)
-	{
-
-	}
-	//---------------------------------------------------------------------------
 	void TextBox::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		g.FillRectangle(GetBackColor() - Color(0, 20, 20, 20), PointF(0, 0), GetSize());
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));

@@ -65,13 +65,6 @@ namespace OSHGui
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-		
 	protected:
 		static const Drawing::SizeF DefaultSize;
 		static const Drawing::SizeF DefaultBarSize;

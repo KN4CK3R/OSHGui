@@ -44,9 +44,8 @@ namespace OSHGui
 
 		Control::SetSize(size);
 
-		for (auto it = std::begin(controls); it != std::end(controls); ++it)
+		for (auto &control : controls)
 		{
-			auto control = *it;
 			AnchorStyle anchor = control->GetAnchor();
 
 			if (anchor != (AnchorTop|AnchorLeft))
@@ -181,29 +180,13 @@ namespace OSHGui
 		return PostOrderIterator(this);
 	}
 	//---------------------------------------------------------------------------
-	void ContainerControl::Render(Drawing::IRenderer *renderer)
+	void ContainerControl::Render()
 	{
-		Control *focusedControl = nullptr;
-		for (auto it = controls.rbegin(); it != controls.rend(); ++it)
+		if (!isVisible)
 		{
-			Control *control = *it;
-			if (control->GetIsFocused())
-			{
-				focusedControl = control;
-			}
-			else
-			{
-				control->Render(renderer);
-			}
+			return;
 		}
-		if (focusedControl != nullptr)
-		{
-			focusedControl->Render(renderer);
-		}
-	}
-	//---------------------------------------------------------------------------
-	void ContainerControl::Render_()
-	{
+
 		using namespace Drawing;
 
 		RenderContext ctx;
@@ -230,12 +213,12 @@ namespace OSHGui
 				}
 				else
 				{
-					control->Render_();
+					control->Render();
 				}
 			}
 			if (focusedControl != nullptr)
 			{
-				focusedControl->Render_();
+				focusedControl->Render();
 			}
 		}
 

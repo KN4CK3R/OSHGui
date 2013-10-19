@@ -98,6 +98,7 @@ namespace OSHGui
 		listBox->SetLocation(0, button->GetBottom() + 2);
 		listBox->SetSize(listBox->GetWidth(), 4);
 		listBox->SetVisible(false);
+		listBox->ExpandSizeToShowItems(4);
 		listBox->GetSelectedIndexChangedEvent() += SelectedIndexChangedEventHandler([this](Control*)
 		{
 			button->SetText(listBox->GetSelectedItem());
@@ -135,11 +136,6 @@ namespace OSHGui
 		SetSize(160, 24);
 		
 		ApplyTheme(Application::Instance()->GetTheme());
-	}
-	//---------------------------------------------------------------------------
-	ComboBox::~ComboBox()
-	{
-		Clear();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -249,12 +245,16 @@ namespace OSHGui
 		droppedDown = true;
 		listBox->SetVisible(true);
 		listBox->Focus();
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::Collapse()
 	{
 		droppedDown = false;
 		listBox->SetVisible(false);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
@@ -299,20 +299,13 @@ namespace OSHGui
 		button->Focus();
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void ComboBox::Render(Drawing::IRenderer *renderer)
+	void ComboBox::DrawSelf(Drawing::RenderContext &context)
 	{
-		if (!isVisible)
-		{
-			return;
-		}
-		
-		button->Render(renderer);
-		
+		button->Render();
+
 		if (droppedDown)
 		{
-			listBox->Render(renderer);
+			listBox->Render();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -340,26 +333,30 @@ namespace OSHGui
 		return Control::OnKeyDown(keyboard);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::ComboBoxButton::Render(Drawing::IRenderer *renderer)
+	void ComboBox::ComboBoxButton::DrawSelf(Drawing::RenderContext &context)
 	{
-		Drawing::Color tempColor = backColor;
-		if (isFocused || isInside)
-		{
-			tempColor += mouseOverFocusColor;
-		}
-		
-		renderer->SetRenderColor(tempColor);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, realSize.Width, realSize.Height - 2);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, realSize.Width - 2, realSize.Height);
-		renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, realSize.Width - 2, realSize.Height - 2, tempColor - Drawing::Color(0, 20, 20, 20));
+		Control::DrawSelf(context);
 
-		label->Render(renderer);
+		label->Render();
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::ComboBoxButton::PopulateGeometry()
+	{
+		using namespace Drawing;
 
-		int arrowLeft = absoluteLocation.Left + realSize.Width - 9;
-		int arrowTop = absoluteLocation.Top + realSize.Height - 11;
+		Graphics g(geometry);
+
+		auto color = isFocused || isInside ? GetBackColor() + GetMouseOverFocusColor() : GetBackColor();
+
+		g.FillRectangle(color, PointF(0, 1), realSize - SizeF(0, 2));
+		g.FillRectangle(color, PointF(1, 0), realSize - SizeF(2, 0));
+		g.FillRectangleGradient(ColorRectangle(color, color - Color(0, 20, 20, 20)), PointF(1, 1), realSize - SizeF(2, 2));
+
+		int arrowLeft = realSize.Width - 9;
+		int arrowTop = realSize.Height - 11;
 		for (int i = 0; i < 4; ++i)
 		{
-			renderer->Fill(arrowLeft - i, arrowTop - i, 1 + i * 2, 1);
+			g.FillRectangle(GetForeColor(), PointF(arrowLeft - i, arrowTop - i), SizeF(1 + i * 2, 1));
 		}
 	}
 	//---------------------------------------------------------------------------

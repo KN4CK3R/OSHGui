@@ -148,17 +148,11 @@ namespace OSHGui
 		sliderAbsoluteLocation = absoluteLocation + sliderLocation;
 	}
 	//---------------------------------------------------------------------------
-	void TrackBar::Render(Drawing::IRenderer *renderer)
-	{
-
-	}
-	//---------------------------------------------------------------------------
 	void TrackBar::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		if (backColor.A != 0)
 		{

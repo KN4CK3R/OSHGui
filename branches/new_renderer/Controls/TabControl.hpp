@@ -132,17 +132,16 @@ namespace OSHGui
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+	protected:
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	private:
 		static const Drawing::SizeF DefaultSize;
 
 		void CalculateButtonLocationAndCount();
+
+		struct TabPageButtonBinding;
+		void SelectBinding(TabPageButtonBinding &binding);
 
 		SelectedIndexChangedEvent selectedIndexChangedEvent;
 
@@ -157,8 +156,7 @@ namespace OSHGui
 		class TabControlButton : public Control
 		{
 		public:
-			TabControlButton(TabPageButtonBinding *binding);
-			~TabControlButton();
+			TabControlButton(TabPageButtonBinding &binding);
 
 			virtual void SetForeColor(Drawing::Color color) override;
 			void SetText(const Misc::AnsiString &text);
@@ -167,16 +165,17 @@ namespace OSHGui
 			virtual bool Intersect(const Drawing::PointF &point) const override;
 			virtual void CalculateAbsoluteLocation() override;
 
-			virtual void Render(Drawing::IRenderer *renderer) override;
-
 		protected:
+			virtual void DrawSelf(Drawing::RenderContext &context) override;
+			virtual void PopulateGeometry() override;
+
 			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
 		private:
 			static const Drawing::PointF DefaultLabelOffset;
 
-			TabPageButtonBinding *binding;
-			Label *label;
+			TabPageButtonBinding &binding;
+			std::unique_ptr<Label> label;
 
 			bool active;
 		};
@@ -193,7 +192,8 @@ namespace OSHGui
 
 			virtual bool Intersect(const Drawing::PointF &point) const override;
 
-			virtual void Render(Drawing::IRenderer *renderer) override;
+		protected:
+			virtual void PopulateGeometry() override;
 
 		private:
 			int direction;

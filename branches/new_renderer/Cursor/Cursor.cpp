@@ -15,7 +15,8 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Cursor::Cursor()
-		: cursor(Application::Instance()->GetRenderer()->CreateNewTexture(16, 16))
+		: cursor(Application::Instance()->GetRenderer()->CreateNewTexture(16, 16)),
+		  geometry(Application::Instance()->GetRenderer_()->CreateGeometryBuffer())
 	{
 		CreateCursor();
 	}
@@ -57,12 +58,20 @@ namespace OSHGui
 		cursor->EndUpdate();
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
 	void Cursor::Render(Drawing::IRenderer *renderer, const Drawing::PointF &cursorLocation)
 	{
 		renderer->SetRenderColor(Drawing::Color::White());
 		renderer->RenderTexture(cursor, cursorLocation + offset, Drawing::SizeF(16, 16));
 	}
 	//---------------------------------------------------------------------------
+	void Cursor::Render(const Drawing::PointF &cursorLocation)
+	{
+		using namespace Drawing;
+
+		RenderContext context;
+		context.Surface = &Application::Instance()->GetRenderSurface();
+		context.QueueType = RenderQueueType::Overlay;
+
+		context.Surface->AddGeometry(context.QueueType, geometry);
+	}
 }

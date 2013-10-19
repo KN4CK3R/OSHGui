@@ -87,13 +87,6 @@ namespace OSHGui
 		 */
 		virtual void RemoveControl(Control *control) override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	protected:

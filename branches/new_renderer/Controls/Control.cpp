@@ -296,7 +296,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::FontPtr& Control::GetFont_() const
 	{
-		return font_ ? font_ : Application::Instance()->GetDefaultFont();
+		return font_ ? font_ : parent ? parent->GetFont_() : Application::Instance()->GetDefaultFont();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetCursor(const std::shared_ptr<Cursor> &cursor)
@@ -484,13 +484,13 @@ namespace OSHGui
 		Application::Instance()->GetRenderSurface().Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void Control::Render(Drawing::IRenderer *renderer)
+	void Control::Render()
 	{
-		
-	}
-	//---------------------------------------------------------------------------
-	void Control::Render_()
-	{
+		if (!isVisible)
+		{
+			return;
+		}
+
 		using namespace Drawing;
 
 		RenderContext ctx;

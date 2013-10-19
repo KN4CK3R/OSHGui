@@ -179,17 +179,12 @@ namespace OSHGui
 		SetValue(GetMaximum());
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::Render(Drawing::IRenderer *renderer)
-	{
-		
-	}
-	//---------------------------------------------------------------------------
 	void ScrollBar::DrawSelf(Drawing::RenderContext &context)
 	{
 		ContainerControl::DrawSelf(context);
 
-		upButton->Render_();
-		downButton->Render_();
+		upButton->Render();
+		downButton->Render();
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::PopulateGeometry()
@@ -197,7 +192,6 @@ namespace OSHGui
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		g.FillRectangle(GetBackColor(), sliderLocation + PointF(1, 1), sliderSize - SizeF(2, 2));
 		g.FillRectangle(GetBackColor(), sliderLocation + PointF(sliderSize.Width - 1, 1), SizeF(1, sliderSize.Height - 2));
@@ -311,17 +305,11 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::ScrollBarButton::Render(Drawing::IRenderer *renderer)
-	{
-		
-	}
-	//---------------------------------------------------------------------------
 	void ScrollBar::ScrollBarButton::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		auto color = isInside ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
 

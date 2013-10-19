@@ -92,14 +92,7 @@ namespace OSHGui
 
 		PostOrderIterator GetPostOrderEnumerator();
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-
-		virtual void Render_() override;
+		virtual void Render() override;
 
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.

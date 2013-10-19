@@ -21,6 +21,7 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	HotkeyControl::HotkeyControl()
+		: textBox(new TextBox())
 	{
 		type = CONTROL_HOTKEYCONTROL;
 
@@ -219,7 +220,6 @@ namespace OSHGui
 			hotkeyNames[OemClear] = EnumToString(OemClear);
 		}
 
-		textBox = new TextBox();
 		textBox->SetLocation(0, 0);
 		textBox->ShowCaret(false);
 		textBox->SetParent(this);
@@ -227,15 +227,8 @@ namespace OSHGui
 		SetSize(DefaultSize);
 		
 		ApplyTheme(Application::Instance()->GetTheme());
-		
-		cursor = Cursors::Get(Cursors::Default);
 
 		ClearHotkey();
-	}
-	//---------------------------------------------------------------------------
-	HotkeyControl::~HotkeyControl()
-	{
-		delete textBox;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -245,6 +238,8 @@ namespace OSHGui
 		Control::SetSize(size);
 		
 		textBox->SetSize(GetSize());
+
+		clearButtonLocation = Drawing::PointF(GetWidth() - 13, GetHeight() * 0.5f - 4);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetFont(const std::shared_ptr<Drawing::IFont> &font)
@@ -371,15 +366,35 @@ namespace OSHGui
 		Control::CalculateAbsoluteLocation();
 		
 		textBox->CalculateAbsoluteLocation();
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::DrawSelf(Drawing::RenderContext &context)
+	{
+		textBox->Render();
 
-		clearButtonAbsoluteLocation = Drawing::PointF(absoluteLocation.Left + GetWidth() - 13, absoluteLocation.Top + GetHeight() * 0.5f - 4);
+		Control::DrawSelf(context);
+	}
+	//---------------------------------------------------------------------------
+	void HotkeyControl::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(i, i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(6 - i, i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(i, 7 - i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(6 - i, 7 - i), SizeF(3, 1));
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
 	//---------------------------------------------------------------------------
 	void HotkeyControl::OnMouseClick(const MouseMessage &mouse)
 	{
-		if (Intersection::TestRectangle(clearButtonAbsoluteLocation, Drawing::SizeF(9, 8), mouse.Location))
+		if (Intersection::TestRectangle(absoluteLocation + clearButtonLocation, Drawing::SizeF(9, 8), mouse.Location))
 		{
 			ClearHotkey();
 		}
@@ -411,20 +426,6 @@ namespace OSHGui
 	bool HotkeyControl::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		return true;
-	}
-	//---------------------------------------------------------------------------
-	void HotkeyControl::Render(Drawing::IRenderer *renderer)
-	{
-		textBox->Render(renderer);
-	
-		renderer->SetRenderColor(GetForeColor());
-		for (int i = 0; i < 4; ++i)
-		{
-			renderer->Fill(clearButtonAbsoluteLocation.Left + i, clearButtonAbsoluteLocation.Top + i, 3, 1);
-			renderer->Fill(clearButtonAbsoluteLocation.Left + 6 - i, clearButtonAbsoluteLocation.Top + i, 3, 1);
-			renderer->Fill(clearButtonAbsoluteLocation.Left + i, clearButtonAbsoluteLocation.Top + 7 - i, 3, 1);
-			renderer->Fill(clearButtonAbsoluteLocation.Left + 6 - i, clearButtonAbsoluteLocation.Top + 7 - i, 3, 1);
-		}
 	}
 	//---------------------------------------------------------------------------
 }

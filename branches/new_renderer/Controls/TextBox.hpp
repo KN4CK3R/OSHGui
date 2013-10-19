@@ -88,13 +88,6 @@ namespace OSHGui
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation() override;
-
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
 		virtual void InjectTime(const Misc::DateTime &time) override;

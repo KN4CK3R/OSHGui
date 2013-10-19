@@ -102,17 +102,11 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void ColorBar::Render(Drawing::IRenderer *renderer)
-	{
-		
-	}
-	//---------------------------------------------------------------------------
 	void ColorBar::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		for (int i = 0; i < 3; ++i)
 		{

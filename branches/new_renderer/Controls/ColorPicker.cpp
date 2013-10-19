@@ -231,17 +231,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorPicker::Render(Drawing::IRenderer *renderer)
-	{
-		
-	}
-	//---------------------------------------------------------------------------
 	void ColorPicker::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		BasicImage image(gradient, RectangleF(PointF(0, 0), GetSize()), PointF(0, 0), AutoScaleMode::Disabled, SizeF(1280, 720));
 		image.Render(*geometry, RectangleF(PointF(0, 0), GetSize()), nullptr, Color::White());

@@ -59,32 +59,11 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void Label::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		Drawing::SizeF renderSize = GetParent()->GetSize();
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
-	
-		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, absoluteLocation, renderSize, textHelper.GetText());
-	}
-	//---------------------------------------------------------------------------
 	void Label::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		if (backColor.A != 0)
 		{

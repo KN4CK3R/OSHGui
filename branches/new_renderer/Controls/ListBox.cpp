@@ -244,7 +244,7 @@ namespace OSHGui
 
 		maxVisibleItems = std::max(1.0f, itemAreaSize.Height / itemHeight);
 
-		if (items.size() * itemHeight > itemAreaSize.Height)
+		if (!items.empty() && items.size() * itemHeight > itemAreaSize.Height)
 		{
 			if (!scrollBar->GetVisible())
 			{
@@ -260,16 +260,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::Render(Drawing::IRenderer *renderer)
-	{
-
-	}
-	//---------------------------------------------------------------------------
 	void ListBox::DrawSelf(Drawing::RenderContext &context)
 	{
 		ContainerControl::DrawSelf(context);
 
-		scrollBar->Render_();
+		scrollBar->Render();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::PopulateGeometry()
@@ -277,7 +272,6 @@ namespace OSHGui
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 

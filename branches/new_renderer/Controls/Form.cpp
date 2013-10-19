@@ -149,30 +149,12 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Form::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		renderer->SetRenderColor(backColor - Drawing::Color(0, 100, 100, 100));
-		renderer->Fill(absoluteLocation, size);
-		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 2, backColor - Drawing::Color(90, 90, 90));
-		renderer->SetRenderColor(backColor - Drawing::Color(0, 50, 50, 50));
-		renderer->Fill(absoluteLocation.Left + 5, absoluteLocation.Top + captionBar->GetBottom() + 2, size.Width - 10, 1);
-
-		captionBar->Render(renderer);
-		containerPanel->Render(renderer);
-	}
-	//---------------------------------------------------------------------------
 	void Form::DrawSelf(Drawing::RenderContext &context)
 	{
 		ContainerControl::DrawSelf(context);
 
-		captionBar->Render_();
-		containerPanel->Render_();
+		captionBar->Render();
+		containerPanel->Render();
 	}
 	//---------------------------------------------------------------------------
 	void Form::PopulateGeometry()
@@ -180,7 +162,6 @@ namespace OSHGui
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		g.FillRectangle(backColor - Drawing::Color(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
 		auto color = GetBackColor() - Color(0, 90, 90, 90);
@@ -221,23 +202,11 @@ namespace OSHGui
 		owner->Close();
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::CaptionBarButton::Render(Drawing::IRenderer *renderer)
-	{
-		for (int i = 0; i < 4; ++i)
-		{
-			renderer->Fill(crossAbsoluteLocation.Left + i, crossAbsoluteLocation.Top + i, 3, 1);
-			renderer->Fill(crossAbsoluteLocation.Left + 6 - i, crossAbsoluteLocation.Top + i, 3, 1);
-			renderer->Fill(crossAbsoluteLocation.Left + i, crossAbsoluteLocation.Top + 7 - i, 3, 1);
-			renderer->Fill(crossAbsoluteLocation.Left + 6 - i, crossAbsoluteLocation.Top + 7 - i, 3, 1);
-		}
-	}
-	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		auto color = GetParent()->GetForeColor();
 
@@ -302,8 +271,8 @@ namespace OSHGui
 		BufferGeometry(context);
 		QueueGeometry(context);
 
-		titleLabel->Render_();
-		closeButton->Render_();
+		titleLabel->Render();
+		closeButton->Render();
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseDown(const MouseMessage &mouse)
@@ -334,12 +303,6 @@ namespace OSHGui
 			drag = false;
 			OnLostMouseCapture();
 		}
-	}
-	//---------------------------------------------------------------------------
-	void Form::CaptionBar::Render(Drawing::IRenderer *renderer)
-	{
-		titleLabel->Render(renderer);
-		closeButton->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 }

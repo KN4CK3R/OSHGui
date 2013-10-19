@@ -33,13 +33,6 @@ namespace OSHGui
 		 */
 		virtual void SetChecked(bool checked) override;
 		
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-		
 	protected:
 		void SetCheckedInternal(bool checked);
 

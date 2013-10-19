@@ -94,17 +94,12 @@ namespace OSHGui
 		containerPanel->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::Render(Drawing::IRenderer *renderer)
-	{
-		
-	}
-	//---------------------------------------------------------------------------
 	void GroupBox::DrawSelf(Drawing::RenderContext &context)
 	{
 		ContainerControl::DrawSelf(context);
 
-		captionLabel->Render_();
-		containerPanel->Render_();
+		captionLabel->Render();
+		containerPanel->Render();
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::PopulateGeometry()
@@ -112,7 +107,6 @@ namespace OSHGui
 		using namespace Drawing;
 		
 		Graphics g(geometry);
-		g.Clear();
 
 		if (backColor.A != 0)
 		{

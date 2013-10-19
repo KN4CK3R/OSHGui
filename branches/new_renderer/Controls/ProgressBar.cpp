@@ -112,39 +112,11 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, GetWidth() - 2, GetHeight());
-			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, GetWidth(), GetHeight() - 2);
-		}
-
-		renderer->SetRenderColor(foreColor);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, GetWidth() - 2, 1);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + GetHeight() - 1, GetWidth() - 2, 1);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, 1, GetHeight() - 2);
-		renderer->Fill(absoluteLocation.Left + GetWidth() - 1, absoluteLocation.Top + 1, 1, GetHeight() - 2);
-
-		renderer->SetRenderColor(barColor);
-		for (int i = (int)(value / ((max - min) / ((GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
-		{
-			renderer->Fill(absoluteLocation.Left + 4 + i * 12, absoluteLocation.Top + 4, 8, GetHeight() - 8);
-		}
-	}
-	//---------------------------------------------------------------------------
 	void ProgressBar::PopulateGeometry()
 	{
 		using namespace Drawing;
 
 		Graphics g(geometry);
-		g.Clear();
 
 		if (backColor.A != 0)
 		{

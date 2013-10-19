@@ -156,13 +156,6 @@ namespace OSHGui
 		 */
 		virtual void AddControl(Control *control) override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	protected:
@@ -195,8 +188,6 @@ namespace OSHGui
 				virtual void CalculateAbsoluteLocation() override;
 				virtual bool Intersect(const Drawing::PointF &point) const override;
 
-				virtual void Render(Drawing::IRenderer *renderer) override;
-
 			protected:
 				virtual void PopulateGeometry() override;
 
@@ -217,8 +208,6 @@ namespace OSHGui
 			void SetText(const Misc::AnsiString &text);
 			const Misc::AnsiString& GetText() const;
 			virtual void SetForeColor(Drawing::Color color) override;
-
-			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		protected:
 			virtual void DrawSelf(Drawing::RenderContext &context) override;

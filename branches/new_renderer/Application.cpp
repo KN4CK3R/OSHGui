@@ -339,12 +339,12 @@ namespace OSHGui
 				std::shared_ptr<Form> &form = *it;
 				if (form != foreMost)
 				{
-					form->Render_();
+					form->Render();
 				}
 			}
 			if (foreMost)
 			{
-				foreMost->Render_();
+				foreMost->Render();
 			}
 
 			guiSurface.AddGeometry(Drawing::RenderQueueType::Overlay, cursor);

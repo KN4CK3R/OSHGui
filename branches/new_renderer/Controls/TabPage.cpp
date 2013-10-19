@@ -55,11 +55,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::SetText(const Misc::AnsiString &text)
 	{
-		if (button != nullptr)
+		if (button)
 		{
 			button->SetText(text);
 		}
 		this->text = text;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TabPage::GetText() const
@@ -84,19 +86,24 @@ namespace OSHGui
 		containerPanel->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void TabPage::Render(Drawing::IRenderer *renderer)
+	void TabPage::DrawSelf(Drawing::RenderContext &context)
 	{
+		ContainerControl::DrawSelf(context);
+
+		containerPanel->Render();
+	}
+	//---------------------------------------------------------------------------
+	void TabPage::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+
 		if (backColor.A > 0)
 		{
-			renderer->SetRenderColor(backColor + Drawing::Color(0, 32, 32, 32));
-			renderer->Fill(absoluteLocation, size);
-			renderer->SetRenderColor(backColor);
-			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, GetWidth() - 2, GetHeight() - 2, backColor - Drawing::Color(0, 20, 20, 20));
+			g.FillRectangle(GetBackColor() + Color(0, 32, 32, 32), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
 		}
-	
-		containerPanel->Render(renderer);
 	}
 	//---------------------------------------------------------------------------
 }

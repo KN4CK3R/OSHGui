@@ -106,13 +106,6 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation() override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-
 	protected:
 		static const Drawing::SizeF SliderSize;
 		static const Drawing::SizeF DefaultSize;

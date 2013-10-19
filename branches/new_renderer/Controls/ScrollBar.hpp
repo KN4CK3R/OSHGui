@@ -95,13 +95,6 @@ namespace OSHGui
 		 */
 		void ScrollToBottom();
 		
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	protected:
@@ -145,8 +138,6 @@ namespace OSHGui
 			virtual void SetSize(const Drawing::SizeF &size) override;
 
 			virtual bool Intersect(const Drawing::PointF &point) const override;
-
-			virtual void Render(Drawing::IRenderer *renderer) override;
 
 		protected:
 			virtual void PopulateGeometry() override;

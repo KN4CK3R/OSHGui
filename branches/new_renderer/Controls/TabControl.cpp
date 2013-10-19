@@ -59,7 +59,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabControl::~TabControl()
 	{
-
+		for (auto &binding : bindings)
+		{
+			delete binding;
+		}
+		bindings.clear();
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -77,9 +81,9 @@ namespace OSHGui
 		{
 			auto tabPageSize = size.InflateEx(0, -selected->button->GetHeight());
 
-			for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+			for (auto &binding : bindings)
 			{
-				(*it)->tabPage->SetSize(tabPageSize);
+				binding->tabPage->SetSize(tabPageSize);
 			}
 		}
 	}
@@ -91,9 +95,8 @@ namespace OSHGui
 		lastSwitchButton->SetForeColor(color);
 		nextSwitchButton->SetForeColor(color);
 
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			auto binding = *it;
 			binding->button->SetForeColor(color);
 			binding->tabPage->SetForeColor(color);
 		}
@@ -106,9 +109,8 @@ namespace OSHGui
 		lastSwitchButton->SetBackColor(color);
 		nextSwitchButton->SetBackColor(color);
 
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			auto binding = *it;
 			binding->button->SetBackColor(color);
 			binding->tabPage->SetBackColor(color);
 		}
@@ -116,11 +118,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			if ((*it)->tabPage->GetText() == text)
+			if (binding->tabPage->GetText() == text)
 			{
-				return (*it)->tabPage;
+				return binding->tabPage;
 			}
 		}
 
@@ -139,18 +141,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedIndex(int index)
 	{
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			if ((*it)->index == index)
+			if (binding->index == index)
 			{
-				selected->button->SetActive(false);
-				selected->tabPage->SetVisible(false);
-				selected = *it;
-				selected->button->SetActive(true);
-				selected->tabPage->SetVisible(true);
-				CalculateButtonLocationAndCount();
-
-				selectedIndexChangedEvent.Invoke(this);
+				SelectBinding(*binding);
 
 				return;
 			}
@@ -164,18 +159,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedTabPage(TabPage *tabPage)
 	{
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			if ((*it)->tabPage == tabPage)
+			if (binding->tabPage == tabPage)
 			{
-				selected->tabPage->SetVisible(false);
-				selected->button->SetActive(false);
-				selected = *it;
-				selected->button->SetActive(true);
-				selected->tabPage->SetVisible(true);
-				CalculateButtonLocationAndCount();
-
-				selectedIndexChangedEvent.Invoke(this);
+				SelectBinding(*binding);
 
 				return;
 			}
@@ -204,19 +192,19 @@ namespace OSHGui
 			return;
 		}
 
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			if ((*it)->tabPage == tabPage)
+			if (binding->tabPage == tabPage)
 			{
 				return;
 			}
 		}
 
-		TabPageButtonBinding *binding = new TabPageButtonBinding();
+		auto binding = new TabPageButtonBinding();
 		binding->index = bindings.size();
 		binding->tabPage = tabPage;
 
-		TabControlButton *button = new TabControlButton(binding);
+		auto button = new TabControlButton(*binding);
 		button->SetLocation(Drawing::PointF(0, 0));
 		button->SetForeColor(GetForeColor());
 		button->SetBackColor(GetBackColor());
@@ -257,21 +245,19 @@ namespace OSHGui
 			return;
 		}
 
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			if ((*it)->tabPage == tabPage)
+			if (binding->tabPage == tabPage)
 			{
-				TabPageButtonBinding *binding = *it;
-				TabPage *temp = binding->tabPage;
-
 				RemoveControl(binding->button);
 				RemoveControl(binding->tabPage);
 
 				delete binding->button;
 				binding->tabPage->button = nullptr;
-				bindings.erase(it);
+				
+				bindings.erase(std::remove(std::begin(bindings), std::end(bindings), binding), std::end(bindings));
 
-				if (selected->tabPage == temp)
+				if (selected->tabPage == tabPage)
 				{
 					if (!bindings.empty())
 					{
@@ -313,9 +299,9 @@ namespace OSHGui
 
 			int tempWidth = 0;
 			int maxWidth = size.Width - TabControlSwitchButton::DefaultSize.Width;
-			for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+			for (auto &binding : bindings)
 			{
-				auto button = (*it)->button;
+				auto button = binding->button;
 				button->SetVisible(false);
 
 				if (tempWidth + button->GetSize().Width <= maxWidth)
@@ -353,60 +339,66 @@ namespace OSHGui
 			{
 				nextSwitchButton->SetVisible(false);
 			}
+
+			Invalidate();
 		}
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::SelectBinding(TabPageButtonBinding &binding)
+	{
+		selected->tabPage->SetVisible(false);
+		selected->button->SetActive(false);
+		selected = &binding;
+		selected->button->SetActive(true);
+		selected->tabPage->SetVisible(true);
+		CalculateButtonLocationAndCount();
+
+		selectedIndexChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::ApplyTheme(const Drawing::Theme &theme)
 	{
 		ContainerControl::ApplyTheme(theme);
 		
-		for (auto it = std::begin(bindings); it != std::end(bindings); ++it)
+		for (auto &binding : bindings)
 		{
-			auto binding = *it;
 			binding->tabPage->ApplyTheme(theme);
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::Render(Drawing::IRenderer *renderer)
+	void TabControl::DrawSelf(Drawing::RenderContext &context)
 	{
-		if (!isVisible)
-		{
-			return;
-		}
+		ContainerControl::DrawSelf(context);
 
 		if (selected->tabPage != nullptr)
 		{
 			for (int i = startIndex; i < maxIndex; ++i)
 			{
-				bindings[i]->button->Render(renderer);
+				bindings[i]->button->Render();
 			}
-		
-			nextSwitchButton->Render(renderer);
-			lastSwitchButton->Render(renderer);
 
-			selected->tabPage->Render(renderer);
+			nextSwitchButton->Render();
+			lastSwitchButton->Render();
+
+			selected->tabPage->Render();
 		}
 	}
 	//---------------------------------------------------------------------------
+	//TabControl::TabControlButton
+	//---------------------------------------------------------------------------
 	const Drawing::PointF TabControl::TabControlButton::DefaultLabelOffset(4, 2);
 	//---------------------------------------------------------------------------
-	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding *binding)
+	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding &_binding)
+		: binding(_binding),
+		  label(new Label())
 	{
-		this->binding = binding;
-
 		active = false;
 
-		label = new Label();
 		label->SetLocation(DefaultLabelOffset);
-		label->SetText(binding->tabPage->GetText());
+		label->SetText(binding.tabPage->GetText());
 		label->SetBackColor(Drawing::Color::Empty());
 
 		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
-	}
-	//---------------------------------------------------------------------------
-	TabControl::TabControlButton::~TabControlButton()
-	{
-		delete label;
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::SetForeColor(Drawing::Color color)
@@ -426,6 +418,8 @@ namespace OSHGui
 	void TabControl::TabControlButton::SetActive(bool active)
 	{
 		this->active = active;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool TabControl::TabControlButton::Intersect(const Drawing::PointF &point) const
@@ -448,48 +442,45 @@ namespace OSHGui
 		{
 			if (parent != nullptr)
 			{
-				TabControl *tc = static_cast<TabControl*>(parent);
-				tc->SetSelectedIndex(binding->index);
+				static_cast<TabControl*>(parent)->SetSelectedIndex(binding.index);
 			}
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlButton::Render(Drawing::IRenderer *renderer)
+	void TabControl::TabControlButton::DrawSelf(Drawing::RenderContext &context)
 	{
+		Control::DrawSelf(context);
+
+		label->Render();
+	}
+	//---------------------------------------------------------------------------
+	void TabControl::TabControlButton::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(geometry);
+
 		if (active)
 		{
-			renderer->SetRenderColor(backColor + Drawing::Color(0, 43, 43, 43));
-			renderer->FillGradient(absoluteLocation.Left, absoluteLocation.Top, size.Width, size.Height, backColor - Drawing::Color(0, 10, 10, 10));
-			renderer->SetRenderColor(backColor);
-			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height, backColor - Drawing::Color(0, 42, 42, 42));
+			g.FillRectangleGradient(ColorRectangle(GetBackColor() + Color(0, 43, 43, 43), GetBackColor() - Color(0, 10, 10, 10)), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color(0, 42, 42, 42)), PointF(1, 1), GetSize() - SizeF(2, 0));
 		}
 		else
 		{
-			Drawing::Color base = backColor;
-			if (isInside)
-			{
-				base += Drawing::Color(0, 50, 50, 50);
-			}
+			auto backInactive = (isInside ? GetBackColor() + Color(0, 50, 50, 50) : GetBackColor()) - Color(0, 47, 47, 47);
 
-			Drawing::Color backInactive = base - Drawing::Color(0, 47, 47, 47);
-			Drawing::Color backInactiveGradient = backInactive - Drawing::Color(0, 20, 20, 20);
-			Drawing::Color borderInactive = backInactive + Drawing::Color(0, 9, 9, 9);
-
-			renderer->SetRenderColor(borderInactive);
-			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top, size.Width, size.Height);
-			renderer->SetRenderColor(backInactive);
-			renderer->FillGradient(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 1, backInactiveGradient);
+			g.FillRectangle(backInactive + Color(0, 9, 9, 9), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(backInactive, backInactive - Color(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 1));
 		}
-
-		label->Render(renderer);
 	}
+	//---------------------------------------------------------------------------
+	//TabControl::TabControlSwitchButton
 	//---------------------------------------------------------------------------
 	const Drawing::SizeF TabControl::TabControlSwitchButton::DefaultSize(9, 9);
 	//---------------------------------------------------------------------------
-	TabControl::TabControlSwitchButton::TabControlSwitchButton(int direction)
+	TabControl::TabControlSwitchButton::TabControlSwitchButton(int _direction)
+		: direction(_direction)
 	{
-		this->direction = direction;
-
 		SetSize(DefaultSize);
 	}
 	//---------------------------------------------------------------------------
@@ -498,36 +489,30 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlSwitchButton::Render(Drawing::IRenderer *renderer)
+	void TabControl::TabControlSwitchButton::PopulateGeometry()
 	{
-		if (!isVisible)
-		{
-			return;
-		}
+		using namespace Drawing;
 
-		Drawing::Color base = isInside ? backColor : backColor - Drawing::Color(0, 47, 47, 47);
-		Drawing::Color borderColor = backColor + Drawing::Color(0, 9, 9, 9);
-		renderer->SetRenderColor(borderColor);
-		renderer->Fill(absoluteLocation, size);
-		renderer->SetRenderColor(base);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 1, size.Width - 2, size.Height - 2);
-		
-		int x = absoluteLocation.Left + 3;
-		renderer->SetRenderColor(foreColor);
+		Graphics g(geometry);
+
+		auto base = isInside ? backColor : backColor - Color(0, 47, 47, 47);
+		auto borderColor = backColor + Color(0, 9, 9, 9);
+
+		g.FillRectangle(borderColor, PointF(0, 0), GetSize());
+		g.FillRectangle(base, PointF(1, 1), GetSize() - SizeF(2, 2));
+
 		if (direction == 0)
 		{
-			int y = absoluteLocation.Top + 4;
 			for (int i = 0; i < 3; ++i)
 			{
-				renderer->Fill(x + i, y - i, 1, 1 + i * 2);
+				g.FillRectangle(GetForeColor(), PointF(3 + i, 4 - i), SizeF(1, 1 + i * 2));
 			}
 		}
 		else
 		{
-			int y = absoluteLocation.Top + 2;
 			for (int i = 0; i < 3; ++i)
 			{
-				renderer->Fill(x + i, y + i, 1, 5 - i * 2);
+				g.FillRectangle(GetForeColor(), PointF(3 + i, 2 + i), SizeF(1, 5 - i * 2));
 			}
 		}
 	}
