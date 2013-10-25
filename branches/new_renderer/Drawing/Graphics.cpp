@@ -1,4 +1,5 @@
 #include "Graphics.hpp"
+#include "Image.hpp"
 #include <algorithm>
 
 namespace OSHGui
@@ -30,6 +31,12 @@ namespace OSHGui
 		void Graphics::Clear()
 		{
 			buffer->Reset();
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::Rotate(const PointF &pivot, const Vector &angles)
+		{
+			buffer->SetPivot(Vector(pivot.X, pivot.Y, 0.0f));
+			buffer->SetRotation(Quaternion::EulerAnglesDegrees(angles.x, angles.y, angles.z));
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::DrawRectangle(const Color &color, const PointF &origin, const SizeF &size)
@@ -253,10 +260,24 @@ namespace OSHGui
 			DrawString(text, font, color, PointF(x, y));
 		}
 
-		void Graphics::Rotate(const PointF &pivot, const Vector &angles)
+		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const PointF &origin)
 		{
-			buffer->SetPivot(Vector(pivot.X, pivot.Y, 0.0f));
-			buffer->SetRotation(Quaternion::eulerAnglesDegrees(angles.x, angles.y, angles.z));
+			DrawImage(image, color, RectangleF(origin, image->GetSize()));
+		}
+
+		void Graphics::DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const PointF &origin, const RectangleF &clip)
+		{
+			DrawImage(image, color, RectangleF(origin, image->GetSize()), clip);
+		}
+
+		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const RectangleF &area)
+		{
+			image->Render(*buffer, area, nullptr, color);
+		}
+
+		void Graphics::DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area, const RectangleF &clip)
+		{
+			image->Render(*buffer, area, &clip.OffsetEx(area.GetLocation()), color);
 		}
 	}
 }

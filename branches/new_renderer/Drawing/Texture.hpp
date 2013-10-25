@@ -4,9 +4,9 @@
 #include "Size.hpp"
 #include "Point.hpp"
 #include "Rectangle.hpp"
-#include "../Misc/Strings.hpp"
-
 #include "Vertex.hpp"
+#include "../Misc/Strings.hpp"
+#include <memory>
 
 namespace OSHGui
 {

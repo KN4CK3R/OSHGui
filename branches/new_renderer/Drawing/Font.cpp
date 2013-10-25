@@ -10,16 +10,15 @@ namespace OSHGui
 		// must be a power of two
 		const auto GLYPHS_PER_PAGE = 256;
 		//---------------------------------------------------------------------------
-		Font::Font(const AutoScaleMode _autoScaleMode, const SizeF &_nativeResolution)
+		Font::Font()
 			: ascender(0.0f),
 			  descender(0.0f),
 			  height(0.0f),
-			  autoScaleMode(_autoScaleMode),
-			  nativeResolution(_nativeResolution),
-			  maximumCodepoint(0)
+			  maximumCodepoint(0),
+			  scalingHorizontal(1),
+			  scalingVertical(1)
 		{
-			auto size(Application::Instance()->GetRenderer_()->GetDisplaySize());
-			Image::ComputeScalingFactors(autoScaleMode, size, nativeResolution, scalingHorizontal, scalingVertical);
+			
 		}
 		//---------------------------------------------------------------------------
 		Font::~Font()
@@ -50,7 +49,6 @@ namespace OSHGui
 
 			if (!loadedGlyphPages.empty())
 			{
-				// Check if glyph page has been rasterised
 				auto page = codepoint / GLYPHS_PER_PAGE;
 				auto mask = 1 << (page & (BITS_PER_UINT - 1));
 				if (!(loadedGlyphPages[page / BITS_PER_UINT] & mask))
@@ -146,8 +144,8 @@ namespace OSHGui
 				if ((glyph = GetGlyphData(c)))
 				{
 					auto image = glyph->GetImage();
-					glyphPosition.Y = base - (image->GetRenderedOffset().Y - image->GetRenderedOffset().Y * scaleY);
-					image->Render(buffer, glyphPosition, glyph->GetSize(scaleX, scaleY), clip, colors);
+					glyphPosition.Y = base - (image->GetOffset().Y - image->GetOffset().Y * scaleY);
+					image->Render(buffer, RectangleF(glyphPosition, glyph->GetSize(scaleX, scaleY)), clip, colors);
 					glyphPosition.X += glyph->GetAdvance(scaleX);// - 1.f;
 
 					if (c == ' ')
@@ -158,45 +156,6 @@ namespace OSHGui
 			}
 
 			return glyphPosition.X;
-		}
-		//---------------------------------------------------------------------------
-		void Font::SetNativeResolution(const SizeF &nativeResolution)
-		{
-			this->nativeResolution = nativeResolution;
-
-			// re-calculate scaling factors & notify images as required
-			NotifyDisplaySizeChanged(Application::Instance()->GetRenderer_()->GetDisplaySize());
-		}
-		//---------------------------------------------------------------------------
-		const SizeF& Font::GetNativeResolution() const
-		{
-			return nativeResolution;
-		}
-		//---------------------------------------------------------------------------
-		void Font::SetAutoScaled(const AutoScaleMode autoScaleMode)
-		{
-			if (this->autoScaleMode == autoScaleMode)
-			{
-				return;
-			}
-
-			this->autoScaleMode = autoScaleMode;
-			UpdateFont();
-		}
-		//---------------------------------------------------------------------------
-		AutoScaleMode Font::GetAutoScaled() const
-		{
-			return autoScaleMode;
-		}
-		//---------------------------------------------------------------------------
-		void Font::NotifyDisplaySizeChanged(const SizeF &size)
-		{
-			Image::ComputeScalingFactors(autoScaleMode, size, nativeResolution, scalingHorizontal, scalingVertical);
-
-			if (autoScaleMode != AutoScaleMode::Disabled)
-			{
-				UpdateFont();
-			}
 		}
 		//---------------------------------------------------------------------------
 		void Font::Rasterise(std::uint32_t startCodepoint, std::uint32_t endCodepoint) const

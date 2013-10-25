@@ -4,6 +4,7 @@
 #include "FontGlyph.hpp"
 #include "Color.hpp"
 #include "../Misc/Strings.hpp"
+#include "Image.hpp"
 #include <map>
 #include <vector>
 #include <memory>
@@ -85,54 +86,6 @@ namespace OSHGui
 				extent measurement functions).
 			*/
 			float DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra = 0.0f, const float scaleX = 1.0f, const float scaleY = 1.0f) const;
-
-			/*!
-			\brief
-				Set the native resolution for this Font
-
-			\param size
-				Size object describing the new native screen resolution for this Font.
-			*/
-			void SetNativeResolution(const SizeF &resolution);
-
-			/*!
-			\brief
-				Return the native display size for this Font.  This is only relevant if
-				the Font is being auto-scaled.
-
-			\return
-				Size object describing the native display size for this Font.
-			*/
-			const SizeF& GetNativeResolution() const;
-
-			/*!
-			\brief
-				Enable or disable auto-scaling for this Font.
-
-			\param auto_scaled
-				AutoScaledMode describing how this font should be auto scaled
-
-			\see AutoScaledMode
-			*/
-			void SetAutoScaled(const AutoScaleMode autoScaleMode);
-
-			/*!
-			\brief
-				Checks whether this font is being auto-scaled and how.
-
-			\return
-				AutoScaledMode describing how this font should be auto scaled
-			*/
-			AutoScaleMode GetAutoScaled() const;
-
-			/*!
-			\brief
-				Notify the Font that the display size may have changed.
-
-			\param size
-				Size object describing the display resolution
-			*/
-			virtual void NotifyDisplaySizeChanged(const SizeF &size);
 
 			/*!
 			\brief
@@ -322,7 +275,7 @@ namespace OSHGui
 
 		protected:
 			//! Constructor.
-			Font(const AutoScaleMode auto_scaled, const SizeF& native_res);
+			Font();
 
 			/*!
 			\brief
@@ -363,10 +316,6 @@ namespace OSHGui
 			//! (ascender - descender) + linegap
 			float height;
 
-			//! which mode should we use for auto-scaling
-			AutoScaleMode autoScaleMode;
-			//! native resolution for this Font.
-			SizeF nativeResolution;
 			//! current horizontal scaling factor.
 			float scalingHorizontal;
 			//! current vertical scaling factor.

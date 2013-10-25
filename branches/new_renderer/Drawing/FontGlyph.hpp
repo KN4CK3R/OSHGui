@@ -18,8 +18,8 @@ namespace OSHGui
 		{
 		public:
 			//! Constructor.
-			FontGlyph(float _advance = 0.0f, const std::shared_ptr<Image> &_image = nullptr, bool _valid = false)
-				: image(_image),
+			FontGlyph(float _advance = 0.0f, ImagePtr _image = nullptr, bool _valid = false)
+				: image(std::move(_image)),
 				  advance(_advance),
 				  valid(_valid)
 			{
@@ -27,7 +27,7 @@ namespace OSHGui
 			}
 
 			//! Return the CEGUI::Image object rendered for this glyph.
-			const std::shared_ptr<Image>& GetImage() const
+			const ImagePtr& GetImage() const
 			{
 				return image;
 			}
@@ -41,13 +41,13 @@ namespace OSHGui
 			//! Return the scaled width of the glyph.
 			float GetWidth(float scaleX) const
 			{
-				return image->GetRenderedSize().Width * scaleX;
+				return image->GetSize().Width * scaleX;
 			}
 
 			//! Return the scaled height of the glyph.
 			float GetHeight(float scaleY) const
 			{
-				return image->GetRenderedSize().Height * scaleY;
+				return image->GetSize().Height * scaleY;
 			}
 
 			/*!
@@ -59,7 +59,7 @@ namespace OSHGui
 			*/
 			float GetRenderedAdvance(float scaleX) const
 			{
-				return (image->GetRenderedSize().Width + image->GetRenderedOffset().X) * scaleX;
+				return (image->GetSize().Width + image->GetOffset().X) * scaleX;
 			}
 
 			/*!
@@ -83,7 +83,7 @@ namespace OSHGui
 			}
 
 			//! Set the CEGUI::Image object rendered for this glyph.
-			void SetImage(const std::shared_ptr<Image> &image)
+			void SetImage(const ImagePtr &image)
 			{
 				this->image = image;
 			}
@@ -102,7 +102,7 @@ namespace OSHGui
 
 		private:
 			//! The image which will be rendered for this glyph.
-			std::shared_ptr<Image> image;
+			ImagePtr image;
 			//! Amount to advance the pen after rendering this glyph
 			float advance;
 			//! says whether this glyph info is actually valid

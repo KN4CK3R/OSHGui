@@ -120,7 +120,7 @@ namespace OSHGui
 				return len;
 			}
 
-			static Quaternion eulerAnglesRadians(const float x, const float y, const float z)
+			static Quaternion EulerAnglesRadians(const float x, const float y, const float z)
 			{
 				// the order of rotation:
 				// 1) around Z
@@ -145,11 +145,11 @@ namespace OSHGui
 			}
 
 			//----------------------------------------------------------------------------//
-			static Quaternion eulerAnglesDegrees(const float x, const float y, const float z)
+			static Quaternion EulerAnglesDegrees(const float x, const float y, const float z)
 			{
 				static const float d2r = (4.0f * std::atan2(1.0f, 1.0f)) / 180.0f;
 
-				return eulerAnglesRadians(x * d2r, y * d2r, z * d2r);
+				return EulerAnglesRadians(x * d2r, y * d2r, z * d2r);
 			}
 
 			//! Quaternion(0, 0, 0, 0)

@@ -9,14 +9,13 @@ namespace OSHGui
 		// Pixels to put between glyphs
 		const unsigned int GLYPH_PADDING = 2;
 		// A multiplication coefficient to convert FT_Pos values into normal floats
-		const float FT_POS_COEFFICIENT = 1.0f/64.0f;
+		const float FT_POS_COEFFICIENT = 1.0f / 64.0f;
 		//---------------------------------------------------------------------------
-		FT_Library freeType;
+		FT_Library freeType = nullptr;
 		int freeTypeUsageCounter = 0;
 		//---------------------------------------------------------------------------
-		FreeTypeFont::FreeTypeFont(const Misc::AnsiString &filename, const float _pointSize, const bool _antiAliased, const AutoScaleMode autoScaleMode, const SizeF &nativeResoultion, const float _lineSpacing)
-			: Font(autoScaleMode, nativeResoultion),
-			  lineSpacing(_lineSpacing),
+		FreeTypeFont::FreeTypeFont(const Misc::AnsiString &filename, const float _pointSize, const bool _antiAliased, const float _lineSpacing)
+			: lineSpacing(_lineSpacing),
 			  pointSize(_pointSize),
 			  antiAliased(_antiAliased),
 			  fontFace(nullptr)
@@ -31,13 +30,12 @@ namespace OSHGui
 			UpdateFont();
 		}
 		//---------------------------------------------------------------------------
-		FreeTypeFont::FreeTypeFont(const Misc::RawDataContainer &_data, const float _pointSize, const bool _antiAliased, const AutoScaleMode autoScaleMode, const SizeF &nativeResoultion, const float _lineSpacing)
-			: Font(autoScaleMode, nativeResoultion),
-			lineSpacing(_lineSpacing),
-			pointSize(_pointSize),
-			antiAliased(_antiAliased),
-			fontFace(nullptr),
-			data(_data)
+		FreeTypeFont::FreeTypeFont(Misc::RawDataContainer _data, const float _pointSize, const bool _antiAliased, const float _lineSpacing)
+			: lineSpacing(_lineSpacing),
+			  pointSize(_pointSize),
+			  antiAliased(_antiAliased),
+			  fontFace(nullptr),
+			  data(std::move(_data))
 		{
 			if (!freeTypeUsageCounter++)
 			{
@@ -60,7 +58,7 @@ namespace OSHGui
 		std::uint32_t FreeTypeFont::GetTextureSize(CodepointIterator start, CodepointIterator end) const
 		{
 			auto size = 32;
-			auto maximum = Application::Instance()->GetRenderer_()->GetMaximumTextureSize();
+			auto maximum = Application::Instance()->GetRenderer()->GetMaximumTextureSize();
 			auto count = 0;
 
 			while (size < maximum)
@@ -129,10 +127,10 @@ namespace OSHGui
 					break;
 				}
 
-				auto texture = Application::Instance()->GetRenderer_()->CreateTexture(SizeF(textureSize, textureSize));
+				auto texture = Application::Instance()->GetRenderer()->CreateTexture(SizeF(textureSize, textureSize));
 				glyphTextures.push_back(texture);
 
-				std::vector<std::uint32_t> buffer(textureSize * textureSize);
+				std::vector<uint32_t> buffer(textureSize * textureSize);
 				
 				auto x = GLYPH_PADDING;
 				auto y = GLYPH_PADDING;
@@ -159,9 +157,7 @@ namespace OSHGui
 					{
 						if (FT_Load_Char(fontFace, start->first, FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT | (antiAliased ? FT_LOAD_TARGET_NORMAL : FT_LOAD_TARGET_MONO)) != 0)
 						{
-							RectangleF area(0, 0, 0, 0);
-							PointF offset(0, 0);
-							auto image = std::make_shared<BasicImage>(texture, area, offset, AutoScaleMode::Disabled, nativeResolution);
+							auto image = std::make_shared<Image>(texture, RectangleF(0, 0, 0, 0), PointF(0, 0));
 							glyphImages.push_back(image);
 							start->second.SetImage(image);
 						}
@@ -189,7 +185,7 @@ namespace OSHGui
 							RectangleF area(x, y, glyphWidth - GLYPH_PADDING, glyphHeight - GLYPH_PADDING);
 							PointF offset(fontFace->glyph->metrics.horiBearingX * FT_POS_COEFFICIENT, -fontFace->glyph->metrics.horiBearingY * FT_POS_COEFFICIENT);
 
-							auto image = std::make_shared<BasicImage>(texture, area, offset, AutoScaleMode::Disabled, nativeResolution);
+							auto image = std::make_shared<Image>(texture, area, offset);
 							glyphImages.push_back(image);
 							start->second.SetImage(image);
 
@@ -301,16 +297,11 @@ namespace OSHGui
 				throw;
 			}
 
-			auto dpiHorizontal = static_cast<std::uint32_t>(Application::Instance()->GetRenderer_()->GetDisplayDPI().X);
-			auto dpiVertical = static_cast<std::uint32_t>(Application::Instance()->GetRenderer_()->GetDisplayDPI().Y);
+			auto dpiHorizontal = static_cast<std::uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().X);
+			auto dpiVertical = static_cast<std::uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().Y);
 
 			auto hps = pointSize * 64.0f;
 			auto vps = pointSize * 64.0f;
-			if (autoScaleMode != AutoScaleMode::Disabled)
-			{
-				hps *= scalingHorizontal;
-				vps *= scalingVertical;
-			}
 
 			if (FT_Set_Char_Size(fontFace, FT_F26Dot6(hps), FT_F26Dot6(vps), dpiHorizontal, dpiVertical) != 0)
 			{
@@ -418,14 +409,15 @@ namespace OSHGui
 			return pointSize;
 		}
 		//---------------------------------------------------------------------------
-		void FreeTypeFont::SetPointSize(const float pointSize)
+		void FreeTypeFont::SetPointSize(const float _pointSize)
 		{
-			if (this->pointSize == pointSize)
+			if (pointSize == _pointSize)
 			{
 				return;
 			}
 
-			this->pointSize = pointSize;
+			pointSize = _pointSize;
+
 			UpdateFont();
 		}
 		//---------------------------------------------------------------------------
@@ -434,14 +426,15 @@ namespace OSHGui
 			return antiAliased;
 		}
 		//---------------------------------------------------------------------------
-		void FreeTypeFont::SetAntiAliased(const bool antiAliasing)
+		void FreeTypeFont::SetAntiAliased(const bool _antiAliasing)
 		{
-			if (this->antiAliased == antiAliasing)
+			if (antiAliased == _antiAliasing)
 			{
 				return;
 			}
 
-			this->antiAliased = antiAliasing;
+			antiAliased = _antiAliasing;
+
 			UpdateFont();
 		}
 		//---------------------------------------------------------------------------

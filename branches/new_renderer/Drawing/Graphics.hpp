@@ -10,6 +10,8 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		class Image;
+
 		class OSHGUI_EXPORT Graphics
 		{
 		public:
@@ -27,6 +29,9 @@ namespace OSHGui
 			 * Löscht den Inhalt der Textur.
 			 */
 			void Clear();
+
+			void Rotate(const PointF &pivot, const Vector &angles);
+
 			/**
 			 * Füllt das Rechteck.
 			 *
@@ -135,7 +140,13 @@ namespace OSHGui
 
 			void DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y);
 
-			void Rotate(const PointF &pivot, const Vector &angles);
+			void DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const PointF &origin);
+
+			void DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const PointF &origin, const RectangleF &clip);
+
+			void DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area);
+
+			void DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area, const RectangleF &clip);
 
 		private:
 			GeometryBufferPtr &buffer;

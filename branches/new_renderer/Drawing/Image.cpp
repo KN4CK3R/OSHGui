@@ -1,48 +1,164 @@
 #include "Image.hpp"
+#include "../Application.hpp"
+#include "../Misc/Exceptions.hpp"
 
-#include <algorithm>
+#include "FreeImage.h"
 
 namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		Image::Image()
+			: texture(nullptr),
+			  area(0, 0, 0, 0),
+			  offset(0, 0),
+			  scaledSize(0, 0),
+			  scaledOffset(0, 0)
+		{
+
+		}
+		//---------------------------------------------------------------------------
+		Image::Image(TexturePtr _texture)
+			: texture(std::move(_texture)),
+			  area(PointF(0, 0), texture->GetSize()),
+			  offset(0, 0),
+			  scaledOffset(offset),
+			  scaledSize(area.GetSize())
+		{
+
+		}
+		//---------------------------------------------------------------------------
+		Image::Image(TexturePtr _texture, RectangleF _area, PointF _offset)
+			: texture(std::move(_texture)),
+			  area(std::move(_area)),
+			  offset(std::move(_offset)),
+			  scaledOffset(offset),
+			  scaledSize(area.GetSize())
+		{
+
+		}
+		//---------------------------------------------------------------------------
 		Image::~Image()
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		void Image::ComputeScalingFactors(AutoScaleMode mode, const SizeF &display, const SizeF &native, float &xScale, float &yScale)
+		ImagePtr Image::FromFile(const Misc::AnsiString &filename)
 		{
-			switch (mode)
-			{
-				case AutoScaleMode::Disabled:
-					xScale = 1.0f;
-					yScale = 1.0f;
-					break;
-				case AutoScaleMode::Vertical:
-					xScale = display.Height / native.Height;
-					yScale = xScale;
-					break;
-				case AutoScaleMode::Horizontal:
-					xScale = display.Width / native.Width;
-					yScale = xScale;
-					break;
-				case AutoScaleMode::Min:
-					xScale = std::min(display.Width / native.Width, display.Height / native.Height);
-					yScale = xScale;
-					break;
-				case AutoScaleMode::Max:
-					xScale = std::max(display.Width / native.Width, display.Height / native.Height);
-					yScale = xScale;
-					break;
-				case AutoScaleMode::Both:
-					xScale = display.Width / native.Width;
-					yScale = display.Height / native.Height;
-					break;
-				default:
-					throw;
-			}
-			//---------------------------------------------------------------------------
+			Misc::RawDataContainer data;
+			data.LoadFromFile(filename);
+
+			return FromMemory(data);
 		}
+		//---------------------------------------------------------------------------
+		ImagePtr Image::FromMemory(const Misc::RawDataContainer &data)
+		{
+			auto stream = FreeImage_OpenMemory(const_cast<uint8_t*>(data.GetDataPointer()), data.GetSize());
+
+			auto format = FreeImage_GetFileTypeFromMemory(stream);
+			if (format == FIF_UNKNOWN)
+			{
+				throw Misc::Exception();
+			}
+
+			auto image = FreeImage_LoadFromMemory(format, stream);
+			if (image == nullptr)
+			{
+				throw Misc::Exception();
+			}
+
+			FreeImage_FlipVertical(image);
+
+			auto temp = image;
+			image = FreeImage_ConvertTo32Bits(image);
+			FreeImage_Unload(temp);
+
+			auto width = FreeImage_GetWidth(image);
+			auto height = FreeImage_GetHeight(image);
+
+			std::vector<uint8_t> buffer(width * height * 4);
+
+			auto pixeles = FreeImage_GetBits(image);
+			for (int i = 0; i < width * height; ++i)
+			{
+				buffer[i * 4 + 0] = pixeles[i * 4 + 2];
+				buffer[i * 4 + 1] = pixeles[i * 4 + 1];
+				buffer[i * 4 + 2] = pixeles[i * 4 + 0];
+				buffer[i * 4 + 3] = pixeles[i * 4 + 3];
+			}
+
+			FreeImage_Unload(image);
+
+			FreeImage_CloseMemory(stream);
+
+			return FromBuffer(buffer.data(), SizeF(width, height), Texture::PixelFormat::RGBA);
+		}
+		//---------------------------------------------------------------------------
+		ImagePtr Image::FromBuffer(const void *data, const SizeF &size, Texture::PixelFormat format)
+		{
+			auto texture = Application::Instance()->GetRenderer()->CreateTexture();
+			
+			texture->LoadFromMemory(data, size, format);
+
+			return std::make_shared<Image>(texture);
+		}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		const SizeF& Image::GetSize() const
+		{
+			return scaledSize;
+		}
+		//---------------------------------------------------------------------------
+		const PointF& Image::GetOffset() const
+		{
+			return scaledOffset;
+		}
+		//---------------------------------------------------------------------------
+		//
+		//---------------------------------------------------------------------------
+		void Image::Render(GeometryBuffer &buffer, const RectangleF &_area, const RectangleF *clip, const ColorRectangle &colors)
+		{
+			auto destination(_area);
+			destination.Offset(scaledOffset);
+
+			auto final_rect(clip ? destination.GetIntersection(*clip) : destination);
+			if (final_rect.GetWidth() == 0 || final_rect.GetHeight() == 0)
+			{
+				return;
+			}
+
+			auto &scale = texture->GetTexelScaling();
+			std::pair<float, float> pixelSize(area.GetWidth() / destination.GetWidth(), area.GetHeight() / destination.GetHeight());
+
+			RectangleF textureRectangle((area.GetLocation() + ((final_rect.GetLocation() - destination.GetLocation()) * pixelSize)) * scale,
+										(area.GetSize() + ((final_rect.GetSize() - destination.GetSize()) * pixelSize)) * scale);
+
+			auto alignToPixels = [](float x)
+			{
+				return (float)(int)(( x ) + (( x ) > 0.0f ? 0.5f : -0.5f));
+			};
+
+			final_rect.SetLeft(alignToPixels(final_rect.GetLeft()));
+			final_rect.SetTop(alignToPixels(final_rect.GetTop()));
+			final_rect.SetHeight(alignToPixels(final_rect.GetHeight()));
+			final_rect.SetWidth(alignToPixels(final_rect.GetWidth()));
+
+			Vertex vertices[] = {
+				{ Vector(final_rect.GetLeft(), final_rect.GetTop(), 0.0f),     colors.TopLeft,     PointF(textureRectangle.GetLeft(), textureRectangle.GetTop()) },
+				{ Vector(final_rect.GetLeft(), final_rect.GetBottom(), 0.0f),  colors.BottomLeft,  PointF(textureRectangle.GetLeft(), textureRectangle.GetBottom()) },
+				{ Vector(final_rect.GetRight(), final_rect.GetBottom(), 0.0f), colors.BottomRight, PointF(textureRectangle.GetRight(), textureRectangle.GetBottom()) },
+				{ Vector(final_rect.GetRight(), final_rect.GetTop(), 0.0f),    colors.TopRight,    PointF(textureRectangle.GetRight(), textureRectangle.GetTop()) },
+				{ Vector(final_rect.GetLeft(), final_rect.GetTop(), 0.0f),     colors.TopLeft,     PointF(textureRectangle.GetLeft(), textureRectangle.GetTop()) },
+				{ Vector(final_rect.GetRight(), final_rect.GetBottom(), 0.0f), colors.BottomRight, PointF(textureRectangle.GetRight(), textureRectangle.GetBottom()) },
+			};
+
+			buffer.SetActiveTexture(texture);
+			buffer.AppendGeometry(vertices, 6);
+		}
+		//---------------------------------------------------------------------------
 	}
 }

@@ -3,7 +3,7 @@
 
 #include "Font.hpp"
 #include "../Misc/RawDataContainer.hpp"
-#include "BasicImage.hpp"
+#include "Image.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -66,9 +66,9 @@ namespace OSHGui
 				report for this font, regardless of what is mentioned in the font file
 				itself.
 			*/
-			FreeTypeFont(const Misc::AnsiString &filename, const float pointSize, const bool antiAliased, const AutoScaleMode autoScaleMode = AutoScaleMode::Disabled, const SizeF &nativeResoultion = SizeF(640.0f, 480.0f), const float lineSpacing = 0.0f);
+			FreeTypeFont(const Misc::AnsiString &filename, const float pointSize, const bool antiAliased, const float lineSpacing = 0.0f);
 
-			FreeTypeFont(const Misc::RawDataContainer &data, const float pointSize, const bool antiAliased, const AutoScaleMode autoScaleMode = AutoScaleMode::Disabled, const SizeF &nativeResoultion = SizeF(640.0f, 480.0f), const float lineSpacing = 0.0f);
+			FreeTypeFont(Misc::RawDataContainer data, const float pointSize, const bool antiAliased, const float lineSpacing = 0.0f);
 
 			//! Destructor.
 			~FreeTypeFont();
@@ -144,7 +144,7 @@ namespace OSHGui
 			typedef std::vector<TexturePtr> TextureVector;
 			//! Textures that hold the glyph imagery for this font.
 			mutable TextureVector glyphTextures;
-			typedef std::vector<std::shared_ptr<BasicImage>> ImageVector;
+			typedef std::vector<ImagePtr> ImageVector;
 			//! collection of images defined for this font.
 			mutable ImageVector glyphImages;
 		};
