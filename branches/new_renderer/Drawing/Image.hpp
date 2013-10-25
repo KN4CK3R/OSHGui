@@ -91,6 +91,8 @@ namespace OSHGui
 			 */
 			static void ComputeScalingFactors(AutoScaleMode mode, const SizeF &size, const SizeF &nativeSize, float &scaleX, float &scaleY);
 		};
+
+		typedef std::shared_ptr<Image> ImagePtr;
 	}
 }
 

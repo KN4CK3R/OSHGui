@@ -29,7 +29,7 @@ namespace OSHGui
 			  autoScaleMode(_autoScaleMode),
 			  nativeResolution(_nativeResolution)
 		{
-			notifyDisplaySizeChanged(Application::Instance()->GetRenderer_()->GetDisplaySize());
+			notifyDisplaySizeChanged(Application::Instance()->GetRenderer()->GetDisplaySize());
 		}
 		//---------------------------------------------------------------------------
 		void BasicImage::SetTexture(TexturePtr &texture)
@@ -44,7 +44,7 @@ namespace OSHGui
 
 			if (autoScaleMode != AutoScaleMode::Disabled)
 			{
-				notifyDisplaySizeChanged(Application::Instance()->GetRenderer_()->GetDisplaySize());
+				notifyDisplaySizeChanged(Application::Instance()->GetRenderer()->GetDisplaySize());
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace OSHGui
 
 			if (autoScaleMode != AutoScaleMode::Disabled)
 			{
-				notifyDisplaySizeChanged(Application::Instance()->GetRenderer_()->GetDisplaySize());
+				notifyDisplaySizeChanged(Application::Instance()->GetRenderer()->GetDisplaySize());
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace OSHGui
 
 			if (autoScaleMode != AutoScaleMode::Disabled)
 			{
-				notifyDisplaySizeChanged(Application::Instance()->GetRenderer_()->GetDisplaySize());
+				notifyDisplaySizeChanged(Application::Instance()->GetRenderer()->GetDisplaySize());
 			}
 			else
 			{
@@ -79,7 +79,7 @@ namespace OSHGui
 
 			if (autoScaleMode != AutoScaleMode::Disabled)
 			{
-				notifyDisplaySizeChanged(Application::Instance()->GetRenderer_()->GetDisplaySize());
+				notifyDisplaySizeChanged(Application::Instance()->GetRenderer()->GetDisplaySize());
 			}
 		}
 		//---------------------------------------------------------------------------

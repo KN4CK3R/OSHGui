@@ -12,6 +12,8 @@ namespace OSHGui
 		class OSHGUI_EXPORT BasicImage : public Image
 		{
 		public:
+			using Image::Render;
+
 			BasicImage();
 			BasicImage(TexturePtr &texture, const RectangleF &area, const PointF &pixelOffset, const AutoScaleMode autoscaled, const SizeF &nativeResolution);
 
@@ -45,6 +47,8 @@ namespace OSHGui
 			//! Offset after having autoscaling applied.
 			PointF scaledOffset;
 		};
+
+		typedef std::shared_ptr<BasicImage> BasicImagePtr;
 	}
 }
 
