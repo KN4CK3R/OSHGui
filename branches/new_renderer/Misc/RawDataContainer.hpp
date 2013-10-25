@@ -34,6 +34,7 @@ namespace OSHGui
 			RawDataContainer(std::uint32_t size);
 			
 			std::uint8_t* GetDataPointer();
+			const std::uint8_t* GetDataPointer() const;
 			std::uint32_t GetSize() const;
 
 			void LoadFromFile(const Misc::AnsiString &filename);
