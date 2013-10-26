@@ -47,59 +47,37 @@ namespace OSHGui
 		class OSHGUI_EXPORT Renderer
 		{
 		public:
-			//! Destructor.
+			/**
+			 * Destruktor der Klasse.
+			 */
 			virtual ~Renderer() {}
 
-			/*!
-			\brief
-				Returns the default RenderTarget object.  The default render target is
-				is typically one that targets the entire screen (or rendering window).
-
-			\return
-				Reference to a RenderTarget object.
-			*/
+			/**
+			 * Ruft das Standard RenderTarget ab. Dies ist meistens der komplette Bildschirm.
+			 *
+			 * @return Standard RenderTarget
+			 */
 			virtual RenderTargetPtr& GetDefaultRenderTarget() = 0;
 
-			/*!
-			\brief
-				Create a new GeometryBuffer and return a reference to it.  You should
-				remove the GeometryBuffer from any RenderQueues and call
-				destroyGeometryBuffer when you want to destroy the GeometryBuffer.
-
-			\return
-				GeometryBuffer object.
-			*/
+			/**
+			 * Erzeugt einen neuen GeometryBuffer.
+			 *
+			 * @return GeometryBuffer
+			 */
 			virtual GeometryBufferPtr CreateGeometryBuffer() = 0;
 
-			/*!
-			\brief
-				Create a TextureTarget that can be used to cache imagery; this is a
-				RenderTarget that does not lose it's content from one frame to another.
-
-				If the renderer is unable to offer such a thing, 0 should be returned.
-
-			\return
-				Pointer to a TextureTarget object that is suitable for caching imagery,
-				or 0 if the renderer is unable to offer such a thing.
-			*/
+			/**
+			 * Erzeugt ein neues TextureTarget zum Cachen von Zeichnungen.
+			 *
+			 * @return TextureTarget oder nullptr, falls nicht unterstützt
+			 */
 			virtual TextureTargetPtr CreateTextureTarget() = 0;
 
-			/*!
-			\brief
-				Create a 'null' Texture object.
-
-			\param name
-				String holding the name for the new texture.  Texture names must be
-				unique within the Renderer.
-
-			\return
-				A newly created Texture object.  The returned Texture object has no size
-				or imagery associated with it.
-
-			\exceptions
-				- AlreadyExistsException - thrown if a Texture object named \a name
-				  already exists within the system.
-			*/
+			/**
+			 * Erzeugt eine leere Textur.
+			 *
+			 * @return Textur
+			 */
 			virtual TexturePtr CreateTexture() = 0;
 
 			/*!
@@ -134,44 +112,22 @@ namespace OSHGui
 			*/
 			virtual TexturePtr CreateTexture(const Misc::AnsiString &filename) = 0;
 
-			/*!
-			\brief
-				Create a Texture object with the given pixel dimensions as specified by
-				\a size.
-
-			\param name
-				String holding the name for the new texture.  Texture names must be
-				unique within the Renderer.
-
-			\param size
-				SizeF object that describes the desired texture size.
-
-			\return
-				A newly created Texture object.  The initial contents of the texture
-				memory is undefined.
-
-			\note
-				Due to possible limitations of the underlying hardware, API or engine,
-				the final size of the texture may not match the requested size.  You can
-				check the ultimate sizes by querying the Texture object after creation.
-
-			\exceptions
-				- AlreadyExistsException - thrown if a Texture object named \a name
-				  already exists within the system.
-			*/
+			/**
+			 * Erzeugt eine leere Textur mit der angegebenen Größe. Eventuell wird die Größe für die Hardware angepasst.
+			 *
+			 * @param size
+			 * @return Textur
+			 */
 			virtual TexturePtr CreateTexture(const SizeF &size) = 0;
 
-			/*!
-			\brief
-				Perform any operations required to put the system into a state ready
-				for rendering operations to begin.
-			*/
+			/**
+			 * Erlaubt dem Renderer sich auf das Zeichnen vorzubereiten.
+			 */
 			virtual void BeginRendering() = 0;
 
-			/*!
-			\brief
-				Perform any operations required to finalise rendering.
-			*/
+			/**
+			 * Erlaubt dem Renderer sich auf das Beenden des Zeichnens vorzubereiten.
+			 */
 			virtual void EndRendering() = 0;
 
 			/*!
@@ -191,6 +147,12 @@ namespace OSHGui
 				SizeF object describing the dimesions of the current or host window in
 				pixels.
 			*/
+
+			/**
+			 * Legt die Größe des Zeichenbereichs fest.
+			 *
+			 * @param size
+			 */
 			virtual void SetDisplaySize(const SizeF &size) = 0;
 
 			/*!
@@ -201,26 +163,26 @@ namespace OSHGui
 				SizeF object describing the pixel dimesntions of the current display or
 				host window.
 			*/
+			/**
+			 *
+			 *
+			 * @return
+			 */
 			virtual const SizeF& GetDisplaySize() const = 0;
 
-			/*!
-			\brief
-				Return the resolution of the display or host window in dots per inch.
-
-			\return
-				Vector2 object that describes the resolution of the display or host
-				window in DPI.
-			*/
+			/**
+			 * Ruft die Auflösung der Zeichenfläche in DPI ab.
+			 *
+			 * @return DPI
+			 */
 			virtual const PointF& GetDisplayDPI() const = 0;
 
-			/*!
-			\brief
-				Return the pixel size of the maximum supported texture.
-
-			\return
-				SizeF of the maximum supported texture in pixels.
-			*/
-			virtual std::uint32_t GetMaximumTextureSize() const = 0;
+			/**
+			 * Ruft die größtmögliche Texturgröße ab.
+			 *
+			 * @return Texturgröße
+			 */
+			virtual uint32_t GetMaximumTextureSize() const = 0;
 		};
 
 		typedef std::shared_ptr<Renderer> RendererPtr;

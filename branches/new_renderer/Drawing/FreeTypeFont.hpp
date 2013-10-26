@@ -104,7 +104,7 @@ namespace OSHGui
 			\return
 				Nothing.
 			*/
-			void DrawGlyphToBuffer(std::uint32_t *buffer, std::uint32_t width) const;
+			void DrawGlyphToBuffer(uint32_t *buffer, uint32_t width) const;
 
 			/*!
 			\brief
@@ -126,8 +126,8 @@ namespace OSHGui
 			void InitialiseGlyphMap();
 
 			// overrides of functions in Font base class.
-			virtual const FontGlyph* FindFontGlyph(const std::uint32_t codepoint) const override;
-			virtual void Rasterise(std::uint32_t start_codepoint, std::uint32_t end_codepoint) const override;
+			virtual const FontGlyph* FindFontGlyph(const uint32_t codepoint) const override;
+			virtual void Rasterise(uint32_t start_codepoint, uint32_t end_codepoint) const override;
 			virtual void UpdateFont() override;
 
 			//! If non-zero, the overridden line spacing that we're to report.

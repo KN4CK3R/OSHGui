@@ -5,10 +5,13 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		// amount of bits in a uint
-		const auto BITS_PER_UINT = sizeof(std::uint32_t) * 8;
-		// must be a power of two
-		const auto GLYPHS_PER_PAGE = 256;
+		//---------------------------------------------------------------------------
+		//static attributes
+		//---------------------------------------------------------------------------
+		const auto BitsPerUnit = sizeof(uint32_t) * 8;
+		const auto GlyphsPerPage = 256;
+		//---------------------------------------------------------------------------
+		//Constructor
 		//---------------------------------------------------------------------------
 		Font::Font()
 			: ascender(0.0f),
@@ -26,19 +29,21 @@ namespace OSHGui
 			
 		}
 		//---------------------------------------------------------------------------
-		void Font::SetMaxCodepoint(std::uint32_t codepoint)
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		void Font::SetMaxCodepoint(uint32_t codepoint)
 		{
 			loadedGlyphPages.clear();
 
 			maximumCodepoint = codepoint;
 
-			auto pages = (codepoint + GLYPHS_PER_PAGE) / GLYPHS_PER_PAGE;
-			auto size = (pages + BITS_PER_UINT - 1) / BITS_PER_UINT;
+			auto pages = (codepoint + GlyphsPerPage) / GlyphsPerPage;
+			auto size = (pages + BitsPerUnit - 1) / BitsPerUnit;
 
-			loadedGlyphPages.resize(size * sizeof(std::uint32_t));
+			loadedGlyphPages.resize(size * sizeof(uint32_t));
 		}
 		//---------------------------------------------------------------------------
-		const FontGlyph* Font::GetGlyphData(std::uint32_t codepoint) const
+		const FontGlyph* Font::GetGlyphData(uint32_t codepoint) const
 		{
 			if (codepoint > maximumCodepoint)
 			{
@@ -49,19 +54,19 @@ namespace OSHGui
 
 			if (!loadedGlyphPages.empty())
 			{
-				auto page = codepoint / GLYPHS_PER_PAGE;
-				auto mask = 1 << (page & (BITS_PER_UINT - 1));
-				if (!(loadedGlyphPages[page / BITS_PER_UINT] & mask))
+				auto page = codepoint / GlyphsPerPage;
+				auto mask = 1 << (page & (BitsPerUnit - 1));
+				if (!(loadedGlyphPages[page / BitsPerUnit] & mask))
 				{
-					loadedGlyphPages[page / BITS_PER_UINT] |= mask;
-					Rasterise(codepoint & ~(GLYPHS_PER_PAGE - 1), codepoint | (GLYPHS_PER_PAGE - 1));
+					loadedGlyphPages[page / BitsPerUnit] |= mask;
+					Rasterise(codepoint & ~(GlyphsPerPage - 1), codepoint | (GlyphsPerPage - 1));
 				}
 			}
 
 			return glyph;
 		}
 		//---------------------------------------------------------------------------
-		const FontGlyph* Font::FindFontGlyph(const std::uint32_t codepoint) const
+		const FontGlyph* Font::FindFontGlyph(const uint32_t codepoint) const
 		{
 			auto pos = glyphMap.find(codepoint);
 			return (pos != glyphMap.end()) ? &pos->second : nullptr;
@@ -133,6 +138,8 @@ namespace OSHGui
 			return length;
 		}
 		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
 		float Font::DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra, const float scaleX, const float scaleY) const
 		{
 			auto base = position.Y + GetBaseline(scaleY);
@@ -158,7 +165,7 @@ namespace OSHGui
 			return glyphPosition.X;
 		}
 		//---------------------------------------------------------------------------
-		void Font::Rasterise(std::uint32_t startCodepoint, std::uint32_t endCodepoint) const
+		void Font::Rasterise(uint32_t startCodepoint, uint32_t endCodepoint) const
 		{
 			
 		}

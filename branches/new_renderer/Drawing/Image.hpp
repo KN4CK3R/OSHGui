@@ -19,14 +19,53 @@ namespace OSHGui
 		class OSHGUI_EXPORT Image
 		{
 		public:
+			/**
+			 * Constructs an empty image.
+			 */
 			Image();
+			/**
+			 * Constructs an image with the specific texture.
+			 *
+			 * @param texture
+			 */
 			Image(TexturePtr texture);
+			/**
+			 * Constructs an image with the specific texture and specify the area of the texture which defines the image.
+			 *
+			 * @param texture
+			 * @param area
+			 * @param offset
+			 */
 			Image(TexturePtr texture, RectangleF area, PointF offset);
+			/**
+			 * Destructor
+			 */
 			virtual ~Image();
 
+			/**
+			 * Loads an image from a file. (BMP, JPEG, GIF, PNG, TGA, ICO)
+			 *
+			 * @param filename Path to the file
+			 * @return the loaded image
+			 */
 			static std::shared_ptr<Image> FromFile(const Misc::AnsiString &filename);
+			/**
+			 * Loads an image from a memory container. (BMP, JPEG, GIF, PNG, TGA, ICO)
+			 *
+			 * @param data the loaded image in memory
+			 * @return the loaded image
+			 */
 			static std::shared_ptr<Image> FromMemory(const Misc::RawDataContainer &data);
+			/**
+			 * Loads an image from a buffer which holds the data in the specifed format.
+			 *
+			 * @param data
+			 * @param size the size of the image in pixels
+			 * @param format the PixelFormat
+			 * @return the loaded image
+			 */
 			static std::shared_ptr<Image> FromBuffer(const void *data, const SizeF &size, Texture::PixelFormat format);
+
 
 			virtual const SizeF& GetSize() const;
 			virtual const PointF& GetOffset() const;
@@ -41,9 +80,6 @@ namespace OSHGui
 			TexturePtr texture;
 			RectangleF area;
 			PointF offset;
-			
-			SizeF scaledSize;
-			PointF scaledOffset;
 		};
 
 		typedef std::shared_ptr<Image> ImagePtr;

@@ -26,12 +26,12 @@ namespace OSHGui
 			{
 				struct
 				{
-					std::uint8_t B;
-					std::uint8_t G;
-					std::uint8_t R;
-					std::uint8_t A;
+					uint8_t B;
+					uint8_t G;
+					uint8_t R;
+					uint8_t A;
 				};
-				std::uint32_t ARGB;
+				uint32_t ARGB;
 			};
 
 			/**
@@ -43,7 +43,7 @@ namespace OSHGui
 			 *
 			 * @param argb
 			 */
-			Color(std::uint32_t argb);
+			Color(uint32_t argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *
@@ -51,7 +51,7 @@ namespace OSHGui
 			 * @param green
 			 * @param blue
 			 */
-			Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue);
+			Color(uint8_t red, uint8_t green, uint8_t blue);
 			/**
 			 * Legt eine Farbe mit den Werten für Alpha, Rot, Grün und Blau an.
 			 *
@@ -60,7 +60,7 @@ namespace OSHGui
 			 * @param green
 			 * @param blue
 			 */
-			Color(std::uint8_t alpha, std::uint8_t red, std::uint8_t green, std::uint8_t blue);
+			Color(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue);
 
 			Color& operator+=(const Color &rhs);
 			Color& operator-=(const Color &rhs);

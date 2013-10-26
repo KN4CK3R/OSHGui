@@ -9,14 +9,12 @@ namespace OSHGui
 	namespace Drawing
 	{
 		//---------------------------------------------------------------------------
-		//
+		//Constructor
 		//---------------------------------------------------------------------------
 		Image::Image()
 			: texture(nullptr),
 			  area(0, 0, 0, 0),
-			  offset(0, 0),
-			  scaledSize(0, 0),
-			  scaledOffset(0, 0)
+			  offset(0, 0)
 		{
 
 		}
@@ -24,9 +22,7 @@ namespace OSHGui
 		Image::Image(TexturePtr _texture)
 			: texture(std::move(_texture)),
 			  area(PointF(0, 0), texture->GetSize()),
-			  offset(0, 0),
-			  scaledOffset(offset),
-			  scaledSize(area.GetSize())
+			  offset(0, 0)
 		{
 
 		}
@@ -34,9 +30,7 @@ namespace OSHGui
 		Image::Image(TexturePtr _texture, RectangleF _area, PointF _offset)
 			: texture(std::move(_texture)),
 			  area(std::move(_area)),
-			  offset(std::move(_offset)),
-			  scaledOffset(offset),
-			  scaledSize(area.GetSize())
+			  offset(std::move(_offset))
 		{
 
 		}
@@ -106,24 +100,24 @@ namespace OSHGui
 			return std::make_shared<Image>(texture);
 		}
 		//---------------------------------------------------------------------------
-		//
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		const SizeF& Image::GetSize() const
 		{
-			return scaledSize;
+			return area.GetSize();
 		}
 		//---------------------------------------------------------------------------
 		const PointF& Image::GetOffset() const
 		{
-			return scaledOffset;
+			return offset;
 		}
 		//---------------------------------------------------------------------------
-		//
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Image::Render(GeometryBuffer &buffer, const RectangleF &_area, const RectangleF *clip, const ColorRectangle &colors)
 		{
 			auto destination(_area);
-			destination.Offset(scaledOffset);
+			destination.Offset(offset);
 
 			auto final_rect(clip ? destination.GetIntersection(*clip) : destination);
 			if (final_rect.GetWidth() == 0 || final_rect.GetHeight() == 0)

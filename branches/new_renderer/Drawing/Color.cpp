@@ -25,13 +25,13 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(std::uint32_t argb)
+		Color::Color(uint32_t argb)
 			: ARGB(argb)
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
+		Color::Color(uint8_t red, uint8_t green, uint8_t blue)
 			: B(blue),
 			  G(green),
 			  R(red),
@@ -40,7 +40,7 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		Color::Color(std::uint8_t alpha, std::uint8_t red, std::uint8_t green, std::uint8_t blue)
+		Color::Color(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue)
 			: B(blue),
 			  G(green),
 			  R(red),

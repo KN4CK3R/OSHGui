@@ -35,13 +35,13 @@ namespace OSHGui
 				Return whether this Font can draw the specified code-point
 
 			\param cp
-				std::uint32_t code point that is the subject of the query.
+				uint32_t code point that is the subject of the query.
 
 			\return
 				true if the font contains a mapping for code point \a cp,
 				false if it does not contain a mapping for \a cp.
 			*/
-			bool IsCodepointAvailable(std::uint32_t cp) const
+			bool IsCodepointAvailable(uint32_t cp) const
 			{
 				return (glyphMap.find(cp) != glyphMap.end());
 			}
@@ -265,13 +265,13 @@ namespace OSHGui
 				or 0 if the codepoint does not have a glyph defined.
 
 			\param codepoint
-				std::uint32 codepoint to return the glyphDat structure for.
+				uint32 codepoint to return the glyphDat structure for.
 
 			\return
 				Pointer to the glyphDat struct for \a codepoint, or 0 if no glyph
 				is defined for \a codepoint.
 			*/
-			const FontGlyph* GetGlyphData(std::uint32_t codepoint) const;
+			const FontGlyph* GetGlyphData(uint32_t codepoint) const;
 
 		protected:
 			//! Constructor.
@@ -291,7 +291,7 @@ namespace OSHGui
 			\param end_codepoint
 				The highest codepoint that should be rasterised
 			*/
-			virtual void Rasterise(std::uint32_t startCodepoint, std::uint32_t endCodepoint) const;
+			virtual void Rasterise(uint32_t startCodepoint, uint32_t endCodepoint) const;
 
 			//! Update the font as needed, according to the current parameters.
 			virtual void UpdateFont() = 0;
@@ -301,10 +301,10 @@ namespace OSHGui
 				Set the maximal glyph index. This reserves the respective
 				number of bits in the d_glyphPageLoaded array.
 			*/
-			void SetMaxCodepoint(std::uint32_t codepoint);
+			void SetMaxCodepoint(uint32_t codepoint);
 
 			//! finds FontGlyph in map and returns it, or 0 if none.
-			virtual const FontGlyph* FindFontGlyph(const std::uint32_t codepoint) const;
+			virtual const FontGlyph* FindFontGlyph(const uint32_t codepoint) const;
 
 			//! Name of the file used to create this font (font file or imagset)
 			Misc::AnsiString filename;
@@ -322,7 +322,7 @@ namespace OSHGui
 			float scalingVertical;
 
 			//! Maximal codepoint for font glyphs
-			std::uint32_t maximumCodepoint;
+			uint32_t maximumCodepoint;
 
 			/*!
 			\brief
@@ -337,10 +337,10 @@ namespace OSHGui
 				This array is big enough to hold at least max_codepoint bits.
 				If this member is NULL, all glyphs are considered pre-rasterised.
 			*/
-			mutable std::vector<std::uint32_t> loadedGlyphPages;
+			mutable std::vector<uint32_t> loadedGlyphPages;
 
 			//! Definition of CodepointMap type.
-			typedef std::map<std::uint32_t, FontGlyph> CodepointMap;
+			typedef std::map<uint32_t, FontGlyph> CodepointMap;
 			typedef CodepointMap::iterator CodepointIterator;
 			//! Contains mappings from code points to Image objects
 			mutable CodepointMap glyphMap;

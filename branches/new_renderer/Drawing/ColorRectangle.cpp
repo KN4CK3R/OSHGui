@@ -4,10 +4,8 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		ColorRectangle::ColorRectangle()
-		{
-
-		}
+		//---------------------------------------------------------------------------
+		//Constructor
 		//---------------------------------------------------------------------------
 		ColorRectangle::ColorRectangle(const Color &col)
 			: TopLeft(col),
@@ -36,37 +34,7 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		void ColorRectangle::SetAlpha(std::uint8_t alpha)
-		{
-			TopLeft.A = alpha;
-			TopRight.A = alpha;
-			BottomLeft.A = alpha;
-			BottomRight.A = alpha;
-		}
-		//---------------------------------------------------------------------------
-		void ColorRectangle::SetTopAlpha(std::uint8_t alpha)
-		{
-			TopLeft.A = alpha;
-			TopRight.A = alpha;
-		}
-		//---------------------------------------------------------------------------
-		void ColorRectangle::SetBottomAlpha(std::uint8_t alpha)
-		{
-			BottomLeft.A = alpha;
-			BottomRight.A = alpha;
-		}
-		//---------------------------------------------------------------------------
-		void ColorRectangle::SetLeftAlpha(std::uint8_t alpha)
-		{
-			TopRight.A = alpha;
-			BottomLeft.A = alpha;
-		}
-		//---------------------------------------------------------------------------
-		void ColorRectangle::SetRightAlpha(std::uint8_t alpha)
-		{
-			TopRight.A = alpha;
-			BottomRight.A = alpha;
-		}
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		bool ColorRectangle::IsMonochromatic() const
 		{
@@ -80,6 +48,8 @@ namespace OSHGui
 			return (h2 - h1) * y + h1;
 		}
 		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
 		ColorRectangle ColorRectangle::GetSubRectangle(float left, float right, float top, float bottom) const
 		{
 			return ColorRectangle(
@@ -88,11 +58,6 @@ namespace OSHGui
 				GetColorAtPoint(left, bottom),
 				GetColorAtPoint(right, bottom)
 			);
-		}
-		//---------------------------------------------------------------------------
-		void ColorRectangle::SetColors(const Color &col)
-		{
-			TopLeft = TopRight = BottomLeft = BottomRight = col;
 		}
 		//---------------------------------------------------------------------------
 		ColorRectangle& ColorRectangle::operator+=(const ColorRectangle &rhs)

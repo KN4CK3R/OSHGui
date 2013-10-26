@@ -7,17 +7,19 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		/*!
-		\brief
-			internal class representing a single font glyph.
-
-			For TrueType fonts initially all FontGlyph's are empty
-			(getImage() will return 0), but they are filled by demand.
-		*/
+		/**
+		 * Interne Klasse, die einen einzelen Schriftglyph repräsentiert.
+		 */
 		class OSHGUI_EXPORT FontGlyph
 		{
 		public:
-			//! Constructor.
+			/**
+			 * Konstruktor der Klasse.
+			 *
+			 * @param _advance
+			 * @param _image
+			 * @param _valid
+			 */
 			FontGlyph(float _advance = 0.0f, ImagePtr _image = nullptr, bool _valid = false)
 				: image(std::move(_image)),
 				  advance(_advance),
@@ -26,13 +28,20 @@ namespace OSHGui
 
 			}
 
-			//! Return the CEGUI::Image object rendered for this glyph.
+			/**
+			 * Ruft das Image-Objekt ab, mit dem der Glyph gezeichnet wird.
+			 *
+			 * @return das Image-Objekt
+			 */
 			const ImagePtr& GetImage() const
 			{
 				return image;
 			}
 
-			//! Return the scaled pixel size of the glyph.
+			/**
+			 * Ruft die scalierte Größe des Glyphs ab.
+			 *
+			 */
 			SizeF GetSize(float scaleX, float scaleY) const
 			{
 				return SizeF(GetWidth(scaleX), GetHeight(scaleY));

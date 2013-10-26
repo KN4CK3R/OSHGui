@@ -6,13 +6,16 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		// Pixels to put between glyphs
-		const unsigned int GLYPH_PADDING = 2;
-		// A multiplication coefficient to convert FT_Pos values into normal floats
-		const float FT_POS_COEFFICIENT = 1.0f / 64.0f;
+		//---------------------------------------------------------------------------
+		//static attributes
+		//---------------------------------------------------------------------------
+		const unsigned int GlyphPadding = 2;
+		const float FT_PosCoefficient = 1.0f / 64.0f;
 		//---------------------------------------------------------------------------
 		FT_Library freeType = nullptr;
 		int freeTypeUsageCounter = 0;
+		//---------------------------------------------------------------------------
+		//Constructor
 		//---------------------------------------------------------------------------
 		FreeTypeFont::FreeTypeFont(const Misc::AnsiString &filename, const float _pointSize, const bool _antiAliased, const float _lineSpacing)
 			: lineSpacing(_lineSpacing),
@@ -55,7 +58,61 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		std::uint32_t FreeTypeFont::GetTextureSize(CodepointIterator start, CodepointIterator end) const
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		float FreeTypeFont::GetPointSize() const
+		{
+			return pointSize;
+		}
+		//---------------------------------------------------------------------------
+		void FreeTypeFont::SetPointSize(const float _pointSize)
+		{
+			if (pointSize == _pointSize)
+			{
+				return;
+			}
+
+			pointSize = _pointSize;
+
+			UpdateFont();
+		}
+		//---------------------------------------------------------------------------
+		bool FreeTypeFont::IsAntiAliased() const
+		{
+			return antiAliased;
+		}
+		//---------------------------------------------------------------------------
+		void FreeTypeFont::SetAntiAliased(const bool _antiAliasing)
+		{
+			if (antiAliased == _antiAliasing)
+			{
+				return;
+			}
+
+			antiAliased = _antiAliasing;
+
+			UpdateFont();
+		}
+		//---------------------------------------------------------------------------
+		const FontGlyph* FreeTypeFont::FindFontGlyph(const uint32_t codepoint) const
+		{
+			auto it = glyphMap.find(codepoint);
+			if (it == glyphMap.end())
+			{
+				return nullptr;
+			}
+
+			if (!it->second.IsValid())
+			{
+				InitialiseFontGlyph(it);
+			}
+
+			return &it->second;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		uint32_t FreeTypeFont::GetTextureSize(CodepointIterator start, CodepointIterator end) const
 		{
 			auto size = 32;
 			auto maximum = Application::Instance()->GetRenderer()->GetMaximumTextureSize();
@@ -63,9 +120,9 @@ namespace OSHGui
 
 			while (size < maximum)
 			{
-				auto x = GLYPH_PADDING;
-				auto y = GLYPH_PADDING;
-				auto yb = GLYPH_PADDING;
+				auto x = GlyphPadding;
+				auto y = GlyphPadding;
+				auto yb = GlyphPadding;
 				for (auto c = start; c != end; ++c)
 				{
 					if (c->second.GetImage())
@@ -78,13 +135,13 @@ namespace OSHGui
 						continue;
 					}
 
-					auto glyphWidth = (int)std::ceil(fontFace->glyph->metrics.width * FT_POS_COEFFICIENT) + GLYPH_PADDING;
-					auto glyphHeight = (int)std::ceil(fontFace->glyph->metrics.height * FT_POS_COEFFICIENT) + GLYPH_PADDING;
+					auto glyphWidth = (int)std::ceil(fontFace->glyph->metrics.width * FT_PosCoefficient) + GlyphPadding;
+					auto glyphHeight = (int)std::ceil(fontFace->glyph->metrics.height * FT_PosCoefficient) + GlyphPadding;
 
 					x += glyphWidth;
 					if (x > size)
 					{
-						x = GLYPH_PADDING;
+						x = GlyphPadding;
 						y = yb;
 					}
 					auto yy = y + glyphHeight;
@@ -102,14 +159,14 @@ namespace OSHGui
 				}
 				break;
 
-			too_small:
+				too_small:
 				size *= 2;
 			}
 
 			return count ? size : 0;
 		}
 		//---------------------------------------------------------------------------
-		void FreeTypeFont::Rasterise(std::uint32_t startCodepoint, std::uint32_t endCodepoint) const
+		void FreeTypeFont::Rasterise(uint32_t startCodepoint, uint32_t endCodepoint) const
 		{
 			auto start = glyphMap.lower_bound(startCodepoint);
 			if (start == glyphMap.end())
@@ -132,9 +189,9 @@ namespace OSHGui
 
 				std::vector<uint32_t> buffer(textureSize * textureSize);
 				
-				auto x = GLYPH_PADDING;
-				auto y = GLYPH_PADDING;
-				auto yb = GLYPH_PADDING;
+				auto x = GlyphPadding;
+				auto y = GlyphPadding;
+				auto yb = GlyphPadding;
 
 				// Set to true when we finish rendering all glyphs we were asked to
 				bool finished = false;
@@ -163,13 +220,13 @@ namespace OSHGui
 						}
 						else
 						{
-							auto glyphWidth = fontFace->glyph->bitmap.width + GLYPH_PADDING;
-							auto glyphHeight = fontFace->glyph->bitmap.rows + GLYPH_PADDING;
+							auto glyphWidth = fontFace->glyph->bitmap.width + GlyphPadding;
+							auto glyphHeight = fontFace->glyph->bitmap.rows + GlyphPadding;
 
 							auto next = x + glyphWidth;
 							if (next > textureSize)
 							{
-								x = GLYPH_PADDING;
+								x = GlyphPadding;
 								next = x + glyphWidth;
 								y = yb;
 							}
@@ -182,8 +239,8 @@ namespace OSHGui
 
 							DrawGlyphToBuffer(buffer.data() + (y * textureSize) + x, textureSize);
 
-							RectangleF area(x, y, glyphWidth - GLYPH_PADDING, glyphHeight - GLYPH_PADDING);
-							PointF offset(fontFace->glyph->metrics.horiBearingX * FT_POS_COEFFICIENT, -fontFace->glyph->metrics.horiBearingY * FT_POS_COEFFICIENT);
+							RectangleF area(x, y, glyphWidth - GlyphPadding, glyphHeight - GlyphPadding);
+							PointF offset(fontFace->glyph->metrics.horiBearingX * FT_PosCoefficient, -fontFace->glyph->metrics.horiBearingY * FT_PosCoefficient);
 
 							auto image = std::make_shared<Image>(texture, area, offset);
 							glyphImages.push_back(image);
@@ -224,7 +281,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void FreeTypeFont::DrawGlyphToBuffer(std::uint32_t *buffer, std::uint32_t width) const
+		void FreeTypeFont::DrawGlyphToBuffer(uint32_t *buffer, uint32_t width) const
 		{
 			auto bitmap = &fontFace->glyph->bitmap;
 
@@ -235,7 +292,7 @@ namespace OSHGui
 				{
 					case FT_PIXEL_MODE_GRAY:
 						{
-							auto dst = reinterpret_cast<std::uint8_t*>(buffer);
+							auto dst = reinterpret_cast<uint8_t*>(buffer);
 							for (int j = 0; j < bitmap->width; ++j)
 							{
 								*dst++ = 0xFF;
@@ -297,8 +354,8 @@ namespace OSHGui
 				throw;
 			}
 
-			auto dpiHorizontal = static_cast<std::uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().X);
-			auto dpiVertical = static_cast<std::uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().Y);
+			auto dpiHorizontal = static_cast<uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().X);
+			auto dpiVertical = static_cast<uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().Y);
 
 			auto hps = pointSize * 64.0f;
 			auto vps = pointSize * 64.0f;
@@ -312,7 +369,7 @@ namespace OSHGui
 				auto bestSize = 0.0f;
 				for (int i = 0; i < fontFace->num_fixed_sizes; i++)
 				{
-					float size = fontFace->available_sizes[i].size * FT_POS_COEFFICIENT;
+					float size = fontFace->available_sizes[i].size * FT_PosCoefficient;
 					float delta = std::abs(size - ptSize72);
 					if (delta < bestDelta)
 					{
@@ -334,16 +391,16 @@ namespace OSHGui
 
 			if (fontFace->face_flags & FT_FACE_FLAG_SCALABLE)
 			{
-				float scaleY = fontFace->size->metrics.y_scale * FT_POS_COEFFICIENT * (1.0f / 65536.0f);
+				float scaleY = fontFace->size->metrics.y_scale * FT_PosCoefficient * (1.0f / 65536.0f);
 				ascender = fontFace->ascender * scaleY;
 				descender = fontFace->descender * scaleY;
 				height = fontFace->height * scaleY;
 			}
 			else
 			{
-				ascender = fontFace->size->metrics.ascender * FT_POS_COEFFICIENT;
-				descender = fontFace->size->metrics.descender * FT_POS_COEFFICIENT;
-				height = fontFace->size->metrics.height * FT_POS_COEFFICIENT;
+				ascender = fontFace->size->metrics.ascender * FT_PosCoefficient;
+				descender = fontFace->size->metrics.descender * FT_PosCoefficient;
+				height = fontFace->size->metrics.height * FT_PosCoefficient;
 			}
 
 			if (lineSpacing > 0.0f)
@@ -375,22 +432,6 @@ namespace OSHGui
 			SetMaxCodepoint(maximum);
 		}
 		//---------------------------------------------------------------------------
-		const FontGlyph* FreeTypeFont::FindFontGlyph(const std::uint32_t codepoint) const
-		{
-			auto it = glyphMap.find(codepoint);
-			if (it == glyphMap.end())
-			{
-				return nullptr;
-			}
-
-			if (!it->second.IsValid())
-			{
-				InitialiseFontGlyph(it);
-			}
-
-			return &it->second;
-		}
-		//---------------------------------------------------------------------------
 		void FreeTypeFont::InitialiseFontGlyph(CodepointIterator it) const
 		{
 			if (FT_Load_Char(fontFace, it->first, FT_LOAD_DEFAULT | FT_LOAD_FORCE_AUTOHINT) != 0)
@@ -398,44 +439,10 @@ namespace OSHGui
 				return;
 			}
 
-			auto advance = fontFace->glyph->metrics.horiAdvance * FT_POS_COEFFICIENT;
+			auto advance = fontFace->glyph->metrics.horiAdvance * FT_PosCoefficient;
 
 			it->second.SetAdvance(advance);
 			it->second.SetValid(true);
-		}
-		//---------------------------------------------------------------------------
-		float FreeTypeFont::GetPointSize() const
-		{
-			return pointSize;
-		}
-		//---------------------------------------------------------------------------
-		void FreeTypeFont::SetPointSize(const float _pointSize)
-		{
-			if (pointSize == _pointSize)
-			{
-				return;
-			}
-
-			pointSize = _pointSize;
-
-			UpdateFont();
-		}
-		//---------------------------------------------------------------------------
-		bool FreeTypeFont::IsAntiAliased() const
-		{
-			return antiAliased;
-		}
-		//---------------------------------------------------------------------------
-		void FreeTypeFont::SetAntiAliased(const bool _antiAliasing)
-		{
-			if (antiAliased == _antiAliasing)
-			{
-				return;
-			}
-
-			antiAliased = _antiAliasing;
-
-			UpdateFont();
 		}
 		//---------------------------------------------------------------------------
 	}
