@@ -47,7 +47,7 @@ namespace OSHGui
 		 *
 		 * @param renderer Instanz des verwendeten Renderers
 		 */
-		static void Create(Drawing::IRenderer *renderer_, Drawing::RendererPtr renderer = nullptr);
+		static void Create(Drawing::RendererPtr renderer = nullptr);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -66,9 +66,8 @@ namespace OSHGui
 		 *
 		 * @return renderer
 		 */
-		Drawing::IRenderer* GetRenderer() const;
+		Drawing::RendererPtr GetRenderer() const;
 
-		Drawing::RendererPtr GetRenderer_() { return renderer; }
 		GuiRenderSurface& GetRenderSurface();
 		Drawing::FontPtr& GetDefaultFont();
 		void SetDefaultFont(Drawing::FontPtr &defaultFont);
@@ -181,8 +180,6 @@ namespace OSHGui
 		Drawing::RendererPtr renderer;
 		GuiRenderSurface guiSurface;
 		Drawing::FontPtr defaultFont;
-
-		Drawing::IRenderer *renderer__;
 		
 		Drawing::Theme defaultTheme;
 		Drawing::Theme currentTheme;

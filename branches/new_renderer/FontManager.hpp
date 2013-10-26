@@ -20,14 +20,8 @@ namespace OSHGui
 	{
 	public:
 		static Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased);
-		static Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
 		static Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased);
-		static Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
 		static Drawing::FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased);
-		static Drawing::FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode);
-
-	private:
-		static Drawing::FontPtr defaultFont;
 	};
 }
 

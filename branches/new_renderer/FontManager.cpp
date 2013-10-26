@@ -18,14 +18,9 @@ namespace OSHGui
 {
 	using namespace Drawing;
 
-	FontPtr FontManager::LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased)
+	FontPtr FontManager::LoadFont(const Misc::AnsiString &_name, float pointSize, bool antiAliased)
 	{
-		return LoadFont(name, pointSize, antiAliased, AutoScaleMode::Disabled);
-	}
-	//---------------------------------------------------------------------------
-	FontPtr FontManager::LoadFont(const Misc::AnsiString &_name, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode)
-	{
-		if (_name.length() == 0)
+		if (_name.empty())
 		{
 			return nullptr;
 		}
@@ -72,7 +67,7 @@ namespace OSHGui
 						char path[MAX_PATH] = { };
 						ExpandEnvironmentStringsA(("%windir%\\fonts\\" + valueData).c_str(), path, MAX_PATH);
 
-						font = LoadFontFromFile(path, pointSize, antiAliased, autoScaleMode);
+						font = LoadFontFromFile(path, pointSize, antiAliased);
 						break;
 					}
 				}
@@ -88,22 +83,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased)
 	{
-		return LoadFontFromFile(filename, pointSize, antiAliased, AutoScaleMode::Disabled);
-	}
-	//---------------------------------------------------------------------------
-	FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode)
-	{
-		return std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased, autoScaleMode);
+		return std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);
 	}
 	//---------------------------------------------------------------------------
 	FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased)
 	{
-		return LoadFontFromMemory(data, pointSize, antiAliased, AutoScaleMode::Disabled);
-	}
-	//---------------------------------------------------------------------------
-	FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased, Drawing::AutoScaleMode autoScaleMode)
-	{
-		return std::make_shared<FreeTypeFont>(data, pointSize, antiAliased, autoScaleMode);
+		return std::make_shared<FreeTypeFont>(data, pointSize, antiAliased);
 	}
 	//---------------------------------------------------------------------------
 }

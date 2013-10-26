@@ -9,9 +9,8 @@
 #ifndef OSHGUI_PICTUREBOX_HPP
 #define OSHGUI_PICTUREBOX_HPP
 
-#include <memory>
 #include "Control.hpp"
-#include "../Drawing/ITexture.hpp"
+#include "../Drawing/Image.hpp"
 
 namespace OSHGui
 {
@@ -27,20 +26,19 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		PictureBox();
-		virtual ~PictureBox();
 		
 		/**
 		 * Legt das in der PictureBox dargestellte Bild fest.
 		 *
 		 * @param image das Bild
 		 */
-		void SetImage(const std::shared_ptr<Drawing::ITexture> &image);
+		void SetImage(const Drawing::ImagePtr &image);
 		/**
 		 * Ruft das in der PictureBox dargestellte Bild ab.
 		 *
 		 * @return das Bild
 		 */
-		std::shared_ptr<Drawing::ITexture>& GetImage();
+		Drawing::ImagePtr& GetImage();
 		/**
 		 * Legt fest, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
 		 *
@@ -61,11 +59,14 @@ namespace OSHGui
 		 * @return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
-		
+	
+	protected:
+		virtual void PopulateGeometry() override;
+
 	private:
 		static const Drawing::SizeF DefaultSize;
 
-		std::shared_ptr<Drawing::ITexture> image;
+		Drawing::ImagePtr image;
 		bool stretch;
 	};
 }

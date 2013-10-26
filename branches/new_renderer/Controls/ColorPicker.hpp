@@ -11,7 +11,7 @@
 
 #include <memory>
 #include "Control.hpp"
-#include "../Drawing/Texture.hpp"
+#include "../Drawing/Image.hpp"
 
 namespace OSHGui
 {
@@ -97,7 +97,7 @@ namespace OSHGui
 	
 		Drawing::Color color;
 		Drawing::PointF colorCursorLocation;
-		Drawing::TexturePtr gradient;
+		Drawing::ImagePtr gradient;
 
 		ColorChangedEvent colorChangedEvent;
 

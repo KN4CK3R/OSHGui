@@ -34,7 +34,7 @@ namespace OSHGui
 		  needsRedraw(true),
 		  cursor(Cursors::Get(Cursors::Default)),
 		  mouseOverFocusColor(0, 20, 20, 20),
-		  geometry(Application::Instance()->GetRenderer_()->CreateGeometryBuffer())
+		  geometry(Application::Instance()->GetRenderer()->CreateGeometryBuffer())
 	{
 		
 	}

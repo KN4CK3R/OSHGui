@@ -13,20 +13,23 @@
 #include "FormManager.hpp"
 #include "Cursor/Cursors.hpp"
 
+#include "FreeImage.h"
+
 namespace OSHGui
 {
-	Application* Application::instance;
+	Application* Application::instance = nullptr;
 	//---------------------------------------------------------------------------
 	Application::Application(Drawing::RendererPtr _renderer)
 		: renderer(std::move(_renderer)),
 		  guiSurface(*renderer->GetDefaultRenderTarget()),
 		  isEnabled(false),
-		  renderer__(nullptr),
 		  now(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
 		  CaptureControl(nullptr),
 		  MouseEnteredControl(nullptr)
 	{
+		FreeImage_Initialise();
+
 		mouse.Enabled = true;
 
 		#define MakeTheme(controlType, color1, color2) defaultTheme.SetControlColorTheme(Control::ControlTypeToString(controlType), Drawing::Theme::ControlTheme(color1, color2))
@@ -60,9 +63,14 @@ namespace OSHGui
 		return instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::IRenderer *renderer_, Drawing::RendererPtr renderer)
+	void Application::Create(Drawing::RendererPtr renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (instance)
+		{
+			throw Misc::InvalidOperationException("only one instance");
+		}
+
 		if (renderer == nullptr)
 		{
 			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
@@ -70,8 +78,6 @@ namespace OSHGui
 		#endif
 
 		instance = new Application(std::move(renderer));
-		instance->renderer__ = renderer_;
-		instance->mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
 	const bool Application::IsEnabled() const
@@ -84,9 +90,9 @@ namespace OSHGui
 		return now;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::IRenderer* Application::GetRenderer() const
+	Drawing::RendererPtr Application::GetRenderer() const
 	{
-		return renderer__;
+		return renderer;
 	}
 	//---------------------------------------------------------------------------
 	Application::GuiRenderSurface& Application::GetRenderSurface()
@@ -304,13 +310,6 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Render()
 	{
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (renderer__ == nullptr)
-		{
-			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
-		}
-		#endif
-	
 		if (!isEnabled)
 		{
 			return;
@@ -322,7 +321,7 @@ namespace OSHGui
 
 		formManager.RemoveUnregisteredForms();
 
-		static Drawing::GeometryBufferPtr cursor = GetRenderer_()->CreateGeometryBuffer();
+		static Drawing::GeometryBufferPtr cursor = GetRenderer()->CreateGeometryBuffer();
 		static bool once = true;
 		if (once)
 		{

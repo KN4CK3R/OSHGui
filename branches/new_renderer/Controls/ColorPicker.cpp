@@ -8,7 +8,7 @@
 
 #include "ColorPicker.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "../Drawing/BasicImage.hpp"
+#include "../Misc/RawDataContainer.hpp"
 
 namespace OSHGui
 {
@@ -21,8 +21,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ColorPicker::ColorPicker()
 		: drag(false),
-		  color(Drawing::Color::White()),
-		  gradient(Application::Instance()->GetRenderer_()->CreateTexture())
+		  color(Drawing::Color::White())
 	{
 		type = ControlType::ColorPicker;
 		
@@ -170,14 +169,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::CreateGradientTexture()
 	{
-		std::vector<std::uint32_t> buffer(GetWidth() * GetHeight());
-		auto ptr = buffer.data();
-		auto dst = reinterpret_cast<std::uint8_t*>(ptr);
+		std::vector<uint8_t> buffer(GetWidth() * GetHeight() * 4);
+		auto dst = buffer.data();
 		for (int y = 0; y < GetHeight(); ++y)
 		{
-			for(int x = 0; x < GetWidth(); ++x)
+			for (int x = 0; x < GetWidth(); ++x)
 			{
 				auto color = GetColorAtPoint(x, y);
+
 				*dst++ = color.R;
 				*dst++ = color.G;
 				*dst++ = color.B;
@@ -185,7 +184,7 @@ namespace OSHGui
 			}
 		}
 
-		gradient->LoadFromMemory(buffer.data(), GetSize(), Drawing::Texture::PixelFormat::RGBA);
+		gradient = Drawing::Image::FromBuffer(buffer.data(), GetSize(), Drawing::Texture::PixelFormat::RGBA);
 	}
 	//---------------------------------------------------------------------------
 	void ColorPicker::CalculateColorCursorLocation()
@@ -237,8 +236,7 @@ namespace OSHGui
 
 		Graphics g(geometry);
 
-		BasicImage image(gradient, RectangleF(PointF(0, 0), GetSize()), PointF(0, 0), AutoScaleMode::Disabled, SizeF(1280, 720));
-		image.Render(*geometry, RectangleF(PointF(0, 0), GetSize()), nullptr, Color::White());
+		g.DrawImage(gradient, Color::White(), RectangleF(PointF(0, 0), GetSize()));
 
 		g.FillRectangle(Color::Black(), RectangleF(colorCursorLocation - PointF(2, 2), SizeF(4, 4)));
 		g.FillRectangle(Color::White(), RectangleF(colorCursorLocation - PointF(1, 1), SizeF(2, 2)));

@@ -22,7 +22,7 @@ namespace OSHGui
 	PictureBox::PictureBox()
 		: stretch(false)
 	{
-		type = CONTROL_PICTUREBOX;
+		type = ControlType::PictureBox;
 
 		SetSize(DefaultSize);
 		
@@ -31,36 +31,27 @@ namespace OSHGui
 		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
-	PictureBox::~PictureBox()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
+	void PictureBox::SetImage(const Drawing::ImagePtr &_image)
 	{
-		if (this->image != nullptr)
-		{
-			Drawing::TextureAnimator::StopAnimate(this->image);
-		}
-		
-		this->image = image;
-		
-		if (this->image != nullptr)
-		{
-			Drawing::TextureAnimator::Animate(this->image, Drawing::TextureAnimator::Loop);
-		}
+		image = _image;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Drawing::ITexture>& PictureBox::GetImage()
+	Drawing::ImagePtr& PictureBox::GetImage()
 	{
 		return image;
 	}
 	//---------------------------------------------------------------------------
-	void PictureBox::SetStretch(bool stretch)
+	void PictureBox::SetStretch(bool _stretch)
 	{
-		this->stretch = stretch;
+		stretch = _stretch;
+		if (image)
+		{
+			Invalidate();
+		}
 	}
 	//---------------------------------------------------------------------------
 	bool PictureBox::GetStretch() const
@@ -75,29 +66,27 @@ namespace OSHGui
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void PictureBox::Render(Drawing::IRenderer *renderer)
+	void PictureBox::PopulateGeometry()
 	{
-		if (!isVisible)
+		using namespace Drawing;
+
+		Graphics g(geometry);
+
+		if (GetBackColor().A > 0)
 		{
-			return;
+			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}
-	
-		if (backColor.A != 0)
+
+		if (image)
 		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
-		
-		if (image != nullptr)
-		{
-			Drawing::SizeF renderSize = size;
-			if (!stretch && image->GetSize() < size)
+			if (stretch)
 			{
-				renderSize = image->GetSize();
+				g.DrawImage(image, Color::White(), RectangleF(PointF(0, 0), GetSize()));
 			}
-			renderer->RenderTexture(image, absoluteLocation, renderSize);
+			else
+			{
+				g.DrawImage(image, Color::White(), PointF(0, 0), RectangleF(PointF(0, 0), GetSize()));
+			}
 		}
 	}
 	//---------------------------------------------------------------------------

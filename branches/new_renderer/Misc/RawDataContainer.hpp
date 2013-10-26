@@ -31,18 +31,18 @@ namespace OSHGui
 			 */
 			RawDataContainer();
 
-			RawDataContainer(std::uint32_t size);
+			RawDataContainer(uint32_t size);
 			
-			std::uint8_t* GetDataPointer();
-			const std::uint8_t* GetDataPointer() const;
-			std::uint32_t GetSize() const;
+			uint8_t* GetDataPointer();
+			const uint8_t* GetDataPointer() const;
+			uint32_t GetSize() const;
 
 			void LoadFromFile(const Misc::AnsiString &filename);
 
 			void Clear();
 			
 		private:
-			std::vector<std::uint8_t> data;
+			std::vector<uint8_t> data;
 		};
 	}
 }
