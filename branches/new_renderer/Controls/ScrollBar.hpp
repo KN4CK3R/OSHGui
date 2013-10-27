@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -35,51 +35,51 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Legt den aktuellen Wert des Bildlauffelds fets.
 		 *
-		 * @param value
+		 * \param value
 		 */
 		void SetValue(int value);
 		/**
 		 * Ruft den aktuellen Wert des Bildlauffelds ab.
 		 *
-		 * @return die Position
+		 * \return die Position
 		 */
 		int GetValue() const;
 		/**
 		 * Legt die Anzahl der scrollbaren Elemente fest.
 		 *
-		 * @param maximum
+		 * \param maximum
 		 */
 		void SetMaximum(int maximum);
 		/**
 		 * Ruft die Anzahl der scrollbaren Elemente ab.
 		 *
-		 * @return maximum
+		 * \return maximum
 		 */
 		int GetMaximum() const;
 		/**
 		 * Ruft das ScrollEvent für das Steuerelement ab.
 		 *
-		 * @return scrollEvent
+		 * \return scrollEvent
 		 */
 		ScrollEvent& GetScrollEvent();
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**

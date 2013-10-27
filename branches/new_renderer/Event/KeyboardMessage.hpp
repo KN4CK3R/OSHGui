@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -89,7 +89,7 @@ namespace OSHGui
 		/**
 		 * Prüft, ob das Zeichen alphanumerisch ist.
 		 *
-		 * @return ja / nein
+		 * \return ja / nein
 		 */
 		bool IsAlphaNumeric() const
 		{

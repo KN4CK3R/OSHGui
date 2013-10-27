@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -38,57 +38,57 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size);
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
 		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetForeColor(Drawing::Color color);
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetBackColor(Drawing::Color color);
 		
 		/**
 		 * Legt den Hotkey fest.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		virtual void SetHotkey(Key::Keys hotkey);
 		/**
 		 * Ruft den Hotkey ab.
 		 *
-		 * @return hotkey
+		 * \return hotkey
 		 */
 		virtual Key::Keys GetHotkey() const;
 		/**
 		 * Legt den HotkeyModifier fest.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		virtual void SetHotkeyModifier(Key::Keys modifier);
 		/**
 		 * Ruft den HotkeyModifier ab.
 		 *
-		 * @return hotkeyModifier
+		 * \return hotkeyModifier
 		 */
 		virtual Key::Keys GetHotkeyModifier() const;
 
 		/**
 		 * Ruft das HotkeyChangedEvent für das Steuerelement ab.
 		 *
-		 * @return hotkeyChangedEvent
+		 * \return hotkeyChangedEvent
 		 */
 		HotkeyChangedEvent& GetHotkeyChangedEvent();
 		
@@ -100,8 +100,8 @@ namespace OSHGui
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**

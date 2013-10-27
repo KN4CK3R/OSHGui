@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -41,84 +41,84 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetBackColor(Drawing::Color color) override;
 		/**
 		 * Ruft die TabPage mit dem entsprechenden Namen ab.
 		 *
-		 * @param name der Name
-		 * @return Zeiger zur TabPage
+		 * \param name der Name
+		 * \return Zeiger zur TabPage
 		 */
 		TabPage* GetTabPage(const Misc::AnsiString &name) const;
 		/**
 		 * Ruft die TabPage am entsprechenden Index ab.
 		 *
-		 * @param index
-		 * @return Zeiger zur TabPage
+		 * \param index
+		 * \return Zeiger zur TabPage
 		 */
 		TabPage* GetTabPage(int index) const;
 		/**
 		 * Legt den Index der derzeit ausgewählten Registerkarte fest.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void SetSelectedIndex(int index);
 		/**
 		 * Ruft den Index der derzeit ausgewählten Registerkarte ab.
 		 *
-		 * @return index
+		 * \return index
 		 */
 		int GetSelectedIndex() const;
 		/**
 		 * Legt die derzeit ausgewählte Registerkarte fest.
 		 *
-		 * @param tabPage
+		 * \param tabPage
 		 */
 		void SetSelectedTabPage(TabPage *tabPage);
 		/**
 		 * Ruft die derzeit ausgewählte Registerkarte ab.
 		 *
-		 * @return selectedTabPage
+		 * \return selectedTabPage
 		 */
 		TabPage* GetSelectedTabPage() const;
 		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEvent
+		 * \return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		
 		/**
 		 * Fügt dem TabControl eine neue TabPage hinzu.
 		 *
-		 * @param tabPage
+		 * \param tabPage
 		 */
 		void AddTabPage(TabPage *tabPage);
 		/**
 		 * Entfernt eine TabPage aus dem TabControl.
 		 *
-		 * @param tabPage
+		 * \param tabPage
 		 */
 		void RemoveTabPage(TabPage *tabPage);
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
@@ -128,7 +128,7 @@ namespace OSHGui
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *
-		 * @param theme
+		 * \param theme
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 

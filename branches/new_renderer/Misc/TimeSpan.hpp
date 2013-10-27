@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -90,36 +90,36 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue TimeSpan für die angegebene Anzahl Ticks.
 			 *
-			 * @param ticks eine in der Einheit 100 Nanosekunden ausgedrückte Zeitspanne
+			 * \param ticks eine in der Einheit 100 Nanosekunden ausgedrückte Zeitspanne
 			 */
 			TimeSpan(long long ticks);
 			/**
 			 * Initialisiert eine neue TimeSpan mit der angegebenen Anzahl von Stunden, Minuten und Sekunden.
 			 *
-			 * @param hours Anzahl der Stunden
-			 * @param minutes Anzahl der Minuten
-			 * @param seconds Anzahl der Sekunden
+			 * \param hours Anzahl der Stunden
+			 * \param minutes Anzahl der Minuten
+			 * \param seconds Anzahl der Sekunden
 			 */
 			TimeSpan(int hours, int minutes, int seconds);
 			/**
 			 * Initialisiert eine neue TimeSpan mit der angegebenen Anzahl von Tagen, Stunden,
 			 * Minuten und Sekunden.
 			 *
-			 * @param days Anzahl der Tage
-			 * @param hours Anzahl der Stunden
-			 * @param minutes Anzahl der Minuten
-			 * @param seconds Anzahl der Sekunden
+			 * \param days Anzahl der Tage
+			 * \param hours Anzahl der Stunden
+			 * \param minutes Anzahl der Minuten
+			 * \param seconds Anzahl der Sekunden
 			 */
 			TimeSpan(int days, int hours, int minutes, int seconds);
 			/**
 			 * Initialisiert eine neue TimeSpan mit der angegebenen Anzahl von Tagen, Stunden,
 			 * Minuten, Sekunden und Millisekunden.
 			 *
-			 * @param days Anzahl der Tage
-			 * @param hours Anzahl der Stunden
-			 * @param minutes Anzahl der Minuten
-			 * @param seconds Anzahl der Sekunden
-			 * @param milliseconds Anzahl der Millisekunden
+			 * \param days Anzahl der Tage
+			 * \param hours Anzahl der Stunden
+			 * \param minutes Anzahl der Minuten
+			 * \param seconds Anzahl der Sekunden
+			 * \param milliseconds Anzahl der Millisekunden
 			 */
 			TimeSpan(int days, int hours, int minutes, int seconds, int milliseconds);
 			
@@ -127,90 +127,90 @@ namespace OSHGui
 			 * Ruft die Tageskomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Tage
+			 * \return die Tage
 			 */
 			int GetDays() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Tagen und
 			 * Bruchteilen von Tagen ab.
 			 *
-			 * @return die ganzen Tage und Bruchteile
+			 * \return die ganzen Tage und Bruchteile
 			 */
 			double GetTotalDays() const;
 			/**
 			 * Ruft die Stundenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Stunden
+			 * \return die Stunden
 			 */
 			int GetHours() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Stunden und
 			 * Bruchteilen von Stunden ab.
 			 *
-			 * @return die ganzen Stunden und Bruchteile
+			 * \return die ganzen Stunden und Bruchteile
 			 */
 			double GetTotalHours() const;
 			/**
 			 * Ruft die Minutenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Minuten
+			 * \return die Minuten
 			 */
 			int GetMinutes() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Minuten und
 			 * Bruchteilen von Minuten ab.
 			 *
-			 * @return die ganzen Minuten und Bruchteile
+			 * \return die ganzen Minuten und Bruchteile
 			 */
 			double GetTotalMinutes() const;
 			/**
 			 * Ruft die Sekundenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Sekunden
+			 * \return die Sekunden
 			 */
 			int GetSeconds() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Sekunden und
 			 * Bruchteilen von Sekunden ab.
 			 *
-			 * @return die ganzen Sekunden und Bruchteile
+			 * \return die ganzen Sekunden und Bruchteile
 			 */
 			double GetTotalSeconds() const;
 			/**
 			 * Ruft die Millisekundenkomponente des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Millisekunden
+			 * \return die Millisekunden
 			 */
 			int GetMilliseconds() const;
 			/**
 			 * Ruft den Wert der aktuellen TimeSpan-Struktur in ganzen Millisekunden und
 			 * Bruchteilen von Millisekunden ab.
 			 *
-			 * @return die ganzen Millisekunden und Bruchteile
+			 * \return die ganzen Millisekunden und Bruchteile
 			 */
 			double GetTotalMilliseconds() const;
 			/**
 			 * Ruft die Anzahl der Ticks des Zeitintervalls ab, das durch die
 			 * aktuelle TimeSpan-Struktur dargestellt wird.
 			 *
-			 * @return die Ticks
+			 * \return die Ticks
 			 */
 			long long GetTicks() const;
 			
 			/**
 			 * Addiert die angegebene TimeSpan zu dieser Instanz.
 			 *
-			 * @return eine TimeSpan
+			 * \return eine TimeSpan
 			 */
 			const TimeSpan Add(TimeSpan ts) const;
 			/**
 			 * Subtrahiert die angegebene TimeSpan von dieser Instanz.
 			 *
-			 * @return eine TimeSpan
+			 * \return eine TimeSpan
 			 */
 			const TimeSpan Subtract(TimeSpan ts) const;
 			
@@ -228,13 +228,13 @@ namespace OSHGui
 			/**
 			 * Gibt eine TimeSpan zurück, deren Wert der absoluten Wert dieser Instanz ist.
 			 *
-			 * @return die TimeSpan
+			 * \return die TimeSpan
 			 */
 			TimeSpan Duration() const;
 			/**
 			 * Gibt eine TimeSpan zurück, deren Wert der negierte Wert dieser Instanz ist.
 			 *
-			 * @return die TimeSpan
+			 * \return die TimeSpan
 			 */
 			TimeSpan Negate() const;
 			
@@ -242,46 +242,46 @@ namespace OSHGui
 			 * Gibt eine TimeSpan zurück, die eine angegebene Anzahl von Tagen darstellt.
 			 * Die Angabe wird auf die nächste Millisekunde gerundet.
 			 *
-			 * @param value eine Anzahl von Tagen, auf die nächste Millisekunde gerundet
-			 * @return eine TimeSpan
+			 * \param value eine Anzahl von Tagen, auf die nächste Millisekunde gerundet
+			 * \return eine TimeSpan
 			 */
 			static TimeSpan FromDays(double value);
 			/**
 			 * Gibt eine TimeSpan zurück, die eine angegebene Anzahl von Stunden darstellt.
 			 * Die Angabe wird auf die nächste Millisekunde gerundet.
 			 *
-			 * @param value eine Anzahl von Stunden, auf die nächste Millisekunde gerundet
-			 * @return eine TimeSpan
+			 * \param value eine Anzahl von Stunden, auf die nächste Millisekunde gerundet
+			 * \return eine TimeSpan
 			 */
 			static TimeSpan FromHours(double value);
 			/**
 			 * Gibt eine TimeSpan zurück, die eine angegebene Anzahl von Minuten darstellt.
 			 * Die Angabe wird auf die nächste Millisekunde gerundet.
 			 *
-			 * @param value eine Anzahl von Minuten, auf die nächste Millisekunde gerundet
-			 * @return eine TimeSpan
+			 * \param value eine Anzahl von Minuten, auf die nächste Millisekunde gerundet
+			 * \return eine TimeSpan
 			 */
 			static TimeSpan FromMinutes(double value);
 			/**
 			 * Gibt eine TimeSpan zurück, die eine angegebene Anzahl von Sekunden darstellt.
 			 * Die Angabe wird auf die nächste Millisekunde gerundet.
 			 *
-			 * @param value eine Anzahl von Sekunden, auf die nächste Millisekunde gerundet
-			 * @return eine TimeSpan
+			 * \param value eine Anzahl von Sekunden, auf die nächste Millisekunde gerundet
+			 * \return eine TimeSpan
 			 */
 			static TimeSpan FromSeconds(double value);
 			/**
 			 * Gibt eine TimeSpan zurück, die eine angegebene Anzahl von Millisekunden darstellt.
 			 *
-			 * @param value eine Anzahl von Millisekunden
-			 * @return eine TimeSpan
+			 * \param value eine Anzahl von Millisekunden
+			 * \return eine TimeSpan
 			 */
 			static TimeSpan FromMilliseconds(double value);
 			/**
 			 * Gibt eine TimeSpan zurück, die einen angegebenen Zeitraum in Ticks darstellt.
 			 *
-			 * @param value eine in der Einheit 100 Nanosekunden ausgedrückte Zeitspanne
-			 * @return eine TimeSpan
+			 * \param value eine in der Einheit 100 Nanosekunden ausgedrückte Zeitspanne
+			 * \return eine TimeSpan
 			 */
 			static TimeSpan FromTicks(long long value);
 			

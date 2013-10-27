@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -34,55 +34,55 @@ namespace OSHGui
 		/**
 		 * Ruft ab, ob das Control ein Container ist.
 		 *
-		 * @return true, falls Container
+		 * \return true, falls Container
 		 */
 		virtual bool IsContainer() const override;
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
-		 * @return parent
+		 * \return parent
 		 */
 		virtual const std::deque<Control*>& GetControls() const;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void AddControl(Control *control);
 		/**
 		 * Entfernt ein untergeordnetes Steuerelement.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void RemoveControl(Control *control);
 		/**
 		 * Ruft das untergeordnete Steuerelement ab, das sich an den angegebenen
 		 * Koordinaten befindet.
 		 *
-		 * @param point
-		 * @return 0, falls sich dort kein Steuerelement befindet
+		 * \param point
+		 * \return 0, falls sich dort kein Steuerelement befindet
 		 */
 		Control* GetChildAtPoint(const Drawing::PointF &point) const;
 		/**
 		 * Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
 		 *
-		 * @param name
-		 * @return 0, falls kein Steuerelement mit diesem Namen existiert
+		 * \param name
+		 * \return 0, falls kein Steuerelement mit diesem Namen existiert
 		 */
 		Control* GetChildByName(const Misc::AnsiString &name) const;
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
@@ -97,7 +97,7 @@ namespace OSHGui
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *
-		 * @param theme
+		 * \param theme
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 

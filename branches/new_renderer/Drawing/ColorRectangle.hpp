@@ -1,3 +1,11 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * by KN4CK3R http://www.oldschoolhack.me
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_DRAWING_COLORRECTANGLE_HPP
 #define OSHGUI_DRAWING_COLORRECTANGLE_HPP
 
@@ -8,58 +16,58 @@ namespace OSHGui
 	namespace Drawing
 	{
 		/**
-		 * Describes a rectangle which can have four different colored corners.
+		 * Definiert ein Rechteckt, das an allen Ecken verschiedene Farben haben kann.
 		 */
 		class OSHGUI_EXPORT ColorRectangle
 		{
 		public:
 			/**
-			 * Sets all corners to the same color.
+			 * Legt die Farbe aller Ecken fest.
 			 *
-			 * @param color
+			 * \param color
 			 */
 			ColorRectangle(const Color &color);
 			/**
-			 * Sets both top and botton corners to the same color.
+			 * Legt die Farbe der beiden oberen und unteren Ecken fest.
 			 *
-			 * @param top
-			 * @param bottom
+			 * \param top
+			 * \param bottom
 			 */
 			ColorRectangle(const Color &top, const Color &bottom);
 			/**
-			 * Sets the color of the corners.
+			 * Legt die Farben der Ecken fest.
 			 *
-			 * @param topLeft
-			 * @param topRight
-			 * @param bottomLeft
-			 * @param bottomRight
+			 * \param topLeft
+			 * \param topRight
+			 * \param bottomLeft
+			 * \param bottomRight
 			 */
 			ColorRectangle(const Color &topLeft, const Color &topRight, const Color &bottomLeft, const Color &bottomRight);
 
 			/**
-			 * Determinate if the ColorRectangle is monochromatic.
+			 * Prüft, ob das ColorRectangle monochromatisch ist.
 			 *
-			 * @return true if all corners have the same color
+			 * \return true, falls alle Ecken die selbe Farbe haben
 			 */
 			bool IsMonochromatic() const;
 
 			/**
-			 * Gets a colored subrectangle.
+			 * Ruft ein SubRechteck ab.
 			 *
-			 * @param left left side of this subrectangle (0 - 1)
-			 * @param right right side of this subrectangle (0 - 1)
-			 * @param top top side of this subrectangle (0 - 1)
-			 * @param bottom bottom side of this subrectangle (0 - 1)
-			 * @return A ranged ColorRectangle.
+			 * \param left linke Seite (0 - 1)
+			 * \param right rechte Seite (0 - 1)
+			 * \param top obere Seite (0 - 1)
+			 * \param bottom untere Seite (0 - 1)
+			 * \return SubRechteck mit berechneten Farben
 			 */
 			ColorRectangle GetSubRectangle(float left, float right, float top, float bottom) const;
 
 			/**
-			 * Gets the color at a point in the rectangle.
+			 * Ruft die Farbe an einem bestimmten Punkt ab.
 			 *
-			 * @param x
-			 * @param y
-			 * @return The color at the specific point.
+			 * \param x
+			 * \param y
+			 * \return Farbe an einem bestimmten Punkt
 			 */
 			Color GetColorAtPoint(float x, float y) const;
 

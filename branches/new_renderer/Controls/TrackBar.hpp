@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -36,69 +36,69 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt den minimalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
-		 * @param minimum
+		 * \param minimum
 		 */
 		void SetMinimum(int minimum);
 		/**
 		 * Ruft den minimalen Wert für die Schiebereglerposition auf der TrackBar ab.
 		 *
-		 * @return minimum
+		 * \return minimum
 		 */
 		int GetMinimum() const;
 		/**
 		 * Legt den maximalen Wert für die Schiebereglerposition auf der TrackBar fest.
 		 *
-		 * @param maximum
+		 * \param maximum
 		 */
 		void SetMaximum(int maximum);
 		/**
 		 * Ruft den maximalen Wert für die Schiebereglerposition auf der TrackBar ab.
 		 *
-		 * @return maximum
+		 * \return maximum
 		 */
 		int GetMaximum() const;
 		/**
 		 * Legt die Anzahl der Positionen zwischen den Teilstrichen fest.
 		 *
-		 * @param tickFrequency
+		 * \param tickFrequency
 		 */
 		void SetTickFrequency(int tickFrequency);
 		/**
 		 * Ruft die Anzahl der Positionen zwischen den Teilstrichen ab
 		 *
-		 * @return tickFrequency
+		 * \return tickFrequency
 		 */
 		int GetTickFrequency() const;
 		/**
 		 * Legt den aktuellen Wert fest.
 		 *
-		 * @param value
+		 * \param value
 		 */
 		void SetValue(int value);
 		/**
 		 * Ruft den aktuellen Wert ab.
 		 *
-		 * @return der aktuelle Wert
+		 * \return der aktuelle Wert
 		 */
 		int GetValue() const;
 		/**
 		 * Ruft das ValueChangedEvent für das Steuerelement ab.
 		 *
-		 * @return valueChangedEvent
+		 * \return valueChangedEvent
 		 */
 		ValueChangedEvent& GetValueChangedEvent();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**

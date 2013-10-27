@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -28,27 +28,27 @@ namespace OSHGui
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
 		virtual void SetFont(const Drawing::FontPtr &font) override;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		

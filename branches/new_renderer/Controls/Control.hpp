@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -187,379 +187,379 @@ namespace OSHGui
 		/**
 		 * Ruft den CONTROL_TYPE des Steuerelemts ab.
 		 *
-		 * @return der Typ
+		 * \return der Typ
 		 */
 		virtual ControlType GetType() const;
 
 		/**
 		 * Ruft ab, ob das Control ein Container ist.
 		 *
-		 * @return true, falls Container
+		 * \return true, falls Container
 		 */
 		virtual bool IsContainer() const;
 		
 		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
 		 *
-		 * @return isFocused
+		 * \return isFocused
 		 */
 		virtual bool GetIsFocused() const;
 		/**
 		 * Legt fest, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
-		 * @param isEnabled
+		 * \param isEnabled
 		 */
 		virtual void SetEnabled(bool isEnabled);
 		/**
 		 * Ruft ab, ob das Steuerlement auf Benutzerinteraktionen reagieren kann.
 		 *
-		 * @return isEnabled
+		 * \return isEnabled
 		 */
 		virtual bool GetEnabled() const;
 		/**
 		 * Legt fest, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
 		 *
-		 * @param isVisible
+		 * \param isVisible
 		 */
 		virtual void SetVisible(bool isVisible);
 		/**
 		 * Ruft ab, ob das Steuerelement und alle untergeordneten Steuerelemente
 		 * angezeigt werden.
 		 *
-		 * @return isVisible
+		 * \return isVisible
 		 */
 		virtual bool GetVisible() const;
 		
 		/**
 		 * Legt fest, ob sich die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
 		 *
-		 * @param autoSize
+		 * \param autoSize
 		 */
 		virtual void SetAutoSize(bool autoSize);
 		/**
 		 * Ruft ab, ob die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
 		 *
-		 * @return autoSize
+		 * \return autoSize
 		 */
 		virtual bool GetAutoSize() const;
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
 		 *
-		 * @param bounds
+		 * \param bounds
 		 */
 		virtual void SetBounds(const Drawing::RectangleF &bounds);
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
 		 *
-		 * @param location
-		 * @param size
+		 * \param location
+		 * \param size
 		 */
 		virtual void SetBounds(const Drawing::PointF &location, const Drawing::SizeF &size);
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
 		 *
-		 * @param x
-		 * @param y
-		 * @param w
-		 * @param h
+		 * \param x
+		 * \param y
+		 * \param w
+		 * \param h
 		 */
 		virtual void SetBounds(int x, int y, int w, int h);
 		/**
 		 * Ruft die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement ab.
 		 *
-		 * @return bounds
+		 * \return bounds
 		 */
 		virtual const Drawing::RectangleF GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
 		 *
-		 * @param x
-		 * @param y
+		 * \param x
+		 * \param y
 		 */
 		virtual void SetLocation(int x, int y);
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
 		 *
-		 * @param location
+		 * \param location
 		 */
 		virtual void SetLocation(const Drawing::PointF &location);
 		/**
 		 * Ruft die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers ab.
 		 *
-		 * @return location
+		 * \return location
 		 */
 		virtual const Drawing::PointF& GetLocation() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param width
-		 * @param height
+		 * \param width
+		 * \param height
 		 */
 		virtual void SetSize(int width, int height);
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size);
 		/**
 		 * Ruft die Höhe und Breite des Steuerelements ab.
 		 *
-		 * @return size
+		 * \return size
 		 */
 		virtual const Drawing::SizeF& GetSize() const;
 		/**
 		 * Ruft den Abstand zwischen dem linken Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
-		 * @return left
+		 * \return left
 		 */
 		virtual int GetLeft() const;
 		/**
 		 * Ruft den Abstand zwischen dem oberen Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
-		 * @return top
+		 * \return top
 		 */
 		virtual int GetTop() const;
 		/**
 		 * Ruft den Abstand zwischen dem rechten Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
-		 * @return right
+		 * \return right
 		 */
 		virtual int GetRight() const;
 		/**
 		 * Ruft den Abstand zwischen dem unteren Rand des Steuerelements und dem oberen
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
 		 *
-		 * @return bottom
+		 * \return bottom
 		 */
 		virtual int GetBottom() const;
 		/**
 		 * Ruft die Breite des Steuerelements ab.
 		 *
-		 * @return width
+		 * \return width
 		 */
 		virtual int GetWidth() const;
 		/**
 		 * Ruft die Höhe des Steuerelements ab.
 		 *
-		 * @return height
+		 * \return height
 		 */
 		virtual int GetHeight() const;
 		/**
 		 * Legt die Ränder des Containers ab, an die ein Steuerelement gebunden ist,
 		 * und bestimmt, wie die Größe des Steuerelements mit dessen übergeordnetem Element geändert wird.
 		 *
-		 * @param anchor
+		 * \param anchor
 		 */
 		virtual void SetAnchor(AnchorStyles anchor);
 		/**
 		 * Ruft die Ränder des Containers ab, an die ein Steuerelement gebunden ist,
 		 * und bestimmt, wie die Größe des Steuerelements mit dessen übergeordnetem Element geändert wird.
 		 *
-		 * @return anchor
+		 * \return anchor
 		 */
 		virtual AnchorStyles GetAnchor() const;
 		/**
 		 * Legt die mit dem Steuerelement verknüpften benutzerdefinierten Daten fest.
 		 *
-		 * @param tag
+		 * \param tag
 		 */
 		virtual void SetTag(Misc::Any &tag);
 		/**
 		 * Ruft die mit dem Steuerelement verknüpften benutzerdefinierten Daten ab.
 		 *
-		 * @return tag
+		 * \return tag
 		 */
 		virtual const Misc::Any& GetTag() const;
 		/**
 		 * Legt den zum Identifizieren des Steuerelements verwendeten Namen fest.
 		 *
-		 * @param name
+		 * \param name
 		 */
 		virtual void SetName(const Misc::AnsiString &name);
 		/**
 		 * Ruft den zum Identifizieren des Steuerelements verwendeten Namen ab.
 		 *
-		 * @return name
+		 * \return name
 		 */
 		virtual const Misc::AnsiString& GetName() const;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
 		virtual void SetFont(const Drawing::FontPtr &font);
 		/**
 		 * Ruft die Schriftart des Texts im Steuerelement ab.
 		 *
-		 * @return font
+		 * \return font
 		 */
 		const Drawing::FontPtr& GetFont() const;
 		/**
 		 * Legt den angezeigten Cursor fest, wenn sich die Maus über dem Steuerelement befindet.
 		 *
-		 * @param cursor
+		 * \param cursor
 		 */
 		void SetCursor(const std::shared_ptr<Cursor> &cursor);
 		/** 
 		 * Ruft den angezeigten Cursor ab, wenn sich die Maus über dem Steuerelement befindet.
 		 *
-		 * @return cursor
+		 * \return cursor
 		 */
 		virtual const std::shared_ptr<Cursor>& GetCursor() const;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetForeColor(Drawing::Color color);
 		/**
 		 * Ruft die Fordergrundfarbe des Steuerelements ab.
 		 *
-		 * @return color
+		 * \return color
 		 */
 		virtual Drawing::Color GetForeColor() const;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetBackColor(Drawing::Color color);
 		/**
 		 * Ruft die Hintergrundfarbe des Steuerelements ab.
 		 *
-		 * @return color
+		 * \return color
 		 */
 		virtual Drawing::Color GetBackColor() const;
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetMouseOverFocusColor(Drawing::Color color);
 		/**
 		 * Ruft die Farbe für das fokusierte Steuerelement ab.
 		 *
-		 * @return color
+		 * \return color
 		 */
 		virtual Drawing::Color GetMouseOverFocusColor() const;
 		/**
 		 * Ruft das LocationChangedEvent für das Steuerelement ab.
 		 *
-		 * @return locationChangedEvent
+		 * \return locationChangedEvent
 		 */
 		LocationChangedEvent& GetLocationChangedEvent();
 		/**
 		 * Ruft das SizeChangedEvent für das Steuerelement ab.
 		 *
-		 * @return sizeChangedEvent
+		 * \return sizeChangedEvent
 		 */
 		SizeChangedEvent& GetSizeChangedEvent();
 		/**
 		 * Ruft das ClickEvent für das Steuerelement ab.
 		 *
-		 * @return clickEvent
+		 * \return clickEvent
 		 */
 		ClickEvent& GetClickEvent();
 		/**
 		 * Ruft das MouseClickEvent für das Steuerelement ab.
 		 *
-		 * @return mouseClickEvent
+		 * \return mouseClickEvent
 		 */
 		MouseClickEvent& GetMouseClickEvent();
 		/**
 		 * Ruft das MouseDownEvent für das Steuerelement ab.
 		 *
-		 * @return mouseDownEvent
+		 * \return mouseDownEvent
 		 */
 		MouseDownEvent& GetMouseDownEvent();
 		/**
 		 * Ruft das MouseUpEvent für das Steuerelement ab.
 		 *
-		 * @return mouseUpEvent
+		 * \return mouseUpEvent
 		 */
 		MouseUpEvent& GetMouseUpEvent();
 		/**
 		 * Ruft das MouseMoveEvent für das Steuerelement ab.
 		 *
-		 * @return mouseMoveEvent
+		 * \return mouseMoveEvent
 		 */
 		MouseMoveEvent& GetMouseMoveEvent();
 		/**
 		 * Ruft das MouseScrollEvent für das Steuerelement ab.
 		 *
-		 * @return mouseScrollEvent
+		 * \return mouseScrollEvent
 		 */
 		MouseScrollEvent& GetMouseScrollEvent();
 		/**
 		 * Ruft das MouseEnterEvent für das Steuerelement ab.
 		 *
-		 * @return mouseEnterEvent
+		 * \return mouseEnterEvent
 		 */
 		MouseEnterEvent& GetMouseEnterEvent();
 		/**
 		 * Ruft das MouseLeaveEvent für das Steuerelement ab.
 		 *
-		 * @return mouseLeaveEvent
+		 * \return mouseLeaveEvent
 		 */
 		MouseLeaveEvent& GetMouseLeaveEvent();
 		/**
 		 * Ruft das MouseCaptureChangedEvent für das Steuerelement ab.
 		 *
-		 * @return mouseCaptureChangedEvent
+		 * \return mouseCaptureChangedEvent
 		 */
 		MouseCaptureChangedEvent& GetMouseCaptureChangedEvent();
 		/**
 		 * Ruft das KeyDownEvent für das Steuerelement ab.
 		 *
-		 * @return keyPressEvent
+		 * \return keyPressEvent
 		 */
 		KeyDownEvent& GetKeyDownEvent();
 		/**
 		 * Ruft das KeyPressEvent für das Steuerelement ab.
 		 *
-		 * @return keyPressEvent
+		 * \return keyPressEvent
 		 */
 		KeyPressEvent& GetKeyPressEvent();
 		/**
 		 * Ruft das KeyUpEvent für das Steuerelement ab.
 		 *
-		 * @return keyPressEvent
+		 * \return keyPressEvent
 		 */
 		KeyUpEvent& GetKeyUpEvent();
 		/**
 		 * Ruft das FocusGotEvent für das Steuerelement ab.
 		 *
-		 * @return forcusInEvent
+		 * \return forcusInEvent
 		 */
 		FocusGotEvent& GetFocusGotEvent();
 		/**
 		 * Ruft das FocusLostEvent für das Steuerelement ab.
 		 *
-		 * @return forcusOutEvent
+		 * \return forcusOutEvent
 		 */
 		FocusLostEvent& GetFocusLostEvent();
 		/**
 		 * Legt das übergeordnete Steuerelement fest.
 		 *
-		 * @param parent
+		 * \param parent
 		 */
 		virtual void SetParent(Control *parent);
 		/**
 		 * Ruft das übergeordnete Steuerelement ab.
 		 *
-		 * @return parent
+		 * \return parent
 		 */
 		virtual Control* GetParent() const;
 
@@ -570,8 +570,8 @@ namespace OSHGui
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const = 0;
 		/**
@@ -581,30 +581,30 @@ namespace OSHGui
 		/**
 		 * Rechnet die Position des angegeben Bildschirmpunkts in Clientkoordinaten um.
 		 *
-		 * @param point
-		 * @return Clientkoordinaten
+		 * \param point
+		 * \return Clientkoordinaten
 		 */
 		virtual const Drawing::PointF PointToClient(const Drawing::PointF &point) const;
 		/**
 		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
 		 *
-		 * @param point
-		 * @return Bildschirmkoordinaten
+		 * \param point
+		 * \return Bildschirmkoordinaten
 		 */
 		virtual const Drawing::PointF PointToScreen(const Drawing::PointF &point) const;
 		
 		/**
 		 * Verarbeitet eine Maus-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
 		 *
-		 * @param mouse
-		 * @return true, falls die Nachricht verarbeitet wurde
+		 * \param mouse
+		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
 		bool ProcessMouseMessage(const MouseMessage &mouse);
 		/**
 		 * Verarbeitet eine Tastatur-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
 		 *
-		 * @param keyboard
-		 * @return true, falls die Nachricht verarbeitet wurde
+		 * \param keyboard
+		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		/**
@@ -618,15 +618,15 @@ namespace OSHGui
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *
-		 * @param theme
+		 * \param theme
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme);
 	
 		/**
 		 * Ruft die Stringrepresentation des Controltypes ab.
 		 *
-		 * @param controlType controltype
-		 * @return Stringrepresentation
+		 * \param controlType controltype
+		 * \return Stringrepresentation
 		 */
 		static Misc::AnsiString ControlTypeToString(ControlType controlType);
 

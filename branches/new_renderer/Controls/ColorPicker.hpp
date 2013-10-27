@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -37,49 +37,49 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die ausgewählte Farbe fest.
 		 *
-		 * @param color die Farbe
+		 * \param color die Farbe
 		 */
 		void SetColor(Drawing::Color color);
 		/**
 		 * Ruft die ausgewählte Farbe ab.
 		 *
-		 * @return color
+		 * \return color
 		 */
 		Drawing::Color GetColor() const;
 		/**
 		 * Ruft die Farbe an einem bestimmten Punkt ab.
 		 *
-		 * @param x
-		 * @param y
-		 * @return color
+		 * \param x
+		 * \param y
+		 * \return color
 		 */
 		Drawing::Color GetColorAtPoint(int x, int y) const;
 		/**
 		 * Ruft die Farbe an einem bestimmten Punkt ab.
 		 *
-		 * @param point
-		 * @return color
+		 * \param point
+		 * \return color
 		 */
 		Drawing::Color GetColorAtPoint(const Drawing::PointF &point) const;
 
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
 		 *
-		 * @return colorChangeEvent
+		 * \return colorChangeEvent
 		 */
 		ColorChangedEvent& GetColorChangedEvent();
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 

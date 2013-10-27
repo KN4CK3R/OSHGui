@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -20,9 +20,9 @@ namespace OSHGui
 		/**
 		 * Prüft, ob sich der Punkt test innerhalb des von location und size aufgespannten Rechtecks liegt.
 		 *
-		 * @param location
-		 * @param size
-		 * @param test
+		 * \param location
+		 * \param size
+		 * \param test
 		 */
 		static bool TestRectangle(const Drawing::PointF &location, const Drawing::SizeF &size, const Drawing::PointF &test)
 		{

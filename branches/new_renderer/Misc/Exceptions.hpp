@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -26,15 +26,15 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der Exception-Klasse.
 			 *
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			Exception(const Misc::AnsiString &message = "");
 			/**
 			 * Initialisiert eine neue Instanz der Exception-Klasse.
 			 *
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			Exception(const Misc::AnsiString &message, const Misc::AnsiString &file, int line);
 			virtual ~Exception() throw();
@@ -42,25 +42,25 @@ namespace OSHGui
 			/**
 			 * Ruft die Meldung ab, die die aktuelle Ausnahme beschreibt.
 			 *
-			 * @return message
+			 * \return message
 			 */
 			const Misc::AnsiString& GetMessage() const;
 			/**
 			 * Ruft den Dateinamen ab, in dem die Ausnahme auftrat.
 			 *
-			 * @return fileName
+			 * \return fileName
 			 */
 			const Misc::AnsiString& GetFileName() const;
 			/**
 			 * Ruft ddie Zeilennummer ab, in der die Ausnahme auftrat.
 			 *
-			 * @return name
+			 * \return name
 			 */
 			int GetLine() const;
 			/**
 			 * Ruft die Zeichenfolgenentsprechung der aktuellen Ausnahme ab.
 			 *
-			 * @return
+			 * \return
 			 */
 			//overwrite std::exception what()
 			const char* what() const throw();
@@ -85,23 +85,23 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
+			 * \param paramName der Name des Arguments
 			 */
 			ArgumentException(const Misc::AnsiString &paramName);
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			ArgumentException(const Misc::AnsiString &paramName,
 							  const Misc::AnsiString &message);
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param paramName der Name des Arguments
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentException(const Misc::AnsiString &paramName,
 							  const Misc::AnsiString &file,
@@ -109,10 +109,10 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentException(const Misc::AnsiString &paramName,
 							  const Misc::AnsiString &message,
@@ -122,7 +122,7 @@ namespace OSHGui
 			/**
 			 * Ruft den Namen des Parameters ab, der die Ausnahme auslöste.
 			 *
-			 * @return paramName
+			 * \return paramName
 			 */
 			const Misc::AnsiString& GetParamName() const;
 
@@ -130,9 +130,9 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 			 *
-			 * @param name der Name der Exception
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param name der Name der Exception
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			ArgumentException(const Misc::AnsiString &name,
 							  const Misc::AnsiString &paramName,
@@ -140,11 +140,11 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentException-Klasse.
 			 *
-			 * @param name der Name der Exception
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param name der Name der Exception
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentException(const Misc::AnsiString &name,
 							  const Misc::AnsiString &paramName,
@@ -166,23 +166,23 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
+			 * \param paramName der Name des Arguments
 			 */
 			ArgumentNullException(const Misc::AnsiString &paramName);
 			/**
 			 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			ArgumentNullException(const Misc::AnsiString &paramName,
 								  const Misc::AnsiString &message);
 			/**
 			 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param paramName der Name des Arguments
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentNullException(const Misc::AnsiString &paramName,
 								  const Misc::AnsiString &file,
@@ -190,10 +190,10 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue ArgumentNullException der Exception-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentNullException(const Misc::AnsiString &paramName,
 								  const Misc::AnsiString &message,
@@ -211,23 +211,23 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
+			 * \param paramName der Name des Arguments
 			 */
 			ArgumentOutOfRangeException(const Misc::AnsiString &paramName);
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			ArgumentOutOfRangeException(const Misc::AnsiString &paramName,
 										const Misc::AnsiString &message);
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param paramName der Name des Arguments
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentOutOfRangeException(const Misc::AnsiString &paramName,
 										const Misc::AnsiString &file,
@@ -235,10 +235,10 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der ArgumentOutOfRangeException-Klasse.
 			 *
-			 * @param paramName der Name des Arguments
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param paramName der Name des Arguments
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			ArgumentOutOfRangeException(const Misc::AnsiString &paramName,
 										const Misc::AnsiString &message,
@@ -256,15 +256,15 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der InvalidOperationException-Klasse.
 			 *
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			InvalidOperationException(const Misc::AnsiString &message);
 			/**
 			 * Initialisiert eine neue Instanz der InvalidOperationException-Klasse.
 			 *
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			InvalidOperationException(const Misc::AnsiString &message,
 									  const Misc::AnsiString &file,
@@ -281,15 +281,15 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der InvalidThemeException-Klasse.
 			 *
-			 * @param message die Meldung, in der der Fehler beschrieben wird
+			 * \param message die Meldung, in der der Fehler beschrieben wird
 			 */
 			InvalidThemeException(const Misc::AnsiString &message);
 			/**
 			 * Initialisiert eine neue Instanz der InvalidThemeException-Klasse.
 			 *
-			 * @param message die Meldung, in der der Fehler beschrieben wird
-			 * @param file der Name der Datei, in der der Fehler auftrat
-			 * @param line die Zeilennummer, in der der Fehler auftrat
+			 * \param message die Meldung, in der der Fehler beschrieben wird
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
 			 */
 			InvalidThemeException(const Misc::AnsiString &message,
 								  const Misc::AnsiString &file,

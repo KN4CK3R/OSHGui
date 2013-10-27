@@ -1,3 +1,11 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * by KN4CK3R http://www.oldschoolhack.me
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_GRAPHICS_HPP
 #define OSHGUI_GRAPHICS_HPP
 
@@ -21,7 +29,7 @@ namespace OSHGui
 			/**
 			 * Legt die Farbe fest, mit der gezeichnet wird.
 			 *
-			 * @param color die Farbe
+			 * \param color die Farbe
 			 */
 			void SetClip(const RectangleF &clip);
 
@@ -35,100 +43,100 @@ namespace OSHGui
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param color
-			 * @param origin
-			 * @param size
+			 * \param color
+			 * \param origin
+			 * \param size
 			 */
 			void DrawRectangle(const Color &color, const PointF &origin, const SizeF &size);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param color
-			 * @param rectangle
+			 * \param color
+			 * \param rectangle
 			 */
 			void DrawRectangle(const Color &color, const RectangleF &rectangle);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param color
-			 * @param rectangle
+			 * \param color
+			 * \param rectangle
 			 */
 			void DrawRectangle(const Color &color, float x, float y, float width, float height);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param color
-			 * @param origin
-			 * @param size
+			 * \param color
+			 * \param origin
+			 * \param size
 			 */
 			void FillRectangle(const Color &color, const PointF &origin, const SizeF &size);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param color
-			 * @param rectangle
+			 * \param color
+			 * \param rectangle
 			 */
 			void FillRectangle(const Color &color, const RectangleF &rectangle);
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param color
-			 * @param rectangle
+			 * \param color
+			 * \param rectangle
 			 */
 			void FillRectangle(const Color &color, float x, float y, float width, float height);
 			/**
 			 * Füllt die Textur mit einem Farbverlauf.
 			 *
-			 * @param colors die Eckfarben
-			 * @param origin
-			 * @param size
+			 * \param colors die Eckfarben
+			 * \param origin
+			 * \param size
 			 */
 			void FillRectangleGradient(const ColorRectangle &colors, const PointF &origin, const SizeF &size);
 			/**
 			 * Füllt die Textur mit einem Farbverlauf.
 			 *
-			 * @param colors die Eckfarben
-			 * @param origin
-			 * @param size
+			 * \param colors die Eckfarben
+			 * \param origin
+			 * \param size
 			 */
 			void FillRectangleGradient(const ColorRectangle &colors, const RectangleF &rectangle);
 			/**
 			 * Füllt die Textur mit einem Farbverlauf.
 			 *
-			 * @param colors die Eckfarben
-			 * @param origin
-			 * @param size
+			 * \param colors die Eckfarben
+			 * \param origin
+			 * \param size
 			 */
 			void FillRectangleGradient(const ColorRectangle &colors, float x, float y, float width, float height);
 			/**
 			 * Füllt den Bereich mit der Farbe, der zwischen den Ecken des Polygons liegt.
 			 *
-			 * @param vertices
+			 * \param vertices
 			 */
 			void FillPolygon(const std::vector<PointF> &vertices, const Color &color);
 			/**
 			 * Füllt einen Kreis.
 			 *
-			 * @param color
-			 * @param origin
-			 * @param radius
+			 * \param color
+			 * \param origin
+			 * \param radius
 			 */
 			void FillCircle(const Color &color, const PointF &origin, float radius);
 			/**
 			 * Füllt einen Kreis.
 			 *
-			 * @param color
-			 * @param x
-			 * @param y
-			 * @param radius
+			 * \param color
+			 * \param x
+			 * \param y
+			 * \param radius
 			 */
 			void FillCircle(const Color &color, float x, float y, float radius);
 			/**
 			 * Füllt eine Ellipse mit der entsprechenden Größe um den Mittelpunkt herum.
 			 *
-			 * @param color
-			 * @param origin
-			 * @param size
+			 * \param color
+			 * \param origin
+			 * \param size
 			 */
 			void FillEllipse(const Color &color, const PointF &origin, const SizeF &size);
 

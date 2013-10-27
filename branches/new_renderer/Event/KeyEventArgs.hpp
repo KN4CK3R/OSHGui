@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -23,7 +23,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse
 		 *
-		 * @param keyboardEvent
+		 * \param keyboardEvent
 		 */
 		KeyEventArgs(const KeyboardMessage &keyboardEvent)
 			: keyData(keyboardEvent.GetKeyData()),

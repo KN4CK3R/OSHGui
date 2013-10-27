@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -41,24 +41,24 @@ namespace OSHGui
 			/**
 			 * Legt eine Farbe mit dem angegeben ARGB Wert an.
 			 *
-			 * @param argb
+			 * \param argb
 			 */
 			Color(uint32_t argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *
-			 * @param red
-			 * @param green
-			 * @param blue
+			 * \param red
+			 * \param green
+			 * \param blue
 			 */
 			Color(uint8_t red, uint8_t green, uint8_t blue);
 			/**
 			 * Legt eine Farbe mit den Werten für Alpha, Rot, Grün und Blau an.
 			 *
-			 * @param alpha
-			 * @param red
-			 * @param green
-			 * @param blue
+			 * \param alpha
+			 * \param red
+			 * \param green
+			 * \param blue
 			 */
 			Color(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue);
 
@@ -131,29 +131,29 @@ namespace OSHGui
 			/**
 			 * Berechnet den Farbton der Farbe.
 			 *
-			 * @return der Farbton
+			 * \return der Farbton
 			 */
 			float Hue() const;
 			/**
 			 * Berechnet die Sättigung der Farbe.
 			 *
-			 * @return die Sättigung
+			 * \return die Sättigung
 			 */
 			float Saturation() const;
 			/**
 			 * Berechnet die Helligkeit der Farbe.
 			 *
-			 * @return die Helligkeit
+			 * \return die Helligkeit
 			 */
 			float Brightness() const;
 
 			/**
 			 * Wandelt HSB Farbinformationen in ein Color-Objekt um.
 			 *
-			 * @param hue der Farbton
-			 * @param saturation die Sättigugn
-			 * @param brightness die Helligkeit
-			 * @return color
+			 * \param hue der Farbton
+			 * \param saturation die Sättigugn
+			 * \param brightness die Helligkeit
+			 * \return color
 			 */
 			static Color FromHSB(float hue, float saturation, float brightness);
 		};

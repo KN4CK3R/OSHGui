@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -44,7 +44,7 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param handler die gebundene Funktion
+		 * \param handler die gebundene Funktion
 		 */
 		EventHandler(const Handler &handler)
 			: handler(handler)
@@ -55,7 +55,7 @@ namespace OSHGui
 		/**
 		 * CopyKonstruktor der Klasse.
 		 *
-		 * @param eventHandler
+		 * \param eventHandler
 		 */
 		EventHandler(const EventHandler &eventHandler)
 			: id(eventHandler.id),
@@ -82,7 +82,7 @@ namespace OSHGui
 		/**
 		 * Ruft die gebundene Funktion ab.
 		 *
-		 * @return handler
+		 * \return handler
 		 */
 		Handler& GetHandler()
 		{

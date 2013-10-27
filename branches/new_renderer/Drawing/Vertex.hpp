@@ -1,3 +1,11 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * by KN4CK3R http://www.oldschoolhack.me
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_DRAWING_VERTEX_HPP
 #define OSHGUI_DRAWING_VERTEX_HPP
 
@@ -11,11 +19,8 @@ namespace OSHGui
 		class OSHGUI_EXPORT Vertex
 		{
 		public:
-			//! Position of the vertex in 3D space.
 			Vector Position;
-			//! colour to be applied to the vertex.
 			Drawing::Color Color;
-			//! Texture co-ords to be applied to the vertex.
 			PointF TextureCoordinates;
 		};
 	}

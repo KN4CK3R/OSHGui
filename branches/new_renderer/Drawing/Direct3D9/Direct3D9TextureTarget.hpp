@@ -1,3 +1,11 @@
+/*
+ * OldSchoolHack GUI
+ *
+ * by KN4CK3R http://www.oldschoolhack.me
+ *
+ * See license in OSHGui.hpp
+ */
+
 #ifndef OSHGUI_DRAWING_DIRECT3D9TEXTURETARGET_HPP
 #define OSHGUI_DRAWING_DIRECT3D9TEXTURETARGET_HPP
 

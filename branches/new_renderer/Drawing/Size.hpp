@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -36,8 +36,8 @@ namespace OSHGui
 			/**
 			 * Erstellt ein SizeF-Objekt mit der angegeben Breite und Höhe
 			 *
-			 * @param width
-			 * @param height
+			 * \param width
+			 * \param height
 			 */
 			Size(Val width, Val height)
 				: Width(width),
@@ -72,8 +72,8 @@ namespace OSHGui
 			/**
 			 * Erweitert das SizeF-Objekt um die angegebe Breite und Höhe.
 			 *
-			 * @param width
-			 * @param height
+			 * \param width
+			 * \param height
 			 */
 			void Inflate(Val width, Val height)
 			{
@@ -85,8 +85,8 @@ namespace OSHGui
 			/**
 			 * Erweitert das SizeF-Objekt.
 			 *
-			 * @param width
-			 * @param height
+			 * \param width
+			 * \param height
 			 */
 			void Inflate(const Size<Val> &size)
 			{
@@ -96,9 +96,9 @@ namespace OSHGui
 			/**
 			 * Kopiert das SizeF-Objekt und erweitert es um die angegebe Breite und Höhe.
 			 *
-			 * @param width
-			 * @param height
-			 * @return size
+			 * \param width
+			 * \param height
+			 * \return size
 			 */
 			Size<Val> InflateEx(Val width, Val height) const
 			{
@@ -111,9 +111,9 @@ namespace OSHGui
 			/**
 			 * Kopiert das SizeF-Objekt und erweitert es.
 			 *
-			 * @param width
-			 * @param height
-			 * @return size
+			 * \param width
+			 * \param height
+			 * \return size
 			 */
 			Size<Val> InflateEx(const Size<Val> &size) const
 			{

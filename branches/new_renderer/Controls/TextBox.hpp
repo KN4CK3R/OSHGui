@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -37,31 +37,31 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
 		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt den Text fest.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		virtual void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		virtual const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt das Zeichen fest, das bei der Kennworteingabe angezeigt wird.
 		 *
-		 * @param passwordChar
+		 * \param passwordChar
 		 */
 		virtual void SetPasswordChar(const Misc::AnsiChar &passwordChar);
 		/**
@@ -71,7 +71,7 @@ namespace OSHGui
 		/**
 		 * Ruft das TextChangedEvent für das Steuerelement ab.
 		 *
-		 * @return textChangedEvent
+		 * \return textChangedEvent
 		 */
 		TextChangedEvent& GetTextChangedEvent();
 
@@ -80,8 +80,8 @@ namespace OSHGui
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -32,45 +32,45 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt das übergeordnete Steuerelement fest.
 		 * Kann nur ein TabControl sein!
 		 *
-		 * @param parent
+		 * \param parent
 		 */
 		virtual void SetParent(Control *parent) override;
 		/**
 		 * Legt den Text fest.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
-		 * @return parent
+		 * \return parent
 		 */
 		virtual const std::deque<Control*>& GetControls() const override;
 
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void AddControl(Control *control) override;
 		/**
 		 * Entfernt ein untergeordnetes Steuerelement.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void RemoveControl(Control *control) override;
 

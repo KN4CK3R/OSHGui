@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -29,19 +29,19 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param renderer Zeiger auf den Parent RendererDX8
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice8-Objekt.
-			 * @param size die Größe
-			 * @param frameCount die Anzahl der Frames (default: 1)
-			 * @param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
+			 * \param renderer Zeiger auf den Parent RendererDX8
+			 * \param device Zeiger auf ein initialisiertes IDirect3DDevice8-Objekt.
+			 * \param size die Größe
+			 * \param frameCount die Anzahl der Frames (default: 1)
+			 * \param frameChangeInterval das Interval, in dem sich ein Frame ändert (default: 125ms)
 			 */
 			TextureDX8(RendererDX8 *renderer, IDirect3DDevice8 *device, const SizeF &size, int frameCount = 1, const Misc::TimeSpan &frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125));
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param renderer Zeiger auf den Parent RendererDX8
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice8-Objekt.
-			 * @param filename Pfad zur zu ladenden Datei
+			 * \param renderer Zeiger auf den Parent RendererDX8
+			 * \param device Zeiger auf ein initialisiertes IDirect3DDevice8-Objekt.
+			 * \param filename Pfad zur zu ladenden Datei
 			 */
 			TextureDX8(RendererDX8 *renderer, IDirect3DDevice8 *device, const Misc::AnsiString &filename);
 			virtual ~TextureDX8();
@@ -49,7 +49,7 @@ namespace OSHGui
 			/**
 			 * Ruft das zugrunde liegende IDirect3DTexture9-Objekt ab.
 			 *
-			 * @return texture
+			 * \return texture
 			 */
 			virtual IDirect3DTexture8* GetTexture() const;
 			/**
@@ -60,8 +60,8 @@ namespace OSHGui
 			/**
 			 * Lädt eine Textur aus einer Datei.
 			 *
-			 * @param filename der Dateipfad
-			 * @return gibt den Status der Operation zurück
+			 * \param filename der Dateipfad
+			 * \return gibt den Status der Operation zurück
 			 */
 			virtual void LoadFromFile(const Misc::AnsiString &filename);
 		
@@ -79,24 +79,24 @@ namespace OSHGui
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 * @param color die Farbe
+			 * \param x
+			 * \param y
+			 * \param w
+			 * \param h
+			 * \param color die Farbe
 			 */
 			virtual void Fill(int x, int y, int w, int h, Color color);
 
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 * @param from die Startfarbe
-			 * @param to die Endfarbe
-			 * @param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
+			 * \param x
+			 * \param y
+			 * \param w
+			 * \param h
+			 * \param from die Startfarbe
+			 * \param to die Endfarbe
+			 * \param updown (optional: die Richtung des Farbverlaufs. Standard: von oben nach unten)
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, Color from, Color to, bool updown = true);
 
@@ -104,13 +104,13 @@ namespace OSHGui
 			/**
 			 * Ruft ab, wieviele Frames die Textur beinhaltet.
 			 *
-			 * @return Anzahl der Frames
+			 * \return Anzahl der Frames
 			 */
 			virtual int GetFrameCount() const;
 			/**
 			 * Legt den Frame fest, auf den Änderungsmethoden angewandt werden.
 			 *
-			 * @param frame der Frame Index zwischen 0 und GetFrameCount()
+			 * \param frame der Frame Index zwischen 0 und GetFrameCount()
 			 */
 			virtual void SelectActiveFrame(int frame);
 			

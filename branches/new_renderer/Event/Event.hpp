@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -36,7 +36,7 @@ namespace OSHGui
 		/**
 		 * Registriert einen EventHandler.
 		 *
-		 * @param eventHandler
+		 * \param eventHandler
 		 */
 		Event& operator += (const EventHandler<Signature> &eventHandler)
 		{
@@ -51,7 +51,7 @@ namespace OSHGui
 		/**
 		 * Entfernt einen EventHandler.
 		 *
-		 * @param eventHandler
+		 * \param eventHandler
 		 */
 		Event& operator -= (const EventHandler<Signature> &eventHandler)
 		{
@@ -70,7 +70,7 @@ namespace OSHGui
 		/**
 		 * Ruft alle registrierten EventHandler auf.
 		 *
-		 * @param param1 Funktionsparameter
+		 * \param param1 Funktionsparameter
 		 */
 		template <typename T>
 		void Invoke(T&& param1)
@@ -99,8 +99,8 @@ namespace OSHGui
 		/**
 		 * Ruft alle registrierten EventHandler auf.
 		 *
-		 * @param param1 Funktionsparameter
-		 * @param param2 Funktionsparameter
+		 * \param param1 Funktionsparameter
+		 * \param param2 Funktionsparameter
 		 */
 		template <typename T, typename T2>
 		void Invoke(T&& param1, T2&& param2)

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -67,8 +67,8 @@ namespace OSHGui
 			/**
 			 * Verschiebt den Punkt um X/Y.
 			 *
-			 * @param x
-			 * @param y
+			 * \param x
+			 * \param y
 			 */
 			void Offset(Val x, Val y)
 			{
@@ -80,7 +80,7 @@ namespace OSHGui
 			/**
 			 * Verschiebt den Punkt um das Offset.
 			 *
-			 * @param offset
+			 * \param offset
 			 */
 			void Offset(const Point<Val> &offset)
 			{
@@ -90,9 +90,9 @@ namespace OSHGui
 			/**
 			 * Kopiert den Punkt und verschiebt ihn um X/Y.
 			 *
-			 * @param x
-			 * @param y
-			 * @return der neue Punkt
+			 * \param x
+			 * \param y
+			 * \return der neue Punkt
 			 */
 			const Point<Val> OffsetEx(Val x, Val y) const
 			{
@@ -105,8 +105,8 @@ namespace OSHGui
 			/**
 			 * Kopiert den Punkt und verschiebt ihn um das Offset.
 			 *
-			 * @param offset
-			 * @return der neue Punkt
+			 * \param offset
+			 * \return der neue Punkt
 			 */
 			const Point<Val> OffsetEx(const Point<Val> &offset) const
 			{

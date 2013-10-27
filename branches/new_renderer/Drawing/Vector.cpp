@@ -22,22 +22,6 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		Vector::Vector(const Vector &v)
-			: x(v.x),
-			  y(v.y),
-			  z(v.z)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		Vector::Vector(const float *farray)
-			: x(farray[0]),
-			  y(farray[1]),
-			  z(farray[2])
-		{
-	
-		}
-		//---------------------------------------------------------------------------
 		float Vector::Length() const
 		{
 			return std::sqrtf(x * x + y * y + z * z);
@@ -64,25 +48,6 @@ namespace OSHGui
 		float Vector::DegreesBetweenVector(const Vector &v) const
 		{
 			return (180.0f / 3.141f) * std::acosf(DotProduct(v) / (Length() * v.Length()));
-		}
-		//---------------------------------------------------------------------------
-		Vector& Vector::operator=(const Vector &vector)
-		{
-			if (this != &vector)
-			{
-				x = vector.x;
-				y = vector.y;
-				z = vector.z;
-			}
-			return *this;
-		}
-		//---------------------------------------------------------------------------
-		Vector& Vector::operator=(const float *farray)
-		{
-			x = farray[0];
-			y = farray[1];
-			z = farray[2];
-			return *this;
 		}
 		//---------------------------------------------------------------------------
 		Vector& Vector::operator=(float rhs)

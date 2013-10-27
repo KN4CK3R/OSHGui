@@ -1,5 +1,13 @@
-#ifndef OSH_VECTOR_HPP
-#define OSH_VECTOR_HPP
+/*
+ * OldSchoolHack GUI
+ *
+ * by KN4CK3R http://www.oldschoolhack.me
+ *
+ * See license in OSHGui.hpp
+ */
+
+#ifndef OSHGUI_DRAWING_VECTOR_HPP
+#define OSHGUI_DRAWING_VECTOR_HPP
 
 namespace OSHGui
 {
@@ -10,16 +18,12 @@ namespace OSHGui
 		public:
 			Vector();
 			Vector(float x, float y, float z);
-			Vector(const Vector &v);
-			Vector(const float *farray);
 
 			float Length() const;
 			float DotProduct(const Vector &dot) const;
 			Vector Normalize() const;
 			float DegreesBetweenVector(const Vector &to) const;
 	
-			Vector& operator=(const Vector &vector);
-			Vector& operator=(const float *floatArray);
 			Vector& operator=(float val);
 	
 			float operator[](unsigned int element);

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -30,33 +30,33 @@ namespace OSHGui
 		/**
 		 * Legt das in der PictureBox dargestellte Bild fest.
 		 *
-		 * @param image das Bild
+		 * \param image das Bild
 		 */
 		void SetImage(const Drawing::ImagePtr &image);
 		/**
 		 * Ruft das in der PictureBox dargestellte Bild ab.
 		 *
-		 * @return das Bild
+		 * \return das Bild
 		 */
 		Drawing::ImagePtr& GetImage();
 		/**
 		 * Legt fest, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
 		 *
-		 * @param strech
+		 * \param strech
 		 */
 		void SetStretch(bool strech);
 		/**
 		 * Ruft ab, ob das Bild gestrecht wird, wenn es kleiner ist, wie die Größe der PictureBox.
 		 *
-		 * @return strech
+		 * \return strech
 		 */
 		bool GetStretch() const;
 		
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 	

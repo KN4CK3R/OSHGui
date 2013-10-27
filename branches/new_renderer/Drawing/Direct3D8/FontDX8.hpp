@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -26,7 +26,7 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
+			 * \param device Zeiger auf ein initialisiertes IDirect3DDevice9-Objekt.
 			 */
 			FontDX8(IDirect3DDevice8 *device, const Misc::AnsiString &name, int size, bool bold, bool italic);
 			virtual ~FontDX8();
@@ -34,17 +34,17 @@ namespace OSHGui
 			/**
 			 * Ruft die Maﬂe des Texts mit dieser Schriftart ab.
 			 *
-			 * @param str der Text
-			 * @return die Maﬂe
+			 * \param str der Text
+			 * \return die Maﬂe
 			 */
 			virtual const SizeF MeasureText(const Misc::AnsiString &str);
 
 			/**
 			 * Zeichnet den angegebenen Text.
 			 *
-			 * @param x X Position
-			 * @param y Y Position
-			 * @param color Farbe
+			 * \param x X Position
+			 * \param y Y Position
+			 * \param color Farbe
 			 * @text der Text
 			 */
 			void RenderText(int x, int y, Color color, const Misc::AnsiString &text);

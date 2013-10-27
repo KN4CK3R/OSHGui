@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -18,7 +18,7 @@ namespace OSHGui
 	namespace Drawing
 	{
 		/**
-		 * Speichert einen Satz von vier ganzen Zahlen, die die Position und Größe
+		 * Speichert einen Satz von vier Zahlen, die die Position und Größe
 		 * eines Rechtecks angeben.
 		 */
 		template<typename Val>
@@ -35,7 +35,7 @@ namespace OSHGui
 			/**
 			 * Erstellt ein Rechteckt mit den Koordinaten (0, 0, size.Width, size.Height);
 			 *
-			 * @param size
+			 * \param size
 			 */
 			Rectangle(const Size<Val> &size)
 				: size(size)
@@ -45,8 +45,8 @@ namespace OSHGui
 			/**
 			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
 			 *
-			 * @param location
-			 * @param size
+			 * \param location
+			 * \param size
 			 */
 			Rectangle(const Point<Val> &location, const Size<Val> &size)
 				: location(location),
@@ -57,10 +57,10 @@ namespace OSHGui
 			/**
 			 * Erstellt ein Rechteck an der angegeben Position mit der angegeben Größe.
 			 *
-			 * @param left
-			 * @param top
-			 * @param width
-			 * @param height
+			 * \param left
+			 * \param top
+			 * \param width
+			 * \param height
 			 */
 			Rectangle(Val left, Val top, Val width, Val height)
 				: location(left, top),
@@ -72,7 +72,7 @@ namespace OSHGui
 			/**
 			 * Legt die Position des linken Rands fest.
 			 *
-			 * @param left
+			 * \param left
 			 */
 			void SetLeft(const Val &left)
 			{
@@ -81,7 +81,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Position des linken Rands ab.
 			 *
-			 * @return linker Rand
+			 * \return linker Rand
 			 */
 			const Val& GetLeft() const
 			{
@@ -90,7 +90,7 @@ namespace OSHGui
 			/**
 			 * Legt die Position des oberen Rands fest.
 			 *
-			 * @param top
+			 * \param top
 			 */
 			void SetTop(const Val &top)
 			{
@@ -99,7 +99,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Position des oberen Rands ab.
 			 *
-			 * @return oberer Rand
+			 * \return oberer Rand
 			 */
 			const Val& GetTop() const
 			{
@@ -108,7 +108,7 @@ namespace OSHGui
 			/**
 			 * Legt die Position des rechten Rands fest.
 			 *
-			 * @param right
+			 * \param right
 			 */
 			void SetRight(const Val &right)
 			{
@@ -117,7 +117,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Position des rechten Rands ab.
 			 *
-			 * @return rechter Rand
+			 * \return rechter Rand
 			 */
 			Val GetRight() const
 			{
@@ -126,7 +126,7 @@ namespace OSHGui
 			/**
 			 * Legt die Breite des Rechtecks fest.
 			 *
-			 * @param width
+			 * \param width
 			 */
 			void SetWidth(const Val &width)
 			{
@@ -135,7 +135,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Breite des Rechtecks ab.
 			 *
-			 * @return die Breite
+			 * \return die Breite
 			 */
 			const Val& GetWidth() const
 			{
@@ -144,7 +144,7 @@ namespace OSHGui
 			/**
 			 * Legt die Höhe des Rechtecks fest.
 			 *
-			 * @param height
+			 * \param height
 			 */
 			void SetHeight(const Val &height)
 			{
@@ -153,7 +153,7 @@ namespace OSHGui
 			/**
 			 * Ruft die Höhe des Rechtecks ab.
 			 *
-			 * @return die Höhe
+			 * \return die Höhe
 			 */
 			const Val& GetHeight() const
 			{
@@ -162,7 +162,7 @@ namespace OSHGui
 			/**
 			 * Legt die Höhe des Rechtecks fest.
 			 *
-			 * @param height
+			 * \param height
 			 */
 			void SetBottom(const Val &bottom)
 			{
@@ -171,25 +171,43 @@ namespace OSHGui
 			/**
 			 * Ruft die Höhe des Rechtecks ab.
 			 *
-			 * @return die Höhe
+			 * \return die Höhe
 			 */
 			Val GetBottom() const
 			{
 				return location.Top + size.Height;
 			}
 			/**
+			 * Legt die Position des Rechtecks fest.
+			 *
+			 * \param _location Position des Rechtecks
+			 */
+			void SetLocation(const Point<Val> &_location)
+			{
+				location = _location;
+			}
+			/**
 			 * Ruft die Position des Rechtecks ab.
 			 *
-			 * @return position
+			 * \return position
 			 */
 			const Point<Val>& GetLocation() const
 			{
 				return location;
 			}
 			/**
+			 * Legt die Größe des Rechtecks fest.
+			 *
+			 * \param _size Größe des Rechtecks
+			 */
+			void SetSize(const Size<Val> &_size)
+			{
+				size = _size;
+			}
+			/**
 			 * Ruft die Größe des Rechtecks ab.
 			 *
-			 * @return size
+			 * \return size
 			 */
 			const Size<Val>& GetSize() const
 			{
@@ -197,16 +215,12 @@ namespace OSHGui
 			}
 			
 			friend bool operator==<>(const Rectangle<Val> &lhs, const Rectangle<Val> &rhs);
-			/*const RectangleF operator + (const RectangleF& add) const;
-			const RectangleF operator + (const PointF& add) const;
-			const RectangleF operator - (const RectangleF& add) const;
-			const RectangleF operator - (const PointF& add) const;*/
 			
 			/**
 			 * Verschiebt das Rechteck um X/Y.
 			 *
-			 * @param left
-			 * @param top
+			 * \param left
+			 * \param top
 			 */
 			void Offset(Val left, Val top)
 			{
@@ -217,7 +231,7 @@ namespace OSHGui
 			/**
 			 * Verschiebt das Rechteck um den Offset.
 			 *
-			 * @param p
+			 * \param p
 			 */
 			void Offset(const Point<Val> &offset)
 			{
@@ -226,9 +240,9 @@ namespace OSHGui
 			/**
 			 * Kopiert das Rechteck und verschiebt es um X/Y.
 			 *
-			 * @param left
-			 * @param top
-			 * @return rectangle
+			 * \param left
+			 * \param top
+			 * \return rectangle
 			 */
 			Rectangle<Val> OffsetEx(Val left, Val top) const
 			{
@@ -241,8 +255,8 @@ namespace OSHGui
 			/**
 			 * Kopiert das Rechteck und verschiebt es um das Offset.
 			 *
-			 * @param p
-			 * @return rectangle
+			 * \param offset
+			 * \return rectangle
 			 */
 			Rectangle<Val> OffsetEx(const Point<Val> &offset) const
 			{
@@ -253,8 +267,8 @@ namespace OSHGui
 			/**
 			 * Erweitert das RectangleF-Objekt um die angegebe Breite und Höhe.
 			 *
-			 * @param width
-			 * @param height
+			 * \param width
+			 * \param height
 			 */
 			void Inflate(Val width, Val height)
 			{
@@ -263,9 +277,9 @@ namespace OSHGui
 			/**
 			 * Kopiert das RectangleF-Objekt und erweitert es um die angegebe Breite und Höhe.
 			 *
-			 * @param width
-			 * @param height
-			 * @return rectangle
+			 * \param width
+			 * \param height
+			 * \return rectangle
 			 */
 			Rectangle<Val> InflateEx(Val width, Val height) const
 			{
@@ -277,8 +291,8 @@ namespace OSHGui
 			/**
 			 * Gibt zurück, ob der Punkt innerhalb des Rechtecks liegt.
 			 *
-			 * @param point
-			 * @return ja/nein
+			 * \param point
+			 * \return ja/nein
 			 */
 			bool Contains(const Point<Val> &point) const
 			{

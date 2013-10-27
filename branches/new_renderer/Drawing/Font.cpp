@@ -69,7 +69,7 @@ namespace OSHGui
 		const FontGlyph* Font::FindFontGlyph(const uint32_t codepoint) const
 		{
 			auto pos = glyphMap.find(codepoint);
-			return (pos != glyphMap.end()) ? &pos->second : nullptr;
+			return pos != glyphMap.end() ? &pos->second : nullptr;
 		}
 		//---------------------------------------------------------------------------
 		float Font::GetTextExtent(const Misc::AnsiString &text, float scaleX) const
@@ -147,8 +147,7 @@ namespace OSHGui
 
 			for (auto c : text)
 			{
-				const FontGlyph* glyph;
-				if ((glyph = GetGlyphData(c)))
+				if (auto glyph = GetGlyphData(c))
 				{
 					auto image = glyph->GetImage();
 					glyphPosition.Y = base - (image->GetOffset().Y - image->GetOffset().Y * scaleY);

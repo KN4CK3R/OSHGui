@@ -16,9 +16,9 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param _advance
-			 * @param _image
-			 * @param _valid
+			 * \param _advance
+			 * \param _image
+			 * \param _valid
 			 */
 			FontGlyph(float _advance = 0.0f, ImagePtr _image = nullptr, bool _valid = false)
 				: image(std::move(_image)),
@@ -31,7 +31,7 @@ namespace OSHGui
 			/**
 			 * Ruft das Image-Objekt ab, mit dem der Glyph gezeichnet wird.
 			 *
-			 * @return das Image-Objekt
+			 * \return das Image-Objekt
 			 */
 			const ImagePtr& GetImage() const
 			{

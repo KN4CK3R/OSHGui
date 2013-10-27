@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -80,69 +80,69 @@ namespace OSHGui
 		/**
 		 * Ruft ab, ob die Form modal dargestellt wird.
 		 *
-		 * @return modal
+		 * \return modal
 		 */
 		bool IsModal() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Gibt den Text zurück.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
 		virtual void SetForeColor(Drawing::Color color) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
-		 * @return parent
+		 * \return parent
 		 */
 		virtual const std::deque<Control*>& GetControls() const override;
 		/**
 		 * Ruft das DialogResult für das Fenster ab.
 		 *
-		 * @return dialogResult
+		 * \return dialogResult
 		 */
 		DialogResult GetDialogResult() const;
 		/**
 		 * Ruft das FormClosingEvent ab.
 		 *
-		 * @return formClosingEvent
+		 * \return formClosingEvent
 		 */
 		FormClosingEvent& GetFormClosingEvent();
 		
 		/**
 		 * Zeigt die Form an.
 		 *
-		 * @param instance die aktuelle Instanz dieser Form
+		 * \param instance die aktuelle Instanz dieser Form
 		 */
 		void Show(const std::shared_ptr<Form> &instance);
 		/**
 		 * Zeigt die Form modal an.
 		 *
-		 * @param instance die aktuelle Instanz dieser Form
+		 * \param instance die aktuelle Instanz dieser Form
 		 */
 		void ShowDialog(const std::shared_ptr<Form> &instance);
 		/**
 		 * Zeigt die Form modal an.
 		 *
-		 * @param instance die aktuelle Instanz dieser Form
-		 * @param closeFunction diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
+		 * \param instance die aktuelle Instanz dieser Form
+		 * \param closeFunction diese Funktion wird ausgeführt, wenn die Form geschlossen wird (kann 0 sein)
 		 */
 		void ShowDialog(const std::shared_ptr<Form> &instance, const std::function<void()> &closeFunction);
 		/**
@@ -152,7 +152,7 @@ namespace OSHGui
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void AddControl(Control *control) override;
 

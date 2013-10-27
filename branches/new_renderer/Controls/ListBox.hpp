@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -38,68 +38,68 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
 		virtual void SetSize(const Drawing::SizeF &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
 		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt fest, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
 		 *
-		 * @param autoScrollEnabled
+		 * \param autoScrollEnabled
 		 */
 		void SetAutoScrollEnabled(bool autoScrollEnabled);
 		/**
 		 * Ruft ab, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
 		 *
-		 * @return autoScrollEnabled
+		 * \return autoScrollEnabled
 		 */
 		bool GetAutoScrollEnabled() const;
 		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
-		 * @param index
-		 * @return das Item
+		 * \param index
+		 * \return das Item
 		 */
 		const Misc::AnsiString& GetItem(int index) const;
 		/**
 		 * Legt den ausgewählten Index fest.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void SetSelectedIndex(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
-		 * @return der ausgewählte Index
+		 * \return der ausgewählte Index
 		 */
 		int GetSelectedIndex() const;
 		/**
 		 * Legt das ausgewählte Item fest.
 		 *
-		 * @param item
+		 * \param item
 		 */
 		void SetSelectedItem(const Misc::AnsiString &item);
 		/**
 		 * Ruft das ausgewählte Item ab.
 		 *
-		 * @return das Item
+		 * \return das Item
 		 */
 		const Misc::AnsiString& GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der Items zurück.
 		 *
-		 * @return Anzahl der Items
+		 * \return Anzahl der Items
 		 */
 		int GetItemsCount() const;
 		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEvent
+		 * \return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		/**
@@ -110,20 +110,20 @@ namespace OSHGui
 		/**
 		 * Fügt ein neues Item hinzu.
 		 *
-		 * @param text der Text des Items
+		 * \param text der Text des Items
 		 */
 		void AddItem(const Misc::AnsiString &text);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
-		 * @param index
-		 * @param text der Text des Items
+		 * \param index
+		 * \param text der Text des Items
 		 */
 		void InsertItem(int index, const Misc::AnsiString &text);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void RemoveItem(int index);
 		/**
@@ -134,15 +134,15 @@ namespace OSHGui
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
 		virtual bool Intersect(const Drawing::PointF &point) const override;
 
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *
-		 * @param theme
+		 * \param theme
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 

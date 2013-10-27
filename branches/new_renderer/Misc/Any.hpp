@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -85,7 +85,7 @@ namespace OSHGui
 			/**
 			 * Erzeugt ein Any-Objekt, das das angegebene Objekt enthält.
 			 *
-			 * @param obj
+			 * \param obj
 			 */
 			template<class T>
 			Any(const T &obj)
@@ -104,8 +104,8 @@ namespace OSHGui
 			/**
 			 * Weißt diesem Any-Objekt das angegebene zu.
 			 *
-			 * @param any
-			 * @return this
+			 * \param any
+			 * \return this
 			 */
 			Any& operator=(Any const& any)
 			{
@@ -125,8 +125,8 @@ namespace OSHGui
 			/**
 			 * Weißt diesem Any-Objekt eine Variable zu.
 			 *
-			 * @param obj
-			 * @return this
+			 * \param obj
+			 * \return this
 			 */
 			template<class T>
 			Any& operator=(const T &obj)
@@ -150,7 +150,7 @@ namespace OSHGui
 			 * Castet ein Any-Objekt zu dem in ihm befindlichen Datentyp. Falls ein falscher Datentyp angegeben wird,
 			 * wird eine Exception ausgelöst.
 			 *
-			 * @return das aufgenommene Objekt
+			 * \return das aufgenommene Objekt
 			 */
 			template<class T>
 			T CastTo() const

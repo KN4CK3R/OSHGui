@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -34,7 +34,7 @@ namespace OSHGui
 			/**
 			 * Konstruktor der Klasse.
 			 *
-			 * @param device Zeiger auf ein initialisiertes IDirect3DDevice8 Objekt.
+			 * \param device Zeiger auf ein initialisiertes IDirect3DDevice8 Objekt.
 			 */
 			RendererDX8(IDirect3DDevice8 *device);
 			virtual ~RendererDX8();
@@ -54,75 +54,75 @@ namespace OSHGui
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
-			 * @return eine neue Textur
+			 * \return eine neue Textur
 			 */
 			virtual const std::shared_ptr<ITexture> CreateNewTexture(const SizeF &size, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) override;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
-			 * @return eine neue Textur
+			 * \return eine neue Textur
 			 */
 			virtual const std::shared_ptr<ITexture> CreateNewTexture(int width, int height, int frameCount = 1, Misc::TimeSpan frameChangeInterval = Misc::TimeSpan::FromMilliseconds(125)) override;
 			/**
 			 * Erzeugt eine neue Textur.
 			 *
-			 * @return eine neue Textur
+			 * \return eine neue Textur
 			 */
 			virtual const std::shared_ptr<ITexture> CreateNewTexture(const Misc::AnsiString &filename) override;
 			/**
 			 * Erzeugt eine neue Schriftart.
 			 *
-			 * @return eine neue Schriftart
+			 * \return eine neue Schriftart
 			 */
 			virtual const std::shared_ptr<IFont> CreateNewFont(const Misc::AnsiString &fontName, int size, bool bold, bool italic) override;
 			/**
 			 * Ruft die Größe des Zeichenbereichs ab.
 			 *
-			 * @return Größe des Zeichenbereichs
+			 * \return Größe des Zeichenbereichs
 			 */
 			virtual const SizeF GetRenderDimension() const override;
 			
 			/**
 			 * Zeichnet eine Textur im entsprechenden Rechteck. Die Textur wird bei Bedarf gestaucht.
 			 *
-			 * @param texture die Textur
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
+			 * \param texture die Textur
+			 * \param x
+			 * \param y
+			 * \param w
+			 * \param h
 			 */
 			virtual void RenderTexture(const std::shared_ptr<ITexture> &texture, int x, int y, int w, int h) override;
 
 			/**
 			 * Zeichnet einen Text im entsprechenden Rechteck mit der entsprechenden Schriftart.
 			 *
-			 * @param font die Schriftart
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 * @param text der Text
+			 * \param font die Schriftart
+			 * \param x
+			 * \param y
+			 * \param w
+			 * \param h
+			 * \param text der Text
 			 */
 			virtual void RenderText(const std::shared_ptr<IFont> &font, int x, int y, int w, int h, const Misc::AnsiString &text) override;
 
 			/**
 			 * Füllt das Rechteck.
 			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
+			 * \param x
+			 * \param y
+			 * \param w
+			 * \param h
 			 */
 			virtual void Fill(int x, int y, int w, int h) override;
 
 			/**
 			 * Füllt das Rechteck mit einem Farbverlauf.
 			 *
-			 * @param x
-			 * @param y
-			 * @param w
-			 * @param h
-			 * @param to die Endfarbe
+			 * \param x
+			 * \param y
+			 * \param w
+			 * \param h
+			 * \param to die Endfarbe
 			 */
 			virtual void FillGradient(int x, int y, int w, int h, Color to) override;
 
@@ -133,10 +133,10 @@ namespace OSHGui
 			/**
 			 * Zeichnet eine Linie von (x1,y1) nach (x2,y2).
 			 *
-			 * @param x1
-			 * @param y1
-			 * @param x2
-			 * @param y2
+			 * \param x1
+			 * \param y1
+			 * \param x2
+			 * \param y2
 			 */
 			virtual void RenderLine(int x1, int y1, int x2, int y2) override;
 			/**

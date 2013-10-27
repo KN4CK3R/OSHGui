@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -45,7 +45,7 @@ namespace OSHGui
 		/**
 		 * Initialisiert die Application-Klasse.
 		 *
-		 * @param renderer Instanz des verwendeten Renderers
+		 * \param renderer Instanz des verwendeten Renderers
 		 */
 		static void Create(Drawing::RendererPtr renderer = nullptr);
 		
@@ -58,13 +58,13 @@ namespace OSHGui
 		/**
 		 * Ruft die aktuelle Uhrzeit ab.
 		 *
-		 * @return DateTime::Now
+		 * \return DateTime::Now
 		 */
 		const Misc::DateTime& GetNow() const;
 		/**
 		 * Ruft den verwendeten Renderer ab.
 		 *
-		 * @return renderer
+		 * \return renderer
 		 */
 		Drawing::RendererPtr GetRenderer() const;
 
@@ -74,25 +74,25 @@ namespace OSHGui
 		/**
 		 * Ruft die aktuelle Mausposition ab.
 		 *
-		 * @return cursorLocation
+		 * \return cursorLocation
 		 */
 		const Drawing::PointF& GetCursorLocation() const;
 		/**
 		 * Ruft den Cursor ab.
 		 *
-		 * @return cursor
+		 * \return cursor
 		 */
 		const std::shared_ptr<Cursor>& GetCursor() const;
 		/**
 		 * Legt den Cursor fest.
 		 *
-		 * @param cursor
+		 * \param cursor
 		 */
 		void SetCursor(const std::shared_ptr<Cursor> &cursor);
 		/**
 		 * Legt fest, ob der Cursor gezeichnet werden soll.
 		 *
-		 * @param enabled
+		 * \param enabled
 		 */
 		void SetCursorEnabled(bool enabled);
 		void SetTheme(const Drawing::Theme &theme);
@@ -113,21 +113,21 @@ namespace OSHGui
 		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
-		 * @param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird
+		 * \param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird
 		 */
 		void Run(const std::shared_ptr<Form> &mainForm);
 		/**
 		 * Gibt eine MouseMessage an die geöffneten Formen weiter.
 		 *
-		 * @param mouse
-		 * @return true, falls die Nachricht verarbeitet wurde
+		 * \param mouse
+		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
 		bool ProcessMouseMessage(MouseMessage &mouse);
 		/**
 		 * Gibt eine KeyboardMessage an die geöffneten Formen weiter.
 		 *
-		 * @param keyboard
-		 * @return true, falls die Nachricht verarbeitet wurde
+		 * \param keyboard
+		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
 		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
 		
@@ -139,20 +139,20 @@ namespace OSHGui
 		/**
 		 * Registriert einen neuen Hotkey.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		void RegisterHotkey(const Hotkey &hotkey);
 		/**
 		 * Entfernt einen Hotkey.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		void UnregisterHotkey(const Hotkey &hotkey);
 		
 		/**
 		 * Ruft die aktuelle Instanz der Application ab.
 		 *
-		 * @return instance
+		 * \return instance
 		 */
 		static Application* Instance();
 

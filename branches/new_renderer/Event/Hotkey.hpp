@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -30,8 +30,8 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param key
-		 * @param handler die aufzurufende Funktion
+		 * \param key
+		 * \param handler die aufzurufende Funktion
 		 */
 		Hotkey(Key::Keys key, const Handler &handler)
 			: key(key),
@@ -44,9 +44,9 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param key
-		 * @param modifier Strg / Alt / Shift
-		 * @param handler die aufzurufende Funktion
+		 * \param key
+		 * \param modifier Strg / Alt / Shift
+		 * \param handler die aufzurufende Funktion
 		 */
 		Hotkey(Key::Keys key, Key::Keys modifier, const Handler &handler)
 			: key(key),
@@ -65,7 +65,7 @@ namespace OSHGui
 		/**
 		 * CopyKonstruktor der Klasse.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		Hotkey(const Hotkey &hotkey)
 			: key(hotkey.key),
@@ -78,7 +78,7 @@ namespace OSHGui
 		/**
 		 * Ruft die Taste des Hotkeys ab.
 		 *
-		 * @return die Taste
+		 * \return die Taste
 		 */
 		Key::Keys GetKey() const
 		{
@@ -87,7 +87,7 @@ namespace OSHGui
 		/**
 		 * Ruft den Modifier des Hotkeys ab.
 		 *
-		 * @return der Modifier
+		 * \return der Modifier
 		 */
 		Key::Keys GetModifier() const
 		{

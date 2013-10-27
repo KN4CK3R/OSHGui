@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -34,8 +34,8 @@ namespace OSHGui
 			/**
 			 * Wandelt eine Windows Message in ein Event um.
 			 *
-			 * @param message
-			 * @return
+			 * \param message
+			 * \return
 			 */
 			bool ProcessMessage(LPMSG message);
 

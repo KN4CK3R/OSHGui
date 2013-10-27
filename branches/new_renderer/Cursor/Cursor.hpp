@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -33,8 +33,8 @@ namespace OSHGui
 		/**
 		 * Zeichnet den Cursor.
 		 *
-		 * @param renderer
-		 * @param cursorLocation
+		 * \param renderer
+		 * \param cursorLocation
 		 */
 		virtual void Render(Drawing::IRenderer *renderer, const Drawing::PointF &cursorLocation);
 
