@@ -4,7 +4,7 @@
 #include "Direct3D9RenderTarget.hpp"
 #include "Direct3D9ViewportTarget.hpp"
 #include "Direct3D9TextureTarget.hpp"
-#include "../../Misc/Exception.hpp"
+#include "../../Misc/Exceptions.hpp"
 
 #include <algorithm>
 
@@ -30,7 +30,7 @@ namespace OSHGui
 
 			if (!caps.RasterCaps && D3DPRASTERCAPS_SCISSORTEST)
 			{
-				throw Misc::Exception("Clipping ; //CEGUI_THROW(RendererException("Hardware does not support D3DPRASTERCAPS_SCISSORTEST. Unable to proceed."));
+				throw Misc::NotSupportedException();
 			}
 
 			maxTextureSize = std::min(caps.MaxTextureHeight, caps.MaxTextureWidth);
@@ -131,7 +131,7 @@ namespace OSHGui
 				displaySize = size;
 
 				auto area = defaultTarget->GetArea();
-				area.Setsize(size);
+				area.SetSize(size);
 				defaultTarget->SetArea(area);
 			}
 		}
@@ -156,7 +156,7 @@ namespace OSHGui
 			D3DVIEWPORT9 vp;
 			if (FAILED(device->GetViewport(&vp)))
 			{
-				throw; //CEGUI_THROW(RendererException("Unable to access required view port information from Direct3DDevice9."));
+				throw Misc::Exception();
 			}
 			
 			return SizeF(vp.Width, vp.Height);

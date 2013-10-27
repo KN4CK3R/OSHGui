@@ -175,5 +175,19 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
+		NotSupportedException::NotSupportedException()
+			: Exception()
+		{
+
+		}
+		//---------------------------------------------------------------------------
+		NotSupportedException::NotSupportedException(const Misc::AnsiString &file, int line)
+			: Exception("Function is not supported", file, line)
+		{
+
+		}
+		//---------------------------------------------------------------------------
 	}
 }

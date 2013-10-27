@@ -19,16 +19,11 @@ namespace OSHGui
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------
-	IBeamCursor::~IBeamCursor()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void IBeamCursor::CreateCursor()
 	{
-		cursor->BeginUpdate();
+		/*cursor->BeginUpdate();
 		cursor->Clear();
 		
 		cursor->Fill(0, 0, 7, 1, Drawing::Color::White());
@@ -36,7 +31,7 @@ namespace OSHGui
 		cursor->Clear(3, 0, 1, 14);
 		cursor->Fill(3, 1, 1, 12, Drawing::Color::White());
 		
-		cursor->EndUpdate();
+		cursor->EndUpdate();*/
 	}
 	//---------------------------------------------------------------------------
 }

@@ -295,6 +295,25 @@ namespace OSHGui
 								  const Misc::AnsiString &file,
 								  int line);
 		};
+
+		/**
+		 * Die Ausnahme, die ausgelöst wird, wenn eine Funktion nicht unterstützt wird.
+		 */
+		class OSHGUI_EXPORT NotSupportedException : public Exception
+		{
+		public:
+			/**
+			 * Initialisiert eine NotSupportedException.
+			 */
+			NotSupportedException();
+			/**
+			 * Initialisiert eine NotSupportedException.
+			 * 
+			 * \param file der Name der Datei, in der der Fehler auftrat
+			 * \param line die Zeilennummer, in der der Fehler auftrat
+			 */
+			NotSupportedException(const Misc::AnsiString &file, int line);
+		};
 	}
 }
 

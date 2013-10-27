@@ -14,7 +14,6 @@
 #include "Drawing/Renderer.hpp"
 #include "Drawing/RenderContext.hpp"
 #include "Drawing/Font.hpp"
-#include "Drawing/IRenderer.hpp"
 #include "Drawing/Theme.hpp"
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"

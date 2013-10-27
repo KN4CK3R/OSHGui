@@ -19,16 +19,11 @@ namespace OSHGui
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------
-	HandCursor::~HandCursor()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void HandCursor::CreateCursor()
 	{
-		cursor->BeginUpdate();
+		/*cursor->BeginUpdate();
 		cursor->Clear();
 		
 		cursor->Fill(6, 5, 7, 9, Drawing::Color::Black());
@@ -70,7 +65,7 @@ namespace OSHGui
 			cursor->Fill(4 + i, 13 + i, 1, 1, Drawing::Color::White());
 		}
 		
-		cursor->EndUpdate();
+		cursor->EndUpdate();*/
 	}
 	//---------------------------------------------------------------------------
 }

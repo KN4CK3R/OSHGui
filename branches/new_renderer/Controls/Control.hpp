@@ -18,7 +18,6 @@
 #include "../Drawing/Point.hpp"
 #include "../Drawing/Size.hpp"
 #include "../Drawing/Rectangle.hpp"
-#include "../Drawing/IRenderer.hpp"
 #include "../Drawing/Renderer.hpp"
 #include "../Drawing/RenderContext.hpp"
 #include "../Drawing/Graphics.hpp"

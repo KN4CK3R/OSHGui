@@ -19,16 +19,11 @@ namespace OSHGui
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------
-	PenCursor::~PenCursor()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void PenCursor::CreateCursor()
 	{
-		cursor->BeginUpdate();
+		/*cursor->BeginUpdate();
 		cursor->Clear();
 		
 		cursor->Fill(6, 0, 3, 1, Drawing::Color::Black());
@@ -41,7 +36,7 @@ namespace OSHGui
 		}
 		cursor->Fill(2, 11, 2, 1, Drawing::Color::White());
 
-		cursor->EndUpdate();
+		cursor->EndUpdate();*/
 	}
 	//---------------------------------------------------------------------------
 }

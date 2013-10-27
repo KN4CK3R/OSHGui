@@ -23,7 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		HandCursor();
-		virtual ~HandCursor();
 		
 	private:
 		virtual void CreateCursor() override;

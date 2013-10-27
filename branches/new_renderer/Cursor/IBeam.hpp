@@ -23,7 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		IBeamCursor();
-		virtual ~IBeamCursor();
 		
 	protected:
 		virtual void CreateCursor() override;

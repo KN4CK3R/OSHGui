@@ -23,7 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		PipetteCursor();
-		virtual ~PipetteCursor();
 		
 	protected:
 		virtual void CreateCursor() override;

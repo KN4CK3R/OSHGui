@@ -23,7 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		CircleCursor();
-		virtual ~CircleCursor();
 		
 	protected:
 		virtual void CreateCursor() override;

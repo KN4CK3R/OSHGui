@@ -17,16 +17,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	WaitCursor::WaitCursor()
 	{
-		cursor = Application::Instance()->GetRenderer()->CreateNewTexture(16, 16, 14);
+		//cursor = Application::Instance()->GetRenderer()->CreateNewTexture(16, 16, 14);
 	
 		CreateCursor();
 
-		Drawing::TextureAnimator::Animate(cursor, Drawing::TextureAnimator::Loop);
-	}
-	//---------------------------------------------------------------------------
-	WaitCursor::~WaitCursor()
-	{
-	
+		//Drawing::TextureAnimator::Animate(cursor, Drawing::TextureAnimator::Loop);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -168,7 +163,7 @@ namespace OSHGui
 	
 		for (int frameNum = 0; frameNum < 14; ++frameNum)
 		{
-			cursor->SelectActiveFrame(frameNum);
+			/*cursor->SelectActiveFrame(frameNum);
 		
 			cursor->BeginUpdate();
 			cursor->Clear();
@@ -205,7 +200,7 @@ namespace OSHGui
 			cursor->Fill(6, 6, 1, 2, Drawing::Color::Black());
 			cursor->Fill(7, 7, 1, 1, Drawing::Color::Black());
 			
-			cursor->EndUpdate();
+			cursor->EndUpdate();*/
 		}
 	}
 	//---------------------------------------------------------------------------

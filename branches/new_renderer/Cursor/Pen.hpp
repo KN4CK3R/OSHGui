@@ -23,7 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		PenCursor();
-		virtual ~PenCursor();
 		
 	protected:
 		virtual void CreateCursor() override;

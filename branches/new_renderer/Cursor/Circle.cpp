@@ -19,16 +19,11 @@ namespace OSHGui
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------
-	CircleCursor::~CircleCursor()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void CircleCursor::CreateCursor()
 	{
-		cursor->BeginUpdate();
+		/*cursor->BeginUpdate();
 		cursor->Clear();
 		
 		cursor->Fill(3, 0, 5, 11, Drawing::Color::Black());
@@ -43,7 +38,7 @@ namespace OSHGui
 		cursor->Clear(3, 2, 5, 7);
 		cursor->Clear(2, 3, 7, 5);
 		
-		cursor->EndUpdate();
+		cursor->EndUpdate();*/
 	}
 	//---------------------------------------------------------------------------
 }

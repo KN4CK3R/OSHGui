@@ -9,7 +9,6 @@
 #include "FormManager.hpp"
 #include "Application.hpp"
 #include "Controls/Form.hpp"
-#include "Drawing/IRenderer.hpp"
 #include "Misc/Exceptions.hpp"
 
 namespace OSHGui

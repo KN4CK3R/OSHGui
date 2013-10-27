@@ -12,8 +12,6 @@
 #include <memory>
 #include "../Exports.hpp"
 #include "../Drawing/Point.hpp"
-#include "../Drawing/IRenderer.hpp"
-#include "../Drawing/ITexture.hpp"
 #include "../Drawing/GeometryBuffer.hpp"
 
 namespace OSHGui
@@ -36,15 +34,12 @@ namespace OSHGui
 		 * \param renderer
 		 * \param cursorLocation
 		 */
-		virtual void Render(Drawing::IRenderer *renderer, const Drawing::PointF &cursorLocation);
-
 		virtual void Render(const Drawing::PointF &cursorLocation);
 		
 	protected:
 		virtual void CreateCursor();
 
 		Drawing::PointF offset;
-		std::shared_ptr<Drawing::ITexture> cursor;
 
 		Drawing::GeometryBufferPtr geometry;
 	};

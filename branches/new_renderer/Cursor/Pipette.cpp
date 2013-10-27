@@ -19,16 +19,11 @@ namespace OSHGui
 		CreateCursor();
 	}
 	//---------------------------------------------------------------------------
-	PipetteCursor::~PipetteCursor()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void PipetteCursor::CreateCursor()
 	{
-		cursor->BeginUpdate();
+		/*cursor->BeginUpdate();
 		cursor->Clear();
 		
 		cursor->Fill(0, 14, 1, 1, Drawing::Color::Black());
@@ -52,7 +47,7 @@ namespace OSHGui
 		cursor->Fill(11, 0, 3, 5, Drawing::Color::Black());
 		cursor->Fill(10, 1, 5, 3, Drawing::Color::Black());
 		
-		cursor->EndUpdate();
+		cursor->EndUpdate();*/
 	}
 	//---------------------------------------------------------------------------
 }

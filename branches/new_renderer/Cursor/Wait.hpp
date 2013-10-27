@@ -23,7 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		WaitCursor();
-		virtual ~WaitCursor();
 		
 	protected:
 		virtual void CreateCursor() override;
