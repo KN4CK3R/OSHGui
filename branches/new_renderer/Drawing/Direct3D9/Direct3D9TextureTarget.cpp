@@ -1,9 +1,6 @@
 #include "Direct3D9TextureTarget.hpp"
 #include "Direct3D9Renderer.hpp"
 #include "Direct3D9Texture.hpp"
-#include "../../Misc/Exceptions.hpp"
-#include "../RenderQueue.hpp"
-#include "../GeometryBuffer.hpp"
 
 namespace OSHGui
 {
@@ -15,6 +12,7 @@ namespace OSHGui
 			: Direct3D9RenderTarget<TextureTarget>(owner),
 			  d3d9Texture(nullptr),
 			  surface(nullptr),
+			  surfaceBackup(nullptr),
 			  texture(std::static_pointer_cast<Direct3D9Texture>(owner.CreateTexture()))
 		{
 			DeclareRenderSize(SizeF(DefaultSize, DefaultSize));

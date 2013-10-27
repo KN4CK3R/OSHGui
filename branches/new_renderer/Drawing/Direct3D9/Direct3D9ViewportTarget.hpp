@@ -23,7 +23,7 @@ namespace OSHGui
 		{
 		public:
 			/**
-			 * Erzeugt ein RenderTarget, das den Direct3D9 Viewpoert für Zeichenoperationen verwendet.
+			 * Erzeugt ein RenderTarget, das den Direct3D9 Viewport für Zeichenoperationen verwendet.
 			 *
 			 * \param owner Renderer Objekt, das das RenderTarget erstellt hat
 			 */

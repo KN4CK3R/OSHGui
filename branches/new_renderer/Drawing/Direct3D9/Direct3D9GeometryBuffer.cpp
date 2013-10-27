@@ -1,9 +1,6 @@
 #include "Direct3D9GeometryBuffer.hpp"
 #include "Direct3D9Texture.hpp"
-//#include "CEGUI/RenderEffect.h"
 #include "../Vertex.hpp"
-#include <d3d9.h>
-#include <algorithm>
 
 namespace OSHGui
 {
@@ -11,11 +8,11 @@ namespace OSHGui
 	{
 		Direct3D9GeometryBuffer::Direct3D9GeometryBuffer(Direct3D9Renderer &_owner)
 			: owner(_owner),
-			  clipRect(0.0f, 0.0f, 0.0f, 0.0f),
+			  clipRect(0, 0, 0, 0),
 			  clippingActive(true),
-			  translation(0.0f, 0.0f, 0.0f),
-			  rotation(0.0f, 0.0f, 0.0f),
-			  pivot(0.0f, 0.0f, 0.0f),
+			  translation(0, 0, 0),
+			  rotation(0, 0, 0),
+			  pivot(0, 0, 0),
 			  matrixValid(false)
 		{
 

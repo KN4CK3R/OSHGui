@@ -9,7 +9,6 @@
 #ifndef OSHGUI_DRAWING_DIRECT3D9TEXTURE_HPP
 #define OSHGUI_DRAWING_DIRECT3D9TEXTURE_HPP
 
-#include "../Renderer.hpp"
 #include "../Texture.hpp"
 #include "Direct3D9Renderer.hpp"
 
@@ -41,13 +40,11 @@ namespace OSHGui
 			 */
 			LPDIRECT3DTEXTURE9 GetDirect3D9Texture() const;
 
-			/*!
-			\brief
-				Sets what the texture should consider as the original data size.
-
-			\note
-				This also causes the texel scaling values to be updated.
-			*/
+			/**
+			 * Legt die ungepaddete Originalgröße der Texturdaten fest.
+			 * 
+			 * \param size Originalgröße
+			 */
 			void SetOriginalDataSize(const SizeF& size);
 
 			/**

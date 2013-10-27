@@ -1,6 +1,5 @@
 #include "Direct3D9Texture.hpp"
 
-#define  NOMINMAX
 #include <d3dx9.h>
 
 namespace OSHGui
