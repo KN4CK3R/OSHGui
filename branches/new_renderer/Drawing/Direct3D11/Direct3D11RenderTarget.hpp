@@ -6,27 +6,24 @@
  * See license in OSHGui.hpp
  */
 
-#ifndef OSHGUI_DRAWING_DIRECT3D10RENDERTARGET_HPP
-#define OSHGUI_DRAWING_DIRECT3D10RENDERTARGET_HPP
+#ifndef OSHGUI_DRAWING_DIRECT3D11RENDERTARGET_HPP
+#define OSHGUI_DRAWING_DIRECT3D11RENDERTARGET_HPP
 
-#include "Direct3D10Renderer.hpp"
-#include "Direct3D10GeometryBuffer.hpp"
+#include "Direct3D11Renderer.hpp"
+#include "Direct3D11GeometryBuffer.hpp"
 #include "../RenderQueue.hpp"
 #include "../RenderTarget.hpp"
 #include "../Rectangle.hpp"
-
-#define NOMINMAX
-#include <d3dx10.h>
 
 namespace OSHGui
 {
 	namespace Drawing
 	{
 		template <typename T = RenderTarget>
-		class Direct3D10RenderTarget : public T
+		class Direct3D11RenderTarget : public T
 		{
 		public:
-			Direct3D10RenderTarget(Direct3D10Renderer &_owner)
+			Direct3D11RenderTarget(Direct3D11Renderer &_owner)
 				: owner(_owner),
 				  area(0, 0, 0, 0),
 				  viewDistance(0),
@@ -63,9 +60,9 @@ namespace OSHGui
 					UpdateMatrix();
 				}
 
-				D3D10_VIEWPORT vp;
+				D3D11_VIEWPORT vp;
 				SetupViewport(vp);
-				owner.GetDevice()->RSSetViewports(1, &vp);
+				owner.GetDevice().Context->RSSetViewports(1, &vp);
 
 				owner.SetProjectionMatrix(matrix);
 			}
@@ -97,7 +94,7 @@ namespace OSHGui
 				matrixValid = true;
 			}
 			//---------------------------------------------------------------------------
-			void SetupViewport(D3D10_VIEWPORT &viewport) const
+			void SetupViewport(D3D11_VIEWPORT &viewport) const
 			{
 				viewport.TopLeftX = area.GetLeft();
 				viewport.TopLeftY = area.GetTop();
@@ -108,7 +105,7 @@ namespace OSHGui
 			}
 			//---------------------------------------------------------------------------
 
-			Direct3D10Renderer& owner;
+			Direct3D11Renderer& owner;
 			
 			RectangleF area;
 			

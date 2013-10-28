@@ -6,26 +6,26 @@
  * See license in OSHGui.hpp
  */
 
-#ifndef OSHGUI_DRAWING_DIRECT3D10TEXTURETARGET_HPP
-#define OSHGUI_DRAWING_DIRECT3D10TEXTURETARGET_HPP
+#ifndef OSHGUI_DRAWING_DIRECT3D11TEXTURETARGET_HPP
+#define OSHGUI_DRAWING_DIRECT3D11TEXTURETARGET_HPP
 
-#include "Direct3D10RenderTarget.hpp"
+#include "Direct3D11RenderTarget.hpp"
 #include "../TextureTarget.hpp"
 
-struct ID3D10Texture2D;
-struct ID3D10RenderTargetView;
-struct ID3D10DepthStencilView;
+struct ID3D11Texture2D;
+struct ID3D11RenderTargetView;
+struct ID3D11DepthStencilView;
 
 namespace OSHGui
 {
 	namespace Drawing
 	{
-		class Direct3D10Texture;
+		class Direct3D11Texture;
 
 		/**
-		 * Die Direct3D10 Variante des TextureTarget.
+		 * Die Direct3D11 Variante des TextureTarget.
 		 */
-		class OSHGUI_EXPORT Direct3D10TextureTarget : public Direct3D10RenderTarget<TextureTarget>
+		class OSHGUI_EXPORT Direct3D11TextureTarget : public Direct3D11RenderTarget<TextureTarget>
 		{
 		public:
 			/**
@@ -33,11 +33,11 @@ namespace OSHGui
 			 *
 			 * \param owner Renderer Objekt, das das RenderTarget erstellt hat
 			 */
-			Direct3D10TextureTarget(Direct3D10Renderer& owner);
+			Direct3D11TextureTarget(Direct3D11Renderer& owner);
 			/**
 			 * Destruktor der Klasse.
 			 */
-			virtual ~Direct3D10TextureTarget();
+			virtual ~Direct3D11TextureTarget();
 
 			/**
 			 * Hilfsfunktion, die vor einem D3D Reset vom Renderer aufgerufen wird.
@@ -83,13 +83,13 @@ namespace OSHGui
 			 */
 			void DisableRenderTexture();
 
-			ID3D10Texture2D *d3dTexture;
-			ID3D10RenderTargetView *renderTargetView;
+			ID3D11Texture2D *d3dTexture;
+			ID3D11RenderTargetView *renderTargetView;
 			
-			std::shared_ptr<Direct3D10Texture> texture;
+			std::shared_ptr<Direct3D11Texture> texture;
 			
-			ID3D10RenderTargetView *renderTargetViewBackup;
-			ID3D10DepthStencilView *depthStencilViewBackup;
+			ID3D11RenderTargetView *renderTargetViewBackup;
+			ID3D11DepthStencilView *depthStencilViewBackup;
 		};
 	}
 }

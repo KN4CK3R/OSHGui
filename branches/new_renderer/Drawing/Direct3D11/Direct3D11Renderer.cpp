@@ -1,10 +1,12 @@
-#include "Direct3D10Renderer.hpp"
-#include "Direct3D10Texture.hpp"
-#include "Direct3D10GeometryBuffer.hpp"
-#include "Direct3D10RenderTarget.hpp"
-#include "Direct3D10ViewportTarget.hpp"
-#include "Direct3D10TextureTarget.hpp"
+#include "Direct3D11Renderer.hpp"
+#include "Direct3D11Texture.hpp"
+#include "Direct3D11GeometryBuffer.hpp"
+#include "Direct3D11RenderTarget.hpp"
+#include "Direct3D11ViewportTarget.hpp"
+#include "Direct3D11TextureTarget.hpp"
 #include "../../Misc/Exceptions.hpp"
+
+#include <d3dx11effect.h>
 
 #include <algorithm>
 
@@ -144,8 +146,8 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		Direct3D10Renderer::Direct3D10Renderer(ID3D10Device *_device)
-			: device(_device),
+		Direct3D11Renderer::Direct3D11Renderer(ID3D11Device *_device, ID3D11DeviceContext *_context)
+			: device(_device, _context),
 			  displaySize(GetViewportSize()),
 			  displayDPI(96, 96),
 			  normalClippedTechnique(0),
@@ -156,15 +158,26 @@ namespace OSHGui
 			  boundTextureVariable(0),
 			  worldMatrixVariable(0),
 			  projectionMatrixVariable(0),
-			  defaultTarget(std::make_shared<Direct3D10ViewportTarget>(*this))
+			  defaultTarget(std::make_shared<Direct3D11ViewportTarget>(*this))
 		{
 			ID3D10Blob *errors = nullptr;
-			if (FAILED(D3DX10CreateEffectFromMemory(shaderSource, sizeof(shaderSource), 0, 0, 0, "fx_4_0", 0, 0, device, 0, 0, &effect, &errors, 0)))
+			ID3D10Blob *blob = nullptr;
+			if (FAILED(D3DX11CompileFromMemory(shaderSource,sizeof(shaderSource), "shaderSource", nullptr, nullptr, nullptr, "fx_5_0", NULL, NULL, nullptr, &blob, &errors, nullptr)))
 			{
 				std::string msg(static_cast<const char*>(errors->GetBufferPointer()), errors->GetBufferSize());
 				errors->Release();
 				
 				throw Misc::Exception(msg);
+			}
+
+			if (FAILED(D3DX11CreateEffectFromMemory(blob->GetBufferPointer(), blob->GetBufferSize(), 0, device.Device, &effect)))
+			{
+				throw Misc::Exception();
+			}
+
+			if (blob)
+			{
+				blob->Release();
 			}
 
 			normalClippedTechnique = effect->GetTechniqueByName("BM_NORMAL_Clipped_Rendering");
@@ -177,27 +190,27 @@ namespace OSHGui
 			boundTextureVariable = effect->GetVariableByName("BoundTexture")->AsShaderResource();
 			useShaderTextureVariable = effect->GetVariableByName("UseShaderTexture")->AsScalar();
 
-			const D3D10_INPUT_ELEMENT_DESC vertexLayout[] =
+			const D3D11_INPUT_ELEMENT_DESC vertexLayout[] =
 			{
-				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-				{ "COLOR",    0, DXGI_FORMAT_R8G8B8A8_UNORM,  0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0 },
-				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,	  0, 16, D3D10_INPUT_PER_VERTEX_DATA, 0 },
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "COLOR",    0, DXGI_FORMAT_R8G8B8A8_UNORM,  0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,	  0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			};
 
-			D3D10_PASS_DESC passDescription;
+			D3DX11_PASS_DESC passDescription;
 			if (FAILED(normalClippedTechnique->GetPassByIndex(0)->GetDesc(&passDescription)))
 			{
 				throw Misc::Exception();
 			}
 
 			auto count = sizeof(vertexLayout) / sizeof(vertexLayout[0]);
-			if (FAILED(device->CreateInputLayout(vertexLayout, count, passDescription.pIAInputSignature, passDescription.IAInputSignatureSize, &inputLayout)))
+			if (FAILED(device.Device->CreateInputLayout(vertexLayout, count, passDescription.pIAInputSignature, passDescription.IAInputSignatureSize, &inputLayout)))
 			{
 				throw Misc::Exception();
 			}
 		}
 		//---------------------------------------------------------------------------
-		Direct3D10Renderer::~Direct3D10Renderer()
+		Direct3D11Renderer::~Direct3D11Renderer()
 		{
 			if (effect)
 			{
@@ -210,56 +223,56 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		RenderTargetPtr& Direct3D10Renderer::GetDefaultRenderTarget()
+		RenderTargetPtr& Direct3D11Renderer::GetDefaultRenderTarget()
 		{
 			return defaultTarget;
 		}
 		//---------------------------------------------------------------------------
-		GeometryBufferPtr Direct3D10Renderer::CreateGeometryBuffer()
+		GeometryBufferPtr Direct3D11Renderer::CreateGeometryBuffer()
 		{
-			return std::make_shared<Direct3D10GeometryBuffer>(*this);
+			return std::make_shared<Direct3D11GeometryBuffer>(*this);
 		}
 		//---------------------------------------------------------------------------
-		TextureTargetPtr Direct3D10Renderer::CreateTextureTarget()
+		TextureTargetPtr Direct3D11Renderer::CreateTextureTarget()
 		{
-			auto textureTarget = std::make_shared<Direct3D10TextureTarget>(*this);
+			auto textureTarget = std::make_shared<Direct3D11TextureTarget>(*this);
 			textureTargets.emplace_back(textureTarget);
 			return textureTarget;
 		}
 		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10Renderer::CreateTexture()
+		TexturePtr Direct3D11Renderer::CreateTexture()
 		{
-			auto texture = std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this));
+			auto texture = std::shared_ptr<Direct3D11Texture>(new Direct3D11Texture(device));
 			textures.emplace_back(texture);
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10Renderer::CreateTexture(const Misc::AnsiString &filename)
+		TexturePtr Direct3D11Renderer::CreateTexture(const Misc::AnsiString &filename)
 		{
-			auto texture = std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this, filename));
+			auto texture = std::shared_ptr<Direct3D11Texture>(new Direct3D11Texture(device, filename));
 			textures.emplace_back(texture);
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10Renderer::CreateTexture(const SizeF &size)
+		TexturePtr Direct3D11Renderer::CreateTexture(const SizeF &size)
 		{
-			auto texture = std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this, size));
+			auto texture = std::shared_ptr<Direct3D11Texture>(new Direct3D11Texture(device, size));
 			textures.emplace_back(texture);
 			return texture;
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::BeginRendering()
+		void Direct3D11Renderer::BeginRendering()
 		{
-			device->IASetInputLayout(inputLayout);
-			device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			device.Context->IASetInputLayout(inputLayout);
+			device.Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::EndRendering()
+		void Direct3D11Renderer::EndRendering()
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::SetDisplaySize(const SizeF &size)
+		void Direct3D11Renderer::SetDisplaySize(const SizeF &size)
 		{
 			if (size != displaySize)
 			{
@@ -271,27 +284,27 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		const SizeF& Direct3D10Renderer::GetDisplaySize() const
+		const SizeF& Direct3D11Renderer::GetDisplaySize() const
 		{
 			return displaySize;
 		}
 		//---------------------------------------------------------------------------
-		const PointF& Direct3D10Renderer::GetDisplayDPI() const
+		const PointF& Direct3D11Renderer::GetDisplayDPI() const
 		{
 			return displayDPI;
 		}
 		//---------------------------------------------------------------------------
-		uint32_t Direct3D10Renderer::GetMaximumTextureSize() const
+		uint32_t Direct3D11Renderer::GetMaximumTextureSize() const
 		{
 			return 8192;
 		}
 		//---------------------------------------------------------------------------
-		SizeF Direct3D10Renderer::GetViewportSize()
+		SizeF Direct3D11Renderer::GetViewportSize()
 		{
-			D3D10_VIEWPORT vp;
+			D3D11_VIEWPORT vp;
 			uint32_t count = 1;
 
-			device->RSGetViewports(&count, &vp);
+			device.Context->RSGetViewports(&count, &vp);
 
 			if (count != 1)
 			{
@@ -301,64 +314,64 @@ namespace OSHGui
 			return SizeF(vp.Width, vp.Height);
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::PreD3DReset()
+		void Direct3D11Renderer::PreD3DReset()
 		{
 			RemoveWeakReferences();
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::PostD3DReset()
+		void Direct3D11Renderer::PostD3DReset()
 		{
 			RemoveWeakReferences();
 		}
 		//---------------------------------------------------------------------------
-		ID3D10Device* Direct3D10Renderer::GetDevice() const
+		IDevice11& Direct3D11Renderer::GetDevice()
 		{
 			return device;
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::BindTechniquePass(const BlendMode mode, const bool clipped)
+		void Direct3D11Renderer::BindTechniquePass(const BlendMode mode, const bool clipped)
 		{
 			if (mode == BlendMode::RTT_PreMultiplied)
 			{
 				if (clipped)
 				{
-					premultipliedClippedTechnique->GetPassByIndex(0)->Apply(0);
+					premultipliedClippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
 				}
 				else
 				{
-					premultipliedUnclippedTechnique->GetPassByIndex(0)->Apply(0);
+					premultipliedUnclippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
 				}
 			}
 			else if (clipped)
 			{
-				normalClippedTechnique->GetPassByIndex(0)->Apply(0);
+				normalClippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
 			}
 			else
 			{
-				normalUnclippedTechnique->GetPassByIndex(0)->Apply(0);
+				normalUnclippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
 			}
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::SetCurrentTextureShaderResource(ID3D10ShaderResourceView *srv)
+		void Direct3D11Renderer::SetCurrentTextureShaderResource(ID3D11ShaderResourceView *srv)
 		{
 			boundTextureVariable->SetResource(srv);
 			useShaderTextureVariable->SetBool(srv != nullptr);
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::SetProjectionMatrix(D3DXMATRIX &matrix)
+		void Direct3D11Renderer::SetProjectionMatrix(D3DXMATRIX &matrix)
 		{
 			projectionMatrixVariable->SetMatrix(reinterpret_cast<float*>(&matrix));
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::SetWorldMatrix(D3DXMATRIX& matrix)
+		void Direct3D11Renderer::SetWorldMatrix(D3DXMATRIX& matrix)
 		{
 			worldMatrixVariable->SetMatrix(reinterpret_cast<float*>(&matrix));
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::RemoveWeakReferences()
+		void Direct3D11Renderer::RemoveWeakReferences()
 		{
-			textureTargets.erase(std::remove_if(std::begin(textureTargets), std::end(textureTargets), [](const std::weak_ptr<Direct3D10TextureTarget> ptr) { return ptr.expired(); }), std::end(textureTargets));
-			textures.erase(std::remove_if(std::begin(textures), std::end(textures), [](const std::weak_ptr<Direct3D10Texture> ptr) { return ptr.expired(); }), std::end(textures));
+			textureTargets.erase(std::remove_if(std::begin(textureTargets), std::end(textureTargets), [](const std::weak_ptr<Direct3D11TextureTarget> ptr) { return ptr.expired(); }), std::end(textureTargets));
+			textures.erase(std::remove_if(std::begin(textures), std::end(textures), [](const std::weak_ptr<Direct3D11Texture> ptr) { return ptr.expired(); }), std::end(textures));
 		}
 		//---------------------------------------------------------------------------
 	}
