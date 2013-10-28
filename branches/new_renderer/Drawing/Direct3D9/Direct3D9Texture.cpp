@@ -1,5 +1,5 @@
 #include "Direct3D9Texture.hpp"
-
+#include "../../Misc/Exceptions.hpp"
 #include <d3dx9.h>
 
 namespace OSHGui
@@ -221,7 +221,7 @@ namespace OSHGui
 
 			if (FAILED(D3DXCreateTextureFromFileExA(owner.GetDevice(), filename.c_str(), realSize.Width, realSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &texture)))
 			{
-				throw;
+				throw Misc::Exception();
 			}
 
 			UpdateTextureSize();
@@ -233,8 +233,7 @@ namespace OSHGui
 		{
 			if (!IsPixelFormatSupported(pixelFormat))
 			{
-				throw;
-				//CEGUI_THROW(InvalidRequestException("Data was supplied in an unsupported pixel format."));
+				throw Misc::NotSupportedException();
 			}
 
 			auto d3dFormat = ToD3DPixelFormat(pixelFormat);
@@ -251,8 +250,7 @@ namespace OSHGui
 
 			if (FAILED(hr))
 			{
-				//CEGUI_THROW(RendererException("D3DXLoadSurfaceFromMemory failed."));
-				throw;
+				throw Misc::Exception();
 			}
 		}
 		//---------------------------------------------------------------------------
@@ -264,7 +262,7 @@ namespace OSHGui
 
 			if (FAILED(D3DXCreateTexture(owner.GetDevice(), static_cast<UINT>(textureSize.Width), static_cast<UINT>(textureSize.Height), 1, 0, format, D3DPOOL_MANAGED, &texture)))
 			{
-				throw;//CEGUI_THROW(RendererException("D3DXCreateTexture failed."));
+				throw Misc::Exception();
 			}
 
 			dataSize = size;
@@ -277,7 +275,7 @@ namespace OSHGui
 			LPDIRECT3DSURFACE9 surface;
 			if (FAILED(texture->GetSurfaceLevel(0, &surface)))
 			{
-				throw;//CEGUI_THROW(RendererException("IDirect3DTexture9::GetSurfaceLevel failed."));
+				throw Misc::Exception();
 			}
 
 			return surface;
@@ -294,28 +292,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Texture::UpdateCachedScaleValues()
 		{
-			//
-			// calculate what to use for x scale
-			//
 			const float orgW = dataSize.Width;
 			const float texW = size.Width;
 
-			// if texture and original data width are the same, scale is based
-			// on the original size.
-			// if texture is wider (and source data was not stretched), scale
-			// is based on the size of the resulting texture.
 			texelScaling.first = 1.0f / ((orgW == texW) ? orgW : texW);
 
-			//
-			// calculate what to use for y scale
-			//
 			const float orgH = dataSize.Height;
 			const float texH = size.Height;
 
-			// if texture and original data height are the same, scale is based
-			// on the original size.
-			// if texture is taller (and source data was not stretched), scale
-			// is based on the size of the resulting texture.
 			texelScaling.second = 1.0f / ((orgH == texH) ? orgH : texH);
 		}
 		//---------------------------------------------------------------------------
