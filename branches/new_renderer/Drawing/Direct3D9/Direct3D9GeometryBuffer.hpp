@@ -33,9 +33,6 @@ namespace OSHGui
 			 */
 			Direct3D9GeometryBuffer(Direct3D9Renderer &owner);
 
-			//! return pointer to D3DXMATRIX used as world transform.
-			const D3DXMATRIX* GetMatrix() const;
-
 			virtual void Draw() const override;
 			virtual void SetTranslation(const Vector &translation) override;
 			virtual void SetRotation(const Quaternion &rotation) override;

@@ -75,57 +75,6 @@ namespace OSHGui
 			
 			}
 			//---------------------------------------------------------------------------
-			void UnprojectPoint(const GeometryBufferPtr &buffer, const PointF &in, PointF &out) const override
-			{
-				if (!matrixValid)
-				{
-					UpdateMatrix();
-				}
-
-				auto gb = std::static_pointer_cast<Direct3D9GeometryBuffer>(buffer);
-				
-				D3DVIEWPORT9 vp;
-				SetupViewport(vp);
-
-				D3DXVECTOR3 in_vec;
-				in_vec.z = 0.0f;
-
-				D3DXVECTOR3 p1;
-				D3DXVECTOR3 p2;
-				D3DXVECTOR3 p3;
-				in_vec.x = 0;
-				in_vec.y = 0;
-				D3DXVec3Project(&p1, &in_vec, &vp, &matrix, 0, gb->GetMatrix());
-
-				in_vec.x = 1;
-				in_vec.y = 0;
-				D3DXVec3Project(&p2, &in_vec, &vp, &matrix, 0, gb->GetMatrix());
-
-				in_vec.x = 0;
-				in_vec.y = 1;
-				D3DXVec3Project(&p3, &in_vec, &vp, &matrix, 0, gb->GetMatrix());
-
-				D3DXPLANE surface_plane;
-				D3DXPlaneFromPoints(&surface_plane, &p1, &p2, &p3);
-
-				in_vec.x = vp.Width * 0.5f;
-				in_vec.y = vp.Height * 0.5f;
-				in_vec.z = -viewDistance;
-				D3DXVECTOR3 t1;
-				D3DXVec3Unproject(&t1, &in_vec, &vp, &matrix, 0, gb->GetMatrix());
-
-				in_vec.x = in.X;
-				in_vec.y = in.Y;
-				in_vec.z = 0.0f;
-				D3DXVECTOR3 t2;
-				D3DXVec3Unproject(&t2, &in_vec, &vp, &matrix, 0, gb->GetMatrix());
-
-				D3DXVECTOR3 intersect;
-				D3DXPlaneIntersectLine(&intersect, &surface_plane, &t1, &t2);
-
-				out.X = intersect.x;
-				out.Y = intersect.y;
-			}
 
 		protected:
 			void UpdateMatrix() const

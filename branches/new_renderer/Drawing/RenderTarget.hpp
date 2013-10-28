@@ -69,8 +69,6 @@ namespace OSHGui
 			 * Deaktiviert das RenderTarget nach dem Zeichnen.
 			 */
 			virtual void Deactivate() = 0;
-
-			virtual void UnprojectPoint(const GeometryBufferPtr &buffer, const PointF &in, PointF &out) const = 0;
 		};
 
 		typedef std::shared_ptr<RenderTarget> RenderTargetPtr;

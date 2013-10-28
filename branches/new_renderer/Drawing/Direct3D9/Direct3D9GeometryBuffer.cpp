@@ -150,16 +150,6 @@ namespace OSHGui
 			matrixValid = true;
 		}
 		//---------------------------------------------------------------------------
-		const D3DXMATRIX* Direct3D9GeometryBuffer::GetMatrix() const
-		{
-			if (!matrixValid)
-			{
-				UpdateMatrix();
-			}
-
-			return &matrix;
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D9GeometryBuffer::SetClippingActive(const bool active)
 		{
 			clippingActive = active;
