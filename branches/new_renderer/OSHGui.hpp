@@ -41,6 +41,8 @@
 
 #include "Drawing/TextureAnimator.hpp"
 
+#include "FontManager.hpp"
+
 #include "Controls/Control.hpp"
 #include "Controls/Label.hpp"
 #include "Controls/LinkLabel.hpp"

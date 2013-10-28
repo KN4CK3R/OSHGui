@@ -49,7 +49,6 @@ namespace OSHGui
 
 		Control::SetSize(fixxed);
 
-		//textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 		textRect = Drawing::RectangleF(DefaultTextOffset.Left, DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 
 		firstVisibleCharacter = 0;
@@ -118,7 +117,6 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		
-		//textRect = Drawing::RectangleF(absoluteLocation.Left + DefaultTextOffset.Left, absoluteLocation.Top + DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 		textRect = Drawing::RectangleF(DefaultTextOffset.Left, DefaultTextOffset.Top, GetWidth() - DefaultTextOffset.Left * 2, GetHeight() - DefaultTextOffset.Top * 2);
 		PlaceCaret(caretPosition);
 	}
@@ -206,8 +204,6 @@ namespace OSHGui
 		g.FillRectangle(GetBackColor() - Color(0, 20, 20, 20), PointF(0, 0), GetSize());
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		g.DrawString(textHelper.GetText().substr(firstVisibleCharacter), GetFont(), GetForeColor(), textRect.GetLocation());
-
 		if (showCaret)
 		{
 			if (isFocused && drawCaret)
@@ -215,6 +211,8 @@ namespace OSHGui
 				g.FillRectangle(GetForeColor(), caretRect);
 			}
 		}
+
+		g.DrawString(textHelper.GetText().substr(firstVisibleCharacter), GetFont(), GetForeColor(), textRect.GetLocation());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
