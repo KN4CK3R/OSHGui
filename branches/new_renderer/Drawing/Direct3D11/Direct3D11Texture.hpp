@@ -53,15 +53,6 @@ namespace OSHGui
 			 */
 			void SetOriginalDataSize(const SizeF& size);
 
-			/**
-			 * Hilfsfunktion, die vor einem D3D Reset vom Renderer aufgerufen wird.
-			 */
-			void PreD3DReset();
-			/**
-			 * Hilfsfunktion, die nach einem D3D Reset vom Renderer aufgerufen wird.
-			 */
-			void PostD3DReset();
-
 			virtual const SizeF& GetSize() const override;
 			virtual const SizeF& GetOriginalDataSize() const override;
 			virtual const std::pair<float, float>& GetTexelScaling() const override;

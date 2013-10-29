@@ -59,15 +59,6 @@ namespace OSHGui
 			 */
 			void SetOriginalDataSize(const SizeF& size);
 
-			/**
-			 * Hilfsfunktion, die vor einem D3D Reset vom Renderer aufgerufen wird.
-			 */
-			void PreD3DReset();
-			/**
-			 * Hilfsfunktion, die nach einem D3D Reset vom Renderer aufgerufen wird.
-			 */
-			void PostD3DReset();
-
 			virtual const SizeF& GetSize() const override;
 			virtual const SizeF& GetOriginalDataSize() const override;
 			virtual const std::pair<float, float>& GetTexelScaling() const override;
@@ -127,10 +118,10 @@ namespace OSHGui
 			 */
 			void InitialiseShaderResourceView();
 
-			Direct3D10Renderer& owner;
+			Direct3D10Renderer &owner;
 			
-			ID3D10Texture2D* texture;
-			ID3D10ShaderResourceView* resourceView;
+			ID3D10Texture2D *texture;
+			ID3D10ShaderResourceView *resourceView;
 			
 			SizeF size;
 			SizeF dataSize;

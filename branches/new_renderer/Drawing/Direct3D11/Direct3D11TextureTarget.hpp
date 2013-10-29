@@ -39,15 +39,6 @@ namespace OSHGui
 			 */
 			virtual ~Direct3D11TextureTarget();
 
-			/**
-			 * Hilfsfunktion, die vor einem D3D Reset vom Renderer aufgerufen wird.
-			 */
-			void PreD3DReset();
-			/**
-			 * Hilfsfunktion, die nach einem D3D Reset vom Renderer aufgerufen wird.
-			 */
-			void PostD3DReset();
-
 			virtual void Activate() override;
 			virtual void Deactivate() override;
 			

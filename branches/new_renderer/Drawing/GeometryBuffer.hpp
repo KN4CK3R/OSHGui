@@ -97,24 +97,6 @@ namespace OSHGui
 			 */
 			virtual TexturePtr GetActiveTexture() const = 0;
 
-			virtual uint32_t GetVertexCount() const = 0;
-
-			virtual uint32_t GetBatchCount() const = 0;
-
-			/**
-			 * Legt den verwendeten BlendMode fest. Dieser wirkt sich auf alles aus, was mit dem GeometryBuffer gezeichnet wird.
-			 *
-			 * \param mode
-			 */
-			virtual void SetBlendMode(const BlendMode mode);
-
-			/**
-			 * Ruft den verwendeten BlendMode ab.
-			 *
-			 * \return BlendMode
-			 */
-			virtual BlendMode GetBlendMode() const;
-
 			/**
 			 * Legt fest, ob die anschließend hinzugefügten Vertices geclippt werden sollen.
 			 *

@@ -260,16 +260,6 @@ namespace OSHGui
 			UpdateCachedScaleValues();
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Texture::PreD3DReset()
-		{
-			
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10Texture::PostD3DReset()
-		{
-			
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D10Texture::InitialiseShaderResourceView()
 		{
 			if (!texture)

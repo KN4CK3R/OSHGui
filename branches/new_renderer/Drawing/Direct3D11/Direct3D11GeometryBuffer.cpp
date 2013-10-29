@@ -7,6 +7,9 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D11GeometryBuffer::Direct3D11GeometryBuffer(Direct3D11Renderer &_owner)
 			: owner(_owner),
 			  vertexBuffer(nullptr),
@@ -26,6 +29,56 @@ namespace OSHGui
 		{
 			CleanupVertexBuffer();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::SetTranslation(const Vector &translation)
+		{
+			this->translation = translation;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::SetRotation(const Quaternion &rotation)
+		{
+			this->rotation = rotation;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::SetPivot(const Vector &pivot)
+		{
+			this->pivot = pivot;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::SetClippingRegion(const RectangleF &region)
+		{
+			clipRect.SetTop(std::max(0.0f, region.GetTop()));
+			clipRect.SetBottom(std::max(0.0f, region.GetBottom()));
+			clipRect.SetLeft(std::max(0.0f, region.GetLeft()));
+			clipRect.SetRight(std::max(0.0f, region.GetRight()));
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::SetActiveTexture(TexturePtr &texture)
+		{
+			activeTexture = std::static_pointer_cast<Direct3D11Texture>(texture);
+		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D11GeometryBuffer::GetActiveTexture() const
+		{
+			return activeTexture;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::SetClippingActive(const bool active)
+		{
+			clippingActive = active;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D11GeometryBuffer::IsClippingActive() const
+		{
+			return clippingActive;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::Draw() const
 		{
@@ -62,32 +115,6 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetTranslation(const Vector &translation)
-		{
-			this->translation = translation;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetRotation(const Quaternion &rotation)
-		{
-			this->rotation = rotation;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetPivot(const Vector &pivot)
-		{
-			this->pivot = pivot;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetClippingRegion(const RectangleF &region)
-		{
-			clipRect.SetTop(std::max(0.0f, region.GetTop()));
-			clipRect.SetBottom(std::max(0.0f, region.GetBottom()));
-			clipRect.SetLeft(std::max(0.0f, region.GetLeft()));
-			clipRect.SetRight(std::max(0.0f, region.GetRight()));
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::AppendVertex(const Vertex &vertex)
 		{
 			AppendGeometry(&vertex, 1);
@@ -108,31 +135,11 @@ namespace OSHGui
 			bufferSynched = false;
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetActiveTexture(TexturePtr &texture)
-		{
-			activeTexture = std::static_pointer_cast<Direct3D11Texture>(texture);
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::Reset()
 		{
 			batches.clear();
 			vertices.clear();
 			activeTexture = nullptr;
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D11GeometryBuffer::GetActiveTexture() const
-		{
-			return activeTexture;
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D11GeometryBuffer::GetVertexCount() const
-		{
-			return vertices.size();
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D11GeometryBuffer::GetBatchCount() const
-		{
-			return batches.size();
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::PerformBatchManagement()
@@ -155,16 +162,6 @@ namespace OSHGui
 			D3DXMatrixTransformation(&matrix, nullptr, nullptr, nullptr, &p, &r, &t);
 
 			matrixValid = true;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetClippingActive(const bool active)
-		{
-			clippingActive = active;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D11GeometryBuffer::IsClippingActive() const
-		{
-			return clippingActive;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::SyncHardwareBuffer() const

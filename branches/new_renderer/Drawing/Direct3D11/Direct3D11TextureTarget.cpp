@@ -7,6 +7,8 @@ namespace OSHGui
 	{
 		const float Direct3D11TextureTarget::DefaultSize = 128.0f;
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D11TextureTarget::Direct3D11TextureTarget(Direct3D11Renderer &owner)
 			: Direct3D11RenderTarget<TextureTarget>(owner),
 			  d3dTexture(nullptr),
@@ -22,6 +24,8 @@ namespace OSHGui
 		{
 			CleanupRenderTexture();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Direct3D11TextureTarget::DeclareRenderSize(const SizeF &size)
 		{
@@ -39,6 +43,18 @@ namespace OSHGui
 		{
 			return true;
 		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D11TextureTarget::GetTexture() const
+		{
+			return texture;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D11TextureTarget::IsRenderingInverted() const
+		{
+			return false;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D11TextureTarget::Activate()
 		{
@@ -59,11 +75,6 @@ namespace OSHGui
 			const float colour[] = { 0, 0, 0, 0 };
 
 			owner.GetDevice().Context->ClearRenderTargetView(renderTargetView, colour);
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D11TextureTarget::GetTexture() const
-		{
-			return texture;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11TextureTarget::InitialiseRenderTexture()
@@ -135,21 +146,6 @@ namespace OSHGui
 
 			renderTargetViewBackup = nullptr;
 			depthStencilViewBackup = nullptr;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D11TextureTarget::IsRenderingInverted() const
-		{
-			return false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11TextureTarget::PreD3DReset()
-		{
-			
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11TextureTarget::PostD3DReset()
-		{
-			
 		}
 		//---------------------------------------------------------------------------
 	}

@@ -1,7 +1,7 @@
 #include "Direct3D10GeometryBuffer.hpp"
 #include "Direct3D10Texture.hpp"
 #include "../Vertex.hpp"
-#include "../../Misc/Exception.hpp"
+#include "../../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {
@@ -123,16 +123,6 @@ namespace OSHGui
 		TexturePtr Direct3D10GeometryBuffer::GetActiveTexture() const
 		{
 			return activeTexture;
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D10GeometryBuffer::GetVertexCount() const
-		{
-			return vertices.size();
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D10GeometryBuffer::GetBatchCount() const
-		{
-			return batches.size();
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10GeometryBuffer::PerformBatchManagement()

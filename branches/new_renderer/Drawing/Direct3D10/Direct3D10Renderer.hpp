@@ -50,15 +50,6 @@ namespace OSHGui
 			~Direct3D10Renderer();
 
 			/**
-			 * Hilfsfunktion, die vor einem D3D Reset aufgerufen werden muss.
-			 */
-			void PreD3DReset();
-			/**
-			 * Hilfsfunktion, die nach einem D3D Reset aufgerufen werden muss.
-			 */
-			void PostD3DReset();
-
-			/**
 			 * Ruft das Direct3D10 Device ab.
 			 */
 			ID3D10Device* GetDevice() const;
@@ -90,11 +81,6 @@ namespace OSHGui
 			 */
 			SizeF GetViewportSize();
 
-			/**
-			 * Entfernt ungültige Referenzen zu Objekten, für die ein Reset ausgeführt werden muss.
-			 */
-			void RemoveWeakReferences();
-
 			ID3D10Device *device;
 			
 			SizeF displaySize;
@@ -102,23 +88,15 @@ namespace OSHGui
 			
 			RenderTargetPtr defaultTarget;
 			
-			typedef std::vector<std::weak_ptr<Direct3D10TextureTarget>> TextureTargetList;
-			TextureTargetList textureTargets;
+			ID3D10Effect *effect;
+			ID3D10EffectTechnique *clippedTechnique;
+			ID3D10EffectTechnique *unclippedTechnique;
+			ID3D10InputLayout *inputLayout;
 			
-			typedef std::vector<std::weak_ptr<Direct3D10Texture>> TextureList;
-			TextureList textures;
-			
-			ID3D10Effect* effect;
-			ID3D10EffectTechnique* normalClippedTechnique;
-			ID3D10EffectTechnique* normalUnclippedTechnique;
-			ID3D10EffectTechnique* premultipliedClippedTechnique;
-			ID3D10EffectTechnique* premultipliedUnclippedTechnique;
-			ID3D10InputLayout* inputLayout;
-			
-			ID3D10EffectMatrixVariable* worldMatrixVariable;
-			ID3D10EffectMatrixVariable* projectionMatrixVariable;
-			ID3D10EffectShaderResourceVariable* boundTextureVariable;
-			ID3D10EffectScalarVariable* useShaderTextureVariable;
+			ID3D10EffectMatrixVariable *worldMatrixVariable;
+			ID3D10EffectMatrixVariable *projectionMatrixVariable;
+			ID3D10EffectShaderResourceVariable *textureVariable;
+			ID3D10EffectScalarVariable *useTextureVariable;
 		};
 	}
 }

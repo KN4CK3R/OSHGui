@@ -48,8 +48,6 @@ namespace OSHGui
 			virtual void SetActiveTexture(TexturePtr &texture) override;
 			virtual void Reset() override;
 			virtual TexturePtr GetActiveTexture() const override;
-			virtual uint32_t GetVertexCount() const override;
-			virtual uint32_t GetBatchCount() const override;
 			virtual void SetClippingActive(const bool active) override;
 			virtual bool IsClippingActive() const override;
 

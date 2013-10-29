@@ -59,6 +59,8 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D11Texture::Direct3D11Texture(IDevice11 &_device)
 			: device(_device),
 			  texture(nullptr),
@@ -94,6 +96,8 @@ namespace OSHGui
 		{
 			CleanupDirect3D11Texture();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Direct3D11Texture::SetDirect3D11Texture(ID3D11Texture2D *_texture)
 		{
@@ -131,6 +135,12 @@ namespace OSHGui
 			return size;
 		}
 		//---------------------------------------------------------------------------
+		void Direct3D11Texture::SetOriginalDataSize(const SizeF& size)
+		{
+			dataSize = size;
+			UpdateCachedScaleValues();
+		}
+		//---------------------------------------------------------------------------
 		const SizeF& Direct3D11Texture::GetOriginalDataSize() const
 		{
 			return dataSize;
@@ -140,6 +150,8 @@ namespace OSHGui
 		{
 			return texelScaling;
 		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D11Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
@@ -251,22 +263,6 @@ namespace OSHGui
 			{
 				size.Height = size.Width = 0.0f;
 			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11Texture::SetOriginalDataSize(const SizeF& size)
-		{
-			dataSize = size;
-			UpdateCachedScaleValues();
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11Texture::PreD3DReset()
-		{
-			
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11Texture::PostD3DReset()
-		{
-			
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11Texture::InitialiseShaderResourceView()

@@ -13,15 +13,5 @@ namespace OSHGui
 		{
 		}
 		//---------------------------------------------------------------------------
-		void GeometryBuffer::SetBlendMode(const BlendMode mode)
-		{
-			blendMode = mode;
-		}
-		//---------------------------------------------------------------------------
-		BlendMode GeometryBuffer::GetBlendMode() const
-		{
-			return blendMode;
-		}
-		//---------------------------------------------------------------------------
 	}
 }

@@ -118,16 +118,6 @@ namespace OSHGui
 			return activeTexture;
 		}
 		//---------------------------------------------------------------------------
-		uint32_t Direct3D9GeometryBuffer::GetVertexCount() const
-		{
-			return vertices.size();
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D9GeometryBuffer::GetBatchCount() const
-		{
-			return batches.size();
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D9GeometryBuffer::PerformBatchManagement()
 		{
 			auto texture = activeTexture ? activeTexture->GetDirect3D9Texture() : nullptr;

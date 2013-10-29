@@ -40,6 +40,16 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------
+		bool Direct3D10TextureTarget::IsRenderingInverted() const
+		{
+			return false;
+		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D10TextureTarget::GetTexture() const
+		{
+			return texture;
+		}
+		//---------------------------------------------------------------------------
 		void Direct3D10TextureTarget::Activate()
 		{
 			EnableRenderTexture();
@@ -59,11 +69,6 @@ namespace OSHGui
 			const float colour[] = { 0, 0, 0, 0 };
 
 			owner.GetDevice()->ClearRenderTargetView(renderTargetView, colour);
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10TextureTarget::GetTexture() const
-		{
-			return texture;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10TextureTarget::InitialiseRenderTexture()
@@ -87,7 +92,7 @@ namespace OSHGui
 			owner.GetDevice()->CreateRenderTargetView(d3dTexture, &renderTargetDescription, &renderTargetView);
 
 
-			//texture->SetDirect3D10Texture(d3dTexture);
+			texture->SetDirect3D10Texture(d3dTexture);
 			texture->SetOriginalDataSize(area.GetSize());
 		}
 		//---------------------------------------------------------------------------
@@ -135,21 +140,6 @@ namespace OSHGui
 
 			renderTargetViewBackup = nullptr;
 			depthStencilViewBackup = nullptr;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D10TextureTarget::IsRenderingInverted() const
-		{
-			return false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10TextureTarget::PreD3DReset()
-		{
-			
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10TextureTarget::PostD3DReset()
-		{
-			
 		}
 		//---------------------------------------------------------------------------
 	}

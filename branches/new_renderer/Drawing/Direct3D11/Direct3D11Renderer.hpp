@@ -75,15 +75,6 @@ namespace OSHGui
 			~Direct3D11Renderer();
 
 			/**
-			 * Hilfsfunktion, die vor einem D3D Reset aufgerufen werden muss.
-			 */
-			void PreD3DReset();
-			/**
-			 * Hilfsfunktion, die nach einem D3D Reset aufgerufen werden muss.
-			 */
-			void PostD3DReset();
-
-			/**
 			 * Ruft das Direct3D11 Device ab.
 			 */
 			IDevice11& GetDevice();
@@ -115,11 +106,6 @@ namespace OSHGui
 			 */
 			SizeF GetViewportSize();
 
-			/**
-			 * Entfernt ungültige Referenzen zu Objekten, für die ein Reset ausgeführt werden muss.
-			 */
-			void RemoveWeakReferences();
-
 			IDevice11 device;
 			
 			SizeF displaySize;
@@ -127,23 +113,15 @@ namespace OSHGui
 			
 			RenderTargetPtr defaultTarget;
 			
-			typedef std::vector<std::weak_ptr<Direct3D11TextureTarget>> TextureTargetList;
-			TextureTargetList textureTargets;
+			ID3DX11Effect *effect;
+			ID3DX11EffectTechnique *clippedTechnique;
+			ID3DX11EffectTechnique *unclippedTechnique;
+			ID3D11InputLayout *inputLayout;
 			
-			typedef std::vector<std::weak_ptr<Direct3D11Texture>> TextureList;
-			TextureList textures;
-			
-			ID3DX11Effect* effect;
-			ID3DX11EffectTechnique* normalClippedTechnique;
-			ID3DX11EffectTechnique* normalUnclippedTechnique;
-			ID3DX11EffectTechnique* premultipliedClippedTechnique;
-			ID3DX11EffectTechnique* premultipliedUnclippedTechnique;
-			ID3D11InputLayout* inputLayout;
-			
-			ID3DX11EffectMatrixVariable* worldMatrixVariable;
-			ID3DX11EffectMatrixVariable* projectionMatrixVariable;
-			ID3DX11EffectShaderResourceVariable* boundTextureVariable;
-			ID3DX11EffectScalarVariable* useShaderTextureVariable;
+			ID3DX11EffectMatrixVariable *worldMatrixVariable;
+			ID3DX11EffectMatrixVariable *projectionMatrixVariable;
+			ID3DX11EffectShaderResourceVariable *textureVariable;
+			ID3DX11EffectScalarVariable *useTextureVariable;
 		};
 	}
 }
