@@ -18,14 +18,8 @@ namespace OSHGui
 	 */
 	class WaitCursor : public Cursor
 	{
-	public:
-		/**
-		 * Konstruktor der Klasse
-		 */
-		WaitCursor();
-		
 	protected:
-		virtual void CreateCursor() override;
+		virtual void Initialize() override;
 	};
 }
 

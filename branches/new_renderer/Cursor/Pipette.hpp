@@ -18,14 +18,8 @@ namespace OSHGui
 	 */
 	class PipetteCursor : public Cursor
 	{
-	public:
-		/**
-		 * Konstruktor der Klasse
-		 */
-		PipetteCursor();
-		
 	protected:
-		virtual void CreateCursor() override;
+		virtual void Initialize() override;
 	};
 }
 

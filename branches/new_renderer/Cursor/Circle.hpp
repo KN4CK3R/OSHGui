@@ -18,14 +18,8 @@ namespace OSHGui
 	 */
 	class CircleCursor : public Cursor
 	{
-	public:
-		/**
-		 * Konstruktor der Klasse
-		 */
-		CircleCursor();
-		
 	protected:
-		virtual void CreateCursor() override;
+		virtual void Initialize() override;
 	};
 }
 

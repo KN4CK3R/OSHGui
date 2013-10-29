@@ -52,6 +52,8 @@ namespace OSHGui
 					cursor = std::make_shared<Cursor>();
 					break;
 			}
+			cursor->Initialize();
+
 			cursors[cursorType] = cursor;
 			return cursor;
 		}

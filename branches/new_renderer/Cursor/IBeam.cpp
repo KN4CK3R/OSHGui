@@ -7,31 +7,24 @@
  */
 
 #include "IBeam.hpp"
+#include "../Drawing/Graphics.hpp"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
-	//Constructor
-	//---------------------------------------------------------------------------
-	IBeamCursor::IBeamCursor()
-	{
-		offset = Drawing::PointF(-4, -7);
-		CreateCursor();
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void IBeamCursor::CreateCursor()
+	void IBeamCursor::Initialize()
 	{
-		/*cursor->BeginUpdate();
-		cursor->Clear();
-		
-		cursor->Fill(0, 0, 7, 1, Drawing::Color::White());
-		cursor->Fill(0, 13, 7, 1, Drawing::Color::White());
-		cursor->Clear(3, 0, 1, 14);
-		cursor->Fill(3, 1, 1, 12, Drawing::Color::White());
-		
-		cursor->EndUpdate();*/
+		using namespace Drawing;
+
+		Graphics g(geometry);
+
+		PointF offset(-4, -7);
+
+		g.FillRectangle(Color::White(), PointF(0, 0) + offset, SizeF(7, 1));
+		g.FillRectangle(Color::White(), PointF(0, 13) + offset, SizeF(7, 1));
+		g.FillRectangle(Color::White(), PointF(3, 1) + offset, SizeF(1, 12));
 	}
 	//---------------------------------------------------------------------------
 }

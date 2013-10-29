@@ -18,14 +18,8 @@ namespace OSHGui
 	 */
 	class HandCursor : public Cursor
 	{
-	public:
-		/**
-		 * Konstruktor der Klasse
-		 */
-		HandCursor();
-		
-	private:
-		virtual void CreateCursor() override;
+	protected:
+		virtual void Initialize() override;
 	};
 }
 

@@ -18,14 +18,8 @@ namespace OSHGui
 	 */
 	class IBeamCursor : public Cursor
 	{
-	public:
-		/**
-		 * Konstruktor der Klasse
-		 */
-		IBeamCursor();
-		
 	protected:
-		virtual void CreateCursor() override;
+		virtual void Initialize() override;
 	};
 }
 

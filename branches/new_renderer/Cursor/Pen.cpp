@@ -7,36 +7,30 @@
  */
 
 #include "Pen.hpp"
+#include "../Drawing/Graphics.hpp"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
-	//Constructor
-	//---------------------------------------------------------------------------
-	PenCursor::PenCursor()
-	{
-		offset = Drawing::PointF(0, -15);
-		CreateCursor();
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void PenCursor::CreateCursor()
+	void PenCursor::Initialize()
 	{
-		/*cursor->BeginUpdate();
-		cursor->Clear();
-		
-		cursor->Fill(6, 0, 3, 1, Drawing::Color::Black());
+		using namespace Drawing;
+
+		Graphics g(geometry);
+
+		PointF offset(0, -15);
+
+		g.FillRectangle(Color::Black(), PointF(6, 0) + offset, SizeF(3, 1));
 		for (int i = 0; i < 5; ++i)
 		{
-			cursor->Fill(1 + i, 9 - i * 2, 1, 2, Drawing::Color::Black());
-			cursor->Fill(5 + i, 9 - i * 2, 1, 2, Drawing::Color::Black());
-			cursor->Fill(0, 11 + i, 5 - i, 1, Drawing::Color::Black());
-			cursor->Fill(2 + i, 9 - i * 2, 3, 2, Drawing::Color::White());
+			g.FillRectangle(Color::Black(), PointF(1 + i, 9 - i * 2) + offset, SizeF(1, 2));
+			g.FillRectangle(Color::Black(), PointF(5 + i, 9 - i * 2) + offset, SizeF(1, 2));
+			g.FillRectangle(Color::Black(), PointF(0, 11 + i) + offset, SizeF(5 - i, 1));
+			g.FillRectangle(Color::White(), PointF(2 + i, 9 - i * 2) + offset, SizeF(3, 2));
 		}
-		cursor->Fill(2, 11, 2, 1, Drawing::Color::White());
-
-		cursor->EndUpdate();*/
+		g.FillRectangle(Color::White(), PointF(2, 11) + offset, SizeF(2, 1));
 	}
 	//---------------------------------------------------------------------------
 }

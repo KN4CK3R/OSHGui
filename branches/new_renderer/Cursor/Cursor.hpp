@@ -16,11 +16,15 @@
 
 namespace OSHGui
 {
+	class Cursors;
+
 	/**
 	 * Standard-Cursor
 	 */
 	class OSHGUI_EXPORT Cursor
 	{
+		friend class Cursors;
+
 	public:
 		/**
 		 * Konstruktor der Klasse
@@ -28,21 +32,15 @@ namespace OSHGui
 		Cursor();
 		virtual ~Cursor();
 	
-		/**
-		 * Zeichnet den Cursor.
-		 *
-		 * \param renderer
-		 * \param cursorLocation
-		 */
-		virtual void Render(const Drawing::PointF &cursorLocation);
+		virtual Drawing::GeometryBufferPtr GetGeometry();
 		
 	protected:
-		virtual void CreateCursor();
-
-		Drawing::PointF offset;
+		virtual void Initialize();
 
 		Drawing::GeometryBufferPtr geometry;
 	};
+
+	typedef std::shared_ptr<Cursor> CursorPtr;
 }
 
 #endif

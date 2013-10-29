@@ -15,18 +15,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	WaitCursor::WaitCursor()
-	{
+	//WaitCursor::WaitCursor()
+	//{
 		//cursor = Application::Instance()->GetRenderer()->CreateNewTexture(16, 16, 14);
 	
-		CreateCursor();
+		//Initialize();
 
 		//Drawing::TextureAnimator::Animate(cursor, Drawing::TextureAnimator::Loop);
-	}
+	//}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void WaitCursor::CreateCursor()
+	void WaitCursor::Initialize()
 	{
 		int data[][6][2] =
 		{

@@ -18,14 +18,8 @@ namespace OSHGui
 	 */
 	class PenCursor : public Cursor
 	{
-	public:
-		/**
-		 * Konstruktor der Klasse
-		 */
-		PenCursor();
-		
 	protected:
-		virtual void CreateCursor() override;
+		virtual void Initialize() override;
 	};
 }
 
