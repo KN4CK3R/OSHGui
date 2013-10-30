@@ -30,8 +30,6 @@ namespace OSHGui
 	{
 		FreeImage_Initialise();
 
-		mouse.Enabled = true;
-
 		#define MakeTheme(controlType, color1, color2) defaultTheme.SetControlColorTheme(Control::ControlTypeToString(controlType), Drawing::Theme::ControlTheme(color1, color2))
 
 		MakeTheme(ControlType::Label,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
@@ -78,6 +76,9 @@ namespace OSHGui
 		#endif
 
 		instance = new Application(std::move(renderer));
+
+		instance->mouse.Enabled = true;
+		instance->mouse.Cursor = Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
 	const bool Application::IsEnabled() const
@@ -108,6 +109,8 @@ namespace OSHGui
 	void Application::SetDefaultFont(Drawing::FontPtr &_defaultFont)
 	{
 		defaultFont = _defaultFont;
+
+		guiSurface.Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::PointF& Application::GetCursorLocation() const
@@ -123,11 +126,15 @@ namespace OSHGui
 	void Application::SetCursor(const std::shared_ptr<Cursor> &cursor)
 	{
 		mouse.Cursor = cursor;
+
+		guiSurface.Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Application::SetCursorEnabled(bool enabled)
 	{
 		mouse.Enabled = enabled;
+
+		guiSurface.Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Application::SetTheme(const Drawing::Theme &theme)
@@ -149,7 +156,7 @@ namespace OSHGui
 	{
 		isEnabled = true;
 
-		std::shared_ptr<Form> mainForm = formManager.GetMainForm();
+		auto mainForm = formManager.GetMainForm();
 		if (mainForm != nullptr)
 		{
 			if (!formManager.IsRegistered(mainForm))
@@ -195,23 +202,23 @@ namespace OSHGui
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessMouseMessage(MouseMessage &mouse)
+	bool Application::ProcessMouseMessage(MouseMessage &message)
 	{
 		if (!isEnabled)
 		{
 			return false;
 		}
 
-		this->mouse.Location = mouse.Location;
+		mouse.Location = message.Location;
 
 		if (CaptureControl != nullptr)
 		{
-			CaptureControl->ProcessMouseMessage(mouse);
+			CaptureControl->ProcessMouseMessage(message);
 			return true;
 		}
 		if (FocusedControl != nullptr)
 		{
-			if (FocusedControl->ProcessMouseMessage(mouse))
+			if (FocusedControl->ProcessMouseMessage(message))
 			{
 				return true;
 			}
@@ -219,13 +226,13 @@ namespace OSHGui
 
 		if (formManager.GetFormCount() > 0)
 		{
-			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
+			auto foreMost = formManager.GetForeMost();
 			if (foreMost != nullptr && foreMost->IsModal())
 			{
 				for (auto it = foreMost->GetPostOrderEnumerator(); it(); ++it)
 				{
-					Control *control = *it;
-					if (control->ProcessMouseMessage(mouse))
+					auto control = *it;
+					if (control->ProcessMouseMessage(message))
 					{
 						return true;
 					}
@@ -235,12 +242,12 @@ namespace OSHGui
 			
 			for (auto it = formManager.GetEnumerator(); it(); ++it)
 			{
-				std::shared_ptr<Form> &form = *it;
+				auto &form = *it;
 				
 				for (auto it2 = form->GetPostOrderEnumerator(); it2(); ++it2)
 				{
-					Control *control = *it2;
-					if (control->ProcessMouseMessage(mouse))
+					auto control = *it2;
+					if (control->ProcessMouseMessage(message))
 					{
 						if (form != foreMost)
 						{
@@ -254,7 +261,7 @@ namespace OSHGui
 
 			if (MouseEnteredControl)
 			{
-				MouseEnteredControl->OnMouseLeave(mouse);
+				MouseEnteredControl->OnMouseLeave(message);
 			}
 		}
 
@@ -321,21 +328,12 @@ namespace OSHGui
 
 		formManager.RemoveUnregisteredForms();
 
-		static Drawing::GeometryBufferPtr cursor = GetRenderer()->CreateGeometryBuffer();
-		static bool once = true;
-		if (once)
-		{
-			once = false;
-			Drawing::Graphics g(cursor);
-			g.FillRectangle(Drawing::Color::White(), 0, 0, 3, 3);
-		}
-
 		if (guiSurface.needsRedraw)
 		{
-			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
+			auto foreMost = formManager.GetForeMost();
 			for (auto it = formManager.GetEnumerator(); it(); ++it)
 			{
-				std::shared_ptr<Form> &form = *it;
+				auto &form = *it;
 				if (form != foreMost)
 				{
 					form->Render();
@@ -346,15 +344,14 @@ namespace OSHGui
 				foreMost->Render();
 			}
 
-			guiSurface.AddGeometry(Drawing::RenderQueueType::Overlay, cursor);
+			guiSurface.AddGeometry(Drawing::RenderQueueType::Overlay, mouse.Cursor->GetGeometry());
 
 			guiSurface.needsRedraw = false;
 		}
 
 		if (mouse.Enabled)
 		{
-			cursor->SetTranslation(Drawing::Vector(mouse.Location.X, mouse.Location.Y, 0));
-			//mouse.Cursor->Render(renderer__, mouse.Location);
+			mouse.Cursor->GetGeometry()->SetTranslation(Drawing::Vector(mouse.Location.X, mouse.Location.Y, 0));
 		}
 
 		guiSurface.Draw();
