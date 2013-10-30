@@ -79,7 +79,7 @@ namespace OSHGui
 			 */
 			IDevice11& GetDevice();
 
-			void BindTechniquePass(const BlendMode mode, const bool clipped);
+			void BindTechniquePass(const bool clipped);
 			void SetCurrentTextureShaderResource(ID3D11ShaderResourceView* srv);
 			void SetProjectionMatrix(D3DXMATRIX &matrix);
 			void SetWorldMatrix(D3DXMATRIX &matrix);

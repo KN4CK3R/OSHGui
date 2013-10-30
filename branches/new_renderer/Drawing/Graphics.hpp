@@ -40,6 +40,7 @@ namespace OSHGui
 
 			void Rotate(const PointF &pivot, const Vector &angles);
 
+			void DrawLine(const Color &color, const PointF &from, const PointF &to);
 			/**
 			 * Füllt das Rechteck.
 			 *

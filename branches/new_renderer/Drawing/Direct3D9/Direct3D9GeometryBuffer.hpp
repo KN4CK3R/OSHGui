@@ -33,18 +33,17 @@ namespace OSHGui
 			 */
 			Direct3D9GeometryBuffer(Direct3D9Renderer &owner);
 
-			virtual void Draw() const override;
 			virtual void SetTranslation(const Vector &translation) override;
 			virtual void SetRotation(const Quaternion &rotation) override;
 			virtual void SetPivot(const Vector &pivot) override;
 			virtual void SetClippingRegion(const RectangleF &region) override;
-			virtual void AppendVertex(const Vertex &vertex) override;
-			virtual void AppendGeometry(const Vertex *const vertices, uint32_t count) override;
-			virtual void SetActiveTexture(TexturePtr &texture) override;
-			virtual void Reset() override;
-			virtual TexturePtr GetActiveTexture() const override;
+			virtual void SetActiveTexture(const TexturePtr &texture) override;
 			virtual void SetClippingActive(const bool active) override;
 			virtual bool IsClippingActive() const override;
+			virtual void AppendVertex(const Vertex &vertex) override;
+			virtual void AppendGeometry(const Vertex *const vertices, uint32_t count) override;
+			virtual void Draw() const override;
+			virtual void Reset() override;
 
 		protected:
 			/**
@@ -79,9 +78,10 @@ namespace OSHGui
 
 			struct BatchInfo
 			{
-				BatchInfo(LPDIRECT3DTEXTURE9 _texture, uint32_t _count, bool _clip)
+				BatchInfo(LPDIRECT3DTEXTURE9 _texture, uint32_t _count, VertexDrawMode _mode, bool _clip)
 					: texture(_texture),
 					  count(_count),
+					  mode(_mode),
 					  clip(_clip)
 				{
 
@@ -89,6 +89,7 @@ namespace OSHGui
 
 				LPDIRECT3DTEXTURE9 texture;
 				uint32_t count;
+				VertexDrawMode mode;
 				bool clip;
 			};
 

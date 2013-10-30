@@ -293,7 +293,7 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D11Renderer::BindTechniquePass(const BlendMode mode, const bool clipped)
+		void Direct3D11Renderer::BindTechniquePass(const bool clipped)
 		{
 			if (clipped)
 			{

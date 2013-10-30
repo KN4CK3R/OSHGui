@@ -58,14 +58,9 @@ namespace OSHGui
 			clipRect.SetRight(std::max(0.0f, region.GetRight()));
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::SetActiveTexture(TexturePtr &texture)
+		void Direct3D11GeometryBuffer::SetActiveTexture(const TexturePtr &texture)
 		{
 			activeTexture = std::static_pointer_cast<Direct3D11Texture>(texture);
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D11GeometryBuffer::GetActiveTexture() const
-		{
-			return activeTexture;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::SetClippingActive(const bool active)
@@ -106,8 +101,9 @@ namespace OSHGui
 				auto pos = 0;
 				for (auto &batch : batches)
 				{
+					owner.GetDevice().Context->IASetPrimitiveTopology(batch.mode == VertexDrawMode::Triangle ? D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 					owner.SetCurrentTextureShaderResource(batch.texture);
-					owner.BindTechniquePass(blendMode, batch.clip);
+					owner.BindTechniquePass(batch.clip);
 					owner.GetDevice().Context->Draw(batch.count, pos);
 
 					pos += batch.count;
@@ -146,9 +142,9 @@ namespace OSHGui
 		{
 			auto texture = activeTexture ? activeTexture->GetDirect3DShaderResourceView() : nullptr;
 
-			if (batches.empty() || texture != batches.back().texture || clippingActive != batches.back().clip)
+			if (batches.empty() || texture != batches.back().texture || drawMode != batches.back().mode || clippingActive != batches.back().clip)
 			{
-				batches.emplace_back(texture, 0, clippingActive);
+				batches.emplace_back(texture, 0, drawMode, clippingActive);
 			}
 		}
 		//---------------------------------------------------------------------------

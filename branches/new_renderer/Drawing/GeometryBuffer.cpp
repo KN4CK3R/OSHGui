@@ -4,13 +4,23 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		GeometryBuffer::GeometryBuffer()
-			: blendMode(BlendMode::Normal)
+			: drawMode(VertexDrawMode::Triangle)
 		{
 		}
 		//---------------------------------------------------------------------------
 		GeometryBuffer::~GeometryBuffer()
 		{
+		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		void GeometryBuffer::SetVertexDrawMode(VertexDrawMode mode)
+		{
+			drawMode = mode;
 		}
 		//---------------------------------------------------------------------------
 	}

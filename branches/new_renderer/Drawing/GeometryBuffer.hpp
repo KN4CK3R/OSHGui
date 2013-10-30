@@ -19,6 +19,12 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		enum class VertexDrawMode
+		{
+			Triangle,
+			Line
+		};
+
 		/**
 		 * Die Klasse speichert Geometrien zum Zeichnen.
 		 */
@@ -29,11 +35,6 @@ namespace OSHGui
 			 * Destructor der Klasse.
 			 */
 			virtual ~GeometryBuffer();
-
-			/**
-			 * Zeichnet die gespeicherte Geometrie.
-			 */
-			virtual void Draw() const = 0;
 
 			/**
 			 * Legt die Position des GeometryBuffer im Raum fest.
@@ -55,6 +56,29 @@ namespace OSHGui
 			 * \param pivot
 			 */
 			virtual void SetPivot(const Vector &pivot) = 0;
+
+			/**
+			 * Legt die momentan aktive Textur zum Zeichnen fest.
+			 *
+			 * \param texture
+			 */
+			virtual void SetActiveTexture(const TexturePtr &texture) = 0;
+
+			virtual void SetVertexDrawMode(VertexDrawMode mode);
+
+			/**
+			 * Legt fest, ob die anschließend hinzugefügten Vertices geclippt werden sollen.
+			 *
+			 * \param active
+			 */
+			virtual void SetClippingActive(const bool active) = 0;
+
+			/**
+			 * Ruft ab, ob derzeit Clipping aktiv ist.
+			 *
+			 * \return Clipping aktiv
+			 */
+			virtual bool IsClippingActive() const = 0;
 
 			/**
 			 * Legt die Clipping Region fest.
@@ -79,42 +103,21 @@ namespace OSHGui
 			virtual void AppendGeometry(const Vertex *const vertices, uint32_t count) = 0;
 
 			/**
-			 * Legt die momentan aktive Textur zum Zeichnen fest.
-			 *
-			 * \param texture
+			 * Zeichnet die gespeicherte Geometrie.
 			 */
-			virtual void SetActiveTexture(TexturePtr &texture) = 0;
+			virtual void Draw() const = 0;
 
 			/**
 			 * Löscht alle gespeicherten Vertices aus dem GeometryBuffer.
 			 */
 			virtual void Reset() = 0;
 
-			/**
-			 * Ruft die momentan aktive Textur ab.
-			 *
-			 * \return die aktive Textur oder nullptr
-			 */
-			virtual TexturePtr GetActiveTexture() const = 0;
-
-			/**
-			 * Legt fest, ob die anschließend hinzugefügten Vertices geclippt werden sollen.
-			 *
-			 * \param active
-			 */
-			virtual void SetClippingActive(const bool active) = 0;
-
-			/**
-			 * Ruft ab, ob derzeit Clipping aktiv ist.
-			 *
-			 * \return Clipping aktiv
-			 */
-			virtual bool IsClippingActive() const = 0;
+			
 
 		protected:
 			GeometryBuffer();
 
-			BlendMode blendMode;
+			VertexDrawMode drawMode;
 		};
 
 		typedef std::shared_ptr<GeometryBuffer> GeometryBufferPtr;

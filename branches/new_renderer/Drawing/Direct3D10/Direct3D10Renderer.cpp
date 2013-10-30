@@ -207,7 +207,6 @@ namespace OSHGui
 		void Direct3D10Renderer::BeginRendering()
 		{
 			device->IASetInputLayout(inputLayout);
-			device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10Renderer::EndRendering()
@@ -262,7 +261,7 @@ namespace OSHGui
 			return device;
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::BindTechniquePass(const BlendMode mode, const bool clipped)
+		void Direct3D10Renderer::BindTechniquePass(const bool clipped)
 		{
 			if (clipped)
 			{

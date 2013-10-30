@@ -54,8 +54,8 @@ namespace OSHGui
 			 */
 			ID3D10Device* GetDevice() const;
 
-			void BindTechniquePass(const BlendMode mode, const bool clipped);
-			void SetCurrentTextureShaderResource(ID3D10ShaderResourceView* srv);
+			void BindTechniquePass(const bool clipped);
+			void SetCurrentTextureShaderResource(ID3D10ShaderResourceView *srv);
 			void SetProjectionMatrix(D3DXMATRIX &matrix);
 			void SetWorldMatrix(D3DXMATRIX &matrix);
 
@@ -68,7 +68,7 @@ namespace OSHGui
 
 			virtual void BeginRendering() override;
 			virtual void EndRendering() override;
-			virtual void SetDisplaySize(const SizeF &sz) override;
+			virtual void SetDisplaySize(const SizeF &size) override;
 			virtual const SizeF& GetDisplaySize() const override;
 			virtual const PointF& GetDisplayDPI() const override;
 			virtual uint32_t GetMaximumTextureSize() const override;

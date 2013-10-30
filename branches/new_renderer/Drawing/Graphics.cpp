@@ -39,6 +39,19 @@ namespace OSHGui
 			buffer->SetRotation(Quaternion::EulerAnglesDegrees(angles.x, angles.y, angles.z));
 		}
 		//---------------------------------------------------------------------------
+		void Graphics::DrawLine(const Color &color, const PointF &from, const PointF &to)
+		{
+			buffer->SetVertexDrawMode(VertexDrawMode::Line);
+
+			Vertex vertices[] = {
+				{ Vector(from.X, from.Y, 0.0f), color },
+				{ Vector(to.X, to.Y, 0.0f), color }
+			};
+			buffer->AppendGeometry(vertices, 2);
+
+			buffer->SetVertexDrawMode(VertexDrawMode::Triangle);
+		}
+		//---------------------------------------------------------------------------
 		void Graphics::DrawRectangle(const Color &color, const PointF &origin, const SizeF &size)
 		{
 			DrawRectangle(color, origin.X, origin.Y, size.Width, size.Height);
@@ -253,6 +266,8 @@ namespace OSHGui
 		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, const PointF &origin)
 		{
 			font->DrawText(*buffer, text, origin, nullptr, color);
+
+			buffer->SetActiveTexture(nullptr);
 		}
 
 		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y)
@@ -273,6 +288,8 @@ namespace OSHGui
 		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const RectangleF &area)
 		{
 			image->Render(*buffer, area, nullptr, color);
+
+			buffer->SetActiveTexture(nullptr);
 		}
 
 		void Graphics::DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area, const RectangleF &clip)

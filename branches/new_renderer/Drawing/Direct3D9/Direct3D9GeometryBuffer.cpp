@@ -32,8 +32,6 @@ namespace OSHGui
 
 			device->SetTransform(D3DTS_WORLD, &matrix);
 
-			owner.SetupRenderingBlendMode(blendMode);
-
 			RECT clip = { clipRect.GetLeft(), clipRect.GetTop(), clipRect.GetRight(), clipRect.GetBottom() };
 			for (int pass = 0; pass < 1; ++pass)
 			{
@@ -46,7 +44,14 @@ namespace OSHGui
 					}
 
 					device->SetTexture(0, batch.texture);
-					device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, batch.count / 3, &vertices[pos], sizeof(D3DVertex));
+					if (batch.mode == VertexDrawMode::Triangle)
+					{
+						device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, batch.count / 3, &vertices[pos], sizeof(D3DVertex));
+					}
+					else
+					{
+						device->DrawPrimitiveUP(D3DPT_LINELIST, batch.count / 2, &vertices[pos], sizeof(D3DVertex));
+					}
 					pos += batch.count;
 
 					if (batch.clip)
@@ -101,7 +106,7 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetActiveTexture(TexturePtr &texture)
+		void Direct3D9GeometryBuffer::SetActiveTexture(const TexturePtr &texture)
 		{
 			activeTexture = std::static_pointer_cast<Direct3D9Texture>(texture);
 		}
@@ -113,18 +118,13 @@ namespace OSHGui
 			activeTexture = nullptr;
 		}
 		//---------------------------------------------------------------------------
-		TexturePtr Direct3D9GeometryBuffer::GetActiveTexture() const
-		{
-			return activeTexture;
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D9GeometryBuffer::PerformBatchManagement()
 		{
 			auto texture = activeTexture ? activeTexture->GetDirect3D9Texture() : nullptr;
 
-			if (batches.empty() || texture != batches.back().texture || clippingActive != batches.back().clip)
+			if (batches.empty() || texture != batches.back().texture || drawMode != batches.back().mode || clippingActive != batches.back().clip)
 			{
-				batches.emplace_back(texture, 0, clippingActive);
+				batches.emplace_back(texture, 0, drawMode, clippingActive);
 			}
 		}
 		//---------------------------------------------------------------------------

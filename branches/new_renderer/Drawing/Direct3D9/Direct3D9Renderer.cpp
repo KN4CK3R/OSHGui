@@ -114,7 +114,11 @@ namespace OSHGui
 
 			device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
-			SetupRenderingBlendMode(BlendMode::Normal, true);
+			device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_INVDESTALPHA);
+			device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
 
 			device->SetTransform(D3DTS_VIEW, &Identity);
 		}
@@ -239,31 +243,6 @@ namespace OSHGui
 			}
 
 			return size;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9Renderer::SetupRenderingBlendMode(const BlendMode mode, const bool force)
-		{
-			if (activeBlendMode == mode && !force)
-			{
-				return;
-			}
-
-			activeBlendMode = mode;
-
-			if (activeBlendMode == BlendMode::RTT_PreMultiplied)
-			{
-				device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, FALSE);
-				device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-				device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-			}
-			else
-			{
-				device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-				device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-				device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-				device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_INVDESTALPHA);
-				device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
-			}
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::RemoveWeakReferences()
