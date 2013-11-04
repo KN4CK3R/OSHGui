@@ -45,7 +45,7 @@ namespace OSHGui
 				Json::Reader reader;
 				if (reader.parse(ss.str(), root) == false)
 				{
-					throw Misc::InvalidThemeException("Can't parse theme.", __FILE__, __LINE__);
+					throw Misc::InvalidThemeException("Can't parse theme.");
 				}
 
 				Name = root.get("name", "").asString();
@@ -84,12 +84,12 @@ namespace OSHGui
 							return Color(argb);
 						}
 					}
-					throw Misc::InvalidThemeException("Invalid color.", __FILE__, __LINE__);
+					throw Misc::InvalidThemeException("Invalid color.");
 				};
 
 				if (!root["default"].isObject())
 				{
-					throw Misc::InvalidThemeException("'default' is missing.", __FILE__, __LINE__);
+					throw Misc::InvalidThemeException("'default' is missing.");
 				}
 				auto &defaultColor = root["default"];
 				DefaultColor.ForeColor = JsonToColor(defaultColor["forecolor"]);
@@ -110,7 +110,7 @@ namespace OSHGui
 			}
 			else
 			{
-				throw Misc::InvalidThemeException("Can't open file.", __FILE__, __LINE__);
+				throw Misc::InvalidThemeException("Can't open file.");
 			}
 		}
 		//---------------------------------------------------------------------------

@@ -20,6 +20,8 @@ namespace OSHGui
 			0.0, 0.0, 0.0, 1.0
 		};
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D9Renderer::Direct3D9Renderer(LPDIRECT3DDEVICE9 _device)
 			: device(_device),
 			  displaySize(GetViewportSize()),
@@ -42,10 +44,67 @@ namespace OSHGui
 			defaultTarget = std::make_shared<Direct3D9ViewportTarget>(*this);
 		}
 		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
 		RenderTargetPtr& Direct3D9Renderer::GetDefaultRenderTarget()
 		{
 			return defaultTarget;
 		}
+		//---------------------------------------------------------------------------
+		void Direct3D9Renderer::SetDisplaySize(const SizeF &size)
+		{
+			if (size != displaySize)
+			{
+				displaySize = size;
+
+				auto area = defaultTarget->GetArea();
+				area.SetSize(size);
+				defaultTarget->SetArea(area);
+			}
+		}
+		//---------------------------------------------------------------------------
+		const SizeF& Direct3D9Renderer::GetDisplaySize() const
+		{
+			return displaySize;
+		}
+		//---------------------------------------------------------------------------
+		const PointF& Direct3D9Renderer::GetDisplayDPI() const
+		{
+			return displayDPI;
+		}
+		//---------------------------------------------------------------------------
+		uint32_t Direct3D9Renderer::GetMaximumTextureSize() const
+		{
+			return maxTextureSize;
+		}
+		//---------------------------------------------------------------------------
+		SizeF Direct3D9Renderer::GetViewportSize()
+		{
+			D3DVIEWPORT9 vp;
+			if (FAILED(device->GetViewport(&vp)))
+			{
+				throw Misc::Exception();
+			}
+			
+			return SizeF(vp.Width, vp.Height);
+		}
+		//---------------------------------------------------------------------------
+		LPDIRECT3DDEVICE9 Direct3D9Renderer::GetDevice() const
+		{
+			return device;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D9Renderer::SupportsNonSquareTexture()
+		{
+			return supportNonSquareTex;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D9Renderer::SupportsNPOTTextures()
+		{
+			return supportNPOTTex;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		GeometryBufferPtr Direct3D9Renderer::CreateGeometryBuffer()
 		{
@@ -78,6 +137,42 @@ namespace OSHGui
 			auto texture = std::shared_ptr<Direct3D9Texture>(new Direct3D9Texture(*this, size));
 			textures.emplace_back(texture);
 			return texture;
+		}
+		//---------------------------------------------------------------------------
+		SizeF Direct3D9Renderer::GetAdjustedSize(const SizeF &sz)
+		{
+			auto s(sz);
+
+			if (!supportNPOTTex)
+			{
+				s.Width  = GetSizeNextPOT(sz.Width);
+				s.Height = GetSizeNextPOT(sz.Height);
+			}
+			if (!supportNonSquareTex)
+			{
+				s.Width = s.Height = std::max(s.Width, s.Height);
+			}
+
+			return s;
+		}
+		//---------------------------------------------------------------------------
+		float Direct3D9Renderer::GetSizeNextPOT(float _size) const
+		{
+			uint32_t size = _size;
+
+			if ((size & (size - 1)) || !size)
+			{
+				int log = 0;
+
+				while (size >>= 1)
+				{
+					++log;
+				}
+
+				size = (2 << log);
+			}
+
+			return size;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::BeginRendering()
@@ -128,44 +223,6 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D9Renderer::SetDisplaySize(const SizeF &size)
-		{
-			if (size != displaySize)
-			{
-				displaySize = size;
-
-				auto area = defaultTarget->GetArea();
-				area.SetSize(size);
-				defaultTarget->SetArea(area);
-			}
-		}
-		//---------------------------------------------------------------------------
-		const SizeF& Direct3D9Renderer::GetDisplaySize() const
-		{
-			return displaySize;
-		}
-		//---------------------------------------------------------------------------
-		const PointF& Direct3D9Renderer::GetDisplayDPI() const
-		{
-			return displayDPI;
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D9Renderer::GetMaximumTextureSize() const
-		{
-			return maxTextureSize;
-		}
-		//---------------------------------------------------------------------------
-		SizeF Direct3D9Renderer::GetViewportSize()
-		{
-			D3DVIEWPORT9 vp;
-			if (FAILED(device->GetViewport(&vp)))
-			{
-				throw Misc::Exception();
-			}
-			
-			return SizeF(vp.Width, vp.Height);
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::PreD3DReset()
 		{
 			RemoveWeakReferences();
@@ -192,57 +249,6 @@ namespace OSHGui
 			{
 				texture.lock()->PostD3DReset();
 			}
-		}
-		//---------------------------------------------------------------------------
-		LPDIRECT3DDEVICE9 Direct3D9Renderer::GetDevice() const
-		{
-			return device;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D9Renderer::SupportsNonSquareTexture()
-		{
-			return supportNonSquareTex;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D9Renderer::SupportsNPOTTextures()
-		{
-			return supportNPOTTex;
-		}
-		//---------------------------------------------------------------------------
-		SizeF Direct3D9Renderer::GetAdjustedSize(const SizeF &sz)
-		{
-			auto s(sz);
-
-			if (!supportNPOTTex)
-			{
-				s.Width  = GetSizeNextPOT(sz.Width);
-				s.Height = GetSizeNextPOT(sz.Height);
-			}
-			if (!supportNonSquareTex)
-			{
-				s.Width = s.Height = std::max(s.Width, s.Height);
-			}
-
-			return s;
-		}
-		//---------------------------------------------------------------------------
-		float Direct3D9Renderer::GetSizeNextPOT(float _size) const
-		{
-			uint32_t size = _size;
-
-			if ((size & (size - 1)) || !size)
-			{
-				int log = 0;
-
-				while (size >>= 1)
-				{
-					++log;
-				}
-
-				size = (2 << log);
-			}
-
-			return size;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::RemoveWeakReferences()

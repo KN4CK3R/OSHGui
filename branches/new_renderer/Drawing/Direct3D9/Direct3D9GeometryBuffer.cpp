@@ -6,6 +6,9 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D9GeometryBuffer::Direct3D9GeometryBuffer(Direct3D9Renderer &_owner)
 			: owner(_owner),
 			  clipRect(0, 0, 0, 0),
@@ -16,6 +19,69 @@ namespace OSHGui
 			  matrixValid(false)
 		{
 
+		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::SetTranslation(const Vector &translation)
+		{
+			this->translation = translation;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::SetRotation(const Quaternion &rotation)
+		{
+			this->rotation = rotation;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::SetPivot(const Vector &pivot)
+		{
+			this->pivot = pivot;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::SetClippingRegion(const RectangleF &region)
+		{
+			clipRect.SetTop(std::max(0.0f, region.GetTop()));
+			clipRect.SetBottom(std::max(0.0f, region.GetBottom()));
+			clipRect.SetLeft(std::max(0.0f, region.GetLeft()));
+			clipRect.SetRight(std::max(0.0f, region.GetRight()));
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::SetActiveTexture(const TexturePtr &texture)
+		{
+			activeTexture = std::static_pointer_cast<Direct3D9Texture>(texture);
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::SetClippingActive(const bool active)
+		{
+			clippingActive = active;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D9GeometryBuffer::IsClippingActive() const
+		{
+			return clippingActive;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::AppendVertex(const Vertex &vertex)
+		{
+			AppendGeometry(&vertex, 1);
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9GeometryBuffer::AppendGeometry(const Vertex *const vbuff, uint32_t count)
+		{
+			PerformBatchManagement();
+
+			batches.back().count += count;
+
+			auto vs = vbuff;
+			for (auto i = 0; i < count; ++i, ++vs)
+			{
+				vertices.emplace_back(vs->Position.x - 0.5f, vs->Position.y - 0.5f, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
+			}
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9GeometryBuffer::Draw() const
@@ -44,7 +110,7 @@ namespace OSHGui
 					}
 
 					device->SetTexture(0, batch.texture);
-					if (batch.mode == VertexDrawMode::Triangle)
+					if (batch.mode == VertexDrawMode::TriangleList)
 					{
 						device->DrawPrimitiveUP(D3DPT_TRIANGLELIST, batch.count / 3, &vertices[pos], sizeof(D3DVertex));
 					}
@@ -60,55 +126,6 @@ namespace OSHGui
 					}
 				}
 			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetTranslation(const Vector &translation)
-		{
-			this->translation = translation;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetRotation(const Quaternion &rotation)
-		{
-			this->rotation = rotation;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetPivot(const Vector &pivot)
-		{
-			this->pivot = pivot;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetClippingRegion(const RectangleF &region)
-		{
-			clipRect.SetTop(std::max(0.0f, region.GetTop()));
-			clipRect.SetBottom(std::max(0.0f, region.GetBottom()));
-			clipRect.SetLeft(std::max(0.0f, region.GetLeft()));
-			clipRect.SetRight(std::max(0.0f, region.GetRight()));
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::AppendVertex(const Vertex &vertex)
-		{
-			AppendGeometry(&vertex, 1);
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::AppendGeometry(const Vertex *const vbuff, uint32_t count)
-		{
-			PerformBatchManagement();
-
-			batches.back().count += count;
-
-			auto vs = vbuff;
-			for (auto i = 0; i < count; ++i, ++vs)
-			{
-				vertices.emplace_back(vs->Position.x - 0.5f, vs->Position.y - 0.5f, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
-			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetActiveTexture(const TexturePtr &texture)
-		{
-			activeTexture = std::static_pointer_cast<Direct3D9Texture>(texture);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9GeometryBuffer::Reset()
@@ -140,15 +157,6 @@ namespace OSHGui
 			matrixValid = true;
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D9GeometryBuffer::SetClippingActive(const bool active)
-		{
-			clippingActive = active;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D9GeometryBuffer::IsClippingActive() const
-		{
-			return clippingActive;
-		}
-		//---------------------------------------------------------------------------
+		
 	}
 }

@@ -162,7 +162,7 @@ namespace OSHGui
 				else
 				{
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
-					throw InvalidOperationException("Cannot cast object", __FILE__, __LINE__);
+					throw InvalidOperationException("Cannot cast object");
 					#endif
 					throw 1;
 				}

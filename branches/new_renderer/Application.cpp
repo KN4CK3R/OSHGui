@@ -71,7 +71,7 @@ namespace OSHGui
 
 		if (renderer == nullptr)
 		{
-			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("renderer");
 		}
 		#endif
 
@@ -188,7 +188,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (mainForm == nullptr)
 		{
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 		}
 		#endif
 

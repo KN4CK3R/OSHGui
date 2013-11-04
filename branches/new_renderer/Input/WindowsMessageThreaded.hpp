@@ -9,10 +9,6 @@
 #ifndef OSHGUI_INPUT_WINDOWSMESSAGETRHEADED_HPP
 #define OSHGUI_INPUT_WINDOWSMESSAGETRHEADED_HPP
 
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <Windows.h>
-#include "../Exports.hpp"
 #include "WindowsMessage.hpp"
 #include "../Event/MouseMessage.hpp"
 #include "../Event/KeyboardMessage.hpp"

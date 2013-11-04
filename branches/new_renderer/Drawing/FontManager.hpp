@@ -31,7 +31,7 @@ namespace OSHGui
 			 * \param antiAliased Legt fest, ob AntiAliasing verwendet werden soll
 			 * \return Die geladene Schriftart oder nullptr, falls die Schriftart nicht gefunden wird.
 			 */
-			static Drawing::FontPtr LoadFont(const Misc::AnsiString &name, float pointSize, bool antiAliased);
+			static Drawing::FontPtr LoadFont(Misc::AnsiString name, float pointSize, bool antiAliased);
 			/**
 			 * Lädt die Schriftart aus der angegebenen Datei.
 			 *

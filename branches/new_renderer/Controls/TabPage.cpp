@@ -42,11 +42,11 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (parent == nullptr)
 		{
-			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("parent");
 		}
 		if (parent->GetType() != ControlType::TabControl)
 		{
-			throw Misc::ArgumentException("parent", __FILE__, __LINE__);
+			throw Misc::ArgumentException("parent");
 		}
 		#endif
 	

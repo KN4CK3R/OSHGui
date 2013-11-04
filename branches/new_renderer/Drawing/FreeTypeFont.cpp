@@ -1,6 +1,7 @@
 #include "FreeTypeFont.hpp"
 #include "Texture.hpp"
-#include "Application.hpp"
+#include "../Application.hpp"
+#include "../Misc/Exceptions.hpp"
 
 namespace OSHGui
 {
@@ -193,23 +194,13 @@ namespace OSHGui
 				auto y = GlyphPadding;
 				auto yb = GlyphPadding;
 
-				// Set to true when we finish rendering all glyphs we were asked to
 				bool finished = false;
-				// Set to false when we reach glyphMap.end() and we start going backward
 				bool forward = true;
 
-				/* To conserve texture space we will render more glyphs than asked,
-				 * but never less than asked. First we render all glyphs from s to e
-				 * and after that we render glyphs until we reach glyphMap.end(),
-				 * and if there's still free texture space we will go backward
-				 * from s until we hit glyphMap.begin().
-				 */
 				while (start != glyphMap.end())
 				{
-					// Check if we finished rendering all the required glyphs
 					finished |= (start == end);
 
-					// Check if glyph already rendered
 					if (!start->second.GetImage())
 					{
 						if (FT_Load_Char(fontFace, start->first, FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT | (antiAliased ? FT_LOAD_TARGET_NORMAL : FT_LOAD_TARGET_MONO)) != 0)
@@ -335,23 +326,17 @@ namespace OSHGui
 		{
 			Free();
 
-			FT_Error error;
-			if ((error = FT_New_Memory_Face(freeType, data.GetDataPointer(), static_cast<FT_Long>(data.GetSize()), 0, &fontFace)) != 0)
+			if (FT_New_Memory_Face(freeType, data.GetDataPointer(), static_cast<FT_Long>(data.GetSize()), 0, &fontFace) != 0)
 			{
-				/*CEGUI_THROW(GenericException("Failed to create face from font file '" +
-					d_filename + "' error was: " +
-					((error < FT_Err_Max) ? ft_errors[error] : "unknown error")));*/
-				throw;
+				throw Misc::Exception();
 			}
 
 			if (!fontFace->charmap)
 			{
 				FT_Done_Face(fontFace);
 				fontFace = nullptr;
-				/*CEGUI_THROW(GenericException(
-					"The font '" + d_name + "' does not have a Unicode charmap, and "
-					"cannot be used."));*/
-				throw;
+
+				throw Misc::Exception();
 			}
 
 			auto dpiHorizontal = static_cast<uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().X);
@@ -362,8 +347,6 @@ namespace OSHGui
 
 			if (FT_Set_Char_Size(fontFace, FT_F26Dot6(hps), FT_F26Dot6(vps), dpiHorizontal, dpiVertical) != 0)
 			{
-				// For bitmap fonts we can render only at specific point sizes.
-				// Try to find nearest point size and use it, if that is possible
 				auto ptSize72 = (pointSize * 72.0f) / dpiVertical;
 				auto bestDelta = 99999.0f;
 				auto bestSize = 0.0f;
@@ -380,12 +363,7 @@ namespace OSHGui
 
 				if (bestSize <= 0.0f || FT_Set_Char_Size(fontFace, 0, FT_F26Dot6(bestSize * 64), 0, 0) != 0)
 				{
-					char size [20];
-					//snprintf(size, sizeof(size), "%g", d_ptSize);
-					/*CEGUI_THROW(GenericException("The font '" + d_name + "' cannot be "
-						"rasterised at a size of " + size + " points, and cannot be "
-						"used."));*/
-					throw;
+					throw Misc::Exception();
 				}
 			}
 

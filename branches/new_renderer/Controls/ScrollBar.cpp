@@ -90,7 +90,7 @@ namespace OSHGui
 		if (maximum < 0)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentOutOfRangeException("maximum", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("maximum");
 			#endif
 			return;
 		}

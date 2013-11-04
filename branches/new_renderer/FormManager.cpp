@@ -27,7 +27,7 @@ namespace OSHGui
 		if (index < 0 || index >= (int)forms.size())
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index");
 			#endif
 		}
 
@@ -49,7 +49,7 @@ namespace OSHGui
 		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 			#endif
 			return;
 		}
@@ -57,7 +57,7 @@ namespace OSHGui
 		if (forms.empty())
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::InvalidOperationException("FormList is empty.", __FILE__, __LINE__);
+			throw Misc::InvalidOperationException("FormList is empty.");
 			#endif
 			return;
 		}
@@ -83,7 +83,7 @@ namespace OSHGui
 		if (!isRegistered)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::InvalidOperationException("'form' is not registered.", __FILE__, __LINE__);
+			throw Misc::InvalidOperationException("'form' is not registered.");
 			#endif
 			return;
 		}
@@ -121,7 +121,7 @@ namespace OSHGui
 		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 			#endif
 			return;
 		}
@@ -140,7 +140,7 @@ namespace OSHGui
 		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 			#endif
 			return;
 		}

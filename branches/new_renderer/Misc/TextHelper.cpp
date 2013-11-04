@@ -23,7 +23,7 @@ namespace OSHGui
 			if (font == nullptr)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw ArgumentNullException("font", __FILE__, __LINE__);
+				throw ArgumentNullException("font");
 				#endif
 				return;
 			}

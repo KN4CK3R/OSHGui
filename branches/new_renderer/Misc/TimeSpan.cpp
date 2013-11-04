@@ -68,7 +68,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw ArgumentOutOfRangeException("milliseconds", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("milliseconds");
 			}
 			#endif
 			ticks = totalMilliSeconds * TicksPerMillisecond;
@@ -80,7 +80,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
-				throw ArgumentOutOfRangeException("milliseconds", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("milliseconds");
 			}
 			#endif
 			ticks = totalMilliSeconds * TicksPerMillisecond;
@@ -160,7 +160,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if ((ticks >> 63 == ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 			return TimeSpan(result);
@@ -172,7 +172,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if ((ticks >> 63 != ts.ticks >> 63) && (ticks >> 63 != result >> 63))
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 			return TimeSpan(result);
@@ -233,7 +233,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks == MinValue.ticks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 			return TimeSpan(ticks >= 0 ? ticks : -ticks);
@@ -244,7 +244,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks == MinValue.ticks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 			return TimeSpan(-ticks);
@@ -284,14 +284,14 @@ namespace OSHGui
 		{
 			//if (value == 0.0 / 0.0)
 			//{
-			//	throw ArgumentException("Invalid argument: value is NAN", __FILE__, __LINE__);
+			//	throw ArgumentException("Invalid argument: value is NAN");
 			//}
 			double temp = value * scale;
 			double millis = temp + (value >= 0.0 ? 0.5 : -0.5);
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if ((millis > MaxMilliSeconds) || (millis < MinMilliSeconds))
 			{
-				throw ArgumentOutOfRangeException("value", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("value");
 			}
 			#endif
 			return TimeSpan((long long)millis * TicksPerMillisecond);
@@ -303,7 +303,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (totalSeconds > MaxSeconds || totalSeconds < MinSeconds)
 			{
-				throw ArgumentOutOfRangeException("totalSeconds", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("totalSeconds");
 			}
 			#endif
 			return totalSeconds * TicksPerSecond;

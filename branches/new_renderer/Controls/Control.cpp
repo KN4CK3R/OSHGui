@@ -8,7 +8,7 @@
 
 #include "Control.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "../FontManager.hpp"
+#include "../Drawing/FontManager.hpp"
 #include "../Drawing/Vector.hpp"
 
 namespace OSHGui
@@ -153,11 +153,11 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (size.Width < 0)
 		{
-			throw Misc::ArgumentOutOfRangeException("width", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("width");
 		}
 		if (size.Height < 0)
 		{
-			throw Misc::ArgumentOutOfRangeException("height", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("height");
 		}
 		#endif
 
@@ -279,7 +279,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (font == nullptr)
 		{
-			throw Misc::ArgumentNullException("font", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("font");
 		}
 		#endif
 		
@@ -383,7 +383,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (parent == nullptr)
 		{
-			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("parent");
 		}
 		#endif
 

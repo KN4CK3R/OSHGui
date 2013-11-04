@@ -56,7 +56,7 @@ namespace OSHGui
 			if (modifier == key || !(modifier == Key::None || modifier == Key::Control || modifier == Key::Alt || modifier == Key::Shift))
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw Misc::ArgumentException("modifier", __FILE__, __LINE__);
+				throw Misc::ArgumentException("modifier");
 				#endif
 				throw 1;
 			}

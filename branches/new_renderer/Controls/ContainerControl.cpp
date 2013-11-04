@@ -79,7 +79,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (control == nullptr)
 		{
-			throw Misc::ArgumentNullException("control", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("control");
 		}
 		#endif
 
@@ -107,7 +107,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (subcontrol == nullptr)
 		{
-			throw Misc::ArgumentNullException("subcontrol", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("subcontrol");
 		}
 		#endif
 

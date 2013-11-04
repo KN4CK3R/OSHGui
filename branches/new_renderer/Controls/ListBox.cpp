@@ -96,7 +96,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index");
 		}
 		#endif
 
@@ -113,7 +113,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index");
 		}
 		#endif
 
@@ -209,7 +209,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items.size())
 		{
-			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index");
 		}
 		#endif
 		

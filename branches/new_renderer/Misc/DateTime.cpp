@@ -8,8 +8,6 @@
 
 #include <time.h>
 
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
 #include <windows.h>
 
 #include "DateTime.hpp"
@@ -83,7 +81,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 
@@ -100,11 +98,11 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			if (kind < Unspecified || kind > Local)
 			{
-				throw ArgumentException("kind", __FILE__, __LINE__);
+				throw ArgumentException("kind");
 			}
 			#endif
 
@@ -116,7 +114,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			if (kind != Local)
 			{
@@ -142,7 +140,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (kind < Unspecified || kind > Local)
 			{
-				throw ArgumentException("kind", __FILE__, __LINE__);
+				throw ArgumentException("kind");
 			}
 			#endif
 
@@ -155,7 +153,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (millisecond < 0 || millisecond >= MillisPerSecond)
 			{
-				throw ArgumentOutOfRangeException("millisecond", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("millisecond");
 			}
 			#endif
 
@@ -164,7 +162,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 
@@ -176,11 +174,11 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (millisecond < 0 || millisecond >= MillisPerSecond)
 			{
-				throw ArgumentOutOfRangeException("millisecond", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("millisecond");
 			}
 			if (kind < Unspecified || kind > Local)
 			{
-				throw ArgumentException("kind", __FILE__, __LINE__);
+				throw ArgumentException("kind");
 			}
 			#endif
 
@@ -189,7 +187,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks < MinTicks || ticks > MaxTicks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 
@@ -318,7 +316,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (millis <= -((long long)MaxMillis) || millis >= (long long)MaxMillis)
 			{
-				throw ArgumentOutOfRangeException("value", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("value");
 			}
 			#endif
 			return AddTicks(millis * TicksPerMillisecond);
@@ -334,7 +332,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (years < -10000 || years > 10000)
 			{
-				throw ArgumentOutOfRangeException("years", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("years");
 			}
 			#endif
 			
@@ -346,7 +344,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (months < -120000 || months > 120000)
 			{
-				throw ArgumentOutOfRangeException("months", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("months");
 			}
 			#endif
 			
@@ -367,7 +365,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (y < 1 || y > 9999)
 			{
-				throw ArgumentOutOfRangeException("year", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("year");
 			}
 			#endif
 			int days = DaysInMonth(y, m);
@@ -410,7 +408,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks > MaxTicks || ticks < MinTicks)
 			{
-				throw ArgumentOutOfRangeException("value", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("value");
 			}
 			#endif
 			return DateTime((unsigned long long)ticks | GetInternalKind());
@@ -453,7 +451,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (ticks - MinTicks < valueTicks || ticks - MaxTicks > valueTicks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 			return DateTime((unsigned long long)(ticks - valueTicks) | GetInternalKind());
@@ -466,7 +464,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (valueTicks > MaxTicks - ticks || valueTicks < MinTicks - ticks)
 			{
-				throw ArgumentOutOfRangeException("ticks", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
 			return DateTime((unsigned long long)(ticks + valueTicks) | GetInternalKind());
@@ -496,15 +494,15 @@ namespace OSHGui
 						return n * TicksPerDay;
 					}
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
-					throw ArgumentOutOfRangeException("day", __FILE__, __LINE__);
+					throw ArgumentOutOfRangeException("day");
 					#endif
 				}
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw ArgumentOutOfRangeException("month", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("month");
 				#endif
 			}
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw ArgumentOutOfRangeException("year", __FILE__, __LINE__);
+			throw ArgumentOutOfRangeException("year");
 			#endif
 			return 0;
 		}
@@ -521,15 +519,15 @@ namespace OSHGui
 						return totalSeconds * TicksPerSecond;
 					}
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
-					throw ArgumentOutOfRangeException("second", __FILE__, __LINE__);
+					throw ArgumentOutOfRangeException("second");
 					#endif
 				}
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw ArgumentOutOfRangeException("minute", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("minute");
 				#endif
 			}
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw ArgumentOutOfRangeException("hour", __FILE__, __LINE__);
+			throw ArgumentOutOfRangeException("hour");
 			#endif
 			return 0;
 		}
@@ -539,7 +537,7 @@ namespace OSHGui
 			if (month < 1 || month > 12)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw ArgumentOutOfRangeException("month", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("month");
 				#endif
 				return 0;
 			}
@@ -558,7 +556,7 @@ namespace OSHGui
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (year < 1 || year > 9999)
 			{
-				throw ArgumentOutOfRangeException("year", __FILE__, __LINE__);
+				throw ArgumentOutOfRangeException("year");
 			}
 			#endif
 			

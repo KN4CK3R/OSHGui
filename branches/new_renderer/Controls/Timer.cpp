@@ -39,7 +39,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (_interval < 1)
 		{
-			throw Misc::ArgumentOutOfRangeException("interval", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("interval");
 		}
 		#endif
 		

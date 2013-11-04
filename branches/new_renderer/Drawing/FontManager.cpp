@@ -7,7 +7,7 @@
  */
 
 #include "FontManager.hpp"
-#include "Misc/Exceptions.hpp"
+#include "../Misc/Exceptions.hpp"
 #include "Drawing/FreeTypeFont.hpp"
 #include <windows.h>
 #include <algorithm>
@@ -45,7 +45,7 @@ namespace OSHGui
 					DWORD valueNameLength = MAX_PATH;
 					DWORD valueDataLength = MAX_PATH;
 
-					lastError = RegEnumValueA(fontKey, i, const_cast<LPSTR>(valueName.data()), &valueNameLength, nullptr, nullptr, const_cast<LPBYTE>(reinterpret_cast<LPCBYTE>(valueData.data())), &valueDataLength);
+					lastError = RegEnumValueA(fontKey, i, const_cast<LPSTR>(valueName.data()), &valueNameLength, nullptr, nullptr, const_cast<uint8_t*>(reinterpret_cast<const uint8_t*>(valueData.data())), &valueDataLength);
 
 					if (lastError == ERROR_SUCCESS)
 					{

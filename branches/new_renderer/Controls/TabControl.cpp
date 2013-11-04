@@ -187,7 +187,7 @@ namespace OSHGui
 		if (tabPage == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("tabPage");
 			#endif
 			return;
 		}
@@ -240,7 +240,7 @@ namespace OSHGui
 		if (tabPage == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("tabPage", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("tabPage");
 			#endif
 			return;
 		}

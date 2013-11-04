@@ -46,7 +46,7 @@ namespace OSHGui
 		 *
 		 * \param renderer Instanz des verwendeten Renderers
 		 */
-		static void Create(Drawing::RendererPtr renderer = nullptr);
+		static void Create(Drawing::RendererPtr renderer);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -67,9 +67,26 @@ namespace OSHGui
 		 */
 		Drawing::RendererPtr GetRenderer() const;
 
+		/**
+		 * Ruft das RenderSurface der Gui ab.
+		 *
+		 * \return GuiRenderSurface
+		 */
 		GuiRenderSurface& GetRenderSurface();
+		
+		/**
+		 * Legt die Standardschrift für das Gui fest.
+		 *
+		 * \param font Standardschrift
+		 */
+		void SetDefaultFont(Drawing::FontPtr &font);
+		/**
+		 * Ruft die Standardschrift für das Gui ab.
+		 *
+		 * \return Standardschrift
+		 */
 		Drawing::FontPtr& GetDefaultFont();
-		void SetDefaultFont(Drawing::FontPtr &defaultFont);
+		
 		/**
 		 * Ruft die aktuelle Mausposition ab.
 		 *
@@ -94,7 +111,18 @@ namespace OSHGui
 		 * \param enabled
 		 */
 		void SetCursorEnabled(bool enabled);
+		
+		/**
+		 * Legt das Theme für das Gui fest.
+		 *
+		 * \param theme Theme
+		 */
 		void SetTheme(const Drawing::Theme &theme);
+		/**
+		 * Ruft das Theme für das Gui ab.
+		 *
+		 * \return Theme
+		 */
 		const Drawing::Theme& GetTheme() const;
 	
 		/**
