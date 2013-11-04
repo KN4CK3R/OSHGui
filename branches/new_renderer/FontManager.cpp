@@ -16,79 +16,78 @@
 
 namespace OSHGui
 {
-	using namespace Drawing;
-
-	FontPtr FontManager::LoadFont(const Misc::AnsiString &_name, float pointSize, bool antiAliased)
+	namespace Drawing
 	{
-		if (_name.empty())
+		FontPtr FontManager::LoadFont(Misc::AnsiString name, float pointSize, bool antiAliased)
 		{
-			return nullptr;
-		}
-
-		auto name(_name);
-		std::transform(name.begin(), name.end(), name.begin(), ::tolower);
-		std::vector<std::string> parts;
-		std::stringstream ss(name);
-		for (std::string s; ss >> s; parts.push_back(s));
-
-		FontPtr font;
-
-		std::string valueName(MAX_PATH, '\0');
-		std::string valueData(MAX_PATH, '\0');
-
-		HKEY fontKey;
-		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &fontKey) == ERROR_SUCCESS)
-		{
-			int i = 0;
-			int lastError = ERROR_SUCCESS;
-			do
+			if (name.empty())
 			{
-				DWORD valueNameLength = MAX_PATH;
-				DWORD valueDataLength = MAX_PATH;
+				throw Misc::ArgumentException();
+			}
 
-				lastError = RegEnumValueA(fontKey, i, const_cast<LPSTR>(valueName.data()), &valueNameLength, nullptr, nullptr, const_cast<LPBYTE>(reinterpret_cast<LPCBYTE>(valueData.data())), &valueDataLength);
+			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+			std::vector<std::string> parts;
+			std::stringstream ss(name);
+			for (std::string s; ss >> s; parts.push_back(s));
 
-				if (lastError == ERROR_SUCCESS)
+			FontPtr font = nullptr;
+
+			std::string valueName(MAX_PATH, '\0');
+			std::string valueData(MAX_PATH, '\0');
+
+			HKEY fontKey;
+			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &fontKey) == ERROR_SUCCESS)
+			{
+				int i = 0;
+				int lastError = ERROR_SUCCESS;
+				do
 				{
-					std::transform(valueName.begin(), valueName.end(), valueName.begin(), ::tolower);
+					DWORD valueNameLength = MAX_PATH;
+					DWORD valueDataLength = MAX_PATH;
 
-					auto foundAll = true;
-					for (auto &part : parts)
+					lastError = RegEnumValueA(fontKey, i, const_cast<LPSTR>(valueName.data()), &valueNameLength, nullptr, nullptr, const_cast<LPBYTE>(reinterpret_cast<LPCBYTE>(valueData.data())), &valueDataLength);
+
+					if (lastError == ERROR_SUCCESS)
 					{
-						if (valueName.find(part) == std::string::npos)
+						std::transform(valueName.begin(), valueName.end(), valueName.begin(), ::tolower);
+
+						auto foundAll = true;
+						for (auto &part : parts)
 						{
-							foundAll = false;
-							break;
+							if (valueName.find(part) == std::string::npos)
+							{
+								foundAll = false;
+								break;
+							}
+						}
+
+						if (foundAll)
+						{
+							char path[MAX_PATH] = { };
+							ExpandEnvironmentStringsA(("%windir%\\fonts\\" + valueData).c_str(), path, MAX_PATH);
+
+							return LoadFontFromFile(path, pointSize, antiAliased);
 						}
 					}
 
-					if (foundAll)
-					{
-						char path[MAX_PATH] = { };
-						ExpandEnvironmentStringsA(("%windir%\\fonts\\" + valueData).c_str(), path, MAX_PATH);
+					++i;
+				} while (lastError != ERROR_NO_MORE_ITEMS);
+			}
 
-						font = LoadFontFromFile(path, pointSize, antiAliased);
-						break;
-					}
-				}
+			RegCloseKey(fontKey);
 
-				++i;
-			} while (lastError != ERROR_NO_MORE_ITEMS);
+			throw Misc::ArgumentException();
 		}
-
-		RegCloseKey(fontKey);
-
-		return font;
+		//---------------------------------------------------------------------------
+		FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased)
+		{
+			return std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);
+		}
+		//---------------------------------------------------------------------------
+		FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased)
+		{
+			return std::make_shared<FreeTypeFont>(data, pointSize, antiAliased);
+		}
+		//---------------------------------------------------------------------------
 	}
-	//---------------------------------------------------------------------------
-	FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased)
-	{
-		return std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);
-	}
-	//---------------------------------------------------------------------------
-	FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased)
-	{
-		return std::make_shared<FreeTypeFont>(data, pointSize, antiAliased);
-	}
-	//---------------------------------------------------------------------------
 }
