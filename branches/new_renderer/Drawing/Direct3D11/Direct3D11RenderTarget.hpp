@@ -48,6 +48,8 @@ namespace OSHGui
 				return area;
 			}
 			//---------------------------------------------------------------------------
+			//Runtime-Functions
+			//---------------------------------------------------------------------------
 			void Draw(const GeometryBufferPtr &buffer) override
 			{
 				buffer->Draw();
@@ -110,7 +112,7 @@ namespace OSHGui
 			}
 			//---------------------------------------------------------------------------
 
-			Direct3D11Renderer& owner;
+			Direct3D11Renderer &owner;
 			
 			RectangleF area;
 			

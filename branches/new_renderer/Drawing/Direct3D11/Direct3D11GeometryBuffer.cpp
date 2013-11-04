@@ -75,6 +75,26 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::AppendVertex(const Vertex &vertex)
+		{
+			AppendGeometry(&vertex, 1);
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D11GeometryBuffer::AppendGeometry(const Vertex *const vbuff, uint32_t count)
+		{
+			PerformBatchManagement();
+
+			batches.back().count += count;
+
+			auto vs = vbuff;
+			for (auto i = 0; i < count; ++i, ++vs)
+			{
+				vertices.emplace_back(vs->Position.x, vs->Position.y, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
+			}
+
+			bufferSynched = false;
+		}
+		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::Draw() const
 		{
 			D3D10_RECT clip = { clipRect.GetLeft(), clipRect.GetTop(), clipRect.GetRight(), clipRect.GetBottom() };
@@ -101,7 +121,7 @@ namespace OSHGui
 				auto pos = 0;
 				for (auto &batch : batches)
 				{
-					owner.GetDevice().Context->IASetPrimitiveTopology(batch.mode == VertexDrawMode::Triangle ? D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+					owner.GetDevice().Context->IASetPrimitiveTopology(batch.mode == VertexDrawMode::TriangleList ? D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 					owner.SetCurrentTextureShaderResource(batch.texture);
 					owner.BindTechniquePass(batch.clip);
 					owner.GetDevice().Context->Draw(batch.count, pos);
@@ -109,26 +129,6 @@ namespace OSHGui
 					pos += batch.count;
 				}
 			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::AppendVertex(const Vertex &vertex)
-		{
-			AppendGeometry(&vertex, 1);
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11GeometryBuffer::AppendGeometry(const Vertex *const vbuff, uint32_t count)
-		{
-			PerformBatchManagement();
-
-			batches.back().count += count;
-
-			auto vs = vbuff;
-			for (auto i = 0; i < count; ++i, ++vs)
-			{
-				vertices.emplace_back(vs->Position.x, vs->Position.y, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
-			}
-
-			bufferSynched = false;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11GeometryBuffer::Reset()

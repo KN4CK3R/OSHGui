@@ -7,6 +7,9 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D10GeometryBuffer::Direct3D10GeometryBuffer(Direct3D10Renderer &_owner)
 			: owner(_owner),
 			  vertexBuffer(nullptr),
@@ -25,6 +28,71 @@ namespace OSHGui
 		Direct3D10GeometryBuffer::~Direct3D10GeometryBuffer()
 		{
 			CleanupVertexBuffer();
+		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::SetTranslation(const Vector &translation)
+		{
+			this->translation = translation;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::SetRotation(const Quaternion &rotation)
+		{
+			this->rotation = rotation;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::SetPivot(const Vector &pivot)
+		{
+			this->pivot = pivot;
+			matrixValid = false;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::SetClippingRegion(const RectangleF &region)
+		{
+			clipRect.SetTop(std::max(0.0f, region.GetTop()));
+			clipRect.SetBottom(std::max(0.0f, region.GetBottom()));
+			clipRect.SetLeft(std::max(0.0f, region.GetLeft()));
+			clipRect.SetRight(std::max(0.0f, region.GetRight()));
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::SetActiveTexture(const TexturePtr &texture)
+		{
+			activeTexture = std::static_pointer_cast<Direct3D10Texture>(texture);
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::SetClippingActive(const bool active)
+		{
+			clippingActive = active;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D10GeometryBuffer::IsClippingActive() const
+		{
+			return clippingActive;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::AppendVertex(const Vertex &vertex)
+		{
+			AppendGeometry(&vertex, 1);
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10GeometryBuffer::AppendGeometry(const Vertex *const vbuff, uint32_t count)
+		{
+			PerformBatchManagement();
+
+			batches.back().count += count;
+
+			auto vs = vbuff;
+			for (auto i = 0; i < count; ++i, ++vs)
+			{
+				vertices.emplace_back(vs->Position.x, vs->Position.y, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
+			}
+
+			bufferSynched = false;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10GeometryBuffer::Draw() const
@@ -53,7 +121,7 @@ namespace OSHGui
 				auto pos = 0;
 				for (auto &batch : batches)
 				{
-					owner.GetDevice()->IASetPrimitiveTopology(batch.mode == VertexDrawMode::Triangle ? D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+					owner.GetDevice()->IASetPrimitiveTopology(batch.mode == VertexDrawMode::TriangleList ? D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST : D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 					owner.SetCurrentTextureShaderResource(batch.texture);
 					owner.BindTechniquePass(batch.clip);
 					owner.GetDevice()->Draw(batch.count, pos);
@@ -61,57 +129,6 @@ namespace OSHGui
 					pos += batch.count;
 				}
 			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::SetTranslation(const Vector &translation)
-		{
-			this->translation = translation;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::SetRotation(const Quaternion &rotation)
-		{
-			this->rotation = rotation;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::SetPivot(const Vector &pivot)
-		{
-			this->pivot = pivot;
-			matrixValid = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::SetClippingRegion(const RectangleF &region)
-		{
-			clipRect.SetTop(std::max(0.0f, region.GetTop()));
-			clipRect.SetBottom(std::max(0.0f, region.GetBottom()));
-			clipRect.SetLeft(std::max(0.0f, region.GetLeft()));
-			clipRect.SetRight(std::max(0.0f, region.GetRight()));
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::AppendVertex(const Vertex &vertex)
-		{
-			AppendGeometry(&vertex, 1);
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::AppendGeometry(const Vertex *const vbuff, uint32_t count)
-		{
-			PerformBatchManagement();
-
-			batches.back().count += count;
-
-			auto vs = vbuff;
-			for (auto i = 0; i < count; ++i, ++vs)
-			{
-				vertices.emplace_back(vs->Position.x, vs->Position.y, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
-			}
-
-			bufferSynched = false;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::SetActiveTexture(const TexturePtr &texture)
-		{
-			activeTexture = std::static_pointer_cast<Direct3D10Texture>(texture);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10GeometryBuffer::Reset()
@@ -141,16 +158,6 @@ namespace OSHGui
 			D3DXMatrixTransformation(&matrix, nullptr, nullptr, nullptr, &p, &r, &t);
 
 			matrixValid = true;
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10GeometryBuffer::SetClippingActive(const bool active)
-		{
-			clippingActive = active;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D10GeometryBuffer::IsClippingActive() const
-		{
-			return clippingActive;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10GeometryBuffer::SyncHardwareBuffer() const

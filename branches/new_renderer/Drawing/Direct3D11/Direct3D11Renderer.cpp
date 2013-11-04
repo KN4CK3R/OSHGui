@@ -111,6 +111,9 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D11Renderer::Direct3D11Renderer(ID3D11Device *_device, ID3D11DeviceContext *_context)
 			: device(_device, _context),
 			  displaySize(GetViewportSize()),
@@ -239,6 +242,18 @@ namespace OSHGui
 			return device;
 		}
 		//---------------------------------------------------------------------------
+		void Direct3D11Renderer::BindTechniquePass(const bool clipped)
+		{
+			if (clipped)
+			{
+				clippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
+			}
+			else
+			{
+				unclippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
+			}
+		}
+		//---------------------------------------------------------------------------
 		void Direct3D11Renderer::SetCurrentTextureShaderResource(ID3D11ShaderResourceView *srv)
 		{
 			textureVariable->SetResource(srv);
@@ -291,18 +306,6 @@ namespace OSHGui
 		void Direct3D11Renderer::EndRendering()
 		{
 
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D11Renderer::BindTechniquePass(const bool clipped)
-		{
-			if (clipped)
-			{
-				clippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
-			}
-			else
-			{
-				unclippedTechnique->GetPassByIndex(0)->Apply(0, device.Context);
-			}
 		}
 		//---------------------------------------------------------------------------
 	}

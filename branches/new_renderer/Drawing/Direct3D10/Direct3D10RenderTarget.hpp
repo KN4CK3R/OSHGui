@@ -26,6 +26,9 @@ namespace OSHGui
 		class Direct3D10RenderTarget : public T
 		{
 		public:
+			//---------------------------------------------------------------------------
+			//Constructor
+			//---------------------------------------------------------------------------
 			Direct3D10RenderTarget(Direct3D10Renderer &_owner)
 				: owner(_owner),
 				  area(0, 0, 0, 0),
@@ -35,15 +38,7 @@ namespace OSHGui
 			
 			}
 			//---------------------------------------------------------------------------
-			void Draw(const GeometryBufferPtr &buffer) override
-			{
-				buffer->Draw();
-			}
-			//---------------------------------------------------------------------------
-			void Draw(const RenderQueue &queue) override
-			{
-				queue.Draw();
-			}
+			//Getter/Setter
 			//---------------------------------------------------------------------------
 			void SetArea(const RectangleF &_area) override
 			{
@@ -54,6 +49,18 @@ namespace OSHGui
 			const RectangleF& GetArea() const override
 			{
 				return area;
+			}
+			//---------------------------------------------------------------------------
+			//Runtime-Functions
+			//---------------------------------------------------------------------------
+			void Draw(const GeometryBufferPtr &buffer) override
+			{
+				buffer->Draw();
+			}
+			//---------------------------------------------------------------------------
+			void Draw(const RenderQueue &queue) override
+			{
+				queue.Draw();
 			}
 			//---------------------------------------------------------------------------
 			void Activate() override
@@ -108,7 +115,7 @@ namespace OSHGui
 			}
 			//---------------------------------------------------------------------------
 
-			Direct3D10Renderer& owner;
+			Direct3D10Renderer &owner;
 			
 			RectangleF area;
 			

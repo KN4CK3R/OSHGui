@@ -111,6 +111,9 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D10Renderer::Direct3D10Renderer(ID3D10Device *_device)
 			: device(_device),
 			  displaySize(GetViewportSize()),
@@ -174,44 +177,11 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
 		RenderTargetPtr& Direct3D10Renderer::GetDefaultRenderTarget()
 		{
 			return defaultTarget;
-		}
-		//---------------------------------------------------------------------------
-		GeometryBufferPtr Direct3D10Renderer::CreateGeometryBuffer()
-		{
-			return std::make_shared<Direct3D10GeometryBuffer>(*this);
-		}
-		//---------------------------------------------------------------------------
-		TextureTargetPtr Direct3D10Renderer::CreateTextureTarget()
-		{
-			return std::make_shared<Direct3D10TextureTarget>(*this);
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10Renderer::CreateTexture()
-		{
-			return std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this));
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10Renderer::CreateTexture(const Misc::AnsiString &filename)
-		{
-			return std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this, filename));
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10Renderer::CreateTexture(const SizeF &size)
-		{
-			return std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this, size));
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::BeginRendering()
-		{
-			device->IASetInputLayout(inputLayout);
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D10Renderer::EndRendering()
-		{
-
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10Renderer::SetDisplaySize(const SizeF &size)
@@ -287,6 +257,43 @@ namespace OSHGui
 		void Direct3D10Renderer::SetWorldMatrix(D3DXMATRIX& matrix)
 		{
 			worldMatrixVariable->SetMatrix(reinterpret_cast<float*>(&matrix));
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		GeometryBufferPtr Direct3D10Renderer::CreateGeometryBuffer()
+		{
+			return std::make_shared<Direct3D10GeometryBuffer>(*this);
+		}
+		//---------------------------------------------------------------------------
+		TextureTargetPtr Direct3D10Renderer::CreateTextureTarget()
+		{
+			return std::make_shared<Direct3D10TextureTarget>(*this);
+		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D10Renderer::CreateTexture()
+		{
+			return std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this));
+		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D10Renderer::CreateTexture(const Misc::AnsiString &filename)
+		{
+			return std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this, filename));
+		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D10Renderer::CreateTexture(const SizeF &size)
+		{
+			return std::shared_ptr<Direct3D10Texture>(new Direct3D10Texture(*this, size));
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10Renderer::BeginRendering()
+		{
+			device->IASetInputLayout(inputLayout);
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D10Renderer::EndRendering()
+		{
+
 		}
 		//---------------------------------------------------------------------------
 	}

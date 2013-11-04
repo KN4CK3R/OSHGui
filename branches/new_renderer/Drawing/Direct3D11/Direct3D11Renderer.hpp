@@ -14,16 +14,6 @@
 #include <vector>
 #include <map>
 
-/*struct ID3D10Device;
-struct ID3D10Effect;
-struct ID3D10EffectTechnique;
-struct ID3D10InputLayout;
-struct ID3D10EffectShaderResourceVariable;
-struct ID3D10EffectMatrixVariable;
-struct ID3D10ShaderResourceView;
-struct ID3D10EffectScalarVariable;
-struct D3DXMATRIX;*/
-
 struct ID3DX11Effect;
 struct ID3DX11EffectTechnique;
 struct ID3DX11EffectShaderResourceVariable;
@@ -80,7 +70,7 @@ namespace OSHGui
 			IDevice11& GetDevice();
 
 			void BindTechniquePass(const bool clipped);
-			void SetCurrentTextureShaderResource(ID3D11ShaderResourceView* srv);
+			void SetCurrentTextureShaderResource(ID3D11ShaderResourceView *srv);
 			void SetProjectionMatrix(D3DXMATRIX &matrix);
 			void SetWorldMatrix(D3DXMATRIX &matrix);
 
