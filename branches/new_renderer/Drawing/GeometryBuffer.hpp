@@ -21,8 +21,8 @@ namespace OSHGui
 	{
 		enum class VertexDrawMode
 		{
-			Triangle,
-			Line
+			TriangleList,
+			LineList
 		};
 
 		/**

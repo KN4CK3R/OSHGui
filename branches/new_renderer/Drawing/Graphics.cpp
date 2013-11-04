@@ -41,7 +41,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Graphics::DrawLine(const Color &color, const PointF &from, const PointF &to)
 		{
-			buffer->SetVertexDrawMode(VertexDrawMode::Line);
+			buffer->SetVertexDrawMode(VertexDrawMode::LineList);
 
 			Vertex vertices[] = {
 				{ Vector(from.X, from.Y, 0.0f), color },
@@ -49,7 +49,7 @@ namespace OSHGui
 			};
 			buffer->AppendGeometry(vertices, 2);
 
-			buffer->SetVertexDrawMode(VertexDrawMode::Triangle);
+			buffer->SetVertexDrawMode(VertexDrawMode::TriangleList);
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::DrawRectangle(const Color &color, const PointF &origin, const SizeF &size)

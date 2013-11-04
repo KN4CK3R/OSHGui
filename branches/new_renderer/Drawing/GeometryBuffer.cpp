@@ -8,7 +8,7 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		GeometryBuffer::GeometryBuffer()
-			: drawMode(VertexDrawMode::Triangle)
+			: drawMode(VertexDrawMode::TriangleList)
 		{
 		}
 		//---------------------------------------------------------------------------
