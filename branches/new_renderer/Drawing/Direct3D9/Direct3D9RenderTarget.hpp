@@ -15,7 +15,6 @@
 #include "../RenderTarget.hpp"
 #include "../Rectangle.hpp"
 
-#define NOMINMAX
 #include <d3dx9.h>
 
 namespace OSHGui
