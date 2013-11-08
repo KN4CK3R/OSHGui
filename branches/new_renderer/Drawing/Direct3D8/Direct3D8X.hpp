@@ -11,6 +11,10 @@
 
 #include <d3dx8.h>
 
+/**
+ * Rebuild einiger D3DX8 Funktionen, da ein Linken gegen die D3DX8 Bibliothek nicht konfliktfrei ist.
+ */
+
 D3DXMATRIX* MatrixMultiply(D3DXMATRIX *pout, const D3DXMATRIX *pm1, const D3DXMATRIX *pm2);
 D3DXMATRIX* MatrixIdentity(D3DXMATRIX *pOut);
 D3DXMATRIX* MatrixOrthoOffCenterRH(D3DXMATRIX *pout, float l, float r, float b, float t, float zn, float zf);
