@@ -71,21 +71,21 @@ namespace OSHGui
 			 *
 			 * \param owner Renderer Objekt, das die Textur erstellt hat
 			 */
-			Direct3D11Texture(IDevice11 &device);
+			Direct3D11Texture(Direct3D11Renderer::IDevice11 &device);
 			/**
 			 * Erstellt eine Textur aus einer Datei.
 			 *
 			 * \param owner Renderer Objekt, das die Textur erstellt hat
 			 * \param path Pfad zur Datei
 			 */
-			Direct3D11Texture(IDevice11 &device, const Misc::AnsiString &path);
+			Direct3D11Texture(Direct3D11Renderer::IDevice11 &device, const Misc::AnsiString &path);
 			/**
 			 * Erstellt eine leere Textur mit der entsprechenden Größe.
 			 *
 			 * \param owner Renderer Objekt, das die Textur erstellt hat
 			 * \param size Größe der Textur
 			 */
-			Direct3D11Texture(IDevice11 &device, const SizeF &size);
+			Direct3D11Texture(Direct3D11Renderer::IDevice11 &device, const SizeF &size);
 
 			/**
 			 * Erzeugt intern die verwendete Textur.
@@ -112,7 +112,7 @@ namespace OSHGui
 			 */
 			void InitialiseShaderResourceView();
 
-			IDevice11 &device;
+			Direct3D11Renderer::IDevice11 &device;
 			
 			ID3D11Texture2D *texture;
 			ID3D11ShaderResourceView *resourceView;

@@ -25,19 +25,6 @@ struct ID3D11ShaderResourceView;
 #include <d3dx11.h>
 #include <d3dx10.h>
 
-struct IDevice11
-{
-	IDevice11(ID3D11Device *device, ID3D11DeviceContext *context)
-		: Device(device),
-		  Context(context)
-	{
-
-	}
-
-	ID3D11Device *Device;
-	ID3D11DeviceContext *Context;
-};
-
 namespace OSHGui
 {
 	namespace Drawing
@@ -52,6 +39,19 @@ namespace OSHGui
 		class OSHGUI_EXPORT Direct3D11Renderer : public Renderer
 		{
 		public:
+			struct IDevice11
+			{
+				IDevice11(ID3D11Device *device, ID3D11DeviceContext *context)
+					: Device(device),
+					  Context(context)
+				{
+
+				}
+
+				ID3D11Device *Device;
+				ID3D11DeviceContext *Context;
+			};
+
 			/**
 			 * Konstruktor der Klasse.
 			 *

@@ -69,14 +69,6 @@ namespace OSHGui
 			 */
 			SizeF GetAdjustedSize(const SizeF &size);
 
-			/**
-			 * Legt den gewählten BlendMode fest.
-			 *
-			 * \param mode gewählter BlendMode
-			 * \param force falls true, wird auch bei gleichem BlendMode das Setup ausgeführt
-			 */
-			void SetupRenderingBlendMode(const BlendMode mode, const bool force = false);
-
 			virtual RenderTargetPtr& GetDefaultRenderTarget() override;
 			virtual GeometryBufferPtr CreateGeometryBuffer() override;
 			virtual TextureTargetPtr CreateTextureTarget() override;

@@ -237,7 +237,7 @@ namespace OSHGui
 			return SizeF(vp.Width, vp.Height);
 		}
 		//---------------------------------------------------------------------------
-		IDevice11& Direct3D11Renderer::GetDevice()
+		Direct3D11Renderer::IDevice11& Direct3D11Renderer::GetDevice()
 		{
 			return device;
 		}

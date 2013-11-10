@@ -228,31 +228,6 @@ namespace OSHGui
 			return size;
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D8Renderer::SetupRenderingBlendMode(const BlendMode mode, const bool force)
-		{
-			if (activeBlendMode == mode && !force)
-			{
-				return;
-			}
-
-			activeBlendMode = mode;
-
-			if (activeBlendMode == BlendMode::RTT_PreMultiplied)
-			{
-				//device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, FALSE);
-				device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-				device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-			}
-			else
-			{
-				//device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-				device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-				device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-				//device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_INVDESTALPHA);
-				//device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
-			}
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D8Renderer::RemoveWeakReferences()
 		{
 			textureTargets.erase(std::remove_if(std::begin(textureTargets), std::end(textureTargets), [](const std::weak_ptr<Direct3D8TextureTarget> ptr) { return ptr.expired(); }), std::end(textureTargets));

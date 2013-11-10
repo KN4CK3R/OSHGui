@@ -61,7 +61,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Direct3D11Texture::Direct3D11Texture(IDevice11 &_device)
+		Direct3D11Texture::Direct3D11Texture(Direct3D11Renderer::IDevice11 &_device)
 			: device(_device),
 			  texture(nullptr),
 			  size(0, 0),
@@ -72,7 +72,7 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		Direct3D11Texture::Direct3D11Texture(IDevice11 &_device, const Misc::AnsiString &path)
+		Direct3D11Texture::Direct3D11Texture(Direct3D11Renderer::IDevice11 &_device, const Misc::AnsiString &path)
 			: device(_device),
 			  texture(nullptr),
 			  texelScaling(0, 0),
@@ -81,7 +81,7 @@ namespace OSHGui
 			LoadFromFile(path);
 		}
 		//---------------------------------------------------------------------------
-		Direct3D11Texture::Direct3D11Texture(IDevice11 &_device, const SizeF &size)
+		Direct3D11Texture::Direct3D11Texture(Direct3D11Renderer::IDevice11 &_device, const SizeF &_size)
 			: device(_device),
 			  texture(nullptr),
 			  size(0, 0),
@@ -89,7 +89,7 @@ namespace OSHGui
 			  texelScaling(0, 0),
 			  resourceView(nullptr)
 		{
-			CreateDirect3D11Texture(size, DXGI_FORMAT_R8G8B8A8_UNORM, nullptr);
+			CreateDirect3D11Texture(_size, DXGI_FORMAT_R8G8B8A8_UNORM, nullptr);
 		}
 		//---------------------------------------------------------------------------
 		Direct3D11Texture::~Direct3D11Texture()

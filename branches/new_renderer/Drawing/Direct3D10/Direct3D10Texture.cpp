@@ -78,7 +78,7 @@ namespace OSHGui
 			LoadFromFile(path);
 		}
 		//---------------------------------------------------------------------------
-		Direct3D10Texture::Direct3D10Texture(Direct3D10Renderer &_owner, const SizeF &size)
+		Direct3D10Texture::Direct3D10Texture(Direct3D10Renderer &_owner, const SizeF &_size)
 			: owner(_owner),
 			  texture(nullptr),
 			  size(0, 0),
@@ -86,7 +86,7 @@ namespace OSHGui
 			  texelScaling(0, 0),
 			  resourceView(nullptr)
 		{
-			CreateDirect3D10Texture(size, DXGI_FORMAT_R8G8B8A8_UNORM, nullptr);
+			CreateDirect3D10Texture(_size, DXGI_FORMAT_R8G8B8A8_UNORM, nullptr);
 		}
 		//---------------------------------------------------------------------------
 		Direct3D10Texture::~Direct3D10Texture()

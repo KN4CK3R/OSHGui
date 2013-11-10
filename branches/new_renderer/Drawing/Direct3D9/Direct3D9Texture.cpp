@@ -135,13 +135,13 @@ namespace OSHGui
 			uint32_t pitch;
 		};
 		//---------------------------------------------------------------------------
-		Direct3D9Texture::Direct3D9Texture(Direct3D9Renderer &_owner) :
-			owner(_owner),
-			texture(nullptr),
-			size(0.0f, 0.0f),
-			dataSize(0.0f, 0.0f),
-			texelScaling(0.0f, 0.0f),
-			savedSurfaceDescValid(false)
+		Direct3D9Texture::Direct3D9Texture(Direct3D9Renderer &_owner)
+			: owner(_owner),
+			  texture(nullptr),
+			  size(0.0f, 0.0f),
+			  dataSize(0.0f, 0.0f),
+			  texelScaling(0.0f, 0.0f),
+			  savedSurfaceDescValid(false)
 		{
 
 		}
@@ -155,7 +155,7 @@ namespace OSHGui
 			LoadFromFile(filename);
 		}
 		//---------------------------------------------------------------------------
-		Direct3D9Texture::Direct3D9Texture(Direct3D9Renderer &_owner, const SizeF &size)
+		Direct3D9Texture::Direct3D9Texture(Direct3D9Renderer &_owner, const SizeF &_size)
 			: owner(_owner),
 			  texture(nullptr),
 			  size(0.0f, 0.0f),
@@ -163,7 +163,7 @@ namespace OSHGui
 			  texelScaling(0.0f, 0.0f),
 			  savedSurfaceDescValid(false)
 		{
-			CreateDirect3D9Texture(size, D3DFMT_A8R8G8B8);
+			CreateDirect3D9Texture(_size, D3DFMT_A8R8G8B8);
 		}
 		//---------------------------------------------------------------------------
 		Direct3D9Texture::~Direct3D9Texture()
