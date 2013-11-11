@@ -41,6 +41,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -55,8 +59,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy Debug\FreeImage_d.lib ..\Lib\x86 /Y
-copy Source\FreeImage.h ..\Include /Y</Command>
+      <Command>copy Debug\FreeImage_d.lib ..\..\Lib\x86 /Y
+copy Source\FreeImage.h ..\..\Include /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,8 +80,8 @@ copy Source\FreeImage.h ..\Include /Y</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy Release\FreeImage.lib ..\Lib\x86 /Y
-copy Source\FreeImage.h ..\Include /Y</Command>
+      <Command>copy Release\FreeImage.lib ..\..\Lib\x86 /Y
+copy Source\FreeImage.h ..\..\Include /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

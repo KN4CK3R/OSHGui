@@ -83,6 +83,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,8 +102,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy Debug\FreeType_d.lib ..\Lib\x86 /Y
-xcopy include ..\Include /E /Y</Command>
+      <Command>copy Debug\FreeType_d.lib ..\..\Lib\x86 /Y
+xcopy include ..\..\Include /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,8 +124,8 @@ xcopy include ..\Include /E /Y</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy Release\FreeType.lib ..\Lib\x86 /Y
-xcopy include ..\Include /E /Y</Command>
+      <Command>copy Release\FreeType.lib ..\..\Lib\x86 /Y
+xcopy include ..\..\Include /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
