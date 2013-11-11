@@ -1,4 +1,5 @@
 #include "Image.hpp"
+#include "ImageLoader.hpp"
 #include "../Application.hpp"
 #include "../Misc/Exceptions.hpp"
 
@@ -40,55 +41,18 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		ImagePtr Image::FromFile(const Misc::AnsiString &filename)
+		ImagePtr Image::FromFile(const Misc::AnsiString &file)
 		{
-			Misc::RawDataContainer data;
-			data.LoadFromFile(filename);
+			auto imageData = LoadImageFromFileToRGBABuffer(file);
 
-			return FromMemory(data);
+			return FromBuffer(imageData.Data.data(), imageData.Size, Texture::PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
-		ImagePtr Image::FromMemory(const Misc::RawDataContainer &data)
+		ImagePtr Image::FromMemory(Misc::RawDataContainer &data)
 		{
-			auto stream = FreeImage_OpenMemory(const_cast<uint8_t*>(data.GetDataPointer()), data.GetSize());
+			auto imageData = LoadImageFromContainerToRGBABuffer(data);
 
-			auto format = FreeImage_GetFileTypeFromMemory(stream);
-			if (format == FIF_UNKNOWN)
-			{
-				throw Misc::Exception();
-			}
-
-			auto image = FreeImage_LoadFromMemory(format, stream);
-			if (image == nullptr)
-			{
-				throw Misc::Exception();
-			}
-
-			FreeImage_FlipVertical(image);
-
-			auto temp = image;
-			image = FreeImage_ConvertTo32Bits(image);
-			FreeImage_Unload(temp);
-
-			auto width = FreeImage_GetWidth(image);
-			auto height = FreeImage_GetHeight(image);
-
-			std::vector<uint8_t> buffer(width * height * 4);
-
-			auto pixeles = FreeImage_GetBits(image);
-			for (int i = 0; i < width * height; ++i)
-			{
-				buffer[i * 4 + 0] = pixeles[i * 4 + 2];
-				buffer[i * 4 + 1] = pixeles[i * 4 + 1];
-				buffer[i * 4 + 2] = pixeles[i * 4 + 0];
-				buffer[i * 4 + 3] = pixeles[i * 4 + 3];
-			}
-
-			FreeImage_Unload(image);
-
-			FreeImage_CloseMemory(stream);
-
-			return FromBuffer(buffer.data(), SizeF(width, height), Texture::PixelFormat::RGBA);
+			return FromBuffer(imageData.Data.data(), imageData.Size, Texture::PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
 		ImagePtr Image::FromBuffer(const void *data, const SizeF &size, Texture::PixelFormat format)

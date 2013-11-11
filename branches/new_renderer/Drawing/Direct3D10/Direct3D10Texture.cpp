@@ -1,6 +1,6 @@
 #include "Direct3D10Texture.hpp"
+#include "../ImageLoader.hpp"
 #include "../../Misc/Exceptions.hpp"
-
 #include <d3d10.h>
 
 namespace OSHGui
@@ -142,7 +142,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D10Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
-			throw;
+			auto imageData = LoadImageFromFileToRGBABuffer(filename);
+			LoadFromMemory(imageData.Data.data(), imageData.Size, PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10Texture::LoadFromMemory(const void *buffer, const SizeF &size, PixelFormat format)

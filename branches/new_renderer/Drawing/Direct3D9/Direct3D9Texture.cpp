@@ -1,4 +1,5 @@
 #include "Direct3D9Texture.hpp"
+#include "../ImageLoader.hpp"
 #include "../../Misc/Exceptions.hpp"
 #include <d3dx9.h>
 
@@ -210,23 +211,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
-			D3DXIMAGE_INFO info;
-			if (FAILED(D3DXGetImageInfoFromFileA(filename.c_str(), &info)))
-			{
-				throw;
-			}
-
-			auto size = SizeF(info.Width, info.Height);
-			auto realSize = owner.GetAdjustedSize(size);
-
-			if (FAILED(D3DXCreateTextureFromFileExA(owner.GetDevice(), filename.c_str(), realSize.Width, realSize.Height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, nullptr, nullptr, &texture)))
-			{
-				throw Misc::Exception();
-			}
-
-			UpdateTextureSize();
-			dataSize = size;
-			UpdateCachedScaleValues();
+			auto imageData = LoadImageFromFileToRGBABuffer(filename);
+			LoadFromMemory(imageData.Data.data(), imageData.Size, PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9Texture::LoadFromMemory(const void *buffer, const SizeF &size, PixelFormat pixelFormat)

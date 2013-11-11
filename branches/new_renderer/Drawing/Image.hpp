@@ -63,7 +63,7 @@ namespace OSHGui
 			 * \param data the loaded image in memory
 			 * \return the loaded image
 			 */
-			static std::shared_ptr<Image> FromMemory(const Misc::RawDataContainer &data);
+			static std::shared_ptr<Image> FromMemory(Misc::RawDataContainer &data);
 			/**
 			 * Loads an image from a buffer which holds the data in the specifed format.
 			 *

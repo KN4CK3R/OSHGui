@@ -1,7 +1,6 @@
 #include "Direct3D11Texture.hpp"
+#include "../ImageLoader.hpp"
 #include "../../Misc/Exceptions.hpp"
-
-#include <d3d11.h>
 #include <d3dx11effect.h>
 
 namespace OSHGui
@@ -155,7 +154,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D11Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
-			throw;
+			auto imageData = LoadImageFromFileToRGBABuffer(filename);
+			LoadFromMemory(imageData.Data.data(), imageData.Size, PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D11Texture::LoadFromMemory(const void *buffer, const SizeF &size, PixelFormat format)

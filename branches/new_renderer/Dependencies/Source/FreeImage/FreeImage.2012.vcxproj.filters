@@ -18,6 +18,15 @@
     <Filter Include="Quelldateien\FreeImageToolkit">
       <UniqueIdentifier>{5d68642c-9367-42de-9911-59a813d8db7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\LibJPEG">
+      <UniqueIdentifier>{560abc07-d787-4f98-ac10-a7583704fb11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\LibPNG">
+      <UniqueIdentifier>{596cef49-04b2-4619-a016-212bc6528c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\ZLib">
+      <UniqueIdentifier>{f438916c-d1a2-4ac9-a50e-e3ac1d9f909a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CacheFile.h">
@@ -225,6 +234,240 @@
     </ClCompile>
     <ClCompile Include="Source\FreeImageToolkit\Resize.cpp">
       <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jaricom.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcapimin.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcapistd.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcarith.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jccoefct.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jccolor.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcdctmgr.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jchuff.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcinit.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcmainct.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcmarker.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcmaster.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcomapi.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcparam.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcprepct.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jcsample.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jctrans.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdapimin.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdapistd.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdarith.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdatadst.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdatasrc.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdcoefct.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdcolor.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jddctmgr.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdhuff.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdinput.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdmainct.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdmarker.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdmaster.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdmerge.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdpostct.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdsample.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jdtrans.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jerror.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jfdctflt.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jfdctfst.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jfdctint.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jidctflt.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jidctfst.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jidctint.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jmemmgr.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jmemnobs.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jquant1.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jquant2.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\jutils.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibJPEG\transupp.c">
+      <Filter>Quelldateien\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\png.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngerror.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngget.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngmem.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngpread.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngread.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngrio.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngrtran.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngrutil.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngset.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngtest.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngtrans.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngwio.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngwrite.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngwtran.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LibPNG\pngwutil.c">
+      <Filter>Quelldateien\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\adler32.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\compress.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\crc32.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\deflate.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\gzclose.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\gzlib.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\gzread.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\gzwrite.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\infback.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\inffast.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\inflate.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\inftrees.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\trees.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\uncompr.c">
+      <Filter>Quelldateien\ZLib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ZLib\zutil.c">
+      <Filter>Quelldateien\ZLib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

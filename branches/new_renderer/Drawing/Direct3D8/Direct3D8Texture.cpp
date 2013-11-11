@@ -1,5 +1,6 @@
 #include "Direct3D8Texture.hpp"
 #include "Direct3D8X.hpp"
+#include "../ImageLoader.hpp"
 #include "../../Misc/Exceptions.hpp"
 
 namespace OSHGui
@@ -212,7 +213,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D8Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
-			throw;
+			auto imageData = LoadImageFromFileToRGBABuffer(filename);
+			LoadFromMemory(imageData.Data.data(), imageData.Size, PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D8Texture::LoadFromMemory(const void *buffer, const SizeF &size, PixelFormat pixelFormat)

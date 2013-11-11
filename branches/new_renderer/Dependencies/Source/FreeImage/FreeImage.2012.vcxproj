@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>../libjpeg;../libpng;source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>source/libjpeg;source/libpng;source/zlib;source;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -71,7 +71,7 @@ copy Source\FreeImage.h ..\..\Include /Y</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>../libjpeg;../libpng;source;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>source/libjpeg;source/libpng;source/zlib;source;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_NDEBUG;_LIB;FREEIMAGE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -149,20 +149,90 @@ copy Source\FreeImage.h ..\..\Include /Y</Command>
     <ClCompile Include="Source\FreeImage\ToneMapping.cpp" />
     <ClCompile Include="Source\FreeImage\WuQuantizer.cpp" />
     <ClCompile Include="Source\FreeImage\ZLibInterface.cpp" />
+    <ClCompile Include="Source\LibJPEG\jaricom.c" />
+    <ClCompile Include="Source\LibJPEG\jcapimin.c" />
+    <ClCompile Include="Source\LibJPEG\jcapistd.c" />
+    <ClCompile Include="Source\LibJPEG\jcarith.c" />
+    <ClCompile Include="Source\LibJPEG\jccoefct.c" />
+    <ClCompile Include="Source\LibJPEG\jccolor.c" />
+    <ClCompile Include="Source\LibJPEG\jcdctmgr.c" />
+    <ClCompile Include="Source\LibJPEG\jchuff.c" />
+    <ClCompile Include="Source\LibJPEG\jcinit.c" />
+    <ClCompile Include="Source\LibJPEG\jcmainct.c" />
+    <ClCompile Include="Source\LibJPEG\jcmarker.c" />
+    <ClCompile Include="Source\LibJPEG\jcmaster.c" />
+    <ClCompile Include="Source\LibJPEG\jcomapi.c" />
+    <ClCompile Include="Source\LibJPEG\jcparam.c" />
+    <ClCompile Include="Source\LibJPEG\jcprepct.c" />
+    <ClCompile Include="Source\LibJPEG\jcsample.c" />
+    <ClCompile Include="Source\LibJPEG\jctrans.c" />
+    <ClCompile Include="Source\LibJPEG\jdapimin.c" />
+    <ClCompile Include="Source\LibJPEG\jdapistd.c" />
+    <ClCompile Include="Source\LibJPEG\jdarith.c" />
+    <ClCompile Include="Source\LibJPEG\jdatadst.c" />
+    <ClCompile Include="Source\LibJPEG\jdatasrc.c" />
+    <ClCompile Include="Source\LibJPEG\jdcoefct.c" />
+    <ClCompile Include="Source\LibJPEG\jdcolor.c" />
+    <ClCompile Include="Source\LibJPEG\jddctmgr.c" />
+    <ClCompile Include="Source\LibJPEG\jdhuff.c" />
+    <ClCompile Include="Source\LibJPEG\jdinput.c" />
+    <ClCompile Include="Source\LibJPEG\jdmainct.c" />
+    <ClCompile Include="Source\LibJPEG\jdmarker.c" />
+    <ClCompile Include="Source\LibJPEG\jdmaster.c" />
+    <ClCompile Include="Source\LibJPEG\jdmerge.c" />
+    <ClCompile Include="Source\LibJPEG\jdpostct.c" />
+    <ClCompile Include="Source\LibJPEG\jdsample.c" />
+    <ClCompile Include="Source\LibJPEG\jdtrans.c" />
+    <ClCompile Include="Source\LibJPEG\jerror.c" />
+    <ClCompile Include="Source\LibJPEG\jfdctflt.c" />
+    <ClCompile Include="Source\LibJPEG\jfdctfst.c" />
+    <ClCompile Include="Source\LibJPEG\jfdctint.c" />
+    <ClCompile Include="Source\LibJPEG\jidctflt.c" />
+    <ClCompile Include="Source\LibJPEG\jidctfst.c" />
+    <ClCompile Include="Source\LibJPEG\jidctint.c" />
+    <ClCompile Include="Source\LibJPEG\jmemmgr.c" />
+    <ClCompile Include="Source\LibJPEG\jmemnobs.c" />
+    <ClCompile Include="Source\LibJPEG\jquant1.c" />
+    <ClCompile Include="Source\LibJPEG\jquant2.c" />
+    <ClCompile Include="Source\LibJPEG\jutils.c" />
+    <ClCompile Include="Source\LibJPEG\transupp.c" />
+    <ClCompile Include="Source\LibPNG\png.c" />
+    <ClCompile Include="Source\LibPNG\pngerror.c" />
+    <ClCompile Include="Source\LibPNG\pngget.c" />
+    <ClCompile Include="Source\LibPNG\pngmem.c" />
+    <ClCompile Include="Source\LibPNG\pngpread.c" />
+    <ClCompile Include="Source\LibPNG\pngread.c" />
+    <ClCompile Include="Source\LibPNG\pngrio.c" />
+    <ClCompile Include="Source\LibPNG\pngrtran.c" />
+    <ClCompile Include="Source\LibPNG\pngrutil.c" />
+    <ClCompile Include="Source\LibPNG\pngset.c" />
+    <ClCompile Include="Source\LibPNG\pngtest.c" />
+    <ClCompile Include="Source\LibPNG\pngtrans.c" />
+    <ClCompile Include="Source\LibPNG\pngwio.c" />
+    <ClCompile Include="Source\LibPNG\pngwrite.c" />
+    <ClCompile Include="Source\LibPNG\pngwtran.c" />
+    <ClCompile Include="Source\LibPNG\pngwutil.c" />
     <ClCompile Include="Source\Metadata\Exif.cpp" />
     <ClCompile Include="Source\Metadata\FIRational.cpp" />
     <ClCompile Include="Source\Metadata\FreeImageTag.cpp" />
     <ClCompile Include="Source\Metadata\IPTC.cpp" />
     <ClCompile Include="Source\Metadata\TagConversion.cpp" />
     <ClCompile Include="Source\Metadata\TagLib.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Source\LibJPEG\LibJPEG.2012.vcxproj">
-      <Project>{7f99dfa8-439a-4199-b6de-a011892bee36}</Project>
-    </ProjectReference>
-    <ProjectReference Include="Source\LibPNG\LibPNG.2012.vcxproj">
-      <Project>{3f5db59b-c152-4e24-a523-b5ce4bba06d0}</Project>
-    </ProjectReference>
+    <ClCompile Include="Source\ZLib\adler32.c" />
+    <ClCompile Include="Source\ZLib\compress.c" />
+    <ClCompile Include="Source\ZLib\crc32.c" />
+    <ClCompile Include="Source\ZLib\deflate.c" />
+    <ClCompile Include="Source\ZLib\gzclose.c" />
+    <ClCompile Include="Source\ZLib\gzlib.c" />
+    <ClCompile Include="Source\ZLib\gzread.c" />
+    <ClCompile Include="Source\ZLib\gzwrite.c" />
+    <ClCompile Include="Source\ZLib\infback.c" />
+    <ClCompile Include="Source\ZLib\inffast.c" />
+    <ClCompile Include="Source\ZLib\inflate.c" />
+    <ClCompile Include="Source\ZLib\inftrees.c" />
+    <ClCompile Include="Source\ZLib\trees.c" />
+    <ClCompile Include="Source\ZLib\uncompr.c" />
+    <ClCompile Include="Source\ZLib\zutil.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
