@@ -15,6 +15,9 @@
     <Filter Include="Quelldateien\Metadata">
       <UniqueIdentifier>{60f7c7db-1309-4d30-a9e3-e999d00699f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\FreeImageToolkit">
+      <UniqueIdentifier>{5d68642c-9367-42de-9911-59a813d8db7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CacheFile.h">
@@ -43,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="Source\Metadata\FreeImageTag.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FreeImageToolkit\Filters.h">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FreeImageToolkit\Resize.h">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +189,42 @@
     </ClCompile>
     <ClCompile Include="Source\Metadata\TagLib.cpp">
       <Filter>Quelldateien\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Background.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\BSplineRotate.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Channels.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\ClassicRotate.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Colors.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\CopyPaste.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Display.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Flip.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\JPEGTransform.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\MultigridPoissonSolver.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Rescale.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FreeImageToolkit\Resize.cpp">
+      <Filter>Quelldateien\FreeImageToolkit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

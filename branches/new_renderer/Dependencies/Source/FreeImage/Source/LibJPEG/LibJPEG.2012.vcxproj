@@ -71,6 +71,16 @@
     <ClInclude Include="jversion.h" />
     <ClInclude Include="transupp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZLib\ZLib.2012.vcxproj">
+      <Project>{4d6adddc-1d2f-4573-a6c7-dc2ffbe2bdc0}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7F99DFA8-439A-4199-B6DE-A011892BEE36}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -103,6 +113,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -37,6 +37,16 @@
     <ClInclude Include="pngpriv.h" />
     <ClInclude Include="pngstruct.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZLib\ZLib.2012.vcxproj">
+      <Project>{4d6adddc-1d2f-4573-a6c7-dc2ffbe2bdc0}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -69,6 +79,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

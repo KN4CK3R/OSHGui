@@ -4,10 +4,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DX11Effects", "D3DX11Effects\D3DX11Effects.2012.vcxproj", "{BCB43C55-4366-4357-8A30-BA667564063C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImage", "FreeImage\FreeImage.2012.vcxproj", "{3DB915AB-2DDE-4FD3-AB5D-3D2FAE76FE10}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0} = {3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}
+		{7F99DFA8-439A-4199-B6DE-A011892BEE36} = {7F99DFA8-439A-4199-B6DE-A011892BEE36}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeType", "FreeType\FreeType.2012.vcxproj", "{2BDBACF9-9942-4157-8762-B4A024071848}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonCpp", "JsonCpp\JsonCpp.2012.vcxproj", "{414251B2-E3BE-411F-A90B-7C2CD64E3D01}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibJPEG", "FreeImage\Source\LibJPEG\LibJPEG.2012.vcxproj", "{7F99DFA8-439A-4199-B6DE-A011892BEE36}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0} = {4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibPNG", "FreeImage\Source\LibPNG\LibPNG.2012.vcxproj", "{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0} = {4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "FreeImage\Source\ZLib\ZLib.2012.vcxproj", "{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +47,18 @@ Global
 		{414251B2-E3BE-411F-A90B-7C2CD64E3D01}.Debug|Win32.Build.0 = Debug|Win32
 		{414251B2-E3BE-411F-A90B-7C2CD64E3D01}.Release|Win32.ActiveCfg = Release|Win32
 		{414251B2-E3BE-411F-A90B-7C2CD64E3D01}.Release|Win32.Build.0 = Release|Win32
+		{7F99DFA8-439A-4199-B6DE-A011892BEE36}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7F99DFA8-439A-4199-B6DE-A011892BEE36}.Debug|Win32.Build.0 = Debug|Win32
+		{7F99DFA8-439A-4199-B6DE-A011892BEE36}.Release|Win32.ActiveCfg = Release|Win32
+		{7F99DFA8-439A-4199-B6DE-A011892BEE36}.Release|Win32.Build.0 = Release|Win32
+		{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}.Debug|Win32.Build.0 = Debug|Win32
+		{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}.Release|Win32.ActiveCfg = Release|Win32
+		{3F5DB59B-C152-4E24-A523-B5CE4BBA06D0}.Release|Win32.Build.0 = Release|Win32
+		{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}.Debug|Win32.Build.0 = Debug|Win32
+		{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}.Release|Win32.ActiveCfg = Release|Win32
+		{4D6ADDDC-1D2F-4573-A6C7-DC2FFBE2BDC0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

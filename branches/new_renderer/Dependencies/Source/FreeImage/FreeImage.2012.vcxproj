@@ -88,6 +88,8 @@ copy Source\FreeImage.h ..\..\Include /Y</Command>
     <ClInclude Include="Source\CacheFile.h" />
     <ClInclude Include="Source\FreeImage.h" />
     <ClInclude Include="Source\FreeImageIO.h" />
+    <ClInclude Include="Source\FreeImageToolkit\Filters.h" />
+    <ClInclude Include="Source\FreeImageToolkit\Resize.h" />
     <ClInclude Include="Source\Metadata\FIRational.h" />
     <ClInclude Include="Source\Metadata\FreeImageTag.h" />
     <ClInclude Include="Source\Plugin.h" />
@@ -96,6 +98,18 @@ copy Source\FreeImage.h ..\..\Include /Y</Command>
     <ClInclude Include="Source\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\FreeImageToolkit\Background.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\BSplineRotate.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Channels.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\ClassicRotate.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Colors.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\CopyPaste.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Display.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Flip.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\JPEGTransform.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\MultigridPoissonSolver.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Rescale.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Resize.cpp" />
     <ClCompile Include="Source\FreeImage\BitmapAccess.cpp" />
     <ClCompile Include="Source\FreeImage\CacheFile.cpp" />
     <ClCompile Include="Source\FreeImage\ColorLookup.cpp" />
@@ -141,6 +155,14 @@ copy Source\FreeImage.h ..\..\Include /Y</Command>
     <ClCompile Include="Source\Metadata\IPTC.cpp" />
     <ClCompile Include="Source\Metadata\TagConversion.cpp" />
     <ClCompile Include="Source\Metadata\TagLib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Source\LibJPEG\LibJPEG.2012.vcxproj">
+      <Project>{7f99dfa8-439a-4199-b6de-a011892bee36}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Source\LibPNG\LibPNG.2012.vcxproj">
+      <Project>{3f5db59b-c152-4e24-a523-b5ce4bba06d0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
