@@ -136,6 +136,8 @@ namespace OSHGui
 			uint32_t pitch;
 		};
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D9Texture::Direct3D9Texture(Direct3D9Renderer &_owner)
 			: owner(_owner),
 			  texture(nullptr),
@@ -171,6 +173,8 @@ namespace OSHGui
 		{
 			CleanupDirect3D9Texture();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Direct3D9Texture::SetDirect3D9Texture(LPDIRECT3DTEXTURE9 tex)
 		{
@@ -208,6 +212,14 @@ namespace OSHGui
 		{
 			return texelScaling;
 		}
+		//---------------------------------------------------------------------------
+		void Direct3D9Texture::SetOriginalDataSize(const SizeF& size)
+		{
+			dataSize = size;
+			UpdateCachedScaleValues();
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D9Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
@@ -301,12 +313,6 @@ namespace OSHGui
 			{
 				size = dataSize;
 			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D9Texture::SetOriginalDataSize(const SizeF& size)
-		{
-			dataSize = size;
-			UpdateCachedScaleValues();
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9Texture::PreD3DReset()

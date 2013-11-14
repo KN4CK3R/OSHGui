@@ -7,6 +7,8 @@ namespace OSHGui
 	{
 		const float Direct3D10TextureTarget::DefaultSize = 128.0f;
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D10TextureTarget::Direct3D10TextureTarget(Direct3D10Renderer &owner)
 			: Direct3D10RenderTarget<TextureTarget>(owner),
 			  d3dTexture(nullptr),
@@ -22,6 +24,8 @@ namespace OSHGui
 		{
 			CleanupRenderTexture();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Direct3D10TextureTarget::DeclareRenderSize(const SizeF &size)
 		{
@@ -40,15 +44,17 @@ namespace OSHGui
 			return true;
 		}
 		//---------------------------------------------------------------------------
+		TexturePtr Direct3D10TextureTarget::GetTexture() const
+		{
+			return texture;
+		}
+		//---------------------------------------------------------------------------
 		bool Direct3D10TextureTarget::IsRenderingInverted() const
 		{
 			return false;
 		}
 		//---------------------------------------------------------------------------
-		TexturePtr Direct3D10TextureTarget::GetTexture() const
-		{
-			return texture;
-		}
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D10TextureTarget::Activate()
 		{

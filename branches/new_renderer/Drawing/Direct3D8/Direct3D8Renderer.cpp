@@ -20,6 +20,8 @@ namespace OSHGui
 			0.0, 0.0, 0.0, 1.0
 		};
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D8Renderer::Direct3D8Renderer(LPDIRECT3DDEVICE8 _device)
 			: device(_device),
 			  displaySize(GetViewportSize()),
@@ -37,10 +39,67 @@ namespace OSHGui
 			defaultTarget = std::make_shared<Direct3D8ViewportTarget>(*this);
 		}
 		//---------------------------------------------------------------------------
+		//Getter/Setter
+		//---------------------------------------------------------------------------
 		RenderTargetPtr& Direct3D8Renderer::GetDefaultRenderTarget()
 		{
 			return defaultTarget;
 		}
+		//---------------------------------------------------------------------------
+		void Direct3D8Renderer::SetDisplaySize(const SizeF &size)
+		{
+			if (size != displaySize)
+			{
+				displaySize = size;
+
+				auto area = defaultTarget->GetArea();
+				area.SetSize(size);
+				defaultTarget->SetArea(area);
+			}
+		}
+		//---------------------------------------------------------------------------
+		const SizeF& Direct3D8Renderer::GetDisplaySize() const
+		{
+			return displaySize;
+		}
+		//---------------------------------------------------------------------------
+		const PointF& Direct3D8Renderer::GetDisplayDPI() const
+		{
+			return displayDPI;
+		}
+		//---------------------------------------------------------------------------
+		uint32_t Direct3D8Renderer::GetMaximumTextureSize() const
+		{
+			return maxTextureSize;
+		}
+		//---------------------------------------------------------------------------
+		SizeF Direct3D8Renderer::GetViewportSize()
+		{
+			D3DVIEWPORT8 vp;
+			if (FAILED(device->GetViewport(&vp)))
+			{
+				throw Misc::Exception();
+			}
+
+			return SizeF(vp.Width, vp.Height);
+		}
+		//---------------------------------------------------------------------------
+		LPDIRECT3DDEVICE8 Direct3D8Renderer::GetDevice() const
+		{
+			return device;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D8Renderer::SupportsNonSquareTexture()
+		{
+			return supportNonSquareTex;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D8Renderer::SupportsNPOTTextures()
+		{
+			return supportNPOTTex;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		GeometryBufferPtr Direct3D8Renderer::CreateGeometryBuffer()
 		{
@@ -111,44 +170,6 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D8Renderer::SetDisplaySize(const SizeF &size)
-		{
-			if (size != displaySize)
-			{
-				displaySize = size;
-
-				auto area = defaultTarget->GetArea();
-				area.SetSize(size);
-				defaultTarget->SetArea(area);
-			}
-		}
-		//---------------------------------------------------------------------------
-		const SizeF& Direct3D8Renderer::GetDisplaySize() const
-		{
-			return displaySize;
-		}
-		//---------------------------------------------------------------------------
-		const PointF& Direct3D8Renderer::GetDisplayDPI() const
-		{
-			return displayDPI;
-		}
-		//---------------------------------------------------------------------------
-		uint32_t Direct3D8Renderer::GetMaximumTextureSize() const
-		{
-			return maxTextureSize;
-		}
-		//---------------------------------------------------------------------------
-		SizeF Direct3D8Renderer::GetViewportSize()
-		{
-			D3DVIEWPORT8 vp;
-			if (FAILED(device->GetViewport(&vp)))
-			{
-				throw Misc::Exception();
-			}
-			
-			return SizeF(vp.Width, vp.Height);
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D8Renderer::PreD3DReset()
 		{
 			RemoveWeakReferences();
@@ -175,21 +196,6 @@ namespace OSHGui
 			{
 				texture.lock()->PostD3DReset();
 			}
-		}
-		//---------------------------------------------------------------------------
-		LPDIRECT3DDEVICE8 Direct3D8Renderer::GetDevice() const
-		{
-			return device;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D8Renderer::SupportsNonSquareTexture()
-		{
-			return supportNonSquareTex;
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D8Renderer::SupportsNPOTTextures()
-		{
-			return supportNPOTTex;
 		}
 		//---------------------------------------------------------------------------
 		SizeF Direct3D8Renderer::GetAdjustedSize(const SizeF &sz)

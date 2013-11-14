@@ -8,6 +8,8 @@ namespace OSHGui
 	{
 		const float Direct3D8TextureTarget::DefaultSize = 128.0f;
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D8TextureTarget::Direct3D8TextureTarget(Direct3D8Renderer &owner)
 			: Direct3D8RenderTarget<TextureTarget>(owner),
 			  d3d8Texture(nullptr),
@@ -22,6 +24,8 @@ namespace OSHGui
 		{
 			CleanupRenderTexture();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Direct3D8TextureTarget::DeclareRenderSize(const SizeF &size)
 		{
@@ -39,6 +43,18 @@ namespace OSHGui
 		{
 			return true;
 		}
+		//---------------------------------------------------------------------------
+		TexturePtr Direct3D8TextureTarget::GetTexture() const
+		{
+			return texture;
+		}
+		//---------------------------------------------------------------------------
+		bool Direct3D8TextureTarget::IsRenderingInverted() const
+		{
+			return false;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D8TextureTarget::Activate()
 		{
@@ -61,11 +77,6 @@ namespace OSHGui
 			owner.GetDevice()->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 0, 0), 1.0f, 0);
 			
 			DisableRenderTexture();
-		}
-		//---------------------------------------------------------------------------
-		TexturePtr Direct3D8TextureTarget::GetTexture() const
-		{
-			return texture;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D8TextureTarget::InitialiseRenderTexture()
@@ -127,11 +138,6 @@ namespace OSHGui
 				surfaceBackup->Release();
 				surfaceBackup = nullptr;
 			}
-		}
-		//---------------------------------------------------------------------------
-		bool Direct3D8TextureTarget::IsRenderingInverted() const
-		{
-			return false;
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D8TextureTarget::PreD3DReset()

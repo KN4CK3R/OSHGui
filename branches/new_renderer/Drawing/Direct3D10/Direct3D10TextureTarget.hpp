@@ -39,15 +39,15 @@ namespace OSHGui
 			 */
 			virtual ~Direct3D10TextureTarget();
 
+			virtual bool IsImageryCache() const override;
+
 			virtual void Activate() override;
 			virtual void Deactivate() override;
 			
-			virtual bool IsImageryCache() const override;
-			
-			virtual void Clear() override;
 			virtual TexturePtr GetTexture() const override;
 			virtual void DeclareRenderSize(const SizeF& size) override;
 			virtual bool IsRenderingInverted() const override;
+			virtual void Clear() override;
 
 		protected:
 			static const float DefaultSize;

@@ -22,11 +22,6 @@ namespace OSHGui
 		{
 		public:
 			/**
-			 * Löscht den Inhalt der verwendeten Textur.
-			 */
-			virtual void Clear() = 0;
-
-			/**
 			 * Ruft die Textur ab, die als TextureTarget verwendet wird.
 			 *
 			 * \return TextureTarget
@@ -41,6 +36,11 @@ namespace OSHGui
 			virtual void DeclareRenderSize(const SizeF& size) = 0;
 
 			virtual bool IsRenderingInverted() const = 0;
+
+			/**
+			 * Löscht den Inhalt der verwendeten Textur.
+			 */
+			virtual void Clear() = 0;
 		};
 
 		typedef std::shared_ptr<TextureTarget> TextureTargetPtr;

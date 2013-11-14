@@ -136,6 +136,8 @@ namespace OSHGui
 			uint32_t pitch;
 		};
 		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D8Texture::Direct3D8Texture(Direct3D8Renderer &_owner)
 			: owner(_owner),
 			  texture(nullptr),
@@ -171,6 +173,8 @@ namespace OSHGui
 		{
 			CleanupDirect3D8Texture();
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		void Direct3D8Texture::SetDirect3D8Texture(LPDIRECT3DTEXTURE8 _texture)
 		{
@@ -210,6 +214,25 @@ namespace OSHGui
 		{
 			return texelScaling;
 		}
+		//---------------------------------------------------------------------------
+		void Direct3D8Texture::SetOriginalDataSize(const SizeF& size)
+		{
+			dataSize = size;
+			UpdateCachedScaleValues();
+		}
+		//---------------------------------------------------------------------------
+		IDirect3DSurface8* Direct3D8Texture::GetTextureSurface() const
+		{
+			LPDIRECT3DSURFACE8 surface;
+			if (FAILED(texture->GetSurfaceLevel(0, &surface)))
+			{
+				throw Misc::Exception();
+			}
+
+			return surface;
+		}
+		//---------------------------------------------------------------------------
+		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D8Texture::LoadFromFile(const Misc::AnsiString &filename)
 		{
@@ -259,17 +282,6 @@ namespace OSHGui
 			UpdateCachedScaleValues();
 		}
 		//---------------------------------------------------------------------------
-		IDirect3DSurface8* Direct3D8Texture::GetTextureSurface() const
-		{
-			LPDIRECT3DSURFACE8 surface;
-			if (FAILED(texture->GetSurfaceLevel(0, &surface)))
-			{
-				throw Misc::Exception();
-			}
-
-			return surface;
-		}
-		//---------------------------------------------------------------------------
 		void Direct3D8Texture::CleanupDirect3D8Texture()
 		{
 			if (texture)
@@ -304,12 +316,6 @@ namespace OSHGui
 			{
 				size = dataSize;
 			}
-		}
-		//---------------------------------------------------------------------------
-		void Direct3D8Texture::SetOriginalDataSize(const SizeF& size)
-		{
-			dataSize = size;
-			UpdateCachedScaleValues();
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D8Texture::PreD3DReset()

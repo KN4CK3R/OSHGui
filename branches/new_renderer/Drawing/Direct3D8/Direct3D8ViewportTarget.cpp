@@ -6,6 +6,9 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
 		Direct3D8ViewportTarget::Direct3D8ViewportTarget(Direct3D8Renderer &owner)
 			: Direct3D8RenderTarget(owner)
 		{
@@ -23,6 +26,8 @@ namespace OSHGui
 		{
 			SetArea(area);
 		}
+		//---------------------------------------------------------------------------
+		//Getter/Setter
 		//---------------------------------------------------------------------------
 		bool Direct3D8ViewportTarget::IsImageryCache() const
 		{

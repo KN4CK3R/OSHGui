@@ -19,7 +19,7 @@ D3DXMATRIX* MatrixMultiply(D3DXMATRIX *pout, const D3DXMATRIX *pm1, const D3DXMA
 	*pout = out;
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixIdentity(D3DXMATRIX *pOut)
 {
 	pOut->m[0][1] = pOut->m[0][2] = pOut->m[0][3] =
@@ -30,7 +30,7 @@ D3DXMATRIX* MatrixIdentity(D3DXMATRIX *pOut)
 	pOut->m[0][0] = pOut->m[1][1] = pOut->m[2][2] = pOut->m[3][3] = 1.0f;
 	return pOut;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixTranslation(D3DXMATRIX *pout, FLOAT x, FLOAT y, FLOAT z)
 {
 	MatrixIdentity(pout);
@@ -39,7 +39,7 @@ D3DXMATRIX* MatrixTranslation(D3DXMATRIX *pout, FLOAT x, FLOAT y, FLOAT z)
 	pout->m[3][2] = z;
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixRotationQuaternion(D3DXMATRIX *pout, const D3DXQUATERNION *pq)
 {
 	MatrixIdentity(pout);
@@ -54,7 +54,7 @@ D3DXMATRIX* MatrixRotationQuaternion(D3DXMATRIX *pout, const D3DXQUATERNION *pq)
 	pout->m[2][2] = 1.0f - 2.0f * (pq->x * pq->x + pq->y * pq->y);
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 D3DXVECTOR4* Vec4Cross(D3DXVECTOR4 *pout, const D3DXVECTOR4 *pv1, const D3DXVECTOR4 *pv2, const D3DXVECTOR4 *pv3)
 {
 	D3DXVECTOR4 out;
@@ -65,7 +65,7 @@ D3DXVECTOR4* Vec4Cross(D3DXVECTOR4 *pout, const D3DXVECTOR4 *pv1, const D3DXVECT
 	*pout = out;
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 float MatrixDeterminant(const D3DXMATRIX *pm)
 {
 	D3DXVECTOR4 minor, v1, v2, v3;
@@ -77,7 +77,7 @@ float MatrixDeterminant(const D3DXMATRIX *pm)
 	float det =  - (pm->m[0][3] * minor.x + pm->m[1][3] * minor.y + pm->m[2][3] * minor.z + pm->m[3][3] * minor.w);
 	return det;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixInverse(D3DXMATRIX *pout, FLOAT *pdeterminant, const D3DXMATRIX *pm)
 {
 	D3DXMATRIX out;
@@ -110,7 +110,7 @@ D3DXMATRIX* MatrixInverse(D3DXMATRIX *pout, FLOAT *pdeterminant, const D3DXMATRI
 	*pout = out;
 	return pout;
 };
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixScaling(D3DXMATRIX *pout, float sx, float sy, float sz)
 {
 	MatrixIdentity(pout);
@@ -119,7 +119,7 @@ D3DXMATRIX* MatrixScaling(D3DXMATRIX *pout, float sx, float sy, float sz)
 	pout->m[2][2] = sz;
 	return pout;
 };
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixTransformation(D3DXMATRIX *pout, const D3DXVECTOR3 *pscalingcenter, const D3DXQUATERNION *pscalingrotation, const D3DXVECTOR3 *pscaling, const D3DXVECTOR3 *protationcenter, const D3DXQUATERNION *protation, const D3DXVECTOR3 *ptranslation)
 {
 	D3DXMATRIX m1, m2, m3, m4, m5, m6, m7;
@@ -196,7 +196,7 @@ D3DXMATRIX* MatrixTransformation(D3DXMATRIX *pout, const D3DXVECTOR3 *pscalingce
 
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 D3DXVECTOR3* Vec3Normalize(D3DXVECTOR3 *pout, const D3DXVECTOR3 *pv)
 {
 	auto norm = D3DXVec3Length(pv);
@@ -215,7 +215,7 @@ D3DXVECTOR3* Vec3Normalize(D3DXVECTOR3 *pout, const D3DXVECTOR3 *pv)
 
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixLookAtRH(D3DXMATRIX *out, const D3DXVECTOR3 *eye, const D3DXVECTOR3 *at, const D3DXVECTOR3 *up)
 {
 	D3DXVECTOR3 right, upn, vec;
@@ -245,7 +245,7 @@ D3DXMATRIX* MatrixLookAtRH(D3DXMATRIX *out, const D3DXVECTOR3 *eye, const D3DXVE
 
 	return out;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixPerspectiveFovRH(D3DXMATRIX *pout, float fovy, float aspect, float zn, float zf)
 {
 	MatrixIdentity(pout);
@@ -257,7 +257,7 @@ D3DXMATRIX* MatrixPerspectiveFovRH(D3DXMATRIX *pout, float fovy, float aspect, f
 	pout->m[3][3] = 0.0f;
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 D3DXMATRIX* MatrixOrthoOffCenterRH(D3DXMATRIX *pout, float l, float r, float b, float t, float zn, float zf)
 {
 	MatrixIdentity(pout);
@@ -269,7 +269,7 @@ D3DXMATRIX* MatrixOrthoOffCenterRH(D3DXMATRIX *pout, float l, float r, float b, 
 	pout->m[3][2] = zn / (zn -zf);
 	return pout;
 }
-
+//---------------------------------------------------------------------------
 enum class FormatType
 {
 	ARGB,
@@ -287,8 +287,7 @@ struct PixelFormatDescription
 	UINT blockHeight;
 	UINT blockByteCount;
 	FormatType type;
-};
-struct PixelFormatDescription formats[] =
+} formats[] =
 {
 	{D3DFMT_R8G8B8,        { 0,  8,  8,  8}, { 0, 16,  8,  0},  3, 1, 1,  3, FormatType::ARGB},
 	{D3DFMT_A8R8G8B8,      { 8,  8,  8,  8}, {24, 16,  8,  0},  4, 1, 1,  4, FormatType::ARGB},
@@ -310,7 +309,7 @@ struct PixelFormatDescription formats[] =
 	{D3DFMT_DXT5,          { 0,  0,  0,  0}, { 0,  0,  0,  0},  1, 4, 4, 16, FormatType::DXT},
 	{D3DFMT_UNKNOWN,       { 0,  0,  0,  0}, { 0,  0,  0,  0},  0, 1, 1,  0, FormatType::UNKNOWN}
 };
-
+//---------------------------------------------------------------------------
 const PixelFormatDescription& GetFormatInfo(D3DFORMAT format)
 {
 	auto i = 0;
@@ -321,7 +320,7 @@ const PixelFormatDescription& GetFormatInfo(D3DFORMAT format)
 	}
 	return formats[i];
 }
-
+//---------------------------------------------------------------------------
 void CopyPixels(const BYTE *src, UINT srcRowPitch, UINT src_slice_pitch, BYTE *dst, UINT destRowPitch, UINT dst_slice_pitch, const SizeI &size, const PixelFormatDescription &format)
 {
 	auto rowBlockCount = (size.Width + format.blockWidth - 1) / format.blockWidth;
@@ -334,7 +333,7 @@ void CopyPixels(const BYTE *src, UINT srcRowPitch, UINT src_slice_pitch, BYTE *d
 		dst += destRowPitch;
 	}
 }
-
+//---------------------------------------------------------------------------
 HRESULT LoadSurfaceFromMemory(IDirect3DSurface8 *destSurface, const PALETTEENTRY *destPaletteEntry, const RECT *destRect, const void *srcData, D3DFORMAT format, UINT srcPitch, const PALETTEENTRY *srcPaletteEntry, const RECT *srcRect, DWORD filter, D3DCOLOR color)
 {
 	if (!destSurface || !srcData || !srcRect)
@@ -411,3 +410,4 @@ HRESULT LoadSurfaceFromMemory(IDirect3DSurface8 *destSurface, const PALETTEENTRY
 
 	return D3D_OK;
 }
+//---------------------------------------------------------------------------
