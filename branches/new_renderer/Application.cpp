@@ -78,7 +78,7 @@ namespace OSHGui
 		instance = new Application(std::move(renderer));
 
 		instance->mouse.Enabled = true;
-		instance->mouse.Cursor = Cursors::Get(Cursors::Default);
+		instance->SetCursor(Cursors::Get(Cursors::Default));
 	}
 	//---------------------------------------------------------------------------
 	const bool Application::IsEnabled() const
@@ -123,9 +123,9 @@ namespace OSHGui
 		return mouse.Cursor;
 	}
 	//---------------------------------------------------------------------------
-	void Application::SetCursor(const std::shared_ptr<Cursor> &cursor)
+	void Application::SetCursor(const CursorPtr &cursor)
 	{
-		mouse.Cursor = cursor;
+		mouse.Cursor = cursor ? cursor : Cursors::Get(Cursors::Default);
 
 		guiSurface.Invalidate();
 	}

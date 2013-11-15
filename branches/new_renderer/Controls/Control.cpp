@@ -32,7 +32,7 @@ namespace OSHGui
 		  autoSize(false),
 		  canRaiseEvents(true),
 		  needsRedraw(true),
-		  cursor(Cursors::Get(Cursors::Default)),
+		  cursor(nullptr),
 		  mouseOverFocusColor(0, 20, 20, 20),
 		  geometry(Application::Instance()->GetRenderer()->CreateGeometryBuffer())
 	{
@@ -274,7 +274,7 @@ namespace OSHGui
 		return mouseOverFocusColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetFont( const Drawing::FontPtr &font)
+	void Control::SetFont(const Drawing::FontPtr &font)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (font == nullptr)
@@ -293,14 +293,14 @@ namespace OSHGui
 		return font ? font : parent ? parent->GetFont() : Application::Instance()->GetDefaultFont();
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetCursor(const std::shared_ptr<Cursor> &cursor)
+	void Control::SetCursor(const CursorPtr &cursor)
 	{
-		this->cursor = cursor;
+		this->cursor = std::move(cursor);
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Cursor>& Control::GetCursor() const
+	CursorPtr Control::GetCursor() const
 	{
-		return cursor;
+		return cursor ? cursor : GetParent() ? GetParent()->GetCursor() : nullptr;
 	}
 	//---------------------------------------------------------------------------
 	LocationChangedEvent& Control::GetLocationChangedEvent()
@@ -575,7 +575,7 @@ namespace OSHGui
 			case ControlType::ColorBar: return "colorbar";
 			case ControlType::HotkeyControl: return "hotkeycontrol";
 		}
-		throw 1;
+		throw Misc::Exception();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -635,7 +635,7 @@ namespace OSHGui
 	{
 		isInside = true;
 
-		Application *app = Application::Instance();
+		auto app = Application::Instance();
 
 		if (app->MouseEnteredControl != nullptr && app->MouseEnteredControl->isInside)
 		{
@@ -645,7 +645,7 @@ namespace OSHGui
 
 		mouseEnterEvent.Invoke(this);
 
-		app->SetCursor(cursor);
+		app->SetCursor(GetCursor());
 
 		Invalidate();
 	}
@@ -663,7 +663,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnGotMouseCapture()
 	{
-		Application *app = Application::Instance();
+		auto app = Application::Instance();
 		if (app->CaptureControl != nullptr)
 		{
 			app->CaptureControl->OnLostMouseCapture();
@@ -687,7 +687,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus(Control *newFocusedControl)
 	{
-		Application *app = Application::Instance();
+		auto app = Application::Instance();
 		if (newFocusedControl != app->FocusedControl)
 		{
 			if (app->FocusedControl != nullptr)

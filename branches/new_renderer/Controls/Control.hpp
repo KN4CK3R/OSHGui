@@ -410,13 +410,13 @@ namespace OSHGui
 		 *
 		 * \param cursor
 		 */
-		void SetCursor(const std::shared_ptr<Cursor> &cursor);
+		void SetCursor(const CursorPtr &cursor);
 		/** 
 		 * Ruft den angezeigten Cursor ab, wenn sich die Maus über dem Steuerelement befindet.
 		 *
 		 * \return cursor
 		 */
-		virtual const std::shared_ptr<Cursor>& GetCursor() const;
+		virtual CursorPtr GetCursor() const;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
