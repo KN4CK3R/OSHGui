@@ -9,7 +9,7 @@
 #ifndef OSHGUI_TABCONTROL_HPP
 #define OSHGUI_TABCONTROL_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -25,7 +25,7 @@ namespace OSHGui
 	/**
 	 * Verwaltet eine Gruppe zusammengehöriger Registerkarten.
 	 */
-	class OSHGUI_EXPORT TabControl : public ContainerControl
+	class OSHGUI_EXPORT TabControl : public Control
 	{
 		friend TabPage;
 

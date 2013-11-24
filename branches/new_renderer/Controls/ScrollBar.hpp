@@ -9,7 +9,7 @@
 #ifndef OSHGUI_SCROLLBAR_HPP
 #define OSHGUI_SCROLLBAR_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -22,10 +22,10 @@ namespace OSHGui
 	/**
 	 * Implementiert die Basisfunktionen eines Schiebeleisten-Steuerelements.
 	 */
-	class OSHGUI_EXPORT ScrollBar : public ContainerControl
+	class OSHGUI_EXPORT ScrollBar : public Control
 	{
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.

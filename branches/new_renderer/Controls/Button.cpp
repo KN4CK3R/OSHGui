@@ -111,7 +111,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		auto tempColor = backColor;
 		if ((isFocused || isInside) && !(isFocused && isClicked))

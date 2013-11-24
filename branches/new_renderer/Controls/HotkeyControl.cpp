@@ -379,7 +379,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		for (int i = 0; i < 4; ++i)
 		{

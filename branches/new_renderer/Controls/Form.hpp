@@ -9,7 +9,7 @@
 #ifndef OSHGUI_FORM_HPP
 #define OSHGUI_FORM_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -64,12 +64,12 @@ namespace OSHGui
 	/**
 	 * Stellt ein Fenster dar, das die Benutzeroberfläche bildet.
 	 */
-	class OSHGUI_EXPORT Form : public ContainerControl
+	class OSHGUI_EXPORT Form : public Control
 	{
 		class CaptionBar;
 
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.
@@ -175,7 +175,7 @@ namespace OSHGui
 		bool isModal;
 		FormClosingEvent formClosingEvent;
 
-		class CaptionBar : public ContainerControl
+		class CaptionBar : public Control
 		{
 			class CaptionBarButton : public Control
 			{

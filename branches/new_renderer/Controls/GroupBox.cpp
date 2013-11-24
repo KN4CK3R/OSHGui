@@ -43,7 +43,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void GroupBox::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
 		containerPanel->SetSize(size.InflateEx(-3 * 2, -3 * 2 - 10));
 	}
@@ -96,7 +96,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void GroupBox::DrawSelf(Drawing::RenderContext &context)
 	{
-		ContainerControl::DrawSelf(context);
+		Control::DrawSelf(context);
 
 		captionLabel->Render();
 		containerPanel->Render();
@@ -106,7 +106,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 		
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		if (backColor.A != 0)
 		{

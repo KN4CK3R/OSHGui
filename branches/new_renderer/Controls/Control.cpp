@@ -10,6 +10,7 @@
 #include "../Misc/Exceptions.hpp"
 #include "../Drawing/FontManager.hpp"
 #include "../Drawing/Vector.hpp"
+#include "../Misc/ReverseIterator.hpp"
 
 namespace OSHGui
 {
@@ -48,6 +49,11 @@ namespace OSHGui
 		if (isFocused)
 		{
 			Application::Instance()->FocusedControl = nullptr;
+		}
+
+		for (auto &control : internalControls)
+		{
+			delete control;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -166,6 +172,29 @@ namespace OSHGui
 		OnSizeChanged();
 
 		Invalidate();
+
+		auto offset = size - GetSize();
+		for (auto &control : controls)
+		{
+			AnchorStyles anchor = control->GetAnchor();
+
+			if (anchor != (AnchorStyles::Top | AnchorStyles::Left))
+			{
+				if (anchor == (AnchorStyles::Top | AnchorStyles::Left | AnchorStyles::Bottom | AnchorStyles::Right))
+				{
+					control->SetSize(control->GetSize() + offset);
+				}
+				else if (anchor == (AnchorStyles::Top | AnchorStyles::Left | AnchorStyles::Right) || anchor == (AnchorStyles::Bottom | AnchorStyles::Left | AnchorStyles::Right))
+				{
+					control->SetLocation(control->GetLocation() + Drawing::PointF(0, offset.Height));
+					control->SetSize(control->GetSize() + Drawing::SizeF(offset.Width, 0));
+				}
+				else if (anchor == (AnchorStyles::Top | AnchorStyles::Right) || anchor == (AnchorStyles::Bottom | AnchorStyles::Right))
+				{
+					control->SetLocation(control->GetLocation() + Drawing::PointF(offset.Width, offset.Height));
+				}
+			}
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetSize(int width, int height)
@@ -397,6 +426,16 @@ namespace OSHGui
 		return parent;
 	}
 	//---------------------------------------------------------------------------
+	const std::deque<Control*>& Control::GetControls() const
+	{
+		return controls;
+	}
+	//---------------------------------------------------------------------------
+	Control::PostOrderIterator Control::GetPostOrderEnumerator()
+	{
+		return PostOrderIterator(this);
+	}
+	//---------------------------------------------------------------------------
 	void Control::GetRenderContext(Drawing::RenderContext &context) const
 	{
 		if (surface)
@@ -427,6 +466,11 @@ namespace OSHGui
 		{
 			OnGotFocus(this);
 		}
+	}
+	//---------------------------------------------------------------------------
+	bool Control::Intersect(const Drawing::PointF &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::PointF Control::PointToClient(const Drawing::PointF &point) const
@@ -464,6 +508,92 @@ namespace OSHGui
 
 		geometry->SetTranslation(Drawing::Vector(absoluteLocation.X, absoluteLocation.Y, 0.0f));
 		//TODO: set clipping here
+
+		for (auto &control : internalControls)
+		{
+			control->CalculateAbsoluteLocation();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::AddControl(Control *control)
+	{
+#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (control == nullptr)
+		{
+			throw Misc::ArgumentNullException("control");
+		}
+#endif
+
+		if (control->GetType() == ControlType::Form)
+		{
+			return;
+		}
+
+		AddSubControl(control);
+
+		controls.push_front(control);
+	}
+	//---------------------------------------------------------------------------
+	void Control::RemoveControl(Control *control)
+	{
+		if (control != nullptr)
+		{
+			controls.erase(std::remove(std::begin(controls), std::end(controls), control), std::end(controls));
+			internalControls.erase(std::remove(std::begin(internalControls), std::end(internalControls), control), std::end(internalControls));
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::AddSubControl(Control *subcontrol)
+	{
+#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (subcontrol == nullptr)
+		{
+			throw Misc::ArgumentNullException("subcontrol");
+		}
+#endif
+
+		if (subcontrol->GetType() == ControlType::Form)
+		{
+			return;
+		}
+
+		for (auto &control : internalControls)
+		{
+			if (subcontrol == control || (!subcontrol->GetName().empty() && subcontrol->GetName() == control->GetName()))
+			{
+				return;
+			}
+		}
+
+		subcontrol->SetParent(this);
+
+		internalControls.push_front(subcontrol);
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::GetChildAtPoint(const Drawing::PointF &point) const
+	{
+		for (auto &control : make_reverse_range(controls))
+		{
+			if (control->GetEnabled() && control->GetVisible() && control->Intersect(point))
+			{
+				return control;
+			}
+		}
+
+		return nullptr;
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::GetChildByName(const Misc::AnsiString &name) const
+	{
+		for (auto &control : controls)
+		{
+			if (control->GetName() == name)
+			{
+				return control;
+			}
+		}
+
+		return nullptr;
 	}
 	//---------------------------------------------------------------------------
 	void Control::InjectTime(const Misc::DateTime &time)
@@ -501,11 +631,22 @@ namespace OSHGui
 		{
 			DrawSelf(ctx);
 
-			// render any child windows
-			/*for (ChildDrawList::iterator it = d_drawList.begin(); it != d_drawList.end(); ++it)
+			Control *focusedControl = nullptr;
+			for (auto &control : make_reverse_range(controls))
 			{
-				(*it)->render();
-			}*/
+				if (control->GetIsFocused())
+				{
+					focusedControl = control;
+				}
+				else
+				{
+					control->Render();
+				}
+			}
+			if (focusedControl != nullptr)
+			{
+				focusedControl->Render();
+			}
 		}
 
 		if (ctx.Owner == this)
@@ -547,6 +688,11 @@ namespace OSHGui
 		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type));
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
+
+		for (auto &control : GetControls())
+		{
+			control->ApplyTheme(theme);
+		}
 	}
 	//---------------------------------------------------------------------------
 	Misc::AnsiString Control::ControlTypeToString(ControlType controlType)
@@ -827,6 +973,53 @@ namespace OSHGui
 		}
 		
 		return false;
+	}
+	//---------------------------------------------------------------------------
+	//Control::PostOrderIterator
+	//---------------------------------------------------------------------------
+	Control::PostOrderIterator::PostOrderIterator(Control *start)
+	{
+		this->start = start;
+
+		if (this->start->internalControls.empty())
+		{
+			current = this->start;
+		}
+		else
+		{
+			LoopThrough(this->start);
+			current = controlStack.back();
+			controlStack.pop_back();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::PostOrderIterator::LoopThrough(Control *container)
+	{
+		controlStack.push_back(container);
+
+		for (auto &control : make_reverse_range(container->internalControls))
+		{
+			if (control->GetVisible() && control->GetEnabled())
+			{
+				LoopThrough(control);
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::PostOrderIterator::operator++()
+	{
+		current = controlStack.back();
+		controlStack.pop_back();
+	}
+	//---------------------------------------------------------------------------
+	bool Control::PostOrderIterator::operator()()
+	{
+		return !controlStack.empty();
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::PostOrderIterator::operator*()
+	{
+		return current;
 	}
 	//---------------------------------------------------------------------------
 }

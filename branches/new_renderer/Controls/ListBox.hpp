@@ -9,7 +9,7 @@
 #ifndef OSHGUI_LISTBOX_HPP
 #define OSHGUI_LISTBOX_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -24,10 +24,10 @@ namespace OSHGui
 	/**
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */
-	class OSHGUI_EXPORT ListBox : public ContainerControl
+	class OSHGUI_EXPORT ListBox : public Control
 	{
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.

@@ -286,7 +286,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::CalculateAbsoluteLocation()
 	{
-		ContainerControl::CalculateAbsoluteLocation();
+		Control::CalculateAbsoluteLocation();
 
 		CalculateButtonLocationAndCount();
 	}
@@ -358,7 +358,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::ApplyTheme(const Drawing::Theme &theme)
 	{
-		ContainerControl::ApplyTheme(theme);
+		Control::ApplyTheme(theme);
 		
 		for (auto &binding : bindings)
 		{
@@ -368,7 +368,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::DrawSelf(Drawing::RenderContext &context)
 	{
-		ContainerControl::DrawSelf(context);
+		Control::DrawSelf(context);
 
 		if (selected->tabPage != nullptr)
 		{
@@ -458,7 +458,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		if (active)
 		{
@@ -493,7 +493,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		auto base = isInside ? backColor : backColor - Color(0, 47, 47, 47);
 		auto borderColor = backColor + Color(0, 9, 9, 9);

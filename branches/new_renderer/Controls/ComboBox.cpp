@@ -142,7 +142,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
 		button->SetSize(size);
 		listBox->SetLocation(0, button->GetBottom() + 2);
@@ -151,7 +151,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::SetFont(const Drawing::FontPtr &font)
 	{
-		ContainerControl::SetFont(font);
+		Control::SetFont(font);
 
 		button->SetFont(font);
 		listBox->SetLocation(0, button->GetBottom() + 2);
@@ -160,7 +160,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::SetForeColor(Drawing::Color color)
 	{
-		ContainerControl::SetForeColor(color);
+		Control::SetForeColor(color);
 
 		button->SetForeColor(color);
 		listBox->SetForeColor(color);
@@ -168,7 +168,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::SetBackColor(Drawing::Color color)
 	{
-		ContainerControl::SetBackColor(color);
+		Control::SetBackColor(color);
 
 		button->SetBackColor(color);
 		listBox->SetBackColor(color);
@@ -186,7 +186,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ComboBox::GetIsFocused() const
 	{
-		return ContainerControl::GetIsFocused() || button->GetIsFocused() || listBox->GetIsFocused();
+		return Control::GetIsFocused() || button->GetIsFocused() || listBox->GetIsFocused();
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ComboBox::GetItem(int index) const
@@ -344,7 +344,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		auto color = isFocused || isInside ? GetBackColor() + GetMouseOverFocusColor() : GetBackColor();
 

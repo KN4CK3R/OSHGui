@@ -10,6 +10,7 @@
 #define OSHGUI_CONTROL_HPP
 
 #include <vector>
+#include <deque>
 
 #include "../Exports.hpp"
 
@@ -89,7 +90,6 @@ namespace OSHGui
 	}
 	
 	class Control;
-	class ContainerControl;
 	
 	/**
 	 * Tritt ein, wenn die Location-Eigenschaft geändert wird.
@@ -178,9 +178,10 @@ namespace OSHGui
 	class OSHGUI_EXPORT Control
 	{
 		friend Application;
-		friend ContainerControl;
 
 	public:
+		class PostOrderIterator;
+
 		virtual ~Control();
 		
 		/**
@@ -561,6 +562,14 @@ namespace OSHGui
 		 * \return parent
 		 */
 		virtual Control* GetParent() const;
+		/**
+		* Gibt eine Liste der untergeordneten Steuerelemente zurück.
+		*
+		* \return parent
+		*/
+		virtual const std::deque<Control*>& GetControls() const;
+
+		PostOrderIterator GetPostOrderEnumerator();
 
 		/**
 		 * Setzt den Eingabefokus auf das Steuerelement.
@@ -572,7 +581,7 @@ namespace OSHGui
 		 * \param point
 		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const = 0;
+		virtual bool Intersect(const Drawing::PointF &point) const;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -591,6 +600,34 @@ namespace OSHGui
 		 * \return Bildschirmkoordinaten
 		 */
 		virtual const Drawing::PointF PointToScreen(const Drawing::PointF &point) const;
+
+		/**
+		* Fügt ein untergeordnetes Steuerelement hinzu.
+		*
+		* \param control
+		*/
+		virtual void AddControl(Control *control);
+		/**
+		* Entfernt ein untergeordnetes Steuerelement.
+		*
+		* \param control
+		*/
+		virtual void RemoveControl(Control *control);
+		/**
+		* Ruft das untergeordnete Steuerelement ab, das sich an den angegebenen
+		* Koordinaten befindet.
+		*
+		* \param point
+		* \return 0, falls sich dort kein Steuerelement befindet
+		*/
+		Control* GetChildAtPoint(const Drawing::PointF &point) const;
+		/**
+		* Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
+		*
+		* \param name
+		* \return 0, falls kein Steuerelement mit diesem Namen existiert
+		*/
+		Control* GetChildByName(const Misc::AnsiString &name) const;
 		
 		/**
 		 * Verarbeitet eine Maus-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
@@ -629,6 +666,23 @@ namespace OSHGui
 		 */
 		static Misc::AnsiString ControlTypeToString(ControlType controlType);
 
+		class PostOrderIterator
+		{
+		public:
+			PostOrderIterator(Control *start);
+
+			void operator++();
+			bool operator()();
+			Control* operator*();
+
+		private:
+			void LoopThrough(Control *container);
+
+			Control *start;
+			Control *current;
+			std::vector<Control*> controlStack;
+		};
+
 	private:
 		void GetRenderContext(Drawing::RenderContext &context) const;
 
@@ -662,6 +716,13 @@ namespace OSHGui
 		virtual void QueueGeometry(Drawing::RenderContext &context);
 		virtual void PopulateGeometry();
 		
+		void AddSubControl(Control* subcontrol);
+
+		static const int DefaultBorderPadding = 6;
+
+		std::deque<Control*> internalControls;
+		std::deque<Control*> controls;
+
 		Misc::AnsiString name;
 		ControlType type;
 

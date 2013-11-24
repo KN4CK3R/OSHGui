@@ -37,7 +37,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		g.FillRectangle(Color::White(), PointF(0, 0), SizeF(1, 12));
 		g.FillRectangle(Color::White(), PointF(1, 0), SizeF(1, 11));

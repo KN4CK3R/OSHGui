@@ -9,7 +9,7 @@
 #ifndef OSHGUI_COMBOBOX_HPP
 #define OSHGUI_COMBOBOX_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 #include "Button.hpp"
 
 namespace OSHGui
@@ -26,10 +26,10 @@ namespace OSHGui
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */
-	class OSHGUI_EXPORT ComboBox : public ContainerControl
+	class OSHGUI_EXPORT ComboBox : public Control
 	{
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.

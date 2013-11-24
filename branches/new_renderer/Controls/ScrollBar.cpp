@@ -58,7 +58,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
 		upButton->SetSize(Drawing::SizeF(size.Width, upButton->GetHeight()));
 		downButton->SetSize(Drawing::SizeF(size.Width, downButton->GetHeight()));
@@ -79,7 +79,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetForeColor(Drawing::Color color)
 	{
-		ContainerControl::SetForeColor(color);
+		Control::SetForeColor(color);
 
 		upButton->SetForeColor(color);
 		downButton->SetForeColor(color);
@@ -163,7 +163,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::CalculateAbsoluteLocation()
 	{
-		ContainerControl::CalculateAbsoluteLocation();
+		Control::CalculateAbsoluteLocation();
 
 		sliderAbsoluteLocation = absoluteLocation + sliderLocation;
 		trackAbsoluteLocation = absoluteLocation + trackLocation;
@@ -181,7 +181,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::DrawSelf(Drawing::RenderContext &context)
 	{
-		ContainerControl::DrawSelf(context);
+		Control::DrawSelf(context);
 
 		upButton->Render();
 		downButton->Render();
@@ -191,7 +191,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		g.FillRectangle(GetBackColor(), sliderLocation + PointF(1, 1), sliderSize - SizeF(2, 2));
 		g.FillRectangle(GetBackColor(), sliderLocation + PointF(sliderSize.Width - 1, 1), SizeF(1, sliderSize.Height - 2));
@@ -274,7 +274,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ScrollBar::OnMouseScroll(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseScroll(mouse);
+		Control::OnMouseScroll(mouse);
 
 		SetValueInternal(value + mouse.Delta);
 	}
@@ -284,8 +284,7 @@ namespace OSHGui
 	const Drawing::SizeF ScrollBar::ScrollBarButton::DefaultButtonSize(14, 14);
 	//---------------------------------------------------------------------------
 	ScrollBar::ScrollBarButton::ScrollBarButton(int _direction)
-		: Control(),
-		  direction(_direction)
+		: direction(_direction)
 	{
 		SetLocation(0, 0);
 		SetSize(DefaultButtonSize);
@@ -309,7 +308,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		auto color = isInside ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
 

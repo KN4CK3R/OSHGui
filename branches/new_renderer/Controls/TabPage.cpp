@@ -32,7 +32,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
 		containerPanel->SetSize(size.InflateEx(-4, -4));
 	}
@@ -88,7 +88,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::DrawSelf(Drawing::RenderContext &context)
 	{
-		ContainerControl::DrawSelf(context);
+		Control::DrawSelf(context);
 
 		containerPanel->Render();
 	}
@@ -97,7 +97,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		if (backColor.A > 0)
 		{

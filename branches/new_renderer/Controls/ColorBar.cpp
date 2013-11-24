@@ -106,7 +106,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		for (int i = 0; i < 3; ++i)
 		{

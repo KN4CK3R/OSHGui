@@ -9,7 +9,6 @@
 #include "RadioButton.hpp"
 #include "Label.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "ContainerControl.hpp"
 
 namespace OSHGui
 {
@@ -30,14 +29,11 @@ namespace OSHGui
 			if (GetParent() != nullptr)
 			{
 				//uncheck other radiobuttons
-				auto controls = static_cast<ContainerControl*>(GetParent())->GetControls();
-				for (auto it = std::begin(controls); it != std::end(controls); ++it)
+				for (auto &control : GetParent()->GetControls())
 				{
-					Control *control = *it;
 					if (control->GetType() == ControlType::RadioButton)
 					{
-						RadioButton *radio = static_cast<RadioButton*>(control);
-						radio->SetCheckedInternal(false);
+						static_cast<RadioButton*>(control)->SetCheckedInternal(false);
 					}
 				}
 			
@@ -62,7 +58,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		g.FillRectangle(GetBackColor(), RectangleF(PointF(0, 0), SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize)));
 

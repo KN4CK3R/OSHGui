@@ -42,7 +42,7 @@ namespace OSHGui
 
 		Label::PopulateGeometry();
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 		g.FillRectangle(GetForeColor(), RectangleF(PointF(GetLeft(), GetHeight()), SizeF(GetWidth(), 1)));
 	}
 	//---------------------------------------------------------------------------

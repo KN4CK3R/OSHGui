@@ -234,7 +234,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		g.DrawImage(gradient, Color::White(), RectangleF(PointF(0, 0), GetSize()));
 

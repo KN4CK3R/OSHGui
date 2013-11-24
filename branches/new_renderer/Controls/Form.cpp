@@ -58,7 +58,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
 		captionBar->SetSize(size);
 		containerPanel->SetSize(size.InflateEx(-DefaultBorderPadding * 2, -DefaultBorderPadding * 2 - CaptionBar::DefaultCaptionBarHeight));
@@ -76,7 +76,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::SetForeColor(Drawing::Color color)
 	{
-		ContainerControl::SetForeColor(color);
+		Control::SetForeColor(color);
 
 		captionBar->SetForeColor(color);
 	}
@@ -151,7 +151,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::DrawSelf(Drawing::RenderContext &context)
 	{
-		ContainerControl::DrawSelf(context);
+		Control::DrawSelf(context);
 
 		captionBar->Render();
 		containerPanel->Render();
@@ -161,7 +161,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		g.FillRectangle(backColor - Drawing::Color(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
 		auto color = GetBackColor() - Color(0, 90, 90, 90);
@@ -206,7 +206,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		auto color = GetParent()->GetForeColor();
 
@@ -224,7 +224,7 @@ namespace OSHGui
 	const Drawing::PointF Form::CaptionBar::DefaultTitleOffset(4, 4);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBar()
-		: ContainerControl()
+		: Control()
 	{
 		isFocusable = false;
 		drag = false;
@@ -243,7 +243,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(Drawing::SizeF(size.Width, DefaultCaptionBarHeight));
+		Control::SetSize(Drawing::SizeF(size.Width, DefaultCaptionBarHeight));
 
 		closeButton->SetLocation(Drawing::PointF(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
 	}
@@ -260,7 +260,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::SetForeColor(Drawing::Color color)
 	{
-		ContainerControl::SetForeColor(color);
+		Control::SetForeColor(color);
 
 		closeButton->SetForeColor(color);
 		titleLabel->SetForeColor(color);
@@ -277,7 +277,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseDown(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseDown(mouse);
+		Control::OnMouseDown(mouse);
 
 		drag = true;
 		OnGotMouseCapture();
@@ -286,7 +286,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseMove(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseMove(mouse);
+		Control::OnMouseMove(mouse);
 		
 		if (drag)
 		{
@@ -297,7 +297,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseUp(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseUp(mouse);
+		Control::OnMouseUp(mouse);
+
 		if (drag)
 		{
 			drag = false;

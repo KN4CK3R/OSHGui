@@ -9,14 +9,14 @@
 #ifndef OSHGUI_PANEL_HPP
 #define OSHGUI_PANEL_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
 	/**
 	 * Wird zum Gruppieren von Auflistungen von Steuerelementen verwendet.
 	 */
-	class OSHGUI_EXPORT Panel : public ContainerControl
+	class OSHGUI_EXPORT Panel : public Control
 	{
 	public:
 		/**

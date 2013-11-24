@@ -60,7 +60,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::SetSize(const Drawing::SizeF &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
 		itemAreaSize = size.InflateEx(-8, -8);
 		if (scrollBar->GetVisible())
@@ -76,7 +76,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::SetFont(const Drawing::FontPtr &font)
 	{
-		ContainerControl::SetFont(font);
+		Control::SetFont(font);
 
 		CheckForScrollBar();
 	}
@@ -167,7 +167,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::ApplyTheme(const Drawing::Theme &theme)
 	{
-		ContainerControl::ApplyTheme(theme);
+		Control::ApplyTheme(theme);
 
 		scrollBar->ApplyTheme(theme);
 	}
@@ -262,7 +262,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::DrawSelf(Drawing::RenderContext &context)
 	{
-		ContainerControl::DrawSelf(context);
+		Control::DrawSelf(context);
 
 		scrollBar->Render();
 	}
@@ -271,7 +271,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
@@ -299,7 +299,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::OnMouseClick(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseClick(mouse);
+		Control::OnMouseClick(mouse);
 
 		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Location))
 		{
@@ -313,7 +313,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::OnMouseScroll(const MouseMessage &mouse)
 	{
-		ContainerControl::OnMouseScroll(mouse);
+		Control::OnMouseScroll(mouse);
 
 		int newScrollValue = scrollBar->GetValue() + mouse.Delta;
 		if (newScrollValue < 0)
@@ -329,7 +329,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyDown(const KeyboardMessage &keyboard)
 	{
-		if (!ContainerControl::OnKeyDown(keyboard))
+		if (!Control::OnKeyDown(keyboard))
 		{
 			switch (keyboard.GetKeyCode())
 			{
@@ -385,7 +385,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyPress(const KeyboardMessage &keyboard)
 	{
-		if (!ContainerControl::OnKeyPress(keyboard))
+		if (!Control::OnKeyPress(keyboard))
 		{
 			if (keyboard.IsAlphaNumeric())
 			{

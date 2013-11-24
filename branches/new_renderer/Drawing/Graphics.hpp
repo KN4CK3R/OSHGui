@@ -23,7 +23,7 @@ namespace OSHGui
 		class OSHGUI_EXPORT Graphics
 		{
 		public:
-			Graphics(GeometryBufferPtr &buffer);
+			Graphics(GeometryBuffer &buffer);
 			~Graphics();
 
 			/**
@@ -158,7 +158,7 @@ namespace OSHGui
 			void DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area, const RectangleF &clip);
 
 		private:
-			GeometryBufferPtr &buffer;
+			GeometryBuffer &buffer;
 		};
 	}
 }

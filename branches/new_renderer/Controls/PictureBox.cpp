@@ -70,7 +70,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(geometry);
+		Graphics g(*geometry);
 
 		if (GetBackColor().A > 0)
 		{

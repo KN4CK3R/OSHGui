@@ -9,10 +9,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Graphics::Graphics(GeometryBufferPtr &buffer)
+		Graphics::Graphics(GeometryBuffer &buffer)
 			: buffer(buffer)
 		{
-			buffer->SetClippingActive(false);
+			buffer.SetClippingActive(false);
 		}
 		//---------------------------------------------------------------------------
 		Graphics::~Graphics()
@@ -22,34 +22,34 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Graphics::SetClip(const RectangleF &clip)
 		{
-			buffer->SetClippingRegion(clip);
-			buffer->SetClippingActive(true);
+			buffer.SetClippingRegion(clip);
+			buffer.SetClippingActive(true);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime Functions
 		//---------------------------------------------------------------------------
 		void Graphics::Clear()
 		{
-			buffer->Reset();
+			buffer.Reset();
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::Rotate(const PointF &pivot, const Vector &angles)
 		{
-			buffer->SetPivot(Vector(pivot.X, pivot.Y, 0.0f));
-			buffer->SetRotation(Quaternion::EulerAnglesDegrees(angles.x, angles.y, angles.z));
+			buffer.SetPivot(Vector(pivot.X, pivot.Y, 0.0f));
+			buffer.SetRotation(Quaternion::EulerAnglesDegrees(angles.x, angles.y, angles.z));
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::DrawLine(const Color &color, const PointF &from, const PointF &to)
 		{
-			buffer->SetVertexDrawMode(VertexDrawMode::LineList);
+			buffer.SetVertexDrawMode(VertexDrawMode::LineList);
 
 			Vertex vertices[] = {
 				{ Vector(from.X, from.Y, 0.0f), color },
 				{ Vector(to.X, to.Y, 0.0f), color }
 			};
-			buffer->AppendGeometry(vertices, 2);
+			buffer.AppendGeometry(vertices, 2);
 
-			buffer->SetVertexDrawMode(VertexDrawMode::TriangleList);
+			buffer.SetVertexDrawMode(VertexDrawMode::TriangleList);
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::DrawRectangle(const Color &color, const PointF &origin, const SizeF &size)
@@ -90,7 +90,7 @@ namespace OSHGui
 				{ Vector(x, y + height, 0.0f), color },
 				{ Vector(x + width, y, 0.0f), color }
 			};
-			buffer->AppendGeometry(vertices, 6);
+			buffer.AppendGeometry(vertices, 6);
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::FillRectangleGradient(const ColorRectangle &colors, const PointF &origin, const SizeF &size)
@@ -113,7 +113,7 @@ namespace OSHGui
 				{ Vector(x, y + height, 0.0f), colors.BottomLeft },
 				{ Vector(x + width, y, 0.0f), colors.TopRight }
 			};
-			buffer->AppendGeometry(vertices, 6);
+			buffer.AppendGeometry(vertices, 6);
 		}
 		//---------------------------------------------------------------------------
 		void Graphics::FillPolygon(const std::vector<PointF> &vertices, const Color &color)
@@ -265,9 +265,9 @@ namespace OSHGui
 
 		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, const PointF &origin)
 		{
-			font->DrawText(*buffer, text, origin, nullptr, color);
+			font->DrawText(buffer, text, origin, nullptr, color);
 
-			buffer->SetActiveTexture(nullptr);
+			buffer.SetActiveTexture(nullptr);
 		}
 
 		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y)
@@ -287,14 +287,14 @@ namespace OSHGui
 
 		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const RectangleF &area)
 		{
-			image->Render(*buffer, area, nullptr, color);
+			image->Render(buffer, area, nullptr, color);
 
-			buffer->SetActiveTexture(nullptr);
+			buffer.SetActiveTexture(nullptr);
 		}
 
 		void Graphics::DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area, const RectangleF &clip)
 		{
-			image->Render(*buffer, area, &clip.OffsetEx(area.GetLocation()), color);
+			image->Render(buffer, area, &clip.OffsetEx(area.GetLocation()), color);
 		}
 	}
 }
