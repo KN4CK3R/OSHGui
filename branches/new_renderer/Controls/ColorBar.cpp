@@ -1,13 +1,14 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
 
 #include "ColorBar.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Misc/Intersection.hpp"
 
 namespace OSHGui
 {
@@ -80,11 +81,6 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool ColorBar::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
 	//---------------------------------------------------------------------------
 	void ColorBar::UpdateBars()
 	{

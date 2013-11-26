@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -25,7 +25,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Form::Form()
 		: isModal(false),
-		  dialogResult(DialogResult::ResultNone)
+		  dialogResult(DialogResult::None)
 	{
 		type = ControlType::Form;
 		
@@ -47,11 +47,6 @@ namespace OSHGui
 		SetSize(DefaultSize);
 
 		ApplyTheme(Application::Instance()->GetTheme());
-	}
-	//---------------------------------------------------------------------------
-	Form::~Form()
-	{
-
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -187,11 +182,6 @@ namespace OSHGui
 		crossAbsoluteLocation = absoluteLocation + DefaultCrossOffset;
 
 		geometry->SetTranslation(Drawing::Vector(crossAbsoluteLocation.X, crossAbsoluteLocation.Y, 0.0f));
-	}
-	//---------------------------------------------------------------------------
-	bool Form::CaptionBar::CaptionBarButton::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::OnMouseUp(const MouseMessage &mouse)

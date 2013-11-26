@@ -30,35 +30,35 @@ namespace OSHGui
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Nothing.
 		 */
-		ResultNone,
+		None,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist OK (üblicherweise von der Schaltfläche OK gesendet).
 		 */
-		ResultOK,
+		OK,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Cancel (üblicherweise von der Schaltfläche Abbrechen gesendet).
 		 */
-		ResultCancel,
+		Cancel,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Abort (üblicherweise von der Schaltfläche Abbrechen gesendet).
 		 */
-		ResultAbort,
+		Abort,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Retry (üblicherweise von der Schaltfläche Wiederholen gesendet).
 		 */
-		ResultRetry,
+		Retry,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Ignore (üblicherweise von der Schaltfläche Ignorieren gesendet).
 		 */
-		ResultIgnore,
+		Ignore,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist Yes (üblicherweise von der Schaltfläche Ja gesendet).
 		 */
-		ResultYes,
+		Yes,
 		/**
 		 * Der Rückgabewert des Dialogfelds ist No (üblicherweise von der Schaltfläche Nein gesendet).
 		 */
-		ResultNo
+		No
 	};
 
 	/**
@@ -75,8 +75,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Form();
-		virtual ~Form();
-
+		
 		/**
 		 * Ruft ab, ob die Form modal dargestellt wird.
 		 *
@@ -186,7 +185,6 @@ namespace OSHGui
 				CaptionBarButton();
 
 				virtual void CalculateAbsoluteLocation() override;
-				virtual bool Intersect(const Drawing::PointF &point) const override;
 
 			protected:
 				virtual void PopulateGeometry() override;

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -32,11 +32,6 @@ namespace OSHGui
 		ApplyTheme(Application::Instance()->GetTheme());
 
 		canRaiseEvents = false;
-	}
-	//---------------------------------------------------------------------------
-	GroupBox::~GroupBox()
-	{
-
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -78,11 +73,6 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool GroupBox::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
 	//---------------------------------------------------------------------------
 	void GroupBox::AddControl(Control *control)
 	{

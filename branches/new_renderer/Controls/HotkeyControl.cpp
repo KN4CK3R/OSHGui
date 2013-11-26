@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -12,6 +12,7 @@
 #include "HotkeyControl.hpp"
 #include "TextBox.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Misc/Intersection.hpp"
 
 namespace OSHGui
 {
@@ -354,11 +355,6 @@ namespace OSHGui
 			auto modifierText = ModifierToString(modifier);
 			textBox->SetText(modifierText);
 		}
-	}
-	//---------------------------------------------------------------------------
-	bool HotkeyControl::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::CalculateAbsoluteLocation()

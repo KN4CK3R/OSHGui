@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,6 +9,7 @@
 #include "ListBox.hpp"
 #include "ScrollBar.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Misc/Intersection.hpp"
 
 namespace OSHGui
 {
@@ -316,11 +317,6 @@ namespace OSHGui
 		realSize = size;
 
 		Button::SetSize(size.InflateEx(-24, 0));
-	}
-	//---------------------------------------------------------------------------
-	bool ComboBox::ComboBoxButton::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, realSize, point);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::ComboBoxButton::CalculateLabelLocation()

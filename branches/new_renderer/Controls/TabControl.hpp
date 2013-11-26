@@ -115,13 +115,6 @@ namespace OSHGui
 		void RemoveTabPage(TabPage *tabPage);
 		
 		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * \param point
-		 * \return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
-		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation() override;
@@ -162,7 +155,6 @@ namespace OSHGui
 			void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 
-			virtual bool Intersect(const Drawing::PointF &point) const override;
 			virtual void CalculateAbsoluteLocation() override;
 
 		protected:
@@ -189,8 +181,6 @@ namespace OSHGui
 			static const Drawing::SizeF DefaultSize;
 
 			TabControlSwitchButton(int direction);
-
-			virtual bool Intersect(const Drawing::PointF &point) const override;
 
 		protected:
 			virtual void PopulateGeometry() override;

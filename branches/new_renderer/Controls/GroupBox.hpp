@@ -28,7 +28,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		GroupBox();
-		virtual ~GroupBox();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -67,13 +66,6 @@ namespace OSHGui
 		 */
 		virtual const std::deque<Control*>& GetControls() const override;
 		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * \param point
-		 * \return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *

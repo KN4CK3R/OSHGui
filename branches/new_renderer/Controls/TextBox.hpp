@@ -32,7 +32,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TextBox();
-		virtual ~TextBox();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -77,13 +76,6 @@ namespace OSHGui
 
 		virtual void ShowCaret(bool showCaret);
 		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * \param point
-		 * \return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */

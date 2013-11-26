@@ -74,14 +74,6 @@ namespace OSHGui
 		 * \return colorChangeEvent
 		 */
 		ColorChangedEvent& GetColorChangedEvent();
-		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * \param point
-		 * \return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
 
 	private:
 		static const Drawing::SizeF DefaultSize;

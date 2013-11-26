@@ -11,6 +11,7 @@
 #include "../Drawing/FontManager.hpp"
 #include "../Drawing/Vector.hpp"
 #include "../Misc/ReverseIterator.hpp"
+#include "../Misc/Intersection.hpp"
 
 namespace OSHGui
 {
@@ -689,7 +690,7 @@ namespace OSHGui
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
 
-		for (auto &control : GetControls())
+		for (auto &control : internalControls) //?
 		{
 			control->ApplyTheme(theme);
 		}

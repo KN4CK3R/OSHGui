@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -34,11 +34,6 @@ namespace OSHGui
 		SetSize(DefaultSize);
 		
 		cursor = Cursors::Get(Cursors::IBeam);
-	}
-	//---------------------------------------------------------------------------
-	TextBox::~TextBox()
-	{
-
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -106,11 +101,6 @@ namespace OSHGui
 	void TextBox::ShowCaret(bool showCaret)
 	{
 		this->showCaret = showCaret;
-	}
-	//---------------------------------------------------------------------------
-	bool TextBox::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void TextBox::CalculateAbsoluteLocation()

@@ -23,14 +23,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Panel();
-		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * \param point
-		 * \return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
 
 	protected:
 		virtual void PopulateGeometry() override;

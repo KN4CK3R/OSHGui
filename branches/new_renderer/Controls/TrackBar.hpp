@@ -31,7 +31,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TrackBar();
-		virtual ~TrackBar();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -94,13 +93,6 @@ namespace OSHGui
 		 */
 		ValueChangedEvent& GetValueChangedEvent();
 		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * \param point
-		 * \return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */

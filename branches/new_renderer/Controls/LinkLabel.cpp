@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -24,17 +24,7 @@ namespace OSHGui
 		ApplyTheme(Application::Instance()->GetTheme());
 	}
 	//---------------------------------------------------------------------------
-	LinkLabel::~LinkLabel()
-	{
-
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool LinkLabel::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
 	//---------------------------------------------------------------------------
 	void LinkLabel::PopulateGeometry()
 	{

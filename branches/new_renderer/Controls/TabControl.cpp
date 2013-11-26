@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -279,11 +279,6 @@ namespace OSHGui
 		CalculateButtonLocationAndCount();
 	}
 	//---------------------------------------------------------------------------
-	bool TabControl::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
-	//---------------------------------------------------------------------------
 	void TabControl::CalculateAbsoluteLocation()
 	{
 		Control::CalculateAbsoluteLocation();
@@ -422,11 +417,6 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	bool TabControl::TabControlButton::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
-	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::CalculateAbsoluteLocation()
 	{
 		Control::CalculateAbsoluteLocation();
@@ -482,11 +472,6 @@ namespace OSHGui
 		: direction(_direction)
 	{
 		SetSize(DefaultSize);
-	}
-	//---------------------------------------------------------------------------
-	bool TabControl::TabControlSwitchButton::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlSwitchButton::PopulateGeometry()

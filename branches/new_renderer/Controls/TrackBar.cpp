@@ -1,13 +1,14 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
 
 #include "TrackBar.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Misc/Intersection.hpp"
 
 namespace OSHGui
 {
@@ -33,11 +34,6 @@ namespace OSHGui
 		SetValueInternal(0);
 
 		ApplyTheme(Application::Instance()->GetTheme());
-	}
-	//---------------------------------------------------------------------------
-	TrackBar::~TrackBar()
-	{
-
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -108,11 +104,6 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	bool TrackBar::Intersect(const Drawing::PointF &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{

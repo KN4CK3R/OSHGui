@@ -37,8 +37,6 @@
 
 #include "../Cursor/Cursors.hpp"
 
-#include "../Intersection.hpp"
-
 namespace OSHGui
 {
 	/**
