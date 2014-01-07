@@ -19,11 +19,11 @@ namespace OSHGui
 
 			while (!mouseMessages.IsEmpty())
 			{
-				app->ProcessMouseMessage(mouseMessages.pop());
+				app->ProcessMouseMessage(mouseMessages.Pop());
 			}
 			while (!keyboardMessages.IsEmpty())
 			{
-				app->ProcessKeyboardMessage(keyboardMessages.pop());
+				app->ProcessKeyboardMessage(keyboardMessages.Pop());
 			}
 		}
 		//---------------------------------------------------------------------------
