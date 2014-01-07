@@ -6,10 +6,10 @@
  * See license in OSHGui.hpp
  */
 
-#ifndef OSHGUI_MISC_CONCURRENDBOUNDEDBUFFER_HPP
-#define OSHGUI_MISC_CONCURRENDBOUNDEDBUFFER_HPP
+#ifndef OSHGUI_MISC_CONCURRENDQUEUE_HPP
+#define OSHGUI_MISC_CONCURRENDQUEUE_HPP
 
-#include <array>
+#include <queue>
 #include <mutex>
 #include <condition_variable>
 
@@ -17,83 +17,62 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		template<typename T, size_t Size>
-		class BoundedBuffer
+		template<typename T>
+		class ConcurrendQueue
 		{
 		public:
-			typedef size_t size_type;
-			typedef T& reference;
-			typedef const T& const_reference;
-
-			BoundedBuffer()
-				: front(0),
-				  rear(0),
-				  count(0)
-			{
-
-			}
-
-			void Push(const_reference v)
+			void Push(const T &item)
 			{
 				std::unique_lock<std::mutex> lock(mutex);
-
-				not_full.wait(lock, [this]() { return count != Size; });
-
-				buffer[rear] = v;
-				rear = (rear + 1) % Size;
-				++count;
-				not_empty.notify_one();
+				
+				queue.push(item);
+				lock.unlock();
+				condition.notify_one();
 			}
 
-			reference Get()
+			void Push(T&& item)
 			{
 				std::unique_lock<std::mutex> lock(mutex);
-
-				not_empty.wait(lock, [this]() { return count != 0; });
-
-				reference result = buffer[front];
-				front = (front + 1) % Size;
-				--count;
-
-				not_full.notify_one();
-
-				return result;
+				
+				queue.push(std::move(item));
+				lock.unlock();
+				condition.notify_one();
 			}
 
-			const_reference Get() const
+			T Pop()
 			{
 				std::unique_lock<std::mutex> lock(mutex);
-
-				not_empty.wait(lock, [this]() { return count != 0; });
-
-				const_reference result = buffer[front];
-				front = (front + 1) % Size;
-				--count;
-
-				not_full.notify_one();
-
-				return result;
+				
+				while (queue.empty())
+				{
+					condition.wait(lock);
+				}
+				
+				auto item = queue.front();
+				queue.pop();
+				return item;
 			}
 
-			size_type size() const
+			void Pop(T &item)
 			{
-				return count;
+				std::unique_lock<std::mutex> lock(mutex);
+				while (queue.empty())
+				{
+					condition.wait(mlock);
+				}
+				item = queue_.front();
+				queue.pop();
 			}
 
-			bool empty() const
+			bool IsEmpty() const
 			{
-				return count == 0;
+				return queue.empty();
 			}
 
 		private:
-			int front;
-			int rear;
-			int count;
-			std::array<T, Size> buffer;
-
+			std::queue<T> queue;
 			std::mutex mutex;
-			std::condition_variable not_full;
-			std::condition_variable not_empty;
+			std::condition_variable condition;
 		};
 	}
 }

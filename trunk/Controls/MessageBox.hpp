@@ -14,6 +14,12 @@
 #include "Form.hpp"
 #include "../Misc/Strings.hpp"
 
+#ifdef _MSC_VER
+#ifdef MessageBox
+#undef MessageBox
+#endif
+#endif
+
 namespace OSHGui
 {
 	/**
