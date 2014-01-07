@@ -14,7 +14,7 @@
 #include <Windows.h>
 #include "../Exports.hpp"
 #include "WindowsMessage.hpp"
-#include "../Misc/ConcurrendBoundedBuffer.hpp"
+#include "../Misc/ConcurrendQueue.hpp"
 #include "../Event/MouseMessage.hpp"
 #include "../Event/KeyboardMessage.hpp"
 
