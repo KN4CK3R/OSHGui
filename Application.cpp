@@ -13,6 +13,7 @@
 #include "FormManager.hpp"
 #include "TimerManager.hpp"
 #include "Cursor/Cursors.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {

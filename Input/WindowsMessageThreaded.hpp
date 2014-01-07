@@ -14,6 +14,7 @@
 #include <Windows.h>
 #include "../Exports.hpp"
 #include "WindowsMessage.hpp"
+#include "../Misc/ConcurrendBoundedBuffer.hpp"
 #include "../Event/MouseMessage.hpp"
 #include "../Event/KeyboardMessage.hpp"
 
@@ -30,11 +31,13 @@ namespace OSHGui
 			void PopulateMessages();
 
 		protected:
-			virtual bool InjectMouseMessage(MouseMessage &mouse) override;
-			virtual bool InjectKeyboardMessage(KeyboardMessage &keyboard) override;
+			virtual bool InjectMouseMessage(MouseMessage &&mouse) override;
+			virtual bool InjectKeyboardMessage(KeyboardMessage &&keyboard) override;
 
 		private:
+			typedef Misc::ConcurrendQueue<MouseMessage> MouseMessageQueue;
 			MouseMessageQueue mouseMessages;
+			typedef Misc::ConcurrendQueue<KeyboardMessage> KeyboardMessageQueue;
 			KeyboardMessageQueue keyboardMessages;
 		};
 	}

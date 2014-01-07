@@ -11,7 +11,6 @@
 
 #include "Key.hpp"
 #include "../Misc/Strings.hpp"
-#include "../Misc/ConcurrendBoundedBuffer.hpp"
 
 namespace OSHGui
 {
@@ -105,8 +104,6 @@ namespace OSHGui
 		Key::Keys keyData;
 
 	};
-
-	typedef Misc::BoundedBuffer<KeyboardMessage, 20> KeyboardMessageQueue;
 }
 
 #endif
