@@ -36,8 +36,8 @@ namespace OSHGui
 			bool ProcessMessage(LPMSG message);
 
 		protected:
-			virtual bool InjectMouseMessage(MouseMessage &mouse);
-			virtual bool InjectKeyboardMessage(KeyboardMessage &keyboard);
+			virtual bool InjectMouseMessage(MouseMessage &&mouse);
+			virtual bool InjectKeyboardMessage(KeyboardMessage &&keyboard);
 
 		private:
 			static const int SystemDefaultCharSize = 2;

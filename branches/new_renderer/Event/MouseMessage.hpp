@@ -11,7 +11,6 @@
 
 #include "../Drawing/Point.hpp"
 #include "MouseButton.hpp"
-#include "../Misc/ConcurrendBoundedBuffer.hpp"
 
 namespace OSHGui
 {
@@ -76,8 +75,6 @@ namespace OSHGui
 		Drawing::PointF location;
 		int delta;
 	};
-
-	typedef Misc::BoundedBuffer<MouseMessage, 20> MouseMessageQueue;
 }
 
 #endif

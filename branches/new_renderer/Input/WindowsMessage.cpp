@@ -88,7 +88,7 @@ namespace OSHGui
 
 					lastMouseLocation = mouse.Location;
 
-					return InjectMouseMessage(mouse);
+					return InjectMouseMessage(std::move(mouse));
 				}
 				case WM_KEYDOWN:
 				case WM_SYSKEYDOWN:
@@ -146,12 +146,12 @@ namespace OSHGui
 			return false;
 		}
 		//---------------------------------------------------------------------------
-		bool WindowsMessage::InjectMouseMessage(MouseMessage &mouse)
+		bool WindowsMessage::InjectMouseMessage(MouseMessage &&mouse)
 		{
 			return Application::Instance()->ProcessMouseMessage(mouse);
 		}
 		//---------------------------------------------------------------------------
-		bool WindowsMessage::InjectKeyboardMessage(KeyboardMessage &keyboard)
+		bool WindowsMessage::InjectKeyboardMessage(KeyboardMessage &&keyboard)
 		{
 			return Application::Instance()->ProcessKeyboardMessage(keyboard);
 		}

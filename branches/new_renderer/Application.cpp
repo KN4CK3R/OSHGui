@@ -12,6 +12,7 @@
 #include "Misc/Exceptions.hpp"
 #include "FormManager.hpp"
 #include "Cursor/Cursors.hpp"
+#include <algorithm>
 
 #include "FreeImage.h"
 
