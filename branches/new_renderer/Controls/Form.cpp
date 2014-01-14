@@ -46,7 +46,7 @@ namespace OSHGui
 		SetLocation(DefaultLocation);
 		SetSize(DefaultSize);
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -107,7 +107,7 @@ namespace OSHGui
 	{
 		this->instance = std::weak_ptr<Form>(instance);
 	
-		Application::Instance()->formManager.RegisterForm(instance);
+		Application::Instance().formManager.RegisterForm(instance);
 
 		isVisible = true;
 		isEnabled = true;
@@ -126,7 +126,7 @@ namespace OSHGui
 
 		this->instance = std::weak_ptr<Form>(instance);
 	
-		Application::Instance()->formManager.RegisterForm(this->instance.lock(), closeFunction);
+		Application::Instance().formManager.RegisterForm(this->instance.lock(), closeFunction);
 
 		isVisible = true;
 		isEnabled = true;
@@ -140,7 +140,7 @@ namespace OSHGui
 		formClosingEvent.Invoke(this, canClose);
 		if (canClose)
 		{
-			Application::Instance()->formManager.UnregisterForm(instance.lock());
+			Application::Instance().formManager.UnregisterForm(instance.lock());
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -227,7 +227,7 @@ namespace OSHGui
 		
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
 		ClearHotkey();
 	}

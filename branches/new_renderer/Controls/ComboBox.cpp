@@ -136,7 +136,7 @@ namespace OSHGui
 
 		SetSize(160, 24);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

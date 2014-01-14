@@ -25,7 +25,7 @@ namespace OSHGui
 		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

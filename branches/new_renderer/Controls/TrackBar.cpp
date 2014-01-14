@@ -33,7 +33,7 @@ namespace OSHGui
 
 		SetValueInternal(0);
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

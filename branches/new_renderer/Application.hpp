@@ -46,7 +46,7 @@ namespace OSHGui
 		 *
 		 * \param renderer Instanz des verwendeten Renderers
 		 */
-		static void Create(Drawing::RendererPtr renderer);
+		static void Create(Drawing::Renderer &renderer);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -65,7 +65,7 @@ namespace OSHGui
 		 *
 		 * \return renderer
 		 */
-		Drawing::RendererPtr GetRenderer() const;
+		Drawing::Renderer& GetRenderer() const;
 
 		/**
 		 * Ruft das RenderSurface der Gui ab.
@@ -181,7 +181,7 @@ namespace OSHGui
 		 *
 		 * \return instance
 		 */
-		static Application* Instance();
+		static Application& Instance();
 
 		class GuiRenderSurface : public Drawing::RenderSurface
 		{
@@ -200,11 +200,11 @@ namespace OSHGui
 
 	private:
 		static Application *instance;
-		Application(Drawing::RendererPtr renderer);
+		Application(Drawing::Renderer &renderer);
 
 		void InjectTime();
 
-		Drawing::RendererPtr renderer;
+		Drawing::Renderer &renderer;
 		GuiRenderSurface guiSurface;
 		Drawing::FontPtr defaultFont;
 		

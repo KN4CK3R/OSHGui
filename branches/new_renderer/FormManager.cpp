@@ -160,7 +160,7 @@ namespace OSHGui
 				}
 				else
 				{
-					Application::Instance()->Disable();
+					Application::Instance().Disable();
 				}
 				return;
 			}

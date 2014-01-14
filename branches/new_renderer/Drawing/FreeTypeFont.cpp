@@ -116,7 +116,7 @@ namespace OSHGui
 		uint32_t FreeTypeFont::GetTextureSize(CodepointIterator start, CodepointIterator end) const
 		{
 			auto size = 32;
-			auto maximum = Application::Instance()->GetRenderer()->GetMaximumTextureSize();
+			auto maximum = Application::Instance().GetRenderer().GetMaximumTextureSize();
 			auto count = 0;
 
 			while (size < maximum)
@@ -185,7 +185,7 @@ namespace OSHGui
 					break;
 				}
 
-				auto texture = Application::Instance()->GetRenderer()->CreateTexture(SizeF(textureSize, textureSize));
+				auto texture = Application::Instance().GetRenderer().CreateTexture(SizeF(textureSize, textureSize));
 				glyphTextures.push_back(texture);
 
 				std::vector<uint32_t> buffer(textureSize * textureSize);
@@ -339,8 +339,8 @@ namespace OSHGui
 				throw Misc::Exception();
 			}
 
-			auto dpiHorizontal = static_cast<uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().X);
-			auto dpiVertical = static_cast<uint32_t>(Application::Instance()->GetRenderer()->GetDisplayDPI().Y);
+			auto dpiHorizontal = static_cast<uint32_t>(Application::Instance().GetRenderer().GetDisplayDPI().X);
+			auto dpiVertical = static_cast<uint32_t>(Application::Instance().GetRenderer().GetDisplayDPI().Y);
 
 			auto hps = pointSize * 64.0f;
 			auto vps = pointSize * 64.0f;

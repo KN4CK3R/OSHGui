@@ -49,7 +49,7 @@ namespace OSHGui
 		SetSize(DefaultSize);
 		trackLocation = Drawing::PointF(0, upButton->GetBottom() + 1);
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
 		SetMaximum(0); //indirect init
 		isFocusable = false;

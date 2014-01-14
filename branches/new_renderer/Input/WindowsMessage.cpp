@@ -148,12 +148,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool WindowsMessage::InjectMouseMessage(MouseMessage &&mouse)
 		{
-			return Application::Instance()->ProcessMouseMessage(mouse);
+			return Application::Instance().ProcessMouseMessage(mouse);
 		}
 		//---------------------------------------------------------------------------
 		bool WindowsMessage::InjectKeyboardMessage(KeyboardMessage &&keyboard)
 		{
-			return Application::Instance()->ProcessKeyboardMessage(keyboard);
+			return Application::Instance().ProcessKeyboardMessage(keyboard);
 		}
 		//---------------------------------------------------------------------------
 	}

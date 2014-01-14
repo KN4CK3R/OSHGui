@@ -16,7 +16,7 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Cursor::Cursor()
-		: geometry(Application::Instance()->GetRenderer()->CreateGeometryBuffer())
+		: geometry(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
 		
 	}

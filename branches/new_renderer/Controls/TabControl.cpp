@@ -11,6 +11,7 @@
 #include "Label.hpp"
 #include "../Misc/TextHelper.hpp"
 #include "../Misc/Exceptions.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {
@@ -52,7 +53,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
 		canRaiseEvents = false;
 	}

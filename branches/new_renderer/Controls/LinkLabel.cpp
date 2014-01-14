@@ -21,7 +21,7 @@ namespace OSHGui
 
 		canRaiseEvents = true;
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions

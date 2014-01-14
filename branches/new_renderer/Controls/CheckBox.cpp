@@ -31,7 +31,7 @@ namespace OSHGui
 		label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
 		label->SetBackColor(Drawing::Color::Empty());
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

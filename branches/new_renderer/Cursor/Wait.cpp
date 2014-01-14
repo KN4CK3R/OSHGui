@@ -17,7 +17,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//WaitCursor::WaitCursor()
 	//{
-		//cursor = Application::Instance()->GetRenderer()->CreateNewTexture(16, 16, 14);
+		//cursor = Application::Instance().GetRenderer()->CreateNewTexture(16, 16, 14);
 	
 		//Initialize();
 

@@ -12,6 +12,7 @@
 #include "../Drawing/Vector.hpp"
 #include "../Misc/ReverseIterator.hpp"
 #include "../Misc/Intersection.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {
@@ -36,7 +37,7 @@ namespace OSHGui
 		  needsRedraw(true),
 		  cursor(nullptr),
 		  mouseOverFocusColor(0, 20, 20, 20),
-		  geometry(Application::Instance()->GetRenderer()->CreateGeometryBuffer())
+		  geometry(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
 		
 	}
@@ -45,11 +46,11 @@ namespace OSHGui
 	{
 		if (isInside)
 		{
-			Application::Instance()->MouseEnteredControl = nullptr;
+			Application::Instance().MouseEnteredControl = nullptr;
 		}
 		if (isFocused)
 		{
-			Application::Instance()->FocusedControl = nullptr;
+			Application::Instance().FocusedControl = nullptr;
 		}
 
 		for (auto &control : internalControls)
@@ -320,7 +321,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::FontPtr& Control::GetFont() const
 	{
-		return font ? font : parent ? parent->GetFont() : Application::Instance()->GetDefaultFont();
+		return font ? font : parent ? parent->GetFont() : Application::Instance().GetDefaultFont();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetCursor(const CursorPtr &cursor)
@@ -452,7 +453,7 @@ namespace OSHGui
 		}
 		else
 		{
-			context.Surface = &Application::Instance()->GetRenderSurface();
+			context.Surface = &Application::Instance().GetRenderSurface();
 			context.Owner = nullptr;
 			context.Offset = Drawing::PointF(0.0f, 0.0f);
 			context.QueueType = Drawing::RenderQueueType::Base;
@@ -518,12 +519,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::AddControl(Control *control)
 	{
-#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (control == nullptr)
 		{
 			throw Misc::ArgumentNullException("control");
 		}
-#endif
+		#endif
 
 		if (control->GetType() == ControlType::Form)
 		{
@@ -546,12 +547,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::AddSubControl(Control *subcontrol)
 	{
-#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (subcontrol == nullptr)
 		{
 			throw Misc::ArgumentNullException("subcontrol");
 		}
-#endif
+		#endif
 
 		if (subcontrol->GetType() == ControlType::Form)
 		{
@@ -606,7 +607,7 @@ namespace OSHGui
 	{
 		needsRedraw = true;
 
-		Application::Instance()->GetRenderSurface().Invalidate();
+		Application::Instance().GetRenderSurface().Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::Render()
@@ -690,7 +691,7 @@ namespace OSHGui
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
 
-		for (auto &control : internalControls) //?
+		for (auto &control : controls) //?
 		{
 			control->ApplyTheme(theme);
 		}
@@ -782,17 +783,17 @@ namespace OSHGui
 	{
 		isInside = true;
 
-		auto app = Application::Instance();
+		auto &app = Application::Instance();
 
-		if (app->MouseEnteredControl != nullptr && app->MouseEnteredControl->isInside)
+		if (app.MouseEnteredControl != nullptr && app.MouseEnteredControl->isInside)
 		{
-			app->MouseEnteredControl->OnMouseLeave(mouse);
+			app.MouseEnteredControl->OnMouseLeave(mouse);
 		}
-		app->MouseEnteredControl = this;
+		app.MouseEnteredControl = this;
 
 		mouseEnterEvent.Invoke(this);
 
-		app->SetCursor(GetCursor());
+		app.SetCursor(GetCursor());
 
 		Invalidate();
 	}
@@ -801,7 +802,7 @@ namespace OSHGui
 	{
 		isInside = false;
 
-		Application::Instance()->MouseEnteredControl = nullptr;
+		Application::Instance().MouseEnteredControl = nullptr;
 
 		mouseLeaveEvent.Invoke(this);
 
@@ -810,12 +811,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnGotMouseCapture()
 	{
-		auto app = Application::Instance();
-		if (app->CaptureControl != nullptr)
+		auto &app = Application::Instance();
+		if (app.CaptureControl != nullptr)
 		{
-			app->CaptureControl->OnLostMouseCapture();
+			app.CaptureControl->OnLostMouseCapture();
 		}
-		app->CaptureControl = this;
+		app.CaptureControl = this;
 		hasCaptured = true;
 
 		isClicked = false;
@@ -827,22 +828,22 @@ namespace OSHGui
 	{
 		hasCaptured = false;
 
-		Application::Instance()->CaptureControl = nullptr;
+		Application::Instance().CaptureControl = nullptr;
 
 		mouseCaptureChangedEvent.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus(Control *newFocusedControl)
 	{
-		auto app = Application::Instance();
-		if (newFocusedControl != app->FocusedControl)
+		auto &app = Application::Instance();
+		if (newFocusedControl != app.FocusedControl)
 		{
-			if (app->FocusedControl != nullptr)
+			if (app.FocusedControl != nullptr)
 			{
-				app->FocusedControl->OnLostFocus(newFocusedControl);
+				app.FocusedControl->OnLostFocus(newFocusedControl);
 			}
 
-			app->FocusedControl = newFocusedControl;
+			app.FocusedControl = newFocusedControl;
 			isFocused = true;
 
 			focusGotEvent.Invoke(this);
@@ -854,7 +855,8 @@ namespace OSHGui
 	void Control::OnLostFocus(Control *newFocusedControl)
 	{
 		isFocused = isClicked = false;
-		Application::Instance()->FocusedControl = nullptr;
+		
+		Application::Instance().FocusedControl = nullptr;
 
 		focusLostEvent.Invoke(this, newFocusedControl);
 

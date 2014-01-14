@@ -49,7 +49,7 @@ namespace OSHGui
 		
 		maxVisibleItems = GetHeight() / (GetFont()->GetFontHeight() + DefaultItemPadding);
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	ListBox::~ListBox()

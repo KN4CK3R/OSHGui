@@ -15,15 +15,15 @@ namespace OSHGui
 	{
 		void WindowsMessageThreaded::PopulateMessages()
 		{
-			auto app = Application::Instance();
+			auto &app = Application::Instance();
 
 			while (!mouseMessages.IsEmpty())
 			{
-				app->ProcessMouseMessage(mouseMessages.Pop());
+				app.ProcessMouseMessage(mouseMessages.Pop());
 			}
 			while (!keyboardMessages.IsEmpty())
 			{
-				app->ProcessKeyboardMessage(keyboardMessages.Pop());
+				app.ProcessKeyboardMessage(keyboardMessages.Pop());
 			}
 		}
 		//---------------------------------------------------------------------------

@@ -20,9 +20,9 @@ namespace OSHGui
 {
 	Application* Application::instance = nullptr;
 	//---------------------------------------------------------------------------
-	Application::Application(Drawing::RendererPtr _renderer)
-		: renderer(std::move(_renderer)),
-		  guiSurface(*renderer->GetDefaultRenderTarget()),
+	Application::Application(Drawing::Renderer &_renderer)
+		: renderer(_renderer),
+		  guiSurface(*renderer.GetDefaultRenderTarget()),
 		  isEnabled(false),
 		  now(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
@@ -57,26 +57,21 @@ namespace OSHGui
 		SetTheme(defaultTheme);
 	}
 	//---------------------------------------------------------------------------
-	Application* Application::Instance()
+	Application& Application::Instance()
 	{
-		return instance;
+		return *instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::RendererPtr renderer)
+	void Application::Create(Drawing::Renderer &renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (instance)
 		{
 			throw Misc::InvalidOperationException("only one instance");
 		}
-
-		if (renderer == nullptr)
-		{
-			throw Misc::ArgumentNullException("renderer");
-		}
 		#endif
 
-		instance = new Application(std::move(renderer));
+		instance = new Application(renderer);
 
 		instance->mouse.Enabled = true;
 		instance->SetCursor(Cursors::Get(Cursors::Default));
@@ -92,7 +87,7 @@ namespace OSHGui
 		return now;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::RendererPtr Application::GetRenderer() const
+	Drawing::Renderer& Application::GetRenderer() const
 	{
 		return renderer;
 	}

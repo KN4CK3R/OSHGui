@@ -57,7 +57,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		ImagePtr Image::FromBuffer(const void *data, const SizeF &size, Texture::PixelFormat format)
 		{
-			auto texture = Application::Instance()->GetRenderer()->CreateTexture();
+			auto texture = Application::Instance().GetRenderer().CreateTexture();
 			
 			texture->LoadFromMemory(data, size, format);
 
