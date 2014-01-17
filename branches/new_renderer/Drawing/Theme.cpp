@@ -57,11 +57,15 @@ namespace OSHGui
 					{
 						if (value.isArray())
 						{
-							if (value[0].isDouble() && value[1].isDouble()
-							 && value[2].isDouble() && value[3].isDouble())
+							if (value[0].isInt() && value[1].isInt()
+							 && value[2].isInt() && value[3].isInt())
 							{
-								return Color(value[0].asFloat(), value[1].asFloat(),
-											 value[2].asFloat(), value[3].asFloat());
+								return Color::FromARGB(
+									value[0].asInt(),
+									value[1].asInt(),
+									value[2].asInt(),
+									value[3].asInt()
+								);
 							}
 						}
 						else if (value.isObject() && value.size() == 4)
@@ -69,19 +73,33 @@ namespace OSHGui
 							if (value["a"].isInt() && value["r"].isInt()
 							 && value["g"].isInt() && value["b"].isInt())
 							{
-								return Color(value["a"].asInt(), value["r"].asInt(),
-											 value["g"].asInt(), value["b"].asInt());
+								return Color::FromARGB(
+									value["a"].asInt(),
+									value["r"].asInt(),
+									value["g"].asInt(),
+									value["b"].asInt()
+								);
 							}
 						}
 					}
 					else if (value.isString())
 					{
 						stringstream ss(value.asString());
-						int argb;
-						ss >> hex >> argb;
+						union
+						{
+							struct
+							{
+								uint8_t B;
+								uint8_t G;
+								uint8_t R;
+								uint8_t A;
+							};
+							uint32_t ARGB;
+						};
+						ss >> hex >> ARGB;
 						if (ss.good())
 						{
-							return Color(argb);
+							return Color::FromARGB(A, R, G, B);
 						}
 					}
 					throw Misc::InvalidThemeException("Invalid color.");
@@ -125,23 +143,35 @@ namespace OSHGui
 
 				auto ColorToJson = [](Json::Value &value, const Color &color, ColorStyle style)
 				{
+					union
+					{
+						struct
+						{
+							uint8_t B;
+							uint8_t G;
+							uint8_t R;
+							uint8_t A;
+						};
+						uint32_t ARGB;
+					};
+					ARGB = color.GetARGB();
 					switch (style)
 					{
 						case Theme::Text:
-							value["a"] = color.GetAlpha();
-							value["r"] = color.GetRed();
-							value["g"] = color.GetGreen();
-							value["b"] = color.GetBlue();
+							value["a"] = A;
+							value["r"] = R;
+							value["g"] = G;
+							value["b"] = B;
 							break;
 						case Theme::Array:
-							value.append(color.GetAlpha());
-							value.append(color.GetRed());
-							value.append(color.GetGreen());
-							value.append(color.GetBlue());
+							value.append(A);
+							value.append(R);
+							value.append(G);
+							value.append(B);
 							break;
 						case Theme::Integer:
 							stringstream ss;
-							ss << setfill('0') << setw(8) << std::hex << color.GetARGB();
+							ss << setfill('0') << setw(8) << std::hex << ARGB;
 							value = ss.str();
 							break;
 					}
