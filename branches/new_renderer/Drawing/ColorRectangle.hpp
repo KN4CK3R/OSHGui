@@ -26,14 +26,14 @@ namespace OSHGui
 			 *
 			 * \param color
 			 */
-			ColorRectangle(const Color &color);
+			ColorRectangle(Color color);
 			/**
 			 * Legt die Farbe der beiden oberen und unteren Ecken fest.
 			 *
 			 * \param top
 			 * \param bottom
 			 */
-			ColorRectangle(const Color &top, const Color &bottom);
+			ColorRectangle(Color top, Color bottom);
 			/**
 			 * Legt die Farben der Ecken fest.
 			 *
@@ -42,7 +42,7 @@ namespace OSHGui
 			 * \param bottomLeft
 			 * \param bottomRight
 			 */
-			ColorRectangle(const Color &topLeft, const Color &topRight, const Color &bottomLeft, const Color &bottomRight);
+			ColorRectangle(Color topLeft, Color topRight, Color bottomLeft, Color bottomRight);
 
 			/**
 			 * Prüft, ob das ColorRectangle monochromatisch ist.
@@ -75,7 +75,10 @@ namespace OSHGui
 			ColorRectangle& operator*=(const ColorRectangle &rhs);
 			ColorRectangle& operator*=(float rhs);
 
-			Color TopLeft, TopRight, BottomLeft, BottomRight;
+			Color TopLeft;
+			Color TopRight;
+			Color BottomLeft;
+			Color BottomRight;
 		};
 
 		const ColorRectangle operator+(const ColorRectangle &lhs, const ColorRectangle &rhs);

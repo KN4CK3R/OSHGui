@@ -269,7 +269,7 @@ namespace OSHGui
 
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		auto color = GetBackColor() + Color(0, 54, 53, 52);
+		auto color = GetBackColor() + Color::FromARGB(0, 54, 53, 52);
 		g.FillRectangle(color, PointF(1, 0), SizeF(GetWidth() - 2, 1));
 		g.FillRectangle(color, PointF(0, 1), SizeF(1, GetHeight() - 2));
 		g.FillRectangle(color, PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));

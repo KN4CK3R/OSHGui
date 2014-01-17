@@ -1,4 +1,5 @@
 #include "ColorRectangle.hpp"
+#include <utility>
 
 namespace OSHGui
 {
@@ -7,29 +8,29 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		ColorRectangle::ColorRectangle(const Color &col)
-			: TopLeft(col),
-			  TopRight(col),
-			  BottomLeft(col),
-			  BottomRight(col)
+		ColorRectangle::ColorRectangle(Color color)
+			: TopLeft(std::move(color)),
+			  TopRight(TopLeft),
+			  BottomLeft(TopLeft),
+			  BottomRight(TopLeft)
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		ColorRectangle::ColorRectangle(const Color &top, const Color &bottom)
-			: TopLeft(top),
-			  TopRight(top),
-			  BottomLeft(bottom),
-			  BottomRight(bottom)
+		ColorRectangle::ColorRectangle(Color top, Color bottom)
+			: TopLeft(std::move(top)),
+			  TopRight(TopLeft),
+			  BottomLeft(std::move(bottom)),
+			  BottomRight(BottomLeft)
 		{
 
 		}
 		//---------------------------------------------------------------------------
-		ColorRectangle::ColorRectangle(const Color &topLeft, const Color &topRight, const Color &bottomLeft, const Color &bottomRight)
-			: TopLeft(topLeft),
-			  TopRight(topRight),
-			  BottomLeft(bottomLeft),
-			  BottomRight(bottomRight)
+		ColorRectangle::ColorRectangle(Color topLeft, Color topRight, Color bottomLeft, Color bottomRight)
+			: TopLeft(std::move(topLeft)),
+			  TopRight(std::move(topRight)),
+			  BottomLeft(std::move(bottomLeft)),
+			  BottomRight(std::move(bottomRight))
 		{
 
 		}
@@ -62,30 +63,30 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		ColorRectangle& ColorRectangle::operator+=(const ColorRectangle &rhs)
 		{
-			TopLeft += rhs.TopLeft;
+			/*TopLeft += rhs.TopLeft;
 			TopRight += rhs.TopRight;
 			BottomLeft += rhs.BottomLeft;
-			BottomRight += rhs.BottomRight;
+			BottomRight += rhs.BottomRight;*/
 
 			return *this;
 		}
 		//---------------------------------------------------------------------------
 		ColorRectangle& ColorRectangle::operator*=(const ColorRectangle &rhs)
 		{
-			TopLeft *= rhs.TopLeft;
+			/*TopLeft *= rhs.TopLeft;
 			TopRight *= rhs.TopRight;
 			BottomLeft *= rhs.BottomLeft;
-			BottomRight *= rhs.BottomRight;
+			BottomRight *= rhs.BottomRight;*/
 
 			return *this;
 		}
 		//---------------------------------------------------------------------------
 		ColorRectangle& ColorRectangle::operator*=(float rhs)
 		{
-			TopLeft *= rhs;
+			/*TopLeft *= rhs;
 			TopRight *= rhs;
 			BottomLeft *= rhs;
-			BottomRight *= rhs;
+			BottomRight *= rhs;*/
 
 			return *this;
 		}

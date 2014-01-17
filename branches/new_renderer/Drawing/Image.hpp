@@ -6,8 +6,8 @@
  * See license in OSHGui.hpp
  */
 
-#ifndef OSHGUI_DRAWING_IMAGE2_HPP
-#define OSHGUI_DRAWING_IMAGE2_HPP
+#ifndef OSHGUI_DRAWING_IMAGE_HPP
+#define OSHGUI_DRAWING_IMAGE_HPP
 
 #include "../Misc/Strings.hpp"
 #include "../Misc/RawDataContainer.hpp"
@@ -23,6 +23,7 @@ namespace OSHGui
 	{
 		class Graphics;
 		class Font;
+		class CustomizableImage;
 
 		class OSHGUI_EXPORT Image
 		{
@@ -64,6 +65,13 @@ namespace OSHGui
 			 * \return the loaded image
 			 */
 			static std::shared_ptr<Image> FromMemory(Misc::RawDataContainer &data);
+			/**
+			* Loads an image from a CustomizableImage.
+			*
+			* \param image the CustomizableImage
+			* \return the loaded image
+			*/
+			static std::shared_ptr<Image> FromCustomizableImage(const CustomizableImage &image);
 			/**
 			 * Loads an image from a buffer which holds the data in the specifed format.
 			 *

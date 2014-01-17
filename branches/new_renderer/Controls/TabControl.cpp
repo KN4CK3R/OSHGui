@@ -453,15 +453,15 @@ namespace OSHGui
 
 		if (active)
 		{
-			g.FillRectangleGradient(ColorRectangle(GetBackColor() + Color(0, 43, 43, 43), GetBackColor() - Color(0, 10, 10, 10)), PointF(0, 0), GetSize());
-			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color(0, 42, 42, 42)), PointF(1, 1), GetSize() - SizeF(2, 0));
+			g.FillRectangleGradient(ColorRectangle(GetBackColor() + Color::FromARGB(0, 43, 43, 43), GetBackColor() - Color::FromARGB(0, 10, 10, 10)), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color::FromARGB(0, 42, 42, 42)), PointF(1, 1), GetSize() - SizeF(2, 0));
 		}
 		else
 		{
-			auto backInactive = (isInside ? GetBackColor() + Color(0, 50, 50, 50) : GetBackColor()) - Color(0, 47, 47, 47);
+			auto backInactive = (isInside ? GetBackColor() + Color::FromARGB(0, 50, 50, 50) : GetBackColor()) - Color::FromARGB(0, 47, 47, 47);
 
-			g.FillRectangle(backInactive + Color(0, 9, 9, 9), PointF(0, 0), GetSize());
-			g.FillRectangleGradient(ColorRectangle(backInactive, backInactive - Color(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 1));
+			g.FillRectangle(backInactive + Color::FromARGB(0, 9, 9, 9), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(backInactive, backInactive - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 1));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -481,8 +481,8 @@ namespace OSHGui
 
 		Graphics g(*geometry);
 
-		auto base = isInside ? backColor : backColor - Color(0, 47, 47, 47);
-		auto borderColor = backColor + Color(0, 9, 9, 9);
+		auto base = isInside ? backColor : backColor - Color::FromARGB(0, 47, 47, 47);
+		auto borderColor = backColor + Color::FromARGB(0, 9, 9, 9);
 
 		g.FillRectangle(borderColor, PointF(0, 0), GetSize());
 		g.FillRectangle(base, PointF(1, 1), GetSize() - SizeF(2, 2));

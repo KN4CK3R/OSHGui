@@ -34,7 +34,7 @@ namespace OSHGui
 			controlThemes.clear();
 			DefaultColor.ForeColor = Color();
 			DefaultColor.BackColor = Color();
-
+			//TODO: int ausgabe und einlesen
 			ifstream file(pathToThemeFile);
 			if (!file.bad())
 			{
@@ -57,11 +57,11 @@ namespace OSHGui
 					{
 						if (value.isArray())
 						{
-							if (value[0].isInt() && value[1].isInt()
-							 && value[2].isInt() && value[3].isInt())
+							if (value[0].isDouble() && value[1].isDouble()
+							 && value[2].isDouble() && value[3].isDouble())
 							{
-								return Color(value[0].asInt(), value[1].asInt(),
-											 value[2].asInt(), value[3].asInt());
+								return Color(value[0].asFloat(), value[1].asFloat(),
+											 value[2].asFloat(), value[3].asFloat());
 							}
 						}
 						else if (value.isObject() && value.size() == 4)
@@ -128,20 +128,20 @@ namespace OSHGui
 					switch (style)
 					{
 						case Theme::Text:
-							value["a"] = color.A;
-							value["r"] = color.R;
-							value["g"] = color.G;
-							value["b"] = color.B;
+							value["a"] = color.GetAlpha();
+							value["r"] = color.GetRed();
+							value["g"] = color.GetGreen();
+							value["b"] = color.GetBlue();
 							break;
 						case Theme::Array:
-							value.append(color.A);
-							value.append(color.R);
-							value.append(color.G);
-							value.append(color.B);
+							value.append(color.GetAlpha());
+							value.append(color.GetRed());
+							value.append(color.GetGreen());
+							value.append(color.GetBlue());
 							break;
 						case Theme::Integer:
 							stringstream ss;
-							ss << setfill('0') << setw(8) << std::hex << color.ARGB;
+							ss << setfill('0') << setw(8) << std::hex << color.GetARGB();
 							value = ss.str();
 							break;
 					}

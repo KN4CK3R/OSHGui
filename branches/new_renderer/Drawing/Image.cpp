@@ -1,5 +1,6 @@
 #include "Image.hpp"
 #include "ImageLoader.hpp"
+#include "CustomizableImage.hpp"
 #include "../Application.hpp"
 #include "../Misc/Exceptions.hpp"
 
@@ -53,6 +54,11 @@ namespace OSHGui
 			auto imageData = LoadImageFromContainerToRGBABuffer(data);
 
 			return FromBuffer(imageData.Data.data(), imageData.Size, Texture::PixelFormat::RGBA);
+		}
+		//---------------------------------------------------------------------------
+		ImagePtr Image::FromCustomizableImage(const CustomizableImage &image)
+		{
+			return FromBuffer(image.GetRGBAData().data(), image.GetSize(), Texture::PixelFormat::RGBA);
 		}
 		//---------------------------------------------------------------------------
 		ImagePtr Image::FromBuffer(const void *data, const SizeF &size, Texture::PixelFormat format)

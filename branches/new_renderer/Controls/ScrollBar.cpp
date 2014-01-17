@@ -200,7 +200,7 @@ namespace OSHGui
 		g.FillRectangle(GetBackColor(), sliderLocation + PointF(0, 1), SizeF(1, sliderSize.Height - 2));
 		g.FillRectangle(GetBackColor(), sliderLocation + PointF(1, 0), SizeF(sliderSize.Width - 2, 1));
 
-		auto color = isInside ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
+		auto color = isInside ? GetForeColor() + Color::FromARGB(0, 50, 50, 50) : GetForeColor();
 		int sliderHalfHeight = sliderLocation.Y + sliderSize.Height / 2 - 3;
 		int sliderLeftPos = sliderLocation.X + 5;
 		for (int i = 0; i < 3; ++i)

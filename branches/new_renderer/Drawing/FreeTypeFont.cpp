@@ -203,7 +203,7 @@ namespace OSHGui
 
 					if (!start->second.GetImage())
 					{
-						if (FT_Load_Char(fontFace, start->first, FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT | (antiAliased ? FT_LOAD_TARGET_NORMAL : FT_LOAD_TARGET_MONO)) != 0)
+						if (FT_Load_Char(fontFace, start->first, FT_LOAD_RENDER | (antiAliased ? FT_LOAD_TARGET_NORMAL : FT_LOAD_TARGET_MONO)) != 0)
 						{
 							auto image = std::make_shared<Image>(texture, RectangleF(0, 0, 0, 0), PointF(0, 0));
 							glyphImages.push_back(image);
@@ -412,7 +412,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void FreeTypeFont::InitialiseFontGlyph(CodepointIterator it) const
 		{
-			if (FT_Load_Char(fontFace, it->first, FT_LOAD_DEFAULT | FT_LOAD_FORCE_AUTOHINT) != 0)
+			if (FT_Load_Char(fontFace, it->first, FT_LOAD_DEFAULT) != 0)
 			{
 				return;
 			}

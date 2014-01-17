@@ -346,7 +346,7 @@ namespace OSHGui
 
 		g.FillRectangle(color, PointF(0, 1), realSize - SizeF(0, 2));
 		g.FillRectangle(color, PointF(1, 0), realSize - SizeF(2, 0));
-		g.FillRectangleGradient(ColorRectangle(color, color - Color(0, 20, 20, 20)), PointF(1, 1), realSize - SizeF(2, 2));
+		g.FillRectangleGradient(ColorRectangle(color, color - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), realSize - SizeF(2, 2));
 
 		int arrowLeft = realSize.Width - 9;
 		int arrowTop = realSize.Height - 11;

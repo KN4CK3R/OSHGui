@@ -99,10 +99,10 @@ namespace OSHGui
 
 		Graphics g(*geometry);
 
-		if (backColor.A > 0)
+		if (backColor.GetAlpha() > 0)
 		{
-			g.FillRectangle(GetBackColor() + Color(0, 32, 32, 32), PointF(0, 0), GetSize());
-			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
+			g.FillRectangle(GetBackColor() + Color::FromARGB(0, 32, 32, 32), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
 		}
 	}
 	//---------------------------------------------------------------------------

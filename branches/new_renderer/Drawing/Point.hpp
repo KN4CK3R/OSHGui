@@ -28,7 +28,8 @@ namespace OSHGui
 			 * Erstellt einen Punkt mit den Koordinaten 0/0.
 			 */
 			Point()
-				: X(Val()), Y(Val())
+				: X(Val()),
+				  Y(Val())
 			{
 
 			}
@@ -36,7 +37,8 @@ namespace OSHGui
 			 * Erstellt einen Punkt mit den Koordinaten X/Y.
 			 */
 			Point(Val x, Val y)
-				: X(x), Y(y)
+				: X(std::move(x)),
+				  Y(std::move(y))
 			{
 
 			}
@@ -62,6 +64,12 @@ namespace OSHGui
 				Y *= rhs.second;
 
 				return *this;
+			}
+
+			template<typename Val2>
+			operator Point<Val2>() const
+			{
+				return Point<Val2>(X, Y);
 			}
 			
 			/**

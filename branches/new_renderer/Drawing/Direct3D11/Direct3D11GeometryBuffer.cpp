@@ -89,7 +89,7 @@ namespace OSHGui
 			auto vs = vbuff;
 			for (auto i = 0; i < count; ++i, ++vs)
 			{
-				vertices.emplace_back(vs->Position.x, vs->Position.y, vs->Position.z, vs->Color.ARGB, vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
+				vertices.emplace_back(vs->Position.x, vs->Position.y, vs->Position.z, vs->Color.GetARGB(), vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
 			}
 
 			bufferSynched = false;

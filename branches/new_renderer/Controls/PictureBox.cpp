@@ -67,7 +67,7 @@ namespace OSHGui
 
 		Graphics g(*geometry);
 
-		if (GetBackColor().A > 0)
+		if (GetBackColor().GetAlpha() > 0)
 		{
 			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}

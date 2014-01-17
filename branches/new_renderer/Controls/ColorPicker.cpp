@@ -7,8 +7,8 @@
  */
 
 #include "ColorPicker.hpp"
+#include "../Drawing/CustomizableImage.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "../Misc/RawDataContainer.hpp"
 
 namespace OSHGui
 {
@@ -66,6 +66,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
 	{
+		using namespace Drawing;
+
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (x < 0 || x >= GetWidth())
 		{
@@ -76,8 +78,6 @@ namespace OSHGui
 			throw Misc::ArgumentOutOfRangeException("y");
 		}
 		#endif
-	
-		Drawing::Color tmpColor;
 		
 		double hue = (1.0 / GetWidth()) * x;
 		hue = hue - (int)hue;
@@ -92,62 +92,8 @@ namespace OSHGui
 			saturation = (GetHeight() / 2.0) / y;
 			brightness = ((GetHeight() / 2.0) - y + (GetHeight() / 2.0)) / y;
 		}
-		
-		double h = hue == 1.0 ? 0 : hue * 6.0;
-		double f = h - (int)h;
-		double p = brightness * (1.0 - saturation);
-		double q = brightness * (1.0 - saturation * f);
-		double t = brightness * (1.0 - (saturation * (1.0 - f)));
-		if (h < 1)
-		{
-			tmpColor = Drawing::Color(
-							(int)(brightness * 255),
-							(int)(t * 255),
-							(int)(p * 255)
-							);
-		}
-		else if (h < 2)
-		{
-			tmpColor = Drawing::Color(
-							(int)(q * 255),
-							(int)(brightness * 255),
-							(int)(p * 255)
-							);
-		}
-		else if (h < 3)
-		{
-			tmpColor = Drawing::Color(
-							(int)(p * 255),
-							(int)(brightness * 255),
-							(int)(t * 255)
-							);
-		}
-		else if (h < 4)
-		{
-			tmpColor = Drawing::Color(
-							(int)(p * 255),
-							(int)(q * 255),
-							(int)(brightness * 255)
-							);
-		}
-		else if (h < 5)
-		{
-			tmpColor = Drawing::Color(
-							(int)(t * 255),
-							(int)(p * 255),
-							(int)(brightness * 255)
-							);
-		}
-		else
-		{
-			tmpColor = Drawing::Color(
-							(int)(brightness * 255),
-							(int)(p * 255),
-							(int)(q * 255)
-							);
-		}
-		
-		return tmpColor;
+
+		return Color::FromHSB(hue, saturation, brightness);
 	}
 	//---------------------------------------------------------------------------
 	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::PointF &point) const
@@ -164,29 +110,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::CreateGradientTexture()
 	{
-		std::vector<uint8_t> buffer(GetWidth() * GetHeight() * 4);
-		auto dst = buffer.data();
+		Drawing::CustomizableImage image(GetSize());
 		for (int y = 0; y < GetHeight(); ++y)
 		{
 			for (int x = 0; x < GetWidth(); ++x)
 			{
-				auto color = GetColorAtPoint(x, y);
-
-				*dst++ = color.R;
-				*dst++ = color.G;
-				*dst++ = color.B;
-				*dst++ = color.A;
+				image.SetRectangle(Drawing::RectangleI(x, y, 1, 1), GetColorAtPoint(x, y));
 			}
 		}
 
-		gradient = Drawing::Image::FromBuffer(buffer.data(), GetSize(), Drawing::Texture::PixelFormat::RGBA);
+		gradient = Drawing::Image::FromCustomizableImage(image);
 	}
 	//---------------------------------------------------------------------------
 	void ColorPicker::CalculateColorCursorLocation()
 	{
-		float red = color.R / 255.0f;
-		float green = color.G / 255.0f;
-		float blue = color.B / 255.0f;
+		float red = color.GetRed();
+		float green = color.GetGreen();
+		float blue = color.GetBlue();
 	
 		float max = blue;
 		if (max > green)
@@ -209,9 +149,9 @@ namespace OSHGui
 		{
 			float f = max == red ? green - blue : max == green ? blue - red : red - green;
 			float i = max == red ? 3.0f : max == green ? 5.0f : 1.0f;
-			int hue = (int)floor((i - f / (min - max)) * 60) % 360;
-			int sat = (int)floor(((min - max) / min) * 100);
-			int val = (int)floor(min * 100);
+			int hue = (int)std::floor((i - f / (min - max)) * 60) % 360;
+			int sat = (int)std::floor(((min - max) / min) * 100);
+			int val = (int)std::floor(min * 100);
 		 
 			colorCursorLocation.Left = (int)(hue * (GetWidth() / 360.0f));
 			if (val == 100 && sat != 100)

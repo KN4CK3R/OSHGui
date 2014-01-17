@@ -43,13 +43,13 @@ namespace OSHGui
 		 *
 		 * \param color die Farbe
 		 */
-		void SetColor(Drawing::Color color);
+		void SetColor(const Drawing::Color &color);
 		/**
 		 * Ruft die ausgewählte Farbe ab.
 		 *
 		 * \return color
 		 */
-		Drawing::Color GetColor() const;
+		const Drawing::Color& GetColor() const;
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
 		 *
@@ -61,6 +61,7 @@ namespace OSHGui
 		static const Drawing::SizeF DefaultSize;
 		static const Drawing::SizeF DefaultBarSize;
 
+		void UpdateColor();
 		void UpdateBars();
 
 		virtual void PopulateGeometry() override;

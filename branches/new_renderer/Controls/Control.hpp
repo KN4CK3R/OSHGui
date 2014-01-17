@@ -772,8 +772,8 @@ namespace OSHGui
 
 	private:
 		//copying prohibited
-		Control(const Control&) { }
-		void operator = (const Control&) { }
+		Control(const Control&);
+		void operator=(const Control&);
 
 		AnchorStyles anchor;
 	};

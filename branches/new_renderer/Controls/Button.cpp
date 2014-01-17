@@ -111,17 +111,17 @@ namespace OSHGui
 		auto tempColor = backColor;
 		if ((isFocused || isInside) && !(isFocused && isClicked))
 		{
-			tempColor += mouseOverFocusColor;
+			tempColor = tempColor + mouseOverFocusColor;
 		}
 
-		auto color = tempColor + Color(0, 10, 10, 10);
+		auto color = tempColor + Color::FromARGB(0, 10, 10, 10);
 		g.FillRectangle(color, RectangleF(PointF(1, 0), GetSize() - SizeF(2, 1)));
 		g.FillRectangle(color, RectangleF(PointF(0, 1), GetSize() - SizeF(0, 3)));
-		color = tempColor - Color(0, 50, 50, 50);
+		color = tempColor - Color::FromARGB(0, 50, 50, 50);
 		g.FillRectangle(color, RectangleF(PointF(1, GetHeight() - 2), SizeF(GetWidth() - 2, 2)));
 		g.FillRectangle(color, RectangleF(PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2)));
 
-		ColorRectangle colors(tempColor, tempColor, GetBackColor() - Color(0, 20, 20, 20), GetBackColor() - Color(0, 20, 20, 20));
+		ColorRectangle colors(tempColor, tempColor, GetBackColor() - Color::FromARGB(0, 20, 20, 20), GetBackColor() - Color::FromARGB(0, 20, 20, 20));
 		g.FillRectangleGradient(colors, RectangleF(PointF(1, 2), GetSize() - SizeF(2, 4)));
 		g.FillRectangleGradient(colors, RectangleF(PointF(2, 1), GetSize() - SizeF(4, 2)));
 	}

@@ -16,24 +16,14 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		typedef uint32_t argb_t;
+
 		/**
 		 * Stellt eine ARGB-Farbe (Alpha, Rot, Grün, Blau) dar.
 		 */
 		class OSHGUI_EXPORT Color
 		{
 		public:
-			union
-			{
-				struct
-				{
-					uint8_t B;
-					uint8_t G;
-					uint8_t R;
-					uint8_t A;
-				};
-				uint32_t ARGB;
-			};
-
 			/**
 			 * Legt eine leere Farbe an (ARGB = 0)
 			 */
@@ -43,7 +33,7 @@ namespace OSHGui
 			 *
 			 * \param argb
 			 */
-			Color(uint32_t argb);
+			Color(argb_t argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *
@@ -51,7 +41,7 @@ namespace OSHGui
 			 * \param green
 			 * \param blue
 			 */
-			Color(uint8_t red, uint8_t green, uint8_t blue);
+			Color(float red, float green, float blue);
 			/**
 			 * Legt eine Farbe mit den Werten für Alpha, Rot, Grün und Blau an.
 			 *
@@ -60,16 +50,14 @@ namespace OSHGui
 			 * \param green
 			 * \param blue
 			 */
-			Color(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue);
+			Color(float alpha, float red, float green, float blue);
 
-			Color& operator+=(const Color &rhs);
-			Color& operator-=(const Color &rhs);
-			Color& operator*=(const Color &rhs);
-			Color& operator*=(float rhs);
+			static Color FromRGB(uint8_t red, uint8_t green, uint8_t blue);
+			static Color FromARGB(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue);
 
 			/**
 			 * Gibt eine leere Farbe (ARGB = 0) zurück.
-		     */
+			 */
 			static Color Empty();
 
 			/**
@@ -128,6 +116,12 @@ namespace OSHGui
 			 */
 			static Color Navy();
 
+			float GetRed() const;
+			float GetGreen() const;
+			float GetBlue() const;
+			float GetAlpha() const;
+			argb_t GetARGB() const;
+
 			/**
 			 * Berechnet den Farbton der Farbe.
 			 *
@@ -156,6 +150,23 @@ namespace OSHGui
 			 * \return color
 			 */
 			static Color FromHSB(float hue, float saturation, float brightness);
+
+			friend bool operator==(const Color &lhs, const Color &rhs);
+			friend const Color operator+(const Color &lhs, const Color &rhs);
+			friend const Color operator-(const Color &lhs, const Color &rhs);
+			friend const Color operator*(const Color &lhs, const Color &rhs);
+			friend const Color operator*(const Color &lhs, float rhs);
+
+		private:
+			void SetARGB(argb_t argb);
+			void CalculateARGB();
+
+			float alpha;
+			float red;
+			float green;
+			float blue;
+
+			argb_t argb;
 		};
 
 		bool operator==(const Color &lhs, const Color &rhs);

@@ -28,6 +28,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void WaitCursor::Initialize()
 	{
+		using namespace Drawing;
+
 		int data[][6][2] =
 		{
 			{
@@ -152,13 +154,13 @@ namespace OSHGui
 			Drawing::Color(206, 206, 206),
 			Drawing::Color(222, 222, 222)
 		};*/
-		Drawing::Color colors[] = {
-			Drawing::Color(201, 201, 201),
-			Drawing::Color(185, 185, 185),
-			Drawing::Color(147, 147, 147),
-			Drawing::Color(127, 127, 127),
-			Drawing::Color(109, 109, 109),
-			Drawing::Color(93, 93, 93)
+		Color colors[] = {
+			Color::FromRGB(201, 201, 201),
+			Color::FromRGB(185, 185, 185),
+			Color::FromRGB(147, 147, 147),
+			Color::FromRGB(127, 127, 127),
+			Color::FromRGB(109, 109, 109),
+			Color::FromRGB(93, 93, 93)
 		};
 	
 		for (int frameNum = 0; frameNum < 14; ++frameNum)

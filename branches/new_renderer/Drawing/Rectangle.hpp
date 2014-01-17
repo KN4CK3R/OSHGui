@@ -37,8 +37,8 @@ namespace OSHGui
 			 *
 			 * \param size
 			 */
-			Rectangle(const Size<Val> &size)
-				: size(size)
+			Rectangle(Size<Val> size)
+				: size(std::move(size))
 			{
 
 			}
@@ -48,9 +48,9 @@ namespace OSHGui
 			 * \param location
 			 * \param size
 			 */
-			Rectangle(const Point<Val> &location, const Size<Val> &size)
-				: location(location),
-				  size(size)
+			Rectangle(Point<Val> location, Size<Val> size)
+				: location(std::move(location)),
+				  size(std::move(size))
 			{
 
 			}
@@ -63,10 +63,16 @@ namespace OSHGui
 			 * \param height
 			 */
 			Rectangle(Val left, Val top, Val width, Val height)
-				: location(left, top),
-				  size(width, height)
+				: location(std::move(left), std::move(top)),
+				  size(std::move(width), std::move(height))
 			{
 
+			}
+
+			template<typename Val2>
+			operator Rectangle<Val2>() const
+			{
+				return Rectangle<Val2>(location, size);
 			}
 			
 			/**

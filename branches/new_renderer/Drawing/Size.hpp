@@ -40,8 +40,8 @@ namespace OSHGui
 			 * \param height
 			 */
 			Size(Val width, Val height)
-				: Width(width),
-				  Height(height)
+				: Width(std::move(width)),
+				  Height(std::move(height))
 			{
 
 			}
@@ -67,6 +67,12 @@ namespace OSHGui
 				Height *= rhs.second;
 
 				return *this;
+			}
+
+			template<typename Val2>
+			operator Size<Val2>() const
+			{
+				return Size<Val2>(Width, Height);
 			}
 			
 			/**

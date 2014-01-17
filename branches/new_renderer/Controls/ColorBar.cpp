@@ -57,7 +57,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorBar::SetColor(Drawing::Color color)
+	void ColorBar::SetColor(const Drawing::Color &color)
 	{
 		if (this->color != color)
 		{
@@ -70,7 +70,7 @@ namespace OSHGui
 		colorChangedEvent.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorBar::GetColor() const
+	const Drawing::Color& ColorBar::GetColor() const
 	{
 		return color;
 	}
@@ -82,15 +82,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
+	void ColorBar::UpdateColor()
+	{
+		float multi = 1.0f / (GetWidth() - 2);
+		float newColor = multi * barSliderLocation[barIndex].Left;
+		
+		SetColor(Drawing::Color(barIndex == 0 ? newColor : color.GetRed(), barIndex == 1 ? newColor : color.GetGreen(), barIndex == 2 ? newColor : color.GetBlue()));
+	}
+	//---------------------------------------------------------------------------
 	void ColorBar::UpdateBars()
 	{
-		float multi = (GetWidth() - 2) / 255.0f;
+		float multi = GetWidth() - 2;
 		for (int i = 0; i < 3; ++i)
 		{
-			bars[i].TopLeft = bars[i].BottomLeft = i == 0 ? Drawing::Color(0, color.G, color.B) : i == 1 ? Drawing::Color(color.R, 0, color.B) : Drawing::Color(color.R, color.G, 0);
+			bars[i].TopLeft = bars[i].BottomLeft = i == 0 ? Drawing::Color(0, color.GetGreen(), color.GetBlue()) : i == 1 ? Drawing::Color(color.GetRed(), 0, color.GetBlue()) : Drawing::Color(color.GetRed(), color.GetGreen(), 0);
 			bars[i].TopRight = bars[i].BottomRight = color;
 			
-			barSliderLocation[i].Left = (int)((i == 0 ? color.R : i == 1 ? color.G : color.B) * multi + 0.5f);
+			barSliderLocation[i].Left = (int)((i == 0 ? color.GetRed() : i == 1 ? color.GetGreen() : color.GetBlue()) * multi);
 			barSliderLocation[i].Top = i * 15 + 9;
 			barSliderAbsoluteLocation[i] = absoluteLocation + barSliderLocation[i];
 		}
@@ -149,8 +157,7 @@ namespace OSHGui
 					barSliderLocation[barIndex].Left = localLocation;
 				}
 
-				float multi = 255.0f / (GetWidth() - 2);
-				(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
+				UpdateColor();
 			
 				UpdateBars();
 
@@ -194,13 +201,9 @@ namespace OSHGui
 				barSliderLocation[barIndex].Left = localLocation;
 			}
 			
-			float multi = 255.0f / (GetWidth() - 2);			
-			(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
+			UpdateColor();
 
 			UpdateBars();
-
-			Drawing::Color colorArgs = color;
-			colorChangedEvent.Invoke(this, colorArgs);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -211,7 +214,7 @@ namespace OSHGui
 			if (keyboard.GetKeyCode() == Key::Left || keyboard.GetKeyCode() == Key::Right)
 			{
 				barSliderLocation[barIndex].Left += keyboard.GetKeyCode() == Key::Left ? -1 : 1;
-						
+				
 				if (barSliderLocation[barIndex].Left < 0)
 				{
 					barSliderLocation[barIndex].Left = 0;
@@ -221,13 +224,9 @@ namespace OSHGui
 					barSliderLocation[barIndex].Left = GetWidth() - 2;
 				}
 
-				float multi = 255.0f / (GetWidth() - 2);			
-				(barIndex == 0 ? color.R : barIndex == 1 ? color.G : color.B) = (unsigned char)(multi * barSliderLocation[barIndex].Left + 0.5f);
+				UpdateColor();
 
 				UpdateBars();
-
-				Drawing::Color args = color;
-				colorChangedEvent.Invoke(this, args);
 			}
 		}
 

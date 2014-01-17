@@ -202,6 +202,10 @@ namespace OSHGui
 		static Application *instance;
 		Application(Drawing::Renderer &renderer);
 
+		//copying prohibited
+		Application(const Application&);
+		void operator=(const Application&);
+
 		void InjectTime();
 
 		Drawing::Renderer &renderer;
