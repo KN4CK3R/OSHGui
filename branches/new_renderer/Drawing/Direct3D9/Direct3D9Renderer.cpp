@@ -25,7 +25,8 @@ namespace OSHGui
 		Direct3D9Renderer::Direct3D9Renderer(LPDIRECT3DDEVICE9 _device)
 			: device(_device),
 			  displaySize(GetViewportSize()),
-			  displayDPI(96, 96)
+			  displayDPI(96, 96),
+			  stateBlock(nullptr)
 		{
 			D3DCAPS9 caps;
 			device->GetDeviceCaps(&caps);
@@ -42,6 +43,16 @@ namespace OSHGui
 			supportNPOTTex = !(caps.TextureCaps & D3DPTEXTURECAPS_POW2) || (caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL);
 
 			defaultTarget = std::make_shared<Direct3D9ViewportTarget>(*this);
+
+			PostD3DReset(); //indirect initialize
+		}
+		//---------------------------------------------------------------------------
+		Direct3D9Renderer::~Direct3D9Renderer()
+		{
+			if (stateBlock)
+			{
+				stateBlock->Release();
+			}
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -177,6 +188,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::BeginRendering()
 		{
+			stateBlock->Capture();
+
 			device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 			device->SetVertexShader(nullptr);
@@ -220,11 +233,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::EndRendering()
 		{
-
+			stateBlock->Apply();
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::PreD3DReset()
 		{
+			stateBlock->Release();
+
 			RemoveWeakReferences();
 
 			for (auto &textureTarget : textureTargets)
@@ -239,6 +254,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::PostD3DReset()
 		{
+			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
+
 			RemoveWeakReferences();
 
 			for (auto &textureTarget : textureTargets)

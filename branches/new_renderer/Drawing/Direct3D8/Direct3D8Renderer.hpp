@@ -35,6 +35,7 @@ namespace OSHGui
 			 * \param device Direct3D8 Device
 			 */
 			Direct3D8Renderer(LPDIRECT3DDEVICE8 device);
+			~Direct3D8Renderer();
 
 			/**
 			 * Hilfsfunktion, die vor einem D3D Reset aufgerufen werden muss.
@@ -121,7 +122,7 @@ namespace OSHGui
 			bool supportNPOTTex;
 			bool supportNonSquareTex;
 			
-			BlendMode activeBlendMode;
+			DWORD stateBlockHandle;
 		};
 	}
 }

@@ -209,7 +209,7 @@ namespace OSHGui
 		button->SetLocation(Drawing::PointF(0, 0));
 		button->SetForeColor(GetForeColor());
 		button->SetBackColor(GetBackColor());
-		button->SetFont(font);
+		button->SetFont(GetFont());
 
 		AddSubControl(button);
 

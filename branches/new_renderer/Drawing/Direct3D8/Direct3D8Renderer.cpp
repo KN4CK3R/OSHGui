@@ -37,6 +37,16 @@ namespace OSHGui
 			supportNPOTTex = !(caps.TextureCaps & D3DPTEXTURECAPS_POW2) || (caps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL);
 
 			defaultTarget = std::make_shared<Direct3D8ViewportTarget>(*this);
+
+			PostD3DReset(); //indirect initialize
+		}
+		//---------------------------------------------------------------------------
+		Direct3D8Renderer::~Direct3D8Renderer()
+		{
+			if (stateBlockHandle)
+			{
+				device->DeleteStateBlock(stateBlockHandle);
+			}
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
@@ -136,6 +146,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D8Renderer::BeginRendering()
 		{
+			device->CaptureStateBlock(stateBlockHandle);
+
 			device->SetVertexShader(D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1);
 			device->SetPixelShader(0);
 
@@ -167,11 +179,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D8Renderer::EndRendering()
 		{
-
+			device->ApplyStateBlock(stateBlockHandle);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D8Renderer::PreD3DReset()
 		{
+			device->DeleteStateBlock(stateBlockHandle);
+
 			RemoveWeakReferences();
 
 			for (auto &textureTarget : textureTargets)
@@ -186,6 +200,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D8Renderer::PostD3DReset()
 		{
+			device->CreateStateBlock(D3DSBT_ALL, &stateBlockHandle);
+
 			RemoveWeakReferences();
 
 			for (auto &textureTarget : textureTargets)

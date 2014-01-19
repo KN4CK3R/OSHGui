@@ -3,6 +3,9 @@
 #include "../Application.hpp"
 #include "../Misc/Exceptions.hpp"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 namespace OSHGui
 {
 	namespace Drawing

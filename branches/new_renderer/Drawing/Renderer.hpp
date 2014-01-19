@@ -29,16 +29,6 @@ namespace OSHGui
 		typedef std::shared_ptr<GeometryBuffer> GeometryBufferPtr;
 
 		/**
-		 * Aufzählung der verschiedenen BlendMode Typen.
-		 */
-		enum class BlendMode
-		{
-			Invalid,
-			Normal,
-			RTT_PreMultiplied
-		};
-
-		/**
 		 * Abstrakte Klasse zur Implementierung der Zeichensysteme.
 		 */
 		class OSHGUI_EXPORT Renderer

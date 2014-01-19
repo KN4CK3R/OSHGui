@@ -25,7 +25,8 @@ namespace OSHGui
 		Direct3D7Renderer::Direct3D7Renderer(LPDIRECT3DDEVICE7 _device)
 			: device(_device),
 			  displaySize(GetViewportSize()),
-			  displayDPI(96, 96)
+			  displayDPI(96, 96),
+			  stateBlockHandle(0)
 		{
 			D3DDEVICEDESC7 caps;
 			device.Device->GetCaps(&caps);
@@ -37,10 +38,16 @@ namespace OSHGui
 			supportNPOTTex = !(caps.dpcTriCaps.dwTextureCaps & D3DPTEXTURECAPS_POW2) || (caps.dpcTriCaps.dwTextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL);
 
 			defaultTarget = std::make_shared<Direct3D7ViewportTarget>(*this);
+
+			PostD3DReset(); //indirect initialize
 		}
 		//---------------------------------------------------------------------------
 		Direct3D7Renderer::~Direct3D7Renderer()
 		{
+			if (stateBlockHandle)
+			{
+				device.Device->DeleteStateBlock(stateBlockHandle);
+			}
 			if (device.DirectDraw)
 			{
 				device.DirectDraw->Release();
@@ -144,6 +151,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D7Renderer::BeginRendering()
 		{
+			device.Device->CaptureStateBlock(stateBlockHandle);
+
 			device.Device->SetRenderState(D3DRENDERSTATE_LIGHTING, FALSE);
 			device.Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, FALSE);
 			device.Device->SetRenderState(D3DRENDERSTATE_ZENABLE, FALSE);
@@ -172,11 +181,13 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D7Renderer::EndRendering()
 		{
-
+			device.Device->ApplyStateBlock(stateBlockHandle);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D7Renderer::PreD3DReset()
 		{
+			device.Device->DeleteStateBlock(stateBlockHandle);
+
 			RemoveWeakReferences();
 
 			for (auto &textureTarget : textureTargets)
@@ -191,6 +202,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D7Renderer::PostD3DReset()
 		{
+			device.Device->CreateStateBlock(D3DSBT_ALL, &stateBlockHandle);
+
 			RemoveWeakReferences();
 
 			for (auto &textureTarget : textureTargets)

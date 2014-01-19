@@ -36,6 +36,7 @@ namespace OSHGui
 			 * \param device Direct3D9 Device
 			 */
 			Direct3D9Renderer(LPDIRECT3DDEVICE9 device);
+			~Direct3D9Renderer();
 
 			/**
 			 * Hilfsfunktion, die vor einem D3D Reset aufgerufen werden muss.
@@ -111,7 +112,6 @@ namespace OSHGui
 			
 			RenderTargetPtr defaultTarget;
 			
-			
 			typedef std::vector<std::weak_ptr<Direct3D9TextureTarget>> TextureTargetList;
 			TextureTargetList textureTargets;
 			
@@ -121,8 +121,8 @@ namespace OSHGui
 			uint32_t maxTextureSize;
 			bool supportNPOTTex;
 			bool supportNonSquareTex;
-			
-			BlendMode activeBlendMode;
+
+			IDirect3DStateBlock9 *stateBlock;
 		};
 	}
 }

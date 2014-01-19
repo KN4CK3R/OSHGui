@@ -234,7 +234,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::CheckForScrollBar()
 	{
-		auto itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
+		int itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
 
 		maxVisibleItems = std::max(1.0f, itemAreaSize.Height / itemHeight);
 

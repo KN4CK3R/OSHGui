@@ -137,8 +137,8 @@ namespace OSHGui
 			uint32_t maxTextureSize;
 			bool supportNPOTTex;
 			bool supportNonSquareTex;
-			
-			BlendMode activeBlendMode;
+
+			DWORD stateBlockHandle;
 		};
 	}
 }

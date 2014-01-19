@@ -13,9 +13,9 @@
 #include "../Misc/RawDataContainer.hpp"
 #include "Image.hpp"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
 #include <vector>
+
+typedef struct FT_FaceRec_*  FT_Face;
 
 namespace OSHGui
 {
