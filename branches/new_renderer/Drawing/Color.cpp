@@ -82,7 +82,7 @@ namespace OSHGui
 		Color Color::Yellow() { return Color(1, 1, 1, 0); }
 		Color Color::Fuchsia() { return Color(1, 1, 0, 1); }
 		Color Color::Cyan() { return Color(1, 0, 1, 1); }
-		Color Color::Orange() { return Color(1, 1, 1, 0); }
+		Color Color::Orange() { return Color(1, 1, 0.5f, 0); }
 
 		Color Color::Maroon() { return Color(1, 0.5f, 0, 0); }
 		Color Color::Green() { return Color(1, 0, 0.5f, 0); }

@@ -99,7 +99,7 @@ namespace OSHGui
 			 */
 			static Color Cyan();
 			/**
-			 * Gibt die Farbe Orange zurück (255, 255, 125, 0)
+			 * Gibt die Farbe Orange zurück (255, 255, 128, 0)
 			 */
 			static Color Orange();
 
