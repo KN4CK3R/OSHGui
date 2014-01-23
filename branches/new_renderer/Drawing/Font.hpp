@@ -56,7 +56,7 @@ namespace OSHGui
 			 * \param scaleY Skalierungsfaktor (default = 1)
 			 * \return End-X Koordinate des gezeichneten Textes
 			 */
-			float DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra = 0.0f, const float scaleX = 1.0f, const float scaleY = 1.0f) const;
+			virtual float DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra = 0.0f, const float scaleX = 1.0f, const float scaleY = 1.0f) const;
 
 			/**
 			 * Ruft die Höhe einer Textzeile ab.
@@ -99,7 +99,7 @@ namespace OSHGui
 			 * \return Breite des gezeichneten Textes
 			 * \sa GetTextAdvance
 			 */
-			float GetTextExtent(const Misc::AnsiString &text, float scaleX = 1.0f) const;
+			virtual float GetTextExtent(const Misc::AnsiString &text, float scaleX = 1.0f) const;
 
 			/**
 			 * Ruft die theoretisch Breite des gezeichneten Textes in Pixeln ab. "Theoretisch" bedeutet, dass schräge Glyphen breiter sein können, wie ihre eigentliche Breite.
@@ -108,7 +108,7 @@ namespace OSHGui
 			 * \return Breite des gezeichneten Textes
 			 * \sa GetTextExtent
 			 */
-			float GetTextAdvance(const Misc::AnsiString &text, float scaleX = 1.0f) const;
+			virtual float GetTextAdvance(const Misc::AnsiString &text, float scaleX = 1.0f) const;
 
 			/**
 			 * Ruft den Index des Zeichens ab, das am nächsten zu dem angegebenen Pixel liegt.

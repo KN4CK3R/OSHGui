@@ -11,7 +11,6 @@
 
 #include "../Renderer.hpp"
 
-#define NOMINMAX
 #include <d3d9.h>
 #include <vector>
 #include <map>

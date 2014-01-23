@@ -9,6 +9,7 @@
 #ifndef OSHGUI_DRAWING_GEOMETRYBUFFER_HPP
 #define OSHGUI_DRAWING_GEOMETRYBUFFER_HPP
 
+#include <memory>
 #include "Renderer.hpp"
 #include "Rectangle.hpp"
 #include "Vertex.hpp"

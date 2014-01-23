@@ -36,7 +36,7 @@ namespace OSHGui
 		  canRaiseEvents(true),
 		  needsRedraw(true),
 		  cursor(nullptr),
-		  mouseOverFocusColor(0, 20, 20, 20),
+		  mouseOverFocusColor(Drawing::Color::FromARGB(0, 20, 20, 20)),
 		  geometry(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
 		

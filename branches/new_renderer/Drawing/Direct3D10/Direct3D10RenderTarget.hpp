@@ -15,9 +15,6 @@
 #include "../RenderTarget.hpp"
 #include "../Rectangle.hpp"
 
-#define NOMINMAX
-#include <d3dx10.h>
-
 namespace OSHGui
 {
 	namespace Drawing
@@ -53,9 +50,9 @@ namespace OSHGui
 			//---------------------------------------------------------------------------
 			//Runtime-Functions
 			//---------------------------------------------------------------------------
-			void Draw(const GeometryBufferPtr &buffer) override
+			void Draw(const GeometryBuffer &buffer) override
 			{
-				buffer->Draw();
+				buffer.Draw();
 			}
 			//---------------------------------------------------------------------------
 			void Draw(const RenderQueue &queue) override

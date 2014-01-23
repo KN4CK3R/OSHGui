@@ -13,6 +13,12 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		template<typename T>
+		T clamp(const T &val, const T &min, const T &max)
+		{
+			return val < min ? min : val > max ? max : val;
+		}
+
 		argb_t ARGBCombine(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue)
 		{
 			return static_cast<argb_t>(alpha) << 24 |
@@ -130,13 +136,30 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
+		void Color::Clamp()
+		{
+			alpha = clamp(alpha, 0.f, 1.f);
+			red = clamp(red, 0.f, 1.f);
+			green = clamp(green, 0.f, 1.f);
+			blue = clamp(blue, 0.f, 1.f);
+			
+			CalculateARGB();
+		}
+		//---------------------------------------------------------------------------
+		Color Color::Clamped() const
+		{
+			auto copy(*this);
+			copy.Clamp();
+			return copy;
+		}
+		//---------------------------------------------------------------------------
 		void Color::CalculateARGB()
 		{
 			argb = ARGBCombine(
-				static_cast<uint8_t>((alpha * 255.0f) + 0.5f),
-				static_cast<uint8_t>((red * 255.0f) + 0.5f),
-				static_cast<uint8_t>((green * 255.0f) + 0.5f),
-				static_cast<uint8_t>((blue * 255.0f) + 0.5f)
+				static_cast<uint8_t>((clamp(alpha, 0.f, 1.f) * 255.0f) + 0.5f),
+				static_cast<uint8_t>((clamp(red, 0.f, 1.f) * 255.0f) + 0.5f),
+				static_cast<uint8_t>((clamp(green, 0.f, 1.f) * 255.0f) + 0.5f),
+				static_cast<uint8_t>((clamp(blue, 0.f, 1.f) * 255.0f) + 0.5f)
 			);
 		}
 		//---------------------------------------------------------------------------

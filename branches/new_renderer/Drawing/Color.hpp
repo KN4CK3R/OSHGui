@@ -151,6 +151,9 @@ namespace OSHGui
 			 */
 			static Color FromHSB(float hue, float saturation, float brightness);
 
+			void Clamp();
+			Color Clamped() const;
+
 			friend bool operator==(const Color &lhs, const Color &rhs);
 			friend const Color operator+(const Color &lhs, const Color &rhs);
 			friend const Color operator-(const Color &lhs, const Color &rhs);

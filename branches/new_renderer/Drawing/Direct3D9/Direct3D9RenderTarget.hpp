@@ -52,9 +52,9 @@ namespace OSHGui
 			//---------------------------------------------------------------------------
 			//Runtime-Functions
 			//---------------------------------------------------------------------------
-			void Draw(const GeometryBufferPtr &buffer) override
+			void Draw(const GeometryBuffer &buffer) override
 			{
-				buffer->Draw();
+				buffer.Draw();
 			}
 			//---------------------------------------------------------------------------
 			void Draw(const RenderQueue &queue) override

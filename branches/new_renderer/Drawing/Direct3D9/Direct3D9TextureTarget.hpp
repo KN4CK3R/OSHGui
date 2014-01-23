@@ -12,7 +12,6 @@
 #include "Direct3D9RenderTarget.hpp"
 #include "../TextureTarget.hpp"
 
-#define NOMINMAX
 #include <d3d9.h>
 
 namespace OSHGui

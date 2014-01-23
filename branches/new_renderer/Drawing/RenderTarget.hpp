@@ -9,6 +9,7 @@
 #ifndef OSHGUI_RENDERTARGET_HPP
 #define OSHGUI_RENDERTARGET_HPP
 
+#include <memory>
 #include "Rectangle.hpp"
 #include "Point.hpp"
 
@@ -30,7 +31,7 @@ namespace OSHGui
 			 *
 			 * \param buffer
 			 */
-			virtual void Draw(const GeometryBufferPtr &buffer) = 0;
+			virtual void Draw(const GeometryBuffer &buffer) = 0;
 
 			/**
 			 * Zeichnet den Inhalt der RenderQueue.
