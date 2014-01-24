@@ -319,6 +319,11 @@ namespace OSHGui
 		Button::SetSize(size.InflateEx(-24, 0));
 	}
 	//---------------------------------------------------------------------------
+	bool ComboBox::ComboBoxButton::Intersect(const Drawing::PointF &point) const
+	{
+		return Intersection::TestRectangle(absoluteLocation, realSize, point);
+	}
+	//---------------------------------------------------------------------------
 	void ComboBox::ComboBoxButton::CalculateLabelLocation()
 	{
 		label->SetLocation(Drawing::PointF(6, GetSize().Height / 2 - label->GetSize().Height / 2));

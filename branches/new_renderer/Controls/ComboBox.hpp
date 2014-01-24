@@ -190,6 +190,8 @@ namespace OSHGui
 
 			virtual void SetSize(const Drawing::SizeF &size) override;
 
+			virtual bool Intersect(const Drawing::PointF &point) const override;
+
 		protected:
 			virtual void CalculateLabelLocation() override;
 

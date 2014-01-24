@@ -83,7 +83,7 @@ namespace OSHGui
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 	
 	protected:
-		static const Drawing::SizeF DefaultLabelOffset;
+		static const Drawing::PointF DefaultLabelOffset;
 		static const int DefaultCheckBoxSize = 17;
 
 		virtual void PopulateGeometry() override;

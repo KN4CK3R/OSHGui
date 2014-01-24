@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF CheckBox::DefaultLabelOffset(20, 2);
+	const Drawing::PointF CheckBox::DefaultLabelOffset(20, 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -28,7 +28,7 @@ namespace OSHGui
 		SetSize(DefaultCheckBoxSize, DefaultCheckBoxSize);
 		SetAutoSize(true);
 
-		label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
+		label->SetLocation(DefaultLabelOffset);
 		label->SetBackColor(Drawing::Color::Empty());
 
 		ApplyTheme(Application::Instance().GetTheme());
@@ -85,11 +85,11 @@ namespace OSHGui
 			{
 				checkBoxLocation = Drawing::PointF(0, 0);
 				int y = (int)(DefaultCheckBoxSize / 2.0f - GetFont()->GetFontHeight() / 2.0f + 0.5f);
-				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, y));
+				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Left, y));
 			}
 			else
 			{
-				label->SetLocation(Drawing::PointF(DefaultLabelOffset.Width, DefaultLabelOffset.Height));
+				label->SetLocation(DefaultLabelOffset);
 				int y = (int)(GetFont()->GetFontHeight() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
 				checkBoxLocation = Drawing::PointF(0, y);
 			}
