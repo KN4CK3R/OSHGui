@@ -131,5 +131,8 @@
     <ClCompile Include="src\truetype\truetype.c">
       <Filter>Quelldateien\FT_MODULES</Filter>
     </ClCompile>
+    <ClCompile Include="src\autofit\afblue.c">
+      <Filter>Quelldateien\FT_MODULES</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
