@@ -55,6 +55,7 @@ namespace OSHGui
 		{
 			SetSize(label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2));
 		}
+
 		CalculateLabelLocation();
 	}
 	//---------------------------------------------------------------------------

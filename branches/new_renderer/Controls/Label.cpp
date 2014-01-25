@@ -45,10 +45,11 @@ namespace OSHGui
 	void Label::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
+
 		textHelper.SetFont(font);
 		if (autoSize)
 		{
-			size = textHelper.GetSize();
+			Control::SetSize(textHelper.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -65,7 +66,7 @@ namespace OSHGui
 
 		Graphics g(*geometry);
 
-		if (backColor.GetAlpha() > 0)
+		if (GetBackColor().GetAlpha() > 0)
 		{
 			g.FillRectangle(GetBackColor(), RectangleF(PointF(), GetSize()));
 		}

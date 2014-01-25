@@ -33,26 +33,26 @@ namespace OSHGui
 
 		#define MakeTheme(controlType, color1, color2) defaultTheme.SetControlColorTheme(Control::ControlTypeToString(controlType), Drawing::Theme::ControlTheme(color1, color2))
 
-		MakeTheme(ControlType::Label,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(ControlType::LinkLabel,	Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(ControlType::Button,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF4E4E4E));
-		MakeTheme(ControlType::CheckBox,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF222222));
-		MakeTheme(ControlType::RadioButton,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF222222));
-		MakeTheme(ControlType::ColorBar,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
+		MakeTheme(ControlType::Label,		Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::LinkLabel,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::Button,		Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
+		MakeTheme(ControlType::CheckBox,	Drawing::Color::White(), Drawing::Color(0xFF222222));
+		MakeTheme(ControlType::RadioButton, Drawing::Color::White(), Drawing::Color(0xFF222222));
+		MakeTheme(ControlType::ColorBar,	Drawing::Color::White(), Drawing::Color::Empty());
 		MakeTheme(ControlType::ColorPicker,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(ControlType::ComboBox,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF4E4E4E));
-		MakeTheme(ControlType::Form,			Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF7C7B79));
-		MakeTheme(ControlType::GroupBox,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(ControlType::ListBox,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF171614));
+		MakeTheme(ControlType::ComboBox,	Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
+		MakeTheme(ControlType::Form,		Drawing::Color::White(), Drawing::Color(0xFF7C7B79));
+		MakeTheme(ControlType::GroupBox,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::ListBox,		Drawing::Color::White(), Drawing::Color(0xFF171614));
 		MakeTheme(ControlType::Panel,		Drawing::Color::Empty(),	Drawing::Color::Empty());
 		MakeTheme(ControlType::PictureBox,	Drawing::Color::Empty(),	Drawing::Color::Empty());
 		MakeTheme(ControlType::ProgressBar,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
 		MakeTheme(ControlType::ScrollBar,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
-		MakeTheme(ControlType::TabControl,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF737373));
-		MakeTheme(ControlType::TabPage,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF474747));
-		MakeTheme(ControlType::TextBox,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
-		MakeTheme(ControlType::TrackBar,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(ControlType::HotkeyControl,Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
+		MakeTheme(ControlType::TabControl,	Drawing::Color::White(), Drawing::Color(0xFF737373));
+		MakeTheme(ControlType::TabPage,		Drawing::Color::White(), Drawing::Color(0xFF474747));
+		MakeTheme(ControlType::TextBox,		Drawing::Color::White(), Drawing::Color(0xFF242321));
+		MakeTheme(ControlType::TrackBar,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::HotkeyControl, Drawing::Color::White(), Drawing::Color(0xFF242321));
 
 		SetTheme(defaultTheme);
 	}

@@ -169,7 +169,6 @@ namespace OSHGui
 	const Drawing::PointF Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBarButton::CaptionBarButton()
-		: Control()
 	{
 		isFocusable = false;
 
@@ -179,6 +178,7 @@ namespace OSHGui
 	void Form::CaptionBar::CaptionBarButton::CalculateAbsoluteLocation()
 	{
 		Control::CalculateAbsoluteLocation();
+
 		crossAbsoluteLocation = absoluteLocation + DefaultCrossOffset;
 
 		geometry->SetTranslation(Drawing::Vector(crossAbsoluteLocation.X, crossAbsoluteLocation.Y, 0.0f));
@@ -188,7 +188,7 @@ namespace OSHGui
 	{
 		Control::OnMouseUp(mouse);
 
-		Form *owner = static_cast<Form*>(parent->GetParent());
+		auto owner = static_cast<Form*>(parent->GetParent());
 		owner->Close();
 	}
 	//---------------------------------------------------------------------------
@@ -214,7 +214,6 @@ namespace OSHGui
 	const Drawing::PointF Form::CaptionBar::DefaultTitleOffset(4, 4);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBar()
-		: Control()
 	{
 		isFocusable = false;
 		drag = false;
@@ -258,8 +257,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::DrawSelf(Drawing::RenderContext &context)
 	{
-		BufferGeometry(context);
-		QueueGeometry(context);
+		Control::DrawSelf(context);
 
 		titleLabel->Render();
 		closeButton->Render();

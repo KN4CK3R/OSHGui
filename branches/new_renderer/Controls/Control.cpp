@@ -508,7 +508,7 @@ namespace OSHGui
 			absoluteLocation = location;
 		}
 
-		geometry->SetTranslation(Drawing::Vector(absoluteLocation.X, absoluteLocation.Y, 0.0f));
+		geometry->SetTranslation(Drawing::Vector((int)absoluteLocation.X, (int)absoluteLocation.Y, 0.0f));
 		//TODO: set clipping here
 
 		for (auto &control : internalControls)
