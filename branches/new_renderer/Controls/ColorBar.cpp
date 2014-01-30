@@ -15,8 +15,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF ColorBar::DefaultSize(150, 45);
-	const Drawing::SizeF ColorBar::DefaultBarSize(150, 10);
+	const Drawing::SizeI ColorBar::DefaultSize(150, 45);
+	const Drawing::SizeI ColorBar::DefaultBarSize(150, 10);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -29,8 +29,8 @@ namespace OSHGui
 		for (int i = 0; i < 3; ++i)
 		{
 			bars.push_back(Drawing::Color::Black());
-			barSliderLocation.push_back(Drawing::PointF(0, i * 15 + 9));
-			barSliderAbsoluteLocation.push_back(Drawing::PointF(0, 0));
+			barSliderLocation.push_back(Drawing::PointI(0, i * 15 + 9));
+			barSliderAbsoluteLocation.push_back(Drawing::PointI(0, 0));
 			drag[i] = false;
 		}
 		
@@ -43,7 +43,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ColorBar::SetSize(const Drawing::SizeF &size)
+	void ColorBar::SetSize(const Drawing::SizeI &size)
 	{
 		if (this->size.Width != size.Width)
 		{
@@ -114,12 +114,12 @@ namespace OSHGui
 
 		for (int i = 0; i < 3; ++i)
 		{
-			g.FillRectangleGradient(bars[i], RectangleF(PointF(0, i * 15), SizeF(GetWidth(), 8)));
+			g.FillRectangleGradient(bars[i], RectangleF(PointI(0, i * 15), SizeI(GetWidth(), 8)));
 
-			auto sliderPos = barSliderLocation[i] + PointF(1, 0);
+			auto sliderPos = barSliderLocation[i] + PointI(1, 0);
 			for (int j = 0; j < 3; ++j)
 			{
-				g.FillRectangle(GetForeColor(), RectangleF(PointF(sliderPos.X - j, sliderPos.Y + j), SizeF(1 + j * 2, 1)));
+				g.FillRectangle(GetForeColor(), RectangleF(PointI(sliderPos.X - j, sliderPos.Y + j), SizeI(1 + j * 2, 1)));
 			}
 		}
 	}
@@ -134,7 +134,7 @@ namespace OSHGui
 
 		for (int i = 0; i < 3; ++i)
 		{
-			Drawing::PointF barLocation = Drawing::PointF(absoluteLocation.Left, absoluteLocation.Top + i * 15);
+			auto barLocation = Drawing::PointI(absoluteLocation.Left, absoluteLocation.Top + i * 15);
 			if (Intersection::TestRectangle(barLocation, DefaultBarSize, mouse.Location))
 			{
 				barIndex = i;
@@ -174,8 +174,7 @@ namespace OSHGui
 		{
 			drag[barIndex] = false;
 
-			Drawing::Color colorArgs = color;
-			colorChangedEvent.Invoke(this, colorArgs);
+			colorChangedEvent.Invoke(this, color);
 
 			OnLostMouseCapture();
 		}

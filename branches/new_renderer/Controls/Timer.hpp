@@ -70,7 +70,7 @@ namespace OSHGui
 		 * \param point
 		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 
 	protected:
 		virtual void InjectTime(const Misc::DateTime &time) override;

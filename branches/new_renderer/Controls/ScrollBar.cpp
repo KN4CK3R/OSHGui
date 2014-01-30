@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF ScrollBar::DefaultSize(14, 110);
+	const Drawing::SizeI ScrollBar::DefaultSize(14, 110);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -27,7 +27,7 @@ namespace OSHGui
 	{
 		type = ControlType::ScrollBar;
 		
-		upButton = new ScrollBarButton(0);
+		upButton = new ScrollBarButton(ScrollBarButton::ScrollBarDirection::Up);
 		upButton->GetClickEvent() += ClickEventHandler([this](Control *control)
 		{
 			if (value > 0)
@@ -36,7 +36,8 @@ namespace OSHGui
 			}
 		});
 		AddSubControl(upButton);
-		downButton = new ScrollBarButton(1);
+
+		downButton = new ScrollBarButton(ScrollBarButton::ScrollBarDirection::Down);
 		downButton->GetClickEvent() += ClickEventHandler([this](Control *control)
 		{
 			if (value < maximum)
@@ -47,7 +48,7 @@ namespace OSHGui
 		AddSubControl(downButton);
 
 		SetSize(DefaultSize);
-		trackLocation = Drawing::PointF(0, upButton->GetBottom() + 1);
+		trackLocation = Drawing::PointI(0, upButton->GetBottom() + 1);
 
 		ApplyTheme(Application::Instance().GetTheme());
 
@@ -57,16 +58,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetSize(const Drawing::SizeF &size)
+	void ScrollBar::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
-		upButton->SetSize(Drawing::SizeF(size.Width, upButton->GetHeight()));
-		downButton->SetSize(Drawing::SizeF(size.Width, downButton->GetHeight()));
+		upButton->SetSize(Drawing::SizeI(size.Width, upButton->GetHeight()));
+		downButton->SetSize(Drawing::SizeI(size.Width, downButton->GetHeight()));
 
 		downButton->SetLocation(0, size.Height - downButton->GetHeight());
 
-		trackSize = Drawing::SizeF(size.Width, size.Height - 2 - upButton->GetHeight() * 2);
+		trackSize = Drawing::SizeI(size.Width, size.Height - 2 - upButton->GetHeight() * 2);
 
 		sliderSize.Width = size.Width;
 		sliderSize.Height = trackSize.Height / (maximum + 1);
@@ -78,7 +79,7 @@ namespace OSHGui
 		SetValueInternal(value);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetForeColor(Drawing::Color color)
+	void ScrollBar::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
@@ -129,24 +130,24 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetValueInternal(int value)
+	void ScrollBar::SetValueInternal(int value_)
 	{
 		pixelsPerTick = (trackSize.Height - sliderSize.Height) / (maximum > 0 ? (float)maximum : 1.0f);
 
-		if (value < 0)
+		if (value_ < 0)
 		{
-			value = 0;
+			value_ = 0;
 		}
-		if (value > maximum)
+		if (value_ > maximum)
 		{
-			value = maximum;
+			value_ = maximum;
 		}
 		
-		if (this->value != value)
+		if (value != value_)
 		{
-			ScrollEventArgs args(value, this->value);
+			ScrollEventArgs args(value_, value);
 
-			this->value = value;
+			value = value_;
 			
 			scrollEvent.Invoke(this, args);
 		}
@@ -157,7 +158,7 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	bool ScrollBar::Intersect(const Drawing::PointF &point) const
+	bool ScrollBar::Intersect(const Drawing::PointI &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation.OffsetEx(0, upButton->GetHeight()), size.InflateEx(0, -upButton->GetHeight() * 2), point);
 	}
@@ -254,6 +255,7 @@ namespace OSHGui
 		if (drag)
 		{
 			drag = false;
+
 			OnLostMouseCapture();
 		}
 	}
@@ -282,22 +284,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//ScrollBar::ScrollBarButton
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF ScrollBar::ScrollBarButton::DefaultButtonSize(14, 14);
+	const Drawing::SizeI ScrollBar::ScrollBarButton::DefaultSize(14, 14);
 	//---------------------------------------------------------------------------
-	ScrollBar::ScrollBarButton::ScrollBarButton(int _direction)
-		: direction(_direction)
+	ScrollBar::ScrollBarButton::ScrollBarButton(ScrollBarDirection direction_)
+		: direction(direction_)
 	{
 		SetLocation(0, 0);
-		SetSize(DefaultButtonSize);
+		SetSize(DefaultSize);
 
 		isFocusable = false;
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::ScrollBarButton::SetSize(const Drawing::SizeF &size)
+	void ScrollBar::ScrollBarButton::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
-		iconLocation = Drawing::PointF(size.Width / 2, size.Height / 2);
+		iconLocation = Drawing::PointI(size.Width / 2, size.Height / 2);
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::ScrollBarButton::PopulateGeometry()
@@ -308,7 +310,7 @@ namespace OSHGui
 
 		auto color = isInside ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
 
-		if (direction == 0)
+		if (direction == ScrollBarDirection::Up)
 		{
 			for (int i = 0; i < 4; ++i)
 			{

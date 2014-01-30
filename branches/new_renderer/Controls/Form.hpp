@@ -87,7 +87,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -105,7 +105,7 @@ namespace OSHGui
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
@@ -163,8 +163,8 @@ namespace OSHGui
 		DialogResult dialogResult;
 
 	private:
-		static const Drawing::PointF DefaultLocation;
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::PointI DefaultLocation;
+		static const Drawing::SizeI DefaultSize;
 
 		std::weak_ptr<Form> instance;
 
@@ -179,8 +179,7 @@ namespace OSHGui
 			class CaptionBarButton : public Control
 			{
 			public:
-				static const int DefaultButtonWidth = 17;
-				static const int DefaultButtonHeight = 17;
+				static const Drawing::SizeI DefaultSize;
 
 				CaptionBarButton();
 
@@ -192,9 +191,9 @@ namespace OSHGui
 				virtual void OnMouseUp(const MouseMessage &mouse) override;
 
 			private:
-				static const Drawing::PointF DefaultCrossOffset;
+				static const Drawing::PointI DefaultCrossOffset;
 
-				Drawing::PointF crossAbsoluteLocation;
+				Drawing::PointI crossAbsoluteLocation;
 			};
 
 		public:
@@ -202,10 +201,10 @@ namespace OSHGui
 
 			CaptionBar();
 
-			virtual void SetSize(const Drawing::SizeF &size) override;
+			virtual void SetSize(const Drawing::SizeI &size) override;
 			void SetText(const Misc::AnsiString &text);
 			const Misc::AnsiString& GetText() const;
-			virtual void SetForeColor(Drawing::Color color) override;
+			virtual void SetForeColor(const Drawing::Color &color) override;
 
 		protected:
 			virtual void DrawSelf(Drawing::RenderContext &context) override;
@@ -216,10 +215,10 @@ namespace OSHGui
 
 		private:
 			static const int DefaultButtonPadding = 6;
-			static const Drawing::PointF DefaultTitleOffset;
+			static const Drawing::PointI DefaultTitleOffset;
 
 			bool drag;
-			Drawing::PointF dragStart;
+			Drawing::PointI dragStart;
 
 			Label *titleLabel;
 			CaptionBarButton *closeButton;

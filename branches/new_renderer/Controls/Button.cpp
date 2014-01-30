@@ -14,8 +14,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF Button::DefaultSize(92, 24);
-	const Drawing::PointF Button::DefaultLabelOffset(6, 5);
+	const Drawing::SizeI Button::DefaultSize(92, 24);
+	const Drawing::PointI Button::DefaultLabelOffset(6, 5);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ namespace OSHGui
 		label->SetAutoSize(autoSize);
 	}
 	//---------------------------------------------------------------------------
-	void Button::SetSize(const Drawing::SizeF &size)
+	void Button::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
@@ -75,7 +75,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Button::SetForeColor(Drawing::Color color)
+	void Button::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
@@ -93,7 +93,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::CalculateLabelLocation()
 	{
-		label->SetLocation(Drawing::PointF(GetSize().Width / 2 - label->GetSize().Width / 2, GetSize().Height / 2 - label->GetSize().Height / 2));
+		label->SetLocation(Drawing::PointI(GetSize().Width / 2.f - label->GetSize().Width / 2.f, GetSize().Height / 2.f - label->GetSize().Height / 2.f));
 	}
 	//---------------------------------------------------------------------------
 	void Button::DrawSelf(Drawing::RenderContext &context)

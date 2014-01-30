@@ -21,7 +21,7 @@ namespace OSHGui
 	{
 	public:
 		MouseMessage::MouseStates State;
-		Drawing::PointF Location;
+		Drawing::PointI Location;
 		
 	public:
 		/**

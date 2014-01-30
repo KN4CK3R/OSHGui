@@ -14,7 +14,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF ProgressBar::DefaultSize(110, 24);
+	const Drawing::SizeI ProgressBar::DefaultSize(110, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -36,9 +36,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetMin(int min)
+	void ProgressBar::SetMin(int min_)
 	{
-		this->min = min;
+		min = min_;
 		if (min > max)
 		{
 			max = min;
@@ -52,9 +52,9 @@ namespace OSHGui
 		return min;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetMax(int max)
+	void ProgressBar::SetMax(int max_)
 	{
-		this->max = max;
+		max = max_;
 		if (max < min)
 		{
 			min = max;
@@ -68,9 +68,10 @@ namespace OSHGui
 		return max;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetValue(int value)
+	void ProgressBar::SetValue(int value_)
 	{
-		this->value = value;
+		value = value_;
+
 		Adjust();
 
 		Invalidate();
@@ -95,7 +96,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ProgressBar::Intersect(const Drawing::PointF &point) const
+	bool ProgressBar::Intersect(const Drawing::PointI &point) const
 	{
 		return false;
 	}

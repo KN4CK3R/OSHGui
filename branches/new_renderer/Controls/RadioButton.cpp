@@ -22,9 +22,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void RadioButton::SetChecked(bool checked)
+	void RadioButton::SetChecked(bool checked_)
 	{
-		if (this->checked != checked)
+		if (checked != checked_)
 		{
 			if (GetParent() != nullptr)
 			{
@@ -37,16 +37,16 @@ namespace OSHGui
 					}
 				}
 			
-				SetCheckedInternal(checked);
+				SetCheckedInternal(checked_);
 			}
 		}
 	}
 	//---------------------------------------------------------------------------
-	void RadioButton::SetCheckedInternal(bool checked)
+	void RadioButton::SetCheckedInternal(bool checked_)
 	{
-		if (this->checked != checked)
+		if (checked != checked_)
 		{
-			this->checked = checked;
+			checked = checked_;
 			
 			checkedChangedEvent.Invoke(this);
 

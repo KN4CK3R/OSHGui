@@ -123,23 +123,23 @@ namespace OSHGui
 		SetBounds(Drawing::PointF(x, y), Drawing::SizeF(w, h));
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(const Drawing::PointF &location, const Drawing::SizeF &size)
+	void Control::SetBounds(const Drawing::PointI &location, const Drawing::SizeI &size)
 	{
 		SetLocation(location);
 		SetSize(size);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(const Drawing::RectangleF &bounds)
+	void Control::SetBounds(const Drawing::RectangleI &bounds)
 	{
 		SetBounds(bounds.GetLocation(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::RectangleF Control::GetBounds() const
+	const Drawing::RectangleI Control::GetBounds() const
 	{
-		return Drawing::RectangleF(location, size);
+		return Drawing::RectangleI(location, size);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(const Drawing::PointF &location)
+	void Control::SetLocation(const Drawing::PointI &location)
 	{
 		this->location = location;
 
@@ -148,15 +148,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(int x, int y)
 	{
-		SetLocation(Drawing::PointF(x, y));
+		SetLocation(Drawing::PointI(x, y));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::PointF& Control::GetLocation() const
+	const Drawing::PointI& Control::GetLocation() const
 	{
 		return location;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetSize(const Drawing::SizeF &size)
+	void Control::SetSize(const Drawing::SizeI &size)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (size.Width < 0)
@@ -201,10 +201,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetSize(int width, int height)
 	{
-		SetSize(Drawing::SizeF(width, height));
+		SetSize(Drawing::SizeI(width, height));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF& Control::GetSize() const
+	const Drawing::SizeI& Control::GetSize() const
 	{
 		return size;
 	}
@@ -249,9 +249,9 @@ namespace OSHGui
 		return anchor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetTag(Misc::Any &tag)
+	void Control::SetTag(const Misc::Any &tag)
 	{
-		this->tag = tag;
+		this->tag = std::move(tag);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::Any& Control::GetTag() const
@@ -261,7 +261,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::SetName(const Misc::AnsiString &name)
 	{
-		this->name = name;
+		this->name = std::move(name);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Control::GetName() const
@@ -269,38 +269,38 @@ namespace OSHGui
 		return name;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetForeColor(Drawing::Color color)
+	void Control::SetForeColor(const Drawing::Color &color)
 	{
-		foreColor = color;
+		foreColor = std::move(color);
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetForeColor() const
+	const Drawing::Color& Control::GetForeColor() const
 	{
 		return foreColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBackColor(Drawing::Color color)
+	void Control::SetBackColor(const Drawing::Color &color)
 	{
-		backColor = color;
+		backColor = std::move(color);
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetBackColor() const
+	const Drawing::Color& Control::GetBackColor() const
 	{
 		return backColor;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetMouseOverFocusColor(Drawing::Color color)
+	void Control::SetMouseOverFocusColor(const Drawing::Color &color)
 	{
-		mouseOverFocusColor = color;
+		mouseOverFocusColor = std::move(color);
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetMouseOverFocusColor() const
+	const Drawing::Color& Control::GetMouseOverFocusColor() const
 	{
 		return mouseOverFocusColor;
 	}
@@ -329,9 +329,9 @@ namespace OSHGui
 		this->cursor = std::move(cursor);
 	}
 	//---------------------------------------------------------------------------
-	CursorPtr Control::GetCursor() const
+	const CursorPtr& Control::GetCursor() const
 	{
-		return cursor ? cursor : GetParent() ? GetParent()->GetCursor() : nullptr;
+		return cursor ? cursor : GetParent() ? GetParent()->GetCursor() : cursor/*is nullptr here*/;
 	}
 	//---------------------------------------------------------------------------
 	LocationChangedEvent& Control::GetLocationChangedEvent()
@@ -470,17 +470,17 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	bool Control::Intersect(const Drawing::PointF &point) const
+	bool Control::Intersect(const Drawing::PointI &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, size, point);
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::PointF Control::PointToClient(const Drawing::PointF &point) const
+	Drawing::PointI Control::PointToClient(const Drawing::PointI &point) const
 	{
 		return point - absoluteLocation;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::PointF Control::PointToScreen(const Drawing::PointF &point) const
+	Drawing::PointI Control::PointToScreen(const Drawing::PointI &point) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (!parent)
@@ -508,7 +508,7 @@ namespace OSHGui
 			absoluteLocation = location;
 		}
 
-		geometry->SetTranslation(Drawing::Vector((int)absoluteLocation.X, (int)absoluteLocation.Y, 0.0f));
+		geometry->SetTranslation(Drawing::Vector(absoluteLocation.X, absoluteLocation.Y, 0.0f));
 		//TODO: set clipping here
 
 		for (auto &control : internalControls)
@@ -572,7 +572,7 @@ namespace OSHGui
 		internalControls.push_front(subcontrol);
 	}
 	//---------------------------------------------------------------------------
-	Control* Control::GetChildAtPoint(const Drawing::PointF &point) const
+	Control* Control::GetChildAtPoint(const Drawing::PointI &point) const
 	{
 		for (auto &control : make_reverse_range(controls))
 		{

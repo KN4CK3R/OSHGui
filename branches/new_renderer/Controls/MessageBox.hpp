@@ -25,32 +25,32 @@ namespace OSHGui
 	/**
 	 * Gibt Konstanten an, die definieren, welche Schaltflächen der MessageBox angezeigt werden.
 	 */
-	enum MessageBoxButtons
+	enum class MessageBoxButtons
 	{
 		/**
 		 * Das Meldungsfeld enthält die Schaltfläche OK.
 		 */
-        ButtonOK,
-        /**
+		OK,
+		/**
 		 * Das Meldungsfeld enthält die Schaltflächen OK und Abbrechen.
 		 */
-        ButtonOKCancel,
+		OKCancel,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Abbrechen, Wiederholen und Ignorieren.
 		 */
-        ButtonAbortRetryIgnore,
+		AbortRetryIgnore,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Ja und Nein.
 		 */
-        ButtonYesNo,
+		YesNo,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Ja, Nein und Abbrechen.
 		 */
-        ButtonYesNoCancel,
-        /**
+		YesNoCancel,
+		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Wiederholen und Abbrechen.
 		 */
-        ButtonRetryCancel
+		RetryCancel
 	};
 
 	class OSHGUI_EXPORT MessageBox

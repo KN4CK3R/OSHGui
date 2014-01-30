@@ -34,7 +34,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
@@ -58,7 +58,7 @@ namespace OSHGui
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *

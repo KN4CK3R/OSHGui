@@ -16,8 +16,8 @@ namespace OSHGui
 	/**
 	 * Tritt ein, wenn sich der Wert der Color-Eigenschaft ändert.
 	 */
-	typedef Event<void(Control*, Drawing::Color &color)> ColorChangedEvent;
-	typedef EventHandler<void(Control*, Drawing::Color &color)> ColorChangedEventHandler;
+	typedef Event<void(Control*, const Drawing::Color &color)> ColorChangedEvent;
+	typedef EventHandler<void(Control*, const Drawing::Color &color)> ColorChangedEventHandler;
 
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
@@ -37,7 +37,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die ausgewählte Farbe fest.
 		 *
@@ -58,8 +58,8 @@ namespace OSHGui
 		ColorChangedEvent& GetColorChangedEvent();
 		
 	protected:
-		static const Drawing::SizeF DefaultSize;
-		static const Drawing::SizeF DefaultBarSize;
+		static const Drawing::SizeI DefaultSize;
+		static const Drawing::SizeI DefaultBarSize;
 
 		void UpdateColor();
 		void UpdateBars();
@@ -76,8 +76,8 @@ namespace OSHGui
 		Drawing::Color color;
 
 		std::vector<Drawing::ColorRectangle> bars;
-		std::vector<Drawing::PointF> barSliderLocation;
-		std::vector<Drawing::PointF> barSliderAbsoluteLocation;
+		std::vector<Drawing::PointI> barSliderLocation;
+		std::vector<Drawing::PointI> barSliderAbsoluteLocation;
 
 		ColorChangedEvent colorChangedEvent;
 	};

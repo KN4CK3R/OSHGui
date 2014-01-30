@@ -55,7 +55,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Label::Intersect(const Drawing::PointF &point) const
+	bool Label::Intersect(const Drawing::PointI &point) const
 	{
 		return false;
 	}

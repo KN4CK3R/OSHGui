@@ -20,12 +20,12 @@ namespace OSHGui
 		type = ControlType::GroupBox;
 
 		captionLabel = new Label();
-		captionLabel->SetLocation(Drawing::PointF(5, -1));
+		captionLabel->SetLocation(Drawing::PointI(5, -1));
 		captionLabel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(captionLabel);
 
 		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::PointF(3, 10));
+		containerPanel->SetLocation(Drawing::PointI(3, 10));
 		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 
@@ -36,7 +36,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetSize(const Drawing::SizeF &size)
+	void GroupBox::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
@@ -60,7 +60,7 @@ namespace OSHGui
 		captionLabel->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::SetForeColor(Drawing::Color color)
+	void GroupBox::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 

@@ -24,7 +24,7 @@ namespace OSHGui
 		type = ControlType::ComboBox;
 	
 		button = new ComboBoxButton();
-		button->SetLocation(0, 0);
+		button->SetLocation(Drawing::PointI(0, 0));
 		button->GetClickEvent() += ClickEventHandler([this](Control*)
 		{
 			if (!droppedDown)
@@ -96,8 +96,8 @@ namespace OSHGui
 		AddSubControl(button);
 
 		listBox = new ListBox();
-		listBox->SetLocation(0, button->GetBottom() + 2);
-		listBox->SetSize(listBox->GetWidth(), 4);
+		listBox->SetLocation(Drawing::PointI(0, button->GetBottom() + 2));
+		listBox->SetSize(Drawing::SizeI(listBox->GetWidth(), 4));
 		listBox->SetVisible(false);
 		listBox->ExpandSizeToShowItems(4);
 		listBox->GetSelectedIndexChangedEvent() += SelectedIndexChangedEventHandler([this](Control*)
@@ -134,14 +134,14 @@ namespace OSHGui
 		});
 		AddSubControl(listBox);
 
-		SetSize(160, 24);
+		SetSize(Drawing::SizeI(160, 24));
 		
 		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ComboBox::SetSize(const Drawing::SizeF &size)
+	void ComboBox::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
@@ -159,7 +159,7 @@ namespace OSHGui
 		listBox->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::SetForeColor(Drawing::Color color)
+	void ComboBox::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
@@ -167,7 +167,7 @@ namespace OSHGui
 		listBox->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::SetBackColor(Drawing::Color color)
+	void ComboBox::SetBackColor(const Drawing::Color &color)
 	{
 		Control::SetBackColor(color);
 
@@ -282,7 +282,7 @@ namespace OSHGui
 		listBox->Clear();
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::Intersect(const Drawing::PointF &point) const
+	bool ComboBox::Intersect(const Drawing::PointI &point) const
 	{
 		if (Intersection::TestRectangle(absoluteLocation, size, point))
 		{
@@ -312,21 +312,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//ComboBox::ComboBoxButton
 	//---------------------------------------------------------------------------
-	void ComboBox::ComboBoxButton::SetSize(const Drawing::SizeF &size)
+	void ComboBox::ComboBoxButton::SetSize(const Drawing::SizeI &size)
 	{
 		realSize = size;
 
 		Button::SetSize(size.InflateEx(-24, 0));
 	}
 	//---------------------------------------------------------------------------
-	bool ComboBox::ComboBoxButton::Intersect(const Drawing::PointF &point) const
+	bool ComboBox::ComboBoxButton::Intersect(const Drawing::PointI &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, realSize, point);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::ComboBoxButton::CalculateLabelLocation()
 	{
-		label->SetLocation(Drawing::PointF(6, GetSize().Height / 2 - label->GetSize().Height / 2));
+		label->SetLocation(Drawing::PointI(6, GetSize().Height / 2.f - label->GetSize().Height / 2.f));
 	}
 	//---------------------------------------------------------------------------
 	bool ComboBox::ComboBoxButton::OnKeyDown(const KeyboardMessage &keyboard)

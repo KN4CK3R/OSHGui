@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size);
+		virtual void SetSize(const Drawing::SizeI &size);
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -114,12 +114,12 @@ namespace OSHGui
 	private:
 		void HotkeyToText();
 
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
 		
 		std::unique_ptr<TextBox> textBox;
 		
-		Drawing::PointF clearButtonLocation;
+		Drawing::PointI clearButtonLocation;
 
 		Key::Keys hotkey;
 		Key::Keys modifier;

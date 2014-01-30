@@ -37,13 +37,13 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt den aktuellen Wert des Bildlauffelds fets.
 		 *
@@ -81,7 +81,7 @@ namespace OSHGui
 		 * \param point
 		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -108,7 +108,7 @@ namespace OSHGui
 
 	private:
 		static const int MinimumSliderHeight = 25;
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void SetValueInternal(int value);
 
@@ -117,12 +117,13 @@ namespace OSHGui
 		float pixelsPerTick;
 		int maximum;
 
-		Drawing::PointF trackLocation;
-		Drawing::PointF trackAbsoluteLocation;
-		Drawing::SizeF trackSize;
-		Drawing::PointF sliderLocation;
-		Drawing::PointF sliderAbsoluteLocation;
-		Drawing::SizeF sliderSize;
+		Drawing::PointI trackLocation;
+		Drawing::PointI trackAbsoluteLocation;
+		Drawing::SizeI trackSize;
+
+		Drawing::PointI sliderLocation;
+		Drawing::PointI sliderAbsoluteLocation;
+		Drawing::SizeI sliderSize;
 
 		ScrollEvent scrollEvent;
 
@@ -131,17 +132,23 @@ namespace OSHGui
 		public:
 			using Control::SetSize;
 
-			static const Drawing::SizeF DefaultButtonSize;
+			enum class ScrollBarDirection
+			{
+				Up,
+				Down
+			};
 
-			ScrollBarButton(int direction);
+			static const Drawing::SizeI DefaultSize;
+
+			ScrollBarButton(ScrollBarDirection direction);
 			
-			virtual void SetSize(const Drawing::SizeF &size) override;
+			virtual void SetSize(const Drawing::SizeI &size) override;
 
 		protected:
 			virtual void PopulateGeometry() override;
 
 		private:
-			int direction;
+			ScrollBarDirection direction;
 
 			Drawing::PointF iconLocation;
 		};

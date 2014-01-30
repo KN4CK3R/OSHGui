@@ -17,8 +17,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF ListBox::DefaultSize(120, 95);
-	const Drawing::SizeF ListBox::DefaultItemAreaPadding(8, 8);
+	const Drawing::SizeI ListBox::DefaultSize(120, 95);
+	const Drawing::SizeI ListBox::DefaultItemAreaPadding(8, 8);
 	const int ListBox::DefaultItemPadding(2);
 	//---------------------------------------------------------------------------
 	//Constructor
@@ -59,7 +59,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ListBox::SetSize(const Drawing::SizeF &size)
+	void ListBox::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
@@ -168,7 +168,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ListBox::Intersect(const Drawing::PointF &point) const
+	bool ListBox::Intersect(const Drawing::PointI &point) const
 	{
 		return Intersection::TestRectangle(absoluteLocation, scrollBar->GetVisible() ? size.InflateEx(-scrollBar->GetWidth(), 0) : size, point);
 	}
@@ -236,7 +236,7 @@ namespace OSHGui
 	{
 		int itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
 
-		maxVisibleItems = std::max(1.0f, itemAreaSize.Height / itemHeight);
+		maxVisibleItems = std::max(1, itemAreaSize.Height / itemHeight);
 
 		if (!items.empty() && items.size() * itemHeight > itemAreaSize.Height)
 		{
@@ -276,7 +276,7 @@ namespace OSHGui
 		g.FillRectangle(color, PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
 
 		int itemX = 4;
-		int itemY = 4;
+		int itemY = 5;
 		int padding = GetFont()->GetFontHeight() + DefaultItemPadding;
 		for (int i = 0; i < maxVisibleItems && i + firstVisibleItemIndex < (int)items.size(); ++i)
 		{
@@ -285,7 +285,7 @@ namespace OSHGui
 				g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize.Width + 2, padding));
 			}
 
-			g.DrawString(items[firstVisibleItemIndex + i], GetFont(), GetForeColor(), PointF(itemX, itemY + i * padding));//, SizeF(itemAreaSize.Width, padding));
+			g.DrawString(items[firstVisibleItemIndex + i], GetFont(), GetForeColor(), PointF(itemX + 1, itemY + i * padding));//, SizeF(itemAreaSize.Width, padding));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -386,13 +386,15 @@ namespace OSHGui
 				std::locale loc;
 				Misc::AnsiChar keyChar = std::tolower(keyboard.GetKeyChar(), loc);
 				int foundIndex = 0;
-				for (std::vector<Misc::AnsiString>::iterator it = items.begin(); it != items.end(); ++it, ++foundIndex)
+				for (auto &c : items)
 				{
-					Misc::AnsiChar check = std::tolower((*it)[0], loc);
+					Misc::AnsiChar check = std::tolower(c[0], loc);
 					if (check == keyChar && foundIndex != selectedIndex)
 					{
 						break;
 					}
+
+					++foundIndex;
 				}
 					
 				if (foundIndex < (int)items.size())

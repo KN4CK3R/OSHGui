@@ -247,7 +247,7 @@ namespace OSHGui
 		 *
 		 * \param bounds
 		 */
-		virtual void SetBounds(const Drawing::RectangleF &bounds);
+		virtual void SetBounds(const Drawing::RectangleI &bounds);
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -255,7 +255,7 @@ namespace OSHGui
 		 * \param location
 		 * \param size
 		 */
-		virtual void SetBounds(const Drawing::PointF &location, const Drawing::SizeF &size);
+		virtual void SetBounds(const Drawing::PointI &location, const Drawing::SizeI &size);
 		/**
 		 * Legt die Größe und Position des Steuerelements relativ zum übergeordneten
 		 * Steuerelement fest.
@@ -272,7 +272,7 @@ namespace OSHGui
 		 *
 		 * \return bounds
 		 */
-		virtual const Drawing::RectangleF GetBounds() const;
+		virtual const Drawing::RectangleI GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.
@@ -287,14 +287,14 @@ namespace OSHGui
 		 *
 		 * \param location
 		 */
-		virtual void SetLocation(const Drawing::PointF &location);
+		virtual void SetLocation(const Drawing::PointI &location);
 		/**
 		 * Ruft die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers ab.
 		 *
 		 * \return location
 		 */
-		virtual const Drawing::PointF& GetLocation() const;
+		virtual const Drawing::PointI& GetLocation() const;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
@@ -307,13 +307,13 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size);
+		virtual void SetSize(const Drawing::SizeI &size);
 		/**
 		 * Ruft die Höhe und Breite des Steuerelements ab.
 		 *
 		 * \return size
 		 */
-		virtual const Drawing::SizeF& GetSize() const;
+		virtual const Drawing::SizeI& GetSize() const;
 		/**
 		 * Ruft den Abstand zwischen dem linken Rand des Steuerelements und dem linken
 		 * Rand des Clientbereichs des zugehörigen Containers ab.
@@ -373,7 +373,7 @@ namespace OSHGui
 		 *
 		 * \param tag
 		 */
-		virtual void SetTag(Misc::Any &tag);
+		virtual void SetTag(const Misc::Any &tag);
 		/**
 		 * Ruft die mit dem Steuerelement verknüpften benutzerdefinierten Daten ab.
 		 *
@@ -403,55 +403,55 @@ namespace OSHGui
 		 *
 		 * \return font
 		 */
-		const Drawing::FontPtr& GetFont() const;
+		virtual const Drawing::FontPtr& GetFont() const;
 		/**
 		 * Legt den angezeigten Cursor fest, wenn sich die Maus über dem Steuerelement befindet.
 		 *
 		 * \param cursor
 		 */
-		void SetCursor(const CursorPtr &cursor);
+		virtual void SetCursor(const CursorPtr &cursor);
 		/** 
 		 * Ruft den angezeigten Cursor ab, wenn sich die Maus über dem Steuerelement befindet.
 		 *
 		 * \return cursor
 		 */
-		virtual CursorPtr GetCursor() const;
+		virtual const CursorPtr& GetCursor() const;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color);
+		virtual void SetForeColor(const Drawing::Color &color);
 		/**
 		 * Ruft die Fordergrundfarbe des Steuerelements ab.
 		 *
 		 * \return color
 		 */
-		virtual Drawing::Color GetForeColor() const;
+		virtual const Drawing::Color& GetForeColor() const;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetBackColor(Drawing::Color color);
+		virtual void SetBackColor(const Drawing::Color &color);
 		/**
 		 * Ruft die Hintergrundfarbe des Steuerelements ab.
 		 *
 		 * \return color
 		 */
-		virtual Drawing::Color GetBackColor() const;
+		virtual const Drawing::Color& GetBackColor() const;
 		/**
 		 * Legt die Farbe für das fokusierte Steuerelement fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetMouseOverFocusColor(Drawing::Color color);
+		virtual void SetMouseOverFocusColor(const Drawing::Color &color);
 		/**
 		 * Ruft die Farbe für das fokusierte Steuerelement ab.
 		 *
 		 * \return color
 		 */
-		virtual Drawing::Color GetMouseOverFocusColor() const;
+		virtual const Drawing::Color& GetMouseOverFocusColor() const;
 		/**
 		 * Ruft das LocationChangedEvent für das Steuerelement ab.
 		 *
@@ -579,7 +579,7 @@ namespace OSHGui
 		 * \param point
 		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const;
+		virtual bool Intersect(const Drawing::PointI &point) const;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -590,14 +590,14 @@ namespace OSHGui
 		 * \param point
 		 * \return Clientkoordinaten
 		 */
-		virtual const Drawing::PointF PointToClient(const Drawing::PointF &point) const;
+		virtual Drawing::PointI PointToClient(const Drawing::PointI &point) const;
 		/**
 		 * Rechnet die Position des angegeben Clientpunkts in Bildschirmkoordinaten um.
 		 *
 		 * \param point
 		 * \return Bildschirmkoordinaten
 		 */
-		virtual const Drawing::PointF PointToScreen(const Drawing::PointF &point) const;
+		virtual Drawing::PointI PointToScreen(const Drawing::PointI &point) const;
 
 		/**
 		* Fügt ein untergeordnetes Steuerelement hinzu.
@@ -618,7 +618,7 @@ namespace OSHGui
 		* \param point
 		* \return 0, falls sich dort kein Steuerelement befindet
 		*/
-		Control* GetChildAtPoint(const Drawing::PointF &point) const;
+		Control* GetChildAtPoint(const Drawing::PointI &point) const;
 		/**
 		* Ruft das untergeordnete Steuerelement mit dem entsprechenden Namen ab.
 		*
@@ -736,9 +736,9 @@ namespace OSHGui
 			 
 		Misc::Any tag;
 		
-		Drawing::PointF location;
-		Drawing::PointF absoluteLocation;
-		Drawing::SizeF size;
+		Drawing::PointI location;
+		Drawing::PointI absoluteLocation;
+		Drawing::SizeI size;
 		
 		LocationChangedEvent locationChangedEvent;
 		SizeChangedEvent sizeChangedEvent;
@@ -771,7 +771,6 @@ namespace OSHGui
 		Control *parent;
 
 	private:
-		//copying prohibited
 		Control(const Control&);
 		void operator=(const Control&);
 

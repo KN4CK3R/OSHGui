@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF PictureBox::DefaultSize(100, 100);
+	const Drawing::SizeI PictureBox::DefaultSize(100, 100);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -45,9 +45,9 @@ namespace OSHGui
 		return image;
 	}
 	//---------------------------------------------------------------------------
-	void PictureBox::SetStretch(bool _stretch)
+	void PictureBox::SetStretch(bool stretch_)
 	{
-		stretch = _stretch;
+		stretch = stretch_;
 		if (image)
 		{
 			Invalidate();

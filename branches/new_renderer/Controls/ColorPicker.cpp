@@ -15,7 +15,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF ColorPicker::DefaultSize(100, 150);
+	const Drawing::SizeI ColorPicker::DefaultSize(100, 150);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -34,7 +34,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ColorPicker::SetSize(const Drawing::SizeF &size)
+	void ColorPicker::SetSize(const Drawing::SizeI &size)
 	{
 		if (this->size != size)
 		{
@@ -44,61 +44,55 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorPicker::SetColor(Drawing::Color color)
+	void ColorPicker::SetColor(const Drawing::Color &color_)
 	{
-		if (this->color != color)
+		if (color != color_)
 		{
-			this->color = color;
+			color = color_;
 		
 			CalculateColorCursorLocation();
 
-			Drawing::Color args = color;
-			colorChangedEvent.Invoke(this, args);
+			colorChangedEvent.Invoke(this, color);
 
 			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorPicker::GetColor() const
+	const Drawing::Color& ColorPicker::GetColor() const
 	{
 		return color;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ColorPicker::GetColorAtPoint(int x, int y) const
+	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::PointI &point) const
 	{
 		using namespace Drawing;
 
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (x < 0 || x >= GetWidth())
+		if (point.X < 0 || point.X >= GetWidth())
 		{
 			throw Misc::ArgumentOutOfRangeException("x");
 		}
-		if (y < 0 || y >= GetHeight())
+		if (point.Y < 0 || point.Y >= GetHeight())
 		{
 			throw Misc::ArgumentOutOfRangeException("y");
 		}
 		#endif
-		
-		double hue = (1.0 / GetWidth()) * x;
+
+		double hue = (1.0 / GetWidth()) * point.X;
 		hue = hue - (int)hue;
 		double saturation, brightness;
-		if (y <= GetHeight() / 2.0)
+		if (point.Y <= GetHeight() / 2.0)
 		{
-			saturation = y / (GetHeight() / 2.0);
+			saturation = point.Y / (GetHeight() / 2.0);
 			brightness = 1;
 		}
 		else
 		{
-			saturation = (GetHeight() / 2.0) / y;
-			brightness = ((GetHeight() / 2.0) - y + (GetHeight() / 2.0)) / y;
+			saturation = (GetHeight() / 2.0) / point.Y;
+			brightness = ((GetHeight() / 2.0) - point.Y + (GetHeight() / 2.0)) / point.Y;
 		}
 
 		return Color::FromHSB(hue, saturation, brightness);
-	}
-	//---------------------------------------------------------------------------
-	Drawing::Color ColorPicker::GetColorAtPoint(const Drawing::PointF &point) const
-	{
-		return GetColorAtPoint(point.X, point.Y);
 	}
 	//---------------------------------------------------------------------------
 	ColorChangedEvent& ColorPicker::GetColorChangedEvent()
@@ -195,8 +189,8 @@ namespace OSHGui
 			colorCursorLocation = mouse.Location - absoluteLocation;
 			
 			color = GetColorAtPoint(colorCursorLocation);
-			Drawing::Color args = color;
-			colorChangedEvent.Invoke(this, args);
+			
+			colorChangedEvent.Invoke(this, color);
 
 			Invalidate();
 		}
@@ -213,8 +207,8 @@ namespace OSHGui
 			colorCursorLocation = mouse.Location - absoluteLocation;
 			
 			color = GetColorAtPoint(colorCursorLocation);
-			Drawing::Color colorArgs = color;
-			colorChangedEvent.Invoke(this, colorArgs);
+			
+			colorChangedEvent.Invoke(this, color);
 
 			Invalidate();
 		}

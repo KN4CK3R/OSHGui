@@ -17,7 +17,7 @@
 namespace OSHGui
 {
 	std::map<Key::Keys, Misc::AnsiString> HotkeyControl::hotkeyNames;
-	const Drawing::SizeF HotkeyControl::DefaultSize(100, 24);
+	const Drawing::SizeI HotkeyControl::DefaultSize(100, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -221,7 +221,7 @@ namespace OSHGui
 			hotkeyNames[OemClear] = EnumToString(OemClear);
 		}
 
-		textBox->SetLocation(0, 0);
+		textBox->SetLocation(Drawing::PointI(0, 0));
 		textBox->ShowCaret(false);
 		textBox->SetParent(this);
 		
@@ -234,13 +234,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetSize(const Drawing::SizeF &size)
+	void HotkeyControl::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 		
 		textBox->SetSize(GetSize());
 
-		clearButtonLocation = Drawing::PointF(GetWidth() - 13, GetHeight() * 0.5f - 4);
+		clearButtonLocation = Drawing::PointI(GetWidth() - 13, GetHeight() * 0.5f - 4);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetFont(const Drawing::FontPtr &font)
@@ -390,7 +390,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::OnMouseClick(const MouseMessage &mouse)
 	{
-		if (Intersection::TestRectangle(absoluteLocation + clearButtonLocation, Drawing::SizeF(9, 8), mouse.Location))
+		if (Intersection::TestRectangle(absoluteLocation + clearButtonLocation, Drawing::SizeI(9, 8), mouse.Location))
 		{
 			ClearHotkey();
 		}

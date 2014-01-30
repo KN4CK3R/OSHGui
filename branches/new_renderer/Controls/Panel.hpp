@@ -28,7 +28,7 @@ namespace OSHGui
 		virtual void PopulateGeometry() override;
 
 	private:
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 	};
 }
 

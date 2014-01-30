@@ -34,7 +34,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt das übergeordnete Steuerelement fest.
 		 * Kann nur ein TabControl sein!

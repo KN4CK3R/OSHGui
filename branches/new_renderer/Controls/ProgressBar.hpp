@@ -80,13 +80,13 @@ namespace OSHGui
 		 * \param point
 		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 		
 	protected:
 		virtual void PopulateGeometry() override;
 
 	private:
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void Adjust();
 	

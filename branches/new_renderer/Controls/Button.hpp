@@ -38,7 +38,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *
@@ -62,7 +62,7 @@ namespace OSHGui
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
@@ -81,8 +81,8 @@ namespace OSHGui
 		std::unique_ptr<Label> label;
 
 	private:
-		static const Drawing::SizeF DefaultSize;
-		static const Drawing::PointF DefaultLabelOffset;
+		static const Drawing::SizeI DefaultSize;
+		static const Drawing::PointI DefaultLabelOffset;
 	};
 }
 

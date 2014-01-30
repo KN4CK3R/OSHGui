@@ -24,26 +24,26 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Timer::SetEnabled(bool _isEnabled)
+	void Timer::SetEnabled(bool isEnabled_)
 	{
-		if (isEnabled != _isEnabled)
+		if (isEnabled != isEnabled_)
 		{
 			next = Misc::DateTime();
 			
-			Control::SetEnabled(isEnabled);
+			Control::SetEnabled(isEnabled_);
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Timer::SetInterval(int _interval)
+	void Timer::SetInterval(int interval_)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (_interval < 1)
+		if (interval_ < 1)
 		{
 			throw Misc::ArgumentOutOfRangeException("interval");
 		}
 		#endif
 		
-		interval = Misc::TimeSpan::FromMilliseconds(_interval);
+		interval = Misc::TimeSpan::FromMilliseconds(interval_);
 	}
 	//---------------------------------------------------------------------------
 	int Timer::GetInterval() const
@@ -68,7 +68,7 @@ namespace OSHGui
 		SetEnabled(false);
 	}
 	//---------------------------------------------------------------------------
-	bool Timer::Intersect(const Drawing::PointF &point) const
+	bool Timer::Intersect(const Drawing::PointI &point) const
 	{
 		return false;
 	}

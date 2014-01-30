@@ -18,8 +18,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::PointF Form::DefaultLocation(50, 50);
-	const Drawing::SizeF Form::DefaultSize(300, 300);
+	const Drawing::PointI Form::DefaultLocation(50, 50);
+	const Drawing::SizeI Form::DefaultSize(300, 300);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -35,11 +35,11 @@ namespace OSHGui
 		isFocusable = true;
 
 		captionBar = new CaptionBar();
-		captionBar->SetLocation(Drawing::PointF(0, 0));
+		captionBar->SetLocation(Drawing::PointI(0, 0));
 		AddSubControl(captionBar);
 
 		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::PointF(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
+		containerPanel->SetLocation(Drawing::PointI(DefaultBorderPadding, DefaultBorderPadding + CaptionBar::DefaultCaptionBarHeight));
 		containerPanel->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel);
 
@@ -51,7 +51,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Form::SetSize(const Drawing::SizeF &size)
+	void Form::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
@@ -69,7 +69,7 @@ namespace OSHGui
 		return captionBar->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Form::SetForeColor(Drawing::Color color)
+	void Form::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
@@ -166,13 +166,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
 	//---------------------------------------------------------------------------
-	const Drawing::PointF Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
+	const Drawing::SizeI Form::CaptionBar::CaptionBarButton::DefaultSize(17, 17);
+	const Drawing::PointI Form::CaptionBar::CaptionBarButton::DefaultCrossOffset(8, 6);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBarButton::CaptionBarButton()
 	{
 		isFocusable = false;
 
-		SetSize(Drawing::SizeF(DefaultButtonWidth, DefaultButtonHeight));
+		SetSize(DefaultSize);
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::CaptionBarButton::CalculateAbsoluteLocation()
@@ -211,7 +212,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Form::Captionbar
 	//---------------------------------------------------------------------------
-	const Drawing::PointF Form::CaptionBar::DefaultTitleOffset(4, 4);
+	const Drawing::PointI Form::CaptionBar::DefaultTitleOffset(4, 4);
 	//---------------------------------------------------------------------------
 	Form::CaptionBar::CaptionBar()
 	{
@@ -230,11 +231,11 @@ namespace OSHGui
 		AddSubControl(closeButton);
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::SetSize(const Drawing::SizeF &size)
+	void Form::CaptionBar::SetSize(const Drawing::SizeI &size)
 	{
-		Control::SetSize(Drawing::SizeF(size.Width, DefaultCaptionBarHeight));
+		Control::SetSize(Drawing::SizeI(size.Width, DefaultCaptionBarHeight));
 
-		closeButton->SetLocation(Drawing::PointF(size.Width - CaptionBarButton::DefaultButtonWidth - DefaultButtonPadding, 0));
+		closeButton->SetLocation(Drawing::PointI(size.Width - CaptionBarButton::DefaultSize.Width - DefaultButtonPadding, 0));
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::SetText(const Misc::AnsiString &text)
@@ -247,7 +248,7 @@ namespace OSHGui
 		return titleLabel->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::SetForeColor(Drawing::Color color)
+	void Form::CaptionBar::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 

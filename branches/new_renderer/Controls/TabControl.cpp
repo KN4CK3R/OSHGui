@@ -18,7 +18,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF TabControl::DefaultSize(200, 200);
+	const Drawing::SizeI TabControl::DefaultSize(200, 200);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -29,7 +29,7 @@ namespace OSHGui
 	{
 		type = ControlType::TabControl;
 
-		lastSwitchButton = new TabControlSwitchButton(0);
+		lastSwitchButton = new TabControlSwitchButton(TabControlSwitchButton::TabControlSwitchButtonDirection::Left);
 		lastSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)
 		{
 			if (startIndex > 0)
@@ -40,7 +40,7 @@ namespace OSHGui
 		});
 		AddSubControl(lastSwitchButton);
 
-		nextSwitchButton = new TabControlSwitchButton(1);
+		nextSwitchButton = new TabControlSwitchButton(TabControlSwitchButton::TabControlSwitchButtonDirection::Right);
 		nextSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)
 		{
 			if (maxIndex < (int)bindings.size())
@@ -69,7 +69,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TabControl::SetSize(const Drawing::SizeF &size)
+	void TabControl::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(size);
 
@@ -89,7 +89,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::SetForeColor(Drawing::Color color)
+	void TabControl::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
@@ -103,7 +103,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::SetBackColor(Drawing::Color color)
+	void TabControl::SetBackColor(const Drawing::Color &color)
 	{
 		Control::SetBackColor(color);
 
@@ -206,7 +206,7 @@ namespace OSHGui
 		binding->tabPage = tabPage;
 
 		auto button = new TabControlButton(*binding);
-		button->SetLocation(Drawing::PointF(0, 0));
+		button->SetLocation(Drawing::PointI(0, 0));
 		button->SetForeColor(GetForeColor());
 		button->SetBackColor(GetBackColor());
 
@@ -381,10 +381,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//TabControl::TabControlButton
 	//---------------------------------------------------------------------------
-	const Drawing::PointF TabControl::TabControlButton::DefaultLabelOffset(4, 2);
+	const Drawing::PointI TabControl::TabControlButton::DefaultLabelOffset(4, 2);
 	//---------------------------------------------------------------------------
-	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding &_binding)
-		: binding(_binding),
+	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding &binding_)
+		: binding(binding_),
 		  label(new Label())
 	{
 		active = false;
@@ -396,7 +396,7 @@ namespace OSHGui
 		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlButton::SetForeColor(Drawing::Color color)
+	void TabControl::TabControlButton::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
@@ -466,10 +466,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//TabControl::TabControlSwitchButton
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF TabControl::TabControlSwitchButton::DefaultSize(9, 9);
+	const Drawing::SizeI TabControl::TabControlSwitchButton::DefaultSize(9, 9);
 	//---------------------------------------------------------------------------
-	TabControl::TabControlSwitchButton::TabControlSwitchButton(int _direction)
-		: direction(_direction)
+	TabControl::TabControlSwitchButton::TabControlSwitchButton(TabControlSwitchButtonDirection direction_)
+		: direction(direction_)
 	{
 		SetSize(DefaultSize);
 	}
@@ -486,7 +486,7 @@ namespace OSHGui
 		g.FillRectangle(borderColor, PointF(0, 0), GetSize());
 		g.FillRectangle(base, PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		if (direction == 0)
+		if (direction == TabControlSwitchButtonDirection::Left)
 		{
 			for (int i = 0; i < 3; ++i)
 			{

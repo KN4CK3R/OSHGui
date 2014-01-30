@@ -15,8 +15,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeF TrackBar::SliderSize(8, 16);
-	const Drawing::SizeF TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
+	const Drawing::SizeI TrackBar::SliderSize(8, 16);
+	const Drawing::SizeI TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -38,11 +38,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TrackBar::SetSize(const Drawing::SizeF &size)
+	void TrackBar::SetSize(const Drawing::SizeI &size)
 	{
 		if (size.Height < SliderSize.Height + 2)
 		{
-			Control::SetSize(Drawing::SizeF(size.Width, SliderSize.Height + 2));
+			Control::SetSize(Drawing::SizeI(size.Width, SliderSize.Height + 2));
 		}
 		else
 		{
@@ -105,22 +105,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void TrackBar::SetValueInternal(int value)
+	void TrackBar::SetValueInternal(int value_)
 	{
 		pixelsPerTick = (float)(GetWidth() - SliderSize.Width) / ((maximum - minimum) / tickFrequency);
 
-		if (value < 0)
+		if (value_ < 0)
 		{
-			value = 0;
+			value_ = 0;
 		}
-		if (value > maximum - minimum)
+		if (value_ > maximum - minimum)
 		{
-			value = maximum - minimum;
+			value_ = maximum - minimum;
 		}
 		
-		if (this->value != value)
+		if (value != value_)
 		{
-			this->value = value;
+			value = value_;
 			
 			valueChangedEvent.Invoke(this);
 

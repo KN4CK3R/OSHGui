@@ -43,19 +43,19 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetBackColor(Drawing::Color color) override;
+		virtual void SetBackColor(const Drawing::Color &color) override;
 		/**
 		 * Ruft die TabPage mit dem entsprechenden Namen ab.
 		 *
@@ -129,7 +129,7 @@ namespace OSHGui
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	private:
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void CalculateButtonLocationAndCount();
 
@@ -151,7 +151,7 @@ namespace OSHGui
 		public:
 			TabControlButton(TabPageButtonBinding &binding);
 
-			virtual void SetForeColor(Drawing::Color color) override;
+			virtual void SetForeColor(const Drawing::Color &color) override;
 			void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 
@@ -164,7 +164,7 @@ namespace OSHGui
 			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
 		private:
-			static const Drawing::PointF DefaultLabelOffset;
+			static const Drawing::PointI DefaultLabelOffset;
 
 			TabPageButtonBinding &binding;
 			std::unique_ptr<Label> label;
@@ -178,15 +178,21 @@ namespace OSHGui
 		class TabControlSwitchButton : public Control
 		{
 		public:
-			static const Drawing::SizeF DefaultSize;
+			enum class TabControlSwitchButtonDirection
+			{
+				Left,
+				Right
+			};
 
-			TabControlSwitchButton(int direction);
+			static const Drawing::SizeI DefaultSize;
+
+			TabControlSwitchButton(TabControlSwitchButtonDirection direction);
 
 		protected:
 			virtual void PopulateGeometry() override;
 
 		private:
-			int direction;
+			TabControlSwitchButtonDirection direction;
 		};
 
 		int startIndex;

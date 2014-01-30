@@ -67,7 +67,7 @@ namespace OSHGui
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Ruft das CheckedChangeEvent für das Steuerelement ab.
 		 *
@@ -83,7 +83,7 @@ namespace OSHGui
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 	
 	protected:
-		static const Drawing::PointF DefaultLabelOffset;
+		static const Drawing::PointI DefaultLabelOffset;
 		static const int DefaultCheckBoxSize = 17;
 
 		virtual void PopulateGeometry() override;
@@ -92,9 +92,9 @@ namespace OSHGui
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
 		bool checked;
-		Drawing::PointF checkBoxLocation;
-		Drawing::PointF textLocation;
-		Drawing::PointF checkBoxAbsoluteLocation;
+		Drawing::PointI checkBoxLocation;
+		Drawing::PointI textLocation;
+		Drawing::PointI checkBoxAbsoluteLocation;
 		
 		CheckedChangedEvent checkedChangedEvent;
 

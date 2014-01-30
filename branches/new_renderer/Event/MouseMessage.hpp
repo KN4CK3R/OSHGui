@@ -46,7 +46,7 @@ namespace OSHGui
 	
 		MouseStates State;
 		MouseButton::MouseButtons Button;
-		Drawing::PointF Location;
+		Drawing::PointI Location;
 		int Delta;
 		
 	public:
@@ -61,7 +61,7 @@ namespace OSHGui
 
 		}
 
-		MouseMessage(MouseStates state, MouseButton::MouseButtons button, Drawing::PointF location, int delta)
+		MouseMessage(MouseStates state, MouseButton::MouseButtons button, Drawing::PointI location, int delta)
 		{
 			this->State = state;
 			this->Button = button;
@@ -72,7 +72,7 @@ namespace OSHGui
 	private:
 		MouseStates state;
 		MouseButton::MouseButtons button;
-		Drawing::PointF location;
+		Drawing::PointI location;
 		int delta;
 	};
 }

@@ -40,7 +40,7 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
@@ -137,7 +137,7 @@ namespace OSHGui
 		 * \param point
 		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::PointF &point) const override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 	
@@ -150,8 +150,8 @@ namespace OSHGui
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
 
 	private:
-		static const Drawing::SizeF DefaultSize;
-		static const Drawing::SizeF DefaultItemAreaPadding;
+		static const Drawing::SizeI DefaultSize;
+		static const Drawing::SizeI DefaultItemAreaPadding;
 		static const int DefaultItemPadding;
 
 		void CheckForScrollBar();
@@ -161,8 +161,8 @@ namespace OSHGui
 		int maxVisibleItems;
 		bool autoScrollEnabled;
 		
-		Drawing::RectangleF itemsRect;
-		Drawing::SizeF itemAreaSize;
+		Drawing::RectangleI itemsRect;
+		Drawing::SizeI itemAreaSize;
 		
 		std::vector<Misc::AnsiString> items;
 

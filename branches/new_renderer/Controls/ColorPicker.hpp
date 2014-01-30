@@ -18,8 +18,8 @@ namespace OSHGui
 	/**
 	 * Tritt ein, wenn sich der Wert der Color-Eigenschaft ändert.
 	 */
-	typedef Event<void(Control*, Drawing::Color &color)> ColorChangedEvent;
-	typedef EventHandler<void(Control*, Drawing::Color &color)> ColorChangedEventHandler;
+	typedef Event<void(Control*, const Drawing::Color &color)> ColorChangedEvent;
+	typedef EventHandler<void(Control*, const Drawing::Color &color)> ColorChangedEventHandler;
 
 	/**
 	 * Wird zum Auswählen einer Farbe verwendet.
@@ -39,34 +39,26 @@ namespace OSHGui
 		 *
 		 * \param size
 		 */
-		virtual void SetSize(const Drawing::SizeF &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die ausgewählte Farbe fest.
 		 *
 		 * \param color die Farbe
 		 */
-		void SetColor(Drawing::Color color);
+		void SetColor(const Drawing::Color &color);
 		/**
 		 * Ruft die ausgewählte Farbe ab.
 		 *
 		 * \return color
 		 */
-		Drawing::Color GetColor() const;
-		/**
-		 * Ruft die Farbe an einem bestimmten Punkt ab.
-		 *
-		 * \param x
-		 * \param y
-		 * \return color
-		 */
-		Drawing::Color GetColorAtPoint(int x, int y) const;
+		const Drawing::Color& GetColor() const;
 		/**
 		 * Ruft die Farbe an einem bestimmten Punkt ab.
 		 *
 		 * \param point
 		 * \return color
 		 */
-		Drawing::Color GetColorAtPoint(const Drawing::PointF &point) const;
+		Drawing::Color GetColorAtPoint(const Drawing::PointI &point) const;
 
 		/**
 		 * Ruft das ColorChangeEvent für das Steuerelement ab.
@@ -76,7 +68,7 @@ namespace OSHGui
 		ColorChangedEvent& GetColorChangedEvent();
 
 	private:
-		static const Drawing::SizeF DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void CreateGradientTexture();
 		void CalculateColorCursorLocation();
@@ -88,7 +80,7 @@ namespace OSHGui
 		virtual void OnMouseMove(const MouseMessage &mouse) override;
 	
 		Drawing::Color color;
-		Drawing::PointF colorCursorLocation;
+		Drawing::PointI colorCursorLocation;
 		Drawing::ImagePtr gradient;
 
 		ColorChangedEvent colorChangedEvent;
