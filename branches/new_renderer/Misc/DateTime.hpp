@@ -19,38 +19,37 @@ namespace OSHGui
 	namespace Misc
 	{
 		/**
+		 * Gibt an, ob ein DateTime-Objekt eine lokale Zeit, eine koordinate Weltzeit
+		 * (UTC) angibt oder weder lokale Zeit noch UTC angegeben sind.
+		 */
+		enum class DateTimeKind
+		{
+			Unspecified = 0,
+			Utc,
+			Local
+		};
+		
+		/**
+		 * Gibt den Wochentag an.
+		 */
+		enum class DayOfWeek
+		{
+			Sunday = 0,
+			Monday,
+			Tuesday,
+			Wednesday,
+			Thursday,
+			Friday,
+			Saturday
+		};
+
+		/**
 		 * Stellt einen Zeitpunkt dar, der durch Datum und Uhrzeit dargestellt wird.
 		 */
 		class OSHGUI_EXPORT DateTime
 		{
-		public:
-			/**
-			 * Gibt an, ob ein DateTime-Objekt eine lokale Zeit, eine koordinate Weltzeit
-			 * (UTC) angibt oder weder lokale Zeit noch UTC angegeben sind.
-			 */
-			enum DateTimeKind
-			{
-				Unspecified = 0,
-				Utc,
-				Local
-			};
-		
-			/**
-			 * Gibt den Wochentag an.
-			 */
-			enum DayOfWeek
-			{
-				Sunday = 0,
-				Monday,
-				Tuesday,
-				Wednesday,
-				Thursday,
-				Friday,
-				Saturday
-			};
-
 		private:
-			enum DatePart
+			enum class DatePart
 			{
 				Year = 0,
 				DayOfYear,
@@ -108,10 +107,10 @@ namespace OSHGui
 			static const unsigned long long KindLocalAmbiguousDst;
 			static const int KindShift;
 
-			static const AnsiString dayNames[7];
-			static const AnsiString monthNames[12];
+			static const AnsiString DayNames[7];
+			static const AnsiString MonthNames[12];
 
-			unsigned long long dateData;
+			unsigned long long dateData_;
 
 		public:
 			/**

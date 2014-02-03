@@ -15,45 +15,45 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Timer::Timer()
-		: interval(Misc::TimeSpan::FromMilliseconds(100))
+		: interval_(Misc::TimeSpan::FromMilliseconds(100))
 	{
-		type = ControlType::Timer;
+		type_ = ControlType::Timer;
 	
 		SetEnabled(false);
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void Timer::SetEnabled(bool isEnabled_)
+	void Timer::SetEnabled(bool isEnabled)
 	{
-		if (isEnabled != isEnabled_)
+		if (isEnabled_ != isEnabled)
 		{
-			next = Misc::DateTime();
+			next_ = Misc::DateTime();
 			
-			Control::SetEnabled(isEnabled_);
+			Control::SetEnabled(isEnabled);
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Timer::SetInterval(int interval_)
+	void Timer::SetInterval(int interval)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (interval_ < 1)
+		if (interval < 1)
 		{
 			throw Misc::ArgumentOutOfRangeException("interval");
 		}
 		#endif
 		
-		interval = Misc::TimeSpan::FromMilliseconds(interval_);
+		interval_ = Misc::TimeSpan::FromMilliseconds(interval);
 	}
 	//---------------------------------------------------------------------------
 	int Timer::GetInterval() const
 	{
-		return interval.GetTotalMilliseconds();
+		return interval_.GetTotalMilliseconds();
 	}
 	//---------------------------------------------------------------------------
 	TickEvent& Timer::GetTickEvent()
 	{
-		return tickEvent;
+		return tickEvent_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -75,11 +75,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Timer::InjectTime(const Misc::DateTime &time)
 	{
-		if (time >= next)
+		if (time >= next_)
 		{
-			next = time.Add(interval);
+			next_ = time.Add(interval_);
 			
-			tickEvent.Invoke(this);
+			tickEvent_.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------

@@ -122,6 +122,8 @@ namespace OSHGui
 			float GetAlpha() const;
 			argb_t GetARGB() const;
 
+			bool IsTranslucent() const;
+
 			/**
 			 * Berechnet den Farbton der Farbe.
 			 *
@@ -164,12 +166,12 @@ namespace OSHGui
 			void SetARGB(argb_t argb);
 			void CalculateARGB();
 
-			float alpha;
-			float red;
-			float green;
-			float blue;
+			float alpha_;
+			float red_;
+			float green_;
+			float blue_;
 
-			argb_t argb;
+			argb_t argb_;
 		};
 
 		bool operator==(const Color &lhs, const Color &rhs);

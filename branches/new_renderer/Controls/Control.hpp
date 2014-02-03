@@ -676,9 +676,9 @@ namespace OSHGui
 		private:
 			void LoopThrough(Control *container);
 
-			Control *start;
-			Control *current;
-			std::vector<Control*> controlStack;
+			Control *start_;
+			Control *current_;
+			std::vector<Control*> controlStack_;
 		};
 
 	private:
@@ -718,63 +718,63 @@ namespace OSHGui
 
 		static const int DefaultBorderPadding = 6;
 
-		std::deque<Control*> internalControls;
-		std::deque<Control*> controls;
+		std::deque<Control*> internalControls_;
+		std::deque<Control*> controls_;
 
-		Misc::AnsiString name;
-		ControlType type;
+		Misc::AnsiString name_;
+		ControlType type_;
 
-		bool canRaiseEvents;
-		bool isEnabled;
-		bool isVisible;
-		bool isInside;
-		bool isClicked;
-		bool isFocusable;
-		bool isFocused;
-		bool hasCaptured;
-		bool autoSize;
+		bool canRaiseEvents_;
+		bool isEnabled_;
+		bool isVisible_;
+		bool isInside_;
+		bool isClicked_;
+		bool isFocusable_;
+		bool isFocused_;
+		bool hasCaptured_;
+		bool autoSize_;
 			 
-		Misc::Any tag;
+		Misc::Any tag_;
 		
-		Drawing::PointI location;
-		Drawing::PointI absoluteLocation;
-		Drawing::SizeI size;
+		Drawing::PointI location_;
+		Drawing::PointI absoluteLocation_;
+		Drawing::SizeI size_;
 		
-		LocationChangedEvent locationChangedEvent;
-		SizeChangedEvent sizeChangedEvent;
-		ClickEvent clickEvent;
-		MouseClickEvent mouseClickEvent;
-		MouseDownEvent mouseDownEvent;
-		MouseUpEvent mouseUpEvent;
-		MouseMoveEvent mouseMoveEvent;
-		MouseScrollEvent mouseScrollEvent;
-		MouseEnterEvent mouseEnterEvent;
-		MouseLeaveEvent mouseLeaveEvent;
-		MouseCaptureChangedEvent mouseCaptureChangedEvent;
-		KeyDownEvent keyDownEvent;
-		KeyPressEvent keyPressEvent;
-		KeyUpEvent keyUpEvent;
-		FocusGotEvent focusGotEvent;
-		FocusLostEvent focusLostEvent;
+		LocationChangedEvent locationChangedEvent_;
+		SizeChangedEvent sizeChangedEvent_;
+		ClickEvent clickEvent_;
+		MouseClickEvent mouseClickEvent_;
+		MouseDownEvent mouseDownEvent_;
+		MouseUpEvent mouseUpEvent_;
+		MouseMoveEvent mouseMoveEvent_;
+		MouseScrollEvent mouseScrollEvent_;
+		MouseEnterEvent mouseEnterEvent_;
+		MouseLeaveEvent mouseLeaveEvent_;
+		MouseCaptureChangedEvent mouseCaptureChangedEvent_;
+		KeyDownEvent keyDownEvent_;
+		KeyPressEvent keyPressEvent_;
+		KeyUpEvent keyUpEvent_;
+		FocusGotEvent focusGotEvent_;
+		FocusLostEvent focusLostEvent_;
 		
-		Drawing::Color foreColor;
-		Drawing::Color backColor;
-		Drawing::Color mouseOverFocusColor;
+		Drawing::Color foreColor_;
+		Drawing::Color backColor_;
+		Drawing::Color mouseOverFocusColor_;
 		
-		Drawing::FontPtr font;
-		std::shared_ptr<Cursor> cursor;
+		Drawing::FontPtr font_;
+		std::shared_ptr<Cursor> cursor_;
 
-		bool needsRedraw;
-		Drawing::GeometryBufferPtr geometry;
-		std::unique_ptr<Drawing::RenderSurface> surface;
+		bool needsRedraw_;
+		Drawing::GeometryBufferPtr geometry_;
+		std::unique_ptr<Drawing::RenderSurface> surface_;
 
-		Control *parent;
+		Control *parent_;
 
 	private:
 		Control(const Control&);
 		void operator=(const Control&);
 
-		AnchorStyles anchor;
+		AnchorStyles anchor_;
 	};
 }
 

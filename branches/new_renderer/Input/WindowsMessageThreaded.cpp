@@ -17,26 +17,26 @@ namespace OSHGui
 		{
 			auto &app = Application::Instance();
 
-			while (!mouseMessages.IsEmpty())
+			while (!mouseMessages_.IsEmpty())
 			{
-				app.ProcessMouseMessage(mouseMessages.Pop());
+				app.ProcessMouseMessage(mouseMessages_.Pop());
 			}
-			while (!keyboardMessages.IsEmpty())
+			while (!keyboardMessages_.IsEmpty())
 			{
-				app.ProcessKeyboardMessage(keyboardMessages.Pop());
+				app.ProcessKeyboardMessage(keyboardMessages_.Pop());
 			}
 		}
 		//---------------------------------------------------------------------------
 		bool WindowsMessageThreaded::InjectMouseMessage(MouseMessage &&mouse)
 		{
-			mouseMessages.Push(mouse);
+			mouseMessages_.Push(mouse);
 
 			return false;
 		}
 		//---------------------------------------------------------------------------
 		bool WindowsMessageThreaded::InjectKeyboardMessage(KeyboardMessage &&keyboard)
 		{
-			keyboardMessages.Push(keyboard);
+			keyboardMessages_.Push(keyboard);
 
 			return false;
 		}

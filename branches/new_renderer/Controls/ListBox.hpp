@@ -156,19 +156,19 @@ namespace OSHGui
 
 		void CheckForScrollBar();
 		
-		int selectedIndex;
-		int firstVisibleItemIndex;
-		int maxVisibleItems;
-		bool autoScrollEnabled;
+		int selectedIndex_;
+		int firstVisibleItemIndex_;
+		int maxVisibleItems_;
+		bool autoScrollEnabled_;
 		
-		Drawing::RectangleI itemsRect;
-		Drawing::SizeI itemAreaSize;
+		Drawing::RectangleI itemsRect_;
+		Drawing::SizeI itemAreaSize_;
 		
-		std::vector<Misc::AnsiString> items;
+		std::vector<Misc::AnsiString> items_;
 
-		SelectedIndexChangedEvent selectedIndexChangedEvent;
+		SelectedIndexChangedEvent selectedIndexChangedEvent_;
 
-		ScrollBar *scrollBar;
+		ScrollBar *scrollBar_;
 	};
 }
 

@@ -113,6 +113,12 @@ namespace OSHGui
 		 */
 		virtual const std::deque<Control*>& GetControls() const override;
 		/**
+		 * Legt das DialogResult für das Fenster fest.
+		 *
+		 * \param result
+		 */
+		void SetDialogResult(DialogResult result);
+		/**
 		 * Ruft das DialogResult für das Fenster ab.
 		 *
 		 * \return dialogResult
@@ -160,19 +166,19 @@ namespace OSHGui
 	protected:
 		virtual void PopulateGeometry() override;
 
-		DialogResult dialogResult;
-
 	private:
 		static const Drawing::PointI DefaultLocation;
 		static const Drawing::SizeI DefaultSize;
 
-		std::weak_ptr<Form> instance;
+		std::weak_ptr<Form> instance_;
 
-		CaptionBar *captionBar;
-		Panel *containerPanel;
+		CaptionBar *captionBar_;
+		Panel *containerPanel_;
 
-		bool isModal;
-		FormClosingEvent formClosingEvent;
+		bool isModal_;
+		FormClosingEvent formClosingEvent_;
+
+		DialogResult dialogResult_;
 
 		class CaptionBar : public Control
 		{
@@ -193,7 +199,7 @@ namespace OSHGui
 			private:
 				static const Drawing::PointI DefaultCrossOffset;
 
-				Drawing::PointI crossAbsoluteLocation;
+				Drawing::PointI crossAbsoluteLocation_;
 			};
 
 		public:
@@ -217,11 +223,11 @@ namespace OSHGui
 			static const int DefaultButtonPadding = 6;
 			static const Drawing::PointI DefaultTitleOffset;
 
-			bool drag;
-			Drawing::PointI dragStart;
+			bool drag_;
+			Drawing::PointI dragStart_;
 
-			Label *titleLabel;
-			CaptionBarButton *closeButton;
+			Label *titleLabel_;
+			CaptionBarButton *closeButton_;
 		};
 	};
 }

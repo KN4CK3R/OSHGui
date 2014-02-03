@@ -9,6 +9,7 @@
 #ifndef OSHGUI_TABCONTROL_HPP
 #define OSHGUI_TABCONTROL_HPP
 
+#include <memory>
 #include "Control.hpp"
 
 namespace OSHGui
@@ -36,7 +37,6 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TabControl();
-		virtual ~TabControl();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
@@ -136,14 +136,14 @@ namespace OSHGui
 		struct TabPageButtonBinding;
 		void SelectBinding(TabPageButtonBinding &binding);
 
-		SelectedIndexChangedEvent selectedIndexChangedEvent;
+		SelectedIndexChangedEvent selectedIndexChangedEvent_;
 
 		class TabControlButton;
 		struct TabPageButtonBinding
 		{
-			int index;
-			TabPage *tabPage;
-			TabControlButton *button;
+			int Index;
+			TabPage *TabPage;
+			TabControlButton *Button;
 		};
 
 		class TabControlButton : public Control
@@ -166,14 +166,14 @@ namespace OSHGui
 		private:
 			static const Drawing::PointI DefaultLabelOffset;
 
-			TabPageButtonBinding &binding;
-			std::unique_ptr<Label> label;
+			TabPageButtonBinding &binding_;
+			std::unique_ptr<Label> label_;
 
-			bool active;
+			bool active_;
 		};
 
-		TabPageButtonBinding *selected;
-		std::vector<TabPageButtonBinding*> bindings;
+		TabPageButtonBinding *selected_;
+		std::vector<std::unique_ptr<TabPageButtonBinding>> bindings_;
 
 		class TabControlSwitchButton : public Control
 		{
@@ -192,13 +192,13 @@ namespace OSHGui
 			virtual void PopulateGeometry() override;
 
 		private:
-			TabControlSwitchButtonDirection direction;
+			TabControlSwitchButtonDirection direction_;
 		};
 
-		int startIndex;
-		int maxIndex;
-		TabControlSwitchButton *lastSwitchButton;
-		TabControlSwitchButton *nextSwitchButton;
+		int startIndex_;
+		int maxIndex_;
+		TabControlSwitchButton *lastSwitchButton_;
+		TabControlSwitchButton *nextSwitchButton_;
 	};
 }
 

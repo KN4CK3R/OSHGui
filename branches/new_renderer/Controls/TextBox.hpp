@@ -98,22 +98,22 @@ namespace OSHGui
 		void ResetCaretBlink();
 		void PlaceCaret(int position);
 			
-		Misc::TextHelper textHelper;
+		Misc::TextHelper textHelper_;
 		
-		Misc::AnsiChar passwordChar;
-		Misc::AnsiString realtext;
+		Misc::AnsiChar passwordChar_;
+		Misc::AnsiString realtext_;
 
-		Drawing::RectangleI textRect;
-		Drawing::RectangleI caretRect;
+		Drawing::RectangleI textRect_;
+		Drawing::RectangleI caretRect_;
 		
-		bool showCaret;
-		bool drawCaret;
-		Misc::TimeSpan blinkTime;
-		Misc::DateTime nextBlinkTime;
-		int caretPosition;
-		int firstVisibleCharacter;
+		bool showCaret_;
+		bool drawCaret_;
+		Misc::TimeSpan blinkTime_;
+		Misc::DateTime nextBlinkTime_;
+		int caretPosition_;
+		int firstVisibleCharacter_;
 
-		TextChangedEvent textChangedEvent;
+		TextChangedEvent textChangedEvent_;
 	};
 }
 

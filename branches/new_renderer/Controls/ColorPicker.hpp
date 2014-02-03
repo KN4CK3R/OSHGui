@@ -67,25 +67,28 @@ namespace OSHGui
 		 */
 		ColorChangedEvent& GetColorChangedEvent();
 
+	protected:
+		virtual void PopulateGeometry() override;
+
+		virtual void OnMouseDown(const MouseMessage &mouse) override;
+		virtual void OnMouseUp(const MouseMessage &mouse) override;
+		virtual void OnMouseMove(const MouseMessage &mouse) override;
+
 	private:
 		static const Drawing::SizeI DefaultSize;
 
 		void CreateGradientTexture();
 		void CalculateColorCursorLocation();
 
-		virtual void PopulateGeometry() override;
-
-		virtual void OnMouseDown(const MouseMessage &mouse) override;
-		virtual void OnMouseUp(const MouseMessage &mouse) override;
-		virtual void OnMouseMove(const MouseMessage &mouse) override;
+		void HandleMouseEvent(const MouseMessage &mouse);
 	
-		Drawing::Color color;
-		Drawing::PointI colorCursorLocation;
-		Drawing::ImagePtr gradient;
+		Drawing::Color color_;
+		Drawing::PointI colorCursorLocation_;
+		Drawing::ImagePtr gradient_;
 
-		ColorChangedEvent colorChangedEvent;
+		ColorChangedEvent colorChangedEvent_;
 
-		bool drag;
+		bool drag_;
 	};
 }
 

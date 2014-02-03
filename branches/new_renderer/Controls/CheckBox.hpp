@@ -91,14 +91,14 @@ namespace OSHGui
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
-		bool checked;
-		Drawing::PointI checkBoxLocation;
-		Drawing::PointI textLocation;
-		Drawing::PointI checkBoxAbsoluteLocation;
+		bool checked_;
+		Drawing::PointI checkBoxLocation_;
+		Drawing::PointI textLocation_;
+		Drawing::PointI checkBoxAbsoluteLocation_;
 		
-		CheckedChangedEvent checkedChangedEvent;
+		CheckedChangedEvent checkedChangedEvent_;
 
-		std::unique_ptr<Label> label;
+		std::unique_ptr<Label> label_;
 	};
 }
 

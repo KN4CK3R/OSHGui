@@ -22,8 +22,8 @@ namespace OSHGui
 	{
 	private:
 		typedef std::function<Signature> Handler;
-		Handler handler;
-		int id;
+		Handler handler_;
+		int id_;
 		
 		static unsigned int NextID()
 		{
@@ -47,9 +47,10 @@ namespace OSHGui
 		 * \param handler die gebundene Funktion
 		 */
 		EventHandler(const Handler &handler)
-			: handler(handler)
+			: handler_(handler),
+			  id_(NextID())
 		{
-			id = NextID();
+			
 		}
 		
 		/**
@@ -58,23 +59,23 @@ namespace OSHGui
 		 * \param eventHandler
 		 */
 		EventHandler(const EventHandler &eventHandler)
-			: id(eventHandler.id),
-			  handler(eventHandler.handler)
+			: id_(eventHandler.id_),
+			  handler_(eventHandler.handler_)
 		{
 			
 		}
 
 		bool operator == (const EventHandler &eventHandler)
 		{
-			return id == eventHandler.id;
+			return id_ == eventHandler.id_;
 		}
 		
 		EventHandler& operator = (const EventHandler &eventHandler)
 		{
 			if (this != &eventHandler)
 			{
-				id = eventHandler.id;
-				handler = eventHandler.handler;
+				id_ = eventHandler.id_;
+				handler_ = eventHandler.handler_;
 			}
 			return *this;
 		}
@@ -86,7 +87,7 @@ namespace OSHGui
 		 */
 		Handler& GetHandler()
 		{
-			return handler;
+			return handler_;
 		}
 	};
 }

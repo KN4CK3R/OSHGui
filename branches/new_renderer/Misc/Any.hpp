@@ -34,24 +34,24 @@ namespace OSHGui
 			class TypeWrapper : public AnyTypeWrapper
 			{
 			private:
-				T obj;
+				T obj_;
 				
 			public:
-				TypeWrapper(const T &object) : obj(object) { }
+				TypeWrapper(const T &object) : obj_(object) { }
 				//---------------------------------------------------------------------------
 				TypeWrapper* Copy()
 				{
-					return new TypeWrapper<T>(obj);
+					return new TypeWrapper<T>(obj_);
 				}
 				//---------------------------------------------------------------------------
 				virtual void* GetObject()
 				{
-					return &obj;
+					return &obj_;
 				}
 			};
 			//---------------------------------------------------------------------------
-			unsigned int id;
-			AnyTypeWrapper *wrapper;
+			unsigned int id_;
+			AnyTypeWrapper *wrapper_;
 			//---------------------------------------------------------------------------
 			static unsigned int NextID()
 			{
@@ -74,12 +74,12 @@ namespace OSHGui
 			 */
 			Any()
 			{
-				id = 0;
-				wrapper = nullptr;
+				id_ = 0;
+				wrapper_ = nullptr;
 			}
 			~Any()
 			{
-				delete wrapper;
+				delete wrapper_;
 			}
 
 			/**
@@ -90,16 +90,16 @@ namespace OSHGui
 			template<class T>
 			Any(const T &obj)
 			{
-				id = TypeID<T>();
-				wrapper = new TypeWrapper<T>(obj);
+				id_ = TypeID<T>();
+				wrapper_ = new TypeWrapper<T>(obj_);
 			}
 			/**
 			 * Kopierkonstruktor
 			 */
 			Any(const Any &any)
 			{
-				id = any.id;
-				wrapper = any.wrapper->Copy();
+				id_ = any.id_;
+				wrapper_ = any.wrapper_->Copy();
 			}
 			/**
 			 * Weißt diesem Any-Objekt das angegebene zu.
@@ -111,13 +111,13 @@ namespace OSHGui
 			{
 				if (this != &any)
 				{
-					delete wrapper;
-					wrapper = nullptr;
+					delete wrapper_;
+					wrapper_ = nullptr;
 					
-					id = any.id;
-					if (any.wrapper != nullptr)
+					id_ = any.id_;
+					if (any.wrapper_ != nullptr)
 					{
-						wrapper = any.wrapper->Copy();
+						wrapper_ = any.wrapper_->Copy();
 					}
 				}
 				return *this;
@@ -131,10 +131,10 @@ namespace OSHGui
 			template<class T>
 			Any& operator=(const T &obj)
 			{
-				delete wrapper;
+				delete wrapper_;
 			
-				id = TypeID<T>();
-				wrapper = new TypeWrapper<T>(obj);
+				id_ = TypeID<T>();
+				wrapper_ = new TypeWrapper<T>(obj);
 				
 				return *this;
 			}
@@ -143,7 +143,7 @@ namespace OSHGui
 			 */
 			operator void *() const
 			{
-				return id == 0 ? nullptr : (void*)1;
+				return id_ == 0 ? nullptr : (void*)1;
 			}
 
 			/**
@@ -155,9 +155,9 @@ namespace OSHGui
 			template<class T>
 			T CastTo() const
 			{
-				if (TypeID<T>() == id)
+				if (TypeID<T>() == id_)
 				{
-					return *static_cast<T*>(wrapper->GetObject());
+					return *static_cast<T*>(wrapper_->GetObject());
 				}
 				else
 				{

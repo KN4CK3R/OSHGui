@@ -20,40 +20,40 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Control::Control()
-		: type((ControlType)0),
-		  parent(nullptr),
-		  location(6, 6),
-		  size(0, 0),
-		  anchor(AnchorStyles::Top | AnchorStyles::Left),
-		  isEnabled(true),
-		  isVisible(true),
-		  isFocused(false),
-		  isClicked(false),
-		  isInside(false),
-		  isFocusable(true),
-		  hasCaptured(false),
-		  autoSize(false),
-		  canRaiseEvents(true),
-		  needsRedraw(true),
-		  cursor(nullptr),
-		  mouseOverFocusColor(Drawing::Color::FromARGB(0, 20, 20, 20)),
-		  geometry(Application::Instance().GetRenderer().CreateGeometryBuffer())
+		: type_((ControlType)0),
+		  parent_(nullptr),
+		  location_(6, 6),
+		  size_(0, 0),
+		  anchor_(AnchorStyles::Top | AnchorStyles::Left),
+		  isEnabled_(true),
+		  isVisible_(true),
+		  isFocused_(false),
+		  isClicked_(false),
+		  isInside_(false),
+		  isFocusable_(true),
+		  hasCaptured_(false),
+		  autoSize_(false),
+		  canRaiseEvents_(true),
+		  needsRedraw_(true),
+		  cursor_(nullptr),
+		  mouseOverFocusColor_(Drawing::Color::FromARGB(0, 20, 20, 20)),
+		  geometry_(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
 		
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		if (isInside)
+		if (isInside_)
 		{
 			Application::Instance().MouseEnteredControl = nullptr;
 		}
-		if (isFocused)
+		if (isFocused_)
 		{
 			Application::Instance().FocusedControl = nullptr;
 		}
 
-		for (auto &control : internalControls)
+		for (auto &control : internalControls_)
 		{
 			delete control;
 		}
@@ -63,7 +63,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ControlType Control::GetType() const
 	{
-		return type;
+		return type_;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::IsContainer() const
@@ -73,13 +73,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::GetIsFocused() const
 	{
-		return isFocused;
+		return isFocused_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetEnabled(bool isEnabled)
 	{
-		this->isEnabled = isEnabled;
-		if (isEnabled == false && isFocused)
+		isEnabled_ = isEnabled;
+		if (isEnabled == false && isFocused_)
 		{
 			OnLostFocus(nullptr);
 		}
@@ -87,13 +87,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled() const
 	{
-		return isEnabled;
+		return isEnabled_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetVisible(bool isVisible)
 	{
-		this->isVisible = isVisible;
-		if (isVisible == false && isFocused)
+		isVisible_ = isVisible;
+		if (isVisible == false && isFocused_)
 		{
 			OnLostFocus(nullptr);
 		}
@@ -103,19 +103,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::GetVisible() const
 	{
-		return isVisible;
+		return isVisible_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetAutoSize(bool autoSize)
 	{
-		this->autoSize = autoSize;
+		autoSize_ = autoSize;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetAutoSize() const
 	{
-		return autoSize;
+		return autoSize_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetBounds(int x, int y, int w, int h)
@@ -136,12 +136,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::RectangleI Control::GetBounds() const
 	{
-		return Drawing::RectangleI(location, size);
+		return Drawing::RectangleI(location_, size_);
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(const Drawing::PointI &location)
 	{
-		this->location = location;
+		location_ = location;
 
 		OnLocationChanged();
 	}
@@ -153,7 +153,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::PointI& Control::GetLocation() const
 	{
-		return location;
+		return location_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetSize(const Drawing::SizeI &size)
@@ -169,14 +169,14 @@ namespace OSHGui
 		}
 		#endif
 
-		this->size = size;
+		size_ = size;
 		
 		OnSizeChanged();
 
 		Invalidate();
 
-		auto offset = size - GetSize();
-		for (auto &control : controls)
+		auto offset = size_ - GetSize();
+		for (auto &control : controls_)
 		{
 			AnchorStyles anchor = control->GetAnchor();
 
@@ -206,103 +206,103 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::SizeI& Control::GetSize() const
 	{
-		return size;
+		return size_;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetLeft() const
 	{
-		return location.Left;
+		return location_.Left;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetTop() const
 	{
-		return location.Top;
+		return location_.Top;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetRight() const
 	{
-		return location.Left + size.Width;
+		return location_.Left + size_.Width;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetBottom() const
 	{
-		return location.Top + size.Height;
+		return location_.Top + size_.Height;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetWidth() const
 	{
-		return size.Width;
+		return size_.Width;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetHeight() const
 	{
-		return size.Height;
+		return size_.Height;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetAnchor(AnchorStyles anchor)
 	{
-		this->anchor = anchor;
+		anchor_ = anchor;
 	}
 	//---------------------------------------------------------------------------
 	AnchorStyles Control::GetAnchor() const
 	{
-		return anchor;
+		return anchor_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetTag(const Misc::Any &tag)
 	{
-		this->tag = std::move(tag);
+		tag_ = tag;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::Any& Control::GetTag() const
 	{
-		return tag;
+		return tag_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetName(const Misc::AnsiString &name)
 	{
-		this->name = std::move(name);
+		name_ = name;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Control::GetName() const
 	{
-		return name;
+		return name_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetForeColor(const Drawing::Color &color)
 	{
-		foreColor = std::move(color);
+		foreColor_ = color;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Color& Control::GetForeColor() const
 	{
-		return foreColor;
+		return foreColor_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetBackColor(const Drawing::Color &color)
 	{
-		backColor = std::move(color);
+		backColor_ = color;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Color& Control::GetBackColor() const
 	{
-		return backColor;
+		return backColor_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetMouseOverFocusColor(const Drawing::Color &color)
 	{
-		mouseOverFocusColor = std::move(color);
+		mouseOverFocusColor_ = color;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::Color& Control::GetMouseOverFocusColor() const
 	{
-		return mouseOverFocusColor;
+		return mouseOverFocusColor_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetFont(const Drawing::FontPtr &font)
@@ -314,99 +314,99 @@ namespace OSHGui
 		}
 		#endif
 		
-		this->font = font;
+		font_ = font;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Drawing::FontPtr& Control::GetFont() const
 	{
-		return font ? font : parent ? parent->GetFont() : Application::Instance().GetDefaultFont();
+		return font_ ? font_ : parent_ ? parent_->GetFont() : Application::Instance().GetDefaultFont();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetCursor(const CursorPtr &cursor)
 	{
-		this->cursor = std::move(cursor);
+		cursor_ = std::move(cursor);
 	}
 	//---------------------------------------------------------------------------
 	const CursorPtr& Control::GetCursor() const
 	{
-		return cursor ? cursor : GetParent() ? GetParent()->GetCursor() : cursor/*is nullptr here*/;
+		return cursor_ ? cursor_ : GetParent() ? GetParent()->GetCursor() : Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
 	LocationChangedEvent& Control::GetLocationChangedEvent()
 	{
-		return locationChangedEvent;
+		return locationChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	SizeChangedEvent& Control::GetSizeChangedEvent()
 	{
-		return sizeChangedEvent;
+		return sizeChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	ClickEvent& Control::GetClickEvent()
 	{
-		return clickEvent;
+		return clickEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseClickEvent& Control::GetMouseClickEvent()
 	{
-		return mouseClickEvent;
+		return mouseClickEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseDownEvent& Control::GetMouseDownEvent()
 	{
-		return mouseDownEvent;
+		return mouseDownEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseUpEvent& Control::GetMouseUpEvent()
 	{
-		return mouseUpEvent;
+		return mouseUpEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseMoveEvent& Control::GetMouseMoveEvent()
 	{
-		return mouseMoveEvent;
+		return mouseMoveEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseScrollEvent& Control::GetMouseScrollEvent()
 	{
-		return mouseScrollEvent;
+		return mouseScrollEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseEnterEvent& Control::GetMouseEnterEvent()
 	{
-		return mouseEnterEvent;
+		return mouseEnterEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseLeaveEvent& Control::GetMouseLeaveEvent()
 	{
-		return mouseLeaveEvent;
+		return mouseLeaveEvent_;
 	}
 	//---------------------------------------------------------------------------
 	KeyDownEvent& Control::GetKeyDownEvent()
 	{
-		return keyDownEvent;
+		return keyDownEvent_;
 	}
 	//---------------------------------------------------------------------------
 	KeyPressEvent& Control::GetKeyPressEvent()
 	{
-		return keyPressEvent;
+		return keyPressEvent_;
 	}
 	//---------------------------------------------------------------------------
 	KeyUpEvent& Control::GetKeyUpEvent()
 	{
-		return keyUpEvent;
+		return keyUpEvent_;
 	}
 	//---------------------------------------------------------------------------
 	FocusGotEvent& Control::GetFocusGotEvent()
 	{
-		return focusGotEvent;
+		return focusGotEvent_;
 	}
 	//---------------------------------------------------------------------------
 	FocusLostEvent& Control::GetFocusLostEvent()
 	{
-		return focusLostEvent;
+		return focusLostEvent_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetParent(Control *parent)
@@ -418,19 +418,19 @@ namespace OSHGui
 		}
 		#endif
 
-		this->parent = parent;
+		parent_ = parent;
 
 		OnLocationChanged();
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const
 	{
-		return parent;
+		return parent_;
 	}
 	//---------------------------------------------------------------------------
 	const std::deque<Control*>& Control::GetControls() const
 	{
-		return controls;
+		return controls_;
 	}
 	//---------------------------------------------------------------------------
 	Control::PostOrderIterator Control::GetPostOrderEnumerator()
@@ -440,9 +440,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::GetRenderContext(Drawing::RenderContext &context) const
 	{
-		if (surface)
+		if (surface_)
 		{
-			context.Surface = surface.get();
+			context.Surface = surface_.get();
 			context.Owner = this;
 			context.Offset = GetLocation();
 			context.QueueType = Drawing::RenderQueueType::Base;
@@ -464,7 +464,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::Focus()
 	{
-		if (isFocusable && !isFocused)
+		if (isFocusable_ && !isFocused_)
 		{
 			OnGotFocus(this);
 		}
@@ -472,46 +472,46 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::Intersect(const Drawing::PointI &point) const
 	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
+		return Intersection::TestRectangle(absoluteLocation_, size_, point);
 	}
 	//---------------------------------------------------------------------------
 	Drawing::PointI Control::PointToClient(const Drawing::PointI &point) const
 	{
-		return point - absoluteLocation;
+		return point - absoluteLocation_;
 	}
 	//---------------------------------------------------------------------------
 	Drawing::PointI Control::PointToScreen(const Drawing::PointI &point) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (!parent)
+		if (!parent_)
 		{
 			throw Misc::ArgumentNullException("parent");
 		}
 		#endif
 		
-		if (parent != this)
+		if (parent_ != this)
 		{
-			return parent->PointToScreen(point + location);
+			return parent_->PointToScreen(point + location_);
 		}
 
-		return point + location;
+		return point + location_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::CalculateAbsoluteLocation()
 	{
-		if (parent != nullptr)
+		if (parent_ != nullptr)
 		{
-			absoluteLocation = parent->absoluteLocation + location;
+			absoluteLocation_ = parent_->absoluteLocation_ + location_;
 		}
 		else
 		{
-			absoluteLocation = location;
+			absoluteLocation_ = location_;
 		}
 
-		geometry->SetTranslation(Drawing::Vector(absoluteLocation.X, absoluteLocation.Y, 0.0f));
+		geometry_->SetTranslation(Drawing::Vector(absoluteLocation_.X, absoluteLocation_.Y, 0.0f));
 		//TODO: set clipping here
 
-		for (auto &control : internalControls)
+		for (auto &control : internalControls_)
 		{
 			control->CalculateAbsoluteLocation();
 		}
@@ -533,15 +533,15 @@ namespace OSHGui
 
 		AddSubControl(control);
 
-		controls.push_front(control);
+		controls_.push_front(control);
 	}
 	//---------------------------------------------------------------------------
 	void Control::RemoveControl(Control *control)
 	{
 		if (control != nullptr)
 		{
-			controls.erase(std::remove(std::begin(controls), std::end(controls), control), std::end(controls));
-			internalControls.erase(std::remove(std::begin(internalControls), std::end(internalControls), control), std::end(internalControls));
+			controls_.erase(std::remove(std::begin(controls_), std::end(controls_), control), std::end(controls_));
+			internalControls_.erase(std::remove(std::begin(internalControls_), std::end(internalControls_), control), std::end(internalControls_));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -559,7 +559,7 @@ namespace OSHGui
 			return;
 		}
 
-		for (auto &control : internalControls)
+		for (auto &control : internalControls_)
 		{
 			if (subcontrol == control || (!subcontrol->GetName().empty() && subcontrol->GetName() == control->GetName()))
 			{
@@ -569,12 +569,12 @@ namespace OSHGui
 
 		subcontrol->SetParent(this);
 
-		internalControls.push_front(subcontrol);
+		internalControls_.push_front(subcontrol);
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::PointI &point) const
 	{
-		for (auto &control : make_reverse_range(controls))
+		for (auto &control : make_reverse_range(controls_))
 		{
 			if (control->GetEnabled() && control->GetVisible() && control->Intersect(point))
 			{
@@ -587,7 +587,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildByName(const Misc::AnsiString &name) const
 	{
-		for (auto &control : controls)
+		for (auto &control : controls_)
 		{
 			if (control->GetName() == name)
 			{
@@ -605,14 +605,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::Invalidate()
 	{
-		needsRedraw = true;
+		needsRedraw_ = true;
 
 		Application::Instance().GetRenderSurface().Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::Render()
 	{
-		if (!isVisible)
+		if (!isVisible_)
 		{
 			return;
 		}
@@ -629,12 +629,12 @@ namespace OSHGui
 		}
 
 		// redraw if no surface set, or if surface is invalidated
-		if (!surface)// || surface->isInvalidated())
+		if (!surface_)// || surface->isInvalidated())
 		{
 			DrawSelf(ctx);
 
 			Control *focusedControl = nullptr;
-			for (auto &control : make_reverse_range(controls))
+			for (auto &control : make_reverse_range(controls_))
 			{
 				if (control->GetIsFocused())
 				{
@@ -665,19 +665,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::BufferGeometry(Drawing::RenderContext &context)
 	{
-		if (needsRedraw)
+		if (needsRedraw_)
 		{
-			geometry->Reset();
+			geometry_->Reset();
 
 			PopulateGeometry();
 
-			needsRedraw = false;
+			needsRedraw_ = false;
 		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::QueueGeometry(Drawing::RenderContext &context)
 	{
-		context.Surface->AddGeometry(context.QueueType, geometry);
+		context.Surface->AddGeometry(context.QueueType, geometry_);
 	}
 	//---------------------------------------------------------------------------
 	void Control::PopulateGeometry()
@@ -687,11 +687,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::ApplyTheme(const Drawing::Theme &theme)
 	{
-		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type));
+		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type_));
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
 
-		for (auto &control : controls) //?
+		for (auto &control : controls_)
 		{
 			control->ApplyTheme(theme);
 		}
@@ -732,66 +732,66 @@ namespace OSHGui
 	{
 		CalculateAbsoluteLocation();
 	
-		locationChangedEvent.Invoke(this);
+		locationChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnSizeChanged()
 	{
-		sizeChangedEvent.Invoke(this);
+		sizeChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseDown(const MouseMessage &mouse)
 	{
-		isClicked = true;
+		isClicked_ = true;
 
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseDownEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseDownEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseClick(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseClickEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseClickEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseUp(const MouseMessage &mouse)
 	{
-		isClicked = false;
+		isClicked_ = false;
 
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseUpEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseUpEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseMove(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseMoveEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseMoveEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseScroll(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseScrollEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseScrollEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseEnter(const MouseMessage &mouse)
 	{
-		isInside = true;
+		isInside_ = true;
 
 		auto &app = Application::Instance();
 
-		if (app.MouseEnteredControl != nullptr && app.MouseEnteredControl->isInside)
+		if (app.MouseEnteredControl != nullptr && app.MouseEnteredControl->isInside_)
 		{
 			app.MouseEnteredControl->OnMouseLeave(mouse);
 		}
 		app.MouseEnteredControl = this;
 
-		mouseEnterEvent.Invoke(this);
+		mouseEnterEvent_.Invoke(this);
 
 		app.SetCursor(GetCursor());
 
@@ -800,11 +800,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnMouseLeave(const MouseMessage &mouse)
 	{
-		isInside = false;
+		isInside_ = false;
 
 		Application::Instance().MouseEnteredControl = nullptr;
 
-		mouseLeaveEvent.Invoke(this);
+		mouseLeaveEvent_.Invoke(this);
 
 		Invalidate();
 	}
@@ -817,20 +817,20 @@ namespace OSHGui
 			app.CaptureControl->OnLostMouseCapture();
 		}
 		app.CaptureControl = this;
-		hasCaptured = true;
+		hasCaptured_ = true;
 
-		isClicked = false;
+		isClicked_ = false;
 
-		mouseCaptureChangedEvent.Invoke(this);
+		mouseCaptureChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnLostMouseCapture()
 	{
-		hasCaptured = false;
+		hasCaptured_ = false;
 
 		Application::Instance().CaptureControl = nullptr;
 
-		mouseCaptureChangedEvent.Invoke(this);
+		mouseCaptureChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus(Control *newFocusedControl)
@@ -844,9 +844,9 @@ namespace OSHGui
 			}
 
 			app.FocusedControl = newFocusedControl;
-			isFocused = true;
+			isFocused_ = true;
 
-			focusGotEvent.Invoke(this);
+			focusGotEvent_.Invoke(this);
 
 			Invalidate();
 		}
@@ -854,11 +854,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::OnLostFocus(Control *newFocusedControl)
 	{
-		isFocused = isClicked = false;
+		isFocused_ = isClicked_ = false;
 		
 		Application::Instance().FocusedControl = nullptr;
 
-		focusLostEvent.Invoke(this, newFocusedControl);
+		focusLostEvent_.Invoke(this, newFocusedControl);
 
 		Invalidate();
 	}
@@ -866,7 +866,7 @@ namespace OSHGui
 	bool Control::OnKeyDown(const KeyboardMessage &keyboard)
 	{
 		KeyEventArgs args(keyboard);
-		keyDownEvent.Invoke(this, args);
+		keyDownEvent_.Invoke(this, args);
 
 		return args.Handled;
 	}
@@ -874,7 +874,7 @@ namespace OSHGui
 	bool Control::OnKeyPress(const KeyboardMessage &keyboard)
 	{
 		KeyPressEventArgs args(keyboard);
-		keyPressEvent.Invoke(this, args);
+		keyPressEvent_.Invoke(this, args);
 
 		return args.Handled;
 	}
@@ -882,23 +882,23 @@ namespace OSHGui
 	bool Control::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		KeyEventArgs args(keyboard);
-		keyUpEvent.Invoke(this, args);
+		keyUpEvent_.Invoke(this, args);
 
 		return args.Handled;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseMessage(const MouseMessage &mouse)
 	{
-		switch (mouse.State)
+		switch (mouse.GetState())
 		{
-			case MouseMessage::Down:
-				if (canRaiseEvents && Intersect(mouse.Location))
+		case MouseState::Down:
+				if (canRaiseEvents_ && Intersect(mouse.GetLocation()))
 				{
-					if (mouse.Button == MouseButton::Left && !isClicked && isEnabled)
+					if (mouse.GetButton() == MouseButton::Left && !isClicked_ && isEnabled_)
 					{
 						OnMouseDown(mouse);
 						
-						if (isFocusable && !isFocused)
+						if (isFocusable_ && !isFocused_)
 						{
 							OnGotFocus(this);
 						}
@@ -907,14 +907,14 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseMessage::Up:
-				if (canRaiseEvents && (hasCaptured || Intersect(mouse.Location)))
+			case MouseState::Up:
+				if (canRaiseEvents_ && (hasCaptured_ || Intersect(mouse.GetLocation())))
 				{
-					if (isClicked)
+					if (isClicked_)
 					{
-						if (mouse.Button == MouseButton::Left)
+						if (mouse.GetButton() == MouseButton::Left)
 						{
-							clickEvent.Invoke(this);
+							clickEvent_.Invoke(this);
 
 							OnMouseClick(mouse);
 						}
@@ -925,12 +925,12 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseMessage::Move:
-				if (hasCaptured || Intersect(mouse.Location))
+			case MouseState::Move:
+				if (hasCaptured_ || Intersect(mouse.GetLocation()))
 				{
-					if (canRaiseEvents)
+					if (canRaiseEvents_)
 					{
-						if (!isInside)
+						if (!isInside_)
 						{
 							OnMouseEnter(mouse);
 						}
@@ -941,12 +941,12 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseMessage::Scroll:
-				if (hasCaptured || isFocused)
+			case MouseState::Scroll:
+				if (hasCaptured_ || isFocused_)
 				{
-					if (canRaiseEvents)
+					if (canRaiseEvents_)
 					{
-						if (mouse.Delta != 0)
+						if (mouse.GetDelta() != 0)
 						{
 							OnMouseScroll(mouse);
 						}
@@ -962,15 +962,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::ProcessKeyboardMessage(KeyboardMessage &keyboard)
 	{
-		if (canRaiseEvents)
+		if (canRaiseEvents_)
 		{
 			switch (keyboard.GetState())
 			{
-				case KeyboardMessage::KeyDown:
+				case KeyboardState::KeyDown:
 					return OnKeyDown(keyboard);
-				case KeyboardMessage::KeyUp:
+				case KeyboardState::KeyUp:
 					return OnKeyUp(keyboard);
-				case KeyboardMessage::Character:
+				case KeyboardState::Character:
 					return OnKeyPress(keyboard);
 			}
 		}
@@ -982,25 +982,25 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::PostOrderIterator::PostOrderIterator(Control *start)
 	{
-		this->start = start;
+		start_ = start;
 
-		if (this->start->internalControls.empty())
+		if (start_->internalControls_.empty())
 		{
-			current = this->start;
+			current_ = start_;
 		}
 		else
 		{
-			LoopThrough(this->start);
-			current = controlStack.back();
-			controlStack.pop_back();
+			LoopThrough(start_);
+			current_ = controlStack_.back();
+			controlStack_.pop_back();
 		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::PostOrderIterator::LoopThrough(Control *container)
 	{
-		controlStack.push_back(container);
+		controlStack_.push_back(container);
 
-		for (auto &control : make_reverse_range(container->internalControls))
+		for (auto &control : make_reverse_range(container->internalControls_))
 		{
 			if (control->GetVisible() && control->GetEnabled())
 			{
@@ -1011,18 +1011,18 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::PostOrderIterator::operator++()
 	{
-		current = controlStack.back();
-		controlStack.pop_back();
+		current_ = controlStack_.back();
+		controlStack_.pop_back();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::PostOrderIterator::operator()()
 	{
-		return !controlStack.empty();
+		return !controlStack_.empty();
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::PostOrderIterator::operator*()
 	{
-		return current;
+		return current_;
 	}
 	//---------------------------------------------------------------------------
 }

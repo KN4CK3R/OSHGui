@@ -66,13 +66,13 @@ namespace OSHGui
 		 *
 		 * \param color
 		 */
-		void SetBarColor(Drawing::Color color);
+		void SetBarColor(const Drawing::Color &color);
 		/**
 		 * Gibt die Farbe des Fortschrittsbalken zurück.
 		 *
 		 * \return die Farbe
 		 */
-		Drawing::Color GetBarColor() const;
+		const Drawing::Color& GetBarColor() const;
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
@@ -90,10 +90,11 @@ namespace OSHGui
 
 		void Adjust();
 	
-		Drawing::Color barColor;
-		int value;
-		int min;
-		int max;
+		Drawing::Color barColor_;
+
+		int value_;
+		int min_;
+		int max_;
 	};
 }
 

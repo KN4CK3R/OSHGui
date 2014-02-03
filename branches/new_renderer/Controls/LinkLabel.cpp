@@ -15,11 +15,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	LinkLabel::LinkLabel()
 	{
-		type = ControlType::LinkLabel;
+		type_ = ControlType::LinkLabel;
 		
-		cursor = Cursors::Get(Cursors::Hand);
+		cursor_ = Cursors::Get(Cursors::Hand);
 
-		canRaiseEvents = true;
+		canRaiseEvents_ = true;
 
 		ApplyTheme(Application::Instance().GetTheme());
 	}
@@ -32,7 +32,7 @@ namespace OSHGui
 
 		Label::PopulateGeometry();
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 		g.FillRectangle(GetForeColor(), RectangleF(PointF(0, GetHeight()), SizeF(GetWidth(), 1)));
 	}
 	//---------------------------------------------------------------------------

@@ -32,9 +32,9 @@ namespace OSHGui
 
 		private:
 			typedef Misc::ConcurrendQueue<MouseMessage> MouseMessageQueue;
-			MouseMessageQueue mouseMessages;
+			MouseMessageQueue mouseMessages_;
 			typedef Misc::ConcurrendQueue<KeyboardMessage> KeyboardMessageQueue;
-			KeyboardMessageQueue keyboardMessages;
+			KeyboardMessageQueue keyboardMessages_;
 		};
 	}
 }

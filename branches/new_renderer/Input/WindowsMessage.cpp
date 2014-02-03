@@ -16,7 +16,7 @@ namespace OSHGui
 	namespace Input
 	{
 		WindowsMessage::WindowsMessage()
-			: ImeWmCharsToIgnore(0)
+			: ImeWmCharsToIgnore_(0)
 		{
 
 		}
@@ -40,55 +40,58 @@ namespace OSHGui
 					#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 					#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
-					static Drawing::PointF lastMouseLocation;
+					static Drawing::PointI lastMouseLocation;
 
-					MouseMessage mouse(MouseMessage::Unknown, MouseButton::None, Drawing::PointI(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam)), 0);
-
+					MouseState state = MouseState::Unknown;
+					MouseButton button = MouseButton::None;
+					Drawing::PointI location(GET_X_LPARAM(message->lParam), GET_Y_LPARAM(message->lParam));
+					int delta = 0;
+					
 					switch (message->message)
 					{
 						case WM_MOUSEMOVE:
-							mouse.State = MouseMessage::Move;
+							state = MouseState::Move;
 							break;
 						case WM_LBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseMessage::Down;
-							mouse.Button = MouseButton::Left;
+							state = MouseState::Down;
+							button = MouseButton::Left;
 							break;
 						case WM_LBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseMessage::Up;
-							mouse.Button = MouseButton::Left;
+							state = MouseState::Up;
+							button = MouseButton::Left;
 							break;
 						case WM_RBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseMessage::Down;
-							mouse.Button = MouseButton::Right;
+							state = MouseState::Down;
+							button = MouseButton::Right;
 							break;
 						case WM_RBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseMessage::Up;
-							mouse.Button = MouseButton::Right;
+							state = MouseState::Up;
+							button = MouseButton::Right;
 							break;
 						case WM_MBUTTONDOWN:
 							SetCapture(message->hwnd);
-							mouse.State = MouseMessage::Down;
-							mouse.Button = MouseButton::Middle;
+							state = MouseState::Down;
+							button = MouseButton::Middle;
 							break;
 						case WM_MBUTTONUP:
 							ReleaseCapture();
-							mouse.State = MouseMessage::Up;
-							mouse.Button = MouseButton::Middle;
+							state = MouseState::Up;
+							button = MouseButton::Middle;
 							break;
 						case WM_MOUSEWHEEL:
-							mouse.State = MouseMessage::Scroll;
-							mouse.Location = lastMouseLocation; //not valid when scrolling
-							mouse.Delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
+							state = MouseState::Scroll;
+							location = lastMouseLocation; //not valid when scrolling
+							delta = -((short)HIWORD(message->wParam) / 120) * 4/*number of lines to scroll*/;
 							break;
 					}
 
-					lastMouseLocation = mouse.Location;
+					lastMouseLocation = location;
 
-					return InjectMouseMessage(std::move(mouse));
+					return InjectMouseMessage(MouseMessage(state, button, location, delta));
 				}
 				case WM_KEYDOWN:
 				case WM_SYSKEYDOWN:
@@ -98,20 +101,20 @@ namespace OSHGui
 				case WM_SYSCHAR:
 				case WM_IME_CHAR:
 				{
-					KeyboardMessage::KeyboardStates state = KeyboardMessage::Unknown;
+					KeyboardState state = KeyboardState::Unknown;
 					Misc::AnsiChar keyChar = '\0';
-					Key::Keys keyData = Key::None;
+					Key keyData = Key::None;
 
 					if (message->message == WM_CHAR || message->message == WM_SYSCHAR)
 					{
-						if (ImeWmCharsToIgnore > 0)
+						if (ImeWmCharsToIgnore_ > 0)
 						{
-							--ImeWmCharsToIgnore;
+							--ImeWmCharsToIgnore_;
 							return false;
 						}
 						else
 						{
-							state = KeyboardMessage::Character;
+							state = KeyboardState::Character;
 							keyChar = (Misc::AnsiChar)message->wParam;
 						}
 					}
@@ -121,20 +124,20 @@ namespace OSHGui
 					}
 					else
 					{
-						Key::Keys modifier = Key::None;
-						if (GetKeyState(Key::ControlKey) < 0)
+						Key modifier = Key::None;
+						if (GetKeyState(static_cast<int>(Key::ControlKey)) < 0)
 							modifier |= Key::Control;
-						if (GetKeyState(Key::ShiftKey) < 0)
+						if (GetKeyState(static_cast<int>(Key::ShiftKey)) < 0)
 							modifier |= Key::Shift;
-						if (GetKeyState(Key::Menu) < 0)
+						if (GetKeyState(static_cast<int>(Key::Menu)) < 0)
 							modifier |= Key::Alt;
 
-						state = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardMessage::KeyDown : KeyboardMessage::KeyUp;
+						state = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardState::KeyDown : KeyboardState::KeyUp;
 
-						keyData = (Key::Keys)message->wParam | modifier;
+						keyData = (Key)message->wParam | modifier;
 					}
 
-					if (state != KeyboardMessage::Unknown)
+					if (state != KeyboardState::Unknown)
 					{
 						return InjectKeyboardMessage(KeyboardMessage(state, keyData, keyChar));
 					}

@@ -17,14 +17,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	RadioButton::RadioButton()
 	{
-		type = ControlType::RadioButton;
+		type_ = ControlType::RadioButton;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void RadioButton::SetChecked(bool checked_)
+	void RadioButton::SetChecked(bool checked)
 	{
-		if (checked != checked_)
+		if (checked_ != checked)
 		{
 			if (GetParent() != nullptr)
 			{
@@ -37,18 +37,18 @@ namespace OSHGui
 					}
 				}
 			
-				SetCheckedInternal(checked_);
+				SetCheckedInternal(checked);
 			}
 		}
 	}
 	//---------------------------------------------------------------------------
-	void RadioButton::SetCheckedInternal(bool checked_)
+	void RadioButton::SetCheckedInternal(bool checked)
 	{
-		if (checked != checked_)
+		if (checked_ != checked)
 		{
-			checked = checked_;
+			checked_ = checked;
 			
-			checkedChangedEvent.Invoke(this);
+			checkedChangedEvent_.Invoke(this);
 
 			Invalidate();
 		}
@@ -58,14 +58,14 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		g.FillRectangle(GetBackColor(), RectangleF(PointF(0, 0), SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize)));
 
 		g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(1, 1), SizeF(15, 15)));
 		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() + Color::FromARGB(0, 55, 55, 55)), RectangleF(PointF(2, 2), SizeF(13, 13)));
 
-		if (checked)
+		if (checked_)
 		{
 			g.FillRectangle(Color::White() - Color::FromARGB(0, 128, 128, 128), RectangleF(PointF(5, 7), SizeF(7, 3)));
 			ColorRectangle colors(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137));
@@ -91,7 +91,7 @@ namespace OSHGui
 			{
 				SetChecked(true);
 
-				clickEvent.Invoke(this);
+				clickEvent_.Invoke(this);
 			}
 		}
 

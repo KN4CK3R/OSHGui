@@ -18,7 +18,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		PointF offset(0, -15);
 

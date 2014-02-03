@@ -20,35 +20,35 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	PictureBox::PictureBox()
-		: stretch(false)
+		: stretch_(false)
 	{
-		type = ControlType::PictureBox;
+		type_ = ControlType::PictureBox;
 
 		SetSize(DefaultSize);
 		
 		ApplyTheme(Application::Instance().GetTheme());
 
-		isFocusable = false;
+		isFocusable_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void PictureBox::SetImage(const Drawing::ImagePtr &_image)
+	void PictureBox::SetImage(const Drawing::ImagePtr &image)
 	{
-		image = _image;
+		image_ = image;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Drawing::ImagePtr& PictureBox::GetImage()
 	{
-		return image;
+		return image_;
 	}
 	//---------------------------------------------------------------------------
-	void PictureBox::SetStretch(bool stretch_)
+	void PictureBox::SetStretch(bool stretch)
 	{
-		stretch = stretch_;
-		if (image)
+		stretch_ = stretch;
+		if (image_)
 		{
 			Invalidate();
 		}
@@ -56,7 +56,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool PictureBox::GetStretch() const
 	{
-		return stretch;
+		return stretch_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -65,22 +65,22 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		if (GetBackColor().GetAlpha() > 0)
 		{
 			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}
 
-		if (image)
+		if (image_)
 		{
-			if (stretch)
+			if (stretch_)
 			{
-				g.DrawImage(image, Color::White(), RectangleF(PointF(0, 0), GetSize()));
+				g.DrawImage(image_, Color::White(), RectangleF(PointF(0, 0), GetSize()));
 			}
 			else
 			{
-				g.DrawImage(image, Color::White(), PointF(0, 0), RectangleF(PointF(0, 0), GetSize()));
+				g.DrawImage(image_, Color::White(), PointF(0, 0), RectangleF(PointF(0, 0), GetSize()));
 			}
 		}
 	}

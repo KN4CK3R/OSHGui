@@ -99,12 +99,6 @@ namespace OSHGui
 		virtual void CalculateAbsoluteLocation() override;
 
 	protected:
-		static const Drawing::SizeI SliderSize;
-		static const Drawing::SizeI DefaultSize;
-		static const int DefaultTickOffset = 7;
-
-		void SetValueInternal(int value);
-
 		virtual void PopulateGeometry() override;
 
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
@@ -114,17 +108,26 @@ namespace OSHGui
 		virtual void OnMouseScroll(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 	
-		int minimum;
-		int maximum;
-		int value;
-		int tickFrequency;
-		float pixelsPerTick;
-		bool drag;
-		
-		Drawing::PointI sliderLocation;
-		Drawing::PointI sliderAbsoluteLocation;
+	private:
+		static const Drawing::SizeI SliderSize;
+		static const Drawing::SizeI DefaultSize;
+		static const int DefaultTickOffset = 7;
 
-		ValueChangedEvent valueChangedEvent;
+		void SetValueInternal(int value);
+
+		void HandleMouseEvent(const MouseMessage &mouse);
+
+		int minimum_;
+		int maximum_;
+		int value_;
+		int tickFrequency_;
+		float pixelsPerTick_;
+		bool drag_;
+		
+		Drawing::PointI sliderLocation_;
+		Drawing::PointI sliderAbsoluteLocation_;
+
+		ValueChangedEvent valueChangedEvent_;
 	};
 }
 

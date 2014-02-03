@@ -20,7 +20,7 @@ namespace OSHGui
 	class OSHGUI_EXPORT MouseEventArgs
 	{
 	public:
-		MouseMessage::MouseStates State;
+		MouseState State;
 		Drawing::PointI Location;
 		
 	public:
@@ -28,8 +28,8 @@ namespace OSHGui
 		 * Konstruktor der Klasse
 		 */
 		MouseEventArgs(const MouseMessage &mouseEvent)
-			: State(mouseEvent.State),
-			  Location(mouseEvent.Location)
+			: State(mouseEvent.GetState()),
+			  Location(mouseEvent.GetLocation())
 		{
 			
 		}

@@ -78,7 +78,7 @@ namespace OSHGui
 
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
-		std::unique_ptr<Label> label;
+		std::unique_ptr<Label> label_;
 
 	private:
 		static const Drawing::SizeI DefaultSize;

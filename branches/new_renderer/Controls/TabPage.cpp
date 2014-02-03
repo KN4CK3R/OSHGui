@@ -16,14 +16,14 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabPage::TabPage()
-		: button(nullptr)
+		: button_(nullptr)
 	{
-		type = ControlType::TabPage;
+		type_ = ControlType::TabPage;
 	
-		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::PointI(2, 2));
-		containerPanel->SetBackColor(Drawing::Color::Empty());
-		AddSubControl(containerPanel);
+		containerPanel_ = new Panel();
+		containerPanel_->SetLocation(Drawing::PointI(2, 2));
+		containerPanel_->SetBackColor(Drawing::Color::Empty());
+		AddSubControl(containerPanel_);
 		
 		ApplyTheme(Application::Instance().GetTheme());
 	}
@@ -34,7 +34,7 @@ namespace OSHGui
 	{
 		Control::SetSize(size);
 
-		containerPanel->SetSize(size.InflateEx(-4, -4));
+		containerPanel_->SetSize(size.InflateEx(-4, -4));
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::SetParent(Control *parent)
@@ -55,51 +55,52 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabPage::SetText(const Misc::AnsiString &text)
 	{
-		if (button)
+		if (button_)
 		{
-			button->SetText(text);
+			button_->SetText(text);
 		}
-		this->text = text;
+
+		text_ = text;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TabPage::GetText() const
 	{
-		return text;
+		return text_;
 	}
 	//---------------------------------------------------------------------------
 	const std::deque<Control*>& TabPage::GetControls() const
 	{
-		return containerPanel->GetControls();
+		return containerPanel_->GetControls();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void TabPage::AddControl(Control *control)
 	{
-		containerPanel->AddControl(control);
+		containerPanel_->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::RemoveControl(Control *control)
 	{
-		containerPanel->RemoveControl(control);
+		containerPanel_->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::DrawSelf(Drawing::RenderContext &context)
 	{
 		Control::DrawSelf(context);
 
-		containerPanel->Render();
+		containerPanel_->Render();
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::PopulateGeometry()
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
-		if (backColor.GetAlpha() > 0)
+		if (!GetBackColor().IsTranslucent())
 		{
 			g.FillRectangle(GetBackColor() + Color::FromARGB(0, 32, 32, 32), PointF(0, 0), GetSize());
 			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));

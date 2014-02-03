@@ -41,7 +41,7 @@ namespace OSHGui
 			
 			static const long long TicksPerTenthSecond;
 			
-			long long ticks;
+			long long ticks_;
 			
 		public:
 			/**

@@ -65,25 +65,25 @@ namespace OSHGui
 		 *
 		 * \param hotkey
 		 */
-		virtual void SetHotkey(Key::Keys hotkey);
+		virtual void SetHotkey(Key hotkey);
 		/**
 		 * Ruft den Hotkey ab.
 		 *
 		 * \return hotkey
 		 */
-		virtual Key::Keys GetHotkey() const;
+		virtual Key GetHotkey() const;
 		/**
 		 * Legt den HotkeyModifier fest.
 		 *
 		 * \param hotkey
 		 */
-		virtual void SetHotkeyModifier(Key::Keys modifier);
+		virtual void SetHotkeyModifier(Key modifier);
 		/**
 		 * Ruft den HotkeyModifier ab.
 		 *
 		 * \return hotkeyModifier
 		 */
-		virtual Key::Keys GetHotkeyModifier() const;
+		virtual Key GetHotkeyModifier() const;
 
 		/**
 		 * Ruft das HotkeyChangedEvent für das Steuerelement ab.
@@ -115,16 +115,16 @@ namespace OSHGui
 		void HotkeyToText();
 
 		static const Drawing::SizeI DefaultSize;
-		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
+		static std::map<Key, Misc::AnsiString> HotkeyNames;
 		
-		std::unique_ptr<TextBox> textBox;
+		std::unique_ptr<TextBox> textBox_;
 		
-		Drawing::PointI clearButtonLocation;
+		Drawing::PointI clearButtonLocation_;
 
-		Key::Keys hotkey;
-		Key::Keys modifier;
+		Key hotkey_;
+		Key modifier_;
 
-		HotkeyChangedEvent hotkeyChangedEvent;
+		HotkeyChangedEvent hotkeyChangedEvent_;
 	};
 }
 

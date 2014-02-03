@@ -31,11 +31,11 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Color::Color()
-			: blue(0),
-			  green(0),
-			  red(0),
-			  alpha(0),
-			  argb(0)
+			: blue_(0),
+			  green_(0),
+			  red_(0),
+			  alpha_(0),
+			  argb_(0)
 		{
 
 		}
@@ -46,19 +46,19 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(float red, float green, float blue)
-			: blue(blue),
-			  green(green),
-			  red(red),
-			  alpha(1)
+			: blue_(blue),
+			  green_(green),
+			  red_(red),
+			  alpha_(1)
 		{
 			CalculateARGB();
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(float alpha, float red, float green, float blue)
-			: blue(blue),
-			  green(green),
-			  red(red),
-			  alpha(alpha < 0.f ? 0.f : alpha > 1.f ? 1.f : alpha)
+			: blue_(blue),
+			  green_(green),
+			  red_(red),
+			  alpha_(alpha < 0.f ? 0.f : alpha > 1.f ? 1.f : alpha)
 		{
 			CalculateARGB();
 		}
@@ -98,50 +98,55 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::GetRed() const
 		{
-			return red;
+			return red_;
 		}
 		//---------------------------------------------------------------------------
 		float Color::GetGreen() const
 		{
-			return green;
+			return green_;
 		}
 		//---------------------------------------------------------------------------
 		float Color::GetBlue() const
 		{
-			return blue;
+			return blue_;
 		}
 		//---------------------------------------------------------------------------
 		float Color::GetAlpha() const
 		{
-			return alpha;
+			return alpha_;
 		}
 		//---------------------------------------------------------------------------
 		argb_t Color::GetARGB() const
 		{
-			return argb;
+			return argb_;
 		}
 		//---------------------------------------------------------------------------
-		void Color::SetARGB(argb_t argb_)
+		void Color::SetARGB(argb_t argb)
 		{
-			argb = argb_;
+			argb_ = argb;
 
-			blue = static_cast<float>(argb_ & 0xFF) / 255.0f;
-			argb_ >>= 8;
-			green = static_cast<float>(argb_ & 0xFF) / 255.0f;
-			argb_ >>= 8;
-			red = static_cast<float>(argb_ & 0xFF) / 255.0f;
-			argb_ >>= 8;
-			alpha = static_cast<float>(argb_ & 0xFF) / 255.0f;
+			blue_ = static_cast<float>(argb & 0xFF) / 255.0f;
+			argb >>= 8;
+			green_ = static_cast<float>(argb & 0xFF) / 255.0f;
+			argb >>= 8;
+			red_ = static_cast<float>(argb & 0xFF) / 255.0f;
+			argb >>= 8;
+			alpha_ = static_cast<float>(argb & 0xFF) / 255.0f;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
+		bool Color::IsTranslucent() const
+		{
+			return alpha_ > 0.f;
+		}
+		//---------------------------------------------------------------------------
 		void Color::Clamp()
 		{
-			alpha = clamp(alpha, 0.f, 1.f);
-			red = clamp(red, 0.f, 1.f);
-			green = clamp(green, 0.f, 1.f);
-			blue = clamp(blue, 0.f, 1.f);
+			alpha_ = clamp(alpha_, 0.f, 1.f);
+			red_ = clamp(red_, 0.f, 1.f);
+			green_ = clamp(green_, 0.f, 1.f);
+			blue_ = clamp(blue_, 0.f, 1.f);
 			
 			CalculateARGB();
 		}
@@ -155,24 +160,24 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Color::CalculateARGB()
 		{
-			argb = ARGBCombine(
-				static_cast<uint8_t>((clamp(alpha, 0.f, 1.f) * 255.0f) + 0.5f),
-				static_cast<uint8_t>((clamp(red, 0.f, 1.f) * 255.0f) + 0.5f),
-				static_cast<uint8_t>((clamp(green, 0.f, 1.f) * 255.0f) + 0.5f),
-				static_cast<uint8_t>((clamp(blue, 0.f, 1.f) * 255.0f) + 0.5f)
+			argb_ = ARGBCombine(
+				static_cast<uint8_t>((clamp(alpha_, 0.f, 1.f) * 255.0f) + 0.5f),
+				static_cast<uint8_t>((clamp(red_, 0.f, 1.f) * 255.0f) + 0.5f),
+				static_cast<uint8_t>((clamp(green_, 0.f, 1.f) * 255.0f) + 0.5f),
+				static_cast<uint8_t>((clamp(blue_, 0.f, 1.f) * 255.0f) + 0.5f)
 			);
 		}
 		//---------------------------------------------------------------------------
 		float Color::Hue() const
 		{
-			if (red == green && green == blue)
+			if (red_ == green_ && green_ == blue_)
 			{
 				return 0.0f;
 			}
 
-			float r = red;
-			float g = green;
-			float b = blue;
+			float r = red_;
+			float g = green_;
+			float b = blue_;
 
 			float max = r > g ? r : g > b ? g : b;
 			float min = r < g ? r : g < b ? g : b;
@@ -202,9 +207,9 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::Saturation() const
 		{
-			float r = red;
-			float g = green;
-			float b = blue;
+			float r = red_;
+			float g = green_;
+			float b = blue_;
 
 			float max = r > g ? r : g > b ? g : b;
 			float min = r < g ? r : g < b ? g : b;
@@ -229,10 +234,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::Brightness() const
 		{
-			float r = red;
-			float g = green;
-			float b = blue;
-		 
+			float r = red_;
+			float g = green_;
+			float b = blue_;
+		
 			float max = r > g ? r : g > b ? g : b;
 			float min = r < g ? r : g < b ? g : b;
 
@@ -275,10 +280,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool operator==(const Color &lhs, const Color &rhs)
 		{
-			return lhs.red == rhs.red
-				&& lhs.green == rhs.green
-				&& lhs.blue == rhs.blue
-				&& lhs.alpha == rhs.alpha;
+			return lhs.red_ == rhs.red_
+				&& lhs.green_ == rhs.green_
+				&& lhs.blue_ == rhs.blue_
+				&& lhs.alpha_ == rhs.alpha_;
 		}
 		//---------------------------------------------------------------------------
 		bool operator!=(const Color &lhs, const Color &rhs)
@@ -288,22 +293,22 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const Color operator+(const Color &lhs, const Color &rhs)
 		{
-			return Color(lhs.alpha + rhs.alpha, lhs.red + rhs.red, lhs.green + rhs.green, lhs.blue + rhs.blue);
+			return Color(lhs.alpha_ + rhs.alpha_, lhs.red_ + rhs.red_, lhs.green_ + rhs.green_, lhs.blue_ + rhs.blue_);
 		}
 		//---------------------------------------------------------------------------
 		const Color operator-(const Color &lhs, const Color &rhs)
 		{
-			return Color(lhs.alpha - rhs.alpha, lhs.red - rhs.red, lhs.green - rhs.green, lhs.blue - rhs.blue);
+			return Color(lhs.alpha_ - rhs.alpha_, lhs.red_ - rhs.red_, lhs.green_ - rhs.green_, lhs.blue_ - rhs.blue_);
 		}
 		//---------------------------------------------------------------------------
 		const Color operator*(const Color &lhs, const Color &rhs)
 		{
-			return Color(lhs.alpha * rhs.alpha, lhs.red * rhs.red, lhs.green * rhs.green, lhs.blue * rhs.blue);
+			return Color(lhs.alpha_ * rhs.alpha_, lhs.red_ * rhs.red_, lhs.green_ * rhs.green_, lhs.blue_ * rhs.blue_);
 		}
 		//---------------------------------------------------------------------------
 		const Color operator*(const Color &lhs, float rhs)
 		{
-			return Color(lhs.alpha * rhs, lhs.red * rhs, lhs.green * rhs, lhs.blue * rhs);
+			return Color(lhs.alpha_ * rhs, lhs.red_ * rhs, lhs.green_ * rhs, lhs.blue_ * rhs);
 		}
 		//---------------------------------------------------------------------------
 	}

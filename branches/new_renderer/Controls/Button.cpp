@@ -20,12 +20,12 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Button::Button()
-		: label(new Label())
+		: label_(new Label())
 	{
-		type = ControlType::Button;
+		type_ = ControlType::Button;
 
-		label->SetLocation(DefaultLabelOffset);
-		label->SetBackColor(Drawing::Color::Empty());
+		label_->SetLocation(DefaultLabelOffset);
+		label_->SetBackColor(Drawing::Color::Empty());
 
 		SetSize(DefaultSize);
 		
@@ -38,7 +38,7 @@ namespace OSHGui
 	{
 		Control::SetAutoSize(autoSize);
 
-		label->SetAutoSize(autoSize);
+		label_->SetAutoSize(autoSize);
 	}
 	//---------------------------------------------------------------------------
 	void Button::SetSize(const Drawing::SizeI &size)
@@ -50,10 +50,10 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Button::SetText(const Misc::AnsiString &text)
 	{
-		label->SetText(text);
-		if (autoSize)
+		label_->SetText(text);
+		if (autoSize_)
 		{
-			SetSize(label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2));
+			SetSize(label_->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2));
 		}
 
 		CalculateLabelLocation();
@@ -61,17 +61,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Button::GetText() const
 	{
-		return label->GetText();
+		return label_->GetText();
 	}
 	//---------------------------------------------------------------------------
 	void Button::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 
-		label->SetFont(font);
-		if (autoSize)
+		label_->SetFont(font);
+		if (autoSize_)
 		{
-			SetSize(label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2));
+			SetSize(label_->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ namespace OSHGui
 	{
 		Control::SetForeColor(color);
 
-		label->SetForeColor(color);
+		label_->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -88,31 +88,31 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 
-		label->SetParent(this);
+		label_->SetParent(this);
 	}
 	//---------------------------------------------------------------------------
 	void Button::CalculateLabelLocation()
 	{
-		label->SetLocation(Drawing::PointI(GetSize().Width / 2.f - label->GetSize().Width / 2.f, GetSize().Height / 2.f - label->GetSize().Height / 2.f));
+		label_->SetLocation(Drawing::PointI(GetSize().Width / 2.f - label_->GetSize().Width / 2.f, GetSize().Height / 2.f - label_->GetSize().Height / 2.f));
 	}
 	//---------------------------------------------------------------------------
 	void Button::DrawSelf(Drawing::RenderContext &context)
 	{
 		Control::DrawSelf(context);
 
-		label->Render();
+		label_->Render();
 	}
 	//---------------------------------------------------------------------------
 	void Button::PopulateGeometry()
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
-		auto tempColor = backColor;
-		if ((isFocused || isInside) && !(isFocused && isClicked))
+		auto tempColor = GetBackColor();
+		if ((isFocused_ || isInside_) && !(isFocused_ && isClicked_))
 		{
-			tempColor = tempColor + mouseOverFocusColor;
+			tempColor = tempColor + GetMouseOverFocusColor();
 		}
 
 		auto color = tempColor + Color::FromARGB(0, 10, 10, 10);
@@ -135,7 +135,7 @@ namespace OSHGui
 		{
 			if (keyboard.GetKeyCode() == Key::Return)
 			{
-				clickEvent.Invoke(this);
+				clickEvent_.Invoke(this);
 			}
 		}
 

@@ -14,16 +14,16 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeI ProgressBar::DefaultSize(110, 24);
+	const Drawing::SizeI ProgressBar::DefaultSize(112, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	ProgressBar::ProgressBar()
-		: min(0),
-		  max(100),
-		  value(0)
+		: min_(0),
+		  max_(100),
+		  value_(0)
 	{
-		type = ControlType::ProgressBar;
+		type_ = ControlType::ProgressBar;
 
 		SetSize(DefaultSize);
 		
@@ -31,17 +31,17 @@ namespace OSHGui
 
 		SetBarColor(Drawing::Color(0xFF67AFF5));
 
-		canRaiseEvents = false;
+		canRaiseEvents_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetMin(int min_)
+	void ProgressBar::SetMin(int min)
 	{
-		min = min_;
-		if (min > max)
+		min_ = min;
+		if (min_ > max_)
 		{
-			max = min;
+			max_ = min_;
 		}
 
 		Adjust();
@@ -49,15 +49,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMin() const
 	{
-		return min;
+		return min_;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetMax(int max_)
+	void ProgressBar::SetMax(int max)
 	{
-		max = max_;
-		if (max < min)
+		max_ = max;
+		if (max_ < min_)
 		{
-			min = max;
+			min_ = max_;
 		}
 		
 		Adjust();
@@ -65,12 +65,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMax() const
 	{
-		return max;
+		return max_;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetValue(int value_)
+	void ProgressBar::SetValue(int value)
 	{
-		value = value_;
+		value_ = value;
 
 		Adjust();
 
@@ -79,19 +79,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetValue() const
 	{
-		return value;
+		return value_;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetBarColor(Drawing::Color color)
+	void ProgressBar::SetBarColor(const Drawing::Color &color)
 	{
-		barColor = color;
+		barColor_ = color;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ProgressBar::GetBarColor() const
+	const Drawing::Color& ProgressBar::GetBarColor() const
 	{
-		return barColor;
+		return barColor_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -103,13 +103,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ProgressBar::Adjust()
 	{
-		if (value < min)
+		if (value_ < min_)
 		{
-			value = min;
+			value_ = min_;
 		}
-		if (value > max)
+		if (value_ > max_)
 		{
-			value = max;
+			value_ = max_;
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -117,9 +117,9 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
-		if (backColor.GetAlpha() > 0)
+		if (!GetBackColor().IsTranslucent())
 		{
 			g.FillRectangle(GetBackColor(), PointF(1, 0), GetSize() - SizeF(2, 0));
 			g.FillRectangle(GetBackColor(), PointF(0, 1), GetSize() - SizeF(0, 2));
@@ -130,9 +130,9 @@ namespace OSHGui
 		g.FillRectangle(GetForeColor(), PointF(0, 1), SizeF(1, GetHeight() - 2));
 		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
 		
-		for (int i = (int)(value / ((max - min) / ((GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
+		for (int i = (int)(value_ / ((max_ - min_) / ((GetWidth() - 4) / 12.0f)) - 1); i >= 0; --i)
 		{
-			g.FillRectangle(barColor, PointF(4 + i * 12, 4), SizeF(8, GetHeight() - 8));
+			g.FillRectangle(barColor_, PointF(4 + i * 12, 4), SizeF(8, GetHeight() - 8));
 		}
 	}
 	//---------------------------------------------------------------------------

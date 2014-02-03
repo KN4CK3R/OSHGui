@@ -15,41 +15,41 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Label::Label()
-		: textHelper(GetFont())
+		: textHelper_(GetFont())
 	{
-		type = ControlType::Label;
+		type_ = ControlType::Label;
 		
 		SetAutoSize(true);
 		
 		ApplyTheme(Application::Instance().GetTheme());
 
-		canRaiseEvents = false;
+		canRaiseEvents_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void Label::SetText(const Misc::AnsiString &text)
 	{
-		textHelper.SetText(text);
-		if (autoSize)
+		textHelper_.SetText(text);
+		if (autoSize_)
 		{
-			Control::SetSize(textHelper.GetSize());
+			Control::SetSize(textHelper_.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Label::GetText() const
 	{
-		return textHelper.GetText();
+		return textHelper_.GetText();
 	}
 	//---------------------------------------------------------------------------
 	void Label::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 
-		textHelper.SetFont(font);
-		if (autoSize)
+		textHelper_.SetFont(font);
+		if (autoSize_)
 		{
-			Control::SetSize(textHelper.GetSize());
+			Control::SetSize(textHelper_.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -64,14 +64,14 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		if (GetBackColor().GetAlpha() > 0)
 		{
 			g.FillRectangle(GetBackColor(), RectangleF(PointF(), GetSize()));
 		}
 		
-		g.DrawString(textHelper.GetText(), GetFont(), GetForeColor(), PointF(0, 0));
+		g.DrawString(textHelper_.GetText(), GetFont(), GetForeColor(), PointF(0, 0));
 	}
 	//---------------------------------------------------------------------------
 }

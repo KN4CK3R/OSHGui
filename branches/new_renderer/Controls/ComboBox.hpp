@@ -178,10 +178,10 @@ namespace OSHGui
 		void Expand();
 		void Collapse();
 		
-		int maxShowItems;
-		bool droppedDown;
+		int maxShowItems_;
+		bool droppedDown_;
 		
-		Drawing::Color dropDownColor;
+		Drawing::Color dropDownColor_;
 		
 		class ComboBoxButton : public Button
 		{
@@ -201,12 +201,12 @@ namespace OSHGui
 			virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 
 		private:
-			Drawing::SizeI realSize;
-			Drawing::PointI arrowAbsoluteLocation;
+			Drawing::SizeI realSize_;
+			Drawing::PointI arrowAbsoluteLocation_;
 		};
 
-		ComboBoxButton *button;
-		ListBox *listBox;
+		ComboBoxButton *button_;
+		ListBox *listBox_;
 	};
 }
 

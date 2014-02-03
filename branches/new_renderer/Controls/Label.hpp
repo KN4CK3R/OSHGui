@@ -55,7 +55,7 @@ namespace OSHGui
 	protected:
 		virtual void PopulateGeometry() override;
 
-		Misc::TextHelper textHelper;
+		Misc::TextHelper textHelper_;
 	};
 }
 

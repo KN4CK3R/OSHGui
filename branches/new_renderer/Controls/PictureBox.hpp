@@ -58,8 +58,8 @@ namespace OSHGui
 	private:
 		static const Drawing::SizeI DefaultSize;
 
-		Drawing::ImagePtr image;
-		bool stretch;
+		Drawing::ImagePtr image_;
+		bool stretch_;
 	};
 }
 

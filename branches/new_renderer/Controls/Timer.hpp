@@ -76,10 +76,10 @@ namespace OSHGui
 		virtual void InjectTime(const Misc::DateTime &time) override;
 
 	private:
-		Misc::TimeSpan interval;
-		Misc::DateTime next;
+		Misc::TimeSpan interval_;
+		Misc::DateTime next_;
 
-		TickEvent tickEvent;
+		TickEvent tickEvent_;
 	};
 }
 

@@ -26,42 +26,42 @@ namespace OSHGui
 		 * \param keyboardEvent
 		 */
 		KeyEventArgs(const KeyboardMessage &keyboardEvent)
-			: keyData(keyboardEvent.GetKeyData()),
+			: keyData_(keyboardEvent.GetKeyData()),
 			  Handled(false)
 		{
 			
 		}
 
-		Key::Keys GetKeyCode() const
+		Key GetKeyCode() const
 		{
-			return keyData & Key::KeyCode;
+			return keyData_ & Key::KeyCode;
 		}
 
-		Key::Keys GetModifier() const
+		Key GetModifier() const
 		{
-			return keyData & Key::Modifiers;
+			return keyData_ & Key::Modifiers;
 		}
 
 		bool IsControl() const
 		{
-			return (keyData & Key::Control) == Key::Control;
+			return (keyData_ & Key::Control) == Key::Control;
 		}
 
 		bool IsMenu() const
 		{
-			return (keyData & Key::Alt) == Key::Alt;
+			return (keyData_ & Key::Alt) == Key::Alt;
 		}
 
 		bool IsShift() const
 		{
-			return (keyData & Key::Shift) == Key::Shift;
+			return (keyData_ & Key::Shift) == Key::Shift;
 		}
 
 	public:
 		bool Handled;
 
 	private:
-		Key::Keys keyData;
+		Key keyData_;
 	};
 }
 

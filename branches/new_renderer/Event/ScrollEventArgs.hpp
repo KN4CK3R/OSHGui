@@ -28,9 +28,10 @@ namespace OSHGui
 		 * \param oldValue der alte Scroll-Wert
 		 */
 		ScrollEventArgs(int newValue, int oldValue)
+			: NewValue(newValue),
+			  OldValue(oldValue)
 		{
-			NewValue = newValue;
-			OldValue = oldValue;
+			
 		}
 	};
 }

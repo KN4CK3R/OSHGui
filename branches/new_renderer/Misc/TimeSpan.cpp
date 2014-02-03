@@ -45,19 +45,19 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan()
-			: ticks(0)
+			: ticks_(0)
 		{
 			
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(long long ticks)
-			: ticks(ticks)
+			: ticks_(ticks)
 		{
 
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(int hours, int minutes, int seconds)
-			: ticks(TimeToTicks(hours, minutes, seconds))
+			: ticks_(TimeToTicks(hours, minutes, seconds))
 		{
 
 		}
@@ -71,7 +71,7 @@ namespace OSHGui
 				throw ArgumentOutOfRangeException("milliseconds");
 			}
 			#endif
-			ticks = totalMilliSeconds * TicksPerMillisecond;
+			ticks_ = totalMilliSeconds * TicksPerMillisecond;
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(int days, int hours, int minutes, int seconds, int milliseconds)
@@ -83,64 +83,64 @@ namespace OSHGui
 				throw ArgumentOutOfRangeException("milliseconds");
 			}
 			#endif
-			ticks = totalMilliSeconds * TicksPerMillisecond;
+			ticks_ = totalMilliSeconds * TicksPerMillisecond;
 		}
 		//---------------------------------------------------------------------------
 		//Getter/Setter
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetDays() const
 		{
-			return (int)(ticks / TicksPerDay);
+			return (int)(ticks_ / TicksPerDay);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetHours() const
 		{
-			return (int)((ticks / TicksPerHour) % 24);
+			return (int)((ticks_ / TicksPerHour) % 24);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetMinutes() const
 		{
-			return (int)((ticks / TicksPerMinute) % 60);
+			return (int)((ticks_ / TicksPerMinute) % 60);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetSeconds() const
 		{
-			return (int)((ticks / TicksPerSecond) % 60);
+			return (int)((ticks_ / TicksPerSecond) % 60);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetMilliseconds() const
 		{
-			return (int)((ticks / TicksPerMillisecond) % 1000);
+			return (int)((ticks_ / TicksPerMillisecond) % 1000);
 		}
 		//---------------------------------------------------------------------------
 		long long TimeSpan::GetTicks() const
 		{
-			return ticks;
+			return ticks_;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalDays() const
 		{
-			return (double)ticks * DaysPerTick;
+			return (double)ticks_ * DaysPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalHours() const
 		{
-			return (double)ticks * HoursPerTick;
+			return (double)ticks_ * HoursPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalMinutes() const
 		{
-			return (double)ticks * MinutesPerTick;
+			return (double)ticks_ * MinutesPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalSeconds() const
 		{
-			return (double)ticks * SecondsPerTick;
+			return (double)ticks_ * SecondsPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalMilliseconds() const
 		{
-			double temp = (double)ticks * MillisecondsPerTick;
+			double temp = (double)ticks_ * MillisecondsPerTick;
 			if (temp > MaxMilliSeconds)
 			{
 				return (double)MaxMilliSeconds;
@@ -156,9 +156,9 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const TimeSpan TimeSpan::Add(TimeSpan ts) const
 		{
-			long long result = ticks + ts.ticks;
+			long long result = ticks_ + ts.ticks_;
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if ((ticks >> 63 == ts.ticks >> 63) && (ticks >> 63 != result >> 63))
+			if ((ticks_ >> 63 == ts.ticks_ >> 63) && (ticks_ >> 63 != result >> 63))
 			{
 				throw ArgumentOutOfRangeException("ticks");
 			}
@@ -168,9 +168,9 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const TimeSpan TimeSpan::Subtract(TimeSpan ts) const
 		{
-			long long result = ticks - ts.ticks;
+			long long result = ticks_ - ts.ticks_;
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if ((ticks >> 63 != ts.ticks >> 63) && (ticks >> 63 != result >> 63))
+			if ((ticks_ >> 63 != ts.ticks_ >> 63) && (ticks_ >> 63 != result >> 63))
 			{
 				throw ArgumentOutOfRangeException("ticks");
 			}
@@ -180,37 +180,37 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool TimeSpan::operator == (const TimeSpan &ts) const
 		{
-			return ticks == ts.ticks;
+			return ticks_ == ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
 		bool TimeSpan::operator != (const TimeSpan &ts) const
 		{
-			return ticks != ts.ticks;
+			return ticks_ != ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
 		bool TimeSpan::operator < (const TimeSpan &ts) const
 		{
-			return ticks < ts.ticks;
+			return ticks_ < ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
 		bool TimeSpan::operator > (const TimeSpan &ts) const
 		{
-			return ticks > ts.ticks;
+			return ticks_ > ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
 		bool TimeSpan::operator <= (const TimeSpan &ts) const
 		{
-			return ticks <= ts.ticks;
+			return ticks_ <= ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
 		bool TimeSpan::operator >= (const TimeSpan &ts) const
 		{
-			return ticks >= ts.ticks;
+			return ticks_ >= ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
 		const TimeSpan TimeSpan::operator-() const
 		{
-			return TimeSpan(-ticks);
+			return TimeSpan(-ticks_);
 		}
 		//---------------------------------------------------------------------------
 		const TimeSpan TimeSpan::operator+() const
@@ -231,23 +231,23 @@ namespace OSHGui
 		TimeSpan TimeSpan::Duration() const
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if (ticks == MinValue.ticks)
+			if (ticks_ == MinValue.ticks_)
 			{
 				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
-			return TimeSpan(ticks >= 0 ? ticks : -ticks);
+			return TimeSpan(ticks_ >= 0 ? ticks_ : -ticks_);
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan TimeSpan::Negate() const
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if (ticks == MinValue.ticks)
+			if (ticks_ == MinValue.ticks_)
 			{
 				throw ArgumentOutOfRangeException("ticks");
 			}
 			#endif
-			return TimeSpan(-ticks);
+			return TimeSpan(-ticks_);
 		}
 		//---------------------------------------------------------------------------
 		TimeSpan TimeSpan::FromDays(double value)

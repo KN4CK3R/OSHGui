@@ -79,7 +79,7 @@ namespace OSHGui
 		 *
 		 * \param font Standardschrift
 		 */
-		void SetDefaultFont(Drawing::FontPtr &font);
+		void SetDefaultFont(const Drawing::FontPtr &font);
 		/**
 		 * Ruft die Standardschrift für das Gui ab.
 		 *
@@ -195,7 +195,7 @@ namespace OSHGui
 		private:
 			friend void Application::Render();
 
-			bool needsRedraw;
+			bool needsRedraw_;
 		};
 
 	private:
@@ -208,31 +208,31 @@ namespace OSHGui
 
 		void InjectTime();
 
-		Drawing::Renderer &renderer;
-		GuiRenderSurface guiSurface;
-		Drawing::FontPtr defaultFont;
+		Drawing::Renderer &renderer_;
+		GuiRenderSurface guiSurface_;
+		Drawing::FontPtr defaultFont_;
 		
-		Drawing::Theme defaultTheme;
-		Drawing::Theme currentTheme;
+		Drawing::Theme defaultTheme_;
+		Drawing::Theme currentTheme_;
 	
-		FormManager formManager;
+		FormManager formManager_;
 		
-		Misc::DateTime now;
+		Misc::DateTime now_;
 
 		struct
 		{
 			Drawing::PointF Location;
 			std::shared_ptr<Cursor> Cursor;
 			bool Enabled;
-		} mouse;
+		} mouse_;
 
-		std::vector<Hotkey> hotkeys;
+		std::vector<Hotkey> hotkeys_;
 
 		Control *FocusedControl;
 		Control *CaptureControl;
 		Control *MouseEnteredControl;
 
-		bool isEnabled;
+		bool isEnabled_;
 	};
 }
 

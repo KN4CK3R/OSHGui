@@ -16,7 +16,7 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Cursor::Cursor()
-		: geometry(Application::Instance().GetRenderer().CreateGeometryBuffer())
+		: geometry_(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
 		
 	}
@@ -28,7 +28,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::GeometryBufferPtr Cursor::GetGeometry()
 	{
-		return geometry;
+		return geometry_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -37,7 +37,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		g.FillRectangle(Color::White(), PointF(0, 0), SizeF(1, 12));
 		g.FillRectangle(Color::White(), PointF(1, 0), SizeF(1, 11));

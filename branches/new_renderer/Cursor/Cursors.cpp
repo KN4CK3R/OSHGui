@@ -22,7 +22,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Cursor> Cursors::Get(Cursors::CursorType cursorType)
+	const std::shared_ptr<Cursor>& Cursors::Get(Cursors::CursorType cursorType)
 	{
 		auto it = cursors.find(cursorType);
 		if (it == cursors.end())
@@ -55,7 +55,7 @@ namespace OSHGui
 			cursor->Initialize();
 
 			cursors[cursorType] = cursor;
-			return cursor;
+			return cursors[cursorType];
 		}
 		return (*it).second;
 	}

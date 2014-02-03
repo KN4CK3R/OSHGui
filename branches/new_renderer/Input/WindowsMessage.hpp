@@ -42,7 +42,7 @@ namespace OSHGui
 		private:
 			static const int SystemDefaultCharSize = 2;
 
-			int ImeWmCharsToIgnore;
+			int ImeWmCharsToIgnore_;
 		};
 	}
 }

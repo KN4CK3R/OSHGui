@@ -24,30 +24,30 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ListBox::ListBox()
-		: selectedIndex(-1),
-		  firstVisibleItemIndex(0),
-		  autoScrollEnabled(false)
+		: selectedIndex_(-1),
+		  firstVisibleItemIndex_(0),
+		  autoScrollEnabled_(false)
 	{
-		type = ControlType::ListBox;
+		type_ = ControlType::ListBox;
 	
-		scrollBar = new ScrollBar();
-		scrollBar->SetVisible(false);
-		scrollBar->GetScrollEvent() += ScrollEventHandler([this](Control*, ScrollEventArgs &args)
+		scrollBar_ = new ScrollBar();
+		scrollBar_->SetVisible(false);
+		scrollBar_->GetScrollEvent() += ScrollEventHandler([this](Control*, ScrollEventArgs &args)
 		{
-			firstVisibleItemIndex = args.NewValue;
+			firstVisibleItemIndex_ = args.NewValue;
 		});
-		scrollBar->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
+		scrollBar_->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
 			if (newFocusedControl != this)
 			{
 				OnLostFocus(newFocusedControl);
 			}
 		});
-		AddSubControl(scrollBar);
+		AddSubControl(scrollBar_);
 
 		SetSize(DefaultSize);
 		
-		maxVisibleItems = GetHeight() / (GetFont()->GetFontHeight() + DefaultItemPadding);
+		maxVisibleItems_ = GetHeight() / (GetFont()->GetFontHeight() + DefaultItemPadding);
 
 		ApplyTheme(Application::Instance().GetTheme());
 	}
@@ -63,14 +63,14 @@ namespace OSHGui
 	{
 		Control::SetSize(size);
 
-		itemAreaSize = size.InflateEx(-8, -8);
-		if (scrollBar->GetVisible())
+		itemAreaSize_ = size.InflateEx(-8, -8);
+		if (scrollBar_->GetVisible())
 		{
-			itemAreaSize.Width -= scrollBar->GetWidth();
+			itemAreaSize_.Width -= scrollBar_->GetWidth();
 		}
 
-		scrollBar->SetLocation(size.Width - scrollBar->GetWidth() - 1, 0);
-		scrollBar->SetSize(scrollBar->GetWidth(), size.Height);
+		scrollBar_->SetLocation(size.Width - scrollBar_->GetWidth() - 1, 0);
+		scrollBar_->SetSize(scrollBar_->GetWidth(), size.Height);
 
 		CheckForScrollBar();
 	}
@@ -84,66 +84,66 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::SetAutoScrollEnabled(bool autoScrollEnabled)
 	{
-		this->autoScrollEnabled = autoScrollEnabled;
+		autoScrollEnabled_ = autoScrollEnabled;
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::GetAutoScrollEnabled() const
 	{
-		return autoScrollEnabled;
+		return autoScrollEnabled_;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& ListBox::GetItem(int index) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= (int)items.size())
+		if (index < 0 || index >= (int)items_.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index");
 		}
 		#endif
 
-		return items[index];
+		return items_[index];
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::SetSelectedIndex(int index)
 	{
-		if (selectedIndex == index)
+		if (selectedIndex_ == index)
 		{
 			return;
 		}
 
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= (int)items.size())
+		if (index < 0 || index >= (int)items_.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index");
 		}
 		#endif
 
-		selectedIndex = index;
+		selectedIndex_ = index;
 
-		selectedIndexChangedEvent.Invoke(this);
+		selectedIndexChangedEvent_.Invoke(this);
 
-		if (index - firstVisibleItemIndex >= maxVisibleItems || index - firstVisibleItemIndex < 0)
+		if (index - firstVisibleItemIndex_ >= maxVisibleItems_ || index - firstVisibleItemIndex_ < 0)
 		{
-			for (firstVisibleItemIndex = 0; firstVisibleItemIndex <= index; firstVisibleItemIndex += maxVisibleItems);
-			firstVisibleItemIndex -= maxVisibleItems;
-			if (firstVisibleItemIndex < 0)
+			for (firstVisibleItemIndex_ = 0; firstVisibleItemIndex_ <= index; firstVisibleItemIndex_ += maxVisibleItems_);
+			firstVisibleItemIndex_ -= maxVisibleItems_;
+			if (firstVisibleItemIndex_ < 0)
 			{
-				firstVisibleItemIndex = 0;
+				firstVisibleItemIndex_ = 0;
 			}
-			scrollBar->SetValue(firstVisibleItemIndex);
+			scrollBar_->SetValue(firstVisibleItemIndex_);
 		}
 	}
 	//---------------------------------------------------------------------------
 	int ListBox::GetSelectedIndex() const
 	{
-		return selectedIndex;
+		return selectedIndex_;
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::SetSelectedItem(const Misc::AnsiString &item)
 	{
-		for (int i = items.size() - 1; i >= 0; --i)
+		for (int i = items_.size() - 1; i >= 0; --i)
 		{
-			if (items[i] == item)
+			if (items_[i] == item)
 			{
 				SetSelectedIndex(i);
 				return;
@@ -158,19 +158,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int ListBox::GetItemsCount() const
 	{
-		return items.size();
+		return items_.size();
 	}
 	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& ListBox::GetSelectedIndexChangedEvent()
 	{
-		return selectedIndexChangedEvent;
+		return selectedIndexChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	bool ListBox::Intersect(const Drawing::PointI &point) const
 	{
-		return Intersection::TestRectangle(absoluteLocation, scrollBar->GetVisible() ? size.InflateEx(-scrollBar->GetWidth(), 0) : size, point);
+		return Intersection::TestRectangle(absoluteLocation_, scrollBar_->GetVisible() ? size_.InflateEx(-scrollBar_->GetWidth(), 0) : size_, point);
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::ExpandSizeToShowItems(int count)
@@ -183,51 +183,51 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::AddItem(const Misc::AnsiString &text)
 	{
-		InsertItem(!items.empty() ? items.size() : 0, text);
+		InsertItem(!items_.empty() ? items_.size() : 0, text);
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::InsertItem(int index, const Misc::AnsiString &text)
 	{
-		items.insert(items.begin() + index, text);
+		items_.insert(items_.begin() + index, text);
 
 		CheckForScrollBar();
 
-		if (autoScrollEnabled)
+		if (autoScrollEnabled_)
 		{
-			scrollBar->SetValue(index);
+			scrollBar_->SetValue(index);
 		}
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::RemoveItem(int index)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= (int)items.size())
+		if (index < 0 || index >= (int)items_.size())
 		{
 			throw Misc::ArgumentOutOfRangeException("index");
 		}
 		#endif
 		
-		items.erase(items.begin() + index);
+		items_.erase(items_.begin() + index);
 
-		if (scrollBar->GetVisible())
+		if (scrollBar_->GetVisible())
 		{
-			scrollBar->SetMaximum(items.size() - maxVisibleItems);
+			scrollBar_->SetMaximum(items_.size() - maxVisibleItems_);
 		}
-		if (selectedIndex >= (int)items.size())
+		if (selectedIndex_ >= (int)items_.size())
 		{
-			selectedIndex = items.size() - 1;
+			selectedIndex_ = items_.size() - 1;
 			
-			selectedIndexChangedEvent.Invoke(this);
+			selectedIndexChangedEvent_.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::Clear()
 	{
-		items.clear();
+		items_.clear();
 		
-		scrollBar->SetMaximum(1);
+		scrollBar_->SetMaximum(1);
 		
-		selectedIndex = -1;
+		selectedIndex_ = -1;
 
 		CheckForScrollBar();
 	}
@@ -236,21 +236,21 @@ namespace OSHGui
 	{
 		int itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
 
-		maxVisibleItems = std::max(1, itemAreaSize.Height / itemHeight);
+		maxVisibleItems_ = std::max(1, itemAreaSize_.Height / itemHeight);
 
-		if (!items.empty() && items.size() * itemHeight > itemAreaSize.Height)
+		if (!items_.empty() && items_.size() * itemHeight > itemAreaSize_.Height)
 		{
-			if (!scrollBar->GetVisible())
+			if (!scrollBar_->GetVisible())
 			{
-				itemAreaSize.Width -= scrollBar->GetWidth();
+				itemAreaSize_.Width -= scrollBar_->GetWidth();
 			}
-			scrollBar->SetMaximum(items.size() - maxVisibleItems - 1);
-			scrollBar->SetVisible(true);
+			scrollBar_->SetMaximum(items_.size() - maxVisibleItems_ - 1);
+			scrollBar_->SetVisible(true);
 		}
-		else if (scrollBar->GetVisible())
+		else if (scrollBar_->GetVisible())
 		{
-			scrollBar->SetVisible(false);
-			itemAreaSize.Width += scrollBar->GetWidth();
+			scrollBar_->SetVisible(false);
+			itemAreaSize_.Width += scrollBar_->GetWidth();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -258,14 +258,14 @@ namespace OSHGui
 	{
 		Control::DrawSelf(context);
 
-		scrollBar->Render();
+		scrollBar_->Render();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::PopulateGeometry()
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
@@ -278,14 +278,14 @@ namespace OSHGui
 		int itemX = 4;
 		int itemY = 5;
 		int padding = GetFont()->GetFontHeight() + DefaultItemPadding;
-		for (int i = 0; i < maxVisibleItems && i + firstVisibleItemIndex < (int)items.size(); ++i)
+		for (int i = 0; i < maxVisibleItems_ && i + firstVisibleItemIndex_ < (int)items_.size(); ++i)
 		{
-			if (firstVisibleItemIndex + i == selectedIndex)
+			if (firstVisibleItemIndex_ + i == selectedIndex_)
 			{
-				g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize.Width + 2, padding));
+				g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
 			}
 
-			g.DrawString(items[firstVisibleItemIndex + i], GetFont(), GetForeColor(), PointF(itemX + 1, itemY + i * padding));//, SizeF(itemAreaSize.Width, padding));
+			g.DrawString(items_[firstVisibleItemIndex_ + i], GetFont(), GetForeColor(), PointF(itemX + 1, itemY + i * padding));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -295,10 +295,10 @@ namespace OSHGui
 	{
 		Control::OnMouseClick(mouse);
 
-		if (Intersection::TestRectangle(absoluteLocation.OffsetEx(4, 4), itemAreaSize, mouse.Location))
+		if (Intersection::TestRectangle(absoluteLocation_.OffsetEx(4, 4), itemAreaSize_, mouse.GetLocation()))
 		{
-			int clickedIndex = firstVisibleItemIndex + (mouse.Location.Y - absoluteLocation.Y - 4) / (GetFont()->GetFontHeight() + DefaultItemPadding);
-			if (clickedIndex < items.size())
+			int clickedIndex = firstVisibleItemIndex_ + (mouse.GetLocation().Y - absoluteLocation_.Y - 4) / (GetFont()->GetFontHeight() + DefaultItemPadding);
+			if (clickedIndex < items_.size())
 			{
 				SetSelectedIndex(clickedIndex);
 			}
@@ -309,16 +309,16 @@ namespace OSHGui
 	{
 		Control::OnMouseScroll(mouse);
 
-		int newScrollValue = scrollBar->GetValue() + mouse.Delta;
+		int newScrollValue = scrollBar_->GetValue() + mouse.GetDelta();
 		if (newScrollValue < 0)
 		{
 			newScrollValue = 0;
 		}
-		else if (newScrollValue > items.size() - maxVisibleItems)
+		else if (newScrollValue > items_.size() - maxVisibleItems_)
 		{
-			newScrollValue = items.size() - maxVisibleItems;
+			newScrollValue = items_.size() - maxVisibleItems_;
 		}
-		scrollBar->SetValue(newScrollValue);
+		scrollBar_->SetValue(newScrollValue);
 	}
 	//---------------------------------------------------------------------------
 	bool ListBox::OnKeyDown(const KeyboardMessage &keyboard)
@@ -334,7 +334,7 @@ namespace OSHGui
 				case Key::PageUp:
 				case Key::PageDown:
 				{
-					int newSelectedIndex = selectedIndex;
+					int newSelectedIndex = selectedIndex_;
 
 					switch (keyboard.GetKeyCode())
 					{
@@ -348,13 +348,13 @@ namespace OSHGui
 							newSelectedIndex = 0;
 							break;
 						case Key::End:
-							newSelectedIndex = items.size() - 1;
+							newSelectedIndex = items_.size() - 1;
 							break;
 						case Key::PageUp:
-							newSelectedIndex += maxVisibleItems;
+							newSelectedIndex += maxVisibleItems_;
 							break;
 						case Key::PageDown:
-							newSelectedIndex -= maxVisibleItems;
+							newSelectedIndex -= maxVisibleItems_;
 							break;
 					}
 
@@ -362,9 +362,9 @@ namespace OSHGui
 					{
 						newSelectedIndex = 0;
 					}
-					if (newSelectedIndex >= (int)items.size())
+					if (newSelectedIndex >= (int)items_.size())
 					{
-						newSelectedIndex = items.size() - 1;
+						newSelectedIndex = items_.size() - 1;
 					}
 
 					SetSelectedIndex(newSelectedIndex);
@@ -386,10 +386,10 @@ namespace OSHGui
 				std::locale loc;
 				Misc::AnsiChar keyChar = std::tolower(keyboard.GetKeyChar(), loc);
 				int foundIndex = 0;
-				for (auto &c : items)
+				for (auto &c : items_)
 				{
 					Misc::AnsiChar check = std::tolower(c[0], loc);
-					if (check == keyChar && foundIndex != selectedIndex)
+					if (check == keyChar && foundIndex != selectedIndex_)
 					{
 						break;
 					}
@@ -397,7 +397,7 @@ namespace OSHGui
 					++foundIndex;
 				}
 					
-				if (foundIndex < (int)items.size())
+				if (foundIndex < (int)items_.size())
 				{
 					SetSelectedIndex(foundIndex);
 				}

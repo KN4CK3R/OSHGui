@@ -14,66 +14,81 @@
 
 namespace OSHGui
 {
+	enum MouseState
+	{
+		/**
+		 * Unbekannt
+		 */
+		Unknown,
+		/**
+		 * Maus wurde bewegt.
+		 */
+		Move,
+		/**
+		 * Maustaste wurde gedrückt.
+		 */
+		Down,
+		/**
+		 * Maustaste wurde losgelassen.
+		 */
+		Up,
+		/**
+		 * Mausrad wurde gedreht.
+		 */
+		Scroll
+	};
+
 	/**
 	 * Mausnachricht
 	 */
 	class OSHGUI_EXPORT MouseMessage
 	{
 	public:
-		enum MouseStates
-		{
-			/**
-			 * Unbekannt
-			 */
-			Unknown,
-			/**
-			 * Maus wurde bewegt.
-			 */
-			Move,
-			/**
-			 * Maustaste wurde gedrückt.
-			 */
-			Down,
-			/**
-			 * Maustaste wurde losgelassen.
-			 */
-			Up,
-			/**
-			 * Mausrad wurde gedreht.
-			 */
-			Scroll
-		};
-	
-		MouseStates State;
-		MouseButton::MouseButtons Button;
-		Drawing::PointI Location;
-		int Delta;
-		
-	public:
 		/**
 		 * Konstruktor der Klasse
 		 */
 		MouseMessage()
-			: state(Unknown),
-			  button(MouseButton::None),
-			  delta(0)
+			: state_(MouseState::Unknown),
+			  button_(MouseButton::None),
+			  delta_(0)
 		{
 
 		}
 
-		MouseMessage(MouseStates state, MouseButton::MouseButtons button, Drawing::PointI location, int delta)
+		MouseMessage(MouseState state, MouseButton button, Drawing::PointI location, int delta)
+			: state_(state),
+			  button_(button),
+			  location_(location),
+			  delta_(delta)
 		{
-			this->State = state;
-			this->Button = button;
-			this->Location = location;
-			this->Delta = delta;
+			
+		}
+
+		MouseState GetState() const
+		{
+			return state_;
+		}
+
+		MouseButton GetButton() const
+		{
+			return button_;
+		}
+
+		const Drawing::PointI& GetLocation() const
+		{
+			return location_;
+		}
+
+		int GetDelta() const
+		{
+			return delta_;
 		}
 
 	private:
-		MouseStates state;
-		MouseButton::MouseButtons button;
-		Drawing::PointI location;
-		int delta;
+		MouseState state_;
+		MouseButton button_;
+		Drawing::PointI location_;
+		int delta_;
 	};
 }
 

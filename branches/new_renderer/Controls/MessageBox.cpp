@@ -90,7 +90,7 @@ namespace OSHGui
 				labels.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::OK;
+					SetDialogResult(DialogResult::OK);
 					Close();
 				}));
 				break;
@@ -101,12 +101,12 @@ namespace OSHGui
 				labels.push_back("OK");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Cancel;
+					SetDialogResult(DialogResult::Cancel);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::OK;
+					SetDialogResult(DialogResult::OK);
 					Close();
 				}));
 				break;
@@ -118,17 +118,17 @@ namespace OSHGui
 				labels.push_back("Abort");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Ignore;
+					SetDialogResult(DialogResult::Ignore);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Retry;
+					SetDialogResult(DialogResult::Retry);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Abort;
+					SetDialogResult(DialogResult::Abort);
 					Close();
 				}));
 				break;
@@ -139,12 +139,12 @@ namespace OSHGui
 				labels.push_back("Yes");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::No;
+					SetDialogResult(DialogResult::No);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Yes;
+					SetDialogResult(DialogResult::Yes);
 					Close();
 				}));
 				break;
@@ -156,17 +156,17 @@ namespace OSHGui
 				labels.push_back("Yes");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Cancel;
+					SetDialogResult(DialogResult::Cancel);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::No;
+					SetDialogResult(DialogResult::No);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Yes;
+					SetDialogResult(DialogResult::Yes);
 					Close();
 				}));
 				break;
@@ -177,12 +177,12 @@ namespace OSHGui
 				labels.push_back("Retry");
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Cancel;
+					SetDialogResult(DialogResult::Cancel);
 					Close();
 				}));
 				eventHandler.push_back(ClickEventHandler([this](Control *control)
 				{
-					this->dialogResult = DialogResult::Retry;
+					SetDialogResult(DialogResult::Retry);
 					Close();
 				}));
 				break;

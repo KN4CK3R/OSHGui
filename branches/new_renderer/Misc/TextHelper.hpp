@@ -132,11 +132,11 @@ namespace OSHGui
 			int GetClosestCharacterIndex(const Drawing::PointF &position) const;
 			
 		private:
-			AnsiString text;
+			AnsiString text_;
 			
-			Drawing::SizeF size;
+			Drawing::SizeF size_;
 			
-			Drawing::FontPtr font;
+			Drawing::FontPtr font_;
 		};
 	}
 }

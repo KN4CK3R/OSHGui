@@ -37,7 +37,7 @@ namespace OSHGui
 	protected:
 		virtual void Initialize();
 
-		Drawing::GeometryBufferPtr geometry;
+		Drawing::GeometryBufferPtr geometry_;
 	};
 
 	typedef std::shared_ptr<Cursor> CursorPtr;

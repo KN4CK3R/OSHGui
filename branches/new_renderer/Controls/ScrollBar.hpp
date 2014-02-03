@@ -112,20 +112,20 @@ namespace OSHGui
 
 		void SetValueInternal(int value);
 
-		bool drag;
-		int value;
-		float pixelsPerTick;
-		int maximum;
+		bool drag_;
+		int value_;
+		float pixelsPerTick_;
+		int maximum_;
 
-		Drawing::PointI trackLocation;
-		Drawing::PointI trackAbsoluteLocation;
-		Drawing::SizeI trackSize;
+		Drawing::PointI trackLocation_;
+		Drawing::PointI trackAbsoluteLocation_;
+		Drawing::SizeI trackSize_;
 
-		Drawing::PointI sliderLocation;
-		Drawing::PointI sliderAbsoluteLocation;
-		Drawing::SizeI sliderSize;
+		Drawing::PointI sliderLocation_;
+		Drawing::PointI sliderAbsoluteLocation_;
+		Drawing::SizeI sliderSize_;
 
-		ScrollEvent scrollEvent;
+		ScrollEvent scrollEvent_;
 
 		class ScrollBarButton : public Control
 		{
@@ -148,13 +148,13 @@ namespace OSHGui
 			virtual void PopulateGeometry() override;
 
 		private:
-			ScrollBarDirection direction;
+			ScrollBarDirection direction_;
 
-			Drawing::PointF iconLocation;
+			Drawing::PointF iconLocation_;
 		};
 
-		ScrollBarButton *upButton;
-		ScrollBarButton *downButton;
+		ScrollBarButton *upButton_;
+		ScrollBarButton *downButton_;
 	};
 }
 

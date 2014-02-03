@@ -71,15 +71,15 @@ namespace OSHGui
 		virtual void OnMouseMove(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 	
-		int barIndex;
-		bool drag[3];
-		Drawing::Color color;
+		int barIndex_;
+		bool drag_[3];
+		Drawing::Color color_;
 
-		std::vector<Drawing::ColorRectangle> bars;
-		std::vector<Drawing::PointI> barSliderLocation;
-		std::vector<Drawing::PointI> barSliderAbsoluteLocation;
+		std::vector<Drawing::ColorRectangle> bars_;
+		std::vector<Drawing::PointI> barSliderLocation_;
+		std::vector<Drawing::PointI> barSliderAbsoluteLocation_;
 
-		ColorChangedEvent colorChangedEvent;
+		ColorChangedEvent colorChangedEvent_;
 	};
 }
 

@@ -79,10 +79,10 @@ namespace OSHGui
 		virtual void PopulateGeometry();
 
 	private:
-		Misc::AnsiString text;
+		Misc::AnsiString text_;
 
-		Panel *containerPanel;
-		TabControl::TabControlButton *button;
+		Panel *containerPanel_;
+		TabControl::TabControlButton *button_;
 	};
 }
 

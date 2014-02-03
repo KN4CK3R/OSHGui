@@ -16,214 +16,213 @@
 
 namespace OSHGui
 {
-	std::map<Key::Keys, Misc::AnsiString> HotkeyControl::hotkeyNames;
+	std::map<Key, Misc::AnsiString> HotkeyControl::HotkeyNames;
 	const Drawing::SizeI HotkeyControl::DefaultSize(100, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	HotkeyControl::HotkeyControl()
-		: textBox(new TextBox())
+		: textBox_(new TextBox())
 	{
-		type = ControlType::HotkeyControl;
+		type_ = ControlType::HotkeyControl;
 
-		if (hotkeyNames.empty())
+		if (HotkeyNames.empty())
 		{
 			#define EnumToString(x) #x
-			using namespace Key;
-			hotkeyNames[None] = EnumToString(None);
-			hotkeyNames[LButton] = EnumToString(LButton);
-			hotkeyNames[RButton] = EnumToString(RButton);
-			hotkeyNames[Cancel] = EnumToString(Cancel);
-			hotkeyNames[MButton] = EnumToString(MButton);
-			hotkeyNames[XButton1] = EnumToString(XButton1);
-			hotkeyNames[XButton2] = EnumToString(XButton2);
-			hotkeyNames[Back] = EnumToString(Back);
-			hotkeyNames[Tab] = EnumToString(Tab);
-			hotkeyNames[LineFeed] = EnumToString(LineFeed);
-			hotkeyNames[Clear] = EnumToString(Clear);
-			hotkeyNames[Enter] = EnumToString(Enter);
-			hotkeyNames[Return] = EnumToString(Return);
-			hotkeyNames[ShiftKey] = EnumToString(ShiftKey);
-			hotkeyNames[ControlKey] = EnumToString(ControlKey);
-			hotkeyNames[Menu] = EnumToString(Menu);
-			hotkeyNames[Pause] = EnumToString(Pause);
-			hotkeyNames[CapsLock] = EnumToString(CapsLock);
-			hotkeyNames[Capital] = EnumToString(Capital);
-			hotkeyNames[KanaMode] = EnumToString(KanaMode);
-			hotkeyNames[HanguelMode] = EnumToString(HanguelMode);
-			hotkeyNames[HangulMode] = EnumToString(HangulMode);
-			hotkeyNames[JunjaMode] = EnumToString(JunjaMode);
-			hotkeyNames[FinalMode] = EnumToString(FinalMode);
-			hotkeyNames[KanjiMode] = EnumToString(KanjiMode);
-			hotkeyNames[HanjaMode] = EnumToString(HanjaMode);
-			hotkeyNames[Escape] = EnumToString(Escape);
-			hotkeyNames[IMEConvert] = EnumToString(IMEConvert);
-			hotkeyNames[IMENonconvert] = EnumToString(IMENonconvert);
-			hotkeyNames[IMEAceept] = EnumToString(IMEAceept);
-			hotkeyNames[IMEAccept] = EnumToString(IMEAccept);
-			hotkeyNames[IMEModeChange] = EnumToString(IMEModeChange);
-			hotkeyNames[Space] = EnumToString(Space);
-			hotkeyNames[Prior] = EnumToString(Prior);
-			hotkeyNames[PageUp] = EnumToString(PageUp);
-			hotkeyNames[Next] = EnumToString(Next);
-			hotkeyNames[PageDown] = EnumToString(PageDown);
-			hotkeyNames[End] = EnumToString(End);
-			hotkeyNames[Home] = EnumToString(Home);
-			hotkeyNames[Left] = EnumToString(Left);
-			hotkeyNames[Up] = EnumToString(Up);
-			hotkeyNames[Right] = EnumToString(Right);
-			hotkeyNames[Down] = EnumToString(Down);
-			hotkeyNames[Select] = EnumToString(Select);
-			hotkeyNames[Print] = EnumToString(Print);
-			hotkeyNames[Execute] = EnumToString(Execute);
-			hotkeyNames[PrintScreen] = EnumToString(PrintScreen);
-			hotkeyNames[Snapshot] = EnumToString(Snapshot);
-			hotkeyNames[Insert] = EnumToString(Insert);
-			hotkeyNames[Delete] = EnumToString(Delete);
-			hotkeyNames[Help] = EnumToString(Help);
-			hotkeyNames[D0] = EnumToString(D0);
-			hotkeyNames[D1] = EnumToString(D1);
-			hotkeyNames[D2] = EnumToString(D2);
-			hotkeyNames[D3] = EnumToString(D3);
-			hotkeyNames[D4] = EnumToString(D4);
-			hotkeyNames[D5] = EnumToString(D5);
-			hotkeyNames[D6] = EnumToString(D6);
-			hotkeyNames[D7] = EnumToString(D7);
-			hotkeyNames[D8] = EnumToString(D8);
-			hotkeyNames[D9] = EnumToString(D9);
-			hotkeyNames[A] = EnumToString(A);
-			hotkeyNames[B] = EnumToString(B);
-			hotkeyNames[C] = EnumToString(C);
-			hotkeyNames[D] = EnumToString(D);
-			hotkeyNames[E] = EnumToString(E);
-			hotkeyNames[F] = EnumToString(F);
-			hotkeyNames[G] = EnumToString(G);
-			hotkeyNames[H] = EnumToString(H);
-			hotkeyNames[I] = EnumToString(I);
-			hotkeyNames[J] = EnumToString(J);
-			hotkeyNames[K] = EnumToString(K);
-			hotkeyNames[L] = EnumToString(L);
-			hotkeyNames[M] = EnumToString(M);
-			hotkeyNames[N] = EnumToString(N);
-			hotkeyNames[O] = EnumToString(O);
-			hotkeyNames[P] = EnumToString(P);
-			hotkeyNames[Q] = EnumToString(Q);
-			hotkeyNames[R] = EnumToString(R);
-			hotkeyNames[S] = EnumToString(S);
-			hotkeyNames[T] = EnumToString(T);
-			hotkeyNames[U] = EnumToString(U);
-			hotkeyNames[V] = EnumToString(V);
-			hotkeyNames[W] = EnumToString(W);
-			hotkeyNames[X] = EnumToString(X);
-			hotkeyNames[Y] = EnumToString(Y);
-			hotkeyNames[Z] = EnumToString(Z);
-			hotkeyNames[LWin] = EnumToString(LWin);
-			hotkeyNames[RWin] = EnumToString(RWin);
-			hotkeyNames[Apps] = EnumToString(Apps);
-			hotkeyNames[Sleep] = EnumToString(Sleep);
-			hotkeyNames[NumPad0] = EnumToString(NumPad0);
-			hotkeyNames[NumPad1] = EnumToString(NumPad1);
-			hotkeyNames[NumPad2] = EnumToString(NumPad2);
-			hotkeyNames[NumPad3] = EnumToString(NumPad3);
-			hotkeyNames[NumPad4] = EnumToString(NumPad4);
-			hotkeyNames[NumPad5] = EnumToString(NumPad5);
-			hotkeyNames[NumPad6] = EnumToString(NumPad6);
-			hotkeyNames[NumPad7] = EnumToString(NumPad7);
-			hotkeyNames[NumPad8] = EnumToString(NumPad8);
-			hotkeyNames[NumPad9] = EnumToString(NumPad9);
-			hotkeyNames[Multiply] = EnumToString(Multiply);
-			hotkeyNames[Add] = EnumToString(Add);
-			hotkeyNames[Separator] = EnumToString(Separator);
-			hotkeyNames[Subtract] = EnumToString(Subtract);
-			hotkeyNames[Decimal] = EnumToString(Decimal);
-			hotkeyNames[Divide] = EnumToString(Divide);
-			hotkeyNames[F1] = EnumToString(F1);
-			hotkeyNames[F2] = EnumToString(F2);
-			hotkeyNames[F3] = EnumToString(F3);
-			hotkeyNames[F4] = EnumToString(F4);
-			hotkeyNames[F5] = EnumToString(F5);
-			hotkeyNames[F6] = EnumToString(F6);
-			hotkeyNames[F7] = EnumToString(F7);
-			hotkeyNames[F8] = EnumToString(F8);
-			hotkeyNames[F9] = EnumToString(F9);
-			hotkeyNames[F10] = EnumToString(F10);
-			hotkeyNames[F11] = EnumToString(F11);
-			hotkeyNames[F12] = EnumToString(F12);
-			hotkeyNames[F13] = EnumToString(F13);
-			hotkeyNames[F14] = EnumToString(F14);
-			hotkeyNames[F15] = EnumToString(F15);
-			hotkeyNames[F16] = EnumToString(F16);
-			hotkeyNames[F17] = EnumToString(F17);
-			hotkeyNames[F18] = EnumToString(F18);
-			hotkeyNames[F19] = EnumToString(F19);
-			hotkeyNames[F20] = EnumToString(F20);
-			hotkeyNames[F21] = EnumToString(F21);
-			hotkeyNames[F22] = EnumToString(F22);
-			hotkeyNames[F23] = EnumToString(F23);
-			hotkeyNames[F24] = EnumToString(F24);
-			hotkeyNames[NumLock] = EnumToString(NumLock);
-			hotkeyNames[Scroll] = EnumToString(Scroll);
-			hotkeyNames[LShiftKey] = EnumToString(LShiftKey);
-			hotkeyNames[RShiftKey] = EnumToString(RShiftKey);
-			hotkeyNames[LControlKey] = EnumToString(LControlKey);
-			hotkeyNames[RControlKey] = EnumToString(RControlKey);
-			hotkeyNames[LMenu] = EnumToString(LMenu);
-			hotkeyNames[RMenu] = EnumToString(RMenu);
-			hotkeyNames[BrowserBack] = EnumToString(BrowserBack);
-			hotkeyNames[BrowserForward] = EnumToString(BrowserForward);
-			hotkeyNames[BrowserRefresh] = EnumToString(BrowserRefresh);
-			hotkeyNames[BrowserStop] = EnumToString(BrowserStop);
-			hotkeyNames[BrowserSearch] = EnumToString(BrowserSearch);
-			hotkeyNames[BrowserFavorites] = EnumToString(BrowserFavorites);
-			hotkeyNames[BrowserHome] = EnumToString(BrowserHome);
-			hotkeyNames[VolumeMute] = EnumToString(VolumeMute);
-			hotkeyNames[VolumeDown] = EnumToString(VolumeDown);
-			hotkeyNames[VolumeUp] = EnumToString(VolumeUp);
-			hotkeyNames[MediaNextTrack] = EnumToString(MediaNextTrack);
-			hotkeyNames[MediaPreviousTrack] = EnumToString(MediaPreviousTrack);
-			hotkeyNames[MediaStop] = EnumToString(MediaStop);
-			hotkeyNames[MediaPlayPause] = EnumToString(MediaPlayPause);
-			hotkeyNames[LaunchMail] = EnumToString(LaunchMail);
-			hotkeyNames[SelectMedia] = EnumToString(SelectMedia);
-			hotkeyNames[LaunchApplication1] = EnumToString(LaunchApplication1);
-			hotkeyNames[LaunchApplication2] = EnumToString(LaunchApplication2);
-			hotkeyNames[Oem1] = EnumToString(Oem1);
-			hotkeyNames[OemSemicolon] = EnumToString(OemSemicolon);
-			hotkeyNames[Oemplus] = EnumToString(Oemplus);
-			hotkeyNames[Oemcomma] = EnumToString(Oemcomma);
-			hotkeyNames[OemMinus] = EnumToString(OemMinus);
-			hotkeyNames[OemPeriod] = EnumToString(OemPeriod);
-			hotkeyNames[OemQuestion] = EnumToString(OemQuestion);
-			hotkeyNames[Oem2] = EnumToString(Oem2);
-			hotkeyNames[Oemtilde] = EnumToString(Oemtilde);
-			hotkeyNames[Oem3] = EnumToString(Oem3);
-			hotkeyNames[Oem4] = EnumToString(Oem4);
-			hotkeyNames[OemOpenBrackets] = EnumToString(OemOpenBrackets);
-			hotkeyNames[OemPipe] = EnumToString(OemPipe);
-			hotkeyNames[Oem5] = EnumToString(Oem5);
-			hotkeyNames[Oem6] = EnumToString(Oem6);
-			hotkeyNames[OemCloseBrackets] = EnumToString(OemCloseBrackets);
-			hotkeyNames[Oem7] = EnumToString(Oem7);
-			hotkeyNames[OemQuotes] = EnumToString(OemQuotes);
-			hotkeyNames[Oem8] = EnumToString(Oem8);
-			hotkeyNames[Oem102] = EnumToString(Oem102);
-			hotkeyNames[OemBackslash] = EnumToString(OemBackslash);
-			hotkeyNames[ProcessKey] = EnumToString(ProcessKey);
-			hotkeyNames[Packet] = EnumToString(Packet);
-			hotkeyNames[Attn] = EnumToString(Attn);
-			hotkeyNames[Crsel] = EnumToString(Crsel);
-			hotkeyNames[Exsel] = EnumToString(Exsel);
-			hotkeyNames[EraseEof] = EnumToString(EraseEof);
-			hotkeyNames[Play] = EnumToString(Play);
-			hotkeyNames[Zoom] = EnumToString(Zoom);
-			hotkeyNames[NoName] = EnumToString(NoName);
-			hotkeyNames[Pa1] = EnumToString(Pa1);
-			hotkeyNames[OemClear] = EnumToString(OemClear);
+			HotkeyNames[Key::None] = EnumToString(None);
+			HotkeyNames[Key::LButton] = EnumToString(LButton);
+			HotkeyNames[Key::RButton] = EnumToString(RButton);
+			HotkeyNames[Key::Cancel] = EnumToString(Cancel);
+			HotkeyNames[Key::MButton] = EnumToString(MButton);
+			HotkeyNames[Key::XButton1] = EnumToString(XButton1);
+			HotkeyNames[Key::XButton2] = EnumToString(XButton2);
+			HotkeyNames[Key::Back] = EnumToString(Back);
+			HotkeyNames[Key::Tab] = EnumToString(Tab);
+			HotkeyNames[Key::LineFeed] = EnumToString(LineFeed);
+			HotkeyNames[Key::Clear] = EnumToString(Clear);
+			HotkeyNames[Key::Enter] = EnumToString(Enter);
+			HotkeyNames[Key::Return] = EnumToString(Return);
+			HotkeyNames[Key::ShiftKey] = EnumToString(ShiftKey);
+			HotkeyNames[Key::ControlKey] = EnumToString(ControlKey);
+			HotkeyNames[Key::Menu] = EnumToString(Menu);
+			HotkeyNames[Key::Pause] = EnumToString(Pause);
+			HotkeyNames[Key::CapsLock] = EnumToString(CapsLock);
+			HotkeyNames[Key::Capital] = EnumToString(Capital);
+			HotkeyNames[Key::KanaMode] = EnumToString(KanaMode);
+			HotkeyNames[Key::HanguelMode] = EnumToString(HanguelMode);
+			HotkeyNames[Key::HangulMode] = EnumToString(HangulMode);
+			HotkeyNames[Key::JunjaMode] = EnumToString(JunjaMode);
+			HotkeyNames[Key::FinalMode] = EnumToString(FinalMode);
+			HotkeyNames[Key::KanjiMode] = EnumToString(KanjiMode);
+			HotkeyNames[Key::HanjaMode] = EnumToString(HanjaMode);
+			HotkeyNames[Key::Escape] = EnumToString(Escape);
+			HotkeyNames[Key::IMEConvert] = EnumToString(IMEConvert);
+			HotkeyNames[Key::IMENonconvert] = EnumToString(IMENonconvert);
+			HotkeyNames[Key::IMEAceept] = EnumToString(IMEAceept);
+			HotkeyNames[Key::IMEAccept] = EnumToString(IMEAccept);
+			HotkeyNames[Key::IMEModeChange] = EnumToString(IMEModeChange);
+			HotkeyNames[Key::Space] = EnumToString(Space);
+			HotkeyNames[Key::Prior] = EnumToString(Prior);
+			HotkeyNames[Key::PageUp] = EnumToString(PageUp);
+			HotkeyNames[Key::Next] = EnumToString(Next);
+			HotkeyNames[Key::PageDown] = EnumToString(PageDown);
+			HotkeyNames[Key::End] = EnumToString(End);
+			HotkeyNames[Key::Home] = EnumToString(Home);
+			HotkeyNames[Key::Left] = EnumToString(Left);
+			HotkeyNames[Key::Up] = EnumToString(Up);
+			HotkeyNames[Key::Right] = EnumToString(Right);
+			HotkeyNames[Key::Down] = EnumToString(Down);
+			HotkeyNames[Key::Select] = EnumToString(Select);
+			HotkeyNames[Key::Print] = EnumToString(Print);
+			HotkeyNames[Key::Execute] = EnumToString(Execute);
+			HotkeyNames[Key::PrintScreen] = EnumToString(PrintScreen);
+			HotkeyNames[Key::Snapshot] = EnumToString(Snapshot);
+			HotkeyNames[Key::Insert] = EnumToString(Insert);
+			HotkeyNames[Key::Delete] = EnumToString(Delete);
+			HotkeyNames[Key::Help] = EnumToString(Help);
+			HotkeyNames[Key::D0] = EnumToString(D0);
+			HotkeyNames[Key::D1] = EnumToString(D1);
+			HotkeyNames[Key::D2] = EnumToString(D2);
+			HotkeyNames[Key::D3] = EnumToString(D3);
+			HotkeyNames[Key::D4] = EnumToString(D4);
+			HotkeyNames[Key::D5] = EnumToString(D5);
+			HotkeyNames[Key::D6] = EnumToString(D6);
+			HotkeyNames[Key::D7] = EnumToString(D7);
+			HotkeyNames[Key::D8] = EnumToString(D8);
+			HotkeyNames[Key::D9] = EnumToString(D9);
+			HotkeyNames[Key::A] = EnumToString(A);
+			HotkeyNames[Key::B] = EnumToString(B);
+			HotkeyNames[Key::C] = EnumToString(C);
+			HotkeyNames[Key::D] = EnumToString(D);
+			HotkeyNames[Key::E] = EnumToString(E);
+			HotkeyNames[Key::F] = EnumToString(F);
+			HotkeyNames[Key::G] = EnumToString(G);
+			HotkeyNames[Key::H] = EnumToString(H);
+			HotkeyNames[Key::I] = EnumToString(I);
+			HotkeyNames[Key::J] = EnumToString(J);
+			HotkeyNames[Key::K] = EnumToString(K);
+			HotkeyNames[Key::L] = EnumToString(L);
+			HotkeyNames[Key::M] = EnumToString(M);
+			HotkeyNames[Key::N] = EnumToString(N);
+			HotkeyNames[Key::O] = EnumToString(O);
+			HotkeyNames[Key::P] = EnumToString(P);
+			HotkeyNames[Key::Q] = EnumToString(Q);
+			HotkeyNames[Key::R] = EnumToString(R);
+			HotkeyNames[Key::S] = EnumToString(S);
+			HotkeyNames[Key::T] = EnumToString(T);
+			HotkeyNames[Key::U] = EnumToString(U);
+			HotkeyNames[Key::V] = EnumToString(V);
+			HotkeyNames[Key::W] = EnumToString(W);
+			HotkeyNames[Key::X] = EnumToString(X);
+			HotkeyNames[Key::Y] = EnumToString(Y);
+			HotkeyNames[Key::Z] = EnumToString(Z);
+			HotkeyNames[Key::LWin] = EnumToString(LWin);
+			HotkeyNames[Key::RWin] = EnumToString(RWin);
+			HotkeyNames[Key::Apps] = EnumToString(Apps);
+			HotkeyNames[Key::Sleep] = EnumToString(Sleep);
+			HotkeyNames[Key::NumPad0] = EnumToString(NumPad0);
+			HotkeyNames[Key::NumPad1] = EnumToString(NumPad1);
+			HotkeyNames[Key::NumPad2] = EnumToString(NumPad2);
+			HotkeyNames[Key::NumPad3] = EnumToString(NumPad3);
+			HotkeyNames[Key::NumPad4] = EnumToString(NumPad4);
+			HotkeyNames[Key::NumPad5] = EnumToString(NumPad5);
+			HotkeyNames[Key::NumPad6] = EnumToString(NumPad6);
+			HotkeyNames[Key::NumPad7] = EnumToString(NumPad7);
+			HotkeyNames[Key::NumPad8] = EnumToString(NumPad8);
+			HotkeyNames[Key::NumPad9] = EnumToString(NumPad9);
+			HotkeyNames[Key::Multiply] = EnumToString(Multiply);
+			HotkeyNames[Key::Add] = EnumToString(Add);
+			HotkeyNames[Key::Separator] = EnumToString(Separator);
+			HotkeyNames[Key::Subtract] = EnumToString(Subtract);
+			HotkeyNames[Key::Decimal] = EnumToString(Decimal);
+			HotkeyNames[Key::Divide] = EnumToString(Divide);
+			HotkeyNames[Key::F1] = EnumToString(F1);
+			HotkeyNames[Key::F2] = EnumToString(F2);
+			HotkeyNames[Key::F3] = EnumToString(F3);
+			HotkeyNames[Key::F4] = EnumToString(F4);
+			HotkeyNames[Key::F5] = EnumToString(F5);
+			HotkeyNames[Key::F6] = EnumToString(F6);
+			HotkeyNames[Key::F7] = EnumToString(F7);
+			HotkeyNames[Key::F8] = EnumToString(F8);
+			HotkeyNames[Key::F9] = EnumToString(F9);
+			HotkeyNames[Key::F10] = EnumToString(F10);
+			HotkeyNames[Key::F11] = EnumToString(F11);
+			HotkeyNames[Key::F12] = EnumToString(F12);
+			HotkeyNames[Key::F13] = EnumToString(F13);
+			HotkeyNames[Key::F14] = EnumToString(F14);
+			HotkeyNames[Key::F15] = EnumToString(F15);
+			HotkeyNames[Key::F16] = EnumToString(F16);
+			HotkeyNames[Key::F17] = EnumToString(F17);
+			HotkeyNames[Key::F18] = EnumToString(F18);
+			HotkeyNames[Key::F19] = EnumToString(F19);
+			HotkeyNames[Key::F20] = EnumToString(F20);
+			HotkeyNames[Key::F21] = EnumToString(F21);
+			HotkeyNames[Key::F22] = EnumToString(F22);
+			HotkeyNames[Key::F23] = EnumToString(F23);
+			HotkeyNames[Key::F24] = EnumToString(F24);
+			HotkeyNames[Key::NumLock] = EnumToString(NumLock);
+			HotkeyNames[Key::Scroll] = EnumToString(Scroll);
+			HotkeyNames[Key::LShiftKey] = EnumToString(LShiftKey);
+			HotkeyNames[Key::RShiftKey] = EnumToString(RShiftKey);
+			HotkeyNames[Key::LControlKey] = EnumToString(LControlKey);
+			HotkeyNames[Key::RControlKey] = EnumToString(RControlKey);
+			HotkeyNames[Key::LMenu] = EnumToString(LMenu);
+			HotkeyNames[Key::RMenu] = EnumToString(RMenu);
+			HotkeyNames[Key::BrowserBack] = EnumToString(BrowserBack);
+			HotkeyNames[Key::BrowserForward] = EnumToString(BrowserForward);
+			HotkeyNames[Key::BrowserRefresh] = EnumToString(BrowserRefresh);
+			HotkeyNames[Key::BrowserStop] = EnumToString(BrowserStop);
+			HotkeyNames[Key::BrowserSearch] = EnumToString(BrowserSearch);
+			HotkeyNames[Key::BrowserFavorites] = EnumToString(BrowserFavorites);
+			HotkeyNames[Key::BrowserHome] = EnumToString(BrowserHome);
+			HotkeyNames[Key::VolumeMute] = EnumToString(VolumeMute);
+			HotkeyNames[Key::VolumeDown] = EnumToString(VolumeDown);
+			HotkeyNames[Key::VolumeUp] = EnumToString(VolumeUp);
+			HotkeyNames[Key::MediaNextTrack] = EnumToString(MediaNextTrack);
+			HotkeyNames[Key::MediaPreviousTrack] = EnumToString(MediaPreviousTrack);
+			HotkeyNames[Key::MediaStop] = EnumToString(MediaStop);
+			HotkeyNames[Key::MediaPlayPause] = EnumToString(MediaPlayPause);
+			HotkeyNames[Key::LaunchMail] = EnumToString(LaunchMail);
+			HotkeyNames[Key::SelectMedia] = EnumToString(SelectMedia);
+			HotkeyNames[Key::LaunchApplication1] = EnumToString(LaunchApplication1);
+			HotkeyNames[Key::LaunchApplication2] = EnumToString(LaunchApplication2);
+			HotkeyNames[Key::Oem1] = EnumToString(Oem1);
+			HotkeyNames[Key::OemSemicolon] = EnumToString(OemSemicolon);
+			HotkeyNames[Key::Oemplus] = EnumToString(Oemplus);
+			HotkeyNames[Key::Oemcomma] = EnumToString(Oemcomma);
+			HotkeyNames[Key::OemMinus] = EnumToString(OemMinus);
+			HotkeyNames[Key::OemPeriod] = EnumToString(OemPeriod);
+			HotkeyNames[Key::OemQuestion] = EnumToString(OemQuestion);
+			HotkeyNames[Key::Oem2] = EnumToString(Oem2);
+			HotkeyNames[Key::Oemtilde] = EnumToString(Oemtilde);
+			HotkeyNames[Key::Oem3] = EnumToString(Oem3);
+			HotkeyNames[Key::Oem4] = EnumToString(Oem4);
+			HotkeyNames[Key::OemOpenBrackets] = EnumToString(OemOpenBrackets);
+			HotkeyNames[Key::OemPipe] = EnumToString(OemPipe);
+			HotkeyNames[Key::Oem5] = EnumToString(Oem5);
+			HotkeyNames[Key::Oem6] = EnumToString(Oem6);
+			HotkeyNames[Key::OemCloseBrackets] = EnumToString(OemCloseBrackets);
+			HotkeyNames[Key::Oem7] = EnumToString(Oem7);
+			HotkeyNames[Key::OemQuotes] = EnumToString(OemQuotes);
+			HotkeyNames[Key::Oem8] = EnumToString(Oem8);
+			HotkeyNames[Key::Oem102] = EnumToString(Oem102);
+			HotkeyNames[Key::OemBackslash] = EnumToString(OemBackslash);
+			HotkeyNames[Key::ProcessKey] = EnumToString(ProcessKey);
+			HotkeyNames[Key::Packet] = EnumToString(Packet);
+			HotkeyNames[Key::Attn] = EnumToString(Attn);
+			HotkeyNames[Key::Crsel] = EnumToString(Crsel);
+			HotkeyNames[Key::Exsel] = EnumToString(Exsel);
+			HotkeyNames[Key::EraseEof] = EnumToString(EraseEof);
+			HotkeyNames[Key::Play] = EnumToString(Play);
+			HotkeyNames[Key::Zoom] = EnumToString(Zoom);
+			HotkeyNames[Key::NoName] = EnumToString(NoName);
+			HotkeyNames[Key::Pa1] = EnumToString(Pa1);
+			HotkeyNames[Key::OemClear] = EnumToString(OemClear);
 		}
 
-		textBox->SetLocation(Drawing::PointI(0, 0));
-		textBox->ShowCaret(false);
-		textBox->SetParent(this);
+		textBox_->SetLocation(Drawing::PointI(0, 0));
+		textBox_->ShowCaret(false);
+		textBox_->SetParent(this);
 		
 		SetSize(DefaultSize);
 		
@@ -238,71 +237,69 @@ namespace OSHGui
 	{
 		Control::SetSize(size);
 		
-		textBox->SetSize(GetSize());
+		textBox_->SetSize(size);
 
-		clearButtonLocation = Drawing::PointI(GetWidth() - 13, GetHeight() * 0.5f - 4);
+		clearButtonLocation_ = Drawing::PointI(GetWidth() - 13, GetHeight() * 0.5f - 4);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 		
-		textBox->SetFont(GetFont());
+		textBox_->SetFont(GetFont());
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetForeColor(Drawing::Color color)
 	{
 		Control::SetForeColor(color);
 		
-		textBox->SetForeColor(GetForeColor());
+		textBox_->SetForeColor(GetForeColor());
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetBackColor(Drawing::Color color)
 	{
 		Control::SetBackColor(color);
 		
-		textBox->SetBackColor(GetBackColor());
+		textBox_->SetBackColor(GetBackColor());
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetHotkey(Key::Keys hotkey)
+	void HotkeyControl::SetHotkey(Key hotkey)
 	{
-		bool isDifferent = this->hotkey != hotkey;
-
-		this->hotkey = hotkey;
-		HotkeyToText();
-
-		if (isDifferent)
+		if (hotkey_ != hotkey)
 		{
-			hotkeyChangedEvent.Invoke(this);
+			hotkey_ = hotkey;
+			
+			HotkeyToText();
+
+			hotkeyChangedEvent_.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
-	Key::Keys HotkeyControl::GetHotkey() const
+	Key HotkeyControl::GetHotkey() const
 	{
-		return hotkey;
+		return hotkey_;
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetHotkeyModifier(Key::Keys modifier)
+	void HotkeyControl::SetHotkeyModifier(Key modifier)
 	{
-		bool isDifferent = this->modifier != modifier;
-
-		this->modifier = modifier;
-		HotkeyToText();
-
-		if (isDifferent)
+		if (modifier_ != modifier)
 		{
-			hotkeyChangedEvent.Invoke(this);
+			modifier_ = modifier;
+		
+			HotkeyToText();
+
+			hotkeyChangedEvent_.Invoke(this);
 		}
 	}
 	//---------------------------------------------------------------------------
-	Key::Keys HotkeyControl::GetHotkeyModifier() const
+	Key HotkeyControl::GetHotkeyModifier() const
 	{
-		return modifier;
+		return modifier_;
 	}
 	//---------------------------------------------------------------------------
 	HotkeyChangedEvent& HotkeyControl::GetHotkeyChangedEvent()
 	{
-		return hotkeyChangedEvent;
+		return hotkeyChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -315,7 +312,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::HotkeyToText()
 	{
-		auto ModifierToString = [](Key::Keys modifier) -> Misc::AnsiString
+		auto ModifierToString = [](Key modifier) -> Misc::AnsiString
 		{
 			std::vector<Misc::AnsiString> modifierNames;
 			if ((modifier & Key::Control) == Key::Control) modifierNames.push_back("Control");
@@ -334,26 +331,26 @@ namespace OSHGui
 			return s.str();
 		};
 
-		if (modifier == Key::None && hotkey == Key::None)
+		if (modifier_ == Key::None && hotkey_ == Key::None)
 		{
-			textBox->SetText(hotkeyNames[hotkey]);
+			textBox_->SetText(HotkeyNames[hotkey_]);
 		}
-		else if (modifier != Key::None && hotkey != Key::None && (hotkey != Key::ShiftKey && hotkey != Key::Menu && hotkey != Key::ControlKey))
+		else if (modifier_ != Key::None && hotkey_ != Key::None && (hotkey_ != Key::ShiftKey && hotkey_ != Key::Menu && hotkey_ != Key::ControlKey))
 		{
-			auto modifierText = ModifierToString(modifier);
-			auto hotkeyText = hotkeyNames[hotkey];
+			auto modifierText = ModifierToString(modifier_);
+			auto hotkeyText = HotkeyNames[hotkey_];
 
-			textBox->SetText(modifierText + " + " + hotkeyText);
+			textBox_->SetText(modifierText + " + " + hotkeyText);
 		}
-		else if (hotkey != Key::None && (hotkey != Key::ShiftKey && hotkey != Key::Menu && hotkey != Key::ControlKey))
+		else if (hotkey_ != Key::None && (hotkey_ != Key::ShiftKey && hotkey_ != Key::Menu && hotkey_ != Key::ControlKey))
 		{
-			auto hotkeyText = hotkeyNames[hotkey];
-			textBox->SetText(hotkeyText);
+			auto hotkeyText = HotkeyNames[hotkey_];
+			textBox_->SetText(hotkeyText);
 		}
 		else
 		{
-			auto modifierText = ModifierToString(modifier);
-			textBox->SetText(modifierText);
+			auto modifierText = ModifierToString(modifier_);
+			textBox_->SetText(modifierText);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -361,12 +358,12 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 		
-		textBox->CalculateAbsoluteLocation();
+		textBox_->CalculateAbsoluteLocation();
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::DrawSelf(Drawing::RenderContext &context)
 	{
-		textBox->Render();
+		textBox_->Render();
 
 		Control::DrawSelf(context);
 	}
@@ -375,14 +372,14 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
 		for (int i = 0; i < 4; ++i)
 		{
-			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(i, i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(6 - i, i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(i, 7 - i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation + PointF(6 - i, 7 - i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, 7 - i), SizeF(3, 1));
+			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, 7 - i), SizeF(3, 1));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -390,7 +387,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void HotkeyControl::OnMouseClick(const MouseMessage &mouse)
 	{
-		if (Intersection::TestRectangle(absoluteLocation + clearButtonLocation, Drawing::SizeI(9, 8), mouse.Location))
+		if (Intersection::TestRectangle(absoluteLocation_ + clearButtonLocation_, Drawing::SizeI(9, 8), mouse.GetLocation()))
 		{
 			ClearHotkey();
 		}

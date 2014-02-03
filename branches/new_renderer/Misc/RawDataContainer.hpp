@@ -42,7 +42,7 @@ namespace OSHGui
 			void Clear();
 			
 		private:
-			std::vector<uint8_t> data;
+			std::vector<uint8_t> data_;
 		};
 	}
 }

@@ -20,13 +20,13 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Panel::Panel()
 	{
-		type = ControlType::Panel;
+		type_ = ControlType::Panel;
 
 		SetSize(DefaultSize);
 		
 		ApplyTheme(Application::Instance().GetTheme());
 
-		isFocusable = false;
+		isFocusable_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -35,9 +35,9 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
-		if (backColor.GetAlpha() > 0)
+		if (GetBackColor().GetAlpha() > 0)
 		{
 			g.FillRectangle(GetBackColor() - Color::FromARGB(0, 100, 100, 100), GetBounds());
 			auto color = GetBackColor() - Color::FromARGB(0, 90, 90, 90);

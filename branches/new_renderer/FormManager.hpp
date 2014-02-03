@@ -103,13 +103,13 @@ namespace OSHGui
 	private:
 		struct FormInfo
 		{
-			std::shared_ptr<Form> form;
-			std::function<void()> closeFunction;
-			bool remove;
+			std::shared_ptr<Form> Form;
+			std::function<void()> CloseFunction;
+			bool Remove;
 		};
-		std::vector<FormInfo> forms;
+		std::vector<FormInfo> forms_;
 
-		std::shared_ptr<Form> mainForm;
+		std::shared_ptr<Form> mainForm_;
 
 	public:
 		class FormIterator
@@ -122,8 +122,8 @@ namespace OSHGui
 			std::shared_ptr<Form>& operator *();
 
 		private:
-			std::vector<FormInfo>::reverse_iterator it;
-			std::vector<FormInfo>::reverse_iterator end;
+			std::vector<FormInfo>::reverse_iterator it_;
+			std::vector<FormInfo>::reverse_iterator end_;
 		};
 	};
 }

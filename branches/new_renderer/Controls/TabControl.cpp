@@ -23,48 +23,39 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabControl::TabControl()
-		: startIndex(0),
-		  maxIndex(0),
-		  selected(nullptr)
+		: startIndex_(0),
+		  maxIndex_(0),
+		  selected_(nullptr)
 	{
-		type = ControlType::TabControl;
+		type_ = ControlType::TabControl;
 
-		lastSwitchButton = new TabControlSwitchButton(TabControlSwitchButton::TabControlSwitchButtonDirection::Left);
-		lastSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)
+		lastSwitchButton_ = new TabControlSwitchButton(TabControlSwitchButton::TabControlSwitchButtonDirection::Left);
+		lastSwitchButton_->GetClickEvent() += ClickEventHandler([this](Control *control)
 		{
-			if (startIndex > 0)
+			if (startIndex_ > 0)
 			{
-				--startIndex;
+				--startIndex_;
 				CalculateButtonLocationAndCount();
 			}
 		});
-		AddSubControl(lastSwitchButton);
+		AddSubControl(lastSwitchButton_);
 
-		nextSwitchButton = new TabControlSwitchButton(TabControlSwitchButton::TabControlSwitchButtonDirection::Right);
-		nextSwitchButton->GetClickEvent() += ClickEventHandler([this](Control *control)
+		nextSwitchButton_ = new TabControlSwitchButton(TabControlSwitchButton::TabControlSwitchButtonDirection::Right);
+		nextSwitchButton_->GetClickEvent() += ClickEventHandler([this](Control *control)
 		{
-			if (maxIndex < (int)bindings.size())
+			if (maxIndex_ < (int)bindings_.size())
 			{
-				++startIndex;
+				++startIndex_;
 				CalculateButtonLocationAndCount();
 			}
 		});
-		AddSubControl(nextSwitchButton);
+		AddSubControl(nextSwitchButton_);
 
 		SetSize(DefaultSize);
 		
 		ApplyTheme(Application::Instance().GetTheme());
 
-		canRaiseEvents = false;
-	}
-	//---------------------------------------------------------------------------
-	TabControl::~TabControl()
-	{
-		for (auto &binding : bindings)
-		{
-			delete binding;
-		}
-		bindings.clear();
+		canRaiseEvents_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -75,16 +66,16 @@ namespace OSHGui
 
 		CalculateButtonLocationAndCount();
 
-		lastSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, 0);
-		nextSwitchButton->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, TabControlSwitchButton::DefaultSize.Height + 1);
+		lastSwitchButton_->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, 0);
+		nextSwitchButton_->SetLocation(GetWidth() - TabControlSwitchButton::DefaultSize.Width, TabControlSwitchButton::DefaultSize.Height + 1);
 
-		if (selected != nullptr)
+		if (selected_ != nullptr)
 		{
-			auto tabPageSize = size.InflateEx(0, -selected->button->GetHeight());
+			auto tabPageSize = size.InflateEx(0, -selected_->Button->GetHeight());
 
-			for (auto &binding : bindings)
+			for (auto &binding : bindings_)
 			{
-				binding->tabPage->SetSize(tabPageSize);
+				binding->TabPage->SetSize(tabPageSize);
 			}
 		}
 	}
@@ -93,13 +84,13 @@ namespace OSHGui
 	{
 		Control::SetForeColor(color);
 
-		lastSwitchButton->SetForeColor(color);
-		nextSwitchButton->SetForeColor(color);
+		lastSwitchButton_->SetForeColor(color);
+		nextSwitchButton_->SetForeColor(color);
 
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			binding->button->SetForeColor(color);
-			binding->tabPage->SetForeColor(color);
+			binding->Button->SetForeColor(color);
+			binding->TabPage->SetForeColor(color);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -107,23 +98,23 @@ namespace OSHGui
 	{
 		Control::SetBackColor(color);
 
-		lastSwitchButton->SetBackColor(color);
-		nextSwitchButton->SetBackColor(color);
+		lastSwitchButton_->SetBackColor(color);
+		nextSwitchButton_->SetBackColor(color);
 
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			binding->button->SetBackColor(color);
-			binding->tabPage->SetBackColor(color);
+			binding->Button->SetBackColor(color);
+			binding->TabPage->SetBackColor(color);
 		}
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(const Misc::AnsiString &text) const
 	{
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			if (binding->tabPage->GetText() == text)
+			if (binding->TabPage->GetText() == text)
 			{
-				return binding->tabPage;
+				return binding->TabPage;
 			}
 		}
 
@@ -132,9 +123,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
 	{
-		if (index > 0 && index < (int)bindings.size())
+		if (index > 0 && index < (int)bindings_.size())
 		{
-			return bindings[index]->tabPage;
+			return bindings_[index]->TabPage;
 		}
 
 		return 0;
@@ -142,9 +133,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedIndex(int index)
 	{
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			if (binding->index == index)
+			if (binding->Index == index)
 			{
 				SelectBinding(*binding);
 
@@ -155,14 +146,14 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int TabControl::GetSelectedIndex() const
 	{
-		return selected->index;
+		return selected_->Index;
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedTabPage(TabPage *tabPage)
 	{
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			if (binding->tabPage == tabPage)
+			if (binding->TabPage == tabPage)
 			{
 				SelectBinding(*binding);
 
@@ -173,12 +164,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetSelectedTabPage() const
 	{
-		return selected->tabPage;
+		return selected_->TabPage;
 	}
 	//---------------------------------------------------------------------------
 	SelectedIndexChangedEvent& TabControl::GetSelectedIndexChangedEvent()
 	{
-		return selectedIndexChangedEvent;
+		return selectedIndexChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
@@ -193,17 +184,17 @@ namespace OSHGui
 			return;
 		}
 
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			if (binding->tabPage == tabPage)
+			if (binding->TabPage == tabPage)
 			{
 				return;
 			}
 		}
 
-		auto binding = new TabPageButtonBinding();
-		binding->index = bindings.size();
-		binding->tabPage = tabPage;
+		std::unique_ptr<TabPageButtonBinding> binding(new TabPageButtonBinding());
+		binding->Index = bindings_.size();
+		binding->TabPage = tabPage;
 
 		auto button = new TabControlButton(*binding);
 		button->SetLocation(Drawing::PointI(0, 0));
@@ -212,25 +203,26 @@ namespace OSHGui
 
 		AddSubControl(button);
 
-		tabPage->SetSize(size.InflateEx(0, -button->GetHeight()));
+		tabPage->SetSize(size_.InflateEx(0, -button->GetHeight()));
 
 		AddSubControl(tabPage);
 
-		tabPage->button = button;
-		binding->button = button;
+		tabPage->button_ = button;
+		binding->Button = button;
 
-		if (bindings.empty())
+		bindings_.push_back(std::move(binding));
+
+		if (bindings_.empty())
 		{
 			button->SetActive(true);
 			tabPage->SetVisible(true);
-			selected = binding;
+			selected_ = bindings_.front().get();
 			tabPage->SetLocation(0, button->GetSize().Height);
 		}
 		else
 		{
 			tabPage->SetVisible(false);
 		}
-		bindings.push_back(binding);
 
 		CalculateButtonLocationAndCount();
 	}
@@ -245,30 +237,29 @@ namespace OSHGui
 			return;
 		}
 
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			if (binding->tabPage == tabPage)
+			if (binding->TabPage == tabPage)
 			{
-				RemoveControl(binding->button);
-				RemoveControl(binding->tabPage);
+				RemoveControl(binding->Button);
+				delete binding->Button;
+				binding->TabPage->button_ = nullptr;
+				RemoveControl(binding->TabPage);
 
-				delete binding->button;
-				binding->tabPage->button = nullptr;
-				
-				bindings.erase(std::remove(std::begin(bindings), std::end(bindings), binding), std::end(bindings));
+				bindings_.erase(std::remove(std::begin(bindings_), std::end(bindings_), binding), std::end(bindings_));
 
-				if (selected->tabPage == tabPage)
+				if (selected_->TabPage == tabPage)
 				{
-					if (!bindings.empty())
+					if (!bindings_.empty())
 					{
-						selected = bindings.front();
-						selected->button->SetActive(true);
+						selected_ = bindings_.front().get();
+						selected_->Button->SetActive(true);
 					}
 					else
 					{
-						selected->index = -1;
-						selected->tabPage = nullptr;
-						selected->button = nullptr;
+						selected_->Index = -1;
+						selected_->TabPage = nullptr;
+						selected_->Button = nullptr;
 					}
 				}
 
@@ -288,15 +279,15 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::CalculateButtonLocationAndCount()
 	{
-		if (!bindings.empty())
+		if (!bindings_.empty())
 		{
-			maxIndex = startIndex;
+			maxIndex_ = startIndex_;
 
 			int tempWidth = 0;
-			int maxWidth = size.Width - TabControlSwitchButton::DefaultSize.Width;
-			for (auto &binding : bindings)
+			int maxWidth = size_.Width - TabControlSwitchButton::DefaultSize.Width;
+			for (auto &binding : bindings_)
 			{
-				auto button = binding->button;
+				auto button = binding->Button;
 				button->SetVisible(false);
 
 				if (tempWidth + button->GetSize().Width <= maxWidth)
@@ -304,7 +295,7 @@ namespace OSHGui
 					button->SetLocation(tempWidth, 0);
 					button->SetVisible(true);
 
-					++maxIndex;
+					++maxIndex_;
 					tempWidth += button->GetSize().Width + 2;
 				}
 				else
@@ -313,26 +304,26 @@ namespace OSHGui
 				}
 			}
 
-			if (selected != nullptr)
+			if (selected_ != nullptr)
 			{
-				selected->tabPage->SetLocation(0, selected->button->GetSize().Height);
+				selected_->TabPage->SetLocation(0, selected_->Button->GetSize().Height);
 			}
 
-			if (startIndex != 0)
+			if (startIndex_ != 0)
 			{
-				lastSwitchButton->SetVisible(true);
+				lastSwitchButton_->SetVisible(true);
 			}
 			else
 			{
-				lastSwitchButton->SetVisible(false);
+				lastSwitchButton_->SetVisible(false);
 			}
-			if (maxIndex < (int)bindings.size())
+			if (maxIndex_ < (int)bindings_.size())
 			{
-				nextSwitchButton->SetVisible(true);
+				nextSwitchButton_->SetVisible(true);
 			}
 			else
 			{
-				nextSwitchButton->SetVisible(false);
+				nextSwitchButton_->SetVisible(false);
 			}
 
 			Invalidate();
@@ -341,23 +332,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void TabControl::SelectBinding(TabPageButtonBinding &binding)
 	{
-		selected->tabPage->SetVisible(false);
-		selected->button->SetActive(false);
-		selected = &binding;
-		selected->button->SetActive(true);
-		selected->tabPage->SetVisible(true);
+		selected_->TabPage->SetVisible(false);
+		selected_->Button->SetActive(false);
+		selected_ = &binding;
+		selected_->Button->SetActive(true);
+		selected_->TabPage->SetVisible(true);
 		CalculateButtonLocationAndCount();
 
-		selectedIndexChangedEvent.Invoke(this);
+		selectedIndexChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::ApplyTheme(const Drawing::Theme &theme)
 	{
 		Control::ApplyTheme(theme);
 		
-		for (auto &binding : bindings)
+		for (auto &binding : bindings_)
 		{
-			binding->tabPage->ApplyTheme(theme);
+			binding->TabPage->ApplyTheme(theme);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -365,17 +356,17 @@ namespace OSHGui
 	{
 		Control::DrawSelf(context);
 
-		if (selected->tabPage != nullptr)
+		if (selected_->TabPage != nullptr)
 		{
-			for (int i = startIndex; i < maxIndex; ++i)
+			for (int i = startIndex_; i < maxIndex_; ++i)
 			{
-				bindings[i]->button->Render();
+				bindings_[i]->Button->Render();
 			}
 
-			nextSwitchButton->Render();
-			lastSwitchButton->Render();
+			nextSwitchButton_->Render();
+			lastSwitchButton_->Render();
 
-			selected->tabPage->Render();
+			selected_->TabPage->Render();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -383,36 +374,36 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::PointI TabControl::TabControlButton::DefaultLabelOffset(4, 2);
 	//---------------------------------------------------------------------------
-	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding &binding_)
-		: binding(binding_),
-		  label(new Label())
+	TabControl::TabControlButton::TabControlButton(TabPageButtonBinding &binding)
+		: binding_(binding),
+		  label_(new Label())
 	{
-		active = false;
+		active_ = false;
 
-		label->SetLocation(DefaultLabelOffset);
-		label->SetText(binding.tabPage->GetText());
-		label->SetBackColor(Drawing::Color::Empty());
+		label_->SetLocation(DefaultLabelOffset);
+		label_->SetText(binding.TabPage->GetText());
+		label_->SetBackColor(Drawing::Color::Empty());
 
-		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
+		size_ = label_->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
-		label->SetForeColor(color);
+		label_->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::SetText(const Misc::AnsiString &text)
 	{
-		label->SetText(text);
+		label_->SetText(text);
 
-		size = label->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
+		size_ = label_->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::SetActive(bool active)
 	{
-		this->active = active;
+		active_ = active;
 
 		Invalidate();
 	}
@@ -421,18 +412,18 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 
-		label->SetParent(this);
+		label_->SetParent(this);
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::OnMouseClick(const MouseMessage &mouse)
 	{
 		Control::OnMouseClick(mouse);
 
-		if (!active)
+		if (!active_)
 		{
-			if (parent != nullptr)
+			if (parent_ != nullptr)
 			{
-				static_cast<TabControl*>(parent)->SetSelectedIndex(binding.index);
+				static_cast<TabControl*>(parent_)->SetSelectedIndex(binding_.Index);
 			}
 		}
 	}
@@ -441,23 +432,23 @@ namespace OSHGui
 	{
 		Control::DrawSelf(context);
 
-		label->Render();
+		label_->Render();
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::TabControlButton::PopulateGeometry()
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
-		if (active)
+		if (active_)
 		{
 			g.FillRectangleGradient(ColorRectangle(GetBackColor() + Color::FromARGB(0, 43, 43, 43), GetBackColor() - Color::FromARGB(0, 10, 10, 10)), PointF(0, 0), GetSize());
 			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color::FromARGB(0, 42, 42, 42)), PointF(1, 1), GetSize() - SizeF(2, 0));
 		}
 		else
 		{
-			auto backInactive = (isInside ? GetBackColor() + Color::FromARGB(0, 50, 50, 50) : GetBackColor()) - Color::FromARGB(0, 47, 47, 47);
+			auto backInactive = (isInside_ ? GetBackColor() + Color::FromARGB(0, 50, 50, 50) : GetBackColor()) - Color::FromARGB(0, 47, 47, 47);
 
 			g.FillRectangle(backInactive + Color::FromARGB(0, 9, 9, 9), PointF(0, 0), GetSize());
 			g.FillRectangleGradient(ColorRectangle(backInactive, backInactive - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 1));
@@ -468,8 +459,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::SizeI TabControl::TabControlSwitchButton::DefaultSize(9, 9);
 	//---------------------------------------------------------------------------
-	TabControl::TabControlSwitchButton::TabControlSwitchButton(TabControlSwitchButtonDirection direction_)
-		: direction(direction_)
+	TabControl::TabControlSwitchButton::TabControlSwitchButton(TabControlSwitchButtonDirection direction)
+		: direction_(direction)
 	{
 		SetSize(DefaultSize);
 	}
@@ -478,15 +469,15 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		Graphics g(*geometry);
+		Graphics g(*geometry_);
 
-		auto base = isInside ? backColor : backColor - Color::FromARGB(0, 47, 47, 47);
-		auto borderColor = backColor + Color::FromARGB(0, 9, 9, 9);
+		auto base = isInside_ ? GetBackColor() : GetBackColor() - Color::FromARGB(0, 47, 47, 47);
+		auto borderColor = GetBackColor() + Color::FromARGB(0, 9, 9, 9);
 
 		g.FillRectangle(borderColor, PointF(0, 0), GetSize());
 		g.FillRectangle(base, PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		if (direction == TabControlSwitchButtonDirection::Left)
+		if (direction_ == TabControlSwitchButtonDirection::Left)
 		{
 			for (int i = 0; i < 3; ++i)
 			{
