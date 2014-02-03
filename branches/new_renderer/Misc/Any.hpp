@@ -26,32 +26,31 @@ namespace OSHGui
 			{
 			public:
 				virtual ~AnyTypeWrapper() { }
-				virtual AnyTypeWrapper* Copy() = 0;
 				virtual void* GetObject() = 0;
 			};
 			//---------------------------------------------------------------------------
-			template<class T>
+			template<typename T>
 			class TypeWrapper : public AnyTypeWrapper
 			{
-			private:
-				T obj_;
-				
 			public:
-				TypeWrapper(const T &object) : obj_(object) { }
-				//---------------------------------------------------------------------------
-				TypeWrapper* Copy()
+				TypeWrapper(const T &object)
+					: obj_(object)
 				{
-					return new TypeWrapper<T>(obj_);
+				
 				}
 				//---------------------------------------------------------------------------
 				virtual void* GetObject()
 				{
 					return &obj_;
 				}
+				//---------------------------------------------------------------------------
+
+			private:
+				T obj_;
 			};
 			//---------------------------------------------------------------------------
 			unsigned int id_;
-			AnyTypeWrapper *wrapper_;
+			std::shared_ptr<AnyTypeWrapper> wrapper_;
 			//---------------------------------------------------------------------------
 			static unsigned int NextID()
 			{
@@ -60,7 +59,7 @@ namespace OSHGui
 				return id;
 			}
 			//---------------------------------------------------------------------------
-			template<class T>
+			template<typename T>
 			static unsigned int TypeID()
 			{
 				static unsigned int id = NextID();
@@ -73,13 +72,9 @@ namespace OSHGui
 			 * Erzeugt ein leeres Any-Objekt.
 			 */
 			Any()
+				: id_(0)
 			{
-				id_ = 0;
-				wrapper_ = nullptr;
-			}
-			~Any()
-			{
-				delete wrapper_;
+
 			}
 
 			/**
@@ -87,63 +82,20 @@ namespace OSHGui
 			 *
 			 * \param obj
 			 */
-			template<class T>
+			template<typename T>
 			Any(const T &obj)
+				: id_(TypeID<T>()),
+				  wrapper_(new TypeWrapper<T>(obj_))
 			{
-				id_ = TypeID<T>();
-				wrapper_ = new TypeWrapper<T>(obj_);
-			}
-			/**
-			 * Kopierkonstruktor
-			 */
-			Any(const Any &any)
-			{
-				id_ = any.id_;
-				wrapper_ = any.wrapper_->Copy();
-			}
-			/**
-			 * Weißt diesem Any-Objekt das angegebene zu.
-			 *
-			 * \param any
-			 * \return this
-			 */
-			Any& operator=(Any const& any)
-			{
-				if (this != &any)
-				{
-					delete wrapper_;
-					wrapper_ = nullptr;
-					
-					id_ = any.id_;
-					if (any.wrapper_ != nullptr)
-					{
-						wrapper_ = any.wrapper_->Copy();
-					}
-				}
-				return *this;
-			}
-			/**
-			 * Weißt diesem Any-Objekt eine Variable zu.
-			 *
-			 * \param obj
-			 * \return this
-			 */
-			template<class T>
-			Any& operator=(const T &obj)
-			{
-				delete wrapper_;
-			
-				id_ = TypeID<T>();
-				wrapper_ = new TypeWrapper<T>(obj);
 				
-				return *this;
 			}
+			
 			/**
 			 * Dieser Operator erlaubt per if (!any) { any ist leer } zu prüfen, ob das Any-Objekt leer ist.
 			 */
-			operator void *() const
+			operator bool() const
 			{
-				return id_ == 0 ? nullptr : (void*)1;
+				return id_ != 0;
 			}
 
 			/**
@@ -152,8 +104,8 @@ namespace OSHGui
 			 *
 			 * \return das aufgenommene Objekt
 			 */
-			template<class T>
-			T CastTo() const
+			template<typename T>
+			T& CastTo() const
 			{
 				if (TypeID<T>() == id_)
 				{
