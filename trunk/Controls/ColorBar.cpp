@@ -274,7 +274,7 @@ namespace OSHGui
 		for (int i = 0; i < 3; ++i)
 		{
 			renderer->SetRenderColor(Drawing::Color::White());
-			renderer->RenderTexture(bars[i], absoluteLocation.Left, absoluteLocation.Top + i * 15, GetWidth(), 8);
+			renderer->RenderTexture(bars[i], absoluteLocation.Left, absoluteLocation.Top + i * 15);
 			
 			renderer->SetRenderColor(foreColor);
 			Drawing::Point sliderPos = barSliderLocation[i].OffsetEx(absoluteLocation.Left + 1, absoluteLocation.Top);
