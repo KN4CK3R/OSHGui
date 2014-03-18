@@ -17,7 +17,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeI ListBox::DefaultSize(120, 95);
+	const Drawing::SizeI ListBox::DefaultSize(120, 106);
 	const Drawing::SizeI ListBox::DefaultItemAreaPadding(8, 8);
 	const int ListBox::DefaultItemPadding(2);
 	//---------------------------------------------------------------------------
@@ -35,6 +35,7 @@ namespace OSHGui
 		scrollBar_->GetScrollEvent() += ScrollEventHandler([this](Control*, ScrollEventArgs &args)
 		{
 			firstVisibleItemIndex_ = args.NewValue;
+			Invalidate();
 		});
 		scrollBar_->GetFocusLostEvent() += FocusLostEventHandler([this](Control*, Control *newFocusedControl)
 		{
@@ -132,6 +133,8 @@ namespace OSHGui
 			}
 			scrollBar_->SetValue(firstVisibleItemIndex_);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	int ListBox::GetSelectedIndex() const
@@ -196,6 +199,8 @@ namespace OSHGui
 		{
 			scrollBar_->SetValue(index);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::RemoveItem(int index)
@@ -219,6 +224,8 @@ namespace OSHGui
 			
 			selectedIndexChangedEvent_.Invoke(this);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::Clear()
@@ -230,6 +237,8 @@ namespace OSHGui
 		selectedIndex_ = -1;
 
 		CheckForScrollBar();
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::CheckForScrollBar()
@@ -244,7 +253,7 @@ namespace OSHGui
 			{
 				itemAreaSize_.Width -= scrollBar_->GetWidth();
 			}
-			scrollBar_->SetMaximum(items_.size() - maxVisibleItems_ - 1);
+			scrollBar_->SetMaximum(items_.size() - maxVisibleItems_);
 			scrollBar_->SetVisible(true);
 		}
 		else if (scrollBar_->GetVisible())

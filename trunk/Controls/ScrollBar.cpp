@@ -207,7 +207,7 @@ namespace OSHGui
 				{
 					yPos = 0;
 				}
-				else if (yPos + sliderSize.Height + trackLocation.Top > trackSize.Height)
+				else if (yPos + sliderSize.Height > trackSize.Height)
 				{
 					yPos = trackSize.Height - sliderSize.Height;
 				}
