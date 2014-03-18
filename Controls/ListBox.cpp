@@ -16,7 +16,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ListBox::DefaultSize(120, 95);
+	const Drawing::Size ListBox::DefaultSize(120, 104);
 	const Drawing::Size ListBox::DefaultItemAreaPadding(8, 8);
 	const int ListBox::DefaultItemPadding(2);
 	//---------------------------------------------------------------------------
@@ -250,7 +250,7 @@ namespace OSHGui
 			{
 				itemAreaSize.Width -= scrollBar->GetWidth();
 			}
-			scrollBar->SetMaximum(items.size() - maxVisibleItems - 1);
+			scrollBar->SetMaximum(items.size() - maxVisibleItems);
 			scrollBar->SetVisible(true);
 		}
 		else if (scrollBar->GetVisible())
