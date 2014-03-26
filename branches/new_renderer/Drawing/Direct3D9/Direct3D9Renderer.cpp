@@ -221,6 +221,7 @@ namespace OSHGui
 			device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 
 			device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			device->SetRenderState(D3DRS_SRGBWRITEENABLE, FALSE);
 
 			device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
 			device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

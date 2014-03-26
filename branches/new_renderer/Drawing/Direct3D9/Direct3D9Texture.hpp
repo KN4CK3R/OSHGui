@@ -96,7 +96,7 @@ namespace OSHGui
 			 * \param size Größe der Textur
 			 * \param format D3DFORMAT der Textur
 			 */
-			void CreateDirect3D9Texture(const SizeF &size, D3DFORMAT format);
+			virtual void CreateDirect3D9Texture(const SizeF &size, D3DFORMAT format);
 			/**
 			 * Gibt die intern verwendete Textur frei.
 			 */

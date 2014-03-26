@@ -62,10 +62,20 @@ namespace OSHGui
 		return *instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::Renderer &renderer)
+	Application* Application::InstancePtr()
+	{
+		return instance;
+	}
+	//---------------------------------------------------------------------------
+	bool Application::HasBeenInitialized()
+	{
+		return InstancePtr() != nullptr;
+	}
+	//---------------------------------------------------------------------------
+	void Application::Initialize(Drawing::Renderer &renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (instance)
+		if (HasBeenInitialized())
 		{
 			throw Misc::InvalidOperationException("only one instance");
 		}

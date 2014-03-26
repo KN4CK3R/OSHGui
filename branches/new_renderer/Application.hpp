@@ -46,7 +46,7 @@ namespace OSHGui
 		 *
 		 * \param renderer Instanz des verwendeten Renderers
 		 */
-		static void Create(Drawing::Renderer &renderer);
+		static void Initialize(Drawing::Renderer &renderer);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -182,6 +182,9 @@ namespace OSHGui
 		 * \return instance
 		 */
 		static Application& Instance();
+		static Application* InstancePtr();
+
+		static bool HasBeenInitialized();
 
 		class GuiRenderSurface : public Drawing::RenderSurface
 		{

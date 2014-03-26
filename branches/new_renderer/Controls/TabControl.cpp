@@ -210,19 +210,19 @@ namespace OSHGui
 		tabPage->button_ = button;
 		binding->Button = button;
 
-		bindings_.push_back(std::move(binding));
-
 		if (bindings_.empty())
 		{
 			button->SetActive(true);
 			tabPage->SetVisible(true);
-			selected_ = bindings_.front().get();
+			selected_ = binding.get();
 			tabPage->SetLocation(0, button->GetSize().Height);
 		}
 		else
 		{
 			tabPage->SetVisible(false);
 		}
+
+		bindings_.push_back(std::move(binding));
 
 		CalculateButtonLocationAndCount();
 	}
@@ -340,6 +340,8 @@ namespace OSHGui
 		CalculateButtonLocationAndCount();
 
 		selectedIndexChangedEvent_.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::ApplyTheme(const Drawing::Theme &theme)
@@ -356,7 +358,7 @@ namespace OSHGui
 	{
 		Control::DrawSelf(context);
 
-		if (selected_->TabPage != nullptr)
+		if (selected_ != nullptr && selected_->TabPage != nullptr)
 		{
 			for (int i = startIndex_; i < maxIndex_; ++i)
 			{
