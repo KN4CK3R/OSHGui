@@ -203,6 +203,7 @@ namespace OSHGui
 			device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
 			device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+			device->SetRenderstate(D3DRS_MULTISAMPLEANTIALIAS, FALSE);
 
 			device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 			device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
