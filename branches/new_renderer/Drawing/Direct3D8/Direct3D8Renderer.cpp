@@ -158,7 +158,7 @@ namespace OSHGui
 			device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 			device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-			device->SetRenderstate(D3DRS_MULTISAMPLEANTIALIAS, FALSE);
+			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, FALSE);
 
 			device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 			device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
