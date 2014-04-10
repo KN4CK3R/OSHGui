@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,63 +11,44 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\autofit\autofit.c" />
-    <ClCompile Include="src\base\ftbase.c" />
-    <ClCompile Include="src\base\ftbbox.c" />
-    <ClCompile Include="src\base\ftbitmap.c" />
-    <ClCompile Include="src\base\ftdebug.c" />
-    <ClCompile Include="src\base\ftfstype.c" />
-    <ClCompile Include="src\base\ftgasp.c" />
-    <ClCompile Include="src\base\ftglyph.c" />
-    <ClCompile Include="src\base\ftgxval.c" />
-    <ClCompile Include="src\base\ftinit.c" />
-    <ClCompile Include="src\base\ftlcdfil.c" />
-    <ClCompile Include="src\base\ftmm.c" />
-    <ClCompile Include="src\base\ftotval.c" />
-    <ClCompile Include="src\base\ftpatent.c" />
-    <ClCompile Include="src\base\ftpfr.c" />
-    <ClCompile Include="src\base\ftstroke.c" />
-    <ClCompile Include="src\base\ftsynth.c" />
-    <ClCompile Include="src\base\ftsystem.c" />
-    <ClCompile Include="src\base\fttype1.c" />
-    <ClCompile Include="src\base\ftwinfnt.c" />
-    <ClCompile Include="src\base\ftxf86.c" />
-    <ClCompile Include="src\bdf\bdf.c" />
-    <ClCompile Include="src\cache\ftcache.c" />
-    <ClCompile Include="src\cff\cff.c" />
-    <ClCompile Include="src\cid\type1cid.c" />
-    <ClCompile Include="src\gzip\ftgzip.c" />
-    <ClCompile Include="src\lzw\ftlzw.c" />
-    <ClCompile Include="src\pcf\pcf.c" />
-    <ClCompile Include="src\pfr\pfr.c" />
-    <ClCompile Include="src\psaux\psaux.c" />
-    <ClCompile Include="src\pshinter\pshinter.c" />
-    <ClCompile Include="src\psnames\psmodule.c" />
-    <ClCompile Include="src\raster\raster.c" />
-    <ClCompile Include="src\sfnt\sfnt.c" />
-    <ClCompile Include="src\smooth\smooth.c" />
-    <ClCompile Include="src\truetype\truetype.c" />
-    <ClCompile Include="src\type1\type1.c" />
-    <ClCompile Include="src\type42\type42.c" />
-    <ClCompile Include="src\winfonts\winfnt.c" />
+    <ClInclude Include="include\json\autolink.h" />
+    <ClInclude Include="include\json\config.h" />
+    <ClInclude Include="include\json\features.h" />
+    <ClInclude Include="include\json\forwards.h" />
+    <ClInclude Include="include\json\json.h" />
+    <ClInclude Include="include\json\reader.h" />
+    <ClInclude Include="include\json\value.h" />
+    <ClInclude Include="include\json\writer.h" />
+    <ClInclude Include="src\json_batchallocator.h" />
+    <ClInclude Include="src\json_tool.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\json_internalarray.inl" />
+    <None Include="src\json_internalmap.inl" />
+    <None Include="src\json_valueiterator.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\json_reader.cpp" />
+    <ClCompile Include="src\json_value.cpp" />
+    <ClCompile Include="src\json_writer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2BDBACF9-9942-4157-8762-B4A024071848}</ProjectGuid>
+    <ProjectGuid>{414251B2-E3BE-411F-A90B-7C2CD64E3D01}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>FreeType2012</RootNamespace>
-    <ProjectName>FreeType</ProjectName>
+    <RootNamespace>JsonCpp</RootNamespace>
+    <ProjectName>JsonCpp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -94,7 +75,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -102,7 +83,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy Debug\FreeType_d.lib ..\..\Lib\x86 /Y
+      <Command>copy Debug\JsonCpp_d.lib ..\..\Lib\x86 /Y
 xcopy include ..\..\Include /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -114,7 +95,7 @@ xcopy include ..\..\Include /E /Y</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -124,7 +105,7 @@ xcopy include ..\..\Include /E /Y</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>copy Release\FreeType.lib ..\..\Lib\x86 /Y
+      <Command>copy Release\JsonCpp.lib ..\..\Lib\x86 /Y
 xcopy include ..\..\Include /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
