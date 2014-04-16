@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <deque>
+#include <algorithm>
 
 #include "../Exports.hpp"
 

@@ -1,7 +1,7 @@
 #include "CustomizableImage.hpp"
 #include "../Misc/RawDataContainer.hpp"
 #include "../Misc/Exceptions.hpp"
-
+#include <algorithm>
 #include "FreeImage.h"
 
 namespace OSHGui

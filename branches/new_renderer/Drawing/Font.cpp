@@ -1,5 +1,6 @@
 #include "Font.hpp"
 #include "../Application.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {

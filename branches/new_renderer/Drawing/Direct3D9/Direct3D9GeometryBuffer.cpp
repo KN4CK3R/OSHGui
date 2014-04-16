@@ -1,6 +1,7 @@
 #include "Direct3D9GeometryBuffer.hpp"
 #include "Direct3D9Texture.hpp"
 #include "../Vertex.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {

@@ -27,8 +27,6 @@
     <ClCompile Include="..\..\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp">
       <Filter>Quelldateien\Direct3D9</Filter>
     </ClCompile>
-    <ClCompile Include="Sample.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
+    <ClCompile Include="OSHGui_Sample.cpp" />
   </ItemGroup>
 </Project>
