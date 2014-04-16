@@ -37,6 +37,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		EventHandler()
+			: id_(0)
 		{
 
 		}
@@ -52,40 +53,18 @@ namespace OSHGui
 		{
 			
 		}
-		
-		/**
-		 * CopyKonstruktor der Klasse.
-		 *
-		 * \param eventHandler
-		 */
-		EventHandler(const EventHandler &eventHandler)
-			: id_(eventHandler.id_),
-			  handler_(eventHandler.handler_)
-		{
-			
-		}
 
-		bool operator == (const EventHandler &eventHandler)
+		bool operator==(const EventHandler &eventHandler)
 		{
 			return id_ == eventHandler.id_;
 		}
 		
-		EventHandler& operator = (const EventHandler &eventHandler)
-		{
-			if (this != &eventHandler)
-			{
-				id_ = eventHandler.id_;
-				handler_ = eventHandler.handler_;
-			}
-			return *this;
-		}
-
 		/**
 		 * Ruft die gebundene Funktion ab.
 		 *
 		 * \return handler
 		 */
-		Handler& GetHandler()
+		const Handler& GetHandler() const
 		{
 			return handler_;
 		}
