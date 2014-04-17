@@ -68,6 +68,26 @@ namespace OSHGui
 			return *this;
 		}
 
+#if (_MSC_VER >= 1800) //VS2013
+
+		/**
+		* Ruft alle registrierten EventHandler auf.
+		*/
+		template <typename ...Params>
+		void Invoke(Params&&... params)
+		{
+			eventHandlerInfos_.erase(std::remove_if(std::begin(eventHandlerInfos_), std::end(eventHandlerInfos_), [&](const EventHandlerInfo &info)
+			{
+				if (!info.Remove)
+				{
+					info.EventHandler.GetHandler()(std::forward<Params>(params)...);
+				}
+				return info.Remove;
+			}), std::end(eventHandlerInfos_));
+		}
+
+#else
+
 		/**
 		* Ruft alle registrierten EventHandler auf.
 		*/
@@ -119,6 +139,9 @@ namespace OSHGui
 				return info.Remove;
 			}), std::end(eventHandlerInfos_));
 		}
+
+#endif
+
 	};
 }
 
