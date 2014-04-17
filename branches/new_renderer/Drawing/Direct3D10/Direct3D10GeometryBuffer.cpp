@@ -2,6 +2,7 @@
 #include "Direct3D10Texture.hpp"
 #include "../Vertex.hpp"
 #include "../../Misc/Exceptions.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {

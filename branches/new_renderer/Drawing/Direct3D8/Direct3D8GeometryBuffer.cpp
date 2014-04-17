@@ -1,6 +1,7 @@
 #include "Direct3D8GeometryBuffer.hpp"
 #include "Direct3D8Texture.hpp"
 #include "../Vertex.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {
