@@ -74,7 +74,7 @@ namespace OSHGui
 		* Ruft alle registrierten EventHandler auf.
 		*/
 		template <typename ...Params>
-		void Invoke(Params&&... params)
+		void Invoke(Params&& ...params)
 		{
 			eventHandlerInfos_.erase(std::remove_if(std::begin(eventHandlerInfos_), std::end(eventHandlerInfos_), [&](const EventHandlerInfo &info)
 			{
