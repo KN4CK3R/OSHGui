@@ -86,7 +86,7 @@ namespace OSHGui
 			}), std::end(eventHandlerInfos_));
 		}
 
-#else
+#else //no variadic template support
 
 		/**
 		* Ruft alle registrierten EventHandler auf.
