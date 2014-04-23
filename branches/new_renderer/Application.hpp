@@ -46,7 +46,7 @@ namespace OSHGui
 		 *
 		 * \param renderer Instanz des verwendeten Renderers
 		 */
-		static void Initialize(Drawing::Renderer &renderer);
+		static void Initialize(std::unique_ptr<Drawing::Renderer> &&renderer);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -203,7 +203,7 @@ namespace OSHGui
 
 	private:
 		static Application *instance;
-		Application(Drawing::Renderer &renderer);
+		Application(std::unique_ptr<Drawing::Renderer> &&renderer);
 
 		//copying prohibited
 		Application(const Application&);
@@ -211,7 +211,7 @@ namespace OSHGui
 
 		void InjectTime();
 
-		Drawing::Renderer &renderer_;
+		std::unique_ptr<Drawing::Renderer> renderer_;
 		GuiRenderSurface guiSurface_;
 		Drawing::FontPtr defaultFont_;
 		

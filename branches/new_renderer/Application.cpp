@@ -20,9 +20,9 @@ namespace OSHGui
 {
 	Application* Application::instance = nullptr;
 	//---------------------------------------------------------------------------
-	Application::Application(Drawing::Renderer &renderer)
-		: renderer_(renderer),
-		  guiSurface_(*renderer.GetDefaultRenderTarget()),
+	Application::Application(std::unique_ptr<Drawing::Renderer> &&renderer)
+		: renderer_(std::move(renderer)),
+		  guiSurface_(*renderer_->GetDefaultRenderTarget()),
 		  isEnabled_(false),
 		  now_(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
@@ -72,7 +72,7 @@ namespace OSHGui
 		return InstancePtr() != nullptr;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Initialize(Drawing::Renderer &renderer)
+	void Application::Initialize(std::unique_ptr<Drawing::Renderer> &&renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (HasBeenInitialized())
@@ -81,7 +81,7 @@ namespace OSHGui
 		}
 		#endif
 
-		instance = new Application(renderer);
+		instance = new Application(std::move(renderer));
 
 		instance->mouse_.Enabled = true;
 		instance->SetCursor(Cursors::Get(Cursors::Default));
@@ -99,7 +99,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Drawing::Renderer& Application::GetRenderer() const
 	{
-		return renderer_;
+		return *renderer_;
 	}
 	//---------------------------------------------------------------------------
 	Application::GuiRenderSurface& Application::GetRenderSurface()
