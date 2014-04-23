@@ -9,6 +9,7 @@
 #ifndef OSHGUI_DRAWING_FONTMANAGER_HPP
 #define OSHGUI_DRAWING_FONTMANAGER_HPP
 
+#include <unordered_map>
 #include "../Exports.hpp"
 #include "Font.hpp"
 #include "../Misc/RawDataContainer.hpp"
@@ -31,7 +32,7 @@ namespace OSHGui
 			 * \param antiAliased Legt fest, ob AntiAliasing verwendet werden soll
 			 * \return Die geladene Schriftart oder nullptr, falls die Schriftart nicht gefunden wird.
 			 */
-			static Drawing::FontPtr LoadFont(Misc::AnsiString name, float pointSize, bool antiAliased);
+			static FontPtr LoadFont(Misc::AnsiString name, float pointSize, bool antiAliased);
 			/**
 			 * Lädt die Schriftart aus der angegebenen Datei.
 			 *
@@ -40,8 +41,11 @@ namespace OSHGui
 			 * \param antiAliased Legt fest, ob AntiAliasing verwendet werden soll
 			 * \return Die geladene Schriftart oder nullptr, falls die Schriftart nicht gefunden wird.
 			 */
-			static Drawing::FontPtr LoadFontFromFile(const Misc::AnsiString &file, float pointSize, bool antiAliased);
-			static Drawing::FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased);
+			static FontPtr LoadFontFromFile(const Misc::AnsiString &file, float pointSize, bool antiAliased);
+			static FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased);
+
+		private:
+			static std::unordered_map<Misc::AnsiString, std::weak_ptr<Drawing::Font>> loadedFonts;
 		};
 	}
 }

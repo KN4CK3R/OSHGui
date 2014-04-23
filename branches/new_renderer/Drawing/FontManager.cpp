@@ -18,6 +18,8 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
+		std::unordered_map<Misc::AnsiString, std::weak_ptr<Drawing::Font>> FontManager::loadedFonts;
+		//---------------------------------------------------------------------------
 		FontPtr FontManager::LoadFont(Misc::AnsiString name, float pointSize, bool antiAliased)
 		{
 			if (name.empty())
@@ -81,7 +83,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased)
 		{
-			return std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);
+			auto it = loadedFonts.find(filename);
+			if (it == std::end(loadedFonts) || it->second.expired())
+			{
+				auto font = std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);
+				loadedFonts[filename] = font;
+				return font;
+			}
+			return it->second.lock();
 		}
 		//---------------------------------------------------------------------------
 		FontPtr FontManager::LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased)
