@@ -12,16 +12,18 @@
 using namespace OSHGui;
 using namespace OSHGui::Drawing;
 //---------------------------------------------------------------------------
-std::shared_ptr<Renderer> renderer;
 Input::WindowsMessage input;
 //-----------------------------------
 void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 {
 	//1. create our renderer, Direct3D9 in this case
-	renderer = std::make_shared<Direct3D9Renderer>(device);
+	auto renderer = std::unique_ptr<Direct3D9Renderer>(new Direct3D9Renderer(device));
 	
 	//2. and initialize the OSHGui with it
-	Application::Initialize(*renderer);
+	Application::Initialize(std::move(renderer));
+
+	//or 1.+2.
+	//Application::Initialize(std::unique_ptr<Direct3D9Renderer>(new Direct3D9Renderer(device)));
 
 	//now we have a valid OSHGui instance, so lets grab it
 	auto &app = Application::Instance();
@@ -51,14 +53,16 @@ void Render(LPDIRECT3DDEVICE9 device)
 	device->Clear(0, 0, D3DCLEAR_TARGET, 0x0, 1.0f, 0);
 	device->BeginScene();
 
+	auto &renderer = Application::Instance().GetRenderer();
+
 	//1. let our renderer begin its work
-	renderer->BeginRendering();
+	renderer.BeginRendering();
 
 	//2. render the OSHGui
 	Application::Instance().Render();
 
 	//3. end the rendering
-	renderer->EndRendering();
+	renderer.EndRendering();
 
 	device->EndScene();
 	device->Present(0, 0, 0, 0);
