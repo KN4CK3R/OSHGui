@@ -19,18 +19,15 @@ namespace OSHGui
 	namespace Misc
 	{
 		/**
-		 * Verwaltet eine Zeichenkette und deren Ausmaﬂe.
+		 * Dient zum Laden von rohen Dateien wie Schriftarten und Bildern.
 		 */
 		class OSHGUI_EXPORT RawDataContainer
 		{
 		public:
-			/**
-			 * Erstellt ein TextHelper-Objekt mit der entsprechenden Schriftart.
-			 *
-			 * \param font
-			 */
 			RawDataContainer();
-
+			/**
+			 * Reserviert rohne Speicher mit size Bytes.
+			 */
 			RawDataContainer(uint32_t size);
 			
 			uint8_t* GetDataPointer();
