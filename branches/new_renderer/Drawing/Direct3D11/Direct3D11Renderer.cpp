@@ -129,7 +129,7 @@ namespace OSHGui
 		{
 			ID3D10Blob *errors = nullptr;
 			ID3D10Blob *blob = nullptr;
-			if (FAILED(D3DX11CompileFromMemory(shaderSource,sizeof(shaderSource), nullptr, nullptr, nullptr, nullptr, "fx_5_0", NULL, NULL, nullptr, &blob, &errors, nullptr)))
+			if (FAILED(D3DX11CompileFromMemory(shaderSource, sizeof(shaderSource), nullptr, nullptr, nullptr, nullptr, "fx_5_0", NULL, NULL, nullptr, &blob, &errors, nullptr)))
 			{
 				std::string msg(static_cast<const char*>(errors->GetBufferPointer()), errors->GetBufferSize());
 				errors->Release();
