@@ -7,10 +7,12 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		DXGI_FORMAT ToD3DPixelFormat(const Texture::PixelFormat format)
+		namespace
 		{
-			switch (format)
+			DXGI_FORMAT ToD3DPixelFormat(const Texture::PixelFormat format)
 			{
+				switch (format)
+				{
 				case Texture::PixelFormat::RGBA:
 				case Texture::PixelFormat::RGB:
 					return DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -22,39 +24,40 @@ namespace OSHGui
 					return DXGI_FORMAT_BC3_UNORM;
 				default:
 					return DXGI_FORMAT_UNKNOWN;
-			}
-		}
-		//---------------------------------------------------------------------------
-		uint32_t CalculateDataWidth(const uint32_t width, Texture::PixelFormat format)
-		{
-			switch (format)
-			{
-				case Texture::PixelFormat::RGBA:
-				case Texture::PixelFormat::RGB:
-					return width * 4;
-				case Texture::PixelFormat::RGBA_DXT1:
-					return ((width + 3) / 4) * 8;
-				case Texture::PixelFormat::RGBA_DXT3:
-				case Texture::PixelFormat::RGBA_DXT5:
-					return ((width + 3) / 4) * 16;
-				default:
-					return 0;
-			}
-		}
-		//---------------------------------------------------------------------------
-		void BlitRGBAToD3DCOLORSurface(const uint32_t *src, uint32_t *dst, const SizeF &size, uint32_t pitch)
-		{
-			for (auto i = 0; i < size.Height; ++i)
-			{
-				for (auto j = 0; j < size.Width; ++j)
-				{
-					auto pixel = src[j];
-					auto tmp = pixel & 0x00FF00FF;
-					dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
 				}
+			}
+			//---------------------------------------------------------------------------
+			uint32_t CalculateDataWidth(const uint32_t width, Texture::PixelFormat format)
+			{
+				switch (format)
+				{
+					case Texture::PixelFormat::RGBA:
+					case Texture::PixelFormat::RGB:
+						return width * 4;
+					case Texture::PixelFormat::RGBA_DXT1:
+						return ((width + 3) / 4) * 8;
+					case Texture::PixelFormat::RGBA_DXT3:
+					case Texture::PixelFormat::RGBA_DXT5:
+						return ((width + 3) / 4) * 16;
+					default:
+						return 0;
+				}
+			}
+			//---------------------------------------------------------------------------
+			void BlitRGBAToD3DCOLORSurface(const uint32_t *src, uint32_t *dst, const SizeF &size, uint32_t pitch)
+			{
+				for (auto i = 0; i < size.Height; ++i)
+				{
+					for (auto j = 0; j < size.Width; ++j)
+					{
+						auto pixel = src[j];
+						auto tmp = pixel & 0x00FF00FF;
+						dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
+					}
 
-				dst += pitch / sizeof(uint32_t);
-				src += static_cast<uint32_t>(size.Width);
+					dst += pitch / sizeof(uint32_t);
+					src += static_cast<uint32_t>(size.Width);
+				}
 			}
 		}
 		//---------------------------------------------------------------------------

@@ -7,134 +7,137 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		static D3DFORMAT ToD3DPixelFormat(const Texture::PixelFormat format)
+		namespace
 		{
-			switch (format)
+			static D3DFORMAT ToD3DPixelFormat(const Texture::PixelFormat format)
 			{
-				case Texture::PixelFormat::RGBA:
-					return D3DFMT_A8R8G8B8;
-				case Texture::PixelFormat::RGB:
-					return D3DFMT_X8R8G8B8;
-				case Texture::PixelFormat::RGB_565:
-					return D3DFMT_R5G6B5;
-				case Texture::PixelFormat::RGBA_4444:
-					return D3DFMT_A4R4G4B4;
-				case Texture::PixelFormat::RGBA_DXT1:
-					return D3DFMT_DXT1;
-				case Texture::PixelFormat::RGBA_DXT3:
-					return D3DFMT_DXT3;
-				case Texture::PixelFormat::RGBA_DXT5:
-					return D3DFMT_DXT5;
-				default:
-					return D3DFMT_UNKNOWN;
-			}
-		}
-		//---------------------------------------------------------------------------
-		static uint32_t CalculateDataWidth(const uint32_t width, Texture::PixelFormat format)
-		{
-			switch (format)
-			{
-				case Texture::PixelFormat::RGBA:
-					return width * 4;
-				case Texture::PixelFormat::RGB:
-					return width * 3;
-				case Texture::PixelFormat::RGB_565:
-				case Texture::PixelFormat::RGBA_4444:
-					return width * 2;
-				case Texture::PixelFormat::RGBA_DXT1:
-					return ((width + 3) / 4) * 8;
-				case Texture::PixelFormat::RGBA_DXT3:
-				case Texture::PixelFormat::RGBA_DXT5:
-					return ((width + 3) / 4) * 16;
-				default:
-					return 0;
-			}
-		}
-		//---------------------------------------------------------------------------
-		static void BlitRGBToBGRSurface(const uint8_t *src, uint8_t *dst, const SizeF &size)
-		{
-			for (auto i = 0; i < size.Height; ++i)
-			{
-				for (auto j = 0; j < size.Width; ++j)
+				switch (format)
 				{
-					*dst++ = src[2];
-					*dst++ = src[1];
-					*dst++ = src[0];
-					src += 3;
+					case Texture::PixelFormat::RGBA:
+						return D3DFMT_A8R8G8B8;
+					case Texture::PixelFormat::RGB:
+						return D3DFMT_X8R8G8B8;
+					case Texture::PixelFormat::RGB_565:
+						return D3DFMT_R5G6B5;
+					case Texture::PixelFormat::RGBA_4444:
+						return D3DFMT_A4R4G4B4;
+					case Texture::PixelFormat::RGBA_DXT1:
+						return D3DFMT_DXT1;
+					case Texture::PixelFormat::RGBA_DXT3:
+						return D3DFMT_DXT3;
+					case Texture::PixelFormat::RGBA_DXT5:
+						return D3DFMT_DXT5;
+					default:
+						return D3DFMT_UNKNOWN;
 				}
 			}
-		}
-		//---------------------------------------------------------------------------
-		void BlitRGBAToD3DCOLORSurface(const uint32_t *src, uint32_t *dst, const SizeF &size, uint32_t pitch)
-		{
-			for (auto i = 0; i < size.Height; ++i)
+			//---------------------------------------------------------------------------
+			static uint32_t CalculateDataWidth(const uint32_t width, Texture::PixelFormat format)
 			{
-				for (auto j = 0; j < size.Width; ++j)
+				switch (format)
 				{
-					auto pixel = src[j];
-					auto tmp = pixel & 0x00FF00FF;
-					dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
+					case Texture::PixelFormat::RGBA:
+						return width * 4;
+					case Texture::PixelFormat::RGB:
+						return width * 3;
+					case Texture::PixelFormat::RGB_565:
+					case Texture::PixelFormat::RGBA_4444:
+						return width * 2;
+					case Texture::PixelFormat::RGBA_DXT1:
+						return ((width + 3) / 4) * 8;
+					case Texture::PixelFormat::RGBA_DXT3:
+					case Texture::PixelFormat::RGBA_DXT5:
+						return ((width + 3) / 4) * 16;
+					default:
+						return 0;
 				}
-
-				dst += pitch / sizeof(uint32_t);
-				src += static_cast<uint32_t>(size.Width);
 			}
-		}
-		//---------------------------------------------------------------------------
-		void BlitD3DCOLORSurfaceToRGBA(const uint32_t *src, uint32_t *dst, const SizeF &size, uint32_t pitch)
-		{
-			for (auto i = 0; i < size.Height; ++i)
+			//---------------------------------------------------------------------------
+			static void BlitRGBToBGRSurface(const uint8_t *src, uint8_t *dst, const SizeF &size)
 			{
-				for (auto j = 0; j < size.Width; ++j)
+				for (auto i = 0; i < size.Height; ++i)
 				{
-					auto pixel = src[j];
-					auto tmp = pixel & 0x00FF00FF;
-					dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
-				}
-
-				src += pitch / sizeof(uint32_t);
-				dst += static_cast<uint32_t>(size.Width);
-			}
-		}
-		//---------------------------------------------------------------------------
-		class PixelBuffer
-		{
-		public:
-			PixelBuffer(const void *data, const SizeF &size, Texture::PixelFormat format)
-				: sourceBuffer(static_cast<const uint8_t*>(data)),
-				  pitch(CalculateDataWidth(static_cast<size_t>(size.Width), format))
-			{
-				if (format == Texture::PixelFormat::RGBA || format == Texture::PixelFormat::RGB)
-				{
-					workBuffer.resize(pitch * static_cast<size_t>(size.Height));
-
-					if (format == Texture::PixelFormat::RGBA)
+					for (auto j = 0; j < size.Width; ++j)
 					{
-						BlitRGBAToD3DCOLORSurface(reinterpret_cast<const uint32_t*>(sourceBuffer), reinterpret_cast<uint32_t*>(workBuffer.data()), size, pitch);
-					}
-					else
-					{
-						BlitRGBToBGRSurface(sourceBuffer, workBuffer.data(), size);
+						*dst++ = src[2];
+						*dst++ = src[1];
+						*dst++ = src[0];
+						src += 3;
 					}
 				}
 			}
 			//---------------------------------------------------------------------------
-			size_t GetPitch() const
+			void BlitRGBAToD3DCOLORSurface(const uint32_t *src, uint32_t *dst, const SizeF &size, uint32_t pitch)
 			{
-				return pitch;
-			}
-			//---------------------------------------------------------------------------
-			const uint8_t* GetPixelData() const
-			{
-				return !workBuffer.empty() ? workBuffer.data() : sourceBuffer;
-			}
-			//---------------------------------------------------------------------------
+				for (auto i = 0; i < size.Height; ++i)
+				{
+					for (auto j = 0; j < size.Width; ++j)
+					{
+						auto pixel = src[j];
+						auto tmp = pixel & 0x00FF00FF;
+						dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
+					}
 
-		private:
-			const uint8_t* sourceBuffer;
-			std::vector<uint8_t> workBuffer;
-			uint32_t pitch;
-		};
+					dst += pitch / sizeof(uint32_t);
+					src += static_cast<uint32_t>(size.Width);
+				}
+			}
+			//---------------------------------------------------------------------------
+			void BlitD3DCOLORSurfaceToRGBA(const uint32_t *src, uint32_t *dst, const SizeF &size, uint32_t pitch)
+			{
+				for (auto i = 0; i < size.Height; ++i)
+				{
+					for (auto j = 0; j < size.Width; ++j)
+					{
+						auto pixel = src[j];
+						auto tmp = pixel & 0x00FF00FF;
+						dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
+					}
+
+					src += pitch / sizeof(uint32_t);
+					dst += static_cast<uint32_t>(size.Width);
+				}
+			}
+			//---------------------------------------------------------------------------
+			class PixelBuffer
+			{
+			public:
+				PixelBuffer(const void *data, const SizeF &size, Texture::PixelFormat format)
+					: sourceBuffer(static_cast<const uint8_t*>(data)),
+					pitch(CalculateDataWidth(static_cast<size_t>(size.Width), format))
+				{
+					if (format == Texture::PixelFormat::RGBA || format == Texture::PixelFormat::RGB)
+					{
+						workBuffer.resize(pitch * static_cast<size_t>(size.Height));
+
+						if (format == Texture::PixelFormat::RGBA)
+						{
+							BlitRGBAToD3DCOLORSurface(reinterpret_cast<const uint32_t*>(sourceBuffer), reinterpret_cast<uint32_t*>(workBuffer.data()), size, pitch);
+						}
+						else
+						{
+							BlitRGBToBGRSurface(sourceBuffer, workBuffer.data(), size);
+						}
+					}
+				}
+				//---------------------------------------------------------------------------
+				size_t GetPitch() const
+				{
+					return pitch;
+				}
+				//---------------------------------------------------------------------------
+				const uint8_t* GetPixelData() const
+				{
+					return !workBuffer.empty() ? workBuffer.data() : sourceBuffer;
+				}
+				//---------------------------------------------------------------------------
+
+			private:
+				const uint8_t* sourceBuffer;
+				std::vector<uint8_t> workBuffer;
+				uint32_t pitch;
+			};
+		}
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
