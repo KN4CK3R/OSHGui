@@ -36,6 +36,16 @@ namespace OSHGui
 			return data_.data();
 		}
 		//---------------------------------------------------------------------------
+		std::vector<uint8_t>& RawDataContainer::GetData()
+		{
+			return data_;
+		}
+		//---------------------------------------------------------------------------
+		const std::vector<uint8_t>& RawDataContainer::GetData() const
+		{
+			return data_;
+		}
+		//---------------------------------------------------------------------------
 		uint32_t RawDataContainer::GetSize() const
 		{
 			return data_.size();

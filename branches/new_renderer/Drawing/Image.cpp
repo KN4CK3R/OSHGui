@@ -4,8 +4,6 @@
 #include "../Application.hpp"
 #include "../Misc/Exceptions.hpp"
 
-#include "FreeImage.h"
-
 namespace OSHGui
 {
 	namespace Drawing
