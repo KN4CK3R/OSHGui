@@ -17,14 +17,14 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		struct ImageData
+		struct OSHGUI_EXPORT ImageData
 		{
 			std::vector<uint8_t> Data;
 			SizeF Size;
 		};
 
-		ImageData LoadImageFromContainerToRGBABuffer(Misc::RawDataContainer &data);
-		ImageData LoadImageFromFileToRGBABuffer(const Misc::AnsiString &data);
+		ImageData OSHGUI_EXPORT LoadImageFromContainerToRGBABuffer(Misc::RawDataContainer &data);
+		ImageData OSHGUI_EXPORT LoadImageFromFileToRGBABuffer(const Misc::AnsiString &data);
 	}
 }
 

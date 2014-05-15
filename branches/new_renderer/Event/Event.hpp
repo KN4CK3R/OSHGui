@@ -20,7 +20,7 @@ namespace OSHGui
 	/**
 	 * Event für Funktionen mit einem Parameter.
 	 */
-	template <typename Signature>
+	template<typename Signature>
 	class OSHGUI_EXPORT Event
 	{
 	private:

@@ -17,6 +17,8 @@
 
 typedef struct FT_FaceRec_*  FT_Face;
 
+#undef DrawText
+
 namespace OSHGui
 {
 	namespace Drawing

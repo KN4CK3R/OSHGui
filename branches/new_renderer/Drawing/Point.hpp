@@ -21,7 +21,7 @@ namespace OSHGui
 		 * das einen Punkt in einem zweidimensionalen Raum definiert.
 		 */
 		template<typename Val>
-		class Point
+		class OSHGUI_EXPORT Point
 		{
 		public:
 			/**

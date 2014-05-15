@@ -1,6 +1,7 @@
 #ifndef OSHGUI_THEME_HPP
 #define OSHGUI_THEME_HPP
 
+#include "../Exports.hpp"
 #include "Color.hpp"
 #include "../Misc/Strings.hpp"
 #include <map>
@@ -9,7 +10,7 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		class Theme
+		class OSHGUI_EXPORT Theme
 		{
 		public:
 			struct ControlTheme

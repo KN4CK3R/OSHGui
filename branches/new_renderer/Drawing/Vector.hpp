@@ -9,11 +9,13 @@
 #ifndef OSHGUI_DRAWING_VECTOR_HPP
 #define OSHGUI_DRAWING_VECTOR_HPP
 
+#include "../Exports.hpp"
+
 namespace OSHGui
 {
 	namespace Drawing
 	{
-		class Vector
+		class OSHGUI_EXPORT Vector
 		{
 		public:
 			Vector();

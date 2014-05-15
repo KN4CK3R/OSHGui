@@ -2,6 +2,8 @@
 #include "../Application.hpp"
 #include <algorithm>
 
+#undef DrawText
+
 namespace OSHGui
 {
 	namespace Drawing

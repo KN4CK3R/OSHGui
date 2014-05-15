@@ -18,7 +18,7 @@ namespace OSHGui
 
 	namespace Drawing
 	{
-		class RenderContext
+		class OSHGUI_EXPORT RenderContext
 		{
 		public:
 			RenderSurface *Surface;

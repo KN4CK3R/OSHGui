@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <vector>
 #include <sstream>
-
+#include "R:/OSHFusion/Utils/XorStr.hpp"
 namespace OSHGui
 {
 	namespace Drawing
@@ -38,7 +38,7 @@ namespace OSHGui
 			std::string valueData(MAX_PATH, '\0');
 
 			HKEY fontKey;
-			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &fontKey) == ERROR_SUCCESS)
+			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, /*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts*/XorStr(50, 0xBF, 0xEC71FB68, 0xEC7BEB7D, 0xEB7BDC57, 0xC15DC25F, 0xC95AF17B, 0xC244CD47, 0xD055856A, 0xF77EE255, 0xED6CF872, 0xEF4CFC6A, 0xE47FFA7A, 0xCF54FE7E, 0xFB7D0000).c_str(), 0, KEY_READ, &fontKey) == ERROR_SUCCESS)
 			{
 				int i = 0;
 				int lastError = ERROR_SUCCESS;
@@ -66,7 +66,7 @@ namespace OSHGui
 						if (foundAll)
 						{
 							char path[MAX_PATH] = { };
-							ExpandEnvironmentStringsA(("%windir%\\fonts\\" + valueData).c_str(), path, MAX_PATH);
+							ExpandEnvironmentStringsA((std::string(/*%windir%\\fonts\\*/XorStr(15, 0xEE, 0xCB1A8505, 0x8E009A42, 0xBA038B0D, 0x9612BC00)) + valueData).c_str(), path, MAX_PATH);
 
 							return LoadFontFromFile(path, pointSize, antiAliased);
 						}

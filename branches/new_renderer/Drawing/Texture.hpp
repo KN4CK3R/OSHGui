@@ -9,6 +9,7 @@
 #ifndef OSHGUI_DRAWING_TEXTURE_HPP
 #define OSHGUI_DRAWING_TEXTURE_HPP
 
+#include "../Exports.hpp"
 #include "Size.hpp"
 #include "Point.hpp"
 #include "Rectangle.hpp"
@@ -23,7 +24,7 @@ namespace OSHGui
 		/**
 		 * Die abstrakte Klasse repräsentiert eine Textur und wird durch den Renderer erstellt.
 		 */
-		class Texture
+		class OSHGUI_EXPORT Texture
 		{
 		public:
 			/**

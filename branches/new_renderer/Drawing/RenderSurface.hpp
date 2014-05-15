@@ -9,6 +9,7 @@
 #ifndef OSHGUI_DRAWING_RENDERSURFACE_HPP
 #define OSHGUI_DRAWING_RENDERSURFACE_HPP
 
+#include "../Exports.hpp"
 #include "RenderQueue.hpp"
 #include "Point.hpp"
 #include <vector>
@@ -26,7 +27,7 @@ namespace OSHGui
 			Overlay
 		};
 
-		class RenderSurface
+		class OSHGUI_EXPORT RenderSurface
 		{
 		public:
 			RenderSurface(RenderTarget &target);

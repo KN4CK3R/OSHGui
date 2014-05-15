@@ -17,6 +17,8 @@
 #include <vector>
 #include <memory>
 
+#undef DrawText
+
 namespace OSHGui
 {
 	namespace Drawing

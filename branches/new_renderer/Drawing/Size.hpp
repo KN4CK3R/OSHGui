@@ -21,7 +21,7 @@ namespace OSHGui
 		 * und Höhe eines Rechtecks.
 		 */
 		template<typename Val>
-		class Size
+		class OSHGUI_EXPORT Size
 		{
 		public:
 			/**

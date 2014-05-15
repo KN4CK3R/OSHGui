@@ -22,7 +22,7 @@ namespace OSHGui
 		 * eines Rechtecks angeben.
 		 */
 		template<typename Val>
-		class Rectangle
+		class OSHGUI_EXPORT Rectangle
 		{
 		public:
 			/**
