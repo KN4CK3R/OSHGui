@@ -154,7 +154,7 @@ Reader::parse( const char *beginDoc, const char *endDoc,
          token.type_ = tokenError;
          token.start_ = beginDoc;
          token.end_ = endDoc;
-         addError( "A valid JSON document must be either an array or an object value.",
+         addError( "",
                    token );
          return false;
       }
@@ -201,7 +201,7 @@ Reader::readValue()
       currentValue() = Value();
       break;
    default:
-      return addError( "Syntax error: value, object or array expected.", token );
+      return addError( "", token );
    }
 
    if ( collectComments_ )
@@ -473,7 +473,7 @@ Reader::readObject( Token &/*tokenStart*/ )
       Token colon;
       if ( !readToken( colon ) ||  colon.type_ != tokenMemberSeparator )
       {
-         return addErrorAndRecover( "Missing ':' after object member name", 
+         return addErrorAndRecover( "", 
                                     colon, 
                                     tokenObjectEnd );
       }
@@ -490,7 +490,7 @@ Reader::readObject( Token &/*tokenStart*/ )
                   comma.type_ != tokenArraySeparator &&
                   comma.type_ != tokenComment ) )
       {
-         return addErrorAndRecover( "Missing ',' or '}' in object declaration", 
+         return addErrorAndRecover( "", 
                                     comma, 
                                     tokenObjectEnd );
       }
@@ -501,7 +501,7 @@ Reader::readObject( Token &/*tokenStart*/ )
       if ( comma.type_ == tokenObjectEnd )
          return true;
    }
-   return addErrorAndRecover( "Missing '}' or object member name", 
+   return addErrorAndRecover( "", 
                               tokenName, 
                               tokenObjectEnd );
 }
@@ -539,7 +539,7 @@ Reader::readArray( Token &/*tokenStart*/ )
                             token.type_ != tokenArrayEnd );
       if ( !ok  ||  badTokenType )
       {
-         return addErrorAndRecover( "Missing ',' or ']' in array declaration", 
+         return addErrorAndRecover( "", 
                                     token, 
                                     tokenArrayEnd );
       }
@@ -624,7 +624,7 @@ Reader::decodeDouble( Token &token )
    }
 
    if ( count != 1 )
-      return addError( "'" + std::string( token.start_, token.end_ ) + "' is not a number.", token );
+      return addError( "" + std::string( token.start_, token.end_ ) + "", token );
    currentValue() = value;
    return true;
 }
@@ -655,7 +655,7 @@ Reader::decodeString( Token &token, std::string &decoded )
       else if ( c == '\\' )
       {
          if ( current == end )
-            return addError( "Empty escape sequence in string", token, current );
+            return addError( "", token, current );
          Char escape = *current++;
          switch ( escape )
          {
@@ -676,7 +676,7 @@ Reader::decodeString( Token &token, std::string &decoded )
             }
             break;
          default:
-            return addError( "Bad escape sequence in string", token, current );
+            return addError( "", token, current );
          }
       }
       else
@@ -700,7 +700,7 @@ Reader::decodeUnicodeCodePoint( Token &token,
    {
       // surrogate pairs
       if (end - current < 6)
-         return addError( "additional six characters expected to parse unicode surrogate pair.", token, current );
+         return addError( "", token, current );
       unsigned int surrogatePair;
       if (*(current++) == '\\' && *(current++)== 'u')
       {
@@ -712,7 +712,7 @@ Reader::decodeUnicodeCodePoint( Token &token,
             return false;
       } 
       else
-         return addError( "expecting another \\u token to begin the second half of a unicode surrogate pair", token, current );
+         return addError( "", token, current );
    }
    return true;
 }
@@ -724,7 +724,7 @@ Reader::decodeUnicodeEscapeSequence( Token &token,
                                      unsigned int &unicode )
 {
    if ( end - current < 4 )
-      return addError( "Bad unicode escape sequence in string: four digits expected.", token, current );
+      return addError( "", token, current );
    unicode = 0;
    for ( int index =0; index < 4; ++index )
    {
@@ -737,7 +737,7 @@ Reader::decodeUnicodeEscapeSequence( Token &token,
       else if ( c >= 'A'  &&  c <= 'F' )
          unicode += c - 'A' + 10;
       else
-         return addError( "Bad unicode escape sequence in string: hexadecimal digit expected.", token, current );
+         return addError( "", token, current );
    }
    return true;
 }
@@ -748,11 +748,11 @@ Reader::addError( const std::string &message,
                   Token &token,
                   Location extra )
 {
-   ErrorInfo info;
+   /*ErrorInfo info;
    info.token_ = token;
    info.message_ = message;
    info.extra_ = extra;
-   errors_.push_back( info );
+   errors_.push_back( info );*/
    return false;
 }
 
@@ -858,10 +858,10 @@ Reader::getFormattedErrorMessages() const
          ++itError )
    {
       const ErrorInfo &error = *itError;
-      formattedMessage += "* " + getLocationLineAndColumn( error.token_.start_ ) + "\n";
-      formattedMessage += "  " + error.message_ + "\n";
+      formattedMessage += "" + getLocationLineAndColumn( error.token_.start_ ) + "";
+      formattedMessage += "" + error.message_ + "";
       if ( error.extra_ )
-         formattedMessage += "See " + getLocationLineAndColumn( error.extra_ ) + " for detail.\n";
+         formattedMessage += "" + getLocationLineAndColumn( error.extra_ ) + "";
    }
    return formattedMessage;
 }
