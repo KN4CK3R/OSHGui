@@ -24,6 +24,8 @@ namespace OSHGui
 		 */
 		LinkLabel();
 
+		virtual bool Intersect(const Drawing::PointI &point) const override;
+
 	protected:
 		virtual void PopulateGeometry() override;
 	};

@@ -891,7 +891,7 @@ namespace OSHGui
 	{
 		switch (mouse.GetState())
 		{
-		case MouseState::Down:
+			case MouseState::Down:
 				if (canRaiseEvents_ && Intersect(mouse.GetLocation()))
 				{
 					if (mouse.GetButton() == MouseButton::Left && !isClicked_ && isEnabled_)

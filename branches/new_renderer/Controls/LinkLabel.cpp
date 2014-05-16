@@ -26,6 +26,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
+	bool LinkLabel::Intersect(const Drawing::PointI &point) const
+	{
+		return Control::Intersect(point);
+	}
+	//---------------------------------------------------------------------------
 	void LinkLabel::PopulateGeometry()
 	{
 		using namespace Drawing;
