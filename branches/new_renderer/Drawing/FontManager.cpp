@@ -34,41 +34,49 @@ namespace OSHGui
 
 			FontPtr font = nullptr;
 
-			std::string valueName(MAX_PATH, '\0');
-			std::string valueData(MAX_PATH, '\0');
+			char keyNameBuffer[MAX_PATH];
+			char keyValueBuffer[MAX_PATH];
 
 			HKEY fontKey;
-			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, /*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts*/XorStr(50, 0xBF, 0xEC71FB68, 0xEC7BEB7D, 0xEB7BDC57, 0xC15DC25F, 0xC95AF17B, 0xC244CD47, 0xD055856A, 0xF77EE255, 0xED6CF872, 0xEF4CFC6A, 0xE47FFA7A, 0xCF54FE7E, 0xFB7D0000).c_str(), 0, KEY_READ, &fontKey) == ERROR_SUCCESS)
+			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &fontKey) == ERROR_SUCCESS)
 			{
 				int i = 0;
 				int lastError = ERROR_SUCCESS;
 				do
 				{
-					DWORD valueNameLength = MAX_PATH;
-					DWORD valueDataLength = MAX_PATH;
+					DWORD keyNameLength = sizeof(keyNameBuffer);
+					DWORD keyValueLength = sizeof(keyValueBuffer);
 
-					lastError = RegEnumValueA(fontKey, i, const_cast<LPSTR>(valueName.data()), &valueNameLength, nullptr, nullptr, const_cast<uint8_t*>(reinterpret_cast<const uint8_t*>(valueData.data())), &valueDataLength);
-
+					lastError = RegEnumValueA(fontKey, i, keyNameBuffer, &keyNameLength, nullptr, nullptr, reinterpret_cast<uint8_t*>(keyValueBuffer), &keyValueLength);
 					if (lastError == ERROR_SUCCESS)
 					{
-						std::transform(valueName.begin(), valueName.end(), valueName.begin(), ::tolower);
-
-						auto foundAll = true;
-						for (auto &part : parts)
+						std::string keyName(keyNameBuffer);
+						if (keyName.find(" (TrueType)") != std::string::npos || keyName.find(" (OpenType)") != std::string::npos)
 						{
-							if (valueName.find(part) == std::string::npos)
-							{
-								foundAll = false;
-								break;
-							}
+							keyName.erase(keyName.length() - 11);
 						}
 
-						if (foundAll)
+						if (keyName.length() == name.length())
 						{
-							char path[MAX_PATH] = { };
-							ExpandEnvironmentStringsA((std::string(/*%windir%\\fonts\\*/XorStr(15, 0xEE, 0xCB1A8505, 0x8E009A42, 0xBA038B0D, 0x9612BC00)) + valueData).c_str(), path, MAX_PATH);
+							std::transform(keyName.begin(), keyName.end(), keyName.begin(), ::tolower);
 
-							return LoadFontFromFile(path, pointSize, antiAliased);
+							auto foundAll = true;
+							for (auto &part : parts)
+							{
+								if (keyName.find(part) == std::string::npos)
+								{
+									foundAll = false;
+									break;
+								}
+							}
+
+							if (foundAll)
+							{
+								char path[MAX_PATH] = { };
+								ExpandEnvironmentStringsA((std::string("%windir%\\fonts\\") + keyValueBuffer).c_str(), path, sizeof(path));
+
+								return LoadFontFromFile(path, pointSize, antiAliased);
+							}
 						}
 					}
 
