@@ -8,7 +8,7 @@
 
 #include "ImageLoader.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "SimpleImageLoader.hpp"
+#include <SimpleImageLoader.hpp>
 
 namespace OSHGui
 {

@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <vector>
 #include <sstream>
-#include "R:/OSHFusion/Utils/XorStr.hpp"
+
 namespace OSHGui
 {
 	namespace Drawing
