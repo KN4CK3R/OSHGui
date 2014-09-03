@@ -691,7 +691,7 @@ namespace OSHGui
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
 
-		for (auto &control : controls_)
+		for (auto &control : GetControls())
 		{
 			control->ApplyTheme(theme);
 		}
