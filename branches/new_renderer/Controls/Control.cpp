@@ -83,6 +83,8 @@ namespace OSHGui
 		{
 			OnLostFocus(nullptr);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled() const
@@ -542,6 +544,8 @@ namespace OSHGui
 		{
 			controls_.erase(std::remove(std::begin(controls_), std::end(controls_), control), std::end(controls_));
 			internalControls_.erase(std::remove(std::begin(internalControls_), std::end(internalControls_), control), std::end(internalControls_));
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -570,6 +574,8 @@ namespace OSHGui
 		subcontrol->SetParent(this);
 
 		internalControls_.push_front(subcontrol);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetChildAtPoint(const Drawing::PointI &point) const
@@ -731,6 +737,8 @@ namespace OSHGui
 	void Control::OnLocationChanged()
 	{
 		CalculateAbsoluteLocation();
+
+		Invalidate();
 	
 		locationChangedEvent_.Invoke(this);
 	}
@@ -743,6 +751,8 @@ namespace OSHGui
 	void Control::OnMouseDown(const MouseMessage &mouse)
 	{
 		isClicked_ = true;
+
+		Invalidate();
 
 		MouseEventArgs args(mouse);
 		args.Location -= absoluteLocation_;
@@ -759,6 +769,8 @@ namespace OSHGui
 	void Control::OnMouseUp(const MouseMessage &mouse)
 	{
 		isClicked_ = false;
+
+		Invalidate();
 
 		MouseEventArgs args(mouse);
 		args.Location -= absoluteLocation_;
@@ -793,9 +805,9 @@ namespace OSHGui
 
 		mouseEnterEvent_.Invoke(this);
 
-		app.SetCursor(GetCursor());
-
 		Invalidate();
+
+		app.SetCursor(GetCursor());
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseLeave(const MouseMessage &mouse)
@@ -822,6 +834,8 @@ namespace OSHGui
 		isClicked_ = false;
 
 		mouseCaptureChangedEvent_.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnLostMouseCapture()
@@ -831,6 +845,8 @@ namespace OSHGui
 		Application::Instance().CaptureControl = nullptr;
 
 		mouseCaptureChangedEvent_.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus(Control *newFocusedControl)
@@ -921,7 +937,7 @@ namespace OSHGui
 					}
 
 					OnMouseUp(mouse);
-			
+
 					return true;
 				}
 				break;
