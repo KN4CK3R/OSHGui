@@ -52,13 +52,13 @@ namespace OSHGui
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color);
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetBackColor(Drawing::Color color);
+		virtual void SetBackColor(const Drawing::Color &color) override;
 		
 		/**
 		 * Legt den Hotkey fest.

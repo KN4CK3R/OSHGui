@@ -249,14 +249,14 @@ namespace OSHGui
 		textBox_->SetFont(GetFont());
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetForeColor(Drawing::Color color)
+	void HotkeyControl::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 		
 		textBox_->SetForeColor(GetForeColor());
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::SetBackColor(Drawing::Color color)
+	void HotkeyControl::SetBackColor(const Drawing::Color &color)
 	{
 		Control::SetBackColor(color);
 		
