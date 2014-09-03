@@ -345,7 +345,10 @@ namespace OSHGui
 				foreMost->Render();
 			}
 
-			guiSurface_.AddGeometry(Drawing::RenderQueueType::Overlay, mouse_.Cursor->GetGeometry());
+			if (mouse_.Enabled)
+			{
+				guiSurface_.AddGeometry(Drawing::RenderQueueType::Overlay, mouse_.Cursor->GetGeometry());
+			}
 
 			guiSurface_.needsRedraw_ = false;
 		}
