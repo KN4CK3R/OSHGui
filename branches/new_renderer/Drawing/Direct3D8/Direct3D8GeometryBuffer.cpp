@@ -156,7 +156,7 @@ namespace OSHGui
 			batches.back().count += count;
 
 			auto vs = vbuff;
-			for (auto i = 0; i < count; ++i, ++vs)
+			for (auto i = 0u; i < count; ++i, ++vs)
 			{
 				vertices.emplace_back(vs->Position.x - 0.5f, vs->Position.y - 0.5f, vs->Position.z, vs->Color.GetARGB(), vs->TextureCoordinates.X, vs->TextureCoordinates.Y);
 			}

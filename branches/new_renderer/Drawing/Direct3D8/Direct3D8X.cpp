@@ -326,7 +326,7 @@ void CopyPixels(const BYTE *src, UINT srcRowPitch, UINT src_slice_pitch, BYTE *d
 	auto rowBlockCount = (size.Width + format.blockWidth - 1) / format.blockWidth;
 	auto rowCount = (size.Height + format.blockHeight - 1) / format.blockHeight;
 
-	for (auto row = 0; row < rowCount; ++row)
+	for (auto row = 0u; row < rowCount; ++row)
 	{
 		std::memcpy(dst, src, rowBlockCount * format.blockByteCount);
 		src += srcRowPitch;

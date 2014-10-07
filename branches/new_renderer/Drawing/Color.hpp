@@ -33,7 +33,7 @@ namespace OSHGui
 			 *
 			 * \param argb
 			 */
-			Color(argb_t argb);
+			explicit Color(argb_t argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *
@@ -41,7 +41,7 @@ namespace OSHGui
 			 * \param green
 			 * \param blue
 			 */
-			Color(float red, float green, float blue);
+			explicit Color(float red, float green, float blue);
 			/**
 			 * Legt eine Farbe mit den Werten für Alpha, Rot, Grün und Blau an.
 			 *
@@ -50,7 +50,7 @@ namespace OSHGui
 			 * \param green
 			 * \param blue
 			 */
-			Color(float alpha, float red, float green, float blue);
+			explicit Color(float alpha, float red, float green, float blue);
 
 			static Color FromRGB(uint8_t red, uint8_t green, uint8_t blue);
 			static Color FromARGB(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue);
