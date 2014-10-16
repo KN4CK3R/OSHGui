@@ -122,6 +122,7 @@ namespace OSHGui
 			bool supportNonSquareTex;
 
 			IDirect3DStateBlock9 *stateBlock;
+			RECT oldScissorRect;
 		};
 	}
 }

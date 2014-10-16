@@ -190,6 +190,10 @@ namespace OSHGui
 		{
 			stateBlock->Capture();
 
+			device->GetScissorRect(&oldScissorRect);
+			RECT noScissor = { 0, 0, displaySize.Width, displaySize.Height };
+			device->SetScissorRect(&noScissor);
+
 			device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 
 			device->SetVertexShader(nullptr);
@@ -235,6 +239,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::EndRendering()
 		{
+			device->SetScissorRect(&oldScissorRect);
+
 			stateBlock->Apply();
 		}
 		//---------------------------------------------------------------------------
