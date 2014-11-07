@@ -297,6 +297,9 @@
     <ClInclude Include="..\..\Controls\RadioButton.hpp">
       <Filter>Headerdateien\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Input\Input.hpp">
+      <Filter>Headerdateien\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Application.cpp">
@@ -469,6 +472,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Controls\LinkLabel.cpp">
       <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Input\Input.cpp">
+      <Filter>Quelldateien\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

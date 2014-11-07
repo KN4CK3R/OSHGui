@@ -71,6 +71,9 @@
     <ClCompile Include="..\..\Misc\TimeSpan.cpp">
       <Filter>Quelldateien\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Input\Input.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Input\WindowsMessage.cpp">
       <Filter>Quelldateien\Input</Filter>
     </ClCompile>
@@ -261,6 +264,9 @@
     </ClInclude>
     <ClInclude Include="..\..\OSHGui.hpp">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Input\Input.hpp">
+      <Filter>Headerdateien\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Input\WindowsMessage.hpp">
       <Filter>Headerdateien\Input</Filter>

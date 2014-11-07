@@ -82,6 +82,7 @@
     <ClInclude Include="..\..\Event\ScrollEventArgs.hpp" />
     <ClInclude Include="..\..\Exports.hpp" />
     <ClInclude Include="..\..\FormManager.hpp" />
+    <ClInclude Include="..\..\Input\Input.hpp" />
     <ClInclude Include="..\..\Input\WindowsMessage.hpp" />
     <ClInclude Include="..\..\Input\WindowsMessageThreaded.hpp" />
     <ClInclude Include="..\..\Misc\Any.hpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\..\Drawing\Theme.cpp" />
     <ClCompile Include="..\..\Drawing\Vector.cpp" />
     <ClCompile Include="..\..\FormManager.cpp" />
+    <ClCompile Include="..\..\Input\Input.cpp" />
     <ClCompile Include="..\..\Input\WindowsMessage.cpp" />
     <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp" />
     <ClCompile Include="..\..\Misc\DateTime.cpp" />
@@ -206,7 +208,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;OSHGUI_COMPILE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..;..\..\Dependencies\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4351</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -231,7 +233,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;OSHGUI_COMPILE_DLL;OSHGUI_DONTUSEEXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..;..\..\Dependencies\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4244;4018</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4018;4351</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
