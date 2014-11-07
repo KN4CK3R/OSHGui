@@ -1,7 +1,6 @@
 #include "OpenGLViewportTarget.hpp"
 #include "../RenderQueue.hpp"
 #include "../GeometryBuffer.hpp"
-#include <d3d9.h>
 
 namespace OSHGui
 {

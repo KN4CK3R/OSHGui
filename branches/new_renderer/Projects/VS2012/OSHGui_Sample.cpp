@@ -50,7 +50,7 @@ void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 //---------------------------------------------------------------------------
 void Render(LPDIRECT3DDEVICE9 device)
 {
-	device->Clear(0, 0, D3DCLEAR_TARGET, 0x0, 1.0f, 0);
+	device->Clear(0, 0, D3DCLEAR_TARGET, 0, 1.0f, 0);
 	device->BeginScene();
 
 	auto &renderer = Application::Instance().GetRenderer();

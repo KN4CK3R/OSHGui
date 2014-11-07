@@ -258,7 +258,7 @@ namespace OSHGui
 			BlitFromMemory(dataBuffer, RectangleF(PointF(0, 0), size));
 
 			delete[] dataBuffer;
-			dataBuffer = 0;
+			dataBuffer = nullptr;
 		}
 		//---------------------------------------------------------------------------
 		bool OpenGLTexture::IsPixelFormatSupported(const PixelFormat format) const

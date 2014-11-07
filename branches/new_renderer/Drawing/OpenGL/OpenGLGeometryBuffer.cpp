@@ -83,7 +83,7 @@ namespace OSHGui
 
 			auto vs = vbuff;
 			GLVertex vertex;
-			for (auto i = 0; i < count; ++i, ++vs)
+			for (auto i = 0u; i < count; ++i, ++vs)
 			{
 				vertex.tex[0] = vs->TextureCoordinates.X;
 				vertex.tex[1] = vs->TextureCoordinates.Y;
@@ -103,10 +103,10 @@ namespace OSHGui
 		{
 			auto viewPort = owner.GetDisplaySize();
 
-			glScissor(static_cast<GLint>(clipRect.GetLeft()),
+			/*glScissor(static_cast<GLint>(clipRect.GetLeft()),
 					  static_cast<GLint>(viewPort.Height - clipRect.GetBottom()),
 					  static_cast<GLint>(clipRect.GetWidth()),
-					  static_cast<GLint>(clipRect.GetHeight()));
+					  static_cast<GLint>(clipRect.GetHeight()));*/
 
 			if (!matrixValid)
 			{
@@ -188,6 +188,5 @@ namespace OSHGui
 			matrixValid = true;
 		}
 		//---------------------------------------------------------------------------
-		
 	}
 }
