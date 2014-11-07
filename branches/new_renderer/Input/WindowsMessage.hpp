@@ -26,7 +26,20 @@ namespace OSHGui
 		{
 		public:
 			WindowsMessage();
-			virtual ~WindowsMessage();
+			virtual ~WindowsMessage() { };
+
+			/**
+			 * Legt fest, ob Mausnachrichten verarbeitet werden sollen.
+			 *
+			 * @param enable
+			 */
+			void SetMouseInputEnabled(bool enable);
+			/**
+			 * Legt fest, ob Tastaturnachrichten verarbeitet werden sollen.
+			 *
+			 * @param enable
+			 */
+			void SetKeyboardInputEnabled(bool enable);
 
 			/**
 			 * Wandelt eine Windows Message in ein Event um.
@@ -43,6 +56,9 @@ namespace OSHGui
 			static const int SystemDefaultCharSize = 2;
 
 			int ImeWmCharsToIgnore_;
+			
+			bool enableMouseInput;
+			bool enableKeyboardInput;
 		};
 	}
 }
