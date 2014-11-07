@@ -122,5 +122,11 @@ namespace OSHGui
 			buffer.AppendGeometry(vertices, 6);
 		}
 		//---------------------------------------------------------------------------
+		void Image::ComputeScalingFactors(const SizeF &displaySize, const SizeF &nativeDisplaySize, float &xScale, float &yScale)
+		{
+			xScale = displaySize.Height / nativeDisplaySize.Height;
+			yScale = xScale;
+		}
+		//---------------------------------------------------------------------------
 	}
 }

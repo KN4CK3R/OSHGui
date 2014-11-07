@@ -60,19 +60,25 @@ namespace OSHGui
 		 * \return DateTime::Now
 		 */
 		const Misc::DateTime& GetNow() const;
+
 		/**
 		 * Ruft den verwendeten Renderer ab.
 		 *
 		 * \return renderer
 		 */
 		Drawing::Renderer& GetRenderer() const;
-
 		/**
 		 * Ruft das RenderSurface der Gui ab.
 		 *
 		 * \return GuiRenderSurface
 		 */
 		GuiRenderSurface& GetRenderSurface();
+		/**
+		 * Legt die Display-Größe fest.
+		 *
+		 * @param size
+		 */
+		void DisplaySizeChanged(const Drawing::SizeF &size);
 		
 		/**
 		 * Legt die Standardschrift für das Gui fest.
@@ -137,6 +143,7 @@ namespace OSHGui
 		 * Wechselt zwischen Enabled und Disabled.
 		 */
 		void Toggle();
+
 		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
@@ -149,14 +156,14 @@ namespace OSHGui
 		 * \param mouse
 		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessMouseMessage(MouseMessage &mouse);
+		bool ProcessMouseMessage(const MouseMessage &mouse);
 		/**
 		 * Gibt eine KeyboardMessage an die geöffneten Formen weiter.
 		 *
 		 * \param keyboard
 		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
+		bool ProcessKeyboardMessage(const KeyboardMessage &keyboard);
 		
 		/**
 		 * Zeichnet die geöffneten Formen.

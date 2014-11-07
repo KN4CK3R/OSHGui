@@ -641,7 +641,7 @@ namespace OSHGui
 		 * \param keyboard
 		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
+		bool ProcessKeyboardMessage(const KeyboardMessage &keyboard);
 		/**
 		 * Veranlasst das Control sich neu zu zeichnen.
 		 */

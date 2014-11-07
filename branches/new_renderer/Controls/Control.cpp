@@ -976,7 +976,7 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessKeyboardMessage(KeyboardMessage &keyboard)
+	bool Control::ProcessKeyboardMessage(const KeyboardMessage &keyboard)
 	{
 		if (canRaiseEvents_)
 		{

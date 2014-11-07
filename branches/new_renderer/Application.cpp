@@ -11,6 +11,7 @@
 #include "Drawing/TextureAnimator.hpp"
 #include "Misc/Exceptions.hpp"
 #include "FormManager.hpp"
+#include "Drawing/FontManager.hpp"
 #include "Cursor/Cursors.hpp"
 #include <algorithm>
 
@@ -204,7 +205,7 @@ namespace OSHGui
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessMouseMessage(MouseMessage &message)
+	bool Application::ProcessMouseMessage(const MouseMessage &message)
 	{
 		if (!isEnabled_)
 		{
@@ -270,7 +271,7 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
+	bool Application::ProcessKeyboardMessage(const KeyboardMessage &keyboard)
 	{
 		if (keyboard.GetState() == KeyboardState::KeyDown)
 		{
@@ -314,6 +315,13 @@ namespace OSHGui
 				(*it2)->InjectTime(now_);
 			}
 		}
+	}
+	//---------------------------------------------------------------------------
+	void Application::DisplaySizeChanged(const Drawing::SizeF &size)
+	{
+		Drawing::FontManager::DisplaySizeChanged(size);
+
+		renderer_->SetDisplaySize(size);
 	}
 	//---------------------------------------------------------------------------
 	void Application::Render()

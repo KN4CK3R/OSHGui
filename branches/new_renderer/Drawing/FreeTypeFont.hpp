@@ -95,9 +95,6 @@ namespace OSHGui
 			//! return whether the freetype font is rendered anti-aliased.
 			void SetAntiAliased(const bool antiAliased);
 
-			TexturePtr GetTexture() {
-				return glyphTextures[0]; };
-
 		protected:
 			/*!
 			\brief

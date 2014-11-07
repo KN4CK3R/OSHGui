@@ -21,8 +21,8 @@ namespace OSHGui
 			  descender(0.0f),
 			  height(0.0f),
 			  maximumCodepoint(0),
-			  scalingHorizontal(1),
-			  scalingVertical(1)
+			  scalingHorizontal(1.0f),
+			  scalingVertical(1.0f)
 		{
 			
 		}
@@ -142,6 +142,13 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
+		//---------------------------------------------------------------------------
+		void Font::DisplaySizeChanged(const SizeF &size)
+		{
+			//Image::ComputeScalingFactors(size, d_nativeResolution, scalingHorizontal, scalingVertical);
+
+			UpdateFont();
+		}
 		//---------------------------------------------------------------------------
 		float Font::DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra, const float scaleX, const float scaleY) const
 		{

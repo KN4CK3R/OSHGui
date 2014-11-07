@@ -106,5 +106,13 @@ namespace OSHGui
 			return std::make_shared<FreeTypeFont>(data, pointSize, antiAliased);
 		}
 		//---------------------------------------------------------------------------
+		void FontManager::DisplaySizeChanged(const SizeF &size)
+		{
+			for (auto &font : loadedFonts)
+			{
+				font.second.lock()->DisplaySizeChanged(size);
+			}
+		}
+		//---------------------------------------------------------------------------
 	}
 }

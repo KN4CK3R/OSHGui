@@ -44,6 +44,13 @@ namespace OSHGui
 			static FontPtr LoadFontFromFile(const Misc::AnsiString &file, float pointSize, bool antiAliased);
 			static FontPtr LoadFontFromMemory(const Misc::RawDataContainer &data, float pointSize, bool antiAliased);
 
+			/**
+			* Legt die Display-Größe fest.
+			*
+			* @param size
+			*/
+			static void DisplaySizeChanged(const SizeF &size);
+
 		private:
 			static std::unordered_map<Misc::AnsiString, std::weak_ptr<Drawing::Font>> loadedFonts;
 		};

@@ -144,6 +144,13 @@ namespace OSHGui
 			 */
 			const FontGlyph* GetGlyphData(uint32_t codepoint) const;
 
+			/**
+			* Legt die Display-Größe fest.
+			*
+			* @param size
+			*/
+			void DisplaySizeChanged(const SizeF &size);
+
 		protected:
 			/**
 			 * Konstruktor der Klasse.

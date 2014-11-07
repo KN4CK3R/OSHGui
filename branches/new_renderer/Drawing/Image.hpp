@@ -82,6 +82,7 @@ namespace OSHGui
 			 */
 			static std::shared_ptr<Image> FromBuffer(const void *data, const SizeF &size, Texture::PixelFormat format);
 
+			static void ComputeScalingFactors(const SizeF &displaySize, const SizeF &nativeDisplaySize, float &xScale, float &yScale);
 
 			virtual const SizeF& GetSize() const;
 			virtual const PointF& GetOffset() const;
