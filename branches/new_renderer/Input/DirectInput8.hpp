@@ -12,19 +12,16 @@
 //#include <Windows.h>
 #include <dinput.h>
 #include "../Drawing/Rectangle.hpp"
-#include "../Exports.hpp"
+#include "Input.hpp"
 
 namespace OSHGui
 {
-	class MouseMessage;
-	class KeyboardMessage;
-
 	namespace Input
 	{
 		/**
 		 * Verwaltet den Input von DirectInput8.
 		 */
-		class OSHGUI_EXPORT DirectInput8
+		class OSHGUI_EXPORT DirectInput8 : public Input
 		{
 		public:
 			DirectInput8();
@@ -42,12 +39,9 @@ namespace OSHGui
 			 */
 			bool ProcessDevices();
 
-		protected:
-			virtual bool InjectMouseMessage(MouseMessage &&mouse);
-			virtual bool InjectKeyboardMessage(KeyboardMessage &&keyboard);
-
 		private:
 			void ProcessMouseDevice();
+			void ProcessKeyboardDevice();
 
 			IDirectInput8 *directInputInterface;
 			IDirectInputDevice8A *keyboardDevice;

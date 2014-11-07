@@ -27,14 +27,14 @@ namespace OSHGui
 			}
 		}
 		//---------------------------------------------------------------------------
-		bool WindowsMessageThreaded::InjectMouseMessage(MouseMessage &&mouse)
+		bool WindowsMessageThreaded::InjectMouseMessage(const MouseMessage &mouse)
 		{
 			mouseMessages_.Push(mouse);
 
 			return false;
 		}
 		//---------------------------------------------------------------------------
-		bool WindowsMessageThreaded::InjectKeyboardMessage(KeyboardMessage &&keyboard)
+		bool WindowsMessageThreaded::InjectKeyboardMessage(const KeyboardMessage &keyboard)
 		{
 			keyboardMessages_.Push(keyboard);
 

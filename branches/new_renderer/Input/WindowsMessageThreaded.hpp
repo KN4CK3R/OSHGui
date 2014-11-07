@@ -27,8 +27,8 @@ namespace OSHGui
 			void PopulateMessages();
 
 		protected:
-			virtual bool InjectMouseMessage(MouseMessage &&mouse) override;
-			virtual bool InjectKeyboardMessage(KeyboardMessage &&keyboard) override;
+			virtual bool InjectMouseMessage(const MouseMessage &mouse) override;
+			virtual bool InjectKeyboardMessage(const KeyboardMessage &keyboard) override;
 
 		private:
 			typedef Misc::ConcurrendQueue<MouseMessage> MouseMessageQueue;

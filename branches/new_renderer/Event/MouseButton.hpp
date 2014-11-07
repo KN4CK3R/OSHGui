@@ -17,11 +17,11 @@ namespace OSHGui
 	enum class MouseButton
 	{
 		None = 0,
-		Left = 2,
-		Right = 4,
-		Middle = 8,
-		XButton1 = 16,
-		XButton2 = 32
+		Left,
+		Right,
+		Middle,
+		XButton1,
+		XButton2
 	};
 }
 

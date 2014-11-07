@@ -19,7 +19,7 @@ namespace OSHGui
 			: directInputInterface(nullptr),
 			  mouseDevice(nullptr),
 			  keyboardDevice(nullptr),
-			  lastMouseButtonStates{}
+			  lastMouseButtonStates()
 		{
 
 		}
@@ -84,7 +84,14 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		bool DirectInput8::ProcessDevices()
 		{
-			ProcessMouseDevice();
+			if (enableMouseInput)
+			{
+				ProcessMouseDevice();
+			}
+			if (enableKeyboardInput)
+			{
+				ProcessKeyboardDevice();
+			}
 
 			return true;
 		}
@@ -136,18 +143,13 @@ namespace OSHGui
 				{
 					InjectMouseMessage(MouseMessage((mouseState.rgbButtons[i] & 0x80) ? MouseState::Down : MouseState::Up, (MouseButton)((int)MouseButton::Left + i), mouseLocation, 0));
 				}
+				lastMouseButtonStates[i] = mouseState.rgbButtons[i];
 			}
-			std::memcpy(lastMouseButtonStates, mouseState.rgbButtons, 5);
 		}
 		//---------------------------------------------------------------------------
-		bool DirectInput8::InjectMouseMessage(MouseMessage &&mouse)
+		void DirectInput8::ProcessKeyboardDevice()
 		{
-			return Application::Instance().ProcessMouseMessage(mouse);
-		}
-		//---------------------------------------------------------------------------
-		bool DirectInput8::InjectKeyboardMessage(KeyboardMessage &&keyboard)
-		{
-			return Application::Instance().ProcessKeyboardMessage(keyboard);
+			//todo
 		}
 		//---------------------------------------------------------------------------
 	}

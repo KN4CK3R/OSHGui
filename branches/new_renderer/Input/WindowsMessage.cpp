@@ -16,21 +16,9 @@ namespace OSHGui
 	namespace Input
 	{
 		WindowsMessage::WindowsMessage()
-			: ImeWmCharsToIgnore_(0),
-			  enableMouseInput(true),
-			  enableKeyboardInput(true)
+			: ImeWmCharsToIgnore_(0)
 		{
 
-		}
-		//---------------------------------------------------------------------------
-		void WindowsMessage::SetMouseInputEnabled(bool enable)
-		{
-			enableMouseInput = enable;
-		}
-		//---------------------------------------------------------------------------
-		void WindowsMessage::SetKeyboardInputEnabled(bool enable)
-		{
-			enableKeyboardInput = enable;
 		}
 		//---------------------------------------------------------------------------
 		bool WindowsMessage::ProcessMessage(LPMSG message)
@@ -162,16 +150,6 @@ namespace OSHGui
 			}
 
 			return false;
-		}
-		//---------------------------------------------------------------------------
-		bool WindowsMessage::InjectMouseMessage(MouseMessage &&mouse)
-		{
-			return Application::Instance().ProcessMouseMessage(mouse);
-		}
-		//---------------------------------------------------------------------------
-		bool WindowsMessage::InjectKeyboardMessage(KeyboardMessage &&keyboard)
-		{
-			return Application::Instance().ProcessKeyboardMessage(keyboard);
 		}
 		//---------------------------------------------------------------------------
 	}
