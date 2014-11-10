@@ -82,7 +82,7 @@ namespace OSHGui
 
 			for (auto c : text)
 			{
-				auto glyph = GetGlyphData(c);
+				auto glyph = GetGlyphData((unsigned char)c);
 				if (glyph)
 				{
 					auto width = glyph->GetRenderedAdvance(scaleX);
@@ -105,7 +105,7 @@ namespace OSHGui
 
 			for (auto c : text)
 			{
-				if (auto glyph = GetGlyphData(c))
+				if (auto glyph = GetGlyphData((unsigned char)c))
 				{
 					advance += glyph->GetAdvance(scaleX);
 				}
@@ -126,7 +126,7 @@ namespace OSHGui
 
 			for (auto c = start; c < length; ++c)
 			{
-				auto glyph = GetGlyphData(text[c]);
+				auto glyph = GetGlyphData((unsigned char)text[c]);
 				if (glyph)
 				{
 					current += glyph->GetAdvance(scaleX);
@@ -157,7 +157,7 @@ namespace OSHGui
 
 			for (auto c : text)
 			{
-				if (auto glyph = GetGlyphData(c))
+				if (auto glyph = GetGlyphData((unsigned char)c))
 				{
 					auto image = glyph->GetImage();
 					glyphPosition.Y = base - (image->GetOffset().Y - image->GetOffset().Y * scaleY);

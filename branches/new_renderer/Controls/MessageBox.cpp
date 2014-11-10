@@ -42,7 +42,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction)
 	{
-		std::shared_ptr<MessageBoxForm> messageBox(new MessageBoxForm(text, caption, buttons));
+		auto messageBox = std::make_shared<MessageBoxForm>(text, caption, buttons);
 		
 		messageBox->ShowDialog(messageBox, [messageBox, closeFunction]()
 		{
@@ -218,6 +218,11 @@ namespace OSHGui
 			button->SetLocation(GetWidth() - (i + 1) * (button->GetWidth() + 10) , GetHeight() - button->GetHeight() - 25);
 
 			AddControl(button);
+
+			if (i == 0)
+			{
+				button->Focus();
+			}
 		}
 	}
 	//---------------------------------------------------------------------------

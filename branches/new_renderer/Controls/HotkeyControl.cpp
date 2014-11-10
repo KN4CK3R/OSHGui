@@ -188,13 +188,13 @@ namespace OSHGui
 			HotkeyNames[Key::LaunchApplication2] = EnumToString(LaunchApplication2);
 			HotkeyNames[Key::Oem1] = EnumToString(Oem1);
 			HotkeyNames[Key::OemSemicolon] = EnumToString(OemSemicolon);
-			HotkeyNames[Key::Oemplus] = EnumToString(Oemplus);
-			HotkeyNames[Key::Oemcomma] = EnumToString(Oemcomma);
+			HotkeyNames[Key::OemPlus] = EnumToString(OemPlus);
+			HotkeyNames[Key::OemComma] = EnumToString(OemComma);
 			HotkeyNames[Key::OemMinus] = EnumToString(OemMinus);
 			HotkeyNames[Key::OemPeriod] = EnumToString(OemPeriod);
 			HotkeyNames[Key::OemQuestion] = EnumToString(OemQuestion);
 			HotkeyNames[Key::Oem2] = EnumToString(Oem2);
-			HotkeyNames[Key::Oemtilde] = EnumToString(Oemtilde);
+			HotkeyNames[Key::OemTilde] = EnumToString(OemTilde);
 			HotkeyNames[Key::Oem3] = EnumToString(Oem3);
 			HotkeyNames[Key::Oem4] = EnumToString(Oem4);
 			HotkeyNames[Key::OemOpenBrackets] = EnumToString(OemOpenBrackets);
