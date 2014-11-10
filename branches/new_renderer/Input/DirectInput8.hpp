@@ -9,10 +9,12 @@
 #ifndef OSHGUI_INPUT_DIRECTINPUT8_HPP
 #define OSHGUI_INPUT_DIRECTINPUT8_HPP
 
-//#include <Windows.h>
+#include <array>
 #include <dinput.h>
-#include "../Drawing/Rectangle.hpp"
 #include "Input.hpp"
+#include "../Drawing/Rectangle.hpp"
+#include "../Misc/Strings.hpp"
+#include "../Event/Key.hpp"
 
 namespace OSHGui
 {
@@ -43,6 +45,10 @@ namespace OSHGui
 			void ProcessMouseDevice();
 			void ProcessKeyboardDevice();
 
+			static bool IsKeyLocked(int key);
+
+			int TryConvertDIKey(BYTE dik, Misc::AnsiChar *chars);
+
 			IDirectInput8 *directInputInterface;
 			IDirectInputDevice8A *keyboardDevice;
 			IDirectInputDevice8A *mouseDevice;
@@ -50,6 +56,21 @@ namespace OSHGui
 			Drawing::RectangleI mouseClipArea;
 			Drawing::PointI mouseLocation;
 			BYTE lastMouseButtonStates[5];
+
+			static DWORD InitialRepeatTime;
+			static DWORD HoldRepeatTime;
+			static Key DIKToKeyTable[0xEF];
+			
+			HKL keyLayout;
+			struct KeyState
+			{
+			public:
+				bool KeyHold;
+				BYTE LastState;
+				DWORD LastTime;
+			};
+			KeyState keyStates[0xEF];
+			std::array<BYTE, 256> fakeBuffer;
 		};
 	}
 }
