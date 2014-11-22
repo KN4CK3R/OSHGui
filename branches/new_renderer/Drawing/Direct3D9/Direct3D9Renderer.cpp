@@ -190,7 +190,6 @@ namespace OSHGui
 		{
 			stateBlock->Capture();
 
-			device->GetScissorRect(&oldScissorRect);
 			RECT noScissor = { 0, 0, displaySize.Width, displaySize.Height };
 			device->SetScissorRect(&noScissor);
 
@@ -239,8 +238,6 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::EndRendering()
 		{
-			device->SetScissorRect(&oldScissorRect);
-
 			stateBlock->Apply();
 		}
 		//---------------------------------------------------------------------------
