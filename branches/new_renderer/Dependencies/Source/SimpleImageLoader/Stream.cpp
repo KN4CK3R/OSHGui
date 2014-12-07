@@ -9,7 +9,7 @@ namespace SimpleImageLoader
 
 	}
 	//---------------------------------------------------------------------------
-	void Stream::Seek(int32_t offset, SeekPosition position)
+	void Stream::Seek(size_t offset, SeekPosition position)
 	{
 		if (position == SeekPosition::Begin)
 		{
@@ -40,7 +40,7 @@ namespace SimpleImageLoader
 		}
 	}
 	//---------------------------------------------------------------------------
-	uint32_t Stream::Read(void *dst, uint32_t size, uint32_t count)
+	size_t Stream::Read(void *dst, size_t size, size_t count)
 	{
 		auto i = 0u;
 		for (; i < count; ++i)

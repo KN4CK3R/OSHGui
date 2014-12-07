@@ -17,10 +17,10 @@ namespace SimpleImageLoader
 
 		Stream(const RawData &data);
 
-		void Seek(int32_t offset, SeekPosition position);
+		void Seek(size_t offset, SeekPosition position);
 
 		template<typename T>
-		inline void Read(T *dst, uint32_t count)
+		inline void Read(T *dst, size_t count)
 		{
 			auto size = sizeof(T)* count;
 			if (offset_ + size > data_.size())
@@ -33,11 +33,11 @@ namespace SimpleImageLoader
 			offset_ += size;
 		}
 
-		uint32_t Read(void *dst, uint32_t size, uint32_t count);
+		size_t Read(void *dst, size_t size, size_t count);
 
 	private:
 		const RawData &data_;
-		uint32_t offset_;
+		size_t offset_;
 	};
 }
 
