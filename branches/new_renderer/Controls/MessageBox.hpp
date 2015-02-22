@@ -59,9 +59,9 @@ namespace OSHGui
 		static void Show(const Misc::AnsiString &text);
 		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption);
 		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons);
-		static void Show(const Misc::AnsiString &text, std::function<void(DialogResult result)> closeFunction);
-		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, std::function<void(DialogResult result)> closeFunction);
-		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction);
+		static void ShowDialog(const Misc::AnsiString &text, const std::function<void(DialogResult result)> &closeFunction);
+		static void ShowDialog(const Misc::AnsiString &text, const Misc::AnsiString &caption, const std::function<void(DialogResult result)> &closeFunction);
+		static void ShowDialog(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, const std::function<void(DialogResult result)> &closeFunction);
 
 	private:
 		class MessageBoxForm : public Form

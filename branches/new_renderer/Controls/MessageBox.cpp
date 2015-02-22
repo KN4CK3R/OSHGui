@@ -27,20 +27,20 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
 	{
-		Show(text, caption, buttons, std::function<void(DialogResult result)>());
+		ShowDialog(text, caption, buttons, std::function<void(DialogResult result)>());
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::AnsiString &text, std::function<void(DialogResult result)> closeFunction)
+	void MessageBox::ShowDialog(const Misc::AnsiString &text, const std::function<void(DialogResult result)> &closeFunction)
 	{
-		Show(text, "", closeFunction);
+		ShowDialog(text, Misc::AnsiString(), closeFunction);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, std::function<void(DialogResult result)> closeFunction)
+	void MessageBox::ShowDialog(const Misc::AnsiString &text, const Misc::AnsiString &caption, const std::function<void(DialogResult result)> &closeFunction)
 	{
-		Show(text, caption, MessageBoxButtons::OK, closeFunction);
+		ShowDialog(text, caption, MessageBoxButtons::OK, closeFunction);
 	}
 	//---------------------------------------------------------------------------
-	void MessageBox::Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction)
+	void MessageBox::ShowDialog(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, const std::function<void(DialogResult result)> &closeFunction)
 	{
 		auto messageBox = std::make_shared<MessageBoxForm>(text, caption, buttons);
 		
@@ -55,7 +55,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons) : Form()
+	MessageBox::MessageBoxForm::MessageBoxForm(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons)
 	{
 		InitializeComponent(text, caption, buttons);
 	}
