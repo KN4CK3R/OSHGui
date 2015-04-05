@@ -261,7 +261,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
 	{
-		InsertItem(listBox_->GetItemsCount() > 0 ? listBox_->GetItemsCount() : 0, text);
+		InsertItem(listBox_->GetItemsCount(), text);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::InsertItem(int index, const Misc::AnsiString &text)
