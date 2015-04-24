@@ -99,7 +99,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextHelper::RefreshSize()
 		{
-			size_ = GetStringWidth(0);
+			size_ = GetStringSize(0);
 		}
 		//---------------------------------------------------------------------------
 		Drawing::PointF TextHelper::GetCharacterPosition(int index, bool trailing) const
@@ -122,7 +122,7 @@ namespace OSHGui
 			return Drawing::PointF(size.Width, size.Height);//Drawing::PointF(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::SizeF TextHelper::GetStringWidth(int index, int size) const
+		Drawing::SizeF TextHelper::GetStringSize(int index, int size) const
 		{
 			if (GetLength() == 0 || size == 0)
 			{

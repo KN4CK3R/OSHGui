@@ -23,6 +23,7 @@ namespace OSHGui
 		: textHelper_(GetFont()),
 		  blinkTime_(Misc::TimeSpan::FromMilliseconds(500)),
 		  firstVisibleCharacter_(0),
+		  visibleCharacterCount_(0),
 		  caretPosition_(0),
 		  passwordChar_('\0'),
 		  showCaret_(true)
@@ -166,10 +167,11 @@ namespace OSHGui
 			firstVisibleCharacter_ = newFirstVisibleCharacter;
 		}
 
-		Drawing::SizeI strWidth = textHelper_.GetStringWidth(firstVisibleCharacter_, caretPosition_ - firstVisibleCharacter_);
+		Drawing::SizeI strWidth = textHelper_.GetStringSize(firstVisibleCharacter_, caretPosition_ - firstVisibleCharacter_);
 		caretRect_ = Drawing::RectangleI(textRect_.GetLeft() + strWidth.Width, textRect_.GetTop(), 1, textRect_.GetHeight());
 
 		ResetCaretBlink();
+		visibleCharacterCount_ = CalculateVisibleCharacters();
 
 		Invalidate();
 	}
@@ -202,7 +204,7 @@ namespace OSHGui
 			}
 		}
 
-		g.DrawString(textHelper_.GetText().substr(firstVisibleCharacter_), GetFont(), GetForeColor(), textRect_.GetLocation());
+		g.DrawString(textHelper_.GetText().substr(firstVisibleCharacter_, visibleCharacterCount_), GetFont(), GetForeColor(), textRect_.GetLocation());
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -211,7 +213,7 @@ namespace OSHGui
 	{
 		Control::OnMouseDown(mouse);
 
-		Drawing::SizeI strWidth = textHelper_.GetStringWidth(0, firstVisibleCharacter_);
+		Drawing::SizeI strWidth = textHelper_.GetStringSize(0, firstVisibleCharacter_);
 		PlaceCaret(textHelper_.GetClosestCharacterIndex(mouse.GetLocation() - absoluteLocation_ + Drawing::PointI(strWidth.Width - 7, 0)) - 1);
 	}
 	//---------------------------------------------------------------------------
@@ -274,7 +276,7 @@ namespace OSHGui
 					}
 					else
 					{
-						textHelper_.Insert(caretPosition_, '*');
+						textHelper_.Insert(caretPosition_, passwordChar_);
 					}
 					PlaceCaret(++caretPosition_);
 
@@ -289,6 +291,30 @@ namespace OSHGui
 	void TextBox::OnTextChanged()
 	{
 		textChangedEvent_.Invoke(this);
+		visibleCharacterCount_ = CalculateVisibleCharacters();
+	}
+	//---------------------------------------------------------------------------
+	int TextBox::CalculateVisibleCharacters()
+	{
+		int visibleCharacters = textHelper_.GetLength() - firstVisibleCharacter_;
+
+		if (textHelper_.GetStringSize(firstVisibleCharacter_, visibleCharacters).Width > textRect_.GetWidth())
+		{
+			float averageWidth = textHelper_.GetSize().Width / (float)textHelper_.GetLength();
+			visibleCharacters = (float)textRect_.GetWidth() / averageWidth;
+
+			if (textHelper_.GetStringSize(firstVisibleCharacter_, visibleCharacters).Width > textRect_.GetWidth())
+			{
+				while (textHelper_.GetStringSize(firstVisibleCharacter_, --visibleCharacters).Width > textRect_.GetWidth());
+			}
+			else
+			{
+				while (textHelper_.GetStringSize(firstVisibleCharacter_, ++visibleCharacters).Width <= textRect_.GetWidth());
+				--visibleCharacters;
+			}
+		}
+
+		return visibleCharacters;
 	}
 	//---------------------------------------------------------------------------
 }

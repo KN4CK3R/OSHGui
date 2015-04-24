@@ -97,6 +97,7 @@ namespace OSHGui
 
 		void ResetCaretBlink();
 		void PlaceCaret(int position);
+		int CalculateVisibleCharacters();
 			
 		Misc::TextHelper textHelper_;
 		
@@ -112,6 +113,7 @@ namespace OSHGui
 		Misc::DateTime nextBlinkTime_;
 		int caretPosition_;
 		int firstVisibleCharacter_;
+		int visibleCharacterCount_;
 
 		TextChangedEvent textChangedEvent_;
 	};

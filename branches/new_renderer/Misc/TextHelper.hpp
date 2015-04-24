@@ -116,13 +116,13 @@ namespace OSHGui
 			 */
 			Drawing::PointF GetCharacterPosition(int index, bool trailing = false) const;
 			/**
-			 * Gibt die Weite eines Teilstrings zurück.
+			 * Gibt die Größe eines Teilstrings zurück.
 			 *
 			 * \param index der Startindex
 			 * \param size die Länge der Zeichenkette. -1 = bis zum Ende (default: -1)
 			 * \return die Größe
 			 */
-			Drawing::SizeF GetStringWidth(int index, int size = -1) const;
+			Drawing::SizeF GetStringSize(int index, int size = -1) const;
 			/**
 			 * Gibt den Index des Zeichens zurück, das der Position am nächsten steht.
 			 *
