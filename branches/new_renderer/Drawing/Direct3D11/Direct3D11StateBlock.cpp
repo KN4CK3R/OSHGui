@@ -39,6 +39,7 @@ namespace OSHGui
 			std::memset(_samplerState, 0, sizeof(_samplerState));
 			std::memset(_PSSRV, 0, sizeof(_PSSRV));
 			std::memset(_constantBuffers, 0, sizeof(_constantBuffers));
+			std::memset(_RTView, 0, sizeof(_RTView));
 			std::memset(_DSSamplers, 0, sizeof(_DSSamplers));
 			std::memset(_VB, 0, sizeof(_VB));
 			std::memset(_vertexStride, 0, sizeof(_vertexStride));
