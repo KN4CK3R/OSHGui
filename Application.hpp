@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -11,7 +11,9 @@
 
 #include <memory>
 #include <vector>
-#include "Drawing/IRenderer.hpp"
+#include "Drawing/Renderer.hpp"
+#include "Drawing/RenderContext.hpp"
+#include "Drawing/Font.hpp"
 #include "Drawing/Theme.hpp"
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"
@@ -19,14 +21,12 @@
 #include "Event/KeyboardMessage.hpp"
 #include "Exports.hpp"
 #include "FormManager.hpp"
-#include "TimerManager.hpp"
 #include "Event/Hotkey.hpp"
 
 namespace OSHGui
 {
 	class Control;
 	class Form;
-	class Timer;
 	
 	/**
 	 * Stellt Methoden und Eigenschaften für die Verwaltung einer
@@ -37,15 +37,16 @@ namespace OSHGui
 	{
 		friend Control;
 		friend Form;
-		friend Timer;
 
 	public:
+		class GuiRenderSurface;
+
 		/**
 		 * Initialisiert die Application-Klasse.
 		 *
-		 * @param renderer Instanz des verwendeten Renderers
+		 * \param renderer Instanz des verwendeten Renderers
 		 */
-		void Create(Drawing::IRenderer *renderer);
+		static void Initialize(std::unique_ptr<Drawing::Renderer> &&renderer);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -56,40 +57,78 @@ namespace OSHGui
 		/**
 		 * Ruft die aktuelle Uhrzeit ab.
 		 *
-		 * @return DateTime::Now
+		 * \return DateTime::Now
 		 */
 		const Misc::DateTime& GetNow() const;
+
 		/**
 		 * Ruft den verwendeten Renderer ab.
 		 *
-		 * @return renderer
+		 * \return renderer
 		 */
-		Drawing::IRenderer* GetRenderer() const;
+		Drawing::Renderer& GetRenderer() const;
+		/**
+		 * Ruft das RenderSurface der Gui ab.
+		 *
+		 * \return GuiRenderSurface
+		 */
+		GuiRenderSurface& GetRenderSurface();
+		/**
+		 * Legt die Display-Größe fest.
+		 *
+		 * @param size
+		 */
+		void DisplaySizeChanged(const Drawing::SizeF &size);
+		
+		/**
+		 * Legt die Standardschrift für das Gui fest.
+		 *
+		 * \param font Standardschrift
+		 */
+		void SetDefaultFont(const Drawing::FontPtr &font);
+		/**
+		 * Ruft die Standardschrift für das Gui ab.
+		 *
+		 * \return Standardschrift
+		 */
+		Drawing::FontPtr& GetDefaultFont();
+		
 		/**
 		 * Ruft die aktuelle Mausposition ab.
 		 *
-		 * @return cursorLocation
+		 * \return cursorLocation
 		 */
-		const Drawing::Point& GetCursorLocation() const;
+		const Drawing::PointF& GetCursorLocation() const;
 		/**
 		 * Ruft den Cursor ab.
 		 *
-		 * @return cursor
+		 * \return cursor
 		 */
 		const std::shared_ptr<Cursor>& GetCursor() const;
 		/**
 		 * Legt den Cursor fest.
 		 *
-		 * @param cursor
+		 * \param cursor
 		 */
 		void SetCursor(const std::shared_ptr<Cursor> &cursor);
 		/**
 		 * Legt fest, ob der Cursor gezeichnet werden soll.
 		 *
-		 * @param enabled
+		 * \param enabled
 		 */
 		void SetCursorEnabled(bool enabled);
+		
+		/**
+		 * Legt das Theme für das Gui fest.
+		 *
+		 * \param theme Theme
+		 */
 		void SetTheme(const Drawing::Theme &theme);
+		/**
+		 * Ruft das Theme für das Gui ab.
+		 *
+		 * \return Theme
+		 */
 		const Drawing::Theme& GetTheme() const;
 	
 		/**
@@ -104,26 +143,28 @@ namespace OSHGui
 		 * Wechselt zwischen Enabled und Disabled.
 		 */
 		void Toggle();
+
 		/**
 		 * Legt die Hauptform des GUI fest.
 		 *
-		 * @param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird
+		 * \param mainForm die Hauptform, die angezeigt wird, sobald das GUI aktiviert wird
 		 */
 		void Run(const std::shared_ptr<Form> &mainForm);
 		/**
 		 * Gibt eine MouseMessage an die geöffneten Formen weiter.
 		 *
-		 * @param mouse
-		 * @return true, falls die Nachricht verarbeitet wurde
+		 * \param mouse
+		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessMouseMessage(MouseMessage &mouse);
+		bool ProcessMouseMessage(const MouseMessage &mouse);
 		/**
 		 * Gibt eine KeyboardMessage an die geöffneten Formen weiter.
 		 *
-		 * @param keyboard
-		 * @return true, falls die Nachricht verarbeitet wurde
+		 * \param keyboard
+		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessKeyboardMessage(KeyboardMessage &keyboard);
+		bool ProcessKeyboardMessage(const KeyboardMessage &keyboard);
+		
 		/**
 		 * Zeichnet die geöffneten Formen.
 		 */
@@ -132,50 +173,76 @@ namespace OSHGui
 		/**
 		 * Registriert einen neuen Hotkey.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		void RegisterHotkey(const Hotkey &hotkey);
 		/**
 		 * Entfernt einen Hotkey.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
 		void UnregisterHotkey(const Hotkey &hotkey);
 		
 		/**
 		 * Ruft die aktuelle Instanz der Application ab.
 		 *
-		 * @return instance
+		 * \return instance
 		 */
-		static Application* Instance();
+		static Application& Instance();
+		static Application* InstancePtr();
+
+		static bool HasBeenInitialized();
+
+		class GuiRenderSurface : public Drawing::RenderSurface
+		{
+		public:
+			GuiRenderSurface(Drawing::RenderTarget &target);
+
+			void Invalidate();
+
+			virtual void Draw() override;
+
+		private:
+			friend void Application::Render();
+
+			bool needsRedraw_;
+		};
 
 	private:
 		static Application *instance;
-		Application();
+		Application(std::unique_ptr<Drawing::Renderer> &&renderer);
+
+		//copying prohibited
+		Application(const Application&);
+		void operator=(const Application&);
+
+		void InjectTime();
+
+		std::unique_ptr<Drawing::Renderer> renderer_;
+		GuiRenderSurface guiSurface_;
+		Drawing::FontPtr defaultFont_;
 		
-		Drawing::IRenderer *renderer;
-		Drawing::Theme defaultTheme;
-		Drawing::Theme currentTheme;
+		Drawing::Theme defaultTheme_;
+		Drawing::Theme currentTheme_;
 	
-		FormManager formManager;
-		TimerManager timerManager;
+		FormManager formManager_;
 		
-		Misc::DateTime now;
+		Misc::DateTime now_;
 
 		struct
 		{
-			Drawing::Point Location;
+			Drawing::PointF Location;
 			std::shared_ptr<Cursor> Cursor;
 			bool Enabled;
-		} mouse;
+		} mouse_;
 
-		std::vector<Hotkey> hotkeys;
+		std::vector<Hotkey> hotkeys_;
 
 		Control *FocusedControl;
 		Control *CaptureControl;
 		Control *MouseEnteredControl;
 
-		bool isEnabled;
+		bool isEnabled_;
 	};
 }
 

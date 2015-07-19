@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -23,22 +23,11 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		LinkLabel();
-		virtual ~LinkLabel();
-		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
+
+	protected:
+		virtual void PopulateGeometry() override;
 	};
 }
 

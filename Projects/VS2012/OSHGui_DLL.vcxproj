@@ -59,20 +59,19 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ThirdParty\JsonCpp\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_VARIADIC_MAX=10;NOMINMAX;WIN32_LEAN_AND_MEAN;OSHGUI_COMPILE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..;..\..\Dependencies\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2012</AdditionalLibraryDirectories>
-      <AdditionalDependencies>jsoncpp_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Lib\x86</AdditionalLibraryDirectories>
     </Link>
     <Lib>
-      <AdditionalDependencies>jsoncpp_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp_d.lib;freetype_d.lib;simpleimageloader_d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Lib\x86</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,16 +82,16 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ThirdParty\JsonCpp\Include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_VARIADIC_MAX=10;NOMINMAX;WIN32_LEAN_AND_MEAN;OSHGUI_COMPILE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..;..\..\Dependencies\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\ThirdParty\JsonCpp\Lib\VS2012</AdditionalLibraryDirectories>
-      <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Lib\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>jsoncpp.lib;freetype.lib;simpleimageloader.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -102,7 +101,6 @@
     <ClInclude Include="..\..\Controls\ColorBar.hpp" />
     <ClInclude Include="..\..\Controls\ColorPicker.hpp" />
     <ClInclude Include="..\..\Controls\ComboBox.hpp" />
-    <ClInclude Include="..\..\Controls\ContainerControl.hpp" />
     <ClInclude Include="..\..\Controls\Control.hpp" />
     <ClInclude Include="..\..\Controls\Form.hpp" />
     <ClInclude Include="..\..\Controls\GroupBox.hpp" />
@@ -130,15 +128,31 @@
     <ClInclude Include="..\..\Cursor\Pipette.hpp" />
     <ClInclude Include="..\..\Cursor\Wait.hpp" />
     <ClInclude Include="..\..\Drawing\Color.hpp" />
+    <ClInclude Include="..\..\Drawing\ColorRectangle.hpp" />
+    <ClInclude Include="..\..\Drawing\CustomizableImage.hpp" />
+    <ClInclude Include="..\..\Drawing\Font.hpp" />
+    <ClInclude Include="..\..\Drawing\FontGlyph.hpp" />
+    <ClInclude Include="..\..\Drawing\FontManager.hpp" />
+    <ClInclude Include="..\..\Drawing\FreeTypeFont.hpp" />
+    <ClInclude Include="..\..\Drawing\GeometryBuffer.hpp" />
     <ClInclude Include="..\..\Drawing\Graphics.hpp" />
-    <ClInclude Include="..\..\Drawing\IFont.hpp" />
-    <ClInclude Include="..\..\Drawing\IRenderer.hpp" />
-    <ClInclude Include="..\..\Drawing\ITexture.hpp" />
+    <ClInclude Include="..\..\Drawing\Image.hpp" />
+    <ClInclude Include="..\..\Drawing\ImageGraphics.hpp" />
+    <ClInclude Include="..\..\Drawing\ImageLoader.hpp" />
     <ClInclude Include="..\..\Drawing\Point.hpp" />
+    <ClInclude Include="..\..\Drawing\Quaternion.hpp" />
     <ClInclude Include="..\..\Drawing\Rectangle.hpp" />
+    <ClInclude Include="..\..\Drawing\RenderContext.hpp" />
+    <ClInclude Include="..\..\Drawing\Renderer.hpp" />
+    <ClInclude Include="..\..\Drawing\RenderQueue.hpp" />
+    <ClInclude Include="..\..\Drawing\RenderSurface.hpp" />
+    <ClInclude Include="..\..\Drawing\RenderTarget.hpp" />
     <ClInclude Include="..\..\Drawing\Size.hpp" />
-    <ClInclude Include="..\..\Drawing\TextureAnimator.hpp" />
+    <ClInclude Include="..\..\Drawing\Texture.hpp" />
+    <ClInclude Include="..\..\Drawing\TextureTarget.hpp" />
     <ClInclude Include="..\..\Drawing\Theme.hpp" />
+    <ClInclude Include="..\..\Drawing\Vector.hpp" />
+    <ClInclude Include="..\..\Drawing\Vertex.hpp" />
     <ClInclude Include="..\..\Event\Event.hpp" />
     <ClInclude Include="..\..\Event\EventHandler.hpp" />
     <ClInclude Include="..\..\Event\Hotkey.hpp" />
@@ -146,23 +160,26 @@
     <ClInclude Include="..\..\Event\KeyboardMessage.hpp" />
     <ClInclude Include="..\..\Event\KeyEventArgs.hpp" />
     <ClInclude Include="..\..\Event\KeyPressEventArgs.hpp" />
+    <ClInclude Include="..\..\Event\MouseButton.hpp" />
     <ClInclude Include="..\..\Event\MouseEventArgs.hpp" />
     <ClInclude Include="..\..\Event\MouseMessage.hpp" />
     <ClInclude Include="..\..\Event\ScrollEventArgs.hpp" />
     <ClInclude Include="..\..\Exports.hpp" />
     <ClInclude Include="..\..\FormManager.hpp" />
+    <ClInclude Include="..\..\Input\Input.hpp" />
     <ClInclude Include="..\..\Input\WindowsMessage.hpp" />
     <ClInclude Include="..\..\Input\WindowsMessageThreaded.hpp" />
-    <ClInclude Include="..\..\Intersection.hpp" />
     <ClInclude Include="..\..\Misc\Any.hpp" />
-    <ClInclude Include="..\..\Misc\ConcurrendBoundedBuffer.hpp" />
+    <ClInclude Include="..\..\Misc\ConcurrendQueue.hpp" />
     <ClInclude Include="..\..\Misc\DateTime.hpp" />
     <ClInclude Include="..\..\Misc\Exceptions.hpp" />
+    <ClInclude Include="..\..\Misc\Intersection.hpp" />
+    <ClInclude Include="..\..\Misc\RawDataContainer.hpp" />
+    <ClInclude Include="..\..\Misc\ReverseIterator.hpp" />
     <ClInclude Include="..\..\Misc\Strings.hpp" />
     <ClInclude Include="..\..\Misc\TextHelper.hpp" />
     <ClInclude Include="..\..\Misc\TimeSpan.hpp" />
     <ClInclude Include="..\..\OSHGui.hpp" />
-    <ClInclude Include="..\..\TimerManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Application.cpp" />
@@ -171,7 +188,6 @@
     <ClCompile Include="..\..\Controls\ColorBar.cpp" />
     <ClCompile Include="..\..\Controls\ColorPicker.cpp" />
     <ClCompile Include="..\..\Controls\ComboBox.cpp" />
-    <ClCompile Include="..\..\Controls\ContainerControl.cpp" />
     <ClCompile Include="..\..\Controls\Control.cpp" />
     <ClCompile Include="..\..\Controls\Form.cpp" />
     <ClCompile Include="..\..\Controls\GroupBox.cpp" />
@@ -199,23 +215,31 @@
     <ClCompile Include="..\..\Cursor\Pipette.cpp" />
     <ClCompile Include="..\..\Cursor\Wait.cpp" />
     <ClCompile Include="..\..\Drawing\Color.cpp" />
+    <ClCompile Include="..\..\Drawing\ColorRectangle.cpp" />
+    <ClCompile Include="..\..\Drawing\CustomizableImage.cpp" />
+    <ClCompile Include="..\..\Drawing\Font.cpp" />
+    <ClCompile Include="..\..\Drawing\FontManager.cpp" />
+    <ClCompile Include="..\..\Drawing\FreeTypeFont.cpp" />
+    <ClCompile Include="..\..\Drawing\GeometryBuffer.cpp" />
     <ClCompile Include="..\..\Drawing\Graphics.cpp" />
-    <ClCompile Include="..\..\Drawing\IRenderer.cpp" />
-    <ClCompile Include="..\..\Drawing\ITexture.cpp" />
-    <ClCompile Include="..\..\Drawing\Point.cpp" />
-    <ClCompile Include="..\..\Drawing\Rectangle.cpp" />
-    <ClCompile Include="..\..\Drawing\Size.cpp" />
-    <ClCompile Include="..\..\Drawing\TextureAnimator.cpp" />
+    <ClCompile Include="..\..\Drawing\Image.cpp" />
+    <ClCompile Include="..\..\Drawing\ImageGraphics.cpp" />
+    <ClCompile Include="..\..\Drawing\ImageLoader.cpp" />
+    <ClCompile Include="..\..\Drawing\RenderQueue.cpp" />
+    <ClCompile Include="..\..\Drawing\RenderSurface.cpp" />
+    <ClCompile Include="..\..\Drawing\RenderTarget.cpp" />
     <ClCompile Include="..\..\Drawing\Theme.cpp" />
+    <ClCompile Include="..\..\Drawing\Vector.cpp" />
     <ClCompile Include="..\..\FormManager.cpp" />
+    <ClCompile Include="..\..\Input\Input.cpp" />
     <ClCompile Include="..\..\Input\WindowsMessage.cpp" />
     <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp" />
     <ClCompile Include="..\..\Misc\DateTime.cpp" />
     <ClCompile Include="..\..\Misc\Exceptions.cpp" />
+    <ClCompile Include="..\..\Misc\RawDataContainer.cpp" />
     <ClCompile Include="..\..\Misc\Strings.cpp" />
     <ClCompile Include="..\..\Misc\TextHelper.cpp" />
     <ClCompile Include="..\..\Misc\TimeSpan.cpp" />
-    <ClCompile Include="..\..\TimerManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

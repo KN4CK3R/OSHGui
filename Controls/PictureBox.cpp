@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -15,89 +15,73 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size PictureBox::DefaultSize(100, 100);
+	const Drawing::SizeI PictureBox::DefaultSize(100, 100);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	PictureBox::PictureBox()
-		: stretch(false)
+		: stretch_(false)
 	{
-		type = CONTROL_PICTUREBOX;
+		type_ = ControlType::PictureBox;
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
-		isFocusable = false;
-	}
-	//---------------------------------------------------------------------------
-	PictureBox::~PictureBox()
-	{
-	
+		isFocusable_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void PictureBox::SetImage(const std::shared_ptr<Drawing::ITexture> &image)
+	void PictureBox::SetImage(const Drawing::ImagePtr &image)
 	{
-		if (this->image != nullptr)
-		{
-			Drawing::TextureAnimator::StopAnimate(this->image);
-		}
-		
-		this->image = image;
-		
-		if (this->image != nullptr)
-		{
-			Drawing::TextureAnimator::Animate(this->image, Drawing::TextureAnimator::Loop);
-		}
+		image_ = image;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	std::shared_ptr<Drawing::ITexture>& PictureBox::GetImage()
+	Drawing::ImagePtr& PictureBox::GetImage()
 	{
-		return image;
+		return image_;
 	}
 	//---------------------------------------------------------------------------
 	void PictureBox::SetStretch(bool stretch)
 	{
-		this->stretch = stretch;
+		stretch_ = stretch;
+		if (image_)
+		{
+			Invalidate();
+		}
 	}
 	//---------------------------------------------------------------------------
 	bool PictureBox::GetStretch() const
 	{
-		return stretch;
+		return stretch_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool PictureBox::Intersect(const Drawing::Point &point) const
+	void PictureBox::PopulateGeometry()
 	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
-	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void PictureBox::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
+		using namespace Drawing;
+
+		Graphics g(*geometry_);
+
+		if (GetBackColor().GetAlpha() > 0)
 		{
-			return;
+			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}
-	
-		if (backColor.A != 0)
+
+		if (image_)
 		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
-		
-		if (image != nullptr)
-		{
-			Drawing::Size renderSize = size;
-			if (!stretch && image->GetSize() < size)
+			if (stretch_)
 			{
-				renderSize = image->GetSize();
+				g.DrawImage(image_, Color::White(), RectangleF(PointF(0, 0), GetSize()));
 			}
-			renderer->RenderTexture(image, absoluteLocation, renderSize);
+			else
+			{
+				g.DrawImage(image_, Color::White(), PointF(0, 0), RectangleF(PointF(0, 0), GetSize()));
+			}
 		}
 	}
 	//---------------------------------------------------------------------------

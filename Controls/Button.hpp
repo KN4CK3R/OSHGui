@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -26,74 +26,63 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		Button();
-		virtual ~Button();
 
 		/**
 		 * Legt fest, ob sich die Größe des Steuerelements automatisch an dessen Inhalt anpasst.
 		 *
-		 * @param autoSize
+		 * \param autoSize
 		 */
 		virtual void SetAutoSize(bool autoSize) override;
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation() override;
-		
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	protected:
 		virtual void CalculateLabelLocation();
+		
+		virtual void PopulateGeometry();
 
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
-		Label *label;
+		std::unique_ptr<Label> label_;
 
 	private:
-		static const Drawing::Size DefaultSize;
-		static const Drawing::Point DefaultLabelOffset;
+		static const Drawing::SizeI DefaultSize;
+		static const Drawing::PointI DefaultLabelOffset;
 	};
 }
 

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -56,10 +56,10 @@ namespace OSHGui
 		/**
 		 * Ruft den angegebenen Cursor ab.
 		 *
-		 * @param cursorType der gewünschte Cursor
-		 * @return cursor
+		 * \param cursorType der gewünschte Cursor
+		 * \return cursor
 		 */
-		static const std::shared_ptr<Cursor> Get(CursorType cursorType);
+		static const std::shared_ptr<Cursor>& Get(CursorType cursorType);
 
 	private:
 		static std::map<CursorType, std::shared_ptr<Cursor> > Cursors::cursors;

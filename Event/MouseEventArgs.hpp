@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -20,16 +20,16 @@ namespace OSHGui
 	class OSHGUI_EXPORT MouseEventArgs
 	{
 	public:
-		MouseMessage::MouseStates State;
-		Drawing::Point Location;
+		MouseState State;
+		Drawing::PointI Location;
 		
 	public:
 		/**
 		 * Konstruktor der Klasse
 		 */
 		MouseEventArgs(const MouseMessage &mouseEvent)
-			: State(mouseEvent.State),
-			  Location(mouseEvent.Location)
+			: State(mouseEvent.GetState()),
+			  Location(mouseEvent.GetLocation())
 		{
 			
 		}

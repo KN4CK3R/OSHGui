@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -10,29 +10,20 @@
 #define OSHGUI_DRAWING_COLOR_HPP
 
 #include "../Exports.hpp"
+#include <cstdint>
 
 namespace OSHGui
 {
 	namespace Drawing
 	{
+		typedef uint32_t argb_t;
+
 		/**
 		 * Stellt eine ARGB-Farbe (Alpha, Rot, Grün, Blau) dar.
 		 */
 		class OSHGUI_EXPORT Color
 		{
 		public:
-			union
-			{
-				struct
-				{
-					unsigned char B;
-					unsigned char G;
-					unsigned char R;
-					unsigned char A;
-				};
-				unsigned long ARGB;
-			};
-
 			/**
 			 * Legt eine leere Farbe an (ARGB = 0)
 			 */
@@ -40,37 +31,33 @@ namespace OSHGui
 			/**
 			 * Legt eine Farbe mit dem angegeben ARGB Wert an.
 			 *
-			 * @param argb
+			 * \param argb
 			 */
-			Color(unsigned long argb);
+			explicit Color(argb_t argb);
 			/**
 			 * Legt eine Farbe mit den Werten für Rot, Grün und Blau an.
 			 *
-			 * @param red
-			 * @param green
-			 * @param blue
+			 * \param red
+			 * \param green
+			 * \param blue
 			 */
-			Color(unsigned int red, unsigned int green, unsigned int blue);
+			explicit Color(float red, float green, float blue);
 			/**
 			 * Legt eine Farbe mit den Werten für Alpha, Rot, Grün und Blau an.
 			 *
-			 * @param alpha
-			 * @param red
-			 * @param green
-			 * @param blue
+			 * \param alpha
+			 * \param red
+			 * \param green
+			 * \param blue
 			 */
-			Color(unsigned int alpha, unsigned int red, unsigned int green, unsigned int blue);
+			explicit Color(float alpha, float red, float green, float blue);
 
-			bool operator == (const Color &color) const;
-			bool operator != (const Color &color) const;
-			Color operator + (const Color &color) const;
-			Color& operator += (const Color &color);
-			Color operator - (const Color &color) const;
-			Color& operator -= (const Color &color);
+			static Color FromRGB(uint8_t red, uint8_t green, uint8_t blue);
+			static Color FromARGB(uint8_t alpha, uint8_t red, uint8_t green, uint8_t blue);
 
 			/**
 			 * Gibt eine leere Farbe (ARGB = 0) zurück.
-		     */
+			 */
 			static Color Empty();
 
 			/**
@@ -112,7 +99,7 @@ namespace OSHGui
 			 */
 			static Color Cyan();
 			/**
-			 * Gibt die Farbe Orange zurück (255, 255, 125, 0)
+			 * Gibt die Farbe Orange zurück (255, 255, 128, 0)
 			 */
 			static Color Orange();
 
@@ -129,35 +116,70 @@ namespace OSHGui
 			 */
 			static Color Navy();
 
+			float GetRed() const;
+			float GetGreen() const;
+			float GetBlue() const;
+			float GetAlpha() const;
+			argb_t GetARGB() const;
+
+			bool IsTranslucent() const;
+
 			/**
 			 * Berechnet den Farbton der Farbe.
 			 *
-			 * @return der Farbton
+			 * \return der Farbton
 			 */
 			float Hue() const;
 			/**
 			 * Berechnet die Sättigung der Farbe.
 			 *
-			 * @return die Sättigung
+			 * \return die Sättigung
 			 */
 			float Saturation() const;
 			/**
 			 * Berechnet die Helligkeit der Farbe.
 			 *
-			 * @return die Helligkeit
+			 * \return die Helligkeit
 			 */
 			float Brightness() const;
 
 			/**
 			 * Wandelt HSB Farbinformationen in ein Color-Objekt um.
 			 *
-			 * @param hue der Farbton
-			 * @param saturation die Sättigugn
-			 * @param brightness die Helligkeit
-			 * @return color
+			 * \param hue der Farbton
+			 * \param saturation die Sättigugn
+			 * \param brightness die Helligkeit
+			 * \return color
 			 */
 			static Color FromHSB(float hue, float saturation, float brightness);
+
+			void Clamp();
+			Color Clamped() const;
+
+			friend bool OSHGUI_EXPORT operator==(const Color &lhs, const Color &rhs);
+			friend const Color OSHGUI_EXPORT operator+(const Color &lhs, const Color &rhs);
+			friend const Color OSHGUI_EXPORT operator-(const Color &lhs, const Color &rhs);
+			friend const Color OSHGUI_EXPORT operator*(const Color &lhs, const Color &rhs);
+			friend const Color OSHGUI_EXPORT operator*(const Color &lhs, float rhs);
+
+		private:
+			void SetARGB(argb_t argb);
+			void CalculateARGB();
+
+			float alpha_;
+			float red_;
+			float green_;
+			float blue_;
+
+			argb_t argb_;
 		};
+
+		bool OSHGUI_EXPORT operator == (const Color &lhs, const Color &rhs);
+		bool OSHGUI_EXPORT operator!=(const Color &lhs, const Color &rhs);
+		const Color OSHGUI_EXPORT operator+(const Color &lhs, const Color &rhs);
+		const Color OSHGUI_EXPORT operator-(const Color &lhs, const Color &rhs);
+		const Color OSHGUI_EXPORT operator*(const Color &lhs, const Color &rhs);
+		const Color OSHGUI_EXPORT operator*(const Color &lhs, float rhs);
 	}
 }
 

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -29,19 +29,14 @@ namespace OSHGui
 		 * Legt den checked-Status fest und passt automatisch
 		 * andere RadioButtons in der gleichen Gruppe an.
 		 *
-		 * @param checked
+		 * \param checked
 		 */
 		virtual void SetChecked(bool checked) override;
 		
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-		
 	protected:
 		void SetCheckedInternal(bool checked);
+
+		virtual void PopulateGeometry() override;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;

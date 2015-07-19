@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,7 +9,7 @@
 #ifndef OSHGUI_LISTBOX_HPP
 #define OSHGUI_LISTBOX_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -24,10 +24,10 @@ namespace OSHGui
 	/**
 	 * Stellt ein Steuerlement zum Anzeigen einer Liste von Elementen dar.
 	 */
-	class OSHGUI_EXPORT ListBox : public ContainerControl
+	class OSHGUI_EXPORT ListBox : public Control
 	{
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.
@@ -38,68 +38,68 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt fest, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
 		 *
-		 * @param autoScrollEnabled
+		 * \param autoScrollEnabled
 		 */
 		void SetAutoScrollEnabled(bool autoScrollEnabled);
 		/**
 		 * Ruft ab, ob die ListBox automatisch zum Element scrollen soll, wenn es hinzugefügt wird.
 		 *
-		 * @return autoScrollEnabled
+		 * \return autoScrollEnabled
 		 */
 		bool GetAutoScrollEnabled() const;
 		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
-		 * @param index
-		 * @return das Item
+		 * \param index
+		 * \return das Item
 		 */
 		const Misc::AnsiString& GetItem(int index) const;
 		/**
 		 * Legt den ausgewählten Index fest.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void SetSelectedIndex(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
-		 * @return der ausgewählte Index
+		 * \return der ausgewählte Index
 		 */
 		int GetSelectedIndex() const;
 		/**
 		 * Legt das ausgewählte Item fest.
 		 *
-		 * @param item
+		 * \param item
 		 */
 		void SetSelectedItem(const Misc::AnsiString &item);
 		/**
 		 * Ruft das ausgewählte Item ab.
 		 *
-		 * @return das Item
+		 * \return das Item
 		 */
 		const Misc::AnsiString& GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der Items zurück.
 		 *
-		 * @return Anzahl der Items
+		 * \return Anzahl der Items
 		 */
 		int GetItemsCount() const;
 		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEvent
+		 * \return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		/**
@@ -110,20 +110,20 @@ namespace OSHGui
 		/**
 		 * Fügt ein neues Item hinzu.
 		 *
-		 * @param text der Text des Items
+		 * \param text der Text des Items
 		 */
 		void AddItem(const Misc::AnsiString &text);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
-		 * @param index
-		 * @param text der Text des Items
+		 * \param index
+		 * \param text der Text des Items
 		 */
 		void InsertItem(int index, const Misc::AnsiString &text);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void RemoveItem(int index);
 		/**
@@ -134,51 +134,41 @@ namespace OSHGui
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 
-		/**
-		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
-		 *
-		 * @param theme
-		 */
-		virtual void ApplyTheme(const Drawing::Theme &theme) override;
-
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
 	
 	protected:
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual void OnMouseScroll(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
 
 	private:
-		static const Drawing::Size DefaultSize;
-		static const Drawing::Size DefaultItemAreaPadding;
+		static const Drawing::SizeI DefaultSize;
+		static const Drawing::SizeI DefaultItemAreaPadding;
 		static const int DefaultItemPadding;
 
 		void CheckForScrollBar();
 		
-		int selectedIndex;
-		int firstVisibleItemIndex;
-		int maxVisibleItems;
-		bool autoScrollEnabled;
+		int selectedIndex_;
+		int firstVisibleItemIndex_;
+		int maxVisibleItems_;
+		bool autoScrollEnabled_;
 		
-		Drawing::Rectangle itemsRect;
-		Drawing::Size itemAreaSize;
+		Drawing::RectangleI itemsRect_;
+		Drawing::SizeI itemAreaSize_;
 		
-		std::vector<Misc::AnsiString> items;
+		std::vector<Misc::AnsiString> items_;
 
-		SelectedIndexChangedEvent selectedIndexChangedEvent;
+		SelectedIndexChangedEvent selectedIndexChangedEvent_;
 
-		ScrollBar *scrollBar;
+		ScrollBar *scrollBar_;
 	};
 }
 

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -22,8 +22,8 @@ namespace OSHGui
 	{
 	private:
 		typedef std::function<Signature> Handler;
-		Handler handler;
-		int id;
+		Handler handler_;
+		int id_;
 		
 		static unsigned int NextID()
 		{
@@ -37,6 +37,7 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		EventHandler()
+			: id_(0)
 		{
 
 		}
@@ -44,49 +45,28 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param handler die gebundene Funktion
+		 * \param handler die gebundene Funktion
 		 */
 		EventHandler(const Handler &handler)
-			: handler(handler)
-		{
-			id = NextID();
-		}
-		
-		/**
-		 * CopyKonstruktor der Klasse.
-		 *
-		 * @param eventHandler
-		 */
-		EventHandler(const EventHandler &eventHandler)
-			: id(eventHandler.id),
-			  handler(eventHandler.handler)
+			: handler_(handler),
+			  id_(NextID())
 		{
 			
 		}
 
-		bool operator == (const EventHandler &eventHandler)
+		bool operator==(const EventHandler &eventHandler)
 		{
-			return id == eventHandler.id;
+			return id_ == eventHandler.id_;
 		}
 		
-		EventHandler& operator = (const EventHandler &eventHandler)
-		{
-			if (this != &eventHandler)
-			{
-				id = eventHandler.id;
-				handler = eventHandler.handler;
-			}
-			return *this;
-		}
-
 		/**
 		 * Ruft die gebundene Funktion ab.
 		 *
-		 * @return handler
+		 * \return handler
 		 */
-		Handler& GetHandler()
+		const Handler& GetHandler() const
 		{
-			return handler;
+			return handler_;
 		}
 	};
 }

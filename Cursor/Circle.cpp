@@ -1,49 +1,44 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
 
 #include "Circle.hpp"
+#include "../Drawing/Graphics.hpp"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
-	//Constructor
-	//---------------------------------------------------------------------------
-	CircleCursor::CircleCursor()
-	{
-		offset = Drawing::Point(-5, -5);
-		CreateCursor();
-	}
-	//---------------------------------------------------------------------------
-	CircleCursor::~CircleCursor()
-	{
-	
-	}
-	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void CircleCursor::CreateCursor()
+	void CircleCursor::Initialize()
 	{
-		cursor->BeginUpdate();
-		cursor->Clear();
-		
-		cursor->Fill(3, 0, 5, 11, Drawing::Color::Black());
-		cursor->Fill(0, 3, 11, 5, Drawing::Color::Black());
-		cursor->Fill(1, 2, 9, 7, Drawing::Color::Black());
-		cursor->Fill(2, 1, 7, 9, Drawing::Color::Black());
-		
-		cursor->Fill(3, 1, 5, 9, Drawing::Color::White());
-		cursor->Fill(1, 3, 9, 5, Drawing::Color::White());
-		cursor->Fill(2, 2, 7, 7, Drawing::Color::White());
+		using namespace Drawing;
 
-		cursor->Clear(3, 2, 5, 7);
-		cursor->Clear(2, 3, 7, 5);
-		
-		cursor->EndUpdate();
+		Graphics g(*geometry_);
+
+		PointF offset(-5, -5);
+
+		g.FillRectangle(Color::Black(), PointF(3, 0) + offset, SizeF(5, 1));
+		g.FillRectangle(Color::Black(), PointF(0, 3) + offset, SizeF(1, 5));
+		g.FillRectangle(Color::Black(), PointF(3, 10) + offset, SizeF(5, 1));
+		g.FillRectangle(Color::Black(), PointF(10, 3) + offset, SizeF(1, 5));
+		g.FillRectangle(Color::Black(), PointF(2, 1) + offset, SizeF(7, 1));
+		g.FillRectangle(Color::Black(), PointF(1, 2) + offset, SizeF(1, 7));
+		g.FillRectangle(Color::Black(), PointF(2, 9) + offset, SizeF(7, 1));
+		g.FillRectangle(Color::Black(), PointF(9, 2) + offset, SizeF(1, 7));
+
+		g.FillRectangle(Color::White(), PointF(3, 1) + offset, SizeF(5, 1));
+		g.FillRectangle(Color::White(), PointF(1, 3) + offset, SizeF(1, 5));
+		g.FillRectangle(Color::White(), PointF(3, 9) + offset, SizeF(5, 1));
+		g.FillRectangle(Color::White(), PointF(9, 3) + offset, SizeF(1, 5));
+		g.FillRectangle(Color::White(), PointF(2, 2) + offset, SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(8, 2) + offset, SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(2, 8) + offset, SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(8, 8) + offset, SizeF(1, 1));
 	}
 	//---------------------------------------------------------------------------
 }

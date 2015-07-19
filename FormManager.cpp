@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,40 +9,39 @@
 #include "FormManager.hpp"
 #include "Application.hpp"
 #include "Controls/Form.hpp"
-#include "Drawing/IRenderer.hpp"
 #include "Misc/Exceptions.hpp"
 
 namespace OSHGui
 {
 	const std::shared_ptr<Form> FormManager::GetForeMost() const
 	{
-		if (!forms.empty())
+		if (!forms_.empty())
 		{
-			return forms[forms.size() - 1].form;
+			return forms_.back().Form;
 		}
 		return nullptr;
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Form>& FormManager::operator [] (int index) const
+	const std::shared_ptr<Form>& FormManager::operator[](int index) const
 	{
-		if (index < 0 || index >= (int)forms.size())
+		if (index < 0 || index >= (int)forms_.size())
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentOutOfRangeException("index", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("index");
 			#endif
 		}
 
-		return forms[index].form;
+		return forms_[index].Form;
 	}
 	//---------------------------------------------------------------------------
 	int FormManager::GetFormCount() const
 	{
-		return (int)forms.size();
+		return (int)forms_.size();
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Form>& FormManager::GetMainForm() const
 	{
-		return mainForm;
+		return mainForm_;
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::BringToFront(const std::shared_ptr<Form> &form)
@@ -50,32 +49,32 @@ namespace OSHGui
 		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 			#endif
 			return;
 		}
 
-		if (forms.empty())
+		if (forms_.empty())
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::InvalidOperationException("FormList is empty.", __FILE__, __LINE__);
+			throw Misc::InvalidOperationException("FormList is empty.");
 			#endif
 			return;
 		}
 
-		if (forms[forms.size() - 1].form == form) //last form in vector is front form
+		if (forms_.back().Form == form) //last form in vector is front form
 		{
 			return;
 		}
 		
 		FormInfo info;
 		bool isRegistered = false;
-		for (auto it = forms.begin(); it != forms.end(); ++it)
+		for (auto it = forms_.begin(); it != forms_.end(); ++it)
 		{
 			info = *it;
-			if (info.form == form)
+			if (info.Form == form)
 			{
-				forms.erase(it);
+				forms_.erase(it);
 				isRegistered = true;
 				break;
 			}
@@ -84,20 +83,19 @@ namespace OSHGui
 		if (!isRegistered)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::InvalidOperationException("'form' is not registered.", __FILE__, __LINE__);
+			throw Misc::InvalidOperationException("'form' is not registered.");
 			#endif
 			return;
 		}
 		
-		forms.push_back(info);
+		forms_.push_back(info);
 	}
 	//---------------------------------------------------------------------------
 	bool FormManager::IsRegistered(const std::shared_ptr<Form> &form)
 	{
-		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
+		for (auto &info : forms_)
 		{
-			FormInfo &info = *it;
-			if (info.form == form)
+			if (info.Form == form)
 			{
 				return true;
 			}
@@ -108,8 +106,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::RegisterMainForm(const std::shared_ptr<Form> &mainForm)
 	{
-		this->mainForm = mainForm;
-		RegisterForm(mainForm);
+		mainForm_ = mainForm;
+		RegisterForm(mainForm_);
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::RegisterForm(const std::shared_ptr<Form> &form)
@@ -122,7 +120,7 @@ namespace OSHGui
 		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 			#endif
 			return;
 		}
@@ -132,8 +130,12 @@ namespace OSHGui
 			return;
 		}
 
-		FormInfo info = { form, closeFunction, false };
-		forms.push_back(info);
+		FormInfo info = { 
+			form,
+			closeFunction,
+			false
+		};
+		forms_.push_back(info);
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::UnregisterForm(const std::shared_ptr<Form> &form)
@@ -141,27 +143,26 @@ namespace OSHGui
 		if (form == nullptr)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 			#endif
 			return;
 		}
 
-		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end(); ++it)
+		for (auto &info : forms_)
 		{
-			FormInfo &info = *it;
-			if (info.form == form)
+			if (info.Form == form)
 			{
-				if (info.closeFunction)
+				if (info.CloseFunction)
 				{
-					info.closeFunction();
+					info.CloseFunction();
 				}
-				if (info.form != mainForm)
+				if (info.Form != mainForm_)
 				{
-					info.remove = true;
+					info.Remove = true;
 				}
 				else
 				{
-					Application::Instance()->Disable();
+					Application::Instance().Disable();
 				}
 				return;
 			}
@@ -170,11 +171,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void FormManager::RemoveUnregisteredForms()
 	{
-		for (std::vector<FormInfo>::iterator it = forms.begin(); it != forms.end();)
+		for (auto it = forms_.begin(); it != forms_.end();)
 		{
-			if ((*it).remove)
+			if ((*it).Remove)
 			{
-				it = forms.erase(it);
+				it = forms_.erase(it);
 			}
 			else
 			{
@@ -189,24 +190,25 @@ namespace OSHGui
 	}
 	//---------------------------------------------------------------------------
 	FormManager::FormIterator::FormIterator(FormManager &fm)
+		: it_(fm.forms_.rbegin()),
+		  end_(fm.forms_.rend())
 	{
-		it = fm.forms.rbegin();
-		end = fm.forms.rend();
+		
 	}
 	//---------------------------------------------------------------------------
 	void FormManager::FormIterator::operator++()
 	{
-		++it;
+		++it_;
 	}
 	//---------------------------------------------------------------------------
 	bool FormManager::FormIterator::operator()()
 	{
-		return it != end;
+		return it_ != end_;
 	}
 	//---------------------------------------------------------------------------
 	std::shared_ptr<Form>& FormManager::FormIterator::operator*()
 	{
-		return (*it).form;
+		return (*it_).Form;
 	}
 	//---------------------------------------------------------------------------
 }

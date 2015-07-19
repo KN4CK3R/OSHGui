@@ -1,13 +1,14 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
 
 #include "Cursor.hpp"
 #include "../Application.hpp"
+#include "Drawing/Graphics.hpp"
 
 namespace OSHGui
 {
@@ -15,9 +16,9 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Cursor::Cursor()
-		: cursor(Application::Instance()->GetRenderer()->CreateNewTexture(16, 16))
+		: geometry_(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
-		CreateCursor();
+		
 	}
 	//---------------------------------------------------------------------------
 	Cursor::~Cursor()
@@ -25,44 +26,40 @@ namespace OSHGui
 	
 	}
 	//---------------------------------------------------------------------------
-	//Runtime-Functions
-	//---------------------------------------------------------------------------
-	void Cursor::CreateCursor()
+	Drawing::GeometryBufferPtr Cursor::GetGeometry()
 	{
-		cursor->BeginUpdate();
-		cursor->Clear();
-		
-		cursor->Fill(0, 0, 1, 12, Drawing::Color::White());
-		cursor->Fill(1, 0, 1, 11, Drawing::Color::White());
-        cursor->Fill(1, 11, 1, 1, Drawing::Color::White());
-        cursor->Fill(2, 1, 1, 1, Drawing::Color::White());
-        cursor->Fill(2, 10, 1, 1, Drawing::Color::White());
-        cursor->Fill(3, 2, 1, 1, Drawing::Color::White());
-        cursor->Fill(3, 9, 1, 1, Drawing::Color::White());
-        cursor->Fill(4, 3, 1, 1, Drawing::Color::White());
-        cursor->Fill(5, 4, 1, 1, Drawing::Color::White());
-        cursor->Fill(6, 5, 1, 1, Drawing::Color::White());
-        cursor->Fill(7, 6, 1, 1, Drawing::Color::White());
-        cursor->Fill(8, 7, 1, 1, Drawing::Color::White());
-        cursor->Fill(4, 8, 4, 1, Drawing::Color::White());
-
-        cursor->Fill(1, 1, 1, 10, Drawing::Color::Black());
-        cursor->Fill(2, 2, 1, 8, Drawing::Color::Black());
-        cursor->Fill(3, 3, 1, 6, Drawing::Color::Black());
-        cursor->Fill(4, 4, 1, 4, Drawing::Color::Black());
-        cursor->Fill(5, 5, 1, 3, Drawing::Color::Black());
-        cursor->Fill(6, 6, 1, 2, Drawing::Color::Black());
-        cursor->Fill(7, 7, 1, 1, Drawing::Color::Black());
-		
-		cursor->EndUpdate();
+		return geometry_;
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
+	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void Cursor::Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation)
+	void Cursor::Initialize()
 	{
-		renderer->SetRenderColor(Drawing::Color::White());
-		renderer->RenderTexture(cursor, cursorLocation + offset, Drawing::Size(16, 16));
+		using namespace Drawing;
+
+		Graphics g(*geometry_);
+
+		g.FillRectangle(Color::White(), PointF(0, 0), SizeF(1, 12));
+		g.FillRectangle(Color::White(), PointF(1, 0), SizeF(1, 11));
+		g.FillRectangle(Color::White(), PointF(1, 11), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(2, 1), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(2, 10), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(3, 2), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(3, 9), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(4, 3), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(5, 4), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(6, 5), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(7, 6), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(8, 7), SizeF(1, 1));
+		g.FillRectangle(Color::White(), PointF(4, 8), SizeF(4, 1));
+
+		g.FillRectangle(Color::Black(), PointF(1, 1), SizeF(1, 10));
+		g.FillRectangle(Color::Black(), PointF(2, 2), SizeF(1, 8));
+		g.FillRectangle(Color::Black(), PointF(3, 3), SizeF(1, 6));
+		g.FillRectangle(Color::Black(), PointF(4, 4), SizeF(1, 4));
+		g.FillRectangle(Color::Black(), PointF(5, 5), SizeF(1, 3));
+		g.FillRectangle(Color::Black(), PointF(6, 6), SizeF(1, 2));
+		g.FillRectangle(Color::Black(), PointF(7, 7), SizeF(1, 1));
 	}
 	//---------------------------------------------------------------------------
 }

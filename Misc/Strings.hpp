@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -61,8 +61,8 @@ namespace OSHGui
 			/**
 			 * Ruft die Latin1Category des Zeichens ab.
 			 *
-			 * @param c das Zeichen
-			 * @return die Latin1Category
+			 * \param c das Zeichen
+			 * \return die Latin1Category
 			 */
 			inline Latin1Category GetLatin1Category(const AnsiChar c)
 			{
@@ -108,8 +108,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen zum ASCII Zeichensatz gehört.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsAscii(const AnsiChar c)
 			{
@@ -119,8 +119,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen eine Zahl ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsDigit(const AnsiChar c)
 			{
@@ -134,8 +134,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen eine Nummer ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsNumber(const AnsiChar c)
 			{
@@ -155,8 +155,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen eine druckbare Ziffer ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsLetter(const AnsiChar c)
 			{
@@ -177,8 +177,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen ein Whitespace ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsWhiteSpace(const AnsiChar c)
 			{
@@ -188,8 +188,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen ein Großbuchstabe ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsUpper(const AnsiChar c)
 			{
@@ -203,8 +203,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen ein Kleinbuchstabe ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsLower(const AnsiChar c)
 			{
@@ -218,8 +218,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen ein Symbol ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsSymbol(const AnsiChar c)
 			{
@@ -237,8 +237,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen eine Punktion ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsPunctuation(const AnsiChar c)
 			{
@@ -259,8 +259,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen ein Seperator ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsSeperator(const AnsiChar c)
 			{
@@ -270,8 +270,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen eine Ziffer oder Zahl ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsLetterOrDigit(const AnsiChar c)
 			{
@@ -288,8 +288,8 @@ namespace OSHGui
 			/**
 			 * Ruft ab, ob das Zeichen ein Steuersymbol ist.
 			 *
-			 * @param c
-			 * @return
+			 * \param c
+			 * \return
 			 */
 			inline bool IsControl(const AnsiChar c)
 			{
@@ -299,8 +299,8 @@ namespace OSHGui
 			/**
 			 * Wandelt einen AnsiString in einen UnicodeString um.
 			 *
-			 * @param ansi
-			 * @return unicode
+			 * \param ansi
+			 * \return unicode
 			 */
 			inline UnicodeString AnsiToUnicode(const AnsiString &ansi)
 			{
@@ -318,8 +318,8 @@ namespace OSHGui
 			/**
 			 * Wandelt einen UnicodeString in einen AnsiString um.
 			 *
-			 * @param unicode
-			 * @return ansi
+			 * \param unicode
+			 * \return ansi
 			 */
 			inline AnsiString UnicodeToAnsi(const UnicodeString &unicode)
 			{
@@ -339,18 +339,18 @@ namespace OSHGui
 			 * Ersetzt das Formatelement in einer angegebenen Unicode-Zeichenfolge durch die
 			 * Zeichenfolgendarstellung eines entsprechenden Objekts.
 			 *
-			 * @param *fmt
-			 * @param ...
-			 * @return UnicodeString
+			 * \param *fmt
+			 * \param ...
+			 * \return UnicodeString
 			 */
 			UnicodeString Format(const UnicodeChar *fmt, ...);
 			/**
 			 * Ersetzt das Formatelement in einer angegebenen Ansi-Zeichenfolge durch die
 			 * Zeichenfolgendarstellung eines entsprechenden Objekts.
 			 *
-			 * @param *fmt
-			 * @param ...
-			 * @return AnsiString
+			 * \param *fmt
+			 * \param ...
+			 * \return AnsiString
 			 */
 			AnsiString Format(const AnsiChar *fmt, ...);
 		}

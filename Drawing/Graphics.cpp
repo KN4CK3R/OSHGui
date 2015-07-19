@@ -1,4 +1,5 @@
 #include "Graphics.hpp"
+#include "Image.hpp"
 #include <algorithm>
 
 namespace OSHGui
@@ -8,55 +9,114 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Graphics::Graphics(std::shared_ptr<ITexture> &texture)
-			: texture(texture)
+		Graphics::Graphics(GeometryBuffer &buffer)
+			: buffer(buffer)
 		{
-			texture->BeginUpdate();
+			buffer.SetClippingActive(false);
 		}
 		//---------------------------------------------------------------------------
 		Graphics::~Graphics()
 		{
-			texture->EndUpdate();
+			
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::SetClip(const RectangleF &clip)
+		{
+			buffer.SetClippingRegion(clip);
+			buffer.SetClippingActive(true);
 		}
 		//---------------------------------------------------------------------------
 		//Runtime Functions
 		//---------------------------------------------------------------------------
 		void Graphics::Clear()
 		{
-			texture->Clear();
+			buffer.Reset();
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::SetPixel(const Point &origin, Color color)
+		void Graphics::Rotate(const PointF &pivot, const Vector &angles)
 		{
-			SetPixel(origin.X, origin.Y, color);
+			buffer.SetPivot(Vector(pivot.X, pivot.Y, 0.0f));
+			buffer.SetRotation(Quaternion::EulerAnglesDegrees(angles.x, angles.y, angles.z));
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::SetPixel(int x, int y, Color color)
+		void Graphics::DrawLine(const Color &color, const PointF &from, const PointF &to)
 		{
-			texture->Fill(x, y, color);
+			buffer.SetVertexDrawMode(VertexDrawMode::LineList);
+
+			Vertex vertices[] = {
+				{ Vector(from.X, from.Y, 0.0f), color },
+				{ Vector(to.X, to.Y, 0.0f), color }
+			};
+			buffer.AppendGeometry(vertices, 2);
+
+			buffer.SetVertexDrawMode(VertexDrawMode::TriangleList);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillRectangle(const Point &origin, const Size &size, Color color)
+		void Graphics::DrawRectangle(const Color &color, const PointF &origin, const SizeF &size)
 		{
-			FillRectangle(origin.X, origin.Y, size.Width, size.Height, color);
+			DrawRectangle(color, origin.X, origin.Y, size.Width, size.Height);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillRectangle(int x, int y, int w, int h, Color color)
+		void Graphics::DrawRectangle(const Color &color, const RectangleF &rectangle)
 		{
-			texture->Fill(w < 0 ? x + w : x, h < 0 ? y + h : y, std::abs(w), std::abs(h), color);
+			DrawRectangle(color, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight());
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillRectangleGradient(const Point &origin, const Size &size, Color from, Color to, bool updown)
+		void Graphics::DrawRectangle(const Color &color, float x, float y, float width, float height)
 		{
-			FillRectangleGradient(origin.X, origin.Y, size.Width, size.Height, from, to, updown);
+			FillRectangle(color, x, y, width, 1);
+			FillRectangle(color, x, y, 1, height);
+			FillRectangle(color, x + width - 1, y, 1, height);
+			FillRectangle(color, x, y + height - 1, width, 1);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillRectangleGradient(int x, int y, int w, int h, Color from, Color to, bool updown)
+		void Graphics::FillRectangle(const Color &color, const PointF &origin, const SizeF &size)
 		{
-			texture->FillGradient(w < 0 ? x + w : x, h < 0 ? y + h : y, std::abs(w), std::abs(h), from, to, updown);
+			FillRectangle(color, origin.X, origin.Y, size.Width, size.Height);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillPolygon(const std::vector<Point> &vertices, Color color)
+		void Graphics::FillRectangle(const Color &color, const RectangleF &rectangle)
+		{
+			FillRectangle(color, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight());
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::FillRectangle(const Color &color, float x, float y, float width, float height)
+		{
+			Vertex vertices[] = {
+				{ Vector(x, y, 0.0f), color },
+				{ Vector(x + width, y, 0.0f), color },
+				{ Vector(x, y + height, 0.0f), color },
+				{ Vector(x + width, y + height, 0.0f), color },
+				{ Vector(x, y + height, 0.0f), color },
+				{ Vector(x + width, y, 0.0f), color }
+			};
+			buffer.AppendGeometry(vertices, 6);
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::FillRectangleGradient(const ColorRectangle &colors, const PointF &origin, const SizeF &size)
+		{
+			FillRectangleGradient(colors, origin.X, origin.Y, size.Width, size.Height);
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::FillRectangleGradient(const ColorRectangle &colors, const RectangleF &rectangle)
+		{
+			FillRectangleGradient(colors, rectangle.GetLeft(), rectangle.GetTop(), rectangle.GetWidth(), rectangle.GetHeight());
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::FillRectangleGradient(const ColorRectangle &colors, float x, float y, float width, float height)
+		{
+			Vertex vertices[] = {
+				{ Vector(x, y, 0.0f), colors.TopLeft },
+				{ Vector(x + width, y, 0.0f), colors.TopRight },
+				{ Vector(x, y + height, 0.0f), colors.BottomLeft },
+				{ Vector(x + width, y + height, 0.0f), colors.BottomRight },
+				{ Vector(x, y + height, 0.0f), colors.BottomLeft },
+				{ Vector(x + width, y, 0.0f), colors.TopRight }
+			};
+			buffer.AppendGeometry(vertices, 6);
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::FillPolygon(const std::vector<PointF> &vertices, const Color &color)
 		{
 			if (vertices.empty())
 			{
@@ -65,7 +125,7 @@ namespace OSHGui
 
 			std::vector<int> nodes;
 
-			auto size = texture->GetSize();
+			/*auto size = texture->GetSize();
 
 			for (int y = 0; y < size.Height; ++y)
 			{
@@ -102,35 +162,40 @@ namespace OSHGui
 							}
 							if (nodes[i] < nodes[i + 1])
 							{
-								texture->Fill(nodes[i], y, nodes[i + 1] - nodes[i], 1, color);
+								//texture->Fill(nodes[i], y, nodes[i + 1] - nodes[i], 1, color);
 							}
 						}
 					}
 				}
-			}
+			}*/
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillCircle(const Point &origin, int radius, Color color)
+		void Graphics::FillCircle(const Color &color, const PointF &origin, float radius)
 		{
-			FillCircle(origin.X, origin.Y, radius, color);
+			FillCircle(color, origin.X, origin.Y, radius);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillCircle(int x, int y, int radius, Color color)
+		void Graphics::FillCircle(const Color &color, float x, float y, float radius)
 		{
-			FillEllipse(x, y, radius, radius, color);
+			FillEllipse(color, x, y, radius, radius);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillEllipse(const Point &origin, const Size &size, Color color)
+		void Graphics::FillEllipse(const Color &color, const PointF &origin, const SizeF &size)
 		{
-			FillEllipse(origin.X, origin.Y, size.Width, size.Height, color);
+			FillEllipse(color, origin.X, origin.Y, size.Width, size.Height);
 		}
 		//---------------------------------------------------------------------------
-		void Graphics::FillEllipse(int centerX, int centerY, int width, int height, Color color)
+		void Graphics::FillEllipse(const Color &color, const RectangleF &region)
+		{
+			FillEllipse(color, region.GetLeft(), region.GetTop(), region.GetWidth(), region.GetHeight());
+		}
+		//---------------------------------------------------------------------------
+		void Graphics::FillEllipse(const Color &color, float _x, float _y, float width, float height)
 		{
 			int a = width / 2;
 			int b = height / 2;
-			int xc = centerX;
-			int yc = centerY;
+			int xc = _x;
+			int yc = _y;
 			int x = 0;
 			int y = b;
 			int a2 = a * a;
@@ -147,21 +212,21 @@ namespace OSHGui
 				}
 				if (x == 1 && y != yp)
 				{
-					SetPixel(xc, yc + yp - 1, color);
-					SetPixel(xc, yc - yp, color);
+					FillRectangle(color, xc, yc + yp - 1, 1, 1);
+					FillRectangle(color, xc, yc - yp, 1, 1);
 				}
 				if (y != yp)
 				{
-					FillRectangle(xc - x + 1, yc - yp, 2 * x - 1, 1, color);
-					FillRectangle(xc - x + 1, yc + yp, 2 * x - 1, 1, color);
+					FillRectangle(color, xc - x + 1, yc - yp, 2 * x - 1, 1);
+					FillRectangle(color, xc - x + 1, yc + yp, 2 * x - 1, 1);
 					yp = y;
 					xp = x;
 				}
 
 				if (b2 * x >= a2 * y)
 				{
-					FillRectangle(xc - x, yc - yp, 2 * x + 1, 1, color);
-					FillRectangle(xc - x, yc + yp, 2 * x + 1, 1, color);
+					FillRectangle(color, xc - x, yc - yp, 2 * x + 1, 1);
+					FillRectangle(color, xc - x, yc + yp, 2 * x + 1, 1);
 				}
 			}
 
@@ -181,8 +246,8 @@ namespace OSHGui
 				{
 					divHeight = yp - y;
 
-					FillRectangle(xc - xp, yc - yp, 2 * xp + 1, divHeight, color);
-					FillRectangle(xc - xp, yc + y + 1, 2 * xp + 1, divHeight, color);
+					FillRectangle(color, xc - xp, yc - yp, 2 * xp + 1, divHeight);
+					FillRectangle(color, xc - xp, yc + y + 1, 2 * xp + 1, divHeight);
 
 					xp = x;
 					yp = y;
@@ -192,11 +257,44 @@ namespace OSHGui
 				{
 					divHeight = yp - y + 1;
 
-					FillRectangle(xc - xp, yc - yp, 2 * x + 1, divHeight, color);
-					FillRectangle(xc - xp, yc + y, 2 * x + 1, divHeight, color);
+					FillRectangle(color, xc - xp, yc - yp, 2 * x + 1, divHeight);
+					FillRectangle(color, xc - xp, yc + y, 2 * x + 1, divHeight);
 				}
 			}
 		}
-		//---------------------------------------------------------------------------
+
+		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, const PointF &origin)
+		{
+			font->DrawText(buffer, text, origin, nullptr, color);
+
+			buffer.SetActiveTexture(nullptr);
+		}
+
+		void Graphics::DrawString(const Misc::AnsiString &text, const FontPtr &font, const Color &color, float x, float y)
+		{
+			DrawString(text, font, color, PointF(x, y));
+		}
+
+		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const PointF &origin)
+		{
+			DrawImage(image, color, RectangleF(origin, image->GetSize()));
+		}
+
+		void Graphics::DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const PointF &origin, const RectangleF &clip)
+		{
+			DrawImage(image, color, RectangleF(origin, image->GetSize()), clip);
+		}
+
+		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const RectangleF &area)
+		{
+			image->Render(buffer, area, nullptr, color);
+
+			buffer.SetActiveTexture(nullptr);
+		}
+
+		void Graphics::DrawImage(const std::shared_ptr<Image> &image, const ColorRectangle &color, const RectangleF &area, const RectangleF &clip)
+		{
+			image->Render(buffer, area, &clip.OffsetEx(area.GetLocation()), color);
+		}
 	}
 }

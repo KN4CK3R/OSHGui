@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -15,24 +15,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
-	WaitCursor::WaitCursor()
-	{
-		cursor = Application::Instance()->GetRenderer()->CreateNewTexture(16, 16, 14);
+	//WaitCursor::WaitCursor()
+	//{
+		//cursor = Application::Instance().GetRenderer()->CreateNewTexture(16, 16, 14);
 	
-		CreateCursor();
+		//Initialize();
 
-		Drawing::TextureAnimator::Animate(cursor, Drawing::TextureAnimator::Loop);
-	}
-	//---------------------------------------------------------------------------
-	WaitCursor::~WaitCursor()
-	{
-	
-	}
+		//Drawing::TextureAnimator::Animate(cursor, Drawing::TextureAnimator::Loop);
+	//}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void WaitCursor::CreateCursor()
+	void WaitCursor::Initialize()
 	{
+		using namespace Drawing;
+
 		int data[][6][2] =
 		{
 			{
@@ -157,18 +154,18 @@ namespace OSHGui
 			Drawing::Color(206, 206, 206),
 			Drawing::Color(222, 222, 222)
 		};*/
-		Drawing::Color colors[] = {
-			Drawing::Color(201, 201, 201),
-			Drawing::Color(185, 185, 185),
-			Drawing::Color(147, 147, 147),
-			Drawing::Color(127, 127, 127),
-			Drawing::Color(109, 109, 109),
-			Drawing::Color(93, 93, 93)
+		Color colors[] = {
+			Color::FromRGB(201, 201, 201),
+			Color::FromRGB(185, 185, 185),
+			Color::FromRGB(147, 147, 147),
+			Color::FromRGB(127, 127, 127),
+			Color::FromRGB(109, 109, 109),
+			Color::FromRGB(93, 93, 93)
 		};
 	
 		for (int frameNum = 0; frameNum < 14; ++frameNum)
 		{
-			cursor->SelectActiveFrame(frameNum);
+			/*cursor->SelectActiveFrame(frameNum);
 		
 			cursor->BeginUpdate();
 			cursor->Clear();
@@ -205,7 +202,7 @@ namespace OSHGui
 			cursor->Fill(6, 6, 1, 2, Drawing::Color::Black());
 			cursor->Fill(7, 7, 1, 1, Drawing::Color::Black());
 			
-			cursor->EndUpdate();
+			cursor->EndUpdate();*/
 		}
 	}
 	//---------------------------------------------------------------------------

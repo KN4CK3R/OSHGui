@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -25,32 +25,32 @@ namespace OSHGui
 	/**
 	 * Gibt Konstanten an, die definieren, welche Schaltflächen der MessageBox angezeigt werden.
 	 */
-	enum MessageBoxButtons
+	enum class MessageBoxButtons
 	{
 		/**
 		 * Das Meldungsfeld enthält die Schaltfläche OK.
 		 */
-        ButtonOK,
-        /**
+		OK,
+		/**
 		 * Das Meldungsfeld enthält die Schaltflächen OK und Abbrechen.
 		 */
-        ButtonOKCancel,
+		OKCancel,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Abbrechen, Wiederholen und Ignorieren.
 		 */
-        ButtonAbortRetryIgnore,
+		AbortRetryIgnore,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Ja und Nein.
 		 */
-        ButtonYesNo,
+		YesNo,
 		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Ja, Nein und Abbrechen.
 		 */
-        ButtonYesNoCancel,
-        /**
+		YesNoCancel,
+		/**
 		 * Das Meldungsfeld enthält die Schaltflächen Wiederholen und Abbrechen.
 		 */
-        ButtonRetryCancel
+		RetryCancel
 	};
 
 	class OSHGUI_EXPORT MessageBox
@@ -59,9 +59,9 @@ namespace OSHGui
 		static void Show(const Misc::AnsiString &text);
 		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption);
 		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons);
-		static void Show(const Misc::AnsiString &text, std::function<void(DialogResult result)> closeFunction);
-		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, std::function<void(DialogResult result)> closeFunction);
-		static void Show(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, std::function<void(DialogResult result)> closeFunction);
+		static void ShowDialog(const Misc::AnsiString &text, const std::function<void(DialogResult result)> &closeFunction);
+		static void ShowDialog(const Misc::AnsiString &text, const Misc::AnsiString &caption, const std::function<void(DialogResult result)> &closeFunction);
+		static void ShowDialog(const Misc::AnsiString &text, const Misc::AnsiString &caption, MessageBoxButtons buttons, const std::function<void(DialogResult result)> &closeFunction);
 
 	private:
 		class MessageBoxForm : public Form

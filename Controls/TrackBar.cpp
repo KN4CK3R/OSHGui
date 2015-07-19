@@ -1,141 +1,134 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
 
 #include "TrackBar.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Misc/Intersection.hpp"
 
 namespace OSHGui
 {
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size TrackBar::SliderSize(8, 16);
-	const Drawing::Size TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
+	const Drawing::SizeI TrackBar::SliderSize(8, 16);
+	const Drawing::SizeI TrackBar::DefaultSize(110, TrackBar::SliderSize.Height + 2);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	TrackBar::TrackBar()
-		: drag(false),
-		  minimum(1),
-		  maximum(10),
-		  tickFrequency(1),
-		  sliderLocation(-SliderSize.Width / 2, 1)
+		: drag_(false),
+		  minimum_(1),
+		  maximum_(10),
+		  tickFrequency_(1),
+		  sliderLocation_(-SliderSize.Width / 2, 1)
 	{
-		type = CONTROL_TRACKBAR;
+		type_ = ControlType::TrackBar;
 	
 		SetSize(DefaultSize);
 
 		SetValueInternal(0);
 
-		ApplyTheme(Application::Instance()->GetTheme());
-	}
-	//---------------------------------------------------------------------------
-	TrackBar::~TrackBar()
-	{
-
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TrackBar::SetSize(const Drawing::Size &size)
+	void TrackBar::SetSize(const Drawing::SizeI &size)
 	{
 		if (size.Height < SliderSize.Height + 2)
 		{
-			Control::SetSize(Drawing::Size(size.Width, SliderSize.Height + 2));
+			Control::SetSize(Drawing::SizeI(size.Width, SliderSize.Height + 2));
 		}
 		else
 		{
 			Control::SetSize(size);
 		}
 
-		SetValueInternal(value);
+		SetValueInternal(value_);
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetMinimum(int minimum)
 	{
-		this->minimum = minimum;
+		minimum_ = minimum;
 		
-		SetValueInternal(value);
+		SetValueInternal(value_);
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::GetMinimum() const
 	{
-		return minimum;
+		return minimum_;
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetMaximum(int maximum)
 	{
-		this->maximum = maximum;
+		maximum_ = maximum;
 		
-		SetValueInternal(value);
+		SetValueInternal(value_);
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::GetMaximum() const
 	{
-		return maximum;
+		return maximum_;
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetTickFrequency(int tickFrequency)
 	{
-		this->tickFrequency = tickFrequency;
+		tickFrequency_ = tickFrequency;
 		
-		SetValueInternal(value);
+		SetValueInternal(value_);
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::GetTickFrequency() const
 	{
-		return tickFrequency;
+		return tickFrequency_;
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::SetValue(int value)
 	{
-		SetValueInternal(value - minimum);
+		SetValueInternal(value - minimum_);
 	}
 	//---------------------------------------------------------------------------
 	int TrackBar::GetValue() const
 	{
-		return value + minimum;
+		return value_ + minimum_;
 	}
 	//---------------------------------------------------------------------------
 	ValueChangedEvent& TrackBar::GetValueChangedEvent()
 	{
-		return valueChangedEvent;
+		return valueChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool TrackBar::Intersect(const Drawing::Point &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
-	//---------------------------------------------------------------------------
 	void TrackBar::SetValueInternal(int value)
 	{
-		pixelsPerTick = (float)(GetWidth() - SliderSize.Width) / ((maximum - minimum) / tickFrequency);
+		pixelsPerTick_ = (float)(GetWidth() - SliderSize.Width) / ((maximum_ - minimum_) / tickFrequency_);
 
 		if (value < 0)
 		{
 			value = 0;
 		}
-		if (value > maximum - minimum)
+		if (value > maximum_ - minimum_)
 		{
-			value = maximum - minimum;
+			value = maximum_ - minimum_;
 		}
 		
-		if (this->value != value)
+		if (value_ != value)
 		{
-			this->value = value;
+			value_ = value;
 			
-			valueChangedEvent.Invoke(this);
+			valueChangedEvent_.Invoke(this);
 
-			int tick = value / tickFrequency;
-			sliderLocation.Left = tick * pixelsPerTick;
-			sliderAbsoluteLocation.Left = absoluteLocation.Left + sliderLocation.Left;
+			int tick = value / tickFrequency_;
+			sliderLocation_.Left = tick * pixelsPerTick_;
+			sliderAbsoluteLocation_.Left = absoluteLocation_.Left + sliderLocation_.Left;
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -143,7 +136,30 @@ namespace OSHGui
 	{
 		Control::CalculateAbsoluteLocation();
 
-		sliderAbsoluteLocation = absoluteLocation + sliderLocation;
+		sliderAbsoluteLocation_ = absoluteLocation_ + sliderLocation_;
+	}
+	//---------------------------------------------------------------------------
+	void TrackBar::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(*geometry_);
+
+		if (!GetBackColor().IsTranslucent())
+		{
+			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
+		}
+
+		auto color = isFocused_ || isInside_ ? GetForeColor() + Color::FromARGB(0, 43, 43, 43) : GetForeColor();
+
+		auto tickCount = 1 + (maximum_ - minimum_) / tickFrequency_;
+		for (int i = 0; i < tickCount; ++i)
+		{
+			auto x = SliderSize.Width / 2 + i * pixelsPerTick_;
+			g.FillRectangle(color, PointF(x, DefaultTickOffset), SizeF(1, 5));
+		}
+
+		g.FillRectangle(color, sliderLocation_, SliderSize);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -152,9 +168,9 @@ namespace OSHGui
 	{
 		Control::OnMouseDown(mouse);
 
-		if (Intersection::TestRectangle(sliderAbsoluteLocation, SliderSize, mouse.Location))
+		if (Intersection::TestRectangle(sliderAbsoluteLocation_, SliderSize, mouse.GetLocation()))
 		{
-			drag = true;
+			drag_ = true;
 			OnGotMouseCapture();
 		}
 	}
@@ -163,7 +179,7 @@ namespace OSHGui
 	{
 		Control::OnMouseUp(mouse);
 
-		drag = false;
+		drag_ = false;
 		OnLostMouseCapture();
 	}
 	//---------------------------------------------------------------------------
@@ -171,10 +187,9 @@ namespace OSHGui
 	{
 		Control::OnMouseClick(mouse);
 
-		if (!drag)
+		if (!drag_)
 		{
-			int tick = (mouse.Location.Left - absoluteLocation.Left) / pixelsPerTick;
-			SetValueInternal(tick * tickFrequency);
+			HandleMouseEvent(mouse);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -182,18 +197,23 @@ namespace OSHGui
 	{
 		Control::OnMouseMove(mouse);
 
-		if (drag)
+		if (drag_)
 		{
-			int tick = (mouse.Location.Left - absoluteLocation.Left) / pixelsPerTick;
-			SetValueInternal(tick * tickFrequency);
+			HandleMouseEvent(mouse);
 		}
+	}
+	//---------------------------------------------------------------------------
+	void TrackBar::HandleMouseEvent(const MouseMessage &mouse)
+	{
+		int tick = (mouse.GetLocation().Left - absoluteLocation_.Left) / pixelsPerTick_;
+		SetValueInternal(tick * tickFrequency_);
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::OnMouseScroll(const MouseMessage &mouse)
 	{
 		Control::OnMouseScroll(mouse);
 
-		SetValueInternal(value + mouse.Delta);
+		SetValueInternal(value_ + mouse.GetDelta());
 	}
 	//---------------------------------------------------------------------------
 	bool TrackBar::OnKeyDown(const KeyboardMessage &keyboard)
@@ -206,54 +226,26 @@ namespace OSHGui
 					SetValueInternal(0);
 					break;;
 				case Key::End:
-					SetValueInternal(maximum - minimum);
+					SetValueInternal(maximum_ - minimum_);
 					break;
 				case Key::Left:
 				case Key::Down:
-					SetValueInternal(value - 1);
+					SetValueInternal(value_ - 1);
 					break;
 				case Key::Right:
 				case Key::Up:
-					SetValueInternal(value + 1);
+					SetValueInternal(value_ + 1);
 					break;
 				case Key::PageDown:
-					SetValueInternal(value - std::max(10, (maximum - minimum) / 10));
+					SetValueInternal(value_ - std::max(10, (maximum_ - minimum_) / 10));
 					break;
 				case Key::PageUp:
-					SetValueInternal(value + std::max(10, (maximum - minimum) / 10));
+					SetValueInternal(value_ + std::max(10, (maximum_ - minimum_) / 10));
 					break;
 			}
 		}
 
 		return true;
-	}
-	//---------------------------------------------------------------------------
-	void TrackBar::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
-
-		renderer->SetRenderColor(isFocused || isInside ? foreColor + Drawing::Color(0, 43, 43, 43) : foreColor);
-
-		int tickCount = 1 + (maximum - minimum) / tickFrequency;
-		
-		for (int i = 0; i < tickCount; ++i)
-		{
-			int x = absoluteLocation.Left + SliderSize.Width / 2 + i * pixelsPerTick;
-            int y = absoluteLocation.Top + DefaultTickOffset;
-			renderer->Fill(x, y, 1, 5);
-		}
-
-		renderer->SetRenderColor(foreColor);
-		renderer->Fill(sliderAbsoluteLocation, SliderSize);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -34,62 +34,61 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		HotkeyControl();
-		virtual ~HotkeyControl();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size);
+		virtual void SetSize(const Drawing::SizeI &size);
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color);
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetBackColor(Drawing::Color color);
+		virtual void SetBackColor(const Drawing::Color &color) override;
 		
 		/**
 		 * Legt den Hotkey fest.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
-		virtual void SetHotkey(Key::Keys hotkey);
+		virtual void SetHotkey(Key hotkey);
 		/**
 		 * Ruft den Hotkey ab.
 		 *
-		 * @return hotkey
+		 * \return hotkey
 		 */
-		virtual Key::Keys GetHotkey() const;
+		virtual Key GetHotkey() const;
 		/**
 		 * Legt den HotkeyModifier fest.
 		 *
-		 * @param hotkey
+		 * \param hotkey
 		 */
-		virtual void SetHotkeyModifier(Key::Keys modifier);
+		virtual void SetHotkeyModifier(Key modifier);
 		/**
 		 * Ruft den HotkeyModifier ab.
 		 *
-		 * @return hotkeyModifier
+		 * \return hotkeyModifier
 		 */
-		virtual Key::Keys GetHotkeyModifier() const;
+		virtual Key GetHotkeyModifier() const;
 
 		/**
 		 * Ruft das HotkeyChangedEvent für das Steuerelement ab.
 		 *
-		 * @return hotkeyChangedEvent
+		 * \return hotkeyChangedEvent
 		 */
 		HotkeyChangedEvent& GetHotkeyChangedEvent();
 		
@@ -99,25 +98,14 @@ namespace OSHGui
 		void ClearHotkey();
 
 		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
-		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
 		virtual void CalculateAbsoluteLocation() override;
-
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
 	
 	protected:
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;
@@ -126,17 +114,17 @@ namespace OSHGui
 	private:
 		void HotkeyToText();
 
-		static const Drawing::Size DefaultSize;
-		static std::map<Key::Keys, Misc::AnsiString> hotkeyNames;
+		static const Drawing::SizeI DefaultSize;
+		static std::map<Key, Misc::AnsiString> HotkeyNames;
 		
-		TextBox *textBox;
+		std::unique_ptr<TextBox> textBox_;
 		
-		Drawing::Point clearButtonAbsoluteLocation;
+		Drawing::PointI clearButtonLocation_;
 
-		Key::Keys hotkey;
-		Key::Keys modifier;
+		Key hotkey_;
+		Key modifier_;
 
-		HotkeyChangedEvent hotkeyChangedEvent;
+		HotkeyChangedEvent hotkeyChangedEvent_;
 	};
 }
 

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -28,76 +28,73 @@ namespace OSHGui
 		/**
 		 * Legt den minimalen Wert fest.
 		 *
-		 * @param min
+		 * \param min
 		 */
 		void SetMin(int min);
 		/**
 		 * Gibt den minimalen Wert zurück.
 		 *
-		 * @return der minimale Wert
+		 * \return der minimale Wert
 		 */
 		int GetMin() const;
 		/**
 		 * Legt den maximalen Wert fest.
 		 *
-		 * @param max
+		 * \param max
 		 */
 		void SetMax(int max);
 		/**
 		 * Gibt den maximalen Wert zurück.
 		 *
-		 * @return der maximale Wert
+		 * \return der maximale Wert
 		 */
 		int GetMax() const;
 		/**
 		 * Legt den aktuellen Wert fest.
 		 *
-		 * @param value
+		 * \param value
 		 */
 		void SetValue(int value);
 		/**
 		 * Ruft den aktuellen Wert ab.
 		 *
-		 * @return der Wert
+		 * \return der Wert
 		 */
 		int GetValue() const;
 		/**
 		 * Legt die Farbe des Fortschrittsbalken fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		void SetBarColor(Drawing::Color color);
+		void SetBarColor(const Drawing::Color &color);
 		/**
 		 * Gibt die Farbe des Fortschrittsbalken zurück.
 		 *
-		 * @return die Farbe
+		 * \return die Farbe
 		 */
-		Drawing::Color GetBarColor() const;
+		const Drawing::Color& GetBarColor() const;
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
-	
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 		
+	protected:
+		virtual void PopulateGeometry() override;
+
 	private:
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void Adjust();
 	
-		Drawing::Color barColor;
-		int value;
-		int min;
-		int max;
+		Drawing::Color barColor_;
+
+		int value_;
+		int min_;
+		int max_;
 	};
 }
 

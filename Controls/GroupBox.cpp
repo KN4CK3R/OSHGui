@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -17,107 +17,97 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	GroupBox::GroupBox()
 	{
-		type = CONTROL_GROUPBOX;
+		type_ = ControlType::GroupBox;
 
-		captionLabel = new Label();
-		captionLabel->SetLocation(Drawing::Point(5, -1));
-		captionLabel->SetBackColor(Drawing::Color::Empty());
-		AddSubControl(captionLabel);
+		captionLabel_ = new Label();
+		captionLabel_->SetLocation(Drawing::PointI(5, -1));
+		captionLabel_->SetBackColor(Drawing::Color::Empty());
+		AddSubControl(captionLabel_);
 
-		containerPanel = new Panel();
-		containerPanel->SetLocation(Drawing::Point(3, 10));
-		containerPanel->SetBackColor(Drawing::Color::Empty());
-		AddSubControl(containerPanel);
+		containerPanel_ = new Panel();
+		containerPanel_->SetLocation(Drawing::PointI(3, 10));
+		containerPanel_->SetBackColor(Drawing::Color::Empty());
+		AddSubControl(containerPanel_);
 
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
-		canRaiseEvents = false;
-	}
-	//---------------------------------------------------------------------------
-	GroupBox::~GroupBox()
-	{
-
+		canRaiseEvents_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void GroupBox::SetSize(const Drawing::Size &size)
+	void GroupBox::SetSize(const Drawing::SizeI &size)
 	{
-		ContainerControl::SetSize(size);
+		Control::SetSize(size);
 
-		containerPanel->SetSize(size.InflateEx(-3 * 2, -3 * 2 - 10));
+		containerPanel_->SetSize(size.InflateEx(-3 * 2, -3 * 2 - 10));
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::SetText(const Misc::AnsiString &text)
 	{
-		captionLabel->SetText(text);
+		captionLabel_->SetText(text);
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& GroupBox::GetText() const
 	{
-		return captionLabel->GetText();
+		return captionLabel_->GetText();
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void GroupBox::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
 
-		captionLabel->SetFont(font);
+		captionLabel_->SetFont(font);
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::SetForeColor(Drawing::Color color)
+	void GroupBox::SetForeColor(const Drawing::Color &color)
 	{
 		Control::SetForeColor(color);
 
-		captionLabel->SetForeColor(color);
+		captionLabel_->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
 	const std::deque<Control*>& GroupBox::GetControls() const
 	{
-		return containerPanel->GetControls();
+		return containerPanel_->GetControls();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool GroupBox::Intersect(const Drawing::Point &point) const
-	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
-	}
-	//---------------------------------------------------------------------------
 	void GroupBox::AddControl(Control *control)
 	{
-		containerPanel->AddControl(control);
+		containerPanel_->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
 	void GroupBox::RemoveControl(Control *control)
 	{
-		containerPanel->RemoveControl(control);
+		containerPanel_->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void GroupBox::Render(Drawing::IRenderer *renderer)
+	void GroupBox::DrawSelf(Drawing::RenderContext &context)
 	{
-		if (!isVisible)
-		{
-			return;
-		}
+		Control::DrawSelf(context);
 
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
+		captionLabel_->Render();
+		containerPanel_->Render();
+	}
+	//---------------------------------------------------------------------------
+	void GroupBox::PopulateGeometry()
+	{
+		using namespace Drawing;
 		
-		captionLabel->Render(renderer);
+		Graphics g(*geometry_);
 
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + 5, 3, 1);
-		renderer->Fill(absoluteLocation.Left + captionLabel->GetWidth() + 5, absoluteLocation.Top + 5, GetWidth() - captionLabel->GetWidth() - 6, 1);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 6, 1, GetHeight() - 7);
-		renderer->Fill(absoluteLocation.Left + GetWidth() - 1, absoluteLocation.Top + 6, 1, GetHeight() - 7);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + GetHeight() - 1, GetWidth() - 2, 1);
+		if (GetBackColor().GetAlpha() > 0)
+		{
+			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
+		}
 
-		containerPanel->Render(renderer);
+		g.FillRectangle(GetForeColor(), PointF(1, 5), SizeF(3, 1));
+		g.FillRectangle(GetForeColor(), PointF(5 + captionLabel_->GetWidth(), 5), SizeF(GetWidth() - captionLabel_->GetWidth() - 6, 1));
+		g.FillRectangle(GetForeColor(), PointF(0, 6), SizeF(1, GetHeight() - 7));
+		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 6), SizeF(1, GetHeight() - 7));
+		g.FillRectangle(GetForeColor(), PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
 	}
 	//---------------------------------------------------------------------------
 }

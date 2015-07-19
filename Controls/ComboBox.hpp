@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,7 +9,7 @@
 #ifndef OSHGUI_COMBOBOX_HPP
 #define OSHGUI_COMBOBOX_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 #include "Button.hpp"
 
 namespace OSHGui
@@ -26,132 +26,131 @@ namespace OSHGui
 	/**
 	 * Stellt ein Kombinationsfeld-Steuerelement dar.
 	 */
-	class OSHGUI_EXPORT ComboBox : public ContainerControl
+	class OSHGUI_EXPORT ComboBox : public Control
 	{
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		ComboBox();
-		virtual ~ComboBox();
 		
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetBackColor(Drawing::Color color) override;
+		virtual void SetBackColor(const Drawing::Color &color) override;
 		/**
 		 * Ruft ab, ob das Steuerelement den Fokus besitzt.
 		 *
-		 * @return isFocused
+		 * \return isFocused
 		 */
 		virtual bool GetIsFocused() const override;
 		/**
 		 * Legt den Text fest. Falls autoSize = true, wird die Größe automatisch angepasst.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Ruft den Text ab.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
 		/**
 		 * Gibt das Item an der Stelle index zurück.
 		 *
-		 * @param index
-		 * @return das Item
+		 * \param index
+		 * \return das Item
 		 */
 		const Misc::AnsiString& GetItem(int index) const;
 		/**
 		 * Legt den ausgewählten Index fest.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void SetSelectedIndex(int index);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *
-		 * @return der ausgewählte Index
+		 * \return der ausgewählte Index
 		 */
 		int GetSelectedIndex() const;
 		/**
 		 * Legt das ausgewählte Item fest.
 		 *
-		 * @param item
+		 * \param item
 		 */
 		void SetSelectedItem(const Misc::AnsiString &item);
 		/**
 		 * Ruft das ausgewählte Item ab.
 		 *
-		 * @return das Item
+		 * \return das Item
 		 */
 		const Misc::AnsiString& GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der Items zurück.
 		 *
-		 * @return Anzahl der Items
+		 * \return Anzahl der Items
 		 */
 		int GetItemsCount() const;
 		/**
 		 * Legt die anzahl an Items fest, die ausgeklappt angezeigt werden.
 		 *
-		 * @param items
+		 * \param items
 		 */
 		void SetMaxShowItems(int items);
 		/**
 		 * Ruft die Anzahl der Items ab, die ausgeklappt angezeigt werden.
 		 *
-		 * @return items
+		 * \return items
 		 */
 		int GetMaxShowItems() const;
 		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEvent
+		 * \return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		
 		/**
 		 * Fügt ein neues Item hinzu.
 		 *
-		 * @param text der Text des Items
+		 * \param text der Text des Items
 		 */
 		void AddItem(const Misc::AnsiString &text);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
-		 * @param index
-		 * @param text der Text des Items
+		 * \param index
+		 * \param text der Text des Items
 		 */
 		void InsertItem(int index, const Misc::AnsiString &text);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void RemoveItem(int index);
 		/**
@@ -161,56 +160,53 @@ namespace OSHGui
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 		/**
 		 * Setzt den Eingabefokus auf das Steuerelement.
 		 */
-		virtual void Focus();
-
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer);
+		virtual void Focus() override;
 	
+	protected:
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 	private:
 		static const int DefaultMaxShowItems;
 
 		void Expand();
 		void Collapse();
 		
-		int maxShowItems;
-		bool droppedDown;
+		int maxShowItems_;
+		bool droppedDown_;
 		
-		Drawing::Color dropDownColor;
+		Drawing::Color dropDownColor_;
 		
 		class ComboBoxButton : public Button
 		{
 		public:
 			using Button::SetSize;
 
-			virtual void SetSize(const Drawing::Size &size);
+			virtual void SetSize(const Drawing::SizeI &size) override;
 
-			virtual bool Intersect(const Drawing::Point &point) const;
-
-			virtual void Render(Drawing::IRenderer *renderer);
+			virtual bool Intersect(const Drawing::PointI &point) const override;
 
 		protected:
-			virtual void CalculateLabelLocation();
+			virtual void CalculateLabelLocation() override;
 
-			virtual bool OnKeyDown(const KeyboardMessage &keyboard);
+			virtual void DrawSelf(Drawing::RenderContext &context) override;
+			virtual void PopulateGeometry() override;
+
+			virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 
 		private:
-			Drawing::Size realSize;
-			Drawing::Point arrowAbsoluteLocation;
+			Drawing::SizeI realSize_;
+			Drawing::PointI arrowAbsoluteLocation_;
 		};
-		ComboBoxButton *button;
 
-		ListBox *listBox;
+		ComboBoxButton *button_;
+		ListBox *listBox_;
 	};
 }
 

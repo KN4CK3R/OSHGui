@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -19,38 +19,37 @@ namespace OSHGui
 	namespace Misc
 	{
 		/**
+		 * Gibt an, ob ein DateTime-Objekt eine lokale Zeit, eine koordinate Weltzeit
+		 * (UTC) angibt oder weder lokale Zeit noch UTC angegeben sind.
+		 */
+		enum class DateTimeKind
+		{
+			Unspecified = 0,
+			Utc,
+			Local
+		};
+		
+		/**
+		 * Gibt den Wochentag an.
+		 */
+		enum class DayOfWeek
+		{
+			Sunday = 0,
+			Monday,
+			Tuesday,
+			Wednesday,
+			Thursday,
+			Friday,
+			Saturday
+		};
+
+		/**
 		 * Stellt einen Zeitpunkt dar, der durch Datum und Uhrzeit dargestellt wird.
 		 */
 		class OSHGUI_EXPORT DateTime
 		{
-		public:
-			/**
-			 * Gibt an, ob ein DateTime-Objekt eine lokale Zeit, eine koordinate Weltzeit
-			 * (UTC) angibt oder weder lokale Zeit noch UTC angegeben sind.
-			 */
-			enum DateTimeKind
-			{
-				Unspecified = 0,
-				Utc,
-				Local
-			};
-		
-			/**
-			 * Gibt den Wochentag an.
-			 */
-			enum DayOfWeek
-			{
-				Sunday = 0,
-				Monday,
-				Tuesday,
-				Wednesday,
-				Thursday,
-				Friday,
-				Saturday
-			};
-
 		private:
-			enum DatePart
+			enum class DatePart
 			{
 				Year = 0,
 				DayOfYear,
@@ -108,10 +107,10 @@ namespace OSHGui
 			static const unsigned long long KindLocalAmbiguousDst;
 			static const int KindShift;
 
-			static const AnsiString dayNames[7];
-			static const AnsiString monthNames[12];
+			static const AnsiString DayNames[7];
+			static const AnsiString MonthNames[12];
 
-			unsigned long long dateData;
+			unsigned long long dateData_;
 
 		public:
 			/**
@@ -145,147 +144,147 @@ namespace OSHGui
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit der angegebenen Anzahl an Ticks.
 			 *
-			 * @param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
+			 * \param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
 			 */
 			DateTime(long long ticks);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit der angegebenen Anzahl an Ticks
 			 * und koordinierter Weltzeit (UTC) oder lokaler Zeit.
 			 *
-			 * @param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
-			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 * \param ticks Eine in der Einheit 100 Nanosekunden ausgedrückte Datums- und Uhrzeitangabe
+			 * \param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
 			 */
 			DateTime(long long ticks, DateTimeKind kind);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat und Tag.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * \param year das Jahr (1 bis 9999)
+			 * \param month der Monat (1 bis 12)
+			 * \param day der Tag (1 bis zur Anzahl der Tage in month)
 			 */
 			DateTime(int year, int month, int day);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute und Sekunde.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
-			 * @param hour die Stunde (0 bis 23)
-			 * @param minute die Minute (0 bis 59)
-			 * @param second die Sekunde (0 bis 59)
+			 * \param year das Jahr (1 bis 9999)
+			 * \param month der Monat (1 bis 12)
+			 * \param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * \param hour die Stunde (0 bis 23)
+			 * \param minute die Minute (0 bis 59)
+			 * \param second die Sekunde (0 bis 59)
 			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute, Sekunde
 			 * und koordinierter Weltzeit (UTC) oder lokaler Zeit.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
-			 * @param hour die Stunden (0 bis 23)
-			 * @param minute die Minuten (0 bis 59)
-			 * @param second die Sekunden (0 bis 59)
-			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 * \param year das Jahr (1 bis 9999)
+			 * \param month der Monat (1 bis 12)
+			 * \param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * \param hour die Stunden (0 bis 23)
+			 * \param minute die Minuten (0 bis 59)
+			 * \param second die Sekunden (0 bis 59)
+			 * \param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
 			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second, DateTimeKind kind);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute, Sekunde
 			 * und Milisekunden.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
-			 * @param hour die Stunden (0 bis 23)
-			 * @param minute die Minuten (0 bis 59)
-			 * @param second die Sekunden (0 bis 59)
-			 * @param millisecond die Millisekunden (0 bis 999)
+			 * \param year das Jahr (1 bis 9999)
+			 * \param month der Monat (1 bis 12)
+			 * \param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * \param hour die Stunden (0 bis 23)
+			 * \param minute die Minuten (0 bis 59)
+			 * \param second die Sekunden (0 bis 59)
+			 * \param millisecond die Millisekunden (0 bis 999)
 			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
 			/**
 			 * Initialisiert eine neue Instanz der DateTime-Struktur mit dem angegebenen Jahr, Monat, Tag, Stunde, Minute, Sekunde,
 			 * Milisekunden und koordinierter Weltzeit (UTC) oder lokaler Zeit.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @param day der Tag (1 bis zur Anzahl der Tage in month)
-			 * @param hour die Stunden (0 bis 23)
-			 * @param minute die Minuten (0 bis 59)
-			 * @param second die Sekunden (0 bis 59)
-			 * @param millisecond die Millisekunden (0 bis 999)
-			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 * \param year das Jahr (1 bis 9999)
+			 * \param month der Monat (1 bis 12)
+			 * \param day der Tag (1 bis zur Anzahl der Tage in month)
+			 * \param hour die Stunden (0 bis 23)
+			 * \param minute die Minuten (0 bis 59)
+			 * \param second die Sekunden (0 bis 59)
+			 * \param millisecond die Millisekunden (0 bis 999)
+			 * \param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
 			 */
 			DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTimeKind kind);
 			
 			/**
 			 * Ruft die Datumskomponente dieser Instanz ab.
 			 *
-			 * @return die Datumskomponente
+			 * \return die Datumskomponente
 			 */
 			DateTime GetDate() const;
 			/**
 			 * Ruft die Uhrzeit für diese Instanz ab.
 			 *
-			 * @return die Uhrzeit
+			 * \return die Uhrzeit
 			 */
 			TimeSpan GetTimeOfDay() const;
 			/**
 			 * Ruft das Jahr ab, das durch diese Instanz dargestellt wird.
 			 *
-			 * @return das Jahr
+			 * \return das Jahr
 			 */
 			int GetYear() const;
 			/**
 			 * Ruft den Monat ab, der durch diese Instanz dargestellt wird.
 			 *
-			 * @return der Monat
+			 * \return der Monat
 			 */
 			int GetMonth() const;
 			/**
 			 * Ruft den Tag des Monats ab, der durch diese Instanz dargestellt wird.
 			 *
-			 * @return der Tag
+			 * \return der Tag
 			 */
 			int GetDay() const;
 			/**
 			 * Ruft den Wochentag ab, der durch diese Instanz dargestellt wird.
 			 *
-			 * @return der Wochentag
+			 * \return der Wochentag
 			 */
 			DayOfWeek GetDayOfWeek() const;
 			/**
 			 * Ruft den Tag des Jahres ab, der durch diese Instanz dargestellt wird.
 			 *
-			 * @return der Tag
+			 * \return der Tag
 			 */
 			int GetDayOfYear() const;
 			/**
 			 * Ruft die Komponente für die Stunden des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
-			 * @return die Stunden
+			 * \return die Stunden
 			 */
 			int GetHour() const;
 			/**
 			 * Ruft die Komponente für die Minuten des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
-			 * @return die Minuten
+			 * \return die Minuten
 			 */
 			int GetMinute() const;
 			/**
 			 * Ruft die Komponente für die Sekunden des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
-			 * @return die Sekunden
+			 * \return die Sekunden
 			 */
 			int GetSecond() const;
 			/**
 			 * Ruft die Komponente für die Millisekunden des Datums ab, das durch diese Instanz dargestellt wird.
 			 *
-			 * @return die Millisekunden
+			 * \return die Millisekunden
 			 */
 			int GetMillisecond() const;
 			/**
 			 * Ruft die Anzahl der Ticks ab, die Datum und Uhrzeit dieser Instanz dargestellen.
 			 *
-			 * @return die Ticks
+			 * \return die Ticks
 			 */
 			long long GetTicks() const;
 			
@@ -293,7 +292,7 @@ namespace OSHGui
 			 * Ruft einen Wert ab, der angibt, ob die durch diese Instanz dargestellte Zeit
 			 * auf lokaler Zeit, koordinierter Weltzeit (UTC) oder keinem von beidem basiert.
 			 *
-			 * @return der DateTimeKind-Wert
+			 * \return der DateTimeKind-Wert
 			 */
 			DateTimeKind GetKind() const;
 			
@@ -301,84 +300,84 @@ namespace OSHGui
 			 * Ruft ein DateTime-Objekt ab, das auf das aktuelle Datum und die aktuelle Zeit
 			 * auf dem lokalen Rechner als lokale Zeit festgelegt ist.
 			 *
-			 * @return das DateTime-Objekt
+			 * \return das DateTime-Objekt
 			 */
 			static DateTime GetNow();
 			/**
 			 * Ruft ein DateTime-Objekt ab, das auf das aktuelle Datum und die aktuelle Zeit
 			 * auf dem lokalen Rechner als lokale Zeit festgelegt ist.
 			 *
-			 * @return das DateTime-Objekt
+			 * \return das DateTime-Objekt
 			 */
 			static DateTime GetUtcNow();
 			/**
 			 * Ruft das aktuelle Datum ab.
 			 *
-			 * @return das aktuelle Datum
+			 * \return das aktuelle Datum
 			 */
 			static DateTime GetToday();
 			
 			/**
 			 * Addiert den Wert der angegebenen TimeSpan zum Wert dieser Instanz.
 			 *
-			 * @param value ein TimeSpan-Objekt, das ein positives oder negatives Zeitintervall darstellt
-			 * @return eine DateTime-Struktur
+			 * \param value ein TimeSpan-Objekt, das ein positives oder negatives Zeitintervall darstellt
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime Add(TimeSpan value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Jahren zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Anzahl von Jahren. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Anzahl von Jahren. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddYears(int value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Monaten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param months eine Anzahl von Monaten. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param months eine Anzahl von Monaten. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddMonths(int months) const;
 			/**
 			 * Addiert die angegebene Anzahl von Tagen zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Zahl, die aus ganzen Tagen und dem Bruchteil eines Tages besteht. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Zahl, die aus ganzen Tagen und dem Bruchteil eines Tages besteht. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddDays(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Stunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Zahl, die aus ganzen Stunden und dem Bruchteil einer Stunde besteht. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Zahl, die aus ganzen Stunden und dem Bruchteil einer Stunde besteht. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddHours(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Minuten zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Zahl, die aus ganzen Minuten und dem Bruchteil einer Minute besteht. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Zahl, die aus ganzen Minuten und dem Bruchteil einer Minute besteht. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddMinutes(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Sekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Zahl, die aus ganzen Sekunden und dem Bruchteil einer Sekunde besteht. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Zahl, die aus ganzen Sekunden und dem Bruchteil einer Sekunde besteht. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddSeconds(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Millisekunden zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Zahl, die aus ganzen Millisekunden und dem Bruchteil einer Millisekunde besteht. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Zahl, die aus ganzen Millisekunden und dem Bruchteil einer Millisekunde besteht. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddMilliseconds(double value) const;
 			/**
 			 * Addiert die angegebene Anzahl von Ticks zum Wert dieser Instanz und gibt die neue DateTime-Struktur zurück.
 			 *
-			 * @param value eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
-			 * @return eine DateTime-Struktur
+			 * \param value eine Anzahl von 100-Nanosekunden-Ticks. value kann negativ sein.
+			 * \return eine DateTime-Struktur
 			 */
 			DateTime AddTicks(long long value) const;
 			
@@ -396,9 +395,9 @@ namespace OSHGui
 			/**
 			 * Ruft die Anzahl der Tage im angegeben Monat und Jahr ab.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @param month der Monat (1 bis 12)
-			 * @return die Anzahl der Tage
+			 * \param year das Jahr (1 bis 9999)
+			 * \param month der Monat (1 bis 12)
+			 * \return die Anzahl der Tage
 			 */
 			static int DaysInMonth(int year, int month);
 			
@@ -406,24 +405,24 @@ namespace OSHGui
 			 * Erstellt ein neues DateTime-Objekt, das die gleiche Zeit wie die angegebene DateTime darstellt, aber entsprechend dem
 			 * DateTimeKind-Wert in Ortszeit, koordinierter Weltzeit (UTC) oder keinem von beidem angegeben ist.
 			 *
-			 * @param value die DateTime-Struktur
-			 * @param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
-			 * @return die neue DateTime-Struktur
+			 * \param value die DateTime-Struktur
+			 * \param kind Einer der DateTimeKind-Werte, der angibt, ob ticks eine lokale Zeit, UTC angibt oder keine Angabe enthält
+			 * \return die neue DateTime-Struktur
 			 */
 			static DateTime SpecifyKind(DateTime value, DateTimeKind kind);
 			
 			/**
 			 * Ruft ab, ob das angegebene Jahr ein Schaltjahr ist.
 			 *
-			 * @param year das Jahr (1 bis 9999)
-			 * @return ja/nein
+			 * \param year das Jahr (1 bis 9999)
+			 * \return ja/nein
 			 */
 			static bool IsLeapYear(int year);
 			
 			/**
 			 * Ruft den Unterschied der aktuellen Zeitzone zur UTC ab.
 			 *
-			 * @return der Zeitzonenunterschied
+			 * \return der Zeitzonenunterschied
 			 */
 			static long long GetTimezoneOffset();
 
@@ -431,35 +430,35 @@ namespace OSHGui
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: d.m.Y H:i:s => 23.04.2011 02:23:48
 			 *
-			 * @return die Zeichenfolgendarstellung
+			 * \return die Zeichenfolgendarstellung
 			 */
 			AnsiString ToString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: l, d. F Y => Saturday, 23. April 2011
 			 *
-			 * @return die Zeichenfolgendarstellung
+			 * \return die Zeichenfolgendarstellung
 			 */
 			AnsiString ToLongDateString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: H:i:s => 02:23:48
 			 *
-			 * @return die Zeichenfolgendarstellung
+			 * \return die Zeichenfolgendarstellung
 			 */
 			AnsiString ToLongTimeString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: d.m.Y => 23.04.2011
 			 *
-			 * @return die Zeichenfolgendarstellung
+			 * \return die Zeichenfolgendarstellung
 			 */
 			AnsiString ToShortDateString();
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: H:i => 02:23
 			 *
-			 * @return die Zeichenfolgendarstellung
+			 * \return die Zeichenfolgendarstellung
 			 */
 			AnsiString ToShortTimeString();
 		};

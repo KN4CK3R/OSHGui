@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -22,7 +22,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Cursor> Cursors::Get(Cursors::CursorType cursorType)
+	const std::shared_ptr<Cursor>& Cursors::Get(Cursors::CursorType cursorType)
 	{
 		auto it = cursors.find(cursorType);
 		if (it == cursors.end())
@@ -52,8 +52,10 @@ namespace OSHGui
 					cursor = std::make_shared<Cursor>();
 					break;
 			}
+			cursor->Initialize();
+
 			cursors[cursorType] = cursor;
-			return cursor;
+			return cursors[cursorType];
 		}
 		return (*it).second;
 	}

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,7 +9,7 @@
 #ifndef OSHGUI_SCROLLBAR_HPP
 #define OSHGUI_SCROLLBAR_HPP
 
-#include "ContainerControl.hpp"
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -22,10 +22,10 @@ namespace OSHGui
 	/**
 	 * Implementiert die Basisfunktionen eines Schiebeleisten-Steuerelements.
 	 */
-	class OSHGUI_EXPORT ScrollBar : public ContainerControl
+	class OSHGUI_EXPORT ScrollBar : public Control
 	{
 	public:
-		using ContainerControl::SetSize;
+		using Control::SetSize;
 
 		/**
 		 * Konstruktor der Klasse.
@@ -35,53 +35,53 @@ namespace OSHGui
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt den aktuellen Wert des Bildlauffelds fets.
 		 *
-		 * @param value
+		 * \param value
 		 */
 		void SetValue(int value);
 		/**
 		 * Ruft den aktuellen Wert des Bildlauffelds ab.
 		 *
-		 * @return die Position
+		 * \return die Position
 		 */
 		int GetValue() const;
 		/**
 		 * Legt die Anzahl der scrollbaren Elemente fest.
 		 *
-		 * @param maximum
+		 * \param maximum
 		 */
 		void SetMaximum(int maximum);
 		/**
 		 * Ruft die Anzahl der scrollbaren Elemente ab.
 		 *
-		 * @return maximum
+		 * \return maximum
 		 */
 		int GetMaximum() const;
 		/**
 		 * Ruft das ScrollEvent für das Steuerelement ab.
 		 *
-		 * @return scrollEvent
+		 * \return scrollEvent
 		 */
 		ScrollEvent& GetScrollEvent();
 
 		/**
 		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
 		 *
-		 * @param point
-		 * @return ja / nein
+		 * \param point
+		 * \return ja / nein
 		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
+		virtual bool Intersect(const Drawing::PointI &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -95,14 +95,11 @@ namespace OSHGui
 		 */
 		void ScrollToBottom();
 		
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
-	
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
 	protected:
+		virtual void PopulateGeometry() override;
+
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
@@ -111,47 +108,53 @@ namespace OSHGui
 
 	private:
 		static const int MinimumSliderHeight = 25;
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void SetValueInternal(int value);
 
-		bool drag;
-		int value;
-		float pixelsPerTick;
-		int maximum;
+		bool drag_;
+		int value_;
+		float pixelsPerTick_;
+		int maximum_;
 
-		Drawing::Point trackLocation;
-		Drawing::Point trackAbsoluteLocation;
-		Drawing::Size trackSize;
-		Drawing::Point sliderLocation;
-		Drawing::Point sliderAbsoluteLocation;
-		Drawing::Size sliderSize;
+		Drawing::PointI trackLocation_;
+		Drawing::PointI trackAbsoluteLocation_;
+		Drawing::SizeI trackSize_;
 
-		ScrollEvent scrollEvent;
+		Drawing::PointI sliderLocation_;
+		Drawing::PointI sliderAbsoluteLocation_;
+		Drawing::SizeI sliderSize_;
+
+		ScrollEvent scrollEvent_;
 
 		class ScrollBarButton : public Control
 		{
 		public:
 			using Control::SetSize;
 
-			static const Drawing::Size DefaultButtonSize;
+			enum class ScrollBarDirection
+			{
+				Up,
+				Down
+			};
 
-			ScrollBarButton(int direction);
+			static const Drawing::SizeI DefaultSize;
+
+			ScrollBarButton(ScrollBarDirection direction);
 			
-			virtual void SetSize(const Drawing::Size &size) override;
+			virtual void SetSize(const Drawing::SizeI &size) override;
 
-			virtual bool Intersect(const Drawing::Point &point) const override;
-			virtual void CalculateAbsoluteLocation() override;
-
-			virtual void Render(Drawing::IRenderer *renderer) override;
+		protected:
+			virtual void PopulateGeometry() override;
 
 		private:
-			int direction;
+			ScrollBarDirection direction_;
 
-			Drawing::Point iconLocation;
+			Drawing::PointF iconLocation_;
 		};
-		ScrollBarButton *upButton;
-		ScrollBarButton *downButton;
+
+		ScrollBarButton *upButton_;
+		ScrollBarButton *downButton_;
 	};
 }
 
