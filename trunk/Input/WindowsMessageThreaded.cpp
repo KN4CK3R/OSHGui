@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -15,28 +15,28 @@ namespace OSHGui
 	{
 		void WindowsMessageThreaded::PopulateMessages()
 		{
-			auto app = Application::Instance();
+			auto &app = Application::Instance();
 
-			while (!mouseMessages.IsEmpty())
+			while (!mouseMessages_.IsEmpty())
 			{
-				app->ProcessMouseMessage(mouseMessages.Pop());
+				app.ProcessMouseMessage(mouseMessages_.Pop());
 			}
-			while (!keyboardMessages.IsEmpty())
+			while (!keyboardMessages_.IsEmpty())
 			{
-				app->ProcessKeyboardMessage(keyboardMessages.Pop());
+				app.ProcessKeyboardMessage(keyboardMessages_.Pop());
 			}
 		}
 		//---------------------------------------------------------------------------
-		bool WindowsMessageThreaded::InjectMouseMessage(MouseMessage &&mouse)
+		bool WindowsMessageThreaded::InjectMouseMessage(const MouseMessage &mouse)
 		{
-			mouseMessages.Push(mouse);
+			mouseMessages_.Push(mouse);
 
 			return false;
 		}
 		//---------------------------------------------------------------------------
-		bool WindowsMessageThreaded::InjectKeyboardMessage(KeyboardMessage &&keyboard)
+		bool WindowsMessageThreaded::InjectKeyboardMessage(const KeyboardMessage &keyboard)
 		{
-			keyboardMessages.Push(keyboard);
+			keyboardMessages_.Push(keyboard);
 
 			return false;
 		}

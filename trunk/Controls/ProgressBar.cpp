@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -14,134 +14,125 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::Size ProgressBar::DefaultSize(110, 24);
+	const Drawing::SizeI ProgressBar::DefaultSize(112, 24);
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
 	ProgressBar::ProgressBar()
-		: min(0),
-		  max(100),
-		  value(0)
+		: min_(0),
+		  max_(100),
+		  value_(0)
 	{
-		type = CONTROL_PROGRESSBAR;
+		type_ = ControlType::ProgressBar;
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
 		SetBarColor(Drawing::Color(0xFF67AFF5));
 
-		canRaiseEvents = false;
+		canRaiseEvents_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void ProgressBar::SetMin(int min)
 	{
-		if (min < max)
+		min_ = min;
+		if (min_ > max_)
 		{
-			this->min = min;
-			Adjust();
+			max_ = min_;
 		}
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		else
-		{
-			throw Misc::ArgumentException("min cannot be greater than max.", "min", __FILE__, __LINE__);
-		}
-		#endif
+
+		Adjust();
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMin() const
 	{
-		return min;
+		return min_;
 	}
 	//---------------------------------------------------------------------------
 	void ProgressBar::SetMax(int max)
 	{
-		if (max > min)
+		max_ = max;
+		if (max_ < min_)
 		{
-			this->max = max;
-			Adjust();
+			min_ = max_;
 		}
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		else
-		{
-			throw Misc::ArgumentException("max cannot be lower than min.", "max", __FILE__, __LINE__);
-		}
-		#endif
+		
+		Adjust();
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetMax() const
 	{
-		return max;
+		return max_;
 	}
 	//---------------------------------------------------------------------------
 	void ProgressBar::SetValue(int value)
 	{
-		this->value = value;
+		value_ = value;
+
 		Adjust();
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	int ProgressBar::GetValue() const
 	{
-		return value;
+		return value_;
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::SetBarColor(Drawing::Color color)
+	void ProgressBar::SetBarColor(const Drawing::Color &color)
 	{
-		barColor = color;
+		barColor_ = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color ProgressBar::GetBarColor() const
+	const Drawing::Color& ProgressBar::GetBarColor() const
 	{
-		return barColor;
+		return barColor_;
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool ProgressBar::Intersect(const Drawing::Point &point) const
+	bool ProgressBar::Intersect(const Drawing::PointI &point) const
 	{
 		return false;
 	}
 	//---------------------------------------------------------------------------
 	void ProgressBar::Adjust()
 	{
-		if (value < min)
+		if (value_ < min_)
 		{
-			value = min;
+			value_ = min_;
 		}
-		if (value > max)
+		if (value_ > max_)
 		{
-			value = max;
+			value_ = max_;
 		}
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void ProgressBar::Render(Drawing::IRenderer *renderer)
+	void ProgressBar::PopulateGeometry()
 	{
-		if (!isVisible)
+		using namespace Drawing;
+
+		Graphics g(*geometry_);
+
+		if (!GetBackColor().IsTranslucent())
 		{
-			return;
+			g.FillRectangle(GetBackColor(), PointF(1, 0), GetSize() - SizeF(2, 0));
+			g.FillRectangle(GetBackColor(), PointF(0, 1), GetSize() - SizeF(0, 2));
 		}
 
-		if (backColor.A != 0)
+		g.FillRectangle(GetForeColor(), PointF(1, 0), SizeF(GetWidth() - 2, 1));
+		g.FillRectangle(GetForeColor(), PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
+		g.FillRectangle(GetForeColor(), PointF(0, 1), SizeF(1, GetHeight() - 2));
+		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
+		
+		for (int i = (int)(value_ / ((max_ - min_) / ((GetWidth() - 4) / 12.0f)) - 1); i >= 0; --i)
 		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, GetWidth() - 2, GetHeight());
-			renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, GetWidth(), GetHeight() - 2);
-		}
-
-		renderer->SetRenderColor(foreColor);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top, GetWidth() - 2, 1);
-		renderer->Fill(absoluteLocation.Left + 1, absoluteLocation.Top + GetHeight() - 1, GetWidth() - 2, 1);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + 1, 1, GetHeight() - 2);
-		renderer->Fill(absoluteLocation.Left + GetWidth() - 1, absoluteLocation.Top + 1, 1, GetHeight() - 2);
-
-		renderer->SetRenderColor(barColor);
-		for (int i = (int)(value / ((max - min) / ((GetWidth() - 8) / 12.0f)) - 1); i >= 0; --i)
-		{
-			renderer->Fill(absoluteLocation.Left + 4 + i * 12, absoluteLocation.Top + 4, 8, GetHeight() - 8);
+			g.FillRectangle(barColor_, PointF(4 + i * 12, 4), SizeF(8, GetHeight() - 8));
 		}
 	}
 	//---------------------------------------------------------------------------

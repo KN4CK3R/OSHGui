@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -15,40 +15,30 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	LinkLabel::LinkLabel()
 	{
-		type = CONTROL_LINKLABEL;
+		type_ = ControlType::LinkLabel;
 		
-		cursor = Cursors::Get(Cursors::Hand);
+		cursor_ = Cursors::Get(Cursors::Hand);
 
-		canRaiseEvents = true;
+		canRaiseEvents_ = true;
 
-		ApplyTheme(Application::Instance()->GetTheme());
-	}
-	//---------------------------------------------------------------------------
-	LinkLabel::~LinkLabel()
-	{
-
+		ApplyTheme(Application::Instance().GetTheme());
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool LinkLabel::Intersect(const Drawing::Point &point) const
+	bool LinkLabel::Intersect(const Drawing::PointI &point) const
 	{
-		return Intersection::TestRectangle(absoluteLocation, size, point);
+		return Control::Intersect(point);
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void LinkLabel::Render(Drawing::IRenderer *renderer)
+	void LinkLabel::PopulateGeometry()
 	{
-		if (!isVisible)
-		{
-			return;
-		}
-		
-		renderer->SetRenderColor(foreColor);
-		renderer->Fill(absoluteLocation.Left, absoluteLocation.Top + GetHeight() - 1, GetWidth(), 1);
+		using namespace Drawing;
 
-		Label::Render(renderer);
+		Label::PopulateGeometry();
+
+		Graphics g(*geometry_);
+		g.FillRectangle(GetForeColor(), RectangleF(PointF(0, GetHeight()), SizeF(GetWidth(), 1)));
 	}
 	//---------------------------------------------------------------------------
 }

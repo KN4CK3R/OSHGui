@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -16,17 +16,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		Exception::Exception(const Misc::AnsiString &message)
-			: message(message),
-			  line(0)
-		{
-			std::cerr << what() << std::endl;
-		}
-		//---------------------------------------------------------------------------
-		Exception::Exception(const Misc::AnsiString &message, const Misc::AnsiString &file, int line)
-			: message(message),
-			  file(file),
-			  line(line)
+		Exception::Exception(Misc::AnsiString _message)
+			: message(std::move(_message))
 		{
 			std::cerr << what() << std::endl;
 		}
@@ -43,16 +34,6 @@ namespace OSHGui
 			return message;
 		}
 		//---------------------------------------------------------------------------
-		const Misc::AnsiString& Exception::GetFileName() const
-		{
-			return file;
-		}
-		//---------------------------------------------------------------------------
-		int Exception::GetLine() const
-		{
-			return line;
-		}
-		//---------------------------------------------------------------------------
 		const char* Exception::what() const throw()
 		{
 			return message.c_str();
@@ -60,30 +41,16 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		ArgumentException::ArgumentException(const Misc::AnsiString &paramName)
-			: paramName(paramName),
-			  Exception("Unexpected argument.\r\nParameter name: " + paramName)
+		ArgumentException::ArgumentException(Misc::AnsiString _paramName)
+			: paramName(std::move(_paramName)),
+			  Exception("Unexpected argument.\nParameter name: " + paramName)
 		{
 
 		}
 		//----------------------------------------------------------------------------
-		ArgumentException::ArgumentException(const Misc::AnsiString &paramName, const Misc::AnsiString &message)
-			: paramName(paramName),
-			  Exception(message)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		ArgumentException::ArgumentException(const Misc::AnsiString &paramName, const Misc::AnsiString &file, int line)
-			: paramName(paramName),
-			  Exception("Unexpected argument.\r\nParameter name: " + paramName, file, line)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		ArgumentException::ArgumentException(const Misc::AnsiString &paramName, const Misc::AnsiString &message, const Misc::AnsiString &file, int line)
-			: paramName(paramName),
-			  Exception(message, file, line)
+		ArgumentException::ArgumentException(Misc::AnsiString _paramName, Misc::AnsiString message)
+			: paramName(std::move(_paramName)),
+			  Exception(std::move(message))
 		{
 
 		}
@@ -109,18 +76,6 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		ArgumentNullException::ArgumentNullException(const Misc::AnsiString &paramName, const Misc::AnsiString &file, int line)
-			: ArgumentException(paramName, "Value cannot be null.", file, line)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		ArgumentNullException::ArgumentNullException(const Misc::AnsiString &paramName, const Misc::AnsiString &message, const Misc::AnsiString &file, int line)
-			: ArgumentException(paramName, message, file, line)
-		{
-
-		}
-		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
 		ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::AnsiString &paramName)
@@ -135,28 +90,10 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::AnsiString &paramName, const Misc::AnsiString &file, int line)
-			: ArgumentException(paramName, "Value was out of valid range.", file, line)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		ArgumentOutOfRangeException::ArgumentOutOfRangeException(const Misc::AnsiString &paramName, const Misc::AnsiString &message, const Misc::AnsiString &file, int line)
-			: ArgumentException(paramName, message, file, line)
-		{
-
-		}
-		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
 		InvalidOperationException::InvalidOperationException(const Misc::AnsiString &message)
 			: Exception(message)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		InvalidOperationException::InvalidOperationException(const Misc::AnsiString &message, const Misc::AnsiString &file, int line)
-			: Exception(message, file, line)
 		{
 
 		}
@@ -169,8 +106,18 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		InvalidThemeException::InvalidThemeException(const Misc::AnsiString &message, const Misc::AnsiString &file, int line)
-			: Exception(message, file, line)
+		//Constructor
+		//---------------------------------------------------------------------------
+		NotSupportedException::NotSupportedException()
+			: Exception()
+		{
+
+		}
+		//---------------------------------------------------------------------------
+		//Constructor
+		//---------------------------------------------------------------------------
+		FileNotFoundException::FileNotFoundException()
+			: Exception()
 		{
 
 		}

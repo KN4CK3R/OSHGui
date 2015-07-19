@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -28,75 +28,65 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		GroupBox();
-		virtual ~GroupBox();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt den Text fest.
 		 *
-		 * @param text
+		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
 		/**
 		 * Gibt den Text zurück.
 		 *
-		 * @return der Text
+		 * \return der Text
 		 */
 		const Misc::AnsiString& GetText() const;
 		/**
 		 * Legt die Schriftart des Texts im Steuerelement fest.
 		 *
-		 * @param font
+		 * \param font
 		 */
-		virtual void SetFont(const std::shared_ptr<Drawing::IFont> &font) override;
+		virtual void SetFont(const Drawing::FontPtr &font) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Gibt eine Liste der untergeordneten Steuerelemente zurück.
 		 *
-		 * @return parent
+		 * \return parent
 		 */
 		virtual const std::deque<Control*>& GetControls() const override;
 		
 		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
-		/**
 		 * Fügt ein untergeordnetes Steuerelement hinzu.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void AddControl(Control *control) override;
 		/**
 		 * Entfernt ein untergeordnetes Steuerelement.
 		 *
-		 * @param control
+		 * \param control
 		 */
 		virtual void RemoveControl(Control *control) override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
+
+	protected:
+		virtual void PopulateGeometry() override;
 		
 	private:
-		Label *captionLabel;
-		Panel *containerPanel;
+		Label *captionLabel_;
+		Panel *containerPanel_;
 	};
 }
 

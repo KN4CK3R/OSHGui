@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -13,145 +13,145 @@ namespace OSHGui
 {
 	namespace Misc
 	{
-		TextHelper::TextHelper(const std::shared_ptr<Drawing::IFont> &font)
+		TextHelper::TextHelper(const Drawing::FontPtr &font)
 		{
 			SetFont(font);
 		}
 		//---------------------------------------------------------------------------
-		void TextHelper::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+		void TextHelper::SetFont(const Drawing::FontPtr &font)
 		{
 			if (font == nullptr)
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw ArgumentNullException("font", __FILE__, __LINE__);
+				throw ArgumentNullException("font");
 				#endif
 				return;
 			}
 		
-			this->font = font;
+			font_ = font;
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::SetText(const AnsiString &text)
 		{
-			this->text = text;
+			text_ = text;
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::Append(const AnsiChar character)
 		{
-			text.append(1, character);
+			text_.append(1, character);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::Append(const AnsiString &text)
 		{
-			this->text.append(text);
+			text_.append(text);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::Insert(int position, const AnsiChar character)
 		{
-			text.insert(position, 1, character);
+			text_.insert(position, 1, character);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::Insert(int position, const AnsiString &text)
 		{
-			this->text.insert(position, text);
+			text_.insert(position, text);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::Clear()
 		{
-			text.clear();
+			text_.clear();
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::Remove(int index, int length)
 		{
-			if (index >= text.length())
+			if (index >= text_.length())
 			{
 				return;
 			}
-			if (index + length > (int)text.length())
+			if (index + length > (int)text_.length())
 			{
-				length = text.length() - index;
+				length = text_.length() - index;
 			}
-			text.erase(index, length);
+			text_.erase(index, length);
 			RefreshSize();
 		}
 		//---------------------------------------------------------------------------
 		int TextHelper::GetLength() const
 		{
-			return text.length();
+			return text_.length();
 		}
 		//---------------------------------------------------------------------------
 		const AnsiString& TextHelper::GetText() const
 		{
-			return text;
+			return text_;
 		}
 		//---------------------------------------------------------------------------
-		const Drawing::Size& TextHelper::GetSize() const
+		const Drawing::SizeF& TextHelper::GetSize() const
 		{
-			return size;
+			return size_;
 		}
 		//---------------------------------------------------------------------------
 		void TextHelper::RefreshSize()
 		{
-			size = GetStringWidth(0);
+			size_ = GetStringSize(0);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Point TextHelper::GetCharacterPosition(int index, bool trailing) const
+		Drawing::PointF TextHelper::GetCharacterPosition(int index, bool trailing) const
 		{
 			if (GetLength() == 0)
 			{
-				return Drawing::Point(0, 0);
+				return Drawing::PointF(0, 0);
 			}
 			if (index == 0)
 			{
 				if (!trailing)
 				{
-					return Drawing::Point(0, 0);
+					return Drawing::PointF(0, 0);
 				}
 			}
 			
-			AnsiString substring = text.substr(0, trailing ? index + 1 : index);
-			Drawing::Size size = font->MeasureText(substring);
+			auto substring = text_.substr(0, trailing ? index + 1 : index);
+			Drawing::SizeF size(font_->GetTextExtent(substring), font_->GetFontHeight());
 			
-			return Drawing::Point(size.Width, size.Height);//Drawing::Point(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
+			return Drawing::PointF(size.Width, size.Height);//Drawing::PointF(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
 		//---------------------------------------------------------------------------
-		Drawing::Size TextHelper::GetStringWidth(int index, int size) const
+		Drawing::SizeF TextHelper::GetStringSize(int index, int size) const
 		{
 			if (GetLength() == 0 || size == 0)
 			{
-				return Drawing::Size(0, font->GetSize());
+				return Drawing::SizeF(0, font_->GetFontHeight());
 			}
 			if (index >= GetLength())
 			{
 				index = GetLength() - 1;
 			}
 
-			AnsiString substring = size == -1 ? text.substr(index) : text.substr(index, size);
-			return font->MeasureText(substring);
+			auto substring = size == -1 ? text_.substr(index) : text_.substr(index, size);
+			return Drawing::SizeF(font_->GetTextExtent(substring), font_->GetFontHeight());
 		}
 		//---------------------------------------------------------------------------
-		int TextHelper::GetClosestCharacterIndex(const Drawing::Point &position) const
+		int TextHelper::GetClosestCharacterIndex(const Drawing::PointF &position) const
 		{
 			int distance = 0xFFFF;
 			int result = 0;
 
-			if (position.Left >= size.Width)
+			if (position.Left >= size_.Width)
 			{
-				return text.length() + 1;
+				return text_.length() + 1;
 			}
 
-			for (unsigned int i = 0; i < text.length(); ++i)
+			for (unsigned int i = 0; i < text_.length(); ++i)
 			{
-				Drawing::Point charPosition = GetCharacterPosition(i);
+				Drawing::PointF charPosition = GetCharacterPosition(i);
 
-				int actualDistance = abs(charPosition.Left - position.Left);
+				int actualDistance = std::abs(charPosition.Left - position.Left);
 
 				if (actualDistance > distance)
 				{

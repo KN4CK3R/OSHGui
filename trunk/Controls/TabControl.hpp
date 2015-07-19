@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,7 +9,8 @@
 #ifndef OSHGUI_TABCONTROL_HPP
 #define OSHGUI_TABCONTROL_HPP
 
-#include "ContainerControl.hpp"
+#include <memory>
+#include "Control.hpp"
 
 namespace OSHGui
 {
@@ -25,7 +26,7 @@ namespace OSHGui
 	/**
 	 * Verwaltet eine Gruppe zusammengehöriger Registerkarten.
 	 */
-	class OSHGUI_EXPORT TabControl : public ContainerControl
+	class OSHGUI_EXPORT TabControl : public Control
 	{
 		friend TabPage;
 
@@ -36,91 +37,83 @@ namespace OSHGui
 		 * Konstruktor der Klasse.
 		 */
 		TabControl();
-		virtual ~TabControl();
 
 		/**
 		 * Legt die Höhe und Breite des Steuerelements fest.
 		 *
-		 * @param size
+		 * \param size
 		 */
-		virtual void SetSize(const Drawing::Size &size) override;
+		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
 		 * Legt die Fordergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetForeColor(Drawing::Color color) override;
+		virtual void SetForeColor(const Drawing::Color &color) override;
 		/**
 		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
-		 * @param color
+		 * \param color
 		 */
-		virtual void SetBackColor(Drawing::Color color) override;
+		virtual void SetBackColor(const Drawing::Color &color) override;
 		/**
 		 * Ruft die TabPage mit dem entsprechenden Namen ab.
 		 *
-		 * @param name der Name
-		 * @return Zeiger zur TabPage
+		 * \param name der Name
+		 * \return Zeiger zur TabPage
 		 */
 		TabPage* GetTabPage(const Misc::AnsiString &name) const;
 		/**
 		 * Ruft die TabPage am entsprechenden Index ab.
 		 *
-		 * @param index
-		 * @return Zeiger zur TabPage
+		 * \param index
+		 * \return Zeiger zur TabPage
 		 */
 		TabPage* GetTabPage(int index) const;
 		/**
 		 * Legt den Index der derzeit ausgewählten Registerkarte fest.
 		 *
-		 * @param index
+		 * \param index
 		 */
 		void SetSelectedIndex(int index);
 		/**
 		 * Ruft den Index der derzeit ausgewählten Registerkarte ab.
 		 *
-		 * @return index
+		 * \return index
 		 */
 		int GetSelectedIndex() const;
 		/**
 		 * Legt die derzeit ausgewählte Registerkarte fest.
 		 *
-		 * @param tabPage
+		 * \param tabPage
 		 */
 		void SetSelectedTabPage(TabPage *tabPage);
 		/**
 		 * Ruft die derzeit ausgewählte Registerkarte ab.
 		 *
-		 * @return selectedTabPage
+		 * \return selectedTabPage
 		 */
 		TabPage* GetSelectedTabPage() const;
 		/**
 		 * Ruft das SelectedIndexEvent für das Steuerelement ab.
 		 *
-		 * @return selectedIndexEvent
+		 * \return selectedIndexEvent
 		 */
 		SelectedIndexChangedEvent& GetSelectedIndexChangedEvent();
 		
 		/**
 		 * Fügt dem TabControl eine neue TabPage hinzu.
 		 *
-		 * @param tabPage
+		 * \param tabPage
 		 */
 		void AddTabPage(TabPage *tabPage);
 		/**
 		 * Entfernt eine TabPage aus dem TabControl.
 		 *
-		 * @param tabPage
+		 * \param tabPage
 		 */
 		void RemoveTabPage(TabPage *tabPage);
 		
-		/**
-		 * Überprüft, ob sich der Punkt innerhalb des Steuerelements befindet.
-		 *
-		 * @param point
-		 * @return ja / nein
-		 */
-		virtual bool Intersect(const Drawing::Point &point) const override;
 		/**
 		 * Berechnet die absolute Position des Steuerelements.
 		 */
@@ -128,81 +121,84 @@ namespace OSHGui
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
 		 *
-		 * @param theme
+		 * \param theme
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme) override;
 
-		/**
-		 * Zeichnet das Steuerelement mithilfe des übergebenen IRenderers.
-		 *
-		 * @param renderer
-		 */
-		virtual void Render(Drawing::IRenderer *renderer) override;
+	protected:
+		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	private:
-		static const Drawing::Size DefaultSize;
+		static const Drawing::SizeI DefaultSize;
 
 		void CalculateButtonLocationAndCount();
 
-		SelectedIndexChangedEvent selectedIndexChangedEvent;
+		struct TabPageButtonBinding;
+		void SelectBinding(TabPageButtonBinding &binding);
+
+		SelectedIndexChangedEvent selectedIndexChangedEvent_;
 
 		class TabControlButton;
 		struct TabPageButtonBinding
 		{
-			int index;
-			TabPage *tabPage;
-			TabControlButton *button;
+			int Index;
+			TabPage *TabPage;
+			TabControlButton *Button;
 		};
 
 		class TabControlButton : public Control
 		{
 		public:
-			TabControlButton(TabPageButtonBinding *binding);
-			~TabControlButton();
+			TabControlButton(TabPageButtonBinding &binding);
 
-			virtual void SetForeColor(Drawing::Color color) override;
+			virtual void SetForeColor(const Drawing::Color &color) override;
 			void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 
-			virtual bool Intersect(const Drawing::Point &point) const override;
 			virtual void CalculateAbsoluteLocation() override;
 
-			virtual void Render(Drawing::IRenderer *renderer) override;
-
 		protected:
+			virtual void DrawSelf(Drawing::RenderContext &context) override;
+			virtual void PopulateGeometry() override;
+
 			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
 		private:
-			static const Drawing::Point DefaultLabelOffset;
+			static const Drawing::PointI DefaultLabelOffset;
 
-			TabPageButtonBinding *binding;
-			Label *label;
+			TabPageButtonBinding &binding_;
+			std::unique_ptr<Label> label_;
 
-			bool active;
+			bool active_;
 		};
 
-		TabPageButtonBinding *selected;
-		std::vector<TabPageButtonBinding*> bindings;
+		TabPageButtonBinding *selected_;
+		std::vector<std::unique_ptr<TabPageButtonBinding>> bindings_;
 
 		class TabControlSwitchButton : public Control
 		{
 		public:
-			static const Drawing::Size DefaultSize;
+			enum class TabControlSwitchButtonDirection
+			{
+				Left,
+				Right
+			};
 
-			TabControlSwitchButton(int direction);
+			static const Drawing::SizeI DefaultSize;
 
-			virtual bool Intersect(const Drawing::Point &point) const override;
+			TabControlSwitchButton(TabControlSwitchButtonDirection direction);
 
-			virtual void Render(Drawing::IRenderer *renderer) override;
+		protected:
+			virtual void PopulateGeometry() override;
 
 		private:
-			int direction;
+			TabControlSwitchButtonDirection direction_;
 		};
 
-		int startIndex;
-		int maxIndex;
-		TabControlSwitchButton *lastSwitchButton;
-		TabControlSwitchButton *nextSwitchButton;
+		int startIndex_;
+		int maxIndex_;
+		TabControlSwitchButton *lastSwitchButton_;
+		TabControlSwitchButton *nextSwitchButton_;
 	};
 }
 

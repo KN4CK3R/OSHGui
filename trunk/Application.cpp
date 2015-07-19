@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -11,108 +11,139 @@
 #include "Drawing/TextureAnimator.hpp"
 #include "Misc/Exceptions.hpp"
 #include "FormManager.hpp"
-#include "TimerManager.hpp"
+#include "Drawing/FontManager.hpp"
 #include "Cursor/Cursors.hpp"
 #include <algorithm>
 
 namespace OSHGui
 {
-	Application* Application::instance = new Application();
+	Application* Application::instance = nullptr;
 	//---------------------------------------------------------------------------
-	Application::Application()
-		: isEnabled(false),
-		  renderer(nullptr),
-		  now(Misc::DateTime::GetNow()),
+	Application::Application(std::unique_ptr<Drawing::Renderer> &&renderer)
+		: renderer_(std::move(renderer)),
+		  guiSurface_(*renderer_->GetDefaultRenderTarget()),
+		  isEnabled_(false),
+		  now_(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
 		  CaptureControl(nullptr),
 		  MouseEnteredControl(nullptr)
 	{
-		mouse.Enabled = true;
+		#define MakeTheme(controlType, color1, color2) defaultTheme_.SetControlColorTheme(Control::ControlTypeToString(controlType), Drawing::Theme::ControlTheme(color1, color2))
 
-		#define MakeTheme(controlType, color1, color2) defaultTheme.SetControlColorTheme(Control::ControlTypeToString(controlType), Drawing::Theme::ControlTheme(color1, color2))
+		MakeTheme(ControlType::Label,		Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::LinkLabel,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::Button,		Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
+		MakeTheme(ControlType::CheckBox,	Drawing::Color::White(), Drawing::Color(0xFF222222));
+		MakeTheme(ControlType::RadioButton, Drawing::Color::White(), Drawing::Color(0xFF222222));
+		MakeTheme(ControlType::ColorBar,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::ColorPicker,	Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeTheme(ControlType::ComboBox,	Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
+		MakeTheme(ControlType::Form,		Drawing::Color::White(), Drawing::Color(0xFF7C7B79));
+		MakeTheme(ControlType::GroupBox,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::ListBox,		Drawing::Color::White(), Drawing::Color(0xFF171614));
+		MakeTheme(ControlType::Panel,		Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeTheme(ControlType::PictureBox,	Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeTheme(ControlType::ProgressBar,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
+		MakeTheme(ControlType::ScrollBar,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
+		MakeTheme(ControlType::TabControl,	Drawing::Color::White(), Drawing::Color(0xFF737373));
+		MakeTheme(ControlType::TabPage,		Drawing::Color::White(), Drawing::Color(0xFF474747));
+		MakeTheme(ControlType::TextBox,		Drawing::Color::White(), Drawing::Color(0xFF242321));
+		MakeTheme(ControlType::TrackBar,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeTheme(ControlType::HotkeyControl, Drawing::Color::White(), Drawing::Color(0xFF242321));
 
-		MakeTheme(CONTROL_LABEL,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(CONTROL_LINKLABEL,	Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(CONTROL_BUTTON,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF4E4E4E));
-		MakeTheme(CONTROL_CHECKBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF222222));
-		MakeTheme(CONTROL_RADIOBUTTON,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF222222));
-		MakeTheme(CONTROL_COLORBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(CONTROL_COLORPICKER,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(CONTROL_COMBOBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF4E4E4E));
-		MakeTheme(CONTROL_FORM,			Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF7C7B79));
-		MakeTheme(CONTROL_GROUPBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(CONTROL_LISTBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF171614));
-		MakeTheme(CONTROL_PANEL,		Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(CONTROL_PICTUREBOX,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(CONTROL_PROGRESSBAR,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
-		MakeTheme(CONTROL_SCROLLBAR,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
-		MakeTheme(CONTROL_TABCONTROL,	Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF737373));
-		MakeTheme(CONTROL_TABPAGE,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF474747));
-		MakeTheme(CONTROL_TEXTBOX,		Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
-		MakeTheme(CONTROL_TRACKBAR,		Drawing::Color(0xFFE5E0E4), Drawing::Color::Empty());
-		MakeTheme(CONTROL_HOTKEYCONTROL,Drawing::Color(0xFFE5E0E4), Drawing::Color(0xFF242321));
-
-		SetTheme(defaultTheme);
+		SetTheme(defaultTheme_);
 	}
 	//---------------------------------------------------------------------------
-	Application* Application::Instance()
+	Application& Application::Instance()
+	{
+		return *instance;
+	}
+	//---------------------------------------------------------------------------
+	Application* Application::InstancePtr()
 	{
 		return instance;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Create(Drawing::IRenderer *renderer)
+	bool Application::HasBeenInitialized()
+	{
+		return InstancePtr() != nullptr;
+	}
+	//---------------------------------------------------------------------------
+	void Application::Initialize(std::unique_ptr<Drawing::Renderer> &&renderer)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (renderer == nullptr)
+		if (HasBeenInitialized())
 		{
-			throw Misc::ArgumentNullException("renderer", __FILE__, __LINE__);
+			throw Misc::InvalidOperationException("only one instance");
 		}
 		#endif
-		
-		this->renderer = renderer;
 
-		mouse.Cursor = Cursors::Get(Cursors::Default);
+		instance = new Application(std::move(renderer));
+
+		instance->mouse_.Enabled = true;
+		instance->SetCursor(Cursors::Get(Cursors::Default));
 	}
 	//---------------------------------------------------------------------------
 	const bool Application::IsEnabled() const
 	{
-		return isEnabled;
+		return isEnabled_;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::DateTime& Application::GetNow() const
 	{
-		return now;
+		return now_;
 	}
 	//---------------------------------------------------------------------------
-	Drawing::IRenderer* Application::GetRenderer() const
+	Drawing::Renderer& Application::GetRenderer() const
 	{
-		return renderer;
+		return *renderer_;
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point& Application::GetCursorLocation() const
+	Application::GuiRenderSurface& Application::GetRenderSurface()
 	{
-		return mouse.Location;
+		return guiSurface_;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::FontPtr& Application::GetDefaultFont()
+	{
+		return defaultFont_;
+	}
+	//---------------------------------------------------------------------------
+	void Application::SetDefaultFont(const Drawing::FontPtr &defaultFont)
+	{
+		defaultFont_ = defaultFont;
+
+		guiSurface_.Invalidate();
+	}
+	//---------------------------------------------------------------------------
+	const Drawing::PointF& Application::GetCursorLocation() const
+	{
+		return mouse_.Location;
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Cursor>& Application::GetCursor() const
 	{
-		return mouse.Cursor;
+		return mouse_.Cursor;
 	}
 	//---------------------------------------------------------------------------
-	void Application::SetCursor(const std::shared_ptr<Cursor> &cursor)
+	void Application::SetCursor(const CursorPtr &cursor)
 	{
-		mouse.Cursor = cursor;
+		mouse_.Cursor = cursor ? cursor : Cursors::Get(Cursors::Default);
+
+		guiSurface_.Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Application::SetCursorEnabled(bool enabled)
 	{
-		mouse.Enabled = enabled;
+		mouse_.Enabled = enabled;
+
+		guiSurface_.Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Application::SetTheme(const Drawing::Theme &theme)
 	{
-		currentTheme = theme;
-		for (auto it = formManager.GetEnumerator(); it(); ++it)
+		currentTheme_ = theme;
+		for (auto it = formManager_.GetEnumerator(); it(); ++it)
 		{
 			auto &form = *it;
 			form->ApplyTheme(theme);
@@ -121,17 +152,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const Drawing::Theme& Application::GetTheme() const
 	{
-		return currentTheme;
+		return currentTheme_;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Enable()
 	{
-		isEnabled = true;
+		isEnabled_ = true;
 
-		std::shared_ptr<Form> mainForm = formManager.GetMainForm();
+		auto mainForm = formManager_.GetMainForm();
 		if (mainForm != nullptr)
 		{
-			if (!formManager.IsRegistered(mainForm))
+			if (!formManager_.IsRegistered(mainForm))
 			{
 				mainForm->Show(mainForm);
 			}
@@ -140,12 +171,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Application::Disable()
 	{
-		isEnabled = false;
+		isEnabled_ = false;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Toggle()
 	{
-		if (isEnabled)
+		if (isEnabled_)
 		{
 			Disable();
 		}
@@ -160,51 +191,51 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (mainForm == nullptr)
 		{
-			throw Misc::ArgumentNullException("form", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("form");
 		}
 		#endif
 
-		if (formManager.GetMainForm() != nullptr)
+		if (formManager_.GetMainForm() != nullptr)
 		{
 			return;
 		}
 		
-		formManager.RegisterMainForm(mainForm);
+		formManager_.RegisterMainForm(mainForm);
 
 		mainForm->Show(mainForm);
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessMouseMessage(MouseMessage &mouse)
+	bool Application::ProcessMouseMessage(const MouseMessage &message)
 	{
-		if (!isEnabled)
+		if (!isEnabled_)
 		{
 			return false;
 		}
 
-		this->mouse.Location = mouse.Location;
+		mouse_.Location = message.GetLocation();
 
 		if (CaptureControl != nullptr)
 		{
-			CaptureControl->ProcessMouseMessage(mouse);
+			CaptureControl->ProcessMouseMessage(message);
 			return true;
 		}
 		if (FocusedControl != nullptr)
 		{
-			if (FocusedControl->ProcessMouseMessage(mouse))
+			if (FocusedControl->ProcessMouseMessage(message))
 			{
 				return true;
 			}
 		}
 
-		if (formManager.GetFormCount() > 0)
+		if (formManager_.GetFormCount() > 0)
 		{
-			std::shared_ptr<Form> foreMost = formManager.GetForeMost();
+			auto foreMost = formManager_.GetForeMost();
 			if (foreMost != nullptr && foreMost->IsModal())
 			{
 				for (auto it = foreMost->GetPostOrderEnumerator(); it(); ++it)
 				{
-					Control *control = *it;
-					if (control->ProcessMouseMessage(mouse))
+					auto control = *it;
+					if (control->ProcessMouseMessage(message))
 					{
 						return true;
 					}
@@ -212,18 +243,18 @@ namespace OSHGui
 				return false;
 			}
 			
-			for (auto it = formManager.GetEnumerator(); it(); ++it)
+			for (auto it = formManager_.GetEnumerator(); it(); ++it)
 			{
-				std::shared_ptr<Form> &form = *it;
+				auto &form = *it;
 				
 				for (auto it2 = form->GetPostOrderEnumerator(); it2(); ++it2)
 				{
-					Control *control = *it2;
-					if (control->ProcessMouseMessage(mouse))
+					auto control = *it2;
+					if (control->ProcessMouseMessage(message))
 					{
 						if (form != foreMost)
 						{
-							formManager.BringToFront(form);
+							formManager_.BringToFront(form);
 						}
 
 						return true;
@@ -233,25 +264,24 @@ namespace OSHGui
 
 			if (MouseEnteredControl)
 			{
-				MouseEnteredControl->OnMouseLeave(mouse);
+				MouseEnteredControl->OnMouseLeave(message);
 			}
 		}
 
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Application::ProcessKeyboardMessage(KeyboardMessage &keyboard)
+	bool Application::ProcessKeyboardMessage(const KeyboardMessage &keyboard)
 	{
-		if (keyboard.GetState() == KeyboardMessage::KeyDown)
+		if (keyboard.GetState() == KeyboardState::KeyDown)
 		{
 			bool hotkeyFired = false;
-			for (auto it = hotkeys.begin(); it != hotkeys.end(); ++it)
+			for (auto &hotkey : hotkeys_)
 			{
-				Hotkey &temp = *it;
-				if (temp.GetKey() == keyboard.GetKeyCode() && temp.GetModifier() == keyboard.GetModifier())
+				if (hotkey.GetKey() == keyboard.GetKeyCode() && hotkey.GetModifier() == keyboard.GetModifier())
 				{
 					hotkeyFired = true;
-					temp();
+					hotkey();
 				}
 			}
 
@@ -261,7 +291,7 @@ namespace OSHGui
 			}
 		}
 
-		if (isEnabled)
+		if (isEnabled_)
 		{
 			if (FocusedControl != nullptr)
 			{
@@ -272,58 +302,110 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
+	void Application::InjectTime()
+	{
+		now_ = Misc::DateTime::GetNow();
+
+		for (auto it = formManager_.GetEnumerator(); it(); ++it)
+		{
+			(*it)->InjectTime(now_);
+
+			for (auto it2 = (*it)->GetPostOrderEnumerator(); it2(); ++it2)
+			{
+				(*it2)->InjectTime(now_);
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Application::DisplaySizeChanged(const Drawing::SizeF &size)
+	{
+		Drawing::FontManager::DisplaySizeChanged(size);
+
+		renderer_->SetDisplaySize(size);
+	}
+	//---------------------------------------------------------------------------
 	void Application::Render()
 	{
-		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (renderer == nullptr)
-		{
-			throw Misc::InvalidOperationException("Call Application::Create first.", __FILE__, __LINE__);
-		}
-		#endif
-	
-		if (!isEnabled)
+		if (!isEnabled_)
 		{
 			return;
 		}
 		
-		now = Misc::DateTime::GetNow();
+		InjectTime();
 
-		Drawing::TextureAnimator::UpdateFrames();
+		//Drawing::TextureAnimator::UpdateFrames();
 
-		timerManager.Update();
+		formManager_.RemoveUnregisteredForms();
 
-		formManager.RemoveUnregisteredForms();
-
-		std::shared_ptr<Form> foreMost = formManager.GetForeMost();
-		for (auto it = formManager.GetEnumerator(); it(); ++it)
+		if (guiSurface_.needsRedraw_)
 		{
-			std::shared_ptr<Form> &form = *it;
-			if (form != foreMost)
+			auto foreMost = formManager_.GetForeMost();
+			for (auto it = formManager_.GetEnumerator(); it(); ++it)
 			{
-				form->Render(renderer);
+				auto &form = *it;
+				if (form != foreMost)
+				{
+					form->Render();
+				}
 			}
+			if (foreMost)
+			{
+				foreMost->Render();
+			}
+
+			if (mouse_.Enabled)
+			{
+				guiSurface_.AddGeometry(Drawing::RenderQueueType::Overlay, mouse_.Cursor->GetGeometry());
+			}
+
+			guiSurface_.needsRedraw_ = false;
 		}
-		if (foreMost)
+
+		if (mouse_.Enabled)
 		{
-			foreMost->Render(renderer);
+			mouse_.Cursor->GetGeometry()->SetTranslation(Drawing::Vector(mouse_.Location.X, mouse_.Location.Y, 0));
 		}
-		
-		if (mouse.Enabled)
-		{
-			mouse.Cursor->Render(renderer, mouse.Location);
-		}
+
+		guiSurface_.Draw();
 	}
 	//---------------------------------------------------------------------------
 	void Application::RegisterHotkey(const Hotkey &hotkey)
 	{
 		UnregisterHotkey(hotkey);
 
-		hotkeys.push_back(hotkey);
+		hotkeys_.push_back(hotkey);
 	}
 	//---------------------------------------------------------------------------
 	void Application::UnregisterHotkey(const Hotkey &hotkey)
 	{
-		hotkeys.erase(std::remove(std::begin(hotkeys), std::end(hotkeys), hotkey), std::end(hotkeys));
+		hotkeys_.erase(std::remove(std::begin(hotkeys_), std::end(hotkeys_), hotkey), std::end(hotkeys_));
 	}
 	//---------------------------------------------------------------------------
+	//Application::GuiRenderSurface
+	//---------------------------------------------------------------------------
+	Application::GuiRenderSurface::GuiRenderSurface(Drawing::RenderTarget &target)
+		: RenderSurface(target),
+		  needsRedraw_(true)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void Application::GuiRenderSurface::Invalidate()
+	{
+		needsRedraw_ = true;
+
+		Reset();
+	}
+	//---------------------------------------------------------------------------
+	void Application::GuiRenderSurface::Draw()
+	{
+		if (needsRedraw_)
+		{
+
+		}
+
+		RenderSurface::Draw();
+	}
+	//---------------------------------------------------------------------------
+
 }

@@ -8,6 +8,11 @@
 
 #include "Control.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Drawing/FontManager.hpp"
+#include "../Drawing/Vector.hpp"
+#include "../Misc/ReverseIterator.hpp"
+#include "../Misc/Intersection.hpp"
+#include <algorithm>
 
 namespace OSHGui
 {
@@ -15,44 +20,50 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Control::Control()
-		: type((CONTROL_TYPE)0),
-		  parent(nullptr),
-		  location(6, 6),
-		  size(0, 0),
-		  anchor(AnchorTop | AnchorLeft),
-		  isEnabled(true),
-		  isVisible(true),
-		  isFocused(false),
-		  isClicked(false),
-		  isInside(false),
-		  isFocusable(true),
-		  hasCaptured(false),
-		  autoSize(false),
-		  canRaiseEvents(true),
-		  font(Application::Instance()->GetRenderer()->GetDefaultFont()),
-		  cursor(Cursors::Get(Cursors::Default)),
-		  mouseOverFocusColor(0, 20, 20, 20)
+		: type_((ControlType)0),
+		  parent_(nullptr),
+		  location_(6, 6),
+		  size_(0, 0),
+		  anchor_(AnchorStyles::Top | AnchorStyles::Left),
+		  isEnabled_(true),
+		  isVisible_(true),
+		  isFocused_(false),
+		  isClicked_(false),
+		  isInside_(false),
+		  isFocusable_(true),
+		  hasCaptured_(false),
+		  autoSize_(false),
+		  canRaiseEvents_(true),
+		  needsRedraw_(true),
+		  cursor_(nullptr),
+		  mouseOverFocusColor_(Drawing::Color::FromARGB(0, 20, 20, 20)),
+		  geometry_(Application::Instance().GetRenderer().CreateGeometryBuffer())
 	{
 		
 	}
 	//---------------------------------------------------------------------------
 	Control::~Control()
 	{
-		if (isInside)
+		if (isInside_)
 		{
-			Application::Instance()->MouseEnteredControl = nullptr;
+			Application::Instance().MouseEnteredControl = nullptr;
 		}
-		if (isFocused)
+		if (isFocused_)
 		{
-			Application::Instance()->FocusedControl = nullptr;
+			Application::Instance().FocusedControl = nullptr;
+		}
+
+		for (auto &control : internalControls_)
+		{
+			delete control;
 		}
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	CONTROL_TYPE Control::GetType() const
+	ControlType Control::GetType() const
 	{
-		return type;
+		return type_;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::IsContainer() const
@@ -62,303 +73,342 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	bool Control::GetIsFocused() const
 	{
-		return isFocused;
+		return isFocused_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetEnabled(bool isEnabled)
 	{
-		this->isEnabled = isEnabled;
-		if (isEnabled == false && isFocused)
+		isEnabled_ = isEnabled;
+		if (isEnabled == false && isFocused_)
 		{
 			OnLostFocus(nullptr);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetEnabled() const
 	{
-		return isEnabled;
+		return isEnabled_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetVisible(bool isVisible)
 	{
-		this->isVisible = isVisible;
-		if (isVisible == false && isFocused)
+		isVisible_ = isVisible;
+		if (isVisible == false && isFocused_)
 		{
 			OnLostFocus(nullptr);
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetVisible() const
 	{
-		return isVisible;
+		return isVisible_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetAutoSize(bool autoSize)
 	{
-		this->autoSize = autoSize;
+		autoSize_ = autoSize;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::GetAutoSize() const
 	{
-		return autoSize;
+		return autoSize_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetBounds(int x, int y, int w, int h)
 	{
-		SetBounds(Drawing::Point(x, y), Drawing::Size(w, h));
+		SetBounds(Drawing::PointF(x, y), Drawing::SizeF(w, h));
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(const Drawing::Point &location, const Drawing::Size &size)
+	void Control::SetBounds(const Drawing::PointI &location, const Drawing::SizeI &size)
 	{
 		SetLocation(location);
 		SetSize(size);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBounds(const Drawing::Rectangle &bounds)
+	void Control::SetBounds(const Drawing::RectangleI &bounds)
 	{
 		SetBounds(bounds.GetLocation(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Rectangle Control::GetBounds() const
+	const Drawing::RectangleI Control::GetBounds() const
 	{
-		return Drawing::Rectangle(location, size);
+		return Drawing::RectangleI(location_, size_);
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetLocation(const Drawing::Point &location)
+	void Control::SetLocation(const Drawing::PointI &location)
 	{
-		this->location = location;
+		location_ = location;
 
 		OnLocationChanged();
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetLocation(int x, int y)
 	{
-		SetLocation(Drawing::Point(x, y));
+		SetLocation(Drawing::PointI(x, y));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point& Control::GetLocation() const
+	const Drawing::PointI& Control::GetLocation() const
 	{
-		return location;
+		return location_;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetSize(const Drawing::Size &size)
+	void Control::SetSize(const Drawing::SizeI &size)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (size.Width < 0)
 		{
-			throw Misc::ArgumentOutOfRangeException("width", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("width");
 		}
 		if (size.Height < 0)
 		{
-			throw Misc::ArgumentOutOfRangeException("height", __FILE__, __LINE__);
+			throw Misc::ArgumentOutOfRangeException("height");
 		}
 		#endif
 
-		this->size = size;
+		size_ = size;
 		
 		OnSizeChanged();
+
+		Invalidate();
+
+		auto offset = size_ - GetSize();
+		for (auto &control : controls_)
+		{
+			AnchorStyles anchor = control->GetAnchor();
+
+			if (anchor != (AnchorStyles::Top | AnchorStyles::Left))
+			{
+				if (anchor == (AnchorStyles::Top | AnchorStyles::Left | AnchorStyles::Bottom | AnchorStyles::Right))
+				{
+					control->SetSize(control->GetSize() + offset);
+				}
+				else if (anchor == (AnchorStyles::Top | AnchorStyles::Left | AnchorStyles::Right) || anchor == (AnchorStyles::Bottom | AnchorStyles::Left | AnchorStyles::Right))
+				{
+					control->SetLocation(control->GetLocation() + Drawing::PointF(0, offset.Height));
+					control->SetSize(control->GetSize() + Drawing::SizeF(offset.Width, 0));
+				}
+				else if (anchor == (AnchorStyles::Top | AnchorStyles::Right) || anchor == (AnchorStyles::Bottom | AnchorStyles::Right))
+				{
+					control->SetLocation(control->GetLocation() + Drawing::PointF(offset.Width, offset.Height));
+				}
+			}
+		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetSize(int width, int height)
 	{
-		SetSize(Drawing::Size(width, height));
+		SetSize(Drawing::SizeI(width, height));
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Size& Control::GetSize() const
+	const Drawing::SizeI& Control::GetSize() const
 	{
-		return size;
+		return size_;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetLeft() const
 	{
-		return location.Left;
+		return location_.Left;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetTop() const
 	{
-		return location.Top;
+		return location_.Top;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetRight() const
 	{
-		return location.Left + size.Width;
+		return location_.Left + size_.Width;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetBottom() const
 	{
-		return location.Top + size.Height;
+		return location_.Top + size_.Height;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetWidth() const
 	{
-		return size.Width;
+		return size_.Width;
 	}
 	//---------------------------------------------------------------------------
 	int Control::GetHeight() const
 	{
-		return size.Height;
+		return size_.Height;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetAnchor(AnchorStyle anchor)
+	void Control::SetAnchor(AnchorStyles anchor)
 	{
-		this->anchor = anchor;
+		anchor_ = anchor;
 	}
 	//---------------------------------------------------------------------------
-	AnchorStyle Control::GetAnchor() const
+	AnchorStyles Control::GetAnchor() const
 	{
-		return anchor;
+		return anchor_;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetTag(Misc::Any &tag)
+	void Control::SetTag(const Misc::Any &tag)
 	{
-		this->tag = tag;
+		tag_ = tag;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::Any& Control::GetTag() const
 	{
-		return tag;
+		return tag_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetName(const Misc::AnsiString &name)
 	{
-		this->name = name;
+		name_ = name;
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Control::GetName() const
 	{
-		return name;
+		return name_;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetForeColor(Drawing::Color color)
+	void Control::SetForeColor(const Drawing::Color &color)
 	{
-		foreColor = color;
+		foreColor_ = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetForeColor() const
+	const Drawing::Color& Control::GetForeColor() const
 	{
-		return foreColor;
+		return foreColor_;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetBackColor(Drawing::Color color)
+	void Control::SetBackColor(const Drawing::Color &color)
 	{
-		backColor = color;
+		backColor_ = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetBackColor() const
+	const Drawing::Color& Control::GetBackColor() const
 	{
-		return backColor;
+		return backColor_;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetMouseOverFocusColor(Drawing::Color color)
+	void Control::SetMouseOverFocusColor(const Drawing::Color &color)
 	{
-		mouseOverFocusColor = color;
+		mouseOverFocusColor_ = color;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	Drawing::Color Control::GetMouseOverFocusColor() const
+	const Drawing::Color& Control::GetMouseOverFocusColor() const
 	{
-		return mouseOverFocusColor;
+		return mouseOverFocusColor_;
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void Control::SetFont(const Drawing::FontPtr &font)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (font == nullptr)
 		{
-			throw Misc::ArgumentNullException("font", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("font");
 		}
 		#endif
 		
-		this->font = font;
+		font_ = font;
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Drawing::IFont>& Control::GetFont() const
+	const Drawing::FontPtr& Control::GetFont() const
 	{
-		return font;
+		return font_ ? font_ : parent_ ? parent_->GetFont() : Application::Instance().GetDefaultFont();
 	}
 	//---------------------------------------------------------------------------
-	void Control::SetCursor(const std::shared_ptr<Cursor> &cursor)
+	void Control::SetCursor(const CursorPtr &cursor)
 	{
-		this->cursor = cursor;
+		cursor_ = std::move(cursor);
 	}
 	//---------------------------------------------------------------------------
-	const std::shared_ptr<Cursor>& Control::GetCursor() const
+	const CursorPtr& Control::GetCursor() const
 	{
-		return cursor;
+		return cursor_ ? cursor_ : GetParent() ? GetParent()->GetCursor() : Cursors::Get(Cursors::Default);
 	}
 	//---------------------------------------------------------------------------
 	LocationChangedEvent& Control::GetLocationChangedEvent()
 	{
-		return locationChangedEvent;
+		return locationChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	SizeChangedEvent& Control::GetSizeChangedEvent()
 	{
-		return sizeChangedEvent;
+		return sizeChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
 	ClickEvent& Control::GetClickEvent()
 	{
-		return clickEvent;
+		return clickEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseClickEvent& Control::GetMouseClickEvent()
 	{
-		return mouseClickEvent;
+		return mouseClickEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseDownEvent& Control::GetMouseDownEvent()
 	{
-		return mouseDownEvent;
+		return mouseDownEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseUpEvent& Control::GetMouseUpEvent()
 	{
-		return mouseUpEvent;
+		return mouseUpEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseMoveEvent& Control::GetMouseMoveEvent()
 	{
-		return mouseMoveEvent;
+		return mouseMoveEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseScrollEvent& Control::GetMouseScrollEvent()
 	{
-		return mouseScrollEvent;
+		return mouseScrollEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseEnterEvent& Control::GetMouseEnterEvent()
 	{
-		return mouseEnterEvent;
+		return mouseEnterEvent_;
 	}
 	//---------------------------------------------------------------------------
 	MouseLeaveEvent& Control::GetMouseLeaveEvent()
 	{
-		return mouseLeaveEvent;
+		return mouseLeaveEvent_;
 	}
 	//---------------------------------------------------------------------------
 	KeyDownEvent& Control::GetKeyDownEvent()
 	{
-		return keyDownEvent;
+		return keyDownEvent_;
 	}
 	//---------------------------------------------------------------------------
 	KeyPressEvent& Control::GetKeyPressEvent()
 	{
-		return keyPressEvent;
+		return keyPressEvent_;
 	}
 	//---------------------------------------------------------------------------
 	KeyUpEvent& Control::GetKeyUpEvent()
 	{
-		return keyUpEvent;
+		return keyUpEvent_;
 	}
 	//---------------------------------------------------------------------------
 	FocusGotEvent& Control::GetFocusGotEvent()
 	{
-		return focusGotEvent;
+		return focusGotEvent_;
 	}
 	//---------------------------------------------------------------------------
 	FocusLostEvent& Control::GetFocusLostEvent()
 	{
-		return focusLostEvent;
+		return focusLostEvent_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::SetParent(Control *parent)
@@ -366,62 +416,320 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (parent == nullptr)
 		{
-			throw Misc::ArgumentNullException("parent", __FILE__, __LINE__);
+			throw Misc::ArgumentNullException("parent");
 		}
 		#endif
 
-		this->parent = parent;
+		parent_ = parent;
 
 		OnLocationChanged();
 	}
 	//---------------------------------------------------------------------------
 	Control* Control::GetParent() const
 	{
-		return parent;
+		return parent_;
+	}
+	//---------------------------------------------------------------------------
+	const std::deque<Control*>& Control::GetControls() const
+	{
+		return controls_;
+	}
+	//---------------------------------------------------------------------------
+	Control::PostOrderIterator Control::GetPostOrderEnumerator()
+	{
+		return PostOrderIterator(this);
+	}
+	//---------------------------------------------------------------------------
+	void Control::GetRenderContext(Drawing::RenderContext &context) const
+	{
+		if (surface_)
+		{
+			context.Surface = surface_.get();
+			context.Owner = this;
+			context.Offset = GetLocation();
+			context.QueueType = Drawing::RenderQueueType::Base;
+		}
+		else if (GetParent())
+		{
+			GetParent()->GetRenderContext(context);
+		}
+		else
+		{
+			context.Surface = &Application::Instance().GetRenderSurface();
+			context.Owner = nullptr;
+			context.Offset = Drawing::PointF(0.0f, 0.0f);
+			context.QueueType = Drawing::RenderQueueType::Base;
+		}
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void Control::Focus()
 	{
-		if (isFocusable && !isFocused)
+		if (isFocusable_ && !isFocused_)
 		{
 			OnGotFocus(this);
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point Control::PointToClient(const Drawing::Point &point) const
+	bool Control::Intersect(const Drawing::PointI &point) const
 	{
-		return point - absoluteLocation;
+		return Intersection::TestRectangle(absoluteLocation_, size_, point);
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Point Control::PointToScreen(const Drawing::Point &point) const
+	Drawing::PointI Control::PointToClient(const Drawing::PointI &point) const
+	{
+		return point - absoluteLocation_;
+	}
+	//---------------------------------------------------------------------------
+	Drawing::PointI Control::PointToScreen(const Drawing::PointI &point) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (!parent)
+		if (!parent_)
 		{
 			throw Misc::ArgumentNullException("parent");
 		}
 		#endif
 		
-		if (parent != this)
+		if (parent_ != this)
 		{
-			return parent->PointToScreen(point + location);
+			return parent_->PointToScreen(point + location_);
 		}
 
-		return point + location;
+		return point + location_;
 	}
 	//---------------------------------------------------------------------------
 	void Control::CalculateAbsoluteLocation()
 	{
-		if (parent != nullptr && parent != this)
+		if (parent_ != nullptr)
 		{
-			absoluteLocation = parent->absoluteLocation + location;
+			absoluteLocation_ = parent_->absoluteLocation_ + location_;
 		}
-		if (parent == this)
+		else
 		{
-			absoluteLocation = location;
+			absoluteLocation_ = location_;
 		}
+
+		geometry_->SetTranslation(Drawing::Vector(absoluteLocation_.X, absoluteLocation_.Y, 0.0f));
+		//TODO: set clipping here
+
+		for (auto &control : internalControls_)
+		{
+			control->CalculateAbsoluteLocation();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::AddControl(Control *control)
+	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (control == nullptr)
+		{
+			throw Misc::ArgumentNullException("control");
+		}
+		#endif
+
+		if (control->GetType() == ControlType::Form)
+		{
+			return;
+		}
+
+		AddSubControl(control);
+
+		controls_.push_front(control);
+	}
+	//---------------------------------------------------------------------------
+	void Control::RemoveControl(Control *control)
+	{
+		if (control != nullptr)
+		{
+			controls_.erase(std::remove(std::begin(controls_), std::end(controls_), control), std::end(controls_));
+			internalControls_.erase(std::remove(std::begin(internalControls_), std::end(internalControls_), control), std::end(internalControls_));
+
+			Invalidate();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::AddSubControl(Control *subcontrol)
+	{
+		#ifndef OSHGUI_DONTUSEEXCEPTIONS
+		if (subcontrol == nullptr)
+		{
+			throw Misc::ArgumentNullException("subcontrol");
+		}
+		#endif
+
+		if (subcontrol->GetType() == ControlType::Form)
+		{
+			return;
+		}
+
+		for (auto &control : internalControls_)
+		{
+			if (subcontrol == control || (!subcontrol->GetName().empty() && subcontrol->GetName() == control->GetName()))
+			{
+				return;
+			}
+		}
+
+		subcontrol->SetParent(this);
+
+		internalControls_.push_front(subcontrol);
+
+		Invalidate();
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::GetChildAtPoint(const Drawing::PointI &point) const
+	{
+		for (auto &control : make_reverse_range(controls_))
+		{
+			if (control->GetEnabled() && control->GetVisible() && control->Intersect(point))
+			{
+				return control;
+			}
+		}
+
+		return nullptr;
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::GetChildByName(const Misc::AnsiString &name) const
+	{
+		for (auto &control : controls_)
+		{
+			if (control->GetName() == name)
+			{
+				return control;
+			}
+		}
+
+		return nullptr;
+	}
+	//---------------------------------------------------------------------------
+	void Control::InjectTime(const Misc::DateTime &time)
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void Control::Invalidate()
+	{
+		needsRedraw_ = true;
+
+		Application::Instance().GetRenderSurface().Invalidate();
+	}
+	//---------------------------------------------------------------------------
+	void Control::Render()
+	{
+		if (!isVisible_)
+		{
+			return;
+		}
+
+		using namespace Drawing;
+
+		RenderContext ctx;
+		GetRenderContext(ctx);
+
+		// clear geometry from surface if it's ours
+		if (ctx.Owner == this)
+		{
+			ctx.Surface->Reset();
+		}
+
+		// redraw if no surface set, or if surface is invalidated
+		if (!surface_)// || surface->isInvalidated())
+		{
+			DrawSelf(ctx);
+
+			Control *focusedControl = nullptr;
+			for (auto &control : make_reverse_range(controls_))
+			{
+				if (control->GetIsFocused())
+				{
+					focusedControl = control;
+				}
+				else
+				{
+					control->Render();
+				}
+			}
+			if (focusedControl != nullptr)
+			{
+				focusedControl->Render();
+			}
+		}
+
+		if (ctx.Owner == this)
+		{
+			ctx.Surface->Draw();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::DrawSelf(Drawing::RenderContext &context)
+	{
+		BufferGeometry(context);
+		QueueGeometry(context);
+	}
+	//---------------------------------------------------------------------------
+	void Control::BufferGeometry(Drawing::RenderContext &context)
+	{
+		if (needsRedraw_)
+		{
+			geometry_->Reset();
+
+			PopulateGeometry();
+
+			needsRedraw_ = false;
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::QueueGeometry(Drawing::RenderContext &context)
+	{
+		context.Surface->AddGeometry(context.QueueType, geometry_);
+	}
+	//---------------------------------------------------------------------------
+	void Control::PopulateGeometry()
+	{
+
+	}
+	//---------------------------------------------------------------------------
+	void Control::ApplyTheme(const Drawing::Theme &theme)
+	{
+		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type_));
+		SetForeColor(controlTheme.ForeColor);
+		SetBackColor(controlTheme.BackColor);
+
+		for (auto &control : GetControls())
+		{
+			control->ApplyTheme(theme);
+		}
+	}
+	//---------------------------------------------------------------------------
+	Misc::AnsiString Control::ControlTypeToString(ControlType controlType)
+	{
+		switch (controlType)
+		{
+			case ControlType::Panel: return "panel";
+			case ControlType::Form: return "form";
+			case ControlType::GroupBox: return "groupbox";
+			case ControlType::Label: return "label";
+			case ControlType::LinkLabel: return "linklabel";
+			case ControlType::Button: return "button";
+			case ControlType::CheckBox: return "checkbox";
+			case ControlType::RadioButton: return "radiobutton";
+			case ControlType::ScrollBar: return "scrollbar";
+			case ControlType::ListBox: return "listbox";
+			case ControlType::ProgressBar: return "progressbar";
+			case ControlType::TrackBar: return "trackbar";
+			case ControlType::ComboBox: return "combobox";
+			case ControlType::TextBox: return "textbox";
+			case ControlType::Timer: return "timer";
+			case ControlType::TabControl: return "tabcontrol";
+			case ControlType::TabPage: return "tabpage";
+			case ControlType::PictureBox: return "picturebox";
+			case ControlType::ColorPicker: return "colorpicker";
+			case ControlType::ColorBar: return "colorbar";
+			case ControlType::HotkeyControl: return "hotkeycontrol";
+		}
+		throw Misc::Exception();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -429,133 +737,152 @@ namespace OSHGui
 	void Control::OnLocationChanged()
 	{
 		CalculateAbsoluteLocation();
+
+		Invalidate();
 	
-		locationChangedEvent.Invoke(this);
+		locationChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnSizeChanged()
 	{
-		sizeChangedEvent.Invoke(this);
+		sizeChangedEvent_.Invoke(this);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseDown(const MouseMessage &mouse)
 	{
-		isClicked = true;
+		isClicked_ = true;
 
-        MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseDownEvent.Invoke(this, args);
+		Invalidate();
+
+		MouseEventArgs args(mouse);
+		args.Location -= absoluteLocation_;
+		mouseDownEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseClick(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseClickEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseClickEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseUp(const MouseMessage &mouse)
 	{
-		isClicked = false;
+		isClicked_ = false;
+
+		Invalidate();
 
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseUpEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseUpEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseMove(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseMoveEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseMoveEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseScroll(const MouseMessage &mouse)
 	{
 		MouseEventArgs args(mouse);
-		args.Location -= absoluteLocation;
-		mouseScrollEvent.Invoke(this, args);
+		args.Location -= absoluteLocation_;
+		mouseScrollEvent_.Invoke(this, args);
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseEnter(const MouseMessage &mouse)
 	{
-		isInside = true;
+		isInside_ = true;
 
-		Application *app = Application::Instance();
+		auto &app = Application::Instance();
 
-		if (app->MouseEnteredControl != nullptr && app->MouseEnteredControl->isInside)
+		if (app.MouseEnteredControl != nullptr && app.MouseEnteredControl->isInside_)
 		{
-			app->MouseEnteredControl->OnMouseLeave(mouse);
+			app.MouseEnteredControl->OnMouseLeave(mouse);
 		}
-		app->MouseEnteredControl = this;
+		app.MouseEnteredControl = this;
 
-		mouseEnterEvent.Invoke(this);
+		mouseEnterEvent_.Invoke(this);
 
-		app->SetCursor(cursor);
+		Invalidate();
+
+		app.SetCursor(GetCursor());
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnMouseLeave(const MouseMessage &mouse)
 	{
-		isInside = false;
+		isInside_ = false;
 
-		Application::Instance()->MouseEnteredControl = nullptr;
+		Application::Instance().MouseEnteredControl = nullptr;
 
-		mouseLeaveEvent.Invoke(this);
+		mouseLeaveEvent_.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnGotMouseCapture()
 	{
-		Application *app = Application::Instance();
-		if (app->CaptureControl != nullptr)
+		auto &app = Application::Instance();
+		if (app.CaptureControl != nullptr)
 		{
-			app->CaptureControl->OnLostMouseCapture();
+			app.CaptureControl->OnLostMouseCapture();
 		}
-		app->CaptureControl = this;
-		hasCaptured = true;
+		app.CaptureControl = this;
+		hasCaptured_ = true;
 
-		isClicked = false;
+		isClicked_ = false;
 
-		mouseCaptureChangedEvent.Invoke(this);
+		mouseCaptureChangedEvent_.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnLostMouseCapture()
 	{
-		hasCaptured = false;
+		hasCaptured_ = false;
 
-		Application::Instance()->CaptureControl = nullptr;
+		Application::Instance().CaptureControl = nullptr;
 
-		mouseCaptureChangedEvent.Invoke(this);
+		mouseCaptureChangedEvent_.Invoke(this);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnGotFocus(Control *newFocusedControl)
 	{
-		Application *app = Application::Instance();
-		if (newFocusedControl != app->FocusedControl)
+		auto &app = Application::Instance();
+		if (newFocusedControl != app.FocusedControl)
 		{
-			if (app->FocusedControl != nullptr)
+			if (app.FocusedControl != nullptr)
 			{
-				app->FocusedControl->OnLostFocus(newFocusedControl);
+				app.FocusedControl->OnLostFocus(newFocusedControl);
 			}
 
-			app->FocusedControl = newFocusedControl;
-			isFocused = true;
+			app.FocusedControl = newFocusedControl;
+			isFocused_ = true;
 
-			focusGotEvent.Invoke(this);
+			focusGotEvent_.Invoke(this);
+
+			Invalidate();
 		}
 	}
 	//---------------------------------------------------------------------------
 	void Control::OnLostFocus(Control *newFocusedControl)
 	{
-		isFocused = isClicked = false;
-		Application::Instance()->FocusedControl = nullptr;
+		isFocused_ = isClicked_ = false;
+		
+		Application::Instance().FocusedControl = nullptr;
 
-		focusLostEvent.Invoke(this, newFocusedControl);
+		focusLostEvent_.Invoke(this, newFocusedControl);
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	bool Control::OnKeyDown(const KeyboardMessage &keyboard)
 	{
 		KeyEventArgs args(keyboard);
-		keyDownEvent.Invoke(this, args);
+		keyDownEvent_.Invoke(this, args);
 
 		return args.Handled;
 	}
@@ -563,7 +890,7 @@ namespace OSHGui
 	bool Control::OnKeyPress(const KeyboardMessage &keyboard)
 	{
 		KeyPressEventArgs args(keyboard);
-		keyPressEvent.Invoke(this, args);
+		keyPressEvent_.Invoke(this, args);
 
 		return args.Handled;
 	}
@@ -571,23 +898,23 @@ namespace OSHGui
 	bool Control::OnKeyUp(const KeyboardMessage &keyboard)
 	{
 		KeyEventArgs args(keyboard);
-		keyUpEvent.Invoke(this, args);
+		keyUpEvent_.Invoke(this, args);
 
 		return args.Handled;
 	}
 	//---------------------------------------------------------------------------
 	bool Control::ProcessMouseMessage(const MouseMessage &mouse)
 	{
-		switch (mouse.State)
+		switch (mouse.GetState())
 		{
-			case MouseMessage::Down:
-				if (canRaiseEvents && Intersect(mouse.Location))
+			case MouseState::Down:
+				if (canRaiseEvents_ && Intersect(mouse.GetLocation()))
 				{
-					if (mouse.Button == MouseButton::Left && !isClicked && isEnabled)
+					if (mouse.GetButton() == MouseButton::Left && !isClicked_ && isEnabled_)
 					{
 						OnMouseDown(mouse);
 						
-						if (isFocusable && !isFocused)
+						if (isFocusable_ && !isFocused_)
 						{
 							OnGotFocus(this);
 						}
@@ -596,30 +923,30 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseMessage::Up:
-				if (canRaiseEvents && (hasCaptured || Intersect(mouse.Location)))
+			case MouseState::Up:
+				if (canRaiseEvents_ && (hasCaptured_ || Intersect(mouse.GetLocation())))
 				{
-					if (isClicked)
+					if (isClicked_)
 					{
-						if (mouse.Button == MouseButton::Left)
+						if (mouse.GetButton() == MouseButton::Left)
 						{
-							clickEvent.Invoke(this);
+							clickEvent_.Invoke(this);
 
 							OnMouseClick(mouse);
 						}
 					}
 
 					OnMouseUp(mouse);
-			
+
 					return true;
 				}
 				break;
-			case MouseMessage::Move:
-				if (hasCaptured || Intersect(mouse.Location))
+			case MouseState::Move:
+				if (hasCaptured_ || Intersect(mouse.GetLocation()))
 				{
-					if (canRaiseEvents)
+					if (canRaiseEvents_)
 					{
-						if (!isInside)
+						if (!isInside_)
 						{
 							OnMouseEnter(mouse);
 						}
@@ -630,12 +957,12 @@ namespace OSHGui
 					return true;
 				}
 				break;
-			case MouseMessage::Scroll:
-				if (hasCaptured || isFocused)
+			case MouseState::Scroll:
+				if (hasCaptured_ || isFocused_)
 				{
-					if (canRaiseEvents)
+					if (canRaiseEvents_)
 					{
-						if (mouse.Delta != 0)
+						if (mouse.GetDelta() != 0)
 						{
 							OnMouseScroll(mouse);
 						}
@@ -649,17 +976,17 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	bool Control::ProcessKeyboardMessage(KeyboardMessage &keyboard)
+	bool Control::ProcessKeyboardMessage(const KeyboardMessage &keyboard)
 	{
-		if (canRaiseEvents)
+		if (canRaiseEvents_)
 		{
 			switch (keyboard.GetState())
 			{
-				case KeyboardMessage::KeyDown:
+				case KeyboardState::KeyDown:
 					return OnKeyDown(keyboard);
-				case KeyboardMessage::KeyUp:
+				case KeyboardState::KeyUp:
 					return OnKeyUp(keyboard);
-				case KeyboardMessage::Character:
+				case KeyboardState::Character:
 					return OnKeyPress(keyboard);
 			}
 		}
@@ -667,45 +994,51 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	void Control::Render(Drawing::IRenderer *renderer)
-	{
-		return;
-	}
+	//Control::PostOrderIterator
 	//---------------------------------------------------------------------------
-	void Control::ApplyTheme(const Drawing::Theme &theme)
+	Control::PostOrderIterator::PostOrderIterator(Control *start)
 	{
-		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type));
-		SetForeColor(controlTheme.ForeColor);
-		SetBackColor(controlTheme.BackColor);
-	}
-	//---------------------------------------------------------------------------
-	Misc::AnsiString Control::ControlTypeToString(CONTROL_TYPE controlType)
-	{
-		switch (controlType)
+		start_ = start;
+
+		if (start_->internalControls_.empty())
 		{
-			case CONTROL_PANEL: return "panel";
-			case CONTROL_FORM: return "form";
-			case CONTROL_GROUPBOX: return "groupbox";
-			case CONTROL_LABEL: return "label";
-			case CONTROL_LINKLABEL: return "linklabel";
-			case CONTROL_BUTTON: return "button";
-			case CONTROL_CHECKBOX: return "checkbox";
-			case CONTROL_RADIOBUTTON: return "radiobutton";
-			case CONTROL_SCROLLBAR: return "scrollbar";
-			case CONTROL_LISTBOX: return "listbox";
-			case CONTROL_PROGRESSBAR: return "progressbar";
-			case CONTROL_TRACKBAR: return "trackbar";
-			case CONTROL_COMBOBOX: return "combobox";
-			case CONTROL_TEXTBOX: return "textbox";
-			case CONTROL_TIMER: return "timer";
-			case CONTROL_TABCONTROL: return "tabcontrol";
-			case CONTROL_TABPAGE: return "tabpage";
-			case CONTROL_PICTUREBOX: return "picturebox";
-			case CONTROL_COLORPICKER: return "colorpicker";
-			case CONTROL_COLORBAR: return "colorbar";
-			case CONTROL_HOTKEYCONTROL: return "hotkeycontrol";
+			current_ = start_;
 		}
-		throw 1;
+		else
+		{
+			LoopThrough(start_);
+			current_ = controlStack_.back();
+			controlStack_.pop_back();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::PostOrderIterator::LoopThrough(Control *container)
+	{
+		controlStack_.push_back(container);
+
+		for (auto &control : make_reverse_range(container->internalControls_))
+		{
+			if (control->GetVisible() && control->GetEnabled())
+			{
+				LoopThrough(control);
+			}
+		}
+	}
+	//---------------------------------------------------------------------------
+	void Control::PostOrderIterator::operator++()
+	{
+		current_ = controlStack_.back();
+		controlStack_.pop_back();
+	}
+	//---------------------------------------------------------------------------
+	bool Control::PostOrderIterator::operator()()
+	{
+		return !controlStack_.empty();
+	}
+	//---------------------------------------------------------------------------
+	Control* Control::PostOrderIterator::operator*()
+	{
+		return current_;
 	}
 	//---------------------------------------------------------------------------
 }

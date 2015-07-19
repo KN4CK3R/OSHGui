@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -14,94 +14,93 @@
 
 namespace OSHGui
 {
+	enum class KeyboardState
+	{
+		/**
+		 * Unbekannt
+		 */
+		Unknown,
+		/**
+		 * Taste wurde gedrückt
+		 */
+		KeyDown,
+		/**
+		 * enthält das Zeichen der gedrückten Taste
+		 */
+		Character,
+		/**
+		 * Taste wurde losgelassen
+		 */
+		KeyUp
+	};
+
 	/**
 	 * Tastaturevent
 	 */
 	class OSHGUI_EXPORT KeyboardMessage
 	{
 	public:
-		enum KeyboardStates
-		{
-			/**
-			 * Unbekannt
-			 */
-			Unknown,
-			/**
-			 * Taste wurde gedrückt
-			 */
-			KeyDown,
-			/**
-			 * enthält das Zeichen der gedrückten Taste
-			 */
-			Character,
-			/**
-			 * Taste wurde losgelassen
-			 */
-			KeyUp
-		};
-		
-	public:
 		/**
 		 * Konstruktor der Klasse.
 		 */
 		KeyboardMessage()
-			: state(Unknown),
-			  keyData(Key::None),
-			  keyChar('\0')
+			: state_(KeyboardState::Unknown),
+			  keyData_(Key::None),
+			  keyChar_('\0')
 		{
 
 		}
 
-		KeyboardMessage(KeyboardStates state, Key::Keys keyData, Misc::AnsiChar keyChar)
-			: state(state),
-			  keyData(keyData),
-			  keyChar(keyChar)
+		KeyboardMessage(KeyboardState state, Key keyData, Misc::AnsiChar keyChar)
+			: state_(state),
+			  keyData_(keyData),
+			  keyChar_(keyChar)
 		{
 
 		}
 
-		Key::Keys GetKeyData() const
+		Key GetKeyData() const
 		{
-			return keyData;
+			return keyData_;
 		}
 
-		Key::Keys GetKeyCode() const
+		Key GetKeyCode() const
 		{
-			return keyData & Key::KeyCode;
+			return keyData_ & Key::KeyCode;
 		}
 
-		Key::Keys GetModifier() const
+		Key GetModifier() const
 		{
-			return keyData & Key::Modifiers;
+			return keyData_ & Key::Modifiers;
 		}
 
-		KeyboardStates GetState() const
+		KeyboardState GetState() const
 		{
-			return state;
+			return state_;
 		}
 
 		Misc::AnsiChar GetKeyChar() const
 		{
-			return keyChar;
+			return keyChar_;
 		}
 
 		/**
 		 * Prüft, ob das Zeichen alphanumerisch ist.
 		 *
-		 * @return ja / nein
+		 * \return ja / nein
 		 */
 		bool IsAlphaNumeric() const
 		{
-			return Misc::String::IsLetterOrDigit(keyChar)
-				|| Misc::String::IsPunctuation(keyChar)
-				|| Misc::String::IsSeperator(keyChar)
-				|| Misc::String::IsSymbol(keyChar);
+			return Misc::String::IsLetterOrDigit(keyChar_)
+				|| Misc::String::IsPunctuation(keyChar_)
+				|| Misc::String::IsSeperator(keyChar_)
+				|| Misc::String::IsSymbol(keyChar_);
 		}
 
 	private:
-		KeyboardStates state;
-		Misc::AnsiChar keyChar;
-		Key::Keys keyData;
+		KeyboardState state_;
+		Misc::AnsiChar keyChar_;
+		Key keyData_;
 
 	};
 }

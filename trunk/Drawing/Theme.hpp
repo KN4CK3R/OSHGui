@@ -1,6 +1,7 @@
 #ifndef OSHGUI_THEME_HPP
 #define OSHGUI_THEME_HPP
 
+#include "../Exports.hpp"
 #include "Color.hpp"
 #include "../Misc/Strings.hpp"
 #include <map>
@@ -9,7 +10,7 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		class Theme
+		class OSHGUI_EXPORT Theme
 		{
 		public:
 			struct ControlTheme
@@ -44,30 +45,30 @@ namespace OSHGui
 			/**
 			 * Legt das Farbschema für eine Control Klasse fest. Die Klassennamen sind in der Control.hpp zu finden.
 			 *
-			 * @param controlClass
-			 * @param controlTheme
+			 * \param controlClass
+			 * \param controlTheme
 			 */
 			void SetControlColorTheme(const Misc::AnsiString &controlClass, const ControlTheme &controlTheme);
 			/**
 			 * Ruft das Farbschema für eine Control Klasse ab. Die Klassennamen sind in der Control.hpp zu finden.
 			 *
-			 * @param controlClass
-			 * @return controlTheme
+			 * \param controlClass
+			 * \return controlTheme
 			 */
 			const ControlTheme& GetControlColorTheme(const Misc::AnsiString &controlClass) const;
 
 			/**
 			 * Lädt ein Theme vom angegebenen Dateipfad. Im Fehlerfall wird eine InvalidThemeException geworfen.
 			 *
-			 * @param pathToThemeFile
+			 * \param pathToThemeFile
 			 */
 			void Load(const Misc::AnsiString &pathToThemeFile);
 			/**
 			 * Speichert ein Theme am angegebenen Dateipfad.
 			 *
-			 * @param pathToThemeFile
-			 * @param style Array, Text, Int
-			 * @return im Fehlerfall false
+			 * \param pathToThemeFile
+			 * \param style Array, Text, Int
+			 * \return im Fehlerfall false
 			 */
 			bool Save(const Misc::AnsiString &pathToThemeFile, ColorStyle style) const;
 

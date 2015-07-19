@@ -23,56 +23,56 @@ namespace OSHGui
 		public:
 			void Push(const T &item)
 			{
-				std::unique_lock<std::mutex> lock(mutex);
+				std::unique_lock<std::mutex> lock(mutex_);
 				
-				queue.push(item);
+				queue_.push(item);
 				lock.unlock();
-				condition.notify_one();
+				condition_.notify_one();
 			}
 
 			void Push(T&& item)
 			{
-				std::unique_lock<std::mutex> lock(mutex);
+				std::unique_lock<std::mutex> lock(mutex_);
 				
-				queue.push(std::move(item));
+				queue_.push(std::move(item));
 				lock.unlock();
-				condition.notify_one();
+				condition_.notify_one();
 			}
 
 			T Pop()
 			{
-				std::unique_lock<std::mutex> lock(mutex);
+				std::unique_lock<std::mutex> lock(mutex_);
 				
-				while (queue.empty())
+				while (queue_.empty())
 				{
-					condition.wait(lock);
+					condition_.wait(lock);
 				}
 				
-				auto item = queue.front();
-				queue.pop();
+				auto item = queue_.front();
+				queue_.pop();
 				return item;
 			}
 
 			void Pop(T &item)
 			{
-				std::unique_lock<std::mutex> lock(mutex);
-				while (queue.empty())
+				std::unique_lock<std::mutex> lock(mutex_);
+				while (queue_.empty())
 				{
-					condition.wait(mlock);
+					condition_.wait(lock);
 				}
 				item = queue_.front();
-				queue.pop();
+				queue_.pop();
 			}
 
 			bool IsEmpty() const
 			{
-				return queue.empty();
+				return queue_.empty();
 			}
 
 		private:
-			std::queue<T> queue;
-			std::mutex mutex;
-			std::condition_variable condition;
+			std::queue<T> queue_;
+			std::mutex mutex_;
+			std::condition_variable condition_;
 		};
 	}
 }

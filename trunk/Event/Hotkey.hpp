@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -20,23 +20,19 @@ namespace OSHGui
 	 */
 	class OSHGUI_EXPORT Hotkey
 	{
-	private:
-		typedef std::function<void()> Handler;
-		Key::Keys key;
-		Key::Keys modifier;
-		Handler handler;
-
 	public:
+		typedef std::function<void()> Handler;
+
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param key
-		 * @param handler die aufzurufende Funktion
+		 * \param key
+		 * \param handler die aufzurufende Funktion
 		 */
-		Hotkey(Key::Keys key, const Handler &handler)
-			: key(key),
-			  modifier(Key::None),
-			  handler(handler)
+		Hotkey(Key key, const Handler &handler)
+			: key_(key),
+			  modifier_(Key::None),
+			  handler_(handler)
 		{
 
 		}
@@ -44,79 +40,60 @@ namespace OSHGui
 		/**
 		 * Konstruktor der Klasse.
 		 *
-		 * @param key
-		 * @param modifier Strg / Alt / Shift
-		 * @param handler die aufzurufende Funktion
+		 * \param key
+		 * \param modifier Strg / Alt / Shift
+		 * \param handler die aufzurufende Funktion
 		 */
-		Hotkey(Key::Keys key, Key::Keys modifier, const Handler &handler)
-			: key(key),
-			  modifier(modifier),
-			  handler(handler)
+		Hotkey(Key key, Key modifier, const Handler &handler)
+			: key_(key),
+			  modifier_(modifier),
+			  handler_(handler)
 		{
-			if (modifier == key || !(modifier == Key::None || modifier == Key::Control || modifier == Key::Alt || modifier == Key::Shift))
+			if (modifier_ == key_ || !(modifier_ == Key::None || modifier_ == Key::Control || modifier_ == Key::Alt || modifier_ == Key::Shift))
 			{
 				#ifndef OSHGUI_DONTUSEEXCEPTIONS
-				throw Misc::ArgumentException("modifier", __FILE__, __LINE__);
+				throw Misc::ArgumentException("modifier");
 				#endif
 				throw 1;
 			}
-		}
-		
-		/**
-		 * CopyKonstruktor der Klasse.
-		 *
-		 * @param hotkey
-		 */
-		Hotkey(const Hotkey &hotkey)
-			: key(hotkey.key),
-			  modifier(hotkey.modifier),
-			  handler(hotkey.handler)
-		{
-			
 		}
 
 		/**
 		 * Ruft die Taste des Hotkeys ab.
 		 *
-		 * @return die Taste
+		 * \return die Taste
 		 */
-		Key::Keys GetKey() const
+		Key GetKey() const
 		{
-			return key;
+			return key_;
 		}
 		/**
 		 * Ruft den Modifier des Hotkeys ab.
 		 *
-		 * @return der Modifier
+		 * \return der Modifier
 		 */
-		Key::Keys GetModifier() const
+		Key GetModifier() const
 		{
-			return modifier;
+			return modifier_;
 		}
 
 		bool operator==(const Hotkey &hotkey)
 		{
-			return key == hotkey.key && modifier == hotkey.modifier;
+			return key_ == hotkey.key_ && modifier_ == hotkey.modifier_;
 		}
 
 		void operator()()
 		{
-			if (handler)
+			if (handler_)
 			{
-				handler();
+				handler_();
 			}
 		}
-		
-		Hotkey& operator=(const Hotkey &hotkey)
-		{
-			if (this != &hotkey)
-			{
-				key = hotkey.key;
-				modifier = hotkey.modifier;
-				handler = hotkey.handler;
-			}
-			return *this;
-		}
+
+	private:
+		Key key_;
+		Key modifier_;
+		Handler handler_;
 	};
 }
 

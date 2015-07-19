@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * MIT License
  *
@@ -40,6 +40,8 @@
 #include "Cursor/Cursors.hpp"
 
 #include "Drawing/TextureAnimator.hpp"
+
+#include "Drawing/FontManager.hpp"
 
 #include "Controls/Control.hpp"
 #include "Controls/Label.hpp"

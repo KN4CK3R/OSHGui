@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -12,16 +12,19 @@
 #include <memory>
 #include "../Exports.hpp"
 #include "../Drawing/Point.hpp"
-#include "../Drawing/IRenderer.hpp"
-#include "../Drawing/ITexture.hpp"
+#include "../Drawing/GeometryBuffer.hpp"
 
 namespace OSHGui
 {
+	class Cursors;
+
 	/**
 	 * Standard-Cursor
 	 */
 	class OSHGUI_EXPORT Cursor
 	{
+		friend class Cursors;
+
 	public:
 		/**
 		 * Konstruktor der Klasse
@@ -29,20 +32,15 @@ namespace OSHGui
 		Cursor();
 		virtual ~Cursor();
 	
-		/**
-		 * Zeichnet den Cursor.
-		 *
-		 * @param renderer
-		 * @param cursorLocation
-		 */
-		virtual void Render(Drawing::IRenderer *renderer, const Drawing::Point &cursorLocation);
+		virtual Drawing::GeometryBufferPtr GetGeometry();
 		
 	protected:
-		virtual void CreateCursor();
+		virtual void Initialize();
 
-		Drawing::Point offset;
-		std::shared_ptr<Drawing::ITexture> cursor;
+		Drawing::GeometryBufferPtr geometry_;
 	};
+
+	typedef std::shared_ptr<Cursor> CursorPtr;
 }
 
 #endif

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -15,68 +15,63 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Label::Label()
-		: textHelper(font)
+		: textHelper_(GetFont())
 	{
-		type = CONTROL_LABEL;
+		type_ = ControlType::Label;
 		
 		SetAutoSize(true);
 		
-		ApplyTheme(Application::Instance()->GetTheme());
+		ApplyTheme(Application::Instance().GetTheme());
 
-		canRaiseEvents = false;
+		canRaiseEvents_ = false;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void Label::SetText(const Misc::AnsiString &text)
 	{
-		textHelper.SetText(text);
-		if (autoSize)
+		textHelper_.SetText(text);
+		if (autoSize_)
 		{
-			Control::SetSize(textHelper.GetSize());
+			Control::SetSize(textHelper_.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& Label::GetText() const
 	{
-		return textHelper.GetText();
+		return textHelper_.GetText();
 	}
 	//---------------------------------------------------------------------------
-	void Label::SetFont(const std::shared_ptr<Drawing::IFont> &font)
+	void Label::SetFont(const Drawing::FontPtr &font)
 	{
 		Control::SetFont(font);
-		textHelper.SetFont(font);
-		if (autoSize)
+
+		textHelper_.SetFont(font);
+		if (autoSize_)
 		{
-			size = textHelper.GetSize();
+			Control::SetSize(textHelper_.GetSize());
 		}
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	bool Label::Intersect(const Drawing::Point &point) const
+	bool Label::Intersect(const Drawing::PointI &point) const
 	{
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void Label::Render(Drawing::IRenderer *renderer)
+	void Label::PopulateGeometry()
 	{
-		if (!isVisible)
+		using namespace Drawing;
+
+		Graphics g(*geometry_);
+
+		if (GetBackColor().GetAlpha() > 0)
 		{
-			return;
+			g.FillRectangle(GetBackColor(), RectangleF(PointF(), GetSize()));
 		}
 		
-		Drawing::Size renderSize = GetParent()->GetSize();
-		if (backColor.A != 0)
-		{
-			renderer->SetRenderColor(backColor);
-			renderer->Fill(absoluteLocation, size);
-		}
-	
-		renderer->SetRenderColor(foreColor);
-		renderer->RenderText(font, absoluteLocation, renderSize, textHelper.GetText());
+		g.DrawString(textHelper_.GetText(), GetFont(), GetForeColor(), PointF(0, 0));
 	}
 	//---------------------------------------------------------------------------
 }

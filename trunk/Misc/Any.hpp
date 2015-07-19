@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -26,32 +26,31 @@ namespace OSHGui
 			{
 			public:
 				virtual ~AnyTypeWrapper() { }
-				virtual AnyTypeWrapper* Copy() = 0;
 				virtual void* GetObject() = 0;
 			};
 			//---------------------------------------------------------------------------
-			template<class T>
+			template<typename T>
 			class TypeWrapper : public AnyTypeWrapper
 			{
-			private:
-				T obj;
-				
 			public:
-				TypeWrapper(const T &object) : obj(object) { }
-				//---------------------------------------------------------------------------
-				TypeWrapper* Copy()
+				TypeWrapper(const T &object)
+					: obj_(object)
 				{
-					return new TypeWrapper<T>(obj);
+				
 				}
 				//---------------------------------------------------------------------------
 				virtual void* GetObject()
 				{
-					return &obj;
+					return &obj_;
 				}
+				//---------------------------------------------------------------------------
+
+			private:
+				T obj_;
 			};
 			//---------------------------------------------------------------------------
-			unsigned int id;
-			AnyTypeWrapper *wrapper;
+			unsigned int id_;
+			std::shared_ptr<AnyTypeWrapper> wrapper_;
 			//---------------------------------------------------------------------------
 			static unsigned int NextID()
 			{
@@ -60,7 +59,7 @@ namespace OSHGui
 				return id;
 			}
 			//---------------------------------------------------------------------------
-			template<class T>
+			template<typename T>
 			static unsigned int TypeID()
 			{
 				static unsigned int id = NextID();
@@ -73,96 +72,49 @@ namespace OSHGui
 			 * Erzeugt ein leeres Any-Objekt.
 			 */
 			Any()
+				: id_(0)
 			{
-				id = 0;
-				wrapper = nullptr;
-			}
-			~Any()
-			{
-				delete wrapper;
+
 			}
 
 			/**
 			 * Erzeugt ein Any-Objekt, das das angegebene Objekt enthält.
 			 *
-			 * @param obj
+			 * \param obj
 			 */
-			template<class T>
+			template<typename T>
 			Any(const T &obj)
+				: id_(TypeID<T>()),
+				  wrapper_(new TypeWrapper<T>(obj_))
 			{
-				id = TypeID<T>();
-				wrapper = new TypeWrapper<T>(obj);
-			}
-			/**
-			 * Kopierkonstruktor
-			 */
-			Any(const Any &any)
-			{
-				id = any.id;
-				wrapper = any.wrapper->Copy();
-			}
-			/**
-			 * Weißt diesem Any-Objekt das angegebene zu.
-			 *
-			 * @param any
-			 * @return this
-			 */
-			Any& operator=(Any const& any)
-			{
-				if (this != &any)
-				{
-					delete wrapper;
-					wrapper = nullptr;
-					
-					id = any.id;
-					if (any.wrapper != nullptr)
-					{
-						wrapper = any.wrapper->Copy();
-					}
-				}
-				return *this;
-			}
-			/**
-			 * Weißt diesem Any-Objekt eine Variable zu.
-			 *
-			 * @param obj
-			 * @return this
-			 */
-			template<class T>
-			Any& operator=(const T &obj)
-			{
-				delete wrapper;
-			
-				id = TypeID<T>();
-				wrapper = new TypeWrapper<T>(obj);
 				
-				return *this;
 			}
+			
 			/**
 			 * Dieser Operator erlaubt per if (!any) { any ist leer } zu prüfen, ob das Any-Objekt leer ist.
 			 */
-			operator void *() const
+			operator bool() const
 			{
-				return id == 0 ? nullptr : (void*)1;
+				return id_ != 0;
 			}
 
 			/**
 			 * Castet ein Any-Objekt zu dem in ihm befindlichen Datentyp. Falls ein falscher Datentyp angegeben wird,
 			 * wird eine Exception ausgelöst.
 			 *
-			 * @return das aufgenommene Objekt
+			 * \return das aufgenommene Objekt
 			 */
-			template<class T>
-			T CastTo() const
+			template<typename T>
+			T& CastTo() const
 			{
-				if (TypeID<T>() == id)
+				if (TypeID<T>() == id_)
 				{
-					return *static_cast<T*>(wrapper->GetObject());
+					return *static_cast<T*>(wrapper_->GetObject());
 				}
 				else
 				{
 					#ifndef OSHGUI_DONTUSEEXCEPTIONS
-					throw InvalidOperationException("Cannot cast object", __FILE__, __LINE__);
+					throw InvalidOperationException("Cannot cast object");
 					#endif
 					throw 1;
 				}

@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * Copyright (c) 2010-2013 KN4CK3R http://www.oldschoolhack.de
+ * by KN4CK3R http://www.oldschoolhack.me
  *
  * See license in OSHGui.hpp
  */
@@ -9,7 +9,6 @@
 #include "RadioButton.hpp"
 #include "Label.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "ContainerControl.hpp"
 
 namespace OSHGui
 {
@@ -18,26 +17,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	RadioButton::RadioButton()
 	{
-		type = CONTROL_RADIOBUTTON;
+		type_ = ControlType::RadioButton;
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
 	void RadioButton::SetChecked(bool checked)
 	{
-		if (this->checked != checked)
+		if (checked_ != checked)
 		{
 			if (GetParent() != nullptr)
 			{
 				//uncheck other radiobuttons
-				auto controls = static_cast<ContainerControl*>(GetParent())->GetControls();
-				for (auto it = std::begin(controls); it != std::end(controls); ++it)
+				for (auto &control : GetParent()->GetControls())
 				{
-					Control *control = *it;
-					if (control->GetType() == CONTROL_RADIOBUTTON)
+					if (control->GetType() == ControlType::RadioButton)
 					{
-						RadioButton *radio = static_cast<RadioButton*>(control);
-						radio->SetCheckedInternal(false);
+						static_cast<RadioButton*>(control)->SetCheckedInternal(false);
 					}
 				}
 			
@@ -48,11 +44,33 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void RadioButton::SetCheckedInternal(bool checked)
 	{
-		if (this->checked != checked)
+		if (checked_ != checked)
 		{
-			this->checked = checked;
+			checked_ = checked;
 			
-			checkedChangedEvent.Invoke(this);
+			checkedChangedEvent_.Invoke(this);
+
+			Invalidate();
+		}
+	}
+	//---------------------------------------------------------------------------
+	void RadioButton::PopulateGeometry()
+	{
+		using namespace Drawing;
+
+		Graphics g(*geometry_);
+
+		g.FillRectangle(GetBackColor(), RectangleF(PointF(0, 0), SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize)));
+
+		g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(1, 1), SizeF(15, 15)));
+		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() + Color::FromARGB(0, 55, 55, 55)), RectangleF(PointF(2, 2), SizeF(13, 13)));
+
+		if (checked_)
+		{
+			g.FillRectangle(Color::White() - Color::FromARGB(0, 128, 128, 128), RectangleF(PointF(5, 7), SizeF(7, 3)));
+			ColorRectangle colors(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137));
+			g.FillRectangleGradient(colors, RectangleF(PointF(7, 5), SizeF(3, 7)));
+			g.FillRectangleGradient(colors, RectangleF(PointF(6, 6), SizeF(5, 5)));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -73,46 +91,12 @@ namespace OSHGui
 			{
 				SetChecked(true);
 
-				clickEvent.Invoke(this);
+				clickEvent_.Invoke(this);
 			}
 		}
 
 		return true;
 	}
 	//---------------------------------------------------------------------------
-	//Event-Handling
-	//---------------------------------------------------------------------------
-	void RadioButton::Render(Drawing::IRenderer *renderer)
-	{
-		if (!isVisible)
-		{
-			return;
-		}
-		
-		renderer->SetRenderColor(backColor);
-		renderer->Fill(checkBoxAbsoluteLocation.Left, checkBoxAbsoluteLocation.Top, DefaultCheckBoxSize, DefaultCheckBoxSize);
-
-		Drawing::Color white = Drawing::Color::White();
-		renderer->SetRenderColor(white);
-		renderer->FillGradient(checkBoxAbsoluteLocation.Left + 1, checkBoxAbsoluteLocation.Top + 1, 15, 15, white - Drawing::Color(0, 137, 137, 137));
-		renderer->SetRenderColor(backColor);
-		renderer->FillGradient(checkBoxAbsoluteLocation.Left + 2, checkBoxAbsoluteLocation.Top + 2, 13, 13, backColor + Drawing::Color(0, 55, 55, 55));
-		
-		if (checked)
-		{
-			renderer->Fill(checkBoxAbsoluteLocation.Left + 6, checkBoxAbsoluteLocation.Top + 4, 5, 9);
-			renderer->Fill(checkBoxAbsoluteLocation.Left + 4, checkBoxAbsoluteLocation.Top + 6, 9, 5);
-			renderer->Fill(checkBoxAbsoluteLocation.Left + 5, checkBoxAbsoluteLocation.Top + 5, 7, 7);
-			
-			renderer->SetRenderColor(white - Drawing::Color(0, 128, 128, 128));
-			renderer->Fill(checkBoxAbsoluteLocation.Left + 5, checkBoxAbsoluteLocation.Top + 7, 7, 3);
-			
-			renderer->SetRenderColor(white);
-			renderer->FillGradient(checkBoxAbsoluteLocation.Left + 7, checkBoxAbsoluteLocation.Top + 5, 3, 7, white - Drawing::Color(0, 137, 137, 137));
-			renderer->FillGradient(checkBoxAbsoluteLocation.Left + 6, checkBoxAbsoluteLocation.Top + 6, 5, 5, white - Drawing::Color(0, 137, 137, 137));
-		}
-
-		label->Render(renderer);
-	}
-	//---------------------------------------------------------------------------
+	
 }
