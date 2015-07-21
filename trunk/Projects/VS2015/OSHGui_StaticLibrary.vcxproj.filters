@@ -47,6 +47,182 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Application.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FormManager.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\DateTime.cpp">
+      <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\Exceptions.cpp">
+      <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\RawDataContainer.cpp">
+      <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\Strings.cpp">
+      <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\TextHelper.cpp">
+      <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\TimeSpan.cpp">
+      <Filter>Quelldateien\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Input\WindowsMessage.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Color.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\ColorRectangle.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\CustomizableImage.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Font.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\FontManager.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\FreeTypeFont.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\GeometryBuffer.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Graphics.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Image.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\ImageGraphics.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\ImageLoader.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\RenderQueue.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\RenderSurface.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\RenderTarget.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Theme.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Vector.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Circle.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Cursor.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Cursors.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Hand.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\IBeam.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Pen.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Pipette.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Cursor\Wait.cpp">
+      <Filter>Quelldateien\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\Button.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\CheckBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\ColorBar.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\ColorPicker.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\ComboBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\Control.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\Form.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\GroupBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\HotkeyControl.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\Label.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\ListBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\MessageBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\Panel.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\PictureBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\ProgressBar.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\RadioButton.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\ScrollBar.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\TabControl.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\TabPage.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\TextBox.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\Timer.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\TrackBar.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Controls\LinkLabel.cpp">
+      <Filter>Quelldateien\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Input\Input.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\..\Misc\ConcurrendQueue.hpp">
       <Filter>Headerdateien\Misc</Filter>
     </ClInclude>
@@ -88,9 +264,6 @@
     </ClInclude>
     <ClInclude Include="..\..\OSHGui.hpp">
       <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Input\Input.hpp">
-      <Filter>Headerdateien\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Input\WindowsMessage.hpp">
       <Filter>Headerdateien\Input</Filter>
@@ -302,181 +475,8 @@
     <ClInclude Include="..\..\Controls\RadioButton.hpp">
       <Filter>Headerdateien\Controls</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\Application.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\FormManager.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Misc\DateTime.cpp">
-      <Filter>Quelldateien\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Misc\Exceptions.cpp">
-      <Filter>Quelldateien\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Misc\RawDataContainer.cpp">
-      <Filter>Quelldateien\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Misc\Strings.cpp">
-      <Filter>Quelldateien\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Misc\TextHelper.cpp">
-      <Filter>Quelldateien\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Misc\TimeSpan.cpp">
-      <Filter>Quelldateien\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Input\Input.cpp">
-      <Filter>Quelldateien\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Input\WindowsMessage.cpp">
-      <Filter>Quelldateien\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp">
-      <Filter>Quelldateien\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Color.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\ColorRectangle.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\CustomizableImage.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Font.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\FontManager.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\FreeTypeFont.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\GeometryBuffer.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Graphics.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Image.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\ImageGraphics.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\ImageLoader.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\RenderQueue.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\RenderSurface.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\RenderTarget.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Theme.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Vector.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Circle.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Cursor.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Cursors.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Hand.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\IBeam.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Pen.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Pipette.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Cursor\Wait.cpp">
-      <Filter>Quelldateien\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\Button.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\CheckBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\ColorBar.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\ColorPicker.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\ComboBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\Control.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\Form.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\GroupBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\HotkeyControl.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\Label.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\ListBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\MessageBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\Panel.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\PictureBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\ProgressBar.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\RadioButton.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\ScrollBar.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\TabControl.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\TabPage.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\TextBox.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\Timer.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\TrackBar.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Controls\LinkLabel.cpp">
-      <Filter>Quelldateien\Controls</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\Input\Input.hpp">
+      <Filter>Headerdateien\Input</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
