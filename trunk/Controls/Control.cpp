@@ -693,7 +693,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void Control::ApplyTheme(const Drawing::Theme &theme)
 	{
-		auto &controlTheme = theme.GetControlColorTheme(ControlTypeToString(type_));
+		auto &controlTheme = theme.GetControlColorTheme(type_);
 		SetForeColor(controlTheme.ForeColor);
 		SetBackColor(controlTheme.BackColor);
 
@@ -701,35 +701,6 @@ namespace OSHGui
 		{
 			control->ApplyTheme(theme);
 		}
-	}
-	//---------------------------------------------------------------------------
-	Misc::AnsiString Control::ControlTypeToString(ControlType controlType)
-	{
-		switch (controlType)
-		{
-			case ControlType::Panel: return "panel";
-			case ControlType::Form: return "form";
-			case ControlType::GroupBox: return "groupbox";
-			case ControlType::Label: return "label";
-			case ControlType::LinkLabel: return "linklabel";
-			case ControlType::Button: return "button";
-			case ControlType::CheckBox: return "checkbox";
-			case ControlType::RadioButton: return "radiobutton";
-			case ControlType::ScrollBar: return "scrollbar";
-			case ControlType::ListBox: return "listbox";
-			case ControlType::ProgressBar: return "progressbar";
-			case ControlType::TrackBar: return "trackbar";
-			case ControlType::ComboBox: return "combobox";
-			case ControlType::TextBox: return "textbox";
-			case ControlType::Timer: return "timer";
-			case ControlType::TabControl: return "tabcontrol";
-			case ControlType::TabPage: return "tabpage";
-			case ControlType::PictureBox: return "picturebox";
-			case ControlType::ColorPicker: return "colorpicker";
-			case ControlType::ColorBar: return "colorbar";
-			case ControlType::HotkeyControl: return "hotkeycontrol";
-		}
-		throw Misc::Exception();
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
