@@ -29,7 +29,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

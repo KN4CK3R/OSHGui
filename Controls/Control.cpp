@@ -691,15 +691,15 @@ namespace OSHGui
 
 	}
 	//---------------------------------------------------------------------------
-	void Control::ApplyTheme(const Drawing::Theme &theme)
+	void Control::ApplyStyle(const Drawing::Style &style)
 	{
-		auto &controlTheme = theme.GetControlColorTheme(type_);
-		SetForeColor(controlTheme.ForeColor);
-		SetBackColor(controlTheme.BackColor);
+		auto &controlStyle = style.GetControlStyle(type_);
+		SetForeColor(controlStyle.ForeColor);
+		SetBackColor(controlStyle.BackColor);
 
 		for (auto &control : GetControls())
 		{
-			control->ApplyTheme(theme);
+			control->ApplyStyle(style);
 		}
 	}
 	//---------------------------------------------------------------------------

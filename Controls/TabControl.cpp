@@ -53,7 +53,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 
 		canRaiseEvents_ = false;
 	}
@@ -344,13 +344,13 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::ApplyTheme(const Drawing::Theme &theme)
+	void TabControl::ApplyStyle(const Drawing::Style &style)
 	{
-		Control::ApplyTheme(theme);
+		Control::ApplyStyle(style);
 		
 		for (auto &binding : bindings_)
 		{
-			binding->TabPage->ApplyTheme(theme);
+			binding->TabPage->ApplyStyle(style);
 		}
 	}
 	//---------------------------------------------------------------------------

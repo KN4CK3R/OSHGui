@@ -149,21 +149,6 @@ namespace OSHGui
 			 */
 			InvalidOperationException(const Misc::AnsiString &message);
 		};
-		
-		/**
-		 * Die Ausnahme, die ausgelöst wird, wenn beim Verarbeiten eines Themes
-		 * ein Fehler aufgetreten ist.
-		 */
-		class OSHGUI_EXPORT InvalidThemeException : public Exception
-		{
-		public:
-			/**
-			 * Initialisiert eine neue Instanz der InvalidThemeException-Klasse.
-			 *
-			 * \param message die Meldung, in der der Fehler beschrieben wird
-			 */
-			InvalidThemeException(const Misc::AnsiString &message);
-		};
 
 		/**
 		 * Die Ausnahme, die ausgelöst wird, wenn eine Funktion nicht unterstützt wird.

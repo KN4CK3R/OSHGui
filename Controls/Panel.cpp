@@ -24,7 +24,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 
 		isFocusable_ = false;
 	}

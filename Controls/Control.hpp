@@ -25,7 +25,7 @@
 #include "../Drawing/Renderer.hpp"
 #include "../Drawing/RenderContext.hpp"
 #include "../Drawing/Graphics.hpp"
-#include "../Drawing/Theme.hpp"
+#include "../Drawing/Style.hpp"
 
 #include "../Misc/Strings.hpp"
 #include "../Misc/Any.hpp"
@@ -625,11 +625,11 @@ namespace OSHGui
 		 */
 		virtual void Render();
 		/**
-		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
+		 * Veranlasst das Steuerelement, sein Aussehen dem Style anzupassen.
 		 *
-		 * \param theme
+		 * \param style
 		 */
-		virtual void ApplyTheme(const Drawing::Theme &theme);
+		virtual void ApplyStyle(const Drawing::Style &style);
 
 		class PostOrderIterator
 		{

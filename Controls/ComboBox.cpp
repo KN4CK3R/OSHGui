@@ -137,7 +137,7 @@ namespace OSHGui
 
 		SetSize(Drawing::SizeI(160, 24));
 		
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

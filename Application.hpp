@@ -14,7 +14,7 @@
 #include "Drawing/Renderer.hpp"
 #include "Drawing/RenderContext.hpp"
 #include "Drawing/Font.hpp"
-#include "Drawing/Theme.hpp"
+#include "Drawing/Style.hpp"
 #include "Misc/DateTime.hpp"
 #include "Cursor/Cursor.hpp"
 #include "Event/MouseMessage.hpp"
@@ -119,17 +119,17 @@ namespace OSHGui
 		void SetCursorEnabled(bool enabled);
 		
 		/**
-		 * Legt das Theme für das Gui fest.
+		 * Legt den Style für das Gui fest.
 		 *
-		 * \param theme Theme
+		 * \param style
 		 */
-		void SetTheme(const Drawing::Theme &theme);
+		void SetStyle(const Drawing::Style &style);
 		/**
-		 * Ruft das Theme für das Gui ab.
+		 * Ruft den Style für das Gui ab.
 		 *
-		 * \return Theme
+		 * \return style
 		 */
-		const Drawing::Theme& GetTheme() const;
+		const Drawing::Style& GetStyle() const;
 	
 		/**
 		 * Aktiviert das GUI.
@@ -222,8 +222,7 @@ namespace OSHGui
 		GuiRenderSurface guiSurface_;
 		Drawing::FontPtr defaultFont_;
 		
-		Drawing::Theme defaultTheme_;
-		Drawing::Theme currentTheme_;
+		Drawing::Style _currentStyle;
 	
 		FormManager formManager_;
 		

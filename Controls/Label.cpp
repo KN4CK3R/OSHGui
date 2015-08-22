@@ -21,7 +21,7 @@ namespace OSHGui
 		
 		SetAutoSize(true);
 		
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 
 		canRaiseEvents_ = false;
 	}

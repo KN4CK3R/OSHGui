@@ -27,7 +27,7 @@ namespace OSHGui
 
 		SetSize(DefaultSize);
 		
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 
 		SetBarColor(Drawing::Color(0xFF67AFF5));
 
