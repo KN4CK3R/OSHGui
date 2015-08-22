@@ -20,7 +20,7 @@ namespace OSHGui
 
 		}
 		//---------------------------------------------------------------------------
-		RawDataContainer::RawDataContainer(uint32_t size)
+		RawDataContainer::RawDataContainer(size_t size)
 			: data_(size)
 		{
 
@@ -46,7 +46,7 @@ namespace OSHGui
 			return data_;
 		}
 		//---------------------------------------------------------------------------
-		uint32_t RawDataContainer::GetSize() const
+		size_t RawDataContainer::GetSize() const
 		{
 			return data_.size();
 		}

@@ -28,13 +28,13 @@ namespace OSHGui
 			/**
 			 * Reserviert Speicher mit size Bytes.
 			 */
-			RawDataContainer(uint32_t size);
+			RawDataContainer(size_t size);
 			
 			uint8_t* GetDataPointer();
 			const uint8_t* GetDataPointer() const;
 			std::vector<uint8_t>& GetData();
 			const std::vector<uint8_t>& GetData() const;
-			uint32_t GetSize() const;
+			size_t GetSize() const;
 
 			void LoadFromFile(const Misc::AnsiString &filename);
 
