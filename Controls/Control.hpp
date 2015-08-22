@@ -15,6 +15,8 @@
 
 #include "../Exports.hpp"
 
+#include "Types.hpp"
+
 #include "../Application.hpp"
 
 #include "../Drawing/Point.hpp"
