@@ -91,7 +91,7 @@ namespace OSHGui
 			for (int y = 0; y < size.Height; ++y)
 			{
 				nodes.clear();
-				int j = vertices.size() - 1;
+				auto j = vertices.size() - 1;
 				for (int i = 0; i < vertices.size(); ++i)
 				{
 					if ((vertices[i].Y < y && vertices[j].Y >= y) || (vertices[j].Y < y && vertices[i].Y >= y))

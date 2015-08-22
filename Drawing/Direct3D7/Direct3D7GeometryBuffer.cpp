@@ -97,7 +97,14 @@ namespace OSHGui
 				MatrixMultiply(&scissorProjection, &scissor, &projection);
 				device->SetTransform(D3DTRANSFORMSTATE_PROJECTION, &scissorProjection);
 
-				D3DVIEWPORT7 vp = { clipRect.GetLeft(), clipRect.GetTop(), clipRect.GetWidth(), clipRect.GetHeight(), 0, 1 };
+				D3DVIEWPORT7 vp = {
+					static_cast<DWORD>(clipRect.GetLeft()),
+					static_cast<DWORD>(clipRect.GetTop()),
+					static_cast<DWORD>(clipRect.GetWidth()),
+					static_cast<DWORD>(clipRect.GetHeight()),
+					0,
+					1
+				};
 				device->SetViewport(&vp);
 			};
 

@@ -14,13 +14,12 @@ namespace OSHGui
 			_primitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED),
 			_inputLayout(nullptr),
 			_blendState(nullptr),
-			_sampleMask(0xffffffff),
+			_sampleMask(0),
 			_depthStencilState(nullptr),
 			_stencilRef(0),
 			_rasterizerState(nullptr),
 			_VS(nullptr),
 			_GS(nullptr),
-			//m_pGSSRV(NULL),
 			_PS(nullptr),
 			_VB(nullptr),
 			_vertexStride(0),
@@ -111,7 +110,7 @@ namespace OSHGui
 			#define Release_(_1)\
 			if (_1 != nullptr) { _1->Release(); _1 = nullptr; }
 			#define MultiRelease_(_1, count)\
-			for (auto i = 0; i < count; ++i)\
+			for (auto i = 0u; i < count; ++i)\
 				Release_(_1[i]);
 
 			Release_(_inputLayout);
