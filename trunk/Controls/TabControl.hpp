@@ -119,11 +119,11 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation() override;
 		/**
-		 * Veranlasst das Steuerelement, sein Aussehen dem Theme anzupassen.
+		 * Veranlasst das Steuerelement, sein Aussehen dem Style anzupassen.
 		 *
-		 * \param theme
+		 * \param style
 		 */
-		virtual void ApplyTheme(const Drawing::Theme &theme) override;
+		virtual void ApplyStyle(const Drawing::Style &style) override;
 
 	protected:
 		virtual void DrawSelf(Drawing::RenderContext &context) override;

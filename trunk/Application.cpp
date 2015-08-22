@@ -28,30 +28,32 @@ namespace OSHGui
 		  CaptureControl(nullptr),
 		  MouseEnteredControl(nullptr)
 	{
-		#define MakeTheme(type, color1, color2) defaultTheme_.SetControlColorTheme(type, Drawing::Theme::ControlTheme(color1, color2))
+		Drawing::Style style;
 
-		MakeTheme(ControlType::Label,		Drawing::Color::White(), Drawing::Color::Empty());
-		MakeTheme(ControlType::LinkLabel,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeTheme(ControlType::Button,		Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
-		MakeTheme(ControlType::CheckBox,	Drawing::Color::White(), Drawing::Color(0xFF222222));
-		MakeTheme(ControlType::RadioButton, Drawing::Color::White(), Drawing::Color(0xFF222222));
-		MakeTheme(ControlType::ColorBar,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeTheme(ControlType::ColorPicker,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(ControlType::ComboBox,	Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
-		MakeTheme(ControlType::Form,		Drawing::Color::White(), Drawing::Color(0xFF7C7B79));
-		MakeTheme(ControlType::GroupBox,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeTheme(ControlType::ListBox,		Drawing::Color::White(), Drawing::Color(0xFF171614));
-		MakeTheme(ControlType::Panel,		Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(ControlType::PictureBox,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeTheme(ControlType::ProgressBar,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
-		MakeTheme(ControlType::ScrollBar,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
-		MakeTheme(ControlType::TabControl,	Drawing::Color::White(), Drawing::Color(0xFF737373));
-		MakeTheme(ControlType::TabPage,		Drawing::Color::White(), Drawing::Color(0xFF474747));
-		MakeTheme(ControlType::TextBox,		Drawing::Color::White(), Drawing::Color(0xFF242321));
-		MakeTheme(ControlType::TrackBar,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeTheme(ControlType::HotkeyControl, Drawing::Color::White(), Drawing::Color(0xFF242321));
+		#define MakeStyle(type, color1, color2) style.SetControlStyle(type, { color1, color2 })
 
-		SetTheme(defaultTheme_);
+		MakeStyle(ControlType::Label,		Drawing::Color::White(), Drawing::Color::Empty());
+		MakeStyle(ControlType::LinkLabel,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeStyle(ControlType::Button,		Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
+		MakeStyle(ControlType::CheckBox,	Drawing::Color::White(), Drawing::Color(0xFF222222));
+		MakeStyle(ControlType::RadioButton, Drawing::Color::White(), Drawing::Color(0xFF222222));
+		MakeStyle(ControlType::ColorBar,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeStyle(ControlType::ColorPicker,	Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeStyle(ControlType::ComboBox,	Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
+		MakeStyle(ControlType::Form,		Drawing::Color::White(), Drawing::Color(0xFF7C7B79));
+		MakeStyle(ControlType::GroupBox,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeStyle(ControlType::ListBox,		Drawing::Color::White(), Drawing::Color(0xFF171614));
+		MakeStyle(ControlType::Panel,		Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeStyle(ControlType::PictureBox,	Drawing::Color::Empty(),	Drawing::Color::Empty());
+		MakeStyle(ControlType::ProgressBar,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
+		MakeStyle(ControlType::ScrollBar,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
+		MakeStyle(ControlType::TabControl,	Drawing::Color::White(), Drawing::Color(0xFF737373));
+		MakeStyle(ControlType::TabPage,		Drawing::Color::White(), Drawing::Color(0xFF474747));
+		MakeStyle(ControlType::TextBox,		Drawing::Color::White(), Drawing::Color(0xFF242321));
+		MakeStyle(ControlType::TrackBar,	Drawing::Color::White(), Drawing::Color::Empty());
+		MakeStyle(ControlType::HotkeyControl, Drawing::Color::White(), Drawing::Color(0xFF242321));
+
+		SetStyle(style);
 	}
 	//---------------------------------------------------------------------------
 	Application& Application::Instance()
@@ -74,7 +76,7 @@ namespace OSHGui
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (HasBeenInitialized())
 		{
-			throw Misc::InvalidOperationException("only one instance");
+			throw Misc::InvalidOperationException("only one instance allowed");
 		}
 		#endif
 
@@ -140,19 +142,19 @@ namespace OSHGui
 		guiSurface_.Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void Application::SetTheme(const Drawing::Theme &theme)
+	void Application::SetStyle(const Drawing::Style &style)
 	{
-		currentTheme_ = theme;
+		_currentStyle = style;
 		for (auto it = formManager_.GetEnumerator(); it(); ++it)
 		{
 			auto &form = *it;
-			form->ApplyTheme(theme);
+			form->ApplyStyle(style);
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::Theme& Application::GetTheme() const
+	const Drawing::Style& Application::GetStyle() const
 	{
-		return currentTheme_;
+		return _currentStyle;
 	}
 	//---------------------------------------------------------------------------
 	void Application::Enable()

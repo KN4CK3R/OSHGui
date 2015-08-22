@@ -100,14 +100,6 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		//Constructor
 		//---------------------------------------------------------------------------
-		InvalidThemeException::InvalidThemeException(const Misc::AnsiString &message)
-			: Exception(message)
-		{
-
-		}
-		//---------------------------------------------------------------------------
-		//Constructor
-		//---------------------------------------------------------------------------
 		NotSupportedException::NotSupportedException()
 			: Exception()
 		{

@@ -27,7 +27,7 @@ namespace OSHGui
 		
 		cursor_ = Cursors::Get(Cursors::Pipette);
 
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 
 		SetSize(DefaultSize);
 	}

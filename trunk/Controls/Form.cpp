@@ -46,7 +46,7 @@ namespace OSHGui
 		SetLocation(DefaultLocation);
 		SetSize(DefaultSize);
 
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter

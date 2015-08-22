@@ -30,7 +30,7 @@ namespace OSHGui
 	{
 		type_ = ControlType::TextBox;
 	
-		ApplyTheme(Application::Instance().GetTheme());
+		ApplyStyle(Application::Instance().GetStyle());
 
 		SetSize(DefaultSize);
 		
