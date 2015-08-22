@@ -20,7 +20,7 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	Control::Control()
-		: type_((ControlType)0),
+		: type_(ControlType::None),
 		  parent_(nullptr),
 		  location_(6, 6),
 		  size_(0, 0),
