@@ -98,7 +98,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D10GeometryBuffer::Draw() const
 		{
-			D3D10_RECT clip = { clipRect.GetLeft(), clipRect.GetTop(), clipRect.GetRight(), clipRect.GetBottom() };
+			D3D10_RECT clip = {
+				static_cast<LONG>(clipRect.GetLeft()),
+				static_cast<LONG>(clipRect.GetTop()),
+				static_cast<LONG>(clipRect.GetRight()),
+				static_cast<LONG>(clipRect.GetBottom())
+			};
 			owner.GetDevice()->RSSetScissorRects(1, &clip);
 
 			if (!bufferSynched)

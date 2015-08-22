@@ -99,7 +99,12 @@ namespace OSHGui
 
 			device->SetTransform(D3DTS_WORLD, &matrix);
 
-			RECT clip = { clipRect.GetLeft(), clipRect.GetTop(), clipRect.GetRight(), clipRect.GetBottom() };
+			RECT clip = { 
+				static_cast<LONG>(clipRect.GetLeft()),
+				static_cast<LONG>(clipRect.GetTop()),
+				static_cast<LONG>(clipRect.GetRight()),
+				static_cast<LONG>(clipRect.GetBottom())
+			};
 			for (int pass = 0; pass < 1; ++pass)
 			{
 				auto pos = 0;

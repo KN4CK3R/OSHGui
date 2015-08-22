@@ -132,7 +132,7 @@ namespace OSHGui
 			#define Release_(_1)\
 			if (_1 != nullptr) { _1->Release(); _1 = nullptr; }
 			#define MultiRelease_(_1, count)\
-			for (auto i = 0; i < count; ++i)\
+			for (auto i = 0u; i < count; ++i)\
 				Release_(_1[i]);
 
 			Release_(_inputLayout);

@@ -190,7 +190,12 @@ namespace OSHGui
 		{
 			stateBlock->Capture();
 
-			RECT noScissor = { 0, 0, displaySize.Width, displaySize.Height };
+			RECT noScissor = {
+				0,
+				0,
+				static_cast<LONG>(displaySize.Width),
+				static_cast<LONG>(displaySize.Height)
+			};
 			device->SetScissorRect(&noScissor);
 
 			device->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1);
