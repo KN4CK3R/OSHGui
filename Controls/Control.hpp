@@ -43,34 +43,6 @@
 namespace OSHGui
 {
 	/**
-	 * Auflistung der Arten von Steuerelementen.
-	 */
-	enum class ControlType
-	{
-		Panel = 1,
-		Form,
-		GroupBox,
-		Label,
-		LinkLabel,
-		Button,
-		CheckBox,
-		RadioButton,
-		ScrollBar,
-		ListBox,
-		ProgressBar,
-		TrackBar,
-		ComboBox,
-		TextBox,
-		Timer,
-		TabControl,
-		TabPage,
-		PictureBox,
-		ColorPicker,
-		ColorBar,
-		HotkeyControl
-	};
-
-	/**
 	 * Auflistung der Anker.
 	 */
 	enum class AnchorStyles : int
@@ -658,14 +630,6 @@ namespace OSHGui
 		 * \param theme
 		 */
 		virtual void ApplyTheme(const Drawing::Theme &theme);
-	
-		/**
-		 * Ruft die Stringrepresentation des Controltypes ab.
-		 *
-		 * \param controlType controltype
-		 * \return Stringrepresentation
-		 */
-		static Misc::AnsiString ControlTypeToString(ControlType controlType);
 
 		class PostOrderIterator
 		{
@@ -736,7 +700,7 @@ namespace OSHGui
 		bool isFocused_;
 		bool hasCaptured_;
 		bool autoSize_;
-			 
+
 		Misc::Any tag_;
 		
 		Drawing::PointI location_;
