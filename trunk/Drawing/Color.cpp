@@ -82,7 +82,7 @@ namespace OSHGui
 		Color Color::Blue() { return Color(1, 0, 0, 1); }
 
 		Color Color::Black() { return Color(1, 0, 0, 0); }
-		Color Color::Grey() { return Color(1, 0.5f, 0.5f, 0.5f); }
+		Color Color::Gray() { return Color(1, 0.5f, 0.5f, 0.5f); }
 		Color Color::White() { return Color(1, 1, 1, 1); }
 
 		Color Color::Yellow() { return Color(1, 1, 1, 0); }
