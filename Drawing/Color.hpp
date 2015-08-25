@@ -80,7 +80,7 @@ namespace OSHGui
 			/**
 			 * Gibt die Farbe Grau zurück (255, 128, 128, 128)
 			 */
-			static Color Grey();
+			static Color Gray();
 			/**
 			 * Gibt die Farbe Weiß zurück (255, 255, 255, 255)
 			 */
