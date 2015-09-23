@@ -7,7 +7,6 @@
  */
 
 #include "PictureBox.hpp"
-#include "../Drawing/TextureAnimator.hpp"
 #include "../Misc/Exceptions.hpp"
 
 namespace OSHGui

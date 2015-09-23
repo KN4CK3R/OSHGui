@@ -65,7 +65,7 @@
     <ClCompile Include="..\..\Drawing\RenderQueue.cpp" />
     <ClCompile Include="..\..\Drawing\RenderSurface.cpp" />
     <ClCompile Include="..\..\Drawing\RenderTarget.cpp" />
-    <ClCompile Include="..\..\Drawing\Theme.cpp" />
+    <ClCompile Include="..\..\Drawing\Style.cpp" />
     <ClCompile Include="..\..\Drawing\Vector.cpp" />
     <ClCompile Include="..\..\FormManager.cpp" />
     <ClCompile Include="..\..\Input\Input.cpp" />

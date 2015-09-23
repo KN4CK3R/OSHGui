@@ -8,7 +8,6 @@
 
 #include "Wait.hpp"
 #include "../Application.hpp"
-#include "../Drawing/TextureAnimator.hpp"
 
 namespace OSHGui
 {

@@ -162,9 +162,6 @@
     <ClInclude Include="..\..\Drawing\TextureTarget.hpp">
       <Filter>Headerdateien\Drawing</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Drawing\Theme.hpp">
-      <Filter>Headerdateien\Drawing</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Drawing\Vector.hpp">
       <Filter>Headerdateien\Drawing</Filter>
     </ClInclude>
@@ -300,6 +297,9 @@
     <ClInclude Include="..\..\Input\Input.hpp">
       <Filter>Headerdateien\Input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Drawing\Style.hpp">
+      <Filter>Headerdateien\Drawing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Application.cpp">
@@ -372,9 +372,6 @@
       <Filter>Quelldateien\Drawing</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Drawing\RenderTarget.cpp">
-      <Filter>Quelldateien\Drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Drawing\Theme.cpp">
       <Filter>Quelldateien\Drawing</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Drawing\Vector.cpp">
@@ -475,6 +472,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Input\Input.cpp">
       <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Drawing\Style.cpp">
+      <Filter>Quelldateien\Drawing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

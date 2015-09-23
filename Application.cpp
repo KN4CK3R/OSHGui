@@ -8,7 +8,6 @@
 
 #include "Application.hpp"
 #include "Controls/Form.hpp"
-#include "Drawing/TextureAnimator.hpp"
 #include "Misc/Exceptions.hpp"
 #include "FormManager.hpp"
 #include "Drawing/FontManager.hpp"
