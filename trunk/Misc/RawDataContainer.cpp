@@ -58,7 +58,15 @@ namespace OSHGui
 			std::ifstream in(filename, std::ios::binary);
 			if (in)
 			{
-				std::copy(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), std::back_inserter(data_));
+				in.unsetf(std::ios::skipws);
+
+				in.seekg(0, std::ios::end);
+				auto fileSize = static_cast<unsigned int>(in.tellg());
+				in.seekg(0, std::ios::beg);
+
+				data_.reserve(fileSize);
+
+				data_.insert(data_.begin(), std::istream_iterator<uint8_t>(in), std::istream_iterator<uint8_t>());
 			}
 			else
 			{

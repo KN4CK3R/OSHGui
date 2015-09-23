@@ -72,9 +72,9 @@
     <ClInclude Include="..\..\Drawing\RenderSurface.hpp" />
     <ClInclude Include="..\..\Drawing\RenderTarget.hpp" />
     <ClInclude Include="..\..\Drawing\Size.hpp" />
+    <ClInclude Include="..\..\Drawing\Style.hpp" />
     <ClInclude Include="..\..\Drawing\Texture.hpp" />
     <ClInclude Include="..\..\Drawing\TextureTarget.hpp" />
-    <ClInclude Include="..\..\Drawing\Theme.hpp" />
     <ClInclude Include="..\..\Drawing\Vector.hpp" />
     <ClInclude Include="..\..\Drawing\Vertex.hpp" />
     <ClInclude Include="..\..\Event\Event.hpp" />
@@ -152,7 +152,7 @@
     <ClCompile Include="..\..\Drawing\RenderQueue.cpp" />
     <ClCompile Include="..\..\Drawing\RenderSurface.cpp" />
     <ClCompile Include="..\..\Drawing\RenderTarget.cpp" />
-    <ClCompile Include="..\..\Drawing\Theme.cpp" />
+    <ClCompile Include="..\..\Drawing\Style.cpp" />
     <ClCompile Include="..\..\Drawing\Vector.cpp" />
     <ClCompile Include="..\..\FormManager.cpp" />
     <ClCompile Include="..\..\Input\Input.cpp" />

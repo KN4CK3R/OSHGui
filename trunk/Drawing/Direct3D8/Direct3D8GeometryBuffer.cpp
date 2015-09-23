@@ -98,10 +98,10 @@ namespace OSHGui
 				device->SetTransform(D3DTS_PROJECTION, &scissorProjection);
 
 				D3DVIEWPORT8 vp = {
-					static_cast<LONG>(clipRect.GetLeft()),
-					static_cast<LONG>(clipRect.GetTop()),
-					static_cast<LONG>(clipRect.GetWidth()),
-					static_cast<LONG>(clipRect.GetHeight()),
+					static_cast<DWORD>(clipRect.GetLeft()),
+					static_cast<DWORD>(clipRect.GetTop()),
+					static_cast<DWORD>(clipRect.GetWidth()),
+					static_cast<DWORD>(clipRect.GetHeight()),
 					0,
 					1
 				};

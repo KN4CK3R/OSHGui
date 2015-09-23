@@ -157,7 +157,7 @@ namespace OSHGui
 
 			for (auto c : text)
 			{
-				if (auto glyph = GetGlyphData((unsigned char)c))
+				if (auto glyph = GetGlyphData(static_cast<uint32_t>(c)))
 				{
 					auto image = glyph->GetImage();
 					glyphPosition.Y = base - (image->GetOffset().Y - image->GetOffset().Y * scaleY);
