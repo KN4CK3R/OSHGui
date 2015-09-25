@@ -6,7 +6,7 @@
  * See license in OSHGui.hpp
  */
 
-#include "WindowsMessageThreaded.hpp"
+#include "Input.hpp"
 #include "../Application.hpp"
 
 namespace OSHGui
@@ -39,5 +39,6 @@ namespace OSHGui
 		{
 			return Application::Instance().ProcessKeyboardMessage(keyboard);
 		}
+		//---------------------------------------------------------------------------
 	}
 }

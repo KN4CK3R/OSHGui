@@ -19,7 +19,7 @@ namespace OSHGui
 	namespace Input
 	{
 		/**
-		* Verwaltet den Input von DirectInput8.
+		* Verwaltet den Input.
 		*/
 		class OSHGUI_EXPORT Input
 		{
