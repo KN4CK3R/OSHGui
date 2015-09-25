@@ -39,8 +39,6 @@
 
 #include "Cursor/Cursors.hpp"
 
-#include "Drawing/TextureAnimator.hpp"
-
 #include "Drawing/FontManager.hpp"
 
 #include "Controls/Control.hpp"
