@@ -80,12 +80,12 @@ namespace OSHGui
 		SetValueInternal(value_);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::SetForeColor(const Drawing::Color &color)
+	void ScrollBar::SetBackColor(const Drawing::Color &color)
 	{
-		Control::SetForeColor(color);
+		Control::SetBackColor(color);
 
-		upButton_->SetForeColor(color);
-		downButton_->SetForeColor(color);
+		upButton_->SetBackColor(color);
+		downButton_->SetBackColor(color);
 	}
 	//---------------------------------------------------------------------------
 	void ScrollBar::SetMaximum(int maximum)
@@ -196,19 +196,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(1, 1), sliderSize_ - SizeF(2, 2));
-		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(sliderSize_.Width - 1, 1), SizeF(1, sliderSize_.Height - 2));
-		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(1, sliderSize_.Height - 1), SizeF(sliderSize_.Width - 2, 1));
-		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(0, 1), SizeF(1, sliderSize_.Height - 2));
-		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(1, 0), SizeF(sliderSize_.Width - 2, 1));
-
-		auto color = isInside_ ? GetForeColor() + Color::FromARGB(0, 50, 50, 50) : GetForeColor();
-		int sliderHalfHeight = sliderLocation_.Y + sliderSize_.Height / 2 - 3;
-		int sliderLeftPos = sliderLocation_.X + 5;
-		for (int i = 0; i < 3; ++i)
-		{
-			g.FillRectangle(color, PointF(sliderLeftPos, sliderHalfHeight + i * 3), SizeF(5, 1));
-		}
+		g.FillRectangle(GetBackColor(), sliderLocation_, sliderSize_);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling
@@ -310,20 +298,18 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto color = isInside_ ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
-
 		if (direction_ == ScrollBarDirection::Up)
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				g.FillRectangle(color, iconLocation_ + PointF(-i, i), SizeF(1 + i * 2, 1));
+				g.FillRectangle(GetBackColor(), iconLocation_ + PointF(-i, i), SizeF(1 + i * 2, 1));
 			}
 		}
 		else
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				g.FillRectangle(color, iconLocation_ - PointF(i, i), SizeF(1 + i * 2, 1));
+				g.FillRectangle(GetBackColor(), iconLocation_ - PointF(i, i), SizeF(1 + i * 2, 1));
 			}
 		}
 	}

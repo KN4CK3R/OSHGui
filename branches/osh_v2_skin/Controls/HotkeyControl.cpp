@@ -376,10 +376,10 @@ namespace OSHGui
 
 		for (int i = 0; i < 4; ++i)
 		{
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, 7 - i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, 7 - i), SizeF(3, 1));
+			g.FillRectangle(Color(0xFFE1E1E1), clearButtonLocation_ + PointF(i, i), SizeF(3, 1));
+			g.FillRectangle(Color(0xFFE1E1E1), clearButtonLocation_ + PointF(6 - i, i), SizeF(3, 1));
+			g.FillRectangle(Color(0xFFE1E1E1), clearButtonLocation_ + PointF(i, 7 - i), SizeF(3, 1));
+			g.FillRectangle(Color(0xFFE1E1E1), clearButtonLocation_ + PointF(6 - i, 7 - i), SizeF(3, 1));
 		}
 	}
 	//---------------------------------------------------------------------------

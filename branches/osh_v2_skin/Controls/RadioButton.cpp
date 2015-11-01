@@ -24,7 +24,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void RadioButton::SetChecked(bool checked)
 	{
-		if (checked_ != checked)
+		if (checked != checked)
 		{
 			if (GetParent() != nullptr)
 			{
@@ -44,11 +44,11 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void RadioButton::SetCheckedInternal(bool checked)
 	{
-		if (checked_ != checked)
+		if (checked != checked)
 		{
-			checked_ = checked;
+			checked = checked;
 			
-			checkedChangedEvent_.Invoke(this);
+			checkedChangedEvent.Invoke(this);
 
 			Invalidate();
 		}
@@ -65,7 +65,7 @@ namespace OSHGui
 		g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(1, 1), SizeF(15, 15)));
 		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() + Color::FromARGB(0, 55, 55, 55)), RectangleF(PointF(2, 2), SizeF(13, 13)));
 
-		if (checked_)
+		if (checked)
 		{
 			g.FillRectangle(Color::White() - Color::FromARGB(0, 128, 128, 128), RectangleF(PointF(5, 7), SizeF(7, 3)));
 			ColorRectangle colors(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137));

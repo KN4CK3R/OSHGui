@@ -39,11 +39,11 @@ namespace OSHGui
 		 */
 		virtual void SetSize(const Drawing::SizeI &size) override;
 		/**
-		 * Legt die Fordergrundfarbe des Steuerelements fest.
+		 * Legt die Hintergrundfarbe des Steuerelements fest.
 		 *
 		 * \param color
 		 */
-		virtual void SetForeColor(const Drawing::Color &color) override;
+		virtual void SetBackColor(const Drawing::Color &color) override;
 		/**
 		 * Legt den aktuellen Wert des Bildlauffelds fets.
 		 *
@@ -107,7 +107,7 @@ namespace OSHGui
 		virtual void OnMouseScroll(const MouseMessage &mouse) override;
 
 	private:
-		static const int MinimumSliderHeight = 25;
+		static const int MinimumSliderHeight = 10;
 		static const Drawing::SizeI DefaultSize;
 
 		void SetValueInternal(int value);

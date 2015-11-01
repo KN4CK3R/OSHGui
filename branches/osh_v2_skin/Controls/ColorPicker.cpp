@@ -104,17 +104,19 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::CreateGradientTexture()
 	{
-		Drawing::CustomizableImage image(GetSize());
-		Drawing::PointI p;
+		using namespace Drawing;
+
+		CustomizableImage image(GetSize() - SizeF(2, 2));
+		PointI p;
 		for (p.Y = 0; p.Y < GetHeight(); ++p.Y)
 		{
 			for (p.X = 0; p.X < GetWidth(); ++p.X)
 			{
-				image.SetRectangle(Drawing::RectangleI(p, Drawing::SizeI(1, 1)), GetColorAtPoint(p));
+				image.SetRectangle(RectangleI(p, SizeI(1, 1)), GetColorAtPoint(p));
 			}
 		}
 
-		gradient_ = Drawing::Image::FromCustomizableImage(image);
+		gradient_ = Image::FromCustomizableImage(image);
 	}
 	//---------------------------------------------------------------------------
 	void ColorPicker::CalculateColorCursorLocation()
@@ -166,7 +168,9 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		g.DrawImage(gradient_, Color::White(), RectangleF(PointF(0, 0), GetSize()));
+		g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
+
+		g.DrawImage(gradient_, Color::White(), RectangleF(PointF(1, 1), GetSize() - SizeF(2, 2)));
 
 		g.FillRectangle(Color::Black(), RectangleF(colorCursorLocation_ - PointF(2, 2), SizeF(4, 4)));
 		g.FillRectangle(Color::White(), RectangleF(colorCursorLocation_ - PointF(1, 1), SizeF(2, 2)));

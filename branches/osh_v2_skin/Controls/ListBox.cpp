@@ -17,7 +17,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//static attributes
 	//---------------------------------------------------------------------------
-	const Drawing::SizeI ListBox::DefaultSize(120, 106);
+	const Drawing::SizeI ListBox::DefaultSize(120, 95);
 	const Drawing::SizeI ListBox::DefaultItemAreaPadding(8, 8);
 	const int ListBox::DefaultItemPadding(2);
 	//---------------------------------------------------------------------------
@@ -245,7 +245,7 @@ namespace OSHGui
 	{
 		int itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
 
-		maxVisibleItems_ = std::max(1, itemAreaSize_.Height / itemHeight);
+		maxVisibleItems_ = std::max(0, itemAreaSize_.Height / itemHeight) + 1;
 
 		if (!items_.empty() && items_.size() * itemHeight > itemAreaSize_.Height)
 		{
@@ -276,22 +276,17 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
+		g.FillRectangle(Color(0xFFE1E1E1), PointF(0, 0), GetSize());
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		auto color = GetBackColor() + Color::FromARGB(0, 54, 53, 52);
-		g.FillRectangle(color, PointF(1, 0), SizeF(GetWidth() - 2, 1));
-		g.FillRectangle(color, PointF(0, 1), SizeF(1, GetHeight() - 2));
-		g.FillRectangle(color, PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
-		g.FillRectangle(color, PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
-
 		int itemX = 4;
-		int itemY = 5;
+		int itemY = 3;
 		int padding = GetFont()->GetFontHeight() + DefaultItemPadding;
 		for (int i = 0; i < maxVisibleItems_ && i + firstVisibleItemIndex_ < (int)items_.size(); ++i)
 		{
 			if (firstVisibleItemIndex_ + i == selectedIndex_)
 			{
-				g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
+				g.FillRectangle(Color(0xFFE1E1E1), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
 			}
 
 			g.DrawString(items_[firstVisibleItemIndex_ + i], GetFont(), GetForeColor(), PointF(itemX + 1, itemY + i * padding));
