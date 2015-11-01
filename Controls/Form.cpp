@@ -163,10 +163,8 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
-		auto color = GetBackColor() - Color::FromARGB(0, 90, 90, 90);
-		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor(), color, color), RectangleF(PointF(1, 1), GetSize() - SizeF(2, 2)));
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 50, 50, 50), RectangleF(PointF(5, captionBar_->GetBottom() + 2), SizeF(GetWidth() - 10, 1)));
+		g.FillRectangle(Color(0xFFd2d2d2), PointF(0, 0), GetSize());
+		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button

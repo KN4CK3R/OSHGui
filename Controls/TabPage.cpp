@@ -16,25 +16,25 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabPage::TabPage()
-		: button_(nullptr)
+		: button(nullptr)
 	{
 		type_ = ControlType::TabPage;
 	
-		containerPanel_ = new Panel();
-		containerPanel_->SetLocation(Drawing::PointI(2, 2));
-		containerPanel_->SetBackColor(Drawing::Color::Empty());
-		AddSubControl(containerPanel_);
+		containerPanel = new Panel();
+		containerPanel->SetLocation(Drawing::PointI(2, 2));
+		containerPanel->SetBackColor(Drawing::Color::Empty());
+		AddSubControl(containerPanel);
 		
 		ApplyStyle(Application::Instance().GetStyle());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
 	//---------------------------------------------------------------------------
-	void TabPage::SetSize(const Drawing::SizeI &size)
+	void TabPage::SetSize(const Drawing::SizeI &_size)
 	{
-		Control::SetSize(size);
+		Control::SetSize(_size);
 
-		containerPanel_->SetSize(size.InflateEx(-4, -4));
+		containerPanel->SetSize(_size.InflateEx(-4, -4));
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::SetParent(Control *parent)
@@ -53,45 +53,45 @@ namespace OSHGui
 		Panel::SetParent(parent);
 	}
 	//---------------------------------------------------------------------------
-	void TabPage::SetText(const Misc::AnsiString &text)
+	void TabPage::SetText(const Misc::AnsiString &_text)
 	{
-		if (button_)
+		if (button)
 		{
-			button_->SetText(text);
+			button->SetText(_text);
 		}
 
-		text_ = text;
+		text = _text;
 
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TabPage::GetText() const
 	{
-		return text_;
+		return text;
 	}
 	//---------------------------------------------------------------------------
 	const std::deque<Control*>& TabPage::GetControls() const
 	{
-		return containerPanel_->GetControls();
+		return containerPanel->GetControls();
 	}
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
 	void TabPage::AddControl(Control *control)
 	{
-		containerPanel_->AddControl(control);
+		containerPanel->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::RemoveControl(Control *control)
 	{
-		containerPanel_->RemoveControl(control);
+		containerPanel->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::DrawSelf(Drawing::RenderContext &context)
 	{
 		Control::DrawSelf(context);
 
-		containerPanel_->Render();
+		containerPanel->Render();
 	}
 	//---------------------------------------------------------------------------
 	void TabPage::PopulateGeometry()
@@ -100,11 +100,8 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		if (!GetBackColor().IsTranslucent())
-		{
-			g.FillRectangle(GetBackColor() + Color::FromARGB(0, 32, 32, 32), PointF(0, 0), GetSize());
-			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
-		}
+		g.FillRectangle(GetForeColor(), PointF(0, 0), GetSize());
+		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 	}
 	//---------------------------------------------------------------------------
 }

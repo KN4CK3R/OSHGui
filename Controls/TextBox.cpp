@@ -193,7 +193,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 20, 20, 20), PointF(0, 0), GetSize());
+		g.FillRectangle(Color(0xFFE1E1E1), PointF(0, 0), GetSize());
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
 		if (showCaret_)

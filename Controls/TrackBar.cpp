@@ -150,7 +150,7 @@ namespace OSHGui
 			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}
 
-		auto color = isFocused_ || isInside_ ? GetForeColor() + Color::FromARGB(0, 43, 43, 43) : GetForeColor();
+		auto color = GetForeColor();
 
 		auto tickCount = 1 + (maximum_ - minimum_) / tickFrequency_;
 		for (int i = 0; i < tickCount; ++i)

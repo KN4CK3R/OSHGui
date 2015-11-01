@@ -85,8 +85,8 @@ namespace OSHGui
 		virtual void PopulateGeometry() override;
 		
 	private:
-		Label *captionLabel_;
-		Panel *containerPanel_;
+		Label *captionLabel;
+		Panel *containerPanel;
 	};
 }
 

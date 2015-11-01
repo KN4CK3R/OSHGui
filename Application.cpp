@@ -31,26 +31,27 @@ namespace OSHGui
 
 		#define MakeStyle(type, color1, color2) style.SetControlStyle(type, { color1, color2 })
 
-		MakeStyle(ControlType::Label,		Drawing::Color::White(), Drawing::Color::Empty());
-		MakeStyle(ControlType::LinkLabel,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeStyle(ControlType::Button,		Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
-		MakeStyle(ControlType::CheckBox,	Drawing::Color::White(), Drawing::Color(0xFF222222));
-		MakeStyle(ControlType::RadioButton, Drawing::Color::White(), Drawing::Color(0xFF222222));
-		MakeStyle(ControlType::ColorBar,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeStyle(ControlType::ColorPicker,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeStyle(ControlType::ComboBox,	Drawing::Color::White(), Drawing::Color(0xFF4E4E4E));
-		MakeStyle(ControlType::Form,		Drawing::Color::White(), Drawing::Color(0xFF7C7B79));
-		MakeStyle(ControlType::GroupBox,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeStyle(ControlType::ListBox,		Drawing::Color::White(), Drawing::Color(0xFF171614));
-		MakeStyle(ControlType::Panel,		Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeStyle(ControlType::PictureBox,	Drawing::Color::Empty(),	Drawing::Color::Empty());
-		MakeStyle(ControlType::ProgressBar,	Drawing::Color(0xFF5A5857),	Drawing::Color::Empty());
-		MakeStyle(ControlType::ScrollBar,	Drawing::Color(0xFFAFADAD), Drawing::Color(0xFF585552));
-		MakeStyle(ControlType::TabControl,	Drawing::Color::White(), Drawing::Color(0xFF737373));
-		MakeStyle(ControlType::TabPage,		Drawing::Color::White(), Drawing::Color(0xFF474747));
-		MakeStyle(ControlType::TextBox,		Drawing::Color::White(), Drawing::Color(0xFF242321));
-		MakeStyle(ControlType::TrackBar,	Drawing::Color::White(), Drawing::Color::Empty());
-		MakeStyle(ControlType::HotkeyControl, Drawing::Color::White(), Drawing::Color(0xFF242321));
+		Drawing::Color orange(0xFFF48A00);
+		MakeStyle(ControlType::Label,		Drawing::Color(0xFF484344), Drawing::Color::Empty());//
+		MakeStyle(ControlType::LinkLabel,	Drawing::Color(0xFF484344), Drawing::Color::Empty());//
+		MakeStyle(ControlType::Button,		Drawing::Color::White(), orange);//
+		MakeStyle(ControlType::CheckBox, orange, Drawing::Color::White());//
+		MakeStyle(ControlType::RadioButton, orange, Drawing::Color::White());//
+		MakeStyle(ControlType::ColorBar,	Drawing::Color(0xFFE1E1E1), Drawing::Color::Empty());//
+		MakeStyle(ControlType::ColorPicker,	Drawing::Color::Empty(),	Drawing::Color::Empty());//
+		MakeStyle(ControlType::ComboBox,	Drawing::Color::Black(), Drawing::Color::White());//
+		MakeStyle(ControlType::Form,		orange, Drawing::Color::White());//
+		MakeStyle(ControlType::GroupBox,	Drawing::Color(0xFF484344), Drawing::Color::Empty());//
+		MakeStyle(ControlType::ListBox,		Drawing::Color::Black(), Drawing::Color::White());//
+		MakeStyle(ControlType::Panel,		Drawing::Color::Empty(),	Drawing::Color::Empty());//
+		MakeStyle(ControlType::PictureBox,	Drawing::Color::Empty(),	Drawing::Color::Empty());//
+		MakeStyle(ControlType::ProgressBar,	Drawing::Color::Empty(),	Drawing::Color::Empty());//
+		MakeStyle(ControlType::ScrollBar,	Drawing::Color::Empty(), Drawing::Color(0xFFE1E1E1));//
+		MakeStyle(ControlType::TabControl,	orange, Drawing::Color::White());//
+		MakeStyle(ControlType::TabPage,		orange, Drawing::Color::White());//
+		MakeStyle(ControlType::TextBox,		Drawing::Color::Black(), Drawing::Color::White());//
+		MakeStyle(ControlType::TrackBar,	Drawing::Color(0xFFE1E1E1), Drawing::Color::Empty());//
+		MakeStyle(ControlType::HotkeyControl, Drawing::Color::Black(), Drawing::Color::White());//
 
 		SetStyle(style);
 	}

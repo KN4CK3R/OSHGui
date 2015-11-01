@@ -84,21 +84,21 @@ namespace OSHGui
 	
 	protected:
 		static const Drawing::PointI DefaultLabelOffset;
-		static const int DefaultCheckBoxSize = 17;
+		static const int DefaultCheckBoxSize = 15;
 
 		virtual void PopulateGeometry() override;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 
-		bool checked_;
-		Drawing::PointI checkBoxLocation_;
+		bool checked;
+		Drawing::PointI checkBoxLocation;
 		Drawing::PointI textLocation_;
-		Drawing::PointI checkBoxAbsoluteLocation_;
+		Drawing::PointI checkBoxAbsoluteLocation;
 		
-		CheckedChangedEvent checkedChangedEvent_;
+		CheckedChangedEvent checkedChangedEvent;
 
-		std::unique_ptr<Label> label_;
+		std::unique_ptr<Label> label;
 	};
 }
 

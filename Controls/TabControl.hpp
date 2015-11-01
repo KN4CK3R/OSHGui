@@ -10,7 +10,7 @@
 #define OSHGUI_TABCONTROL_HPP
 
 #include <memory>
-#include "Control.hpp"
+#include "Button.hpp"
 
 namespace OSHGui
 {
@@ -130,6 +130,7 @@ namespace OSHGui
 
 	private:
 		static const Drawing::SizeI DefaultSize;
+		static const int ButtonPageDistance = 4;
 
 		void CalculateButtonLocationAndCount();
 
@@ -146,34 +147,24 @@ namespace OSHGui
 			TabControlButton *Button;
 		};
 
-		class TabControlButton : public Control
+		class TabControlButton : public Button
 		{
 		public:
 			TabControlButton(TabPageButtonBinding &binding);
 
-			virtual void SetForeColor(const Drawing::Color &color) override;
-			void SetText(const Misc::AnsiString &text);
 			void SetActive(bool active);
 
-			virtual void CalculateAbsoluteLocation() override;
-
 		protected:
-			virtual void DrawSelf(Drawing::RenderContext &context) override;
-			virtual void PopulateGeometry() override;
-
 			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
 		private:
-			static const Drawing::PointI DefaultLabelOffset;
+			TabPageButtonBinding &binding;
 
-			TabPageButtonBinding &binding_;
-			std::unique_ptr<Label> label_;
-
-			bool active_;
+			bool active;
 		};
 
-		TabPageButtonBinding *selected_;
-		std::vector<std::unique_ptr<TabPageButtonBinding>> bindings_;
+		TabPageButtonBinding *selected;
+		std::vector<std::unique_ptr<TabPageButtonBinding>> bindings;
 
 		class TabControlSwitchButton : public Control
 		{
@@ -195,10 +186,10 @@ namespace OSHGui
 			TabControlSwitchButtonDirection direction_;
 		};
 
-		int startIndex_;
-		int maxIndex_;
-		TabControlSwitchButton *lastSwitchButton_;
-		TabControlSwitchButton *nextSwitchButton_;
+		int startIndex;
+		int maxIndex;
+		TabControlSwitchButton *lastSwitchButton;
+		TabControlSwitchButton *nextSwitchButton;
 	};
 }
 

@@ -29,7 +29,7 @@ namespace OSHGui
 		
 		ApplyStyle(Application::Instance().GetStyle());
 
-		SetBarColor(Drawing::Color(0xFF67AFF5));
+		SetBarColor(Drawing::Color(0xFFf48a00));
 
 		canRaiseEvents_ = false;
 	}
@@ -119,17 +119,6 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		if (!GetBackColor().IsTranslucent())
-		{
-			g.FillRectangle(GetBackColor(), PointF(1, 0), GetSize() - SizeF(2, 0));
-			g.FillRectangle(GetBackColor(), PointF(0, 1), GetSize() - SizeF(0, 2));
-		}
-
-		g.FillRectangle(GetForeColor(), PointF(1, 0), SizeF(GetWidth() - 2, 1));
-		g.FillRectangle(GetForeColor(), PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
-		g.FillRectangle(GetForeColor(), PointF(0, 1), SizeF(1, GetHeight() - 2));
-		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
-		
 		for (int i = (int)(value_ / ((max_ - min_) / ((GetWidth() - 4) / 12.0f)) - 1); i >= 0; --i)
 		{
 			g.FillRectangle(barColor_, PointF(4 + i * 12, 4), SizeF(8, GetHeight() - 8));
