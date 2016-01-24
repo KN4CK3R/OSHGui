@@ -1,9 +1,9 @@
 #include "Direct3D9ExRenderer.hpp"
 #include "Direct3D9ExTexture.hpp"
-#include "Direct3D9GeometryBuffer.hpp"
-#include "Direct3D9RenderTarget.hpp"
-#include "Direct3D9ViewportTarget.hpp"
-#include "Direct3D9TextureTarget.hpp"
+#include "../Direct3D9/Direct3D9GeometryBuffer.hpp"
+#include "../Direct3D9/Direct3D9RenderTarget.hpp"
+#include "../Direct3D9/Direct3D9ViewportTarget.hpp"
+#include "../Direct3D9/Direct3D9TextureTarget.hpp"
 #include "../../Misc/Exceptions.hpp"
 
 #include <algorithm>
