@@ -132,22 +132,27 @@ namespace OSHGui
 		TexturePtr Direct3D9Renderer::CreateTexture()
 		{
 			auto texture = std::shared_ptr<Direct3D9Texture>(new Direct3D9Texture(*this));
-			textures.emplace_back(texture);
+			RegisterTexture(texture);
 			return texture;
 		}
 		//---------------------------------------------------------------------------
 		TexturePtr Direct3D9Renderer::CreateTexture(const Misc::AnsiString &filename)
 		{
 			auto texture = std::shared_ptr<Direct3D9Texture>(new Direct3D9Texture(*this, filename));
-			textures.emplace_back(texture);
+			RegisterTexture(texture);
 			return texture;
 		}
 		//---------------------------------------------------------------------------
 		TexturePtr Direct3D9Renderer::CreateTexture(const SizeF &size)
 		{
 			auto texture = std::shared_ptr<Direct3D9Texture>(new Direct3D9Texture(*this, size));
-			textures.emplace_back(texture);
+			RegisterTexture(texture);
 			return texture;
+		}
+		//---------------------------------------------------------------------------
+		void Direct3D9Renderer::RegisterTexture(const std::shared_ptr<Direct3D9Texture> &texture)
+		{
+			textures.emplace_back(texture);
 		}
 		//---------------------------------------------------------------------------
 		SizeF Direct3D9Renderer::GetAdjustedSize(const SizeF &sz)

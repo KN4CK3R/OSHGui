@@ -35,7 +35,7 @@ namespace OSHGui
 			 * \param device Direct3D9 Device
 			 */
 			Direct3D9Renderer(LPDIRECT3DDEVICE9 device);
-			~Direct3D9Renderer();
+			virtual ~Direct3D9Renderer();
 
 			/**
 			 * Hilfsfunktion, die vor einem D3D Reset aufgerufen werden muss.
@@ -83,6 +83,9 @@ namespace OSHGui
 			virtual const SizeF& GetDisplaySize() const override;
 			virtual const PointF& GetDisplayDPI() const override;
 			virtual uint32_t GetMaximumTextureSize() const override;
+
+		protected:
+			void RegisterTexture(const std::shared_ptr<Direct3D9Texture> &texture);
 
 		private:
 			/**
