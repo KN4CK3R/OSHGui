@@ -664,13 +664,13 @@ public:
 // The trick is that we never free, so we don't have to keep as much state around
 // Use PRIVATENEW in CEffectLoader
 
-void* __cdecl operator new(size_t s, CDataBlockStore &pAllocator)
+inline void* __cdecl operator new(size_t s, CDataBlockStore &pAllocator)
 {
     D3DXASSERT( s <= 0xffffffff );
     return pAllocator.Allocate( (UINT)s );
 }
 
-void __cdecl operator delete(void* p, CDataBlockStore &pAllocator)
+inline void __cdecl operator delete(void* p, CDataBlockStore &pAllocator)
 {
 }
 
