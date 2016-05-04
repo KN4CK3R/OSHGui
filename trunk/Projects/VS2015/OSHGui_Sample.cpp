@@ -34,6 +34,7 @@ void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 
 	//4. create our form
 	auto form = std::make_shared<Form>();
+	form->SetText("Test");
 
 	//5. set this form as our mainform
 	app.Run(form);
