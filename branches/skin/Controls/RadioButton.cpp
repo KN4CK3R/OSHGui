@@ -54,24 +54,9 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void RadioButton::PopulateGeometry()
+	void RadioButton::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		g.FillRectangle(GetBackColor(), RectangleF(PointF(0, 0), SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize)));
-
-		g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(1, 1), SizeF(15, 15)));
-		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() + Color::FromARGB(0, 55, 55, 55)), RectangleF(PointF(2, 2), SizeF(13, 13)));
-
-		if (checked_)
-		{
-			g.FillRectangle(Color::White() - Color::FromARGB(0, 128, 128, 128), RectangleF(PointF(5, 7), SizeF(7, 3)));
-			ColorRectangle colors(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137));
-			g.FillRectangleGradient(colors, RectangleF(PointF(7, 5), SizeF(3, 7)));
-			g.FillRectangleGradient(colors, RectangleF(PointF(6, 6), SizeF(5, 5)));
-		}
+		skin.DrawRadioButton(Drawing::Graphics(*geometry_), this, Drawing::SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize), checked_);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

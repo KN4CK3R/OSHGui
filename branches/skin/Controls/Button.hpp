@@ -69,12 +69,12 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation() override;
 
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 	protected:
 		virtual void CalculateLabelLocation();
 		
-		virtual void PopulateGeometry();
+		virtual void PopulateGeometry(Skins::Base &skin);
 
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;
 

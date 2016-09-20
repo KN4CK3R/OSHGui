@@ -99,7 +99,7 @@ namespace OSHGui
 		virtual void CalculateAbsoluteLocation() override;
 
 	protected:
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;

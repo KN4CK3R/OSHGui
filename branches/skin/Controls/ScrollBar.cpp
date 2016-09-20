@@ -182,15 +182,15 @@ namespace OSHGui
 		SetValue(GetMaximum());
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::DrawSelf(Drawing::RenderContext &context)
+	void ScrollBar::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		upButton_->Render();
-		downButton_->Render();
+		upButton_->Render(skin);
+		downButton_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::PopulateGeometry()
+	void ScrollBar::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 
@@ -304,7 +304,7 @@ namespace OSHGui
 		iconLocation_ = Drawing::PointI(size.Width / 2, size.Height / 2);
 	}
 	//---------------------------------------------------------------------------
-	void ScrollBar::ScrollBarButton::PopulateGeometry()
+	void ScrollBar::ScrollBarButton::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

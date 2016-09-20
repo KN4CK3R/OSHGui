@@ -19,9 +19,10 @@ namespace OSHGui
 {
 	Application* Application::instance = nullptr;
 	//---------------------------------------------------------------------------
-	Application::Application(std::unique_ptr<Drawing::Renderer> &&renderer)
+	Application::Application(std::unique_ptr<Drawing::Renderer> &&renderer, std::unique_ptr<Skins::Base> &&skin)
 		: renderer_(std::move(renderer)),
 		  guiSurface_(*renderer_->GetDefaultRenderTarget()),
+		  _skin(std::move(skin)),
 		  isEnabled_(false),
 		  now_(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
@@ -71,7 +72,7 @@ namespace OSHGui
 		return InstancePtr() != nullptr;
 	}
 	//---------------------------------------------------------------------------
-	void Application::Initialize(std::unique_ptr<Drawing::Renderer> &&renderer)
+	void Application::Initialize(std::unique_ptr<Drawing::Renderer> &&renderer, std::unique_ptr<Skins::Base> &&skin)
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (HasBeenInitialized())
@@ -80,7 +81,7 @@ namespace OSHGui
 		}
 		#endif
 
-		instance = new Application(std::move(renderer));
+		instance = new Application(std::move(renderer), std::move(skin));
 
 		instance->mouse_.Enabled = true;
 		instance->SetCursor(Cursors::Get(Cursors::Default));
@@ -347,12 +348,12 @@ namespace OSHGui
 				auto &form = *it;
 				if (form != foreMost)
 				{
-					form->Render();
+					form->Render(*_skin);
 				}
 			}
 			if (foreMost)
 			{
-				foreMost->Render();
+				foreMost->Render(*_skin);
 			}
 
 			if (mouse_.Enabled)

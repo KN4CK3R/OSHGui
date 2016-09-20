@@ -45,6 +45,9 @@
     <Filter Include="Quelldateien\Misc">
       <UniqueIdentifier>{a0300167-5492-4504-ba3c-a60d925a3ed3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Skins">
+      <UniqueIdentifier>{051dd7a3-c7c2-4555-8464-8e7a1aede38c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Application.cpp">
@@ -477,6 +480,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Input\Input.hpp">
       <Filter>Headerdateien\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Skins\Base.hpp">
+      <Filter>Headerdateien\Skins</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

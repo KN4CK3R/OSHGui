@@ -113,7 +113,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ProgressBar::PopulateGeometry()
+	void ProgressBar::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

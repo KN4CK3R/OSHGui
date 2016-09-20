@@ -31,14 +31,9 @@ namespace OSHGui
 		return Control::Intersect(point);
 	}
 	//---------------------------------------------------------------------------
-	void LinkLabel::PopulateGeometry()
+	void LinkLabel::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Label::PopulateGeometry();
-
-		Graphics g(*geometry_);
-		g.FillRectangle(GetForeColor(), RectangleF(PointF(0, GetHeight()), SizeF(GetWidth(), 1)));
+		skin.DrawLinkLabel(Drawing::Graphics(*geometry_), this);
 	}
 	//---------------------------------------------------------------------------
 }

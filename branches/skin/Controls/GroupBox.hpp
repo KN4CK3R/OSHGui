@@ -79,10 +79,10 @@ namespace OSHGui
 		 */
 		virtual void RemoveControl(Control *control) override;
 
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 	protected:
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 		
 	private:
 		Label *captionLabel_;

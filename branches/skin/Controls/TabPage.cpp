@@ -87,14 +87,14 @@ namespace OSHGui
 		containerPanel_->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
-	void TabPage::DrawSelf(Drawing::RenderContext &context)
+	void TabPage::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		containerPanel_->Render();
+		containerPanel_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void TabPage::PopulateGeometry()
+	void TabPage::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

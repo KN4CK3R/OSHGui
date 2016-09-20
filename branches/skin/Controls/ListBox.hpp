@@ -139,10 +139,10 @@ namespace OSHGui
 		 */
 		virtual bool Intersect(const Drawing::PointI &point) const override;
 
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 	
 	protected:
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual void OnMouseScroll(const MouseMessage &mouse) override;

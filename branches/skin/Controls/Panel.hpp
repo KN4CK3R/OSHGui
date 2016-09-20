@@ -25,7 +25,7 @@ namespace OSHGui
 		Panel();
 
 	protected:
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 	private:
 		static const Drawing::SizeI DefaultSize;

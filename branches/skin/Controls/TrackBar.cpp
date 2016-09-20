@@ -139,7 +139,7 @@ namespace OSHGui
 		sliderAbsoluteLocation_ = absoluteLocation_ + sliderLocation_;
 	}
 	//---------------------------------------------------------------------------
-	void TrackBar::PopulateGeometry()
+	void TrackBar::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

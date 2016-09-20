@@ -354,21 +354,21 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::DrawSelf(Drawing::RenderContext &context)
+	void TabControl::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
 		if (selected_ != nullptr && selected_->TabPage != nullptr)
 		{
 			for (int i = startIndex_; i < maxIndex_; ++i)
 			{
-				bindings_[i]->Button->Render();
+				bindings_[i]->Button->Render(skin);
 			}
 
-			nextSwitchButton_->Render();
-			lastSwitchButton_->Render();
+			nextSwitchButton_->Render(skin);
+			lastSwitchButton_->Render(skin);
 
-			selected_->TabPage->Render();
+			selected_->TabPage->Render(skin);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -430,14 +430,14 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlButton::DrawSelf(Drawing::RenderContext &context)
+	void TabControl::TabControlButton::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		label_->Render();
+		label_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlButton::PopulateGeometry()
+	void TabControl::TabControlButton::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 
@@ -467,7 +467,7 @@ namespace OSHGui
 		SetSize(DefaultSize);
 	}
 	//---------------------------------------------------------------------------
-	void TabControl::TabControlSwitchButton::PopulateGeometry()
+	void TabControl::TabControlSwitchButton::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

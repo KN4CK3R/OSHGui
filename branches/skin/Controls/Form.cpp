@@ -149,24 +149,17 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Form::DrawSelf(Drawing::RenderContext &context)
+	void Form::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		captionBar_->Render();
-		containerPanel_->Render();
+		captionBar_->Render(skin);
+		containerPanel_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void Form::PopulateGeometry()
+	void Form::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
-		auto color = GetBackColor() - Color::FromARGB(0, 90, 90, 90);
-		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor(), color, color), RectangleF(PointF(1, 1), GetSize() - SizeF(2, 2)));
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 50, 50, 50), RectangleF(PointF(5, captionBar_->GetBottom() + 2), SizeF(GetWidth() - 10, 1)));
+		skin.DrawForm(Drawing::Graphics(*geometry_), this, captionBar_->GetBottom());
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
@@ -198,21 +191,9 @@ namespace OSHGui
 		owner->Close();
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::CaptionBarButton::PopulateGeometry()
+	void Form::CaptionBar::CaptionBarButton::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		auto color = GetParent()->GetForeColor();
-
-		for (int i = 0; i < 4; ++i)
-		{
-			g.FillRectangle(color, PointF(i, i), SizeF(3, 1));
-			g.FillRectangle(color, PointF(6 - i, i), SizeF(3, 1));
-			g.FillRectangle(color, PointF(i, 7 - i), SizeF(3, 1));
-			g.FillRectangle(color, PointF(6 - i, 7 - i), SizeF(3, 1));
-		}
+		skin.DrawCaptionBarButton(Drawing::Graphics(*geometry_), this);
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar
@@ -261,12 +242,12 @@ namespace OSHGui
 		titleLabel_->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
-	void Form::CaptionBar::DrawSelf(Drawing::RenderContext &context)
+	void Form::CaptionBar::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		titleLabel_->Render();
-		closeButton_->Render();
+		titleLabel_->Render(skin);
+		closeButton_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseDown(const MouseMessage &mouse)

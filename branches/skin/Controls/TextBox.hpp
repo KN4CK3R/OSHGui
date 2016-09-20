@@ -84,7 +84,7 @@ namespace OSHGui
 	protected:
 		virtual void InjectTime(const Misc::DateTime &time) override;
 
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard) override;

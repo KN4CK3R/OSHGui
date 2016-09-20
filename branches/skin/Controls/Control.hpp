@@ -19,6 +19,8 @@
 
 #include "../Application.hpp"
 
+#include "../Skins/Base.hpp"
+
 #include "../Drawing/Point.hpp"
 #include "../Drawing/Size.hpp"
 #include "../Drawing/Rectangle.hpp"
@@ -623,7 +625,7 @@ namespace OSHGui
 		/**
 		 * Zeichnet das Steuerelement.
 		 */
-		virtual void Render();
+		virtual void Render(Skins::Base &skin);
 		/**
 		 * Veranlasst das Steuerelement, sein Aussehen dem Style anzupassen.
 		 *
@@ -676,10 +678,10 @@ namespace OSHGui
 		virtual bool OnKeyPress(const KeyboardMessage &keyboard);
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard);
 
-		virtual void DrawSelf(Drawing::RenderContext &context);
-		virtual void BufferGeometry(Drawing::RenderContext &context);
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin);
+		virtual void BufferGeometry(Drawing::RenderContext &context, Skins::Base &skin);
 		virtual void QueueGeometry(Drawing::RenderContext &context);
-		virtual void PopulateGeometry();
+		virtual void PopulateGeometry(Skins::Base &skin);
 		
 		void AddSubControl(Control* subcontrol);
 

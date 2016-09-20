@@ -187,7 +187,7 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void TextBox::PopulateGeometry()
+	void TextBox::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

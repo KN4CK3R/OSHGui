@@ -84,30 +84,17 @@ namespace OSHGui
 		containerPanel_->RemoveControl(control);
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::DrawSelf(Drawing::RenderContext &context)
+	void GroupBox::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		captionLabel_->Render();
-		containerPanel_->Render();
+		captionLabel_->Render(skin);
+		containerPanel_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void GroupBox::PopulateGeometry()
+	void GroupBox::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-		
-		Graphics g(*geometry_);
-
-		if (GetBackColor().GetAlpha() > 0)
-		{
-			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
-		}
-
-		g.FillRectangle(GetForeColor(), PointF(1, 5), SizeF(3, 1));
-		g.FillRectangle(GetForeColor(), PointF(5 + captionLabel_->GetWidth(), 5), SizeF(GetWidth() - captionLabel_->GetWidth() - 6, 1));
-		g.FillRectangle(GetForeColor(), PointF(0, 6), SizeF(1, GetHeight() - 7));
-		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 6), SizeF(1, GetHeight() - 7));
-		g.FillRectangle(GetForeColor(), PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
+		skin.DrawGroupBox(Drawing::Graphics(*geometry_), this, captionLabel_->GetWidth());
 	}
 	//---------------------------------------------------------------------------
 }
