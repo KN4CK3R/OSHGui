@@ -301,13 +301,13 @@ namespace OSHGui
 		button_->Focus();
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::DrawSelf(Drawing::RenderContext &context)
+	void ComboBox::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		button_->Render();
+		button_->Render(skin);
 
 		if (droppedDown_)
 		{
-			listBox_->Render();
+			listBox_->Render(skin);
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -335,31 +335,16 @@ namespace OSHGui
 		return Control::OnKeyDown(keyboard);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::ComboBoxButton::DrawSelf(Drawing::RenderContext &context)
+	void ComboBox::ComboBoxButton::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		label_->Render();
+		label_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::ComboBoxButton::PopulateGeometry()
+	void ComboBox::ComboBoxButton::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		auto color = isFocused_ || isInside_ ? GetBackColor() + GetMouseOverFocusColor() : GetBackColor();
-
-		g.FillRectangle(color, PointF(0, 1), realSize_ - SizeF(0, 2));
-		g.FillRectangle(color, PointF(1, 0), realSize_ - SizeF(2, 0));
-		g.FillRectangleGradient(ColorRectangle(color, color - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), realSize_ - SizeF(2, 2));
-
-		int arrowLeft = realSize_.Width - 9;
-		int arrowTop = realSize_.Height - 11;
-		for (int i = 0; i < 4; ++i)
-		{
-			g.FillRectangle(GetForeColor(), PointF(arrowLeft - i, arrowTop - i), SizeF(1 + i * 2, 1));
-		}
+		skin.DrawComboBoxButton(Drawing::Graphics(*geometry_), this, realSize_, isFocused_ || isInside_);
 	}
 	//---------------------------------------------------------------------------
 }

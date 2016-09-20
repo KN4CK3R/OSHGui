@@ -60,18 +60,9 @@ namespace OSHGui
 		return false;
 	}
 	//---------------------------------------------------------------------------
-	void Label::PopulateGeometry()
+	void Label::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		if (GetBackColor().GetAlpha() > 0)
-		{
-			g.FillRectangle(GetBackColor(), RectangleF(PointF(), GetSize()));
-		}
-		
-		g.DrawString(textHelper_.GetText(), GetFont(), GetForeColor(), PointF(0, 0));
+		skin.DrawLabel(Drawing::Graphics(*geometry_), this);
 	}
 	//---------------------------------------------------------------------------
 }

@@ -13,6 +13,7 @@
 #include <vector>
 #include "Drawing/Renderer.hpp"
 #include "Drawing/RenderContext.hpp"
+#include "Skins/Base.hpp"
 #include "Drawing/Font.hpp"
 #include "Drawing/Style.hpp"
 #include "Misc/DateTime.hpp"
@@ -46,7 +47,7 @@ namespace OSHGui
 		 *
 		 * \param renderer Instanz des verwendeten Renderers
 		 */
-		static void Initialize(std::unique_ptr<Drawing::Renderer> &&renderer);
+		static void Initialize(std::unique_ptr<Drawing::Renderer> &&renderer, std::unique_ptr<Skins::Base> &&skin);
 		
 		/**
 		 * Ruft ab, ob das GUI aktiviert ist.
@@ -210,7 +211,7 @@ namespace OSHGui
 
 	private:
 		static Application *instance;
-		Application(std::unique_ptr<Drawing::Renderer> &&renderer);
+		Application(std::unique_ptr<Drawing::Renderer> &&renderer, std::unique_ptr<Skins::Base> &&skin);
 
 		//copying prohibited
 		Application(const Application&);
@@ -223,6 +224,7 @@ namespace OSHGui
 		Drawing::FontPtr defaultFont_;
 		
 		Drawing::Style _currentStyle;
+		std::unique_ptr<Skins::Base> _skin;
 	
 		FormManager formManager_;
 		

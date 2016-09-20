@@ -119,29 +119,16 @@ namespace OSHGui
 		label_->SetParent(this);
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::DrawSelf(Drawing::RenderContext &context)
+	void CheckBox::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		label_->Render();
+		label_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void CheckBox::PopulateGeometry()
+	void CheckBox::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		g.FillRectangle(GetBackColor(), RectangleF(PointF(0, 0), SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize)));
-		
-		g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(1, 1), SizeF(15, 15)));
-		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() + Color::FromARGB(0, 55, 55, 55)), RectangleF(PointF(2, 2), SizeF(13, 13)));
-		
-		if (checked_)
-		{
-			g.FillRectangle(Color::White(), RectangleF(PointF(5, 5), SizeF(7, 7)));
-			g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(6, 6), SizeF(5, 5)));
-		}
+		skin.DrawCheckBox(Drawing::Graphics(*geometry_), this, Drawing::SizeF(DefaultCheckBoxSize, DefaultCheckBoxSize), checked_);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

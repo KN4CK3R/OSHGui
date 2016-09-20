@@ -170,7 +170,7 @@ namespace OSHGui
 		virtual void Focus() override;
 	
 	protected:
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 	private:
 		static const int DefaultMaxShowItems;
@@ -195,8 +195,8 @@ namespace OSHGui
 		protected:
 			virtual void CalculateLabelLocation() override;
 
-			virtual void DrawSelf(Drawing::RenderContext &context) override;
-			virtual void PopulateGeometry() override;
+			virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
+			virtual void PopulateGeometry(Skins::Base &skin) override;
 
 			virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;
 

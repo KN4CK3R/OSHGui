@@ -105,22 +105,9 @@ namespace OSHGui
 		Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void ColorBar::PopulateGeometry()
+	void ColorBar::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		for (int i = 0; i < 3; ++i)
-		{
-			g.FillRectangleGradient(bars_[i], RectangleF(PointI(0, i * 15), SizeI(GetWidth(), 8)));
-
-			auto sliderPos = barSliderLocation_[i] + PointI(1, 0);
-			for (int j = 0; j < 3; ++j)
-			{
-				g.FillRectangle(GetForeColor(), RectangleF(PointI(sliderPos.X - j, sliderPos.Y + j), SizeI(1 + j * 2, 1)));
-			}
-		}
+		skin.DrawColorBar(Drawing::Graphics(*geometry_), this, bars_, barSliderLocation_);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

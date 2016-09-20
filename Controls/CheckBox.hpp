@@ -80,13 +80,13 @@ namespace OSHGui
 		 */
 		virtual void CalculateAbsoluteLocation() override;
 
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 	
 	protected:
 		static const Drawing::PointI DefaultLabelOffset;
 		static const int DefaultCheckBoxSize = 17;
 
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyUp(const KeyboardMessage &keyboard) override;

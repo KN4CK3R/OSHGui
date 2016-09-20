@@ -161,10 +161,10 @@ namespace OSHGui
 		 */
 		virtual void AddControl(Control *control) override;
 
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 	protected:
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 	private:
 		static const Drawing::PointI DefaultLocation;
@@ -192,7 +192,7 @@ namespace OSHGui
 				virtual void CalculateAbsoluteLocation() override;
 
 			protected:
-				virtual void PopulateGeometry() override;
+				virtual void PopulateGeometry(Skins::Base &skin) override;
 
 				virtual void OnMouseUp(const MouseMessage &mouse) override;
 
@@ -213,7 +213,7 @@ namespace OSHGui
 			virtual void SetForeColor(const Drawing::Color &color) override;
 
 		protected:
-			virtual void DrawSelf(Drawing::RenderContext &context) override;
+			virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 			virtual void OnMouseDown(const MouseMessage &mouse) override;
 			virtual void OnMouseMove(const MouseMessage &mouse) override;

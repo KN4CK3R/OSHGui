@@ -160,16 +160,9 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ColorPicker::PopulateGeometry()
+	void ColorPicker::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		g.DrawImage(gradient_, Color::White(), RectangleF(PointF(0, 0), GetSize()));
-
-		g.FillRectangle(Color::Black(), RectangleF(colorCursorLocation_ - PointF(2, 2), SizeF(4, 4)));
-		g.FillRectangle(Color::White(), RectangleF(colorCursorLocation_ - PointF(1, 1), SizeF(2, 2)));
+		skin.DrawColorPicker(Drawing::Graphics(*geometry_), this, gradient_, colorCursorLocation_);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

@@ -263,14 +263,14 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::DrawSelf(Drawing::RenderContext &context)
+	void ListBox::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 
-		scrollBar_->Render();
+		scrollBar_->Render(skin);
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::PopulateGeometry()
+	void ListBox::PopulateGeometry(Skins::Base &skin)
 	{
 		using namespace Drawing;
 

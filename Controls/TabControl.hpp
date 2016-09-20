@@ -126,7 +126,7 @@ namespace OSHGui
 		virtual void ApplyStyle(const Drawing::Style &style) override;
 
 	protected:
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 	private:
 		static const Drawing::SizeI DefaultSize;
@@ -158,8 +158,8 @@ namespace OSHGui
 			virtual void CalculateAbsoluteLocation() override;
 
 		protected:
-			virtual void DrawSelf(Drawing::RenderContext &context) override;
-			virtual void PopulateGeometry() override;
+			virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
+			virtual void PopulateGeometry(Skins::Base &skin) override;
 
 			virtual void OnMouseClick(const MouseMessage &mouse) override;
 
@@ -189,7 +189,7 @@ namespace OSHGui
 			TabControlSwitchButton(TabControlSwitchButtonDirection direction);
 
 		protected:
-			virtual void PopulateGeometry() override;
+			virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		private:
 			TabControlSwitchButtonDirection direction_;

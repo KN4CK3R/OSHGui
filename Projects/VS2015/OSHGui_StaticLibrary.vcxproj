@@ -164,6 +164,7 @@
     <ClInclude Include="..\..\Misc\TextHelper.hpp" />
     <ClInclude Include="..\..\Misc\TimeSpan.hpp" />
     <ClInclude Include="..\..\OSHGui.hpp" />
+    <ClInclude Include="..\..\Skins\Base.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{296FB7C3-29B9-4111-9243-6EB8CB71D458}</ProjectGuid>

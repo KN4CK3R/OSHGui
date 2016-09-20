@@ -61,28 +61,9 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	//Runtime-Functions
 	//---------------------------------------------------------------------------
-	void PictureBox::PopulateGeometry()
+	void PictureBox::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		if (GetBackColor().GetAlpha() > 0)
-		{
-			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
-		}
-
-		if (image_)
-		{
-			if (stretch_)
-			{
-				g.DrawImage(image_, Color::White(), RectangleF(PointF(0, 0), GetSize()));
-			}
-			else
-			{
-				g.DrawImage(image_, Color::White(), PointF(0, 0), RectangleF(PointF(0, 0), GetSize()));
-			}
-		}
+		skin.DrawPictureBox(Drawing::Graphics(*geometry_), this, image_, stretch_);
 	}
 	//---------------------------------------------------------------------------
 }

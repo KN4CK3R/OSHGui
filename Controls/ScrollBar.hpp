@@ -95,10 +95,10 @@ namespace OSHGui
 		 */
 		void ScrollToBottom();
 		
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
 
 	protected:
-		virtual void PopulateGeometry() override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		virtual void OnMouseDown(const MouseMessage &mouse) override;
 		virtual void OnMouseUp(const MouseMessage &mouse) override;
@@ -145,7 +145,7 @@ namespace OSHGui
 			virtual void SetSize(const Drawing::SizeI &size) override;
 
 		protected:
-			virtual void PopulateGeometry() override;
+			virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		private:
 			ScrollBarDirection direction_;

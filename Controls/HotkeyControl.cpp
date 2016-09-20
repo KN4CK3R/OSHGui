@@ -361,26 +361,16 @@ namespace OSHGui
 		textBox_->CalculateAbsoluteLocation();
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::DrawSelf(Drawing::RenderContext &context)
+	void HotkeyControl::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		textBox_->Render();
+		textBox_->Render(skin);
 
-		Control::DrawSelf(context);
+		Control::DrawSelf(context, skin);
 	}
 	//---------------------------------------------------------------------------
-	void HotkeyControl::PopulateGeometry()
+	void HotkeyControl::PopulateGeometry(Skins::Base &skin)
 	{
-		using namespace Drawing;
-
-		Graphics g(*geometry_);
-
-		for (int i = 0; i < 4; ++i)
-		{
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, 7 - i), SizeF(3, 1));
-			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, 7 - i), SizeF(3, 1));
-		}
+		skin.DrawHotkeyControl(Drawing::Graphics(*geometry_), this, clearButtonLocation_);
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

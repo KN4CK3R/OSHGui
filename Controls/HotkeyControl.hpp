@@ -103,8 +103,8 @@ namespace OSHGui
 		virtual void CalculateAbsoluteLocation() override;
 	
 	protected:
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
-		virtual void PopulateGeometry() override;
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
+		virtual void PopulateGeometry(Skins::Base &skin) override;
 
 		virtual void OnMouseClick(const MouseMessage &mouse) override;
 		virtual bool OnKeyDown(const KeyboardMessage &keyboard) override;

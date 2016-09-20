@@ -6,13 +6,14 @@
  * See license in OSHGui.hpp
  */
 
+#include <algorithm>
+
 #include "Control.hpp"
 #include "../Misc/Exceptions.hpp"
 #include "../Drawing/FontManager.hpp"
 #include "../Drawing/Vector.hpp"
 #include "../Misc/ReverseIterator.hpp"
 #include "../Misc/Intersection.hpp"
-#include <algorithm>
 
 namespace OSHGui
 {
@@ -616,7 +617,7 @@ namespace OSHGui
 		Application::Instance().GetRenderSurface().Invalidate();
 	}
 	//---------------------------------------------------------------------------
-	void Control::Render()
+	void Control::Render(Skins::Base &skin)
 	{
 		if (!isVisible_)
 		{
@@ -637,7 +638,7 @@ namespace OSHGui
 		// redraw if no surface set, or if surface is invalidated
 		if (!surface_)// || surface->isInvalidated())
 		{
-			DrawSelf(ctx);
+			DrawSelf(ctx, skin);
 
 			Control *focusedControl = nullptr;
 			for (auto &control : make_reverse_range(controls_))
@@ -648,12 +649,12 @@ namespace OSHGui
 				}
 				else
 				{
-					control->Render();
+					control->Render(skin);
 				}
 			}
 			if (focusedControl != nullptr)
 			{
-				focusedControl->Render();
+				focusedControl->Render(skin);
 			}
 		}
 
@@ -663,19 +664,19 @@ namespace OSHGui
 		}
 	}
 	//---------------------------------------------------------------------------
-	void Control::DrawSelf(Drawing::RenderContext &context)
+	void Control::DrawSelf(Drawing::RenderContext &context, Skins::Base &skin)
 	{
-		BufferGeometry(context);
+		BufferGeometry(context, skin);
 		QueueGeometry(context);
 	}
 	//---------------------------------------------------------------------------
-	void Control::BufferGeometry(Drawing::RenderContext &context)
+	void Control::BufferGeometry(Drawing::RenderContext &context, Skins::Base &skin)
 	{
 		if (needsRedraw_)
 		{
 			geometry_->Reset();
 
-			PopulateGeometry();
+			PopulateGeometry(skin);
 
 			needsRedraw_ = false;
 		}
@@ -686,7 +687,7 @@ namespace OSHGui
 		context.Surface->AddGeometry(context.QueueType, geometry_);
 	}
 	//---------------------------------------------------------------------------
-	void Control::PopulateGeometry()
+	void Control::PopulateGeometry(Skins::Base &skin)
 	{
 
 	}

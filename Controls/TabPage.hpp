@@ -75,8 +75,8 @@ namespace OSHGui
 		virtual void RemoveControl(Control *control) override;
 
 	protected:
-		virtual void DrawSelf(Drawing::RenderContext &context) override;
-		virtual void PopulateGeometry();
+		virtual void DrawSelf(Drawing::RenderContext &context, Skins::Base &skin) override;
+		virtual void PopulateGeometry(Skins::Base &skin);
 
 	private:
 		Misc::AnsiString text_;
