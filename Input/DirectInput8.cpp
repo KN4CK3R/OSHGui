@@ -17,6 +17,7 @@ namespace OSHGui
 	namespace Input
 	{
 		const int STATE_PRESSED = 0x80;
+		const int STATE_NOT_PRESSED = 0;
 		const int STATE_ON = 0x1;
 
 		unsigned long long DirectInput8::InitialRepeatTime = 300;
@@ -526,20 +527,38 @@ namespace OSHGui
 			}
 			if (keyBuffer[DIK_LSHIFT] & STATE_PRESSED || keyBuffer[DIK_RSHIFT] & STATE_PRESSED)
 			{
+				//keyBuffer[DIK_LSHIFT] = keyBuffer[DIK_RSHIFT] = STATE_NOT_PRESSED;
 				fakeBuffer[VK_SHIFT] = STATE_PRESSED;
 			}
 			if (keyBuffer[DIK_LCONTROL] & STATE_PRESSED || keyBuffer[DIK_RCONTROL] & STATE_PRESSED)
 			{
+				//keyBuffer[DIK_LCONTROL] = keyBuffer[DIK_RCONTROL] = STATE_NOT_PRESSED;
 				fakeBuffer[VK_CONTROL] = STATE_PRESSED;
 			}
 			if (keyBuffer[DIK_LMENU] & STATE_PRESSED)
 			{
+				//keyBuffer[DIK_LMENU] = STATE_NOT_PRESSED;
 				fakeBuffer[VK_MENU] = STATE_PRESSED;
 			}
 			if (keyBuffer[DIK_RMENU] & STATE_PRESSED)
 			{
+				//keyBuffer[DIK_RMENU] = STATE_NOT_PRESSED;
 				fakeBuffer[VK_MENU] = STATE_PRESSED;
 				fakeBuffer[VK_CONTROL] = STATE_PRESSED;
+			}
+
+			Key modifier = Key::None;
+			if (fakeBuffer[VK_MENU] == STATE_PRESSED)
+			{
+				modifier |= Key::Alt;
+			}
+			if (fakeBuffer[VK_SHIFT] == STATE_PRESSED)
+			{
+				modifier |= Key::Shift;
+			}
+			if (fakeBuffer[VK_CONTROL] == STATE_PRESSED)
+			{
+				modifier |= Key::Control;
 			}
 
 			for (auto i = 0u; i < 0xEF; ++i)
@@ -548,6 +567,24 @@ namespace OSHGui
 				auto currentKey = DIKToKeyTable[i];
 				if (currentKey != Key::None)
 				{
+					switch (currentKey)
+					{
+						case Key::LControlKey:
+						case Key::RControlKey:
+							currentKey = Key::ControlKey;
+							break;
+						case Key::LShiftKey:
+						case Key::RShiftKey:
+							currentKey = Key::ControlKey;
+							break;
+						case Key::LMenu:
+						case Key::RMenu:
+							currentKey = Key::Menu;
+							break;
+					}
+
+					currentKey |= modifier;
+
 					auto &keyState = keyStates[i];
 					if (keyState.LastState != keyBuffer[i])
 					{
