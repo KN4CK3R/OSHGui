@@ -14,6 +14,7 @@
 namespace OSHGui
 {
 	class ScrollBar;
+	class ListItem;
 
 	/**
 	 * Tritt ein, wenn sich der Wert der SelectedIndex-Eigenschaft ändert.
@@ -65,7 +66,7 @@ namespace OSHGui
 		 * \param index
 		 * \return das Item
 		 */
-		const Misc::AnsiString& GetItem(int index) const;
+		ListItem* GetItem(int index) const;
 		/**
 		 * Legt den ausgewählten Index fest.
 		 *
@@ -89,7 +90,7 @@ namespace OSHGui
 		 *
 		 * \return das Item
 		 */
-		const Misc::AnsiString& GetSelectedItem() const;
+		ListItem* GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der Items zurück.
 		 *
@@ -113,6 +114,7 @@ namespace OSHGui
 		 * \param text der Text des Items
 		 */
 		void AddItem(const Misc::AnsiString &text);
+		void AddItem(ListItem *item);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
@@ -120,6 +122,7 @@ namespace OSHGui
 		 * \param text der Text des Items
 		 */
 		void InsertItem(int index, const Misc::AnsiString &text);
+		void InsertItem(int index, ListItem *item);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *
@@ -164,11 +167,30 @@ namespace OSHGui
 		Drawing::RectangleI itemsRect_;
 		Drawing::SizeI itemAreaSize_;
 		
-		std::vector<Misc::AnsiString> items_;
+		std::vector<ListItem*> items_;
 
 		SelectedIndexChangedEvent selectedIndexChangedEvent_;
 
 		ScrollBar *scrollBar_;
+	};
+
+	class OSHGUI_EXPORT ListItem
+	{
+	public:
+		virtual ~ListItem() = default;
+
+		virtual const Misc::AnsiString& GetItemText() const = 0;
+	};
+
+	class OSHGUI_EXPORT StringListItem : public ListItem
+	{
+	public:
+		StringListItem(const Misc::AnsiString &text);
+
+		virtual const Misc::AnsiString& GetItemText() const override;
+
+	protected:
+		Misc::AnsiString text;
 	};
 }
 

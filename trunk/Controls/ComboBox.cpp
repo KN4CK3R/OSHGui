@@ -102,7 +102,7 @@ namespace OSHGui
 		listBox_->ExpandSizeToShowItems(4);
 		listBox_->GetSelectedIndexChangedEvent() += SelectedIndexChangedEventHandler([this](Control*)
 		{
-			button_->SetText(listBox_->GetSelectedItem());
+			button_->SetText(listBox_->GetSelectedItem()->GetItemText());
 			if (listBox_->GetVisible())
 			{
 				Collapse();
@@ -191,7 +191,7 @@ namespace OSHGui
 		return Control::GetIsFocused() || button_->GetIsFocused() || listBox_->GetIsFocused();
 	}
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& ComboBox::GetItem(int index) const
+	ListItem* ComboBox::GetItem(int index) const
 	{
 		return listBox_->GetItem(index);
 	}
@@ -215,7 +215,7 @@ namespace OSHGui
 		Collapse();
 	}
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& ComboBox::GetSelectedItem() const
+	ListItem* ComboBox::GetSelectedItem() const
 	{
 		return listBox_->GetSelectedItem();
 	}
@@ -261,12 +261,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ComboBox::AddItem(const Misc::AnsiString &text)
 	{
-		InsertItem(listBox_->GetItemsCount(), text);
+		AddItem(new StringListItem(text));
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::AddItem(ListItem *item)
+	{
+		InsertItem(listBox_->GetItemsCount(), item);
 	}
 	//---------------------------------------------------------------------------
 	void ComboBox::InsertItem(int index, const Misc::AnsiString &text)
 	{
-		listBox_->InsertItem(index, text);
+		InsertItem(index, new StringListItem(text));
+	}
+	//---------------------------------------------------------------------------
+	void ComboBox::InsertItem(int index, ListItem *item)
+	{
+		listBox_->InsertItem(index, item);
 
 		listBox_->ExpandSizeToShowItems(std::min(listBox_->GetItemsCount(), maxShowItems_));
 	}
