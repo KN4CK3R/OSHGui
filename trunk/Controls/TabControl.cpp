@@ -192,7 +192,7 @@ namespace OSHGui
 			}
 		}
 
-		std::unique_ptr<TabPageButtonBinding> binding(new TabPageButtonBinding());
+		auto binding = std::make_unique<TabPageButtonBinding>();
 		binding->Index = bindings_.size();
 		binding->TabPage = tabPage;
 

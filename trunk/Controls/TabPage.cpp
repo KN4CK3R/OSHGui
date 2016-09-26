@@ -25,7 +25,7 @@ namespace OSHGui
 		containerPanel_->SetBackColor(Drawing::Color::Empty());
 		AddSubControl(containerPanel_);
 		
-		ApplyStyle(Application::Instance().GetStyle());
+		//ApplyStyle(Application::Instance().GetStyle());
 	}
 	//---------------------------------------------------------------------------
 	//Getter/Setter
@@ -100,10 +100,10 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		if (!GetBackColor().IsTranslucent())
+		if (!parent_->GetBackColor().IsTranslucent())
 		{
-			g.FillRectangle(GetBackColor() + Color::FromARGB(0, 32, 32, 32), PointF(0, 0), GetSize());
-			g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor() - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
+			g.FillRectangle(parent_->GetBackColor() + Color::FromARGB(0, 32, 32, 32), PointF(0, 0), GetSize());
+			g.FillRectangleGradient(ColorRectangle(parent_->GetBackColor(), parent_->GetBackColor() - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
 		}
 	}
 	//---------------------------------------------------------------------------
