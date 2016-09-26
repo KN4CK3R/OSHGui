@@ -15,6 +15,7 @@
 namespace OSHGui
 {
 	class ListBox;
+	class ListItem;
 	class ScrollBar;
 
 	/**
@@ -84,7 +85,7 @@ namespace OSHGui
 		 * \param index
 		 * \return das Item
 		 */
-		const Misc::AnsiString& GetItem(int index) const;
+		ListItem* GetItem(int index) const;
 		/**
 		 * Legt den ausgewählten Index fest.
 		 *
@@ -108,7 +109,7 @@ namespace OSHGui
 		 *
 		 * \return das Item
 		 */
-		const Misc::AnsiString& GetSelectedItem() const;
+		ListItem* GetSelectedItem() const;
 		/**
 		 * Gibt die Anzahl der Items zurück.
 		 *
@@ -140,6 +141,7 @@ namespace OSHGui
 		 * \param text der Text des Items
 		 */
 		void AddItem(const Misc::AnsiString &text);
+		void AddItem(ListItem *item);
 		/**
 		 * Fügt ein neues Item am gewählten Index hinzu.
 		 *
@@ -147,6 +149,7 @@ namespace OSHGui
 		 * \param text der Text des Items
 		 */
 		void InsertItem(int index, const Misc::AnsiString &text);
+		void InsertItem(int index, ListItem *item);
 		/**
 		 * Löscht das Item am gewählten Index.
 		 *

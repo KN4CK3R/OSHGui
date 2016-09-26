@@ -93,7 +93,7 @@ namespace OSHGui
 		return autoScrollEnabled_;
 	}
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& ListBox::GetItem(int index) const
+	ListItem* ListBox::GetItem(int index) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
 		if (index < 0 || index >= (int)items_.size())
@@ -142,19 +142,21 @@ namespace OSHGui
 		return selectedIndex_;
 	}
 	//---------------------------------------------------------------------------
-	void ListBox::SetSelectedItem(const Misc::AnsiString &item)
+	void ListBox::SetSelectedItem(const Misc::AnsiString &text)
 	{
-		for (int i = items_.size() - 1; i >= 0; --i)
+		auto index = 0;
+		for (auto&& item : items_)
 		{
-			if (items_[i] == item)
+			if (item->GetItemText() == text)
 			{
-				SetSelectedIndex(i);
+				SetSelectedIndex(index);
 				return;
 			}
+			++index;
 		}
 	}
 	//---------------------------------------------------------------------------
-	const Misc::AnsiString& ListBox::GetSelectedItem() const
+	ListItem* ListBox::GetSelectedItem() const
 	{
 		return GetItem(GetSelectedIndex());
 	}
@@ -186,12 +188,22 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::AddItem(const Misc::AnsiString &text)
 	{
-		InsertItem(!items_.empty() ? items_.size() : 0, text);
+		AddItem(new StringListItem(text));
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::AddItem(ListItem *item)
+	{
+		InsertItem(!items_.empty() ? items_.size() : 0, item);
 	}
 	//---------------------------------------------------------------------------
 	void ListBox::InsertItem(int index, const Misc::AnsiString &text)
 	{
-		items_.insert(items_.begin() + index, text);
+		InsertItem(index, new StringListItem(text));
+	}
+	//---------------------------------------------------------------------------
+	void ListBox::InsertItem(int index, ListItem *item)
+	{
+		items_.insert(items_.begin() + index, item);
 
 		CheckForScrollBar();
 
@@ -294,7 +306,7 @@ namespace OSHGui
 				g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
 			}
 
-			g.DrawString(items_[firstVisibleItemIndex_ + i], GetFont(), GetForeColor(), PointF(itemX + 1, itemY + i * padding));
+			g.DrawString(items_[firstVisibleItemIndex_ + i]->GetItemText(), GetFont(), GetForeColor(), PointF(itemX + 1, itemY + i * padding));
 		}
 	}
 	//---------------------------------------------------------------------------
@@ -397,7 +409,7 @@ namespace OSHGui
 				int foundIndex = 0;
 				for (auto &c : items_)
 				{
-					Misc::AnsiChar check = std::tolower(c[0], loc);
+					Misc::AnsiChar check = std::tolower(c->GetItemText()[0], loc);
 					if (check == keyChar && foundIndex != selectedIndex_)
 					{
 						break;
@@ -414,6 +426,18 @@ namespace OSHGui
 		}
 
 		return true;
+	}
+	//---------------------------------------------------------------------------
+	// StringListItem
+	//---------------------------------------------------------------------------
+	StringListItem::StringListItem(const Misc::AnsiString &_text)
+		: text(_text)
+	{
+	}
+	//---------------------------------------------------------------------------
+	const Misc::AnsiString& StringListItem::GetItemText() const
+	{
+		return text;
 	}
 	//---------------------------------------------------------------------------
 }
