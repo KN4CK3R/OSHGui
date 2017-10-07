@@ -118,15 +118,15 @@ namespace OSHGui
 			: device(_device, _context),
 			  displaySize(GetViewportSize()),
 			  displayDPI(96, 96),
+			  defaultTarget(std::make_shared<Direct3D11ViewportTarget>(*this)),
+			  stateBlock(_context),
 			  clippedTechnique(nullptr),
 			  unclippedTechnique(nullptr),
 			  inputLayout(nullptr),
-			  textureVariable(nullptr),
 			  worldMatrixVariable(nullptr),
 			  projectionMatrixVariable(nullptr),
-			  useTextureVariable(nullptr),
-			  defaultTarget(std::make_shared<Direct3D11ViewportTarget>(*this)),
-			  stateBlock(_context)
+			  textureVariable(nullptr),
+			  useTextureVariable(nullptr)
 		{
 			ID3D10Blob *errors = nullptr;
 			ID3D10Blob *blob = nullptr;
@@ -309,6 +309,8 @@ namespace OSHGui
 		void Direct3D11Renderer::EndRendering()
 		{
 			stateBlock.Apply();
+
+			stateBlock.Release();
 		}
 		//---------------------------------------------------------------------------
 	}
