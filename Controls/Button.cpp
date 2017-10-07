@@ -122,7 +122,7 @@ namespace OSHGui
 		g.FillRectangle(color, RectangleF(PointF(1, GetHeight() - 2), SizeF(GetWidth() - 2, 2)));
 		g.FillRectangle(color, RectangleF(PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2)));
 
-		ColorRectangle colors(tempColor, GetBackColor() - Color::FromARGB(0, 20, 20, 20));
+		const ColorRectangle colors(tempColor, GetBackColor() - Color::FromARGB(0, 20, 20, 20));
 		g.FillRectangleGradient(colors, RectangleF(PointF(1, 2), GetSize() - SizeF(2, 4)));
 		g.FillRectangleGradient(colors, RectangleF(PointF(2, 1), GetSize() - SizeF(4, 2)));
 	}

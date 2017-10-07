@@ -64,7 +64,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(int days, int hours, int minutes, int seconds)
 		{
-			long long totalMilliSeconds = ((long long)days * 3600 * 24 + (long long)hours * 3600 + (long long)minutes * 60 + seconds) * 1000;
+			const auto totalMilliSeconds = (static_cast<long long>(days) * 3600 * 24
+				+ static_cast<long long>(hours) * 3600
+				+ static_cast<long long>(minutes) * 60
+				+ seconds) * 1000;
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
@@ -76,7 +79,11 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		TimeSpan::TimeSpan(int days, int hours, int minutes, int seconds, int milliseconds)
 		{
-			long long totalMilliSeconds = ((long long)days * 3600 * 24 + (long long)hours * 3600 + (long long)minutes * 60 + seconds) * 1000 + milliseconds;
+			const auto totalMilliSeconds = (static_cast<long long>(days) * 3600 * 24
+				+ static_cast<long long>(hours) * 3600
+				+ static_cast<long long>(minutes) * 60
+				+ seconds) * 1000
+				+ milliseconds;
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (totalMilliSeconds > MaxMilliSeconds || totalMilliSeconds < MinMilliSeconds)
 			{
@@ -90,27 +97,27 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetDays() const
 		{
-			return (int)(ticks_ / TicksPerDay);
+			return static_cast<int>(ticks_ / TicksPerDay);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetHours() const
 		{
-			return (int)((ticks_ / TicksPerHour) % 24);
+			return static_cast<int>((ticks_ / TicksPerHour) % 24);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetMinutes() const
 		{
-			return (int)((ticks_ / TicksPerMinute) % 60);
+			return static_cast<int>((ticks_ / TicksPerMinute) % 60);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetSeconds() const
 		{
-			return (int)((ticks_ / TicksPerSecond) % 60);
+			return static_cast<int>((ticks_ / TicksPerSecond) % 60);
 		}
 		//---------------------------------------------------------------------------
 		int TimeSpan::GetMilliseconds() const
 		{
-			return (int)((ticks_ / TicksPerMillisecond) % 1000);
+			return static_cast<int>((ticks_ / TicksPerMillisecond) % 1000);
 		}
 		//---------------------------------------------------------------------------
 		long long TimeSpan::GetTicks() const
@@ -120,43 +127,43 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalDays() const
 		{
-			return (double)ticks_ * DaysPerTick;
+			return static_cast<double>(ticks_) * DaysPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalHours() const
 		{
-			return (double)ticks_ * HoursPerTick;
+			return static_cast<double>(ticks_) * HoursPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalMinutes() const
 		{
-			return (double)ticks_ * MinutesPerTick;
+			return static_cast<double>(ticks_) * MinutesPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalSeconds() const
 		{
-			return (double)ticks_ * SecondsPerTick;
+			return static_cast<double>(ticks_) * SecondsPerTick;
 		}
 		//---------------------------------------------------------------------------
 		double TimeSpan::GetTotalMilliseconds() const
 		{
-			double temp = (double)ticks_ * MillisecondsPerTick;
+			const auto temp = static_cast<double>(ticks_) * MillisecondsPerTick;
 			if (temp > MaxMilliSeconds)
 			{
-				return (double)MaxMilliSeconds;
+				return static_cast<double>(MaxMilliSeconds);
 			}
 			if (temp < MinMilliSeconds)
 			{
-				return (double)MinMilliSeconds;
+				return static_cast<double>(MinMilliSeconds);
 			}
 			return temp;
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::Add(TimeSpan ts) const
+		TimeSpan TimeSpan::Add(TimeSpan ts) const
 		{
-			long long result = ticks_ + ts.ticks_;
+			const auto result = ticks_ + ts.ticks_;
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if ((ticks_ >> 63 == ts.ticks_ >> 63) && (ticks_ >> 63 != result >> 63))
 			{
@@ -166,9 +173,9 @@ namespace OSHGui
 			return TimeSpan(result);
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::Subtract(TimeSpan ts) const
+		TimeSpan TimeSpan::Subtract(TimeSpan ts) const
 		{
-			long long result = ticks_ - ts.ticks_;
+			const auto result = ticks_ - ts.ticks_;
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if ((ticks_ >> 63 != ts.ticks_ >> 63) && (ticks_ >> 63 != result >> 63))
 			{
@@ -208,22 +215,22 @@ namespace OSHGui
 			return ticks_ >= ts.ticks_;
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::operator-() const
+		TimeSpan TimeSpan::operator-() const
 		{
 			return TimeSpan(-ticks_);
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::operator+() const
+		TimeSpan TimeSpan::operator+() const
 		{
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::operator-(const TimeSpan &ts) const
+		TimeSpan TimeSpan::operator-(const TimeSpan &ts) const
 		{
 			return Subtract(ts);
 		}
 		//---------------------------------------------------------------------------
-		const TimeSpan TimeSpan::operator+(const TimeSpan &ts) const
+		TimeSpan TimeSpan::operator+(const TimeSpan &ts) const
 		{
 			return Add(ts);
 		}
@@ -286,20 +293,22 @@ namespace OSHGui
 			//{
 			//	throw ArgumentException("Invalid argument: value is NAN");
 			//}
-			double temp = value * scale;
-			double millis = temp + (value >= 0.0 ? 0.5 : -0.5);
+			const auto temp = value * scale;
+			const auto millis = temp + (value >= 0.0 ? 0.5 : -0.5);
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if ((millis > MaxMilliSeconds) || (millis < MinMilliSeconds))
 			{
 				throw ArgumentOutOfRangeException("value");
 			}
 			#endif
-			return TimeSpan((long long)millis * TicksPerMillisecond);
+			return TimeSpan(static_cast<long long>(millis) * TicksPerMillisecond);
 		}
 		//---------------------------------------------------------------------------
 		long long TimeSpan::TimeToTicks(int hour, int minute, int second)
 		{
-			long long totalSeconds = (long long)hour * 3600 + (long long)minute * 60 + (long long)second;
+			const auto totalSeconds = static_cast<long long>(hour) * 3600
+				+ static_cast<long long>(minute) * 60
+				+ static_cast<long long>(second);
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
 			if (totalSeconds > MaxSeconds || totalSeconds < MinSeconds)
 			{
@@ -311,8 +320,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		AnsiString TimeSpan::ToString() const
 		{
-			int days = GetDays();
-			int milliseconds = GetMilliseconds();
+			const auto days = GetDays();
+			const auto milliseconds = GetMilliseconds();
 			if (milliseconds != 0)
 			{
 				if (days != 0)

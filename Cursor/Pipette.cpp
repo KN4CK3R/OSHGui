@@ -20,15 +20,15 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		PointF offset(0, -15);
+		const PointF offset(0, -15);
 
 		g.FillRectangle(Color::Black(), PointF(0, 14) + offset, SizeF(1, 1));
-		for (int i = 0; i < 2; ++i)
+		for (auto i = 0; i < 2; ++i)
 		{
 			g.FillRectangle(Color::Black(), PointF(0 + i, 13 - i) + offset, SizeF(1, 1));
 			g.FillRectangle(Color::Black(), PointF(1 + i, 14 - i) + offset, SizeF(1, 1));
 		}
-		for (int i = 0; i < 6; ++i)
+		for (auto i = 0; i < 6; ++i)
 		{
 			g.FillRectangle(Color::Black(), PointF(1 + i, 11 - i) + offset, SizeF(1, 1));
 			g.FillRectangle(Color::Black(), PointF(3 + i, 13 - i) + offset, SizeF(1, 1));

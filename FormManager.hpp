@@ -28,7 +28,7 @@ namespace OSHGui
 		 *
 		 * \return das oberste Fenster
 		 */
-		const std::shared_ptr<Form> GetForeMost() const;
+		std::shared_ptr<Form> GetForeMost() const;
 		/**
 		 * Ruft das Fenster an Position index ab.
 		 *

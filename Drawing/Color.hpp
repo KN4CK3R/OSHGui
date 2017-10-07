@@ -157,10 +157,10 @@ namespace OSHGui
 			Color Clamped() const;
 
 			friend bool OSHGUI_EXPORT operator==(const Color &lhs, const Color &rhs);
-			friend const Color OSHGUI_EXPORT operator+(const Color &lhs, const Color &rhs);
-			friend const Color OSHGUI_EXPORT operator-(const Color &lhs, const Color &rhs);
-			friend const Color OSHGUI_EXPORT operator*(const Color &lhs, const Color &rhs);
-			friend const Color OSHGUI_EXPORT operator*(const Color &lhs, float rhs);
+			friend Color OSHGUI_EXPORT operator+(const Color &lhs, const Color &rhs);
+			friend Color OSHGUI_EXPORT operator-(const Color &lhs, const Color &rhs);
+			friend Color OSHGUI_EXPORT operator*(const Color &lhs, const Color &rhs);
+			friend Color OSHGUI_EXPORT operator*(const Color &lhs, float rhs);
 
 		private:
 			void SetARGB(argb_t argb);
@@ -176,10 +176,10 @@ namespace OSHGui
 
 		bool OSHGUI_EXPORT operator == (const Color &lhs, const Color &rhs);
 		bool OSHGUI_EXPORT operator!=(const Color &lhs, const Color &rhs);
-		const Color OSHGUI_EXPORT operator+(const Color &lhs, const Color &rhs);
-		const Color OSHGUI_EXPORT operator-(const Color &lhs, const Color &rhs);
-		const Color OSHGUI_EXPORT operator*(const Color &lhs, const Color &rhs);
-		const Color OSHGUI_EXPORT operator*(const Color &lhs, float rhs);
+		Color OSHGUI_EXPORT operator+(const Color &lhs, const Color &rhs);
+		Color OSHGUI_EXPORT operator-(const Color &lhs, const Color &rhs);
+		Color OSHGUI_EXPORT operator*(const Color &lhs, const Color &rhs);
+		Color OSHGUI_EXPORT operator*(const Color &lhs, float rhs);
 	}
 }
 

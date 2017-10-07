@@ -13,7 +13,7 @@
 
 namespace OSHGui
 {
-	const std::shared_ptr<Form> FormManager::GetForeMost() const
+	std::shared_ptr<Form> FormManager::GetForeMost() const
 	{
 		if (!forms_.empty())
 		{
@@ -36,7 +36,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	int FormManager::GetFormCount() const
 	{
-		return (int)forms_.size();
+		return static_cast<int>(forms_.size());
 	}
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Form>& FormManager::GetMainForm() const
@@ -68,7 +68,7 @@ namespace OSHGui
 		}
 		
 		FormInfo info;
-		bool isRegistered = false;
+		auto isRegistered = false;
 		for (auto it = forms_.begin(); it != forms_.end(); ++it)
 		{
 			info = *it;

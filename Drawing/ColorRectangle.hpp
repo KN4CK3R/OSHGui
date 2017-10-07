@@ -81,9 +81,9 @@ namespace OSHGui
 			Color BottomRight;
 		};
 
-		const ColorRectangle operator+(const ColorRectangle &lhs, const ColorRectangle &rhs);
-		const ColorRectangle operator*(const ColorRectangle &lhs, const ColorRectangle &rhs);
-		const ColorRectangle operator*(const ColorRectangle &lhs, float rhs);
+		ColorRectangle operator+(const ColorRectangle &lhs, const ColorRectangle &rhs);
+		ColorRectangle operator*(const ColorRectangle &lhs, const ColorRectangle &rhs);
+		ColorRectangle operator*(const ColorRectangle &lhs, float rhs);
 	}
 }
 

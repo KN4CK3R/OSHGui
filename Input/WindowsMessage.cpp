@@ -103,9 +103,9 @@ namespace OSHGui
 				{
 					if (enableKeyboardInput)
 					{
-						KeyboardState state = KeyboardState::Unknown;
+						auto state = KeyboardState::Unknown;
 						Misc::AnsiChar keyChar = '\0';
-						Key keyData = Key::None;
+						auto keyData = Key::None;
 
 						if (message->message == WM_CHAR || message->message == WM_SYSCHAR)
 						{
@@ -117,7 +117,7 @@ namespace OSHGui
 							else
 							{
 								state = KeyboardState::Character;
-								keyChar = (Misc::AnsiChar)message->wParam;
+								keyChar = static_cast<Misc::AnsiChar>(message->wParam);
 							}
 						}
 						else if (message->message == WM_IME_CHAR)
@@ -126,7 +126,7 @@ namespace OSHGui
 						}
 						else
 						{
-							Key modifier = Key::None;
+							auto modifier = Key::None;
 							if (GetKeyState(static_cast<int>(Key::ControlKey)) < 0)
 								modifier |= Key::Control;
 							if (GetKeyState(static_cast<int>(Key::ShiftKey)) < 0)
@@ -136,7 +136,7 @@ namespace OSHGui
 
 							state = message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN ? KeyboardState::KeyDown : KeyboardState::KeyUp;
 
-							keyData = (Key)message->wParam | modifier;
+							keyData = static_cast<Key>(message->wParam) | modifier;
 						}
 
 						if (state != KeyboardState::Unknown)

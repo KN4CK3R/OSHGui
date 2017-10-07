@@ -358,15 +358,15 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto color = isFocused_ || isInside_ ? GetBackColor() + GetMouseOverFocusColor() : GetBackColor();
+		const auto color = isFocused_ || isInside_ ? GetBackColor() + GetMouseOverFocusColor() : GetBackColor();
 
 		g.FillRectangle(color, PointF(0, 1), realSize_ - SizeF(0, 2));
 		g.FillRectangle(color, PointF(1, 0), realSize_ - SizeF(2, 0));
 		g.FillRectangleGradient(ColorRectangle(color, color - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), realSize_ - SizeF(2, 2));
 
-		int arrowLeft = realSize_.Width - 9;
-		int arrowTop = realSize_.Height - 11;
-		for (int i = 0; i < 4; ++i)
+		const auto arrowLeft = realSize_.Width - 9;
+		const auto arrowTop = realSize_.Height - 11;
+		for (auto i = 0; i < 4; ++i)
 		{
 			g.FillRectangle(GetForeColor(), PointF(arrowLeft - i, arrowTop - i), SizeF(1 + i * 2, 1));
 		}

@@ -31,7 +31,7 @@ namespace OSHGui
 			for (auto &color : data)
 			{
 				auto col = color.GetARGB();
-				std::swap(*(((uint8_t*)&col) + 0), *(((uint8_t*)&col) + 2)); //flip R/B
+				std::swap(*(reinterpret_cast<uint8_t*>(&col) + 0), *(reinterpret_cast<uint8_t*>(&col) + 2)); //flip R/B
 				temp[index++] = col;
 			}
 			return temp;
@@ -55,16 +55,16 @@ namespace OSHGui
 				area.SetHeight(area.GetBottom() - size.Height);
 			}
 
-			float calcWidth = std::max(area.GetWidth() - 1, 1);
-			float calcHeight = std::max(area.GetHeight() - 1, 1);
+			const float calcWidth = std::max(area.GetWidth() - 1, 1);
+			const float calcHeight = std::max(area.GetHeight() - 1, 1);
 
-			for (int j = 0; j < area.GetHeight(); ++j)
+			for (auto j = 0; j < area.GetHeight(); ++j)
 			{
-				auto row = (area.GetTop() + j) * size.Width;
+				const auto row = (area.GetTop() + j) * size.Width;
 
-				for (int i = 0; i < area.GetWidth(); ++i)
+				for (auto i = 0; i < area.GetWidth(); ++i)
 				{
-					auto index = (area.GetLeft() + i) + row;
+					const auto index = (area.GetLeft() + i) + row;
 
 					data[index] = color.GetColorAtPoint(i / calcWidth, j / calcHeight);
 				}

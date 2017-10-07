@@ -34,7 +34,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Vector Vector::Normalize() const
 		{
-			auto length = Length();
+			const auto length = Length();
 			if (length != 0.0f)
 			{
 				return *this / length;
@@ -123,40 +123,40 @@ namespace OSHGui
 			return lhs.x < rhs.x || lhs.y < rhs.y || lhs.z < rhs.z;
 		}
 		//---------------------------------------------------------------------------
-		const Vector operator+(const Vector &lhs, const Vector &rhs)
+		Vector operator+(const Vector &lhs, const Vector &rhs)
 		{
 			Vector ret(lhs);
 			ret += rhs;
 			return ret;
 		}
 		//---------------------------------------------------------------------------
-		const Vector operator-(const Vector &lhs, const Vector &rhs)
+		Vector operator-(const Vector &lhs, const Vector &rhs)
 		{
 			Vector ret(lhs);
 			ret -= rhs;
 			return ret;
 		}
 		//---------------------------------------------------------------------------
-		const Vector operator*(float lhs, const Vector &rhs)
+		Vector operator*(float lhs, const Vector &rhs)
 		{
 			Vector ret(rhs);
 			ret *= lhs;
 			return ret;
 		}
 		//---------------------------------------------------------------------------
-		const Vector operator*(const Vector &lhs, float val)
+		Vector operator*(const Vector &lhs, float val)
 		{
 			Vector ret(lhs);
 			ret *= val;
 			return ret;
 		}
 		//---------------------------------------------------------------------------
-		const float operator*(const Vector &lhs, const Vector &rhs)
+		float operator*(const Vector &lhs, const Vector &rhs)
 		{
 			return lhs.DotProduct(rhs);
 		}
 		//---------------------------------------------------------------------------
-		const Vector operator/(const Vector &lhs, float rhs)
+		Vector operator/(const Vector &lhs, float rhs)
 		{
 			Vector ret(lhs);
 			ret /= rhs;

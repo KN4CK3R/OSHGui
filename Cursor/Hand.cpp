@@ -20,16 +20,16 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		PointF offset(-5, 0);
+		const PointF offset(-5, 0);
 
 		g.FillRectangle(Color::Black(), PointF(6, 5) + offset, SizeF(7, 9));
 		g.FillRectangle(Color::White(), PointF(0, 7) + offset, SizeF(1, 2));
 		g.FillRectangle(Color::White(), PointF(1, 6) + offset, SizeF(1, 1));
-		for (int i = 0; i < 3; ++i)
+		for (auto i = 0; i < 3; ++i)
 		{
 			g.FillRectangle(Color::White(), PointF(2 + i, 6 + i) + offset, SizeF(1, 1));
 		}
-		for (int i = 0; i < 4; ++i)
+		for (auto i = 0; i < 4; ++i)
 		{
 			g.FillRectangle(Color::White(), PointF(1 + i, 9 + i) + offset, SizeF(1, 1));
 			g.FillRectangle(Color::Black(), PointF(1 + i, 7 + i) + offset, SizeF(1, 1));
@@ -55,7 +55,7 @@ namespace OSHGui
 		g.FillRectangle(Color::Black(), PointF(7, 14) + offset, SizeF(3, 1));
 		g.FillRectangle(Color::Black(), PointF(13, 6) + offset, SizeF(1, 5));
 		g.FillRectangle(Color::Black(), PointF(11, 14) + offset, SizeF(1, 1));
-		for (int i = 0; i < 2; ++i)
+		for (auto i = 0; i < 2; ++i)
 		{
 			g.FillRectangle(Color::White(), PointF(10 + i, 14 + i) + offset, SizeF(1, 1));
 			g.FillRectangle(Color::White(), PointF(4 + i, 13 + i) + offset, SizeF(1, 1));

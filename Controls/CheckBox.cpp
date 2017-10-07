@@ -55,7 +55,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void CheckBox::SetText(const Misc::AnsiString &text)
 	{
-		auto offset = label_->GetLocation();
+		const auto offset = label_->GetLocation();
 
 		label_->SetText(text);
 		if (autoSize_)
@@ -84,13 +84,13 @@ namespace OSHGui
 			if (GetFont()->GetFontHeight() < DefaultCheckBoxSize)
 			{
 				checkBoxLocation_ = Drawing::PointI(0, 0);
-				int y = (int)(DefaultCheckBoxSize / 2.0f - GetFont()->GetFontHeight() / 2.0f + 0.5f);
+				auto y = static_cast<int>(DefaultCheckBoxSize / 2.0f - GetFont()->GetFontHeight() / 2.0f + 0.5f);
 				label_->SetLocation(Drawing::PointI(DefaultLabelOffset.Left, y));
 			}
 			else
 			{
 				label_->SetLocation(DefaultLabelOffset);
-				int y = (int)(GetFont()->GetFontHeight() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
+				auto y = static_cast<int>(GetFont()->GetFontHeight() / 2.0f - DefaultCheckBoxSize / 2.0f + 0.5f);
 				checkBoxLocation_ = Drawing::PointI(0, y);
 			}
 		}

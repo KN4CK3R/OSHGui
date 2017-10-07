@@ -12,8 +12,7 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Image::Image()
-			: texture(nullptr),
-			  area(0, 0, 0, 0),
+			: area(0, 0, 0, 0),
 			  offset(0, 0)
 		{
 
@@ -94,14 +93,14 @@ namespace OSHGui
 			}
 
 			auto &scale = texture->GetTexelScaling();
-			std::pair<float, float> pixelSize(area.GetWidth() / destination.GetWidth(), area.GetHeight() / destination.GetHeight());
+			const std::pair<float, float> pixelSize(area.GetWidth() / destination.GetWidth(), area.GetHeight() / destination.GetHeight());
 
 			RectangleF textureRectangle((area.GetLocation() + ((final_rect.GetLocation() - destination.GetLocation()) * pixelSize)) * scale,
 										(area.GetSize() + ((final_rect.GetSize() - destination.GetSize()) * pixelSize)) * scale);
 
-			auto alignToPixels = [](float x)
+			const auto alignToPixels = [](float x)
 			{
-				return (float)(int)(( x ) + (( x ) > 0.0f ? 0.5f : -0.5f));
+				return static_cast<float>(static_cast<int>(x + (x > 0.0f ? 0.5f : -0.5f)));
 			};
 
 			final_rect.SetLeft(alignToPixels(final_rect.GetLeft()));

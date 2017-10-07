@@ -96,7 +96,7 @@ namespace OSHGui
 	ListItem* ListBox::GetItem(int index) const
 	{
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= (int)items_.size())
+		if (index < 0 || index >= static_cast<int>(items_.size()))
 		{
 			throw Misc::ArgumentOutOfRangeException("index");
 		}
@@ -113,7 +113,7 @@ namespace OSHGui
 		}
 
 		#ifndef OSHGUI_DONTUSEEXCEPTIONS
-		if (index < 0 || index >= (int)items_.size())
+		if (index < 0 || index >= static_cast<int>(items_.size()))
 		{
 			throw Misc::ArgumentOutOfRangeException("index");
 		}
@@ -180,8 +180,8 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::ExpandSizeToShowItems(int count)
 	{
-		auto itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
-		int newHeight = count * itemHeight;
+		const auto itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
+		const auto newHeight = count * itemHeight;
 
 		SetSize(GetWidth(), newHeight + DefaultItemAreaPadding.Height);
 	}
@@ -230,7 +230,7 @@ namespace OSHGui
 		{
 			scrollBar_->SetMaximum(items_.size() - maxVisibleItems_);
 		}
-		if (selectedIndex_ >= (int)items_.size())
+		if (selectedIndex_ >= static_cast<int>(items_.size()))
 		{
 			selectedIndex_ = items_.size() - 1;
 			
@@ -255,7 +255,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ListBox::CheckForScrollBar()
 	{
-		int itemHeight = GetFont()->GetFontHeight() + DefaultItemPadding;
+		const auto itemHeight = static_cast<int>(GetFont()->GetFontHeight()) + DefaultItemPadding;
 
 		maxVisibleItems_ = std::max(1, itemAreaSize_.Height / itemHeight);
 
@@ -290,16 +290,16 @@ namespace OSHGui
 
 		g.FillRectangle(GetBackColor(), PointF(1, 1), GetSize() - SizeF(2, 2));
 
-		auto color = GetBackColor() + Color::FromARGB(0, 54, 53, 52);
+		const auto color = GetBackColor() + Color::FromARGB(0, 54, 53, 52);
 		g.FillRectangle(color, PointF(1, 0), SizeF(GetWidth() - 2, 1));
 		g.FillRectangle(color, PointF(0, 1), SizeF(1, GetHeight() - 2));
 		g.FillRectangle(color, PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
 		g.FillRectangle(color, PointF(1, GetHeight() - 1), SizeF(GetWidth() - 2, 1));
 
-		int itemX = 4;
-		int itemY = 5;
-		int padding = GetFont()->GetFontHeight() + DefaultItemPadding;
-		for (int i = 0; i < maxVisibleItems_ && i + firstVisibleItemIndex_ < (int)items_.size(); ++i)
+		const auto itemX = 4;
+		const auto itemY = 5;
+		const auto padding = GetFont()->GetFontHeight() + DefaultItemPadding;
+		for (int i = 0; i < maxVisibleItems_ && i + firstVisibleItemIndex_ < static_cast<int>(items_.size()); ++i)
 		{
 			if (firstVisibleItemIndex_ + i == selectedIndex_)
 			{
@@ -318,7 +318,7 @@ namespace OSHGui
 
 		if (Intersection::TestRectangle(absoluteLocation_.OffsetEx(4, 4), itemAreaSize_, mouse.GetLocation()))
 		{
-			int clickedIndex = firstVisibleItemIndex_ + (mouse.GetLocation().Y - absoluteLocation_.Y - 4) / (GetFont()->GetFontHeight() + DefaultItemPadding);
+			const auto clickedIndex = firstVisibleItemIndex_ + (mouse.GetLocation().Y - absoluteLocation_.Y - 4) / (GetFont()->GetFontHeight() + DefaultItemPadding);
 			if (clickedIndex < items_.size())
 			{
 				SetSelectedIndex(clickedIndex);
@@ -405,11 +405,11 @@ namespace OSHGui
 			if (keyboard.IsAlphaNumeric())
 			{
 				std::locale loc;
-				Misc::AnsiChar keyChar = std::tolower(keyboard.GetKeyChar(), loc);
+				const auto keyChar = std::tolower(keyboard.GetKeyChar(), loc);
 				int foundIndex = 0;
 				for (auto &c : items_)
 				{
-					Misc::AnsiChar check = std::tolower(c->GetItemText()[0], loc);
+					const auto check = std::tolower(c->GetItemText()[0], loc);
 					if (check == keyChar && foundIndex != selectedIndex_)
 					{
 						break;
@@ -418,7 +418,7 @@ namespace OSHGui
 					++foundIndex;
 				}
 					
-				if (foundIndex < (int)items_.size())
+				if (foundIndex < static_cast<int>(items_.size()))
 				{
 					SetSelectedIndex(foundIndex);
 				}

@@ -124,7 +124,7 @@ namespace OSHGui
 			
 			valueChangedEvent_.Invoke(this);
 
-			int tick = value / tickFrequency_;
+			const auto tick = value / tickFrequency_;
 			sliderLocation_.Left = tick * pixelsPerTick_;
 			sliderAbsoluteLocation_.Left = absoluteLocation_.Left + sliderLocation_.Left;
 
@@ -150,12 +150,12 @@ namespace OSHGui
 			g.FillRectangle(GetBackColor(), PointF(0, 0), GetSize());
 		}
 
-		auto color = isFocused_ || isInside_ ? GetForeColor() + Color::FromARGB(0, 43, 43, 43) : GetForeColor();
+		const auto color = isFocused_ || isInside_ ? GetForeColor() + Color::FromARGB(0, 43, 43, 43) : GetForeColor();
 
-		auto tickCount = 1 + (maximum_ - minimum_) / tickFrequency_;
-		for (int i = 0; i < tickCount; ++i)
+		const auto tickCount = 1 + (maximum_ - minimum_) / tickFrequency_;
+		for (auto i = 0; i < tickCount; ++i)
 		{
-			auto x = SliderSize.Width / 2 + i * pixelsPerTick_;
+			const auto x = SliderSize.Width / 2 + i * pixelsPerTick_;
 			g.FillRectangle(color, PointF(x, DefaultTickOffset), SizeF(1, 5));
 		}
 

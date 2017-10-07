@@ -20,9 +20,9 @@ namespace OSHGui
 			: ascender(0.0f),
 			  descender(0.0f),
 			  height(0.0f),
-			  maximumCodepoint(0),
 			  scalingHorizontal(1.0f),
-			  scalingVertical(1.0f)
+			  scalingVertical(1.0f),
+			  maximumCodepoint(0)
 		{
 			
 		}
@@ -40,8 +40,8 @@ namespace OSHGui
 
 			maximumCodepoint = codepoint;
 
-			auto pages = (codepoint + GlyphsPerPage) / GlyphsPerPage;
-			auto size = (pages + BitsPerUnit - 1) / BitsPerUnit;
+			const auto pages = (codepoint + GlyphsPerPage) / GlyphsPerPage;
+			const auto size = (pages + BitsPerUnit - 1) / BitsPerUnit;
 
 			loadedGlyphPages.resize(size * sizeof(uint32_t));
 		}
@@ -53,12 +53,12 @@ namespace OSHGui
 				return nullptr;
 			}
 
-			auto glyph = FindFontGlyph(codepoint);
+			const auto glyph = FindFontGlyph(codepoint);
 
 			if (!loadedGlyphPages.empty())
 			{
-				auto page = codepoint / GlyphsPerPage;
-				auto mask = 1 << (page & (BitsPerUnit - 1));
+				const auto page = codepoint / GlyphsPerPage;
+				const auto mask = 1 << (page & (BitsPerUnit - 1));
 				if (!(loadedGlyphPages[page / BitsPerUnit] & mask))
 				{
 					loadedGlyphPages[page / BitsPerUnit] |= mask;
@@ -77,15 +77,15 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Font::GetTextExtent(const Misc::AnsiString &text, float scaleX) const
 		{
-			float current = 0.f;
-			float advance = 0.f;
+			auto current = 0.f;
+			auto advance = 0.f;
 
 			for (auto c : text)
 			{
-				auto glyph = GetGlyphData((unsigned char)c);
+				const auto glyph = GetGlyphData(static_cast<unsigned char>(c));
 				if (glyph)
 				{
-					auto width = glyph->GetRenderedAdvance(scaleX);
+					const auto width = glyph->GetRenderedAdvance(scaleX);
 
 					if (advance + width > current)
 					{
@@ -105,7 +105,7 @@ namespace OSHGui
 
 			for (auto c : text)
 			{
-				if (auto glyph = GetGlyphData((unsigned char)c))
+				if (const auto glyph = GetGlyphData(static_cast<unsigned char>(c)))
 				{
 					advance += glyph->GetAdvance(scaleX);
 				}
@@ -116,8 +116,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		size_t Font::GetCharAtPixel(const Misc::AnsiString &text, size_t start, float pixel, float scaleX) const
 		{
-			float current = 0.f;
-			auto length = text.length();
+			auto current = 0.f;
+			const auto length = text.length();
 
 			if (pixel <= 0.f || length <= start)
 			{
@@ -126,8 +126,7 @@ namespace OSHGui
 
 			for (auto c = start; c < length; ++c)
 			{
-				auto glyph = GetGlyphData((unsigned char)text[c]);
-				if (glyph)
+				if (const auto glyph = GetGlyphData(static_cast<unsigned char>(text[c])))
 				{
 					current += glyph->GetAdvance(scaleX);
 
@@ -152,12 +151,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Font::DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra, const float scaleX, const float scaleY) const
 		{
-			auto base = position.Y + GetBaseline(scaleY);
+			const auto base = position.Y + GetBaseline(scaleY);
 			auto glyphPosition(position);
 
 			for (auto c : text)
 			{
-				if (auto glyph = GetGlyphData(static_cast<uint32_t>(c)))
+				if (const auto glyph = GetGlyphData(static_cast<uint32_t>(c)))
 				{
 					auto image = glyph->GetImage();
 					glyphPosition.Y = base - (image->GetOffset().Y - image->GetOffset().Y * scaleY);

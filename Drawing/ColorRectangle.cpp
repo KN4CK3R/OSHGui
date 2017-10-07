@@ -44,8 +44,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Color ColorRectangle::GetColorAtPoint(float x, float y) const
 		{
-			auto h1((TopRight - TopLeft) * x + TopLeft);
-			auto h2((BottomRight - BottomLeft) * x + BottomLeft);
+			const auto h1((TopRight - TopLeft) * x + TopLeft);
+			const auto h2((BottomRight - BottomLeft) * x + BottomLeft);
 			return (h2 - h1) * y + h1;
 		}
 		//---------------------------------------------------------------------------
@@ -91,21 +91,21 @@ namespace OSHGui
 			return *this;
 		}
 		//---------------------------------------------------------------------------
-		const ColorRectangle operator+(const ColorRectangle &lhs, const ColorRectangle &rhs)
+		ColorRectangle operator+(const ColorRectangle &lhs, const ColorRectangle &rhs)
 		{
 			auto temp(lhs);
 			temp += rhs;
 			return temp;
 		}
 		//---------------------------------------------------------------------------
-		const ColorRectangle operator*(const ColorRectangle &lhs, const ColorRectangle &rhs)
+		ColorRectangle operator*(const ColorRectangle &lhs, const ColorRectangle &rhs)
 		{
 			auto temp(lhs);
 			temp *= rhs;
 			return temp;
 		}
 		//---------------------------------------------------------------------------
-		const ColorRectangle operator*(const ColorRectangle &lhs, float rhs)
+		ColorRectangle operator*(const ColorRectangle &lhs, float rhs)
 		{
 			auto temp(lhs);
 			temp *= rhs;

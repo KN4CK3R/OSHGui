@@ -247,7 +247,7 @@ namespace OSHGui
 		 *
 		 * \return bounds
 		 */
-		virtual const Drawing::RectangleI GetBounds() const;
+		virtual Drawing::RectangleI GetBounds() const;
 		/**
 		 * Legt die Koordinaten der linken oberen Ecke des Steuerelements relativ zur
 		 * linken oberen Ecke des Containers fest.

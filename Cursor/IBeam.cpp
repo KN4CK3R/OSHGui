@@ -20,7 +20,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		PointF offset(-4, -7);
+		const PointF offset(-4, -7);
 
 		g.FillRectangle(Color::White(), PointF(0, 0) + offset, SizeF(7, 1));
 		g.FillRectangle(Color::White(), PointF(0, 13) + offset, SizeF(7, 1));

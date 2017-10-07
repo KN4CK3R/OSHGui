@@ -192,16 +192,16 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Graphics::FillEllipse(const Color &color, float _x, float _y, float width, float height)
 		{
-			int a = width / 2;
-			int b = height / 2;
-			int xc = _x;
-			int yc = _y;
+			const auto a = width / 2;
+			const auto b = height / 2;
+			const auto xc = _x;
+			const auto yc = _y;
 			int x = 0;
 			int y = b;
-			int a2 = a * a;
-			int b2 = b * b;
-			int xp = 1;
-			int yp = y;
+			const auto a2 = a * a;
+			const auto b2 = b * b;
+			auto xp = 1;
+			auto yp = y;
 
 			while (b2 * x < a2 * y)
 			{
@@ -232,7 +232,7 @@ namespace OSHGui
 
 			xp = x;
 			yp = y;
-			int divHeight = 1;
+			auto divHeight = 1;
 
 			while (y != 0)
 			{

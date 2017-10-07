@@ -162,7 +162,7 @@ namespace OSHGui
 			Color::FromRGB(93, 93, 93)
 		};
 	
-		for (int frameNum = 0; frameNum < 14; ++frameNum)
+		for (auto frameNum = 0; frameNum < 14; ++frameNum)
 		{
 			/*cursor->SelectActiveFrame(frameNum);
 		

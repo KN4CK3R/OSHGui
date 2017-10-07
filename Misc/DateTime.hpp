@@ -387,10 +387,10 @@ namespace OSHGui
 			bool operator > (const DateTime &time) const;
 			bool operator <= (const DateTime &time) const;
 			bool operator >= (const DateTime &time) const;
-			const DateTime operator - (const TimeSpan &ts) const;
-			const DateTime operator + (const TimeSpan &ts) const;
-			const TimeSpan operator - (const DateTime &time) const;
-			const TimeSpan operator + (const DateTime &time) const;
+			DateTime operator - (const TimeSpan &ts) const;
+			DateTime operator + (const TimeSpan &ts) const;
+			TimeSpan operator - (const DateTime &time) const;
+			TimeSpan operator + (const DateTime &time) const;
 			
 			/**
 			 * Ruft die Anzahl der Tage im angegeben Monat und Jahr ab.
@@ -432,35 +432,35 @@ namespace OSHGui
 			 *
 			 * \return die Zeichenfolgendarstellung
 			 */
-			AnsiString ToString();
+			AnsiString ToString() const;
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: l, d. F Y => Saturday, 23. April 2011
 			 *
 			 * \return die Zeichenfolgendarstellung
 			 */
-			AnsiString ToLongDateString();
+			AnsiString ToLongDateString() const;
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: H:i:s => 02:23:48
 			 *
 			 * \return die Zeichenfolgendarstellung
 			 */
-			AnsiString ToLongTimeString();
+			AnsiString ToLongTimeString() const;
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: d.m.Y => 23.04.2011
 			 *
 			 * \return die Zeichenfolgendarstellung
 			 */
-			AnsiString ToShortDateString();
+			AnsiString ToShortDateString() const;
 			/**
 			 * Gibt eine Zeichenfolgendarstellung des DateTime-Objekts zurück.
 			 * Format: H:i => 02:23
 			 *
 			 * \return die Zeichenfolgendarstellung
 			 */
-			AnsiString ToShortTimeString();
+			AnsiString ToShortTimeString() const;
 		};
 	}
 }

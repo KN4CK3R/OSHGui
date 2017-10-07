@@ -93,7 +93,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased)
 		{
-			auto it = loadedFonts.find(filename);
+			const auto it = loadedFonts.find(filename);
 			if (it == std::end(loadedFonts) || it->second.expired())
 			{
 				auto font = std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);

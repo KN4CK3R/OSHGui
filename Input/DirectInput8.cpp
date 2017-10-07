@@ -365,7 +365,7 @@ namespace OSHGui
 		void DirectInput8::ProcessMouseDevice()
 		{
 			DIMOUSESTATE2 mouseState;
-			auto result = mouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
+			const auto result = mouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 			if (result != DI_OK)
 			{
 				if (result == DIERR_NOTACQUIRED || result == DIERR_INPUTLOST)
@@ -417,7 +417,7 @@ namespace OSHGui
 		{
 			if (key == VK_INSERT || key == VK_NUMLOCK || key == VK_CAPITAL || key == VK_SCROLL)
 			{
-				int result = GetKeyState(key);
+				const auto result = GetKeyState(key);
 
 				// If the high-order bit is 1, the key is down; otherwise, it is up.
 				// If the low-order bit is 1, the key is toggled. A key, such as the CAPS LOCK key,
@@ -492,7 +492,7 @@ namespace OSHGui
 					}
 				}
 
-				auto byteCount = ToAsciiEx(vk, dik, fakeBuffer.data(), (LPWORD)chars, 0, keyLayout);
+				const auto byteCount = ToAsciiEx(vk, dik, fakeBuffer.data(), reinterpret_cast<LPWORD>(chars), 0, keyLayout);
 				if (byteCount <= 0)
 				{
 					return 0;
@@ -507,7 +507,7 @@ namespace OSHGui
 		void DirectInput8::ProcessKeyboardDevice()
 		{
 			BYTE keyBuffer[256] = { };
-			auto result = keyboardDevice->GetDeviceState(sizeof(keyBuffer), &keyBuffer);
+			const auto result = keyboardDevice->GetDeviceState(sizeof(keyBuffer), &keyBuffer);
 			if (result != DI_OK)
 			{
 				if (result == DIERR_NOTACQUIRED || result == DIERR_INPUTLOST)
@@ -595,7 +595,7 @@ namespace OSHGui
 
 							InjectKeyboardMessage(KeyboardMessage(KeyboardState::KeyDown, currentKey, '\0'));
 							
-							auto translated = TryConvertDIKey(i, chars);
+							const auto translated = TryConvertDIKey(i, chars);
 							if (translated)
 							{
 								for (int j = 0; j < translated; ++j)
@@ -622,7 +622,7 @@ namespace OSHGui
 
 									InjectKeyboardMessage(KeyboardMessage(KeyboardState::KeyDown, currentKey, '\0'));
 
-									auto translated = TryConvertDIKey(i, chars);
+									const auto translated = TryConvertDIKey(i, chars);
 									if (translated)
 									{
 										for (int j = 0; j < translated; ++j)
@@ -639,7 +639,7 @@ namespace OSHGui
 
 								InjectKeyboardMessage(KeyboardMessage(KeyboardState::KeyDown, currentKey, '\0'));
 
-								auto translated = TryConvertDIKey(i, chars);
+								const auto translated = TryConvertDIKey(i, chars);
 								if (translated)
 								{
 									for (int j = 0; j < translated; ++j)

@@ -130,7 +130,7 @@ namespace OSHGui
 		g.FillRectangle(GetForeColor(), PointF(0, 1), SizeF(1, GetHeight() - 2));
 		g.FillRectangle(GetForeColor(), PointF(GetWidth() - 1, 1), SizeF(1, GetHeight() - 2));
 		
-		for (int i = (int)(value_ / ((max_ - min_) / ((GetWidth() - 4) / 12.0f)) - 1); i >= 0; --i)
+		for (auto i = static_cast<int>(value_ / ((max_ - min_) / ((GetWidth() - 4) / 12.0f)) - 1); i >= 0; --i)
 		{
 			g.FillRectangle(barColor_, PointF(4 + i * 12, 4), SizeF(8, GetHeight() - 8));
 		}

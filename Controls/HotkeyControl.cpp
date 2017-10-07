@@ -344,7 +344,7 @@ namespace OSHGui
 		}
 		else if (hotkey_ != Key::None && (hotkey_ != Key::ShiftKey && hotkey_ != Key::Menu && hotkey_ != Key::ControlKey))
 		{
-			auto hotkeyText = HotkeyNames[hotkey_];
+			const auto hotkeyText = HotkeyNames[hotkey_];
 			textBox_->SetText(hotkeyText);
 		}
 		else
@@ -374,7 +374,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		for (int i = 0; i < 4; ++i)
+		for (auto i = 0; i < 4; ++i)
 		{
 			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(i, i), SizeF(3, 1));
 			g.FillRectangle(GetForeColor(), clearButtonLocation_ + PointF(6 - i, i), SizeF(3, 1));

@@ -53,12 +53,12 @@ namespace OSHGui
 		inline bool operator>(const Vector &lhs, const Vector &rhs) { return rhs < lhs; }
 		inline bool operator>=(const Vector &lhs, const Vector &rhs) { return !(rhs < lhs); }
 		inline bool operator<=(const Vector &lhs, const Vector &rhs) { return !(rhs > lhs); }
-		const Vector operator+(const Vector &lhs, const Vector &rhs);
-		const Vector operator-(const Vector &lhs, const Vector &rhs);
-		const Vector operator*(float lhs, const Vector &rhs);
-		const Vector operator*(const Vector &lhs, float rhs);
-		const float operator*(const Vector &lhs, const Vector &rhs);
-		const Vector operator/(const Vector &lhs, float rhs);
+		Vector operator+(const Vector &lhs, const Vector &rhs);
+		Vector operator-(const Vector &lhs, const Vector &rhs);
+		Vector operator*(float lhs, const Vector &rhs);
+		Vector operator*(const Vector &lhs, float rhs);
+		float operator*(const Vector &lhs, const Vector &rhs);
+		Vector operator/(const Vector &lhs, float rhs);
 	}
 }
 

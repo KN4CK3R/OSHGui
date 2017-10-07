@@ -74,7 +74,7 @@ namespace OSHGui
 			{
 				return;
 			}
-			if (index + length > (int)text_.length())
+			if (index + length > static_cast<int>(text_.length()))
 			{
 				length = text_.length() - index;
 			}
@@ -116,8 +116,8 @@ namespace OSHGui
 				}
 			}
 			
-			auto substring = text_.substr(0, trailing ? index + 1 : index);
-			Drawing::SizeF size(font_->GetTextExtent(substring), font_->GetFontHeight());
+			const auto substring = text_.substr(0, trailing ? index + 1 : index);
+			const Drawing::SizeF size(font_->GetTextExtent(substring), font_->GetFontHeight());
 			
 			return Drawing::PointF(size.Width, size.Height);//Drawing::PointF(size.Width - 2, size.Height < font->GetSize() ? font->GetSize() : size.Height);
 		}
@@ -133,14 +133,14 @@ namespace OSHGui
 				index = GetLength() - 1;
 			}
 
-			auto substring = size == -1 ? text_.substr(index) : text_.substr(index, size);
+			const auto substring = size == -1 ? text_.substr(index) : text_.substr(index, size);
 			return Drawing::SizeF(font_->GetTextExtent(substring), font_->GetFontHeight());
 		}
 		//---------------------------------------------------------------------------
 		int TextHelper::GetClosestCharacterIndex(const Drawing::PointF &position) const
 		{
-			int distance = 0xFFFF;
-			int result = 0;
+			auto distance = 0xFFFF;
+			auto result = 0;
 
 			if (position.Left >= size_.Width)
 			{
@@ -149,10 +149,9 @@ namespace OSHGui
 
 			for (unsigned int i = 0; i < text_.length(); ++i)
 			{
-				Drawing::PointF charPosition = GetCharacterPosition(i);
+				const auto charPosition = GetCharacterPosition(i);
 
-				int actualDistance = std::abs(charPosition.Left - position.Left);
-
+				const auto actualDistance = std::abs(charPosition.Left - position.Left);
 				if (actualDistance > distance)
 				{
 					break;

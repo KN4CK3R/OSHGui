@@ -78,8 +78,8 @@ namespace OSHGui
 		}
 		#endif
 
-		double hue = (1.0 / GetWidth()) * point.X;
-		hue = hue - (int)hue;
+		auto hue = (1.0 / GetWidth()) * point.X;
+		hue = hue - static_cast<int>(hue);
 		double saturation, brightness;
 		if (point.Y <= GetHeight() / 2.0)
 		{
@@ -119,17 +119,17 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorPicker::CalculateColorCursorLocation()
 	{
-		float red = color_.GetRed();
-		float green = color_.GetGreen();
-		float blue = color_.GetBlue();
-	
-		float max = blue;
+		const auto red = color_.GetRed();
+		const auto green = color_.GetGreen();
+		const auto blue = color_.GetBlue();
+
+		auto max = blue;
 		if (max > green)
 			max = green;
 		if (max > red)
 			max = red;
-		
-		float min = blue;
+
+		auto min = blue;
 		if (min < green)
 			min = green;
 		if (min < red)
@@ -142,20 +142,20 @@ namespace OSHGui
 		}
 		else
 		{
-			float f = max == red ? green - blue : max == green ? blue - red : red - green;
-			float i = max == red ? 3.0f : max == green ? 5.0f : 1.0f;
-			int hue = (int)std::floor((i - f / (min - max)) * 60) % 360;
-			int sat = (int)std::floor(((min - max) / min) * 100);
-			int val = (int)std::floor(min * 100);
+			const auto f = max == red ? green - blue : max == green ? blue - red : red - green;
+			const auto i = max == red ? 3.0f : max == green ? 5.0f : 1.0f;
+			const auto hue = static_cast<int>(std::floor((i - f / (min - max)) * 60)) % 360;
+			const auto sat = static_cast<int>(std::floor(((min - max) / min) * 100));
+			const auto val = static_cast<int>(std::floor(min * 100));
 		 
-			colorCursorLocation_.Left = (int)(hue * (GetWidth() / 360.0f));
+			colorCursorLocation_.Left = static_cast<int>(hue * (GetWidth() / 360.0f));
 			if (val == 100 && sat != 100)
 			{
-				colorCursorLocation_.Top = (int)((GetHeight() / 2.0f) - ((100 - sat) * (GetHeight() / 200.0f)));
+				colorCursorLocation_.Top = static_cast<int>((GetHeight() / 2.0f) - ((100 - sat) * (GetHeight() / 200.0f)));
 			}
 			else
 			{
-				colorCursorLocation_.Top = (int)(GetHeight() - (val * (GetHeight() / 200.0f)));
+				colorCursorLocation_.Top = static_cast<int>(GetHeight() - (val * (GetHeight() / 200.0f)));
 			}
 		}
 	}

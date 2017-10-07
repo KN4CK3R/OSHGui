@@ -53,7 +53,7 @@ namespace OSHGui
 		 *
 		 * return isEnabled
 		 */
-		const bool IsEnabled() const;
+		bool IsEnabled() const;
 		/**
 		 * Ruft die aktuelle Uhrzeit ab.
 		 *

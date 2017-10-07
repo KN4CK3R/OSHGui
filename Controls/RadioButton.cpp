@@ -68,7 +68,7 @@ namespace OSHGui
 		if (checked_)
 		{
 			g.FillRectangle(Color::White() - Color::FromARGB(0, 128, 128, 128), RectangleF(PointF(5, 7), SizeF(7, 3)));
-			ColorRectangle colors(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137));
+			const ColorRectangle colors(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137));
 			g.FillRectangleGradient(colors, RectangleF(PointF(7, 5), SizeF(3, 7)));
 			g.FillRectangleGradient(colors, RectangleF(PointF(6, 6), SizeF(5, 5)));
 		}

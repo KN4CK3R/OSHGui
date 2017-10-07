@@ -121,7 +121,7 @@ namespace OSHGui
 		uint32_t FreeTypeFont::GetTextureSize(CodepointIterator start, CodepointIterator end) const
 		{
 			auto size = 32;
-			auto maximum = Application::Instance().GetRenderer().GetMaximumTextureSize();
+			const auto maximum = Application::Instance().GetRenderer().GetMaximumTextureSize();
 			auto count = 0;
 
 			while (size < maximum)
@@ -141,8 +141,8 @@ namespace OSHGui
 						continue;
 					}
 
-					auto glyphWidth = (int)std::ceil(fontFace->glyph->metrics.width * FT_PosCoefficient) + GlyphPadding;
-					auto glyphHeight = (int)std::ceil(fontFace->glyph->metrics.height * FT_PosCoefficient) + GlyphPadding;
+					const auto glyphWidth = static_cast<int>(std::ceil(fontFace->glyph->metrics.width * FT_PosCoefficient)) + GlyphPadding;
+					const auto glyphHeight = static_cast<int>(std::ceil(fontFace->glyph->metrics.height * FT_PosCoefficient)) + GlyphPadding;
 
 					x += glyphWidth;
 					if (x > size)
@@ -150,7 +150,7 @@ namespace OSHGui
 						x = GlyphPadding;
 						y = yb;
 					}
-					auto yy = y + glyphHeight;
+					const auto yy = y + glyphHeight;
 					if (yy > size)
 					{
 						goto too_small;
@@ -180,11 +180,11 @@ namespace OSHGui
 				return;
 			}
 
-			auto bck = start;
-			auto end = glyphMap.upper_bound(endCodepoint);
+			const auto bck = start;
+			const auto end = glyphMap.upper_bound(endCodepoint);
 			while (true)
 			{
-				auto textureSize = GetTextureSize(start, end);
+				const auto textureSize = GetTextureSize(start, end);
 				if (textureSize == 0)
 				{
 					break;
@@ -210,14 +210,14 @@ namespace OSHGui
 					{
 						if (FT_Load_Char(fontFace, start->first, FT_LOAD_RENDER | (antiAliased ? FT_LOAD_TARGET_NORMAL : FT_LOAD_TARGET_MONO)) != 0)
 						{
-							auto image = std::make_shared<Image>(texture, RectangleF(0, 0, 0, 0), PointF(0, 0));
+							const auto image = std::make_shared<Image>(texture, RectangleF(0, 0, 0, 0), PointF(0, 0));
 							glyphImages.push_back(image);
 							start->second.SetImage(image);
 						}
 						else
 						{
-							auto glyphWidth = fontFace->glyph->bitmap.width + GlyphPadding;
-							auto glyphHeight = fontFace->glyph->bitmap.rows + GlyphPadding;
+							const auto glyphWidth = fontFace->glyph->bitmap.width + GlyphPadding;
+							const auto glyphHeight = fontFace->glyph->bitmap.rows + GlyphPadding;
 
 							auto next = x + glyphWidth;
 							if (next > textureSize)
@@ -227,7 +227,7 @@ namespace OSHGui
 								y = yb;
 							}
 
-							auto bottom = y + glyphHeight;
+							const auto bottom = y + glyphHeight;
 							if (bottom > textureSize)
 							{
 								break;
@@ -238,7 +238,7 @@ namespace OSHGui
 							RectangleF area(x, y, glyphWidth - GlyphPadding, glyphHeight - GlyphPadding);
 							PointF offset(fontFace->glyph->metrics.horiBearingX * FT_PosCoefficient, -fontFace->glyph->metrics.horiBearingY * FT_PosCoefficient);
 
-							auto image = std::make_shared<Image>(texture, area, offset);
+							const auto image = std::make_shared<Image>(texture, area, offset);
 							glyphImages.push_back(image);
 							start->second.SetImage(image);
 
@@ -279,7 +279,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void FreeTypeFont::DrawGlyphToBuffer(uint32_t *buffer, uint32_t width) const
 		{
-			auto bitmap = &fontFace->glyph->bitmap;
+			const auto bitmap = &fontFace->glyph->bitmap;
 
 			for (auto i = 0; i < bitmap->rows; ++i)
 			{
@@ -289,7 +289,7 @@ namespace OSHGui
 					case FT_PIXEL_MODE_GRAY:
 						{
 							auto dst = reinterpret_cast<uint8_t*>(buffer);
-							for (int j = 0; j < bitmap->width; ++j)
+							for (auto j = 0; j < bitmap->width; ++j)
 							{
 								*dst++ = 0xFF;
 								*dst++ = 0xFF;
@@ -344,21 +344,21 @@ namespace OSHGui
 				throw Misc::Exception();
 			}
 
-			auto dpiHorizontal = static_cast<uint32_t>(Application::Instance().GetRenderer().GetDisplayDPI().X);
-			auto dpiVertical = static_cast<uint32_t>(Application::Instance().GetRenderer().GetDisplayDPI().Y);
+			const auto dpiHorizontal = static_cast<uint32_t>(Application::Instance().GetRenderer().GetDisplayDPI().X);
+			const auto dpiVertical = static_cast<uint32_t>(Application::Instance().GetRenderer().GetDisplayDPI().Y);
 
-			auto hps = pointSize * 64.0f;
-			auto vps = pointSize * 64.0f;
+			const auto hps = pointSize * 64.0f;
+			const auto vps = pointSize * 64.0f;
 
 			if (FT_Set_Char_Size(fontFace, FT_F26Dot6(hps), FT_F26Dot6(vps), dpiHorizontal, dpiVertical) != 0)
 			{
-				auto ptSize72 = (pointSize * 72.0f) / dpiVertical;
+				const auto ptSize72 = (pointSize * 72.0f) / dpiVertical;
 				auto bestDelta = 99999.0f;
 				auto bestSize = 0.0f;
 				for (int i = 0; i < fontFace->num_fixed_sizes; i++)
 				{
-					float size = fontFace->available_sizes[i].size * FT_PosCoefficient;
-					float delta = std::abs(size - ptSize72);
+					const auto size = fontFace->available_sizes[i].size * FT_PosCoefficient;
+					const auto delta = std::abs(size - ptSize72);
 					if (delta < bestDelta)
 					{
 						bestDelta = delta;
@@ -374,7 +374,7 @@ namespace OSHGui
 
 			if (fontFace->face_flags & FT_FACE_FLAG_SCALABLE)
 			{
-				float scaleY = fontFace->size->metrics.y_scale * FT_PosCoefficient * (1.0f / 65536.0f);
+				const auto scaleY = fontFace->size->metrics.y_scale * FT_PosCoefficient * (1.0f / 65536.0f);
 				ascender = fontFace->ascender * scaleY;
 				descender = fontFace->descender * scaleY;
 				height = fontFace->height * scaleY;
@@ -422,7 +422,7 @@ namespace OSHGui
 				return;
 			}
 
-			auto advance = fontFace->glyph->metrics.horiAdvance * FT_PosCoefficient;
+			const auto advance = fontFace->glyph->metrics.horiAdvance * FT_PosCoefficient;
 
 			it->second.SetAdvance(advance);
 			it->second.SetValid(true);

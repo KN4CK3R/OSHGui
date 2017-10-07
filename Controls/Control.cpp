@@ -136,7 +136,7 @@ namespace OSHGui
 		SetBounds(bounds.GetLocation(), bounds.GetSize());
 	}
 	//---------------------------------------------------------------------------
-	const Drawing::RectangleI Control::GetBounds() const
+	Drawing::RectangleI Control::GetBounds() const
 	{
 		return Drawing::RectangleI(location_, size_);
 	}
@@ -177,10 +177,10 @@ namespace OSHGui
 
 		Invalidate();
 
-		auto offset = size_ - GetSize();
+		const auto offset = size_ - GetSize();
 		for (auto &control : controls_)
 		{
-			AnchorStyles anchor = control->GetAnchor();
+			const auto anchor = control->GetAnchor();
 
 			if (anchor != (AnchorStyles::Top | AnchorStyles::Left))
 			{

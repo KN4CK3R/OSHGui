@@ -164,7 +164,7 @@ namespace OSHGui
 		Graphics g(*geometry_);
 
 		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
-		auto color = GetBackColor() - Color::FromARGB(0, 90, 90, 90);
+		const auto color = GetBackColor() - Color::FromARGB(0, 90, 90, 90);
 		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor(), color, color), RectangleF(PointF(1, 1), GetSize() - SizeF(2, 2)));
 		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 50, 50, 50), RectangleF(PointF(5, captionBar_->GetBottom() + 2), SizeF(GetWidth() - 10, 1)));
 	}
@@ -204,9 +204,9 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto color = GetParent()->GetForeColor();
+		const auto color = GetParent()->GetForeColor();
 
-		for (int i = 0; i < 4; ++i)
+		for (auto i = 0; i < 4; ++i)
 		{
 			g.FillRectangle(color, PointF(i, i), SizeF(3, 1));
 			g.FillRectangle(color, PointF(6 - i, i), SizeF(3, 1));

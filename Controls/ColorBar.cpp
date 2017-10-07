@@ -26,7 +26,7 @@ namespace OSHGui
 	{
 		type_ = ControlType::ColorBar;
 	
-		for (int i = 0; i < 3; ++i)
+		for (auto i = 0; i < 3; ++i)
 		{
 			bars_.push_back(Drawing::Color::Black());
 			barSliderLocation_.push_back(Drawing::PointI(0, i * 15 + 9));
@@ -83,21 +83,21 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	void ColorBar::UpdateColor()
 	{
-		float multi = 1.0f / (GetWidth() - 2);
-		float newColor = multi * barSliderLocation_[barIndex_].Left;
+		const auto multi = 1.0f / (GetWidth() - 2);
+		const auto newColor = multi * barSliderLocation_[barIndex_].Left;
 		
 		SetColor(Drawing::Color(barIndex_ == 0 ? newColor : color_.GetRed(), barIndex_ == 1 ? newColor : color_.GetGreen(), barIndex_ == 2 ? newColor : color_.GetBlue()));
 	}
 	//---------------------------------------------------------------------------
 	void ColorBar::UpdateBars()
 	{
-		float multi = GetWidth() - 2;
-		for (int i = 0; i < 3; ++i)
+		const float multi = GetWidth() - 2;
+		for (auto i = 0; i < 3; ++i)
 		{
 			bars_[i].TopLeft = bars_[i].BottomLeft = i == 0 ? Drawing::Color(0, color_.GetGreen(), color_.GetBlue()) : i == 1 ? Drawing::Color(color_.GetRed(), 0, color_.GetBlue()) : Drawing::Color(color_.GetRed(), color_.GetGreen(), 0);
 			bars_[i].TopRight = bars_[i].BottomRight = color_;
 			
-			barSliderLocation_[i].Left = (int)((i == 0 ? color_.GetRed() : i == 1 ? color_.GetGreen() : color_.GetBlue()) * multi);
+			barSliderLocation_[i].Left = static_cast<int>((i == 0 ? color_.GetRed() : i == 1 ? color_.GetGreen() : color_.GetBlue()) * multi);
 			barSliderLocation_[i].Top = i * 15 + 9;
 			barSliderAbsoluteLocation_[i] = absoluteLocation_ + barSliderLocation_[i];
 		}
@@ -115,7 +115,7 @@ namespace OSHGui
 		{
 			g.FillRectangleGradient(bars_[i], RectangleF(PointI(0, i * 15), SizeI(GetWidth(), 8)));
 
-			auto sliderPos = barSliderLocation_[i] + PointI(1, 0);
+			const auto sliderPos = barSliderLocation_[i] + PointI(1, 0);
 			for (int j = 0; j < 3; ++j)
 			{
 				g.FillRectangle(GetForeColor(), RectangleF(PointI(sliderPos.X - j, sliderPos.Y + j), SizeI(1 + j * 2, 1)));
@@ -131,9 +131,9 @@ namespace OSHGui
 
 		drag_[0] = drag_[1] = drag_[2] = false;
 
-		for (int i = 0; i < 3; ++i)
+		for (auto i = 0; i < 3; ++i)
 		{
-			auto barLocation = Drawing::PointI(absoluteLocation_.Left, absoluteLocation_.Top + i * 15);
+			const auto barLocation = Drawing::PointI(absoluteLocation_.Left, absoluteLocation_.Top + i * 15);
 			if (Intersection::TestRectangle(barLocation, DefaultBarSize, mouse.GetLocation()))
 			{
 				barIndex_ = i;
@@ -142,7 +142,7 @@ namespace OSHGui
 
 				OnGotMouseCapture();
 
-				int localLocation = mouse.GetLocation().Left - absoluteLocation_.Left;
+				const auto localLocation = mouse.GetLocation().Left - absoluteLocation_.Left;
 				if (localLocation < 0)
 				{
 					barSliderLocation_[barIndex_].Left = 0;
@@ -185,7 +185,7 @@ namespace OSHGui
 
 		if (drag_[barIndex_])
 		{
-			int localLocation = mouse.GetLocation().Left - absoluteLocation_.Left;
+			const auto localLocation = mouse.GetLocation().Left - absoluteLocation_.Left;
 			if (localLocation < 0)
 			{
 				barSliderLocation_[barIndex_].Left = 0;

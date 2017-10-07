@@ -11,7 +11,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		const Style::ControlStyle& Style::GetControlStyle(ControlType type) const
 		{
-			auto it = controlStyles.find(type);
+			const auto it = controlStyles.find(type);
 			if (it == controlStyles.end())
 			{
 				return DefaultColor;

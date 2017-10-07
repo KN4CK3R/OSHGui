@@ -24,7 +24,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	const std::shared_ptr<Cursor>& Cursors::Get(Cursors::CursorType cursorType)
 	{
-		auto it = cursors.find(cursorType);
+		const auto it = cursors.find(cursorType);
 		if (it == cursors.end())
 		{
 			std::shared_ptr<Cursor> cursor;

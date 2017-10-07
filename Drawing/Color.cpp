@@ -31,10 +31,10 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Color::Color()
-			: blue_(0),
-			  green_(0),
+			: alpha_(0),
 			  red_(0),
-			  alpha_(0),
+			  green_(0),
+			  blue_(0),
 			  argb_(0)
 		{
 
@@ -46,19 +46,19 @@ namespace OSHGui
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(float red, float green, float blue)
-			: blue_(blue),
-			  green_(green),
+			: alpha_(1.0f),
 			  red_(red),
-			  alpha_(1)
+			  green_(green),
+			  blue_(blue)
 		{
 			CalculateARGB();
 		}
 		//---------------------------------------------------------------------------
 		Color::Color(float alpha, float red, float green, float blue)
-			: blue_(blue),
-			  green_(green),
+			: alpha_(alpha < 0.f ? 0.f : alpha > 1.f ? 1.f : alpha),
 			  red_(red),
-			  alpha_(alpha < 0.f ? 0.f : alpha > 1.f ? 1.f : alpha)
+			  green_(green),
+			  blue_(blue)
 		{
 			CalculateARGB();
 		}
@@ -175,14 +175,14 @@ namespace OSHGui
 				return 0.0f;
 			}
 
-			float r = red_;
-			float g = green_;
-			float b = blue_;
+			const auto r = red_;
+			const auto g = green_;
+			const auto b = blue_;
 
-			float max = r > g ? r : g > b ? g : b;
-			float min = r < g ? r : g < b ? g : b;
-			float delta = max - min; 
-			float hue = 0.0f;
+			const auto max = r > g ? r : g > b ? g : b;
+			const auto min = r < g ? r : g < b ? g : b;
+			const auto delta = max - min;
+			auto hue = 0.0f;
 
 			if (r == max)
 			{
@@ -207,17 +207,17 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::Saturation() const
 		{
-			float r = red_;
-			float g = green_;
-			float b = blue_;
+			const auto r = red_;
+			const auto g = green_;
+			const auto b = blue_;
 
-			float max = r > g ? r : g > b ? g : b;
-			float min = r < g ? r : g < b ? g : b;
-			float s = 0;
+			const auto max = r > g ? r : g > b ? g : b;
+			const auto min = r < g ? r : g < b ? g : b;
+			auto s = 0.0f;
 
 			if (max != min)
 			{
-				float l = (max + min) / 2;
+				const auto l = (max + min) / 2;
 
 				if (l <= 0.5f)
 				{
@@ -234,23 +234,23 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		float Color::Brightness() const
 		{
-			float r = red_;
-			float g = green_;
-			float b = blue_;
+			const auto r = red_;
+			const auto g = green_;
+			const auto b = blue_;
 		
-			float max = r > g ? r : g > b ? g : b;
-			float min = r < g ? r : g < b ? g : b;
+			const auto max = r > g ? r : g > b ? g : b;
+			const auto min = r < g ? r : g < b ? g : b;
 
 			return (max + min) / 2;
 		}
 		//---------------------------------------------------------------------------
 		Color Color::FromHSB(float hue, float saturation, float brightness)
 		{
-			float h = hue == 1.0f ? 0 : hue * 6.0f;
-			float f = h - (int)h;
-			float p = brightness * (1.0f - saturation);
-			float q = brightness * (1.0f - saturation * f);
-			float t = brightness * (1.0f - (saturation * (1.0f - f)));
+			const auto h = hue == 1.0f ? 0 : hue * 6.0f;
+			const auto f = h - static_cast<int>(h);
+			const auto p = brightness * (1.0f - saturation);
+			const auto q = brightness * (1.0f - saturation * f);
+			const auto t = brightness * (1.0f - (saturation * (1.0f - f)));
 
 			if (h < 1)
 			{
@@ -291,22 +291,22 @@ namespace OSHGui
 			return !(lhs == rhs);
 		}
 		//---------------------------------------------------------------------------
-		const Color operator+(const Color &lhs, const Color &rhs)
+		Color operator+(const Color &lhs, const Color &rhs)
 		{
 			return Color(lhs.alpha_ + rhs.alpha_, lhs.red_ + rhs.red_, lhs.green_ + rhs.green_, lhs.blue_ + rhs.blue_);
 		}
 		//---------------------------------------------------------------------------
-		const Color operator-(const Color &lhs, const Color &rhs)
+		Color operator-(const Color &lhs, const Color &rhs)
 		{
 			return Color(lhs.alpha_ - rhs.alpha_, lhs.red_ - rhs.red_, lhs.green_ - rhs.green_, lhs.blue_ - rhs.blue_);
 		}
 		//---------------------------------------------------------------------------
-		const Color operator*(const Color &lhs, const Color &rhs)
+		Color operator*(const Color &lhs, const Color &rhs)
 		{
 			return Color(lhs.alpha_ * rhs.alpha_, lhs.red_ * rhs.red_, lhs.green_ * rhs.green_, lhs.blue_ * rhs.blue_);
 		}
 		//---------------------------------------------------------------------------
-		const Color operator*(const Color &lhs, float rhs)
+		Color operator*(const Color &lhs, float rhs)
 		{
 			return Color(lhs.alpha_ * rhs, lhs.red_ * rhs, lhs.green_ * rhs, lhs.blue_ * rhs);
 		}

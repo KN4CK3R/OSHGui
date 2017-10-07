@@ -14,7 +14,7 @@
 
 namespace OSHGui
 {
-	enum MouseState
+	enum class MouseState
 	{
 		/**
 		 * Unbekannt

@@ -194,7 +194,7 @@ namespace OSHGui
 		}
 
 		SetSize(formWidth, formHeight);
-		auto screen = Application::Instance().GetRenderer().GetDisplaySize();
+		const auto screen = Application::Instance().GetRenderer().GetDisplaySize();
 		SetLocation(screen.Width / 2 - formWidth / 2, screen.Height / 2 - formHeight / 2);
 		
 		AddButtons(labels, eventHandler);

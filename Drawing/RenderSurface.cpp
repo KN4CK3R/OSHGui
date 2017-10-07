@@ -13,17 +13,17 @@ namespace OSHGui
 
 		void RenderSurface::AddGeometry(RenderQueueType type, const GeometryBufferPtr &geometry)
 		{
-			queue[(int)type].AddGeometryBuffer(geometry);
+			queue[static_cast<int>(type)].AddGeometryBuffer(geometry);
 		}
 
 		void RenderSurface::RemoveGeometry(RenderQueueType type, const GeometryBufferPtr &geometry)
 		{
-			queue[(int)type].RemoveGeometryBuffer(geometry);
+			queue[static_cast<int>(type)].RemoveGeometryBuffer(geometry);
 		}
 
 		void RenderSurface::ResetQueue(RenderQueueType type)
 		{
-			queue[(int)type].Reset();
+			queue[static_cast<int>(type)].Reset();
 		}
 
 		void RenderSurface::Reset()

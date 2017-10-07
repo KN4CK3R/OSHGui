@@ -21,11 +21,11 @@ namespace OSHGui
 	Application::Application(std::unique_ptr<Drawing::Renderer> &&renderer)
 		: renderer_(std::move(renderer)),
 		  guiSurface_(*renderer_->GetDefaultRenderTarget()),
-		  isEnabled_(false),
 		  now_(Misc::DateTime::GetNow()),
 		  FocusedControl(nullptr),
 		  CaptureControl(nullptr),
-		  MouseEnteredControl(nullptr)
+		  MouseEnteredControl(nullptr),
+		  isEnabled_(false)
 	{
 		Drawing::Style style;
 
@@ -85,7 +85,7 @@ namespace OSHGui
 		instance->SetCursor(Cursors::Get(Cursors::Default));
 	}
 	//---------------------------------------------------------------------------
-	const bool Application::IsEnabled() const
+	bool Application::IsEnabled() const
 	{
 		return isEnabled_;
 	}
@@ -276,7 +276,7 @@ namespace OSHGui
 	{
 		if (keyboard.GetState() == KeyboardState::KeyDown)
 		{
-			bool hotkeyFired = false;
+			auto hotkeyFired = false;
 			for (auto &hotkey : hotkeys_)
 			{
 				if (hotkey.GetKey() == keyboard.GetKeyCode() && hotkey.GetModifier() == keyboard.GetModifier())

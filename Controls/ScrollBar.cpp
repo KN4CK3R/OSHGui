@@ -202,10 +202,10 @@ namespace OSHGui
 		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(0, 1), SizeF(1, sliderSize_.Height - 2));
 		g.FillRectangle(GetBackColor(), sliderLocation_ + PointF(1, 0), SizeF(sliderSize_.Width - 2, 1));
 
-		auto color = isInside_ ? GetForeColor() + Color::FromARGB(0, 50, 50, 50) : GetForeColor();
-		int sliderHalfHeight = sliderLocation_.Y + sliderSize_.Height / 2 - 3;
-		int sliderLeftPos = sliderLocation_.X + 5;
-		for (int i = 0; i < 3; ++i)
+		const auto color = isInside_ ? GetForeColor() + Color::FromARGB(0, 50, 50, 50) : GetForeColor();
+		const auto sliderHalfHeight = sliderLocation_.Y + sliderSize_.Height / 2 - 3;
+		const auto sliderLeftPos = sliderLocation_.X + 5;
+		for (auto i = 0; i < 3; ++i)
 		{
 			g.FillRectangle(color, PointF(sliderLeftPos, sliderHalfHeight + i * 3), SizeF(5, 1));
 		}
@@ -233,9 +233,9 @@ namespace OSHGui
 		{
 			if (maximum_ >= 1)
 			{
-				float valuePerPixel = (float)maximum_ / (trackSize_.Height - sliderSize_.Height);
+				const auto valuePerPixel = static_cast<float>(maximum_) / (trackSize_.Height - sliderSize_.Height);
 
-				int yPos = mouse.GetLocation().Y - trackAbsoluteLocation_.Top - sliderSize_.Height / 2;
+				auto yPos = mouse.GetLocation().Y - trackAbsoluteLocation_.Top - sliderSize_.Height / 2;
 				if (yPos < 0)
 				{
 					yPos = 0;
@@ -270,8 +270,8 @@ namespace OSHGui
 		{
 			if (Intersection::TestRectangle(trackAbsoluteLocation_, trackSize_, mouse.GetLocation()))
 			{
-				float valuePerPixel = (float)maximum_ / (trackSize_.Height - sliderSize_.Height);
-				int yPos = mouse.GetLocation().Y - trackAbsoluteLocation_.Top - sliderSize_.Height / 2;
+				const auto valuePerPixel = static_cast<float>(maximum_) / (trackSize_.Height - sliderSize_.Height);
+				const auto yPos = mouse.GetLocation().Y - trackAbsoluteLocation_.Top - sliderSize_.Height / 2;
 				SetValueInternal(yPos * valuePerPixel + 0.5f);
 			}
 		}
@@ -310,18 +310,18 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto color = isInside_ ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
+		const auto color = isInside_ ? GetForeColor() + Color(0, 50, 50, 50) : GetForeColor();
 
 		if (direction_ == ScrollBarDirection::Up)
 		{
-			for (int i = 0; i < 4; ++i)
+			for (auto i = 0; i < 4; ++i)
 			{
 				g.FillRectangle(color, iconLocation_ + PointF(-i, i), SizeF(1 + i * 2, 1));
 			}
 		}
 		else
 		{
-			for (int i = 0; i < 4; ++i)
+			for (auto i = 0; i < 4; ++i)
 			{
 				g.FillRectangle(color, iconLocation_ - PointF(i, i), SizeF(1 + i * 2, 1));
 			}

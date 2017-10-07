@@ -25,10 +25,10 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void ImageGraphics::DrawLine(const ColorRectangle &color, const PointF &from, const PointF &to)
 		{
-			auto dx = std::abs(to.X - from.X);
-			auto dy = std::abs(to.Y - from.Y);
-			auto sx = from.X < to.X ? 1 : -1;
-			auto sy = from.Y < to.Y ? 1 : -1;
+			const auto dx = std::abs(to.X - from.X);
+			const auto dy = std::abs(to.Y - from.Y);
+			const auto sx = from.X < to.X ? 1 : -1;
+			const auto sy = from.Y < to.Y ? 1 : -1;
 			auto err = dx - dy;
 
 			auto x = from.X;
@@ -40,7 +40,7 @@ namespace OSHGui
 				{
 					break;
 				}
-				auto err2 = 2 * err;
+				const auto err2 = 2 * err;
 				if (err2 > -dy)
 				{
 					err -= dy;
@@ -86,17 +86,17 @@ namespace OSHGui
 
 			std::vector<int> nodes;
 
-			auto size = image.GetSize();
+			const auto size = image.GetSize();
 
 			for (int y = 0; y < size.Height; ++y)
 			{
 				nodes.clear();
 				auto j = vertices.size() - 1;
-				for (int i = 0; i < vertices.size(); ++i)
+				for (auto i = 0; i < vertices.size(); ++i)
 				{
 					if ((vertices[i].Y < y && vertices[j].Y >= y) || (vertices[j].Y < y && vertices[i].Y >= y))
 					{
-						nodes.push_back((int)(vertices[i].X + (y - vertices[i].Y) / (vertices[j].Y - vertices[i].Y) * (vertices[j].X - vertices[i].X)));
+						nodes.push_back(static_cast<int>(vertices[i].X + (y - vertices[i].Y) / (vertices[j].Y - vertices[i].Y) * (vertices[j].X - vertices[i].X)));
 					}
 					j = i;
 				}
@@ -105,7 +105,7 @@ namespace OSHGui
 				{
 					std::sort(std::begin(nodes), std::end(nodes));
 
-					for (int i = 0; i < nodes.size() - 1; i += 2)
+					for (auto i = 0; i < nodes.size() - 1; i += 2)
 					{
 						if (nodes[i] >= size.Width)
 						{
@@ -143,16 +143,16 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void ImageGraphics::FillEllipse(const ColorRectangle &color, const RectangleF &region)
 		{
-			int a = region.GetWidth() / 2;
-			int b = region.GetHeight() / 2;
-			int xc = region.GetLeft();
-			int yc = region.GetTop();
-			int x = 0;
-			int y = b;
-			int a2 = a * a;
-			int b2 = b * b;
-			int xp = 1;
-			int yp = y;
+			const auto a = region.GetWidth() / 2;
+			const auto b = region.GetHeight() / 2;
+			const auto xc = region.GetLeft();
+			const auto yc = region.GetTop();
+			auto x = 0;
+			auto y = b;
+			const auto a2 = a * a;
+			const auto b2 = b * b;
+			auto xp = 1;
+			auto yp = y;
 
 			while (b2 * x < a2 * y)
 			{

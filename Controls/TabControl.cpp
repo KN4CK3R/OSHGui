@@ -71,7 +71,7 @@ namespace OSHGui
 
 		if (selected_ != nullptr)
 		{
-			auto tabPageSize = size.InflateEx(0, -selected_->Button->GetHeight());
+			const auto tabPageSize = size.InflateEx(0, -selected_->Button->GetHeight());
 
 			for (auto &binding : bindings_)
 			{
@@ -123,12 +123,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage(int index) const
 	{
-		if (index > 0 && index < (int)bindings_.size())
+		if (index > 0 && index < static_cast<int>(bindings_.size()))
 		{
 			return bindings_[index]->TabPage;
 		}
 
-		return 0;
+		return nullptr;
 	}
 	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedIndex(int index)
@@ -283,8 +283,8 @@ namespace OSHGui
 		{
 			maxIndex_ = startIndex_;
 
-			int tempWidth = 0;
-			int maxWidth = size_.Width - TabControlSwitchButton::DefaultSize.Width;
+			auto tempWidth = 0;
+			const auto maxWidth = size_.Width - TabControlSwitchButton::DefaultSize.Width;
 			for (auto &binding : bindings_)
 			{
 				auto button = binding->Button;
@@ -317,7 +317,7 @@ namespace OSHGui
 			{
 				lastSwitchButton_->SetVisible(false);
 			}
-			if (maxIndex_ < (int)bindings_.size())
+			if (maxIndex_ < static_cast<int>(bindings_.size()))
 			{
 				nextSwitchButton_->SetVisible(true);
 			}
@@ -360,7 +360,7 @@ namespace OSHGui
 
 		if (selected_ != nullptr && selected_->TabPage != nullptr)
 		{
-			for (int i = startIndex_; i < maxIndex_; ++i)
+			for (auto i = startIndex_; i < maxIndex_; ++i)
 			{
 				bindings_[i]->Button->Render();
 			}
@@ -450,7 +450,7 @@ namespace OSHGui
 		}
 		else
 		{
-			auto backInactive = (isInside_ ? GetBackColor() + Color::FromARGB(0, 50, 50, 50) : GetBackColor()) - Color::FromARGB(0, 47, 47, 47);
+			const auto backInactive = (isInside_ ? GetBackColor() + Color::FromARGB(0, 50, 50, 50) : GetBackColor()) - Color::FromARGB(0, 47, 47, 47);
 
 			g.FillRectangle(backInactive + Color::FromARGB(0, 9, 9, 9), PointF(0, 0), GetSize());
 			g.FillRectangleGradient(ColorRectangle(backInactive, backInactive - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 1));
@@ -473,22 +473,22 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto base = isInside_ ? GetBackColor() : GetBackColor() - Color::FromARGB(0, 47, 47, 47);
-		auto borderColor = GetBackColor() + Color::FromARGB(0, 9, 9, 9);
+		const auto base = isInside_ ? GetBackColor() : GetBackColor() - Color::FromARGB(0, 47, 47, 47);
+		const auto borderColor = GetBackColor() + Color::FromARGB(0, 9, 9, 9);
 
 		g.FillRectangle(borderColor, PointF(0, 0), GetSize());
 		g.FillRectangle(base, PointF(1, 1), GetSize() - SizeF(2, 2));
 
 		if (direction_ == TabControlSwitchButtonDirection::Left)
 		{
-			for (int i = 0; i < 3; ++i)
+			for (auto i = 0; i < 3; ++i)
 			{
 				g.FillRectangle(GetForeColor(), PointF(3 + i, 4 - i), SizeF(1, 1 + i * 2));
 			}
 		}
 		else
 		{
-			for (int i = 0; i < 3; ++i)
+			for (auto i = 0; i < 3; ++i)
 			{
 				g.FillRectangle(GetForeColor(), PointF(3 + i, 2 + i), SizeF(1, 5 - i * 2));
 			}
