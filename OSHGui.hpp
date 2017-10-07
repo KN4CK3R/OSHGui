@@ -1,7 +1,7 @@
 /*
  * OldSchoolHack GUI
  *
- * by KN4CK3R http://www.oldschoolhack.me
+ * by KN4CK3R https://www.oldschoolhack.me/
  *
  * MIT License
  *
