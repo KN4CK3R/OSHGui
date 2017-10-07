@@ -10,99 +10,100 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		Direct3D10StateBlock::Direct3D10StateBlock(ID3D10Device *device)
-			: _device(device),
-			_primitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED),
-			_inputLayout(nullptr),
-			_blendState(nullptr),
-			_sampleMask(0),
-			_depthStencilState(nullptr),
-			_stencilRef(0),
-			_rasterizerState(nullptr),
-			_VS(nullptr),
-			_GS(nullptr),
-			_PS(nullptr),
-			_VB(nullptr),
-			_vertexStride(0),
-			_vertexOffset(0),
-			_indexBuffer(nullptr),
-			_indexFormat(DXGI_FORMAT_UNKNOWN),
-			_indexOffset(0),
-			_depthView(nullptr),
-			_numViewports(D3D10_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE)
+			: device(device),
+			  primitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_UNDEFINED),
+			  inputLayout(nullptr),
+			  blendState(nullptr),
+			  sampleMask(0),
+			  depthStencilState(nullptr),
+			  stencilRef(0),
+			  rasterizerState(nullptr),
+			  vertexShader(nullptr),
+			  pixelShader(nullptr),
+			  depthStencilView(nullptr),
+			  viewportCount(D3D10_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE),
+			  geometryShader(nullptr),
+			  vertexBuffers(nullptr),
+			  vertexStride(0),
+			  vertexOffset(0),
+			  indexBuffer(nullptr),
+			  indexFormat(DXGI_FORMAT_UNKNOWN),
+			  indexOffset(0)
 		{
-			_device->AddRef();
+			device->AddRef();
 
-			std::memset(_blendFactor, 0, sizeof(_blendFactor));
-			std::memset(_VSConstantBuffer, 0, sizeof(_VSConstantBuffer));
-			std::memset(_GSConstantBuffer, 0, sizeof(_GSConstantBuffer));
-			std::memset(_samplerState, 0, sizeof(_samplerState));
-			std::memset(_PSSRV, 0, sizeof(_PSSRV));
-			std::memset(_constantBuffers, 0, sizeof(_constantBuffers));
-			std::memset(_RTView, 0, sizeof(_RTView));
+			std::memset(blendFactor, 0, sizeof(blendFactor));
+			std::memset(vertexShaderBuffers, 0, sizeof(vertexShaderBuffers));
+			std::memset(geometryShaderBuffers, 0, sizeof(geometryShaderBuffers));
+			std::memset(samplerStates, 0, sizeof(samplerStates));
+			std::memset(pixelShaderResourceViews, 0, sizeof(pixelShaderResourceViews));
+			std::memset(pixelShaderBuffers, 0, sizeof(pixelShaderBuffers));
+			std::memset(renderTargetViews, 0, sizeof(renderTargetViews));
 		}
 		//---------------------------------------------------------------------------
 		Direct3D10StateBlock::~Direct3D10StateBlock()
 		{
 			Release();
 
-			_device->Release();
+			device->Release();
 		}
 		//---------------------------------------------------------------------------
 		//Runtime-Functions
 		//---------------------------------------------------------------------------
 		void Direct3D10StateBlock::Capture()
 		{
-			_device->IAGetPrimitiveTopology(&_primitiveTopology);
-			_device->IAGetInputLayout(&_inputLayout);
+			device->IAGetPrimitiveTopology(&primitiveTopology);
+			device->IAGetInputLayout(&inputLayout);
 
-			_device->OMGetBlendState(&_blendState, _blendFactor, &_sampleMask);
-			_device->OMGetDepthStencilState(&_depthStencilState, &_stencilRef);
+			device->OMGetBlendState(&blendState, blendFactor, &sampleMask);
+			device->OMGetDepthStencilState(&depthStencilState, &stencilRef);
 
-			_device->RSGetState(&_rasterizerState);
+			device->RSGetState(&rasterizerState);
 
-			_device->VSGetShader(&_VS);
-			_device->VSGetConstantBuffers(0, 3, _VSConstantBuffer);
+			device->VSGetShader(&vertexShader);
+			device->VSGetConstantBuffers(0, 3, vertexShaderBuffers);
 
-			_device->PSGetShader(&_PS);
-			_device->PSGetShaderResources(0, 9, _PSSRV);
-			_device->PSGetSamplers(0, 3, _samplerState);
-			_device->PSGetConstantBuffers(0, 2, _constantBuffers);
+			device->PSGetShader(&pixelShader);
+			device->PSGetShaderResources(0, 9, pixelShaderResourceViews);
+			device->PSGetSamplers(0, 3, samplerStates);
+			device->PSGetConstantBuffers(0, 2, pixelShaderBuffers);
 
-			_device->OMGetRenderTargets(1, _RTView, &_depthView);
-			_device->RSGetViewports(&_numViewports, _RSViewports);
+			device->OMGetRenderTargets(1, renderTargetViews, &depthStencilView);
 
-			_device->GSGetShader(&_GS);
-			_device->GSGetConstantBuffers(0, 3, _GSConstantBuffer);
+			device->RSGetViewports(&viewportCount, viewports);
 
-			_device->IAGetVertexBuffers(0, 1, &_VB, &_vertexStride, &_vertexOffset);
-			_device->IAGetIndexBuffer(&_indexBuffer, &_indexFormat, &_indexOffset);
+			device->GSGetShader(&geometryShader);
+			device->GSGetConstantBuffers(0, 3, geometryShaderBuffers);
+
+			device->IAGetVertexBuffers(0, 1, &vertexBuffers, &vertexStride, &vertexOffset);
+			device->IAGetIndexBuffer(&indexBuffer, &indexFormat, &indexOffset);
 		}
 		//---------------------------------------------------------------------------
-		void Direct3D10StateBlock::Apply()
+		void Direct3D10StateBlock::Apply() const
 		{
-			_device->IASetPrimitiveTopology(_primitiveTopology);
-			_device->IASetInputLayout(_inputLayout);
+			device->IASetPrimitiveTopology(primitiveTopology);
+			device->IASetInputLayout(inputLayout);
 
-			_device->RSSetState(_rasterizerState);
+			device->RSSetState(rasterizerState);
 
-			_device->VSSetShader(_VS);
-			_device->VSSetConstantBuffers(0, 3, _VSConstantBuffer);
+			device->VSSetShader(vertexShader);
+			device->VSSetConstantBuffers(0, 3, vertexShaderBuffers);
 
-			_device->PSSetShader(_PS);
-			_device->PSSetShaderResources(0, 9, _PSSRV);
-			_device->PSSetSamplers(0, 3, _samplerState);
-			_device->PSSetConstantBuffers(0, 2, _constantBuffers);
+			device->PSSetShader(pixelShader);
+			device->PSSetShaderResources(0, 9, pixelShaderResourceViews);
+			device->PSSetSamplers(0, 3, samplerStates);
+			device->PSSetConstantBuffers(0, 2, pixelShaderBuffers);
 
-			_device->OMSetRenderTargets(1, _RTView, _depthView);
-			_device->OMSetBlendState(_blendState, _blendFactor, _sampleMask);
-			_device->OMSetDepthStencilState(_depthStencilState, _stencilRef);
-			_device->RSSetViewports(_numViewports, _RSViewports);
+			device->OMSetRenderTargets(1, renderTargetViews, depthStencilView);
+			device->OMSetBlendState(blendState, blendFactor, sampleMask);
+			device->OMSetDepthStencilState(depthStencilState, stencilRef);
+			device->RSSetViewports(viewportCount, viewports);
 
-			_device->GSSetShader(_GS);
-			_device->GSSetConstantBuffers(0, 3, _GSConstantBuffer);
+			device->GSSetShader(geometryShader);
+			device->GSSetConstantBuffers(0, 3, geometryShaderBuffers);
 
-			_device->IASetVertexBuffers(0, 1, &_VB, &_vertexStride, &_vertexOffset);
-			_device->IASetIndexBuffer(_indexBuffer, _indexFormat, _indexOffset);
+			device->IASetVertexBuffers(0, 1, &vertexBuffers, &vertexStride, &vertexOffset);
+			device->IASetIndexBuffer(indexBuffer, indexFormat, indexOffset);
 		}
 		//---------------------------------------------------------------------------
 		void Direct3D10StateBlock::Release()
@@ -113,29 +114,29 @@ namespace OSHGui
 			for (auto i = 0u; i < count; ++i)\
 				Release_(_1[i]);
 
-			Release_(_inputLayout);
+			Release_(inputLayout);
 
-			Release_(_rasterizerState);
+			Release_(rasterizerState);
 
-			Release_(_VS);
-			MultiRelease_(_VSConstantBuffer, 3);
+			Release_(vertexShader);
+			MultiRelease_(vertexShaderBuffers, 3);
 
-			Release_(_PS);
-			MultiRelease_(_PSSRV, 9);
-			MultiRelease_(_samplerState, 3);
-			MultiRelease_(_constantBuffers, 2);
+			Release_(pixelShader);
+			MultiRelease_(pixelShaderResourceViews, 9);
+			MultiRelease_(samplerStates, 3);
+			MultiRelease_(pixelShaderBuffers, 2);
 
-			MultiRelease_(_RTView, 2);
-			Release_(_depthView);
+			MultiRelease_(renderTargetViews, 2);
+			Release_(depthStencilView);
 
-			Release_(_blendState);
-			Release_(_depthStencilState);
+			Release_(blendState);
+			Release_(depthStencilState);
 
-			Release_(_GS);
-			MultiRelease_(_GSConstantBuffer, 3);
+			Release_(geometryShader);
+			MultiRelease_(geometryShaderBuffers, 3);
 
-			Release_(_VB);
-			Release_(_indexBuffer);
+			Release_(vertexBuffers);
+			Release_(indexBuffer);
 		}
 		//---------------------------------------------------------------------------
 	}

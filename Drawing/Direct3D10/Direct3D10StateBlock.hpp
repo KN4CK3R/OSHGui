@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * OldSchoolHack GUI
  *
@@ -5,9 +7,6 @@
  *
  * See license in OSHGui.hpp
  */
-
-#ifndef OSHGUI_DRAWING_DIRECT3D10STATEBLOCK_HPP
-#define OSHGUI_DRAWING_DIRECT3D10STATEBLOCK_HPP
 
 #include <d3d10.h>
 
@@ -39,43 +38,47 @@ namespace OSHGui
 			/**
 			 * Stellt den Status des Device wieder her.
 			 */
-			void Apply();
+			void Apply() const;
 
-		private:
 			void Release();
 
-			ID3D10Device 			    *_device;
+private:
+			ID3D10Device* device;
 
-			D3D10_PRIMITIVE_TOPOLOGY	 _primitiveTopology;
-			ID3D10InputLayout			*_inputLayout;
-			ID3D10BlendState			*_blendState;
-			FLOAT						 _blendFactor[4];
-			UINT						 _sampleMask;
-			ID3D10DepthStencilState		*_depthStencilState;
-			UINT						 _stencilRef;
-			ID3D10RasterizerState		*_rasterizerState;
-			ID3D10ShaderResourceView	*_PSSRV[D3D10_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT];
-			ID3D10SamplerState			*_samplerState[D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT];
-			ID3D10Buffer				*_constantBuffers[D3D10_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT];
-			ID3D10VertexShader			*_VS;
-			ID3D10Buffer				*_VSConstantBuffer[D3D10_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT];
-			ID3D10GeometryShader		*_GS;
-			ID3D10Buffer				*_GSConstantBuffer[D3D10_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT];
-			//ID3D10ShaderResourceView	*m_pGSSRV;
-			ID3D10PixelShader			*_PS;
-			//ID3D10SamplerState          *m_dSSamplers[D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT];
-			ID3D10Buffer				*_VB;
-			UINT						 _vertexStride;
-			UINT						 _vertexOffset;
-			ID3D10Buffer				*_indexBuffer;
-			DXGI_FORMAT					 _indexFormat;
-			UINT						 _indexOffset;
-			ID3D10RenderTargetView      *_RTView[D3D10_SIMULTANEOUS_RENDER_TARGET_COUNT];
-			ID3D10DepthStencilView      *_depthView;
-			UINT                         _numViewports;
-			D3D10_VIEWPORT				 _RSViewports[D3D10_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
+			D3D10_PRIMITIVE_TOPOLOGY primitiveTopology;
+			ID3D10InputLayout* inputLayout;
+
+			ID3D10BlendState* blendState;
+			FLOAT blendFactor[4];
+			UINT sampleMask;
+			ID3D10DepthStencilState* depthStencilState;
+			UINT stencilRef;
+
+			ID3D10RasterizerState* rasterizerState;
+			
+			ID3D10VertexShader* vertexShader;
+			ID3D10Buffer* vertexShaderBuffers[D3D10_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT];
+
+			ID3D10PixelShader* pixelShader;
+			ID3D10ShaderResourceView* pixelShaderResourceViews[D3D10_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT];
+			ID3D10SamplerState* samplerStates[D3D10_COMMONSHADER_SAMPLER_SLOT_COUNT];
+			ID3D10Buffer* pixelShaderBuffers[D3D10_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT];
+			
+			ID3D10RenderTargetView* renderTargetViews[D3D10_SIMULTANEOUS_RENDER_TARGET_COUNT];
+			ID3D10DepthStencilView* depthStencilView;
+
+			UINT viewportCount;
+			D3D10_VIEWPORT viewports[D3D10_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
+
+			ID3D10GeometryShader* geometryShader;
+			ID3D10Buffer* geometryShaderBuffers[D3D10_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT];
+
+			ID3D10Buffer* vertexBuffers;
+			UINT vertexStride;
+			UINT vertexOffset;
+			ID3D10Buffer* indexBuffer;
+			DXGI_FORMAT indexFormat;
+			UINT indexOffset;
 		};
 	}
 }
-
-#endif

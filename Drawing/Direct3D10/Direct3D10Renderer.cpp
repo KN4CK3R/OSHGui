@@ -297,6 +297,8 @@ namespace OSHGui
 		void Direct3D10Renderer::EndRendering()
 		{
 			stateBlock.Apply();
+
+			stateBlock.Release();
 		}
 		//---------------------------------------------------------------------------
 	}
