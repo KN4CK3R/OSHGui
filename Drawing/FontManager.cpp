@@ -8,7 +8,7 @@
 
 #include "FontManager.hpp"
 #include "../Misc/Exceptions.hpp"
-#include "Drawing/FreeTypeFont.hpp"
+#include "FreeTypeFont.hpp"
 #include <windows.h>
 #include <algorithm>
 #include <vector>

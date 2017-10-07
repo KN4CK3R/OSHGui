@@ -8,7 +8,7 @@
 
 #include "Cursor.hpp"
 #include "../Application.hpp"
-#include "Drawing/Graphics.hpp"
+#include "../Drawing/Graphics.hpp"
 
 namespace OSHGui
 {
