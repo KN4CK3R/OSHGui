@@ -635,11 +635,13 @@
     <IntDir>$(Configuration)\$(PlatformTarget)\Dll\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Bin\Lib\$(PlatformTarget)\</OutDir>
+    <TargetName>oshgui</TargetName>
+    <OutDir>$(SolutionDir)Bin\Dll\$(PlatformTarget)\</OutDir>
     <IntDir>$(Configuration)\$(PlatformTarget)\Dll\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Bin\Lib\$(PlatformTarget)\</OutDir>
+    <TargetName>oshgui</TargetName>
+    <OutDir>$(SolutionDir)Bin\Dll\$(PlatformTarget)\</OutDir>
     <IntDir>$(Configuration)\$(PlatformTarget)\Dll\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
