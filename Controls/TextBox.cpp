@@ -21,12 +21,12 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	TextBox::TextBox()
 		: textHelper_(GetFont()),
-		  blinkTime_(Misc::TimeSpan::FromMilliseconds(500)),
-		  firstVisibleCharacter_(0),
-		  visibleCharacterCount_(0),
-		  caretPosition_(0),
 		  passwordChar_('\0'),
-		  showCaret_(true)
+		  showCaret_(true),
+		  blinkTime_(Misc::TimeSpan::FromMilliseconds(500)),
+		  caretPosition_(0),
+		  firstVisibleCharacter_(0),
+		  visibleCharacterCount_(0)
 	{
 		type_ = ControlType::TextBox;
 	
@@ -254,6 +254,8 @@ namespace OSHGui
 				break;
 			case Key::End:
 				PlaceCaret(textHelper_.GetLength());
+				break;
+			default:
 				break;
 		}
 

@@ -209,7 +209,7 @@ namespace OSHGui
 		}
 		#endif
 
-		for (auto i = 0; i < label.size(); ++i)
+		for (size_t i = 0; i < label.size(); ++i)
 		{
 			auto button = new Button();
 			button->SetSize(60, button->GetSize().Height);

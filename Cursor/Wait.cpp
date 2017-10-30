@@ -29,7 +29,7 @@ namespace OSHGui
 	{
 		using namespace Drawing;
 
-		int data[][6][2] =
+		/*int data[][6][2] =
 		{
 			{
 				{ 0, 0 },
@@ -145,14 +145,14 @@ namespace OSHGui
 			}
 		};
 		
-		/*Drawing::Color colors[] = {
+		Drawing::Color colors[] = {
 			Drawing::Color(114, 114, 114),
 			Drawing::Color(130, 130, 130),
 			Drawing::Color(168, 168, 168),
 			Drawing::Color(188, 188, 188),
 			Drawing::Color(206, 206, 206),
 			Drawing::Color(222, 222, 222)
-		};*/
+		};
 		Color colors[] = {
 			Color::FromRGB(201, 201, 201),
 			Color::FromRGB(185, 185, 185),
@@ -164,7 +164,7 @@ namespace OSHGui
 	
 		for (auto frameNum = 0; frameNum < 14; ++frameNum)
 		{
-			/*cursor->SelectActiveFrame(frameNum);
+			cursor->SelectActiveFrame(frameNum);
 		
 			cursor->BeginUpdate();
 			cursor->Clear();
@@ -201,8 +201,8 @@ namespace OSHGui
 			cursor->Fill(6, 6, 1, 2, Drawing::Color::Black());
 			cursor->Fill(7, 7, 1, 1, Drawing::Color::Black());
 			
-			cursor->EndUpdate();*/
-		}
+			cursor->EndUpdate();
+		}*/
 	}
 	//---------------------------------------------------------------------------
 }

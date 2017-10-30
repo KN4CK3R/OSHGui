@@ -44,8 +44,8 @@ namespace OSHGui
 			buffer.SetVertexDrawMode(VertexDrawMode::LineList);
 
 			Vertex vertices[] = {
-				{ Vector(from.X, from.Y, 0.0f), color },
-				{ Vector(to.X, to.Y, 0.0f), color }
+				{ Vector(from.X, from.Y, 0.0f), color, {} },
+				{ Vector(to.X, to.Y, 0.0f), color, {} }
 			};
 			buffer.AppendGeometry(vertices, 2);
 
@@ -83,12 +83,12 @@ namespace OSHGui
 		void Graphics::FillRectangle(const Color &color, float x, float y, float width, float height)
 		{
 			Vertex vertices[] = {
-				{ Vector(x, y, 0.0f), color },
-				{ Vector(x + width, y, 0.0f), color },
-				{ Vector(x, y + height, 0.0f), color },
-				{ Vector(x + width, y + height, 0.0f), color },
-				{ Vector(x, y + height, 0.0f), color },
-				{ Vector(x + width, y, 0.0f), color }
+				{ Vector(x, y, 0.0f), color, {} },
+				{ Vector(x + width, y, 0.0f), color, {} },
+				{ Vector(x, y + height, 0.0f), color, {} },
+				{ Vector(x + width, y + height, 0.0f), color, {} },
+				{ Vector(x, y + height, 0.0f), color, {}},
+				{ Vector(x + width, y, 0.0f), color, {} }
 			};
 			buffer.AppendGeometry(vertices, 6);
 		}
@@ -106,12 +106,12 @@ namespace OSHGui
 		void Graphics::FillRectangleGradient(const ColorRectangle &colors, float x, float y, float width, float height)
 		{
 			Vertex vertices[] = {
-				{ Vector(x, y, 0.0f), colors.TopLeft },
-				{ Vector(x + width, y, 0.0f), colors.TopRight },
-				{ Vector(x, y + height, 0.0f), colors.BottomLeft },
-				{ Vector(x + width, y + height, 0.0f), colors.BottomRight },
-				{ Vector(x, y + height, 0.0f), colors.BottomLeft },
-				{ Vector(x + width, y, 0.0f), colors.TopRight }
+				{ Vector(x, y, 0.0f), colors.TopLeft, {} },
+				{ Vector(x + width, y, 0.0f), colors.TopRight, {} },
+				{ Vector(x, y + height, 0.0f), colors.BottomLeft, {} },
+				{ Vector(x + width, y + height, 0.0f), colors.BottomRight, {} },
+				{ Vector(x, y + height, 0.0f), colors.BottomLeft, {} },
+				{ Vector(x + width, y, 0.0f), colors.TopRight, {} }
 			};
 			buffer.AppendGeometry(vertices, 6);
 		}

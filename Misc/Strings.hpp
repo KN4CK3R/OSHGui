@@ -113,7 +113,7 @@ namespace OSHGui
 			 */
 			inline bool IsAscii(const AnsiChar c)
 			{
-				return c <= '\x7F';
+				return c < '\x7F';
 			}
 
 			/**
@@ -148,6 +148,8 @@ namespace OSHGui
 					case DecimalDigitNumber:
 					case OtherNumber:
 						return true;
+					default:
+						break;
 				}
 				return false;
 			}
@@ -170,6 +172,8 @@ namespace OSHGui
 					case UppercaseLetter:
 					case LowercaseLetter:
 						return true;
+					default:
+						break;
 				}
 				return false;
 			}
@@ -230,6 +234,8 @@ namespace OSHGui
 					case MathSymbol:
 					case CurrencySymbol:
 						return true;
+					default:
+						break;
 				}
 				return false;
 			}
@@ -252,6 +258,8 @@ namespace OSHGui
 					case FinalQuotePunctuation:
 					case OtherPunctuation:
 						return true;
+					default:
+						break;
 				} 
 				return false;
 			}
@@ -281,6 +289,8 @@ namespace OSHGui
 					case LowercaseLetter:
 					case DecimalDigitNumber:
 						return true;
+					default:
+						break;
 				} 
 				return false;
 			}

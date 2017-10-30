@@ -31,8 +31,8 @@ namespace OSHGui
 			Direct3D9RenderTarget(Direct3D9Renderer &_owner)
 				: owner(_owner),
 				  area(0, 0, 0, 0),
-				  viewDistance(0),
-				  matrixValid(false)
+				  matrixValid(false),
+				  viewDistance(0)
 			{
 			
 			}

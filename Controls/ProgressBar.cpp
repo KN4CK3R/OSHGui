@@ -19,9 +19,9 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ProgressBar::ProgressBar()
-		: min_(0),
-		  max_(100),
-		  value_(0)
+		: value_(0),
+		  min_(0),
+		  max_(100)
 	{
 		type_ = ControlType::ProgressBar;
 

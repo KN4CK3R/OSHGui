@@ -21,23 +21,23 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	Control::Control()
 		: type_(ControlType::None),
-		  parent_(nullptr),
-		  location_(6, 6),
-		  size_(0, 0),
-		  anchor_(AnchorStyles::Top | AnchorStyles::Left),
+		  canRaiseEvents_(true),
 		  isEnabled_(true),
 		  isVisible_(true),
-		  isFocused_(false),
-		  isClicked_(false),
 		  isInside_(false),
+		  isClicked_(false),
 		  isFocusable_(true),
+		  isFocused_(false),
 		  hasCaptured_(false),
 		  autoSize_(false),
-		  canRaiseEvents_(true),
-		  needsRedraw_(true),
-		  cursor_(nullptr),
+		  location_(6, 6),
+		  size_(0, 0),
 		  mouseOverFocusColor_(Drawing::Color::FromARGB(0, 20, 20, 20)),
-		  geometry_(Application::Instance().GetRenderer().CreateGeometryBuffer())
+		  cursor_(nullptr),
+		  needsRedraw_(true),
+		  geometry_(Application::Instance().GetRenderer().CreateGeometryBuffer()),
+		  parent_(nullptr),
+		  anchor_(AnchorStyles::Top | AnchorStyles::Left)
 	{
 		
 	}
@@ -942,6 +942,8 @@ namespace OSHGui
 					return true;
 				}
 				break;
+			default:
+				break;
 		}
 
 		return false;
@@ -959,6 +961,8 @@ namespace OSHGui
 					return OnKeyUp(keyboard);
 				case KeyboardState::Character:
 					return OnKeyPress(keyboard);
+				default:
+					break;
 			}
 		}
 		

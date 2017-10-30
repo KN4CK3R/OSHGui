@@ -14,8 +14,8 @@ namespace OSHGui
 			: Direct3D9RenderTarget<TextureTarget>(owner),
 			  d3d9Texture(nullptr),
 			  surface(nullptr),
-			  surfaceBackup(nullptr),
-			  texture(std::static_pointer_cast<Direct3D9Texture>(owner.CreateTexture()))
+			  texture(std::static_pointer_cast<Direct3D9Texture>(owner.CreateTexture())),
+			  surfaceBackup(nullptr)
 		{
 			DeclareRenderSize(SizeF(DefaultSize, DefaultSize));
 		}

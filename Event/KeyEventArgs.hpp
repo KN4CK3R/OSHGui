@@ -26,8 +26,8 @@ namespace OSHGui
 		 * \param keyboardEvent
 		 */
 		KeyEventArgs(const KeyboardMessage &keyboardEvent)
-			: keyData_(keyboardEvent.GetKeyData()),
-			  Handled(false)
+			: Handled(false),
+			  keyData_(keyboardEvent.GetKeyData())
 		{
 			
 		}

@@ -320,7 +320,7 @@ namespace OSHGui
 			if ((modifier & Key::Shift) == Key::Shift) modifierNames.push_back("Shift");
 
 			std::stringstream s;
-			for (auto i = 0; i < modifierNames.size(); ++i)
+			for (size_t i = 0; i < modifierNames.size(); ++i)
 			{
 				if (i > 0)
 				{

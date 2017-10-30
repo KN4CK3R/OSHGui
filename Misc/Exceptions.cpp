@@ -42,15 +42,15 @@ namespace OSHGui
 		//Constructor
 		//---------------------------------------------------------------------------
 		ArgumentException::ArgumentException(Misc::AnsiString _paramName)
-			: paramName(std::move(_paramName)),
-			  Exception("Unexpected argument.\nParameter name: " + paramName)
+			: Exception("Unexpected argument.\nParameter name: " + _paramName),
+			  paramName(std::move(_paramName))
 		{
 
 		}
 		//----------------------------------------------------------------------------
 		ArgumentException::ArgumentException(Misc::AnsiString _paramName, Misc::AnsiString message)
-			: paramName(std::move(_paramName)),
-			  Exception(std::move(message))
+			: Exception(std::move(message)),
+			  paramName(std::move(_paramName))
 		{
 
 		}

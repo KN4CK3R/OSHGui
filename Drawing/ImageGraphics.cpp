@@ -92,7 +92,7 @@ namespace OSHGui
 			{
 				nodes.clear();
 				auto j = vertices.size() - 1;
-				for (auto i = 0; i < vertices.size(); ++i)
+				for (size_t i = 0; i < vertices.size(); ++i)
 				{
 					if ((vertices[i].Y < y && vertices[j].Y >= y) || (vertices[j].Y < y && vertices[i].Y >= y))
 					{
@@ -105,7 +105,7 @@ namespace OSHGui
 				{
 					std::sort(std::begin(nodes), std::end(nodes));
 
-					for (auto i = 0; i < nodes.size() - 1; i += 2)
+					for (size_t i = 0; i < nodes.size() - 1; i += 2)
 					{
 						if (nodes[i] >= size.Width)
 						{

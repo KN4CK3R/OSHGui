@@ -120,7 +120,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		uint32_t FreeTypeFont::GetTextureSize(CodepointIterator start, CodepointIterator end) const
 		{
-			auto size = 32;
+			size_t size = 32;
 			const auto maximum = Application::Instance().GetRenderer().GetMaximumTextureSize();
 			auto count = 0;
 
@@ -281,7 +281,7 @@ namespace OSHGui
 		{
 			const auto bitmap = &fontFace->glyph->bitmap;
 
-			for (auto i = 0; i < bitmap->rows; ++i)
+			for (size_t i = 0; i < bitmap->rows; ++i)
 			{
 				auto src = bitmap->buffer + (i * bitmap->pitch);
 				switch (bitmap->pixel_mode)
@@ -289,7 +289,7 @@ namespace OSHGui
 					case FT_PIXEL_MODE_GRAY:
 						{
 							auto dst = reinterpret_cast<uint8_t*>(buffer);
-							for (auto j = 0; j < bitmap->width; ++j)
+							for (size_t j = 0; j < bitmap->width; ++j)
 							{
 								*dst++ = 0xFF;
 								*dst++ = 0xFF;
@@ -299,7 +299,7 @@ namespace OSHGui
 						}
 						break;
 					case FT_PIXEL_MODE_MONO:
-						for (auto j = 0; j < bitmap->width; ++j)
+						for (size_t j = 0; j < bitmap->width; ++j)
 						{
 							buffer[j] = (src[j / 8] & (0x80 >> (j & 7))) ? 0xFFFFFFFF : 0x00000000;
 						}

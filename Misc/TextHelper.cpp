@@ -70,7 +70,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void TextHelper::Remove(int index, int length)
 		{
-			if (index >= text_.length())
+			if (index >= static_cast<int>(text_.length()))
 			{
 				return;
 			}

@@ -75,7 +75,7 @@ namespace OSHGui
 					{
 						auto pixel = src[j];
 						auto tmp = pixel & 0x00FF00FF;
-						dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
+						dst[j] = (pixel & 0xFF00FF00) | (tmp << 16) | (tmp >> 16);
 					}
 
 					dst += pitch / sizeof(uint32_t);
@@ -91,7 +91,7 @@ namespace OSHGui
 					{
 						auto pixel = src[j];
 						auto tmp = pixel & 0x00FF00FF;
-						dst[j] = pixel & 0xFF00FF00 | (tmp << 16) | (tmp >> 16);
+						dst[j] = (pixel & 0xFF00FF00) | (tmp << 16) | (tmp >> 16);
 					}
 
 					src += pitch / sizeof(uint32_t);
