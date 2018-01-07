@@ -269,6 +269,7 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		void Direct3D9Renderer::PostD3DReset()
 		{
+			SetDisplaySize(GetViewportSize());
 			device->CreateStateBlock(D3DSBT_ALL, &stateBlock);
 
 			RemoveWeakReferences();
