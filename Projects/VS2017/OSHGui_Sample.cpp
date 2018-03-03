@@ -17,7 +17,7 @@ Input::WindowsMessage input;
 void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 {
 	//1. create our renderer, Direct3D9 in this case
-	auto renderer = std::unique_ptr<Direct3D9Renderer>(new Direct3D9Renderer(device));
+	auto renderer = std::make_unique<Direct3D9Renderer>(device);
 	
 	//2. and initialize the OSHGui with it
 	Application::Initialize(std::move(renderer));
@@ -29,7 +29,7 @@ void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 	auto &app = Application::Instance();
 
 	//3. create a font which will be used by the OSHGui
-	auto font = FontManager::LoadFont("Arial", 8.0f, false); //Arial, 8PT, no anti-aliasing
+	const auto font = FontManager::LoadFont("Arial", 8.0f, false); //Arial, 8PT, no anti-aliasing
 	app.SetDefaultFont(font);
 
 	//4. create our form
@@ -164,10 +164,10 @@ private:
 //---------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	Win32Window window(hInstance);
+	const Win32Window window(hInstance);
 
 	{
-		Direct3DDevice device(window.Window);
+		const Direct3DDevice device(window.Window);
 
 		InitializeOSHGui(device.Device);
 
