@@ -8,6 +8,7 @@
 
 #include "FontManager.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "../Misc/HashTuple.hpp"
 #include "FreeTypeFont.hpp"
 #include <windows.h>
 #include <algorithm>
@@ -18,7 +19,7 @@ namespace OSHGui
 {
 	namespace Drawing
 	{
-		std::unordered_map<Misc::AnsiString, std::weak_ptr<Drawing::Font>> FontManager::loadedFonts;
+		std::unordered_map<std::tuple<Misc::AnsiString, float, bool>, std::weak_ptr<Drawing::Font>> FontManager::loadedFonts;
 		//---------------------------------------------------------------------------
 		FontPtr FontManager::LoadFont(Misc::AnsiString name, float pointSize, bool antiAliased)
 		{
@@ -93,11 +94,12 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		FontPtr FontManager::LoadFontFromFile(const Misc::AnsiString &filename, float pointSize, bool antiAliased)
 		{
-			const auto it = loadedFonts.find(filename);
+			auto cacheEntry = std::make_tuple(filename, pointSize, antiAliased);
+			const auto it = loadedFonts.find(cacheEntry);
 			if (it == std::end(loadedFonts) || it->second.expired())
 			{
 				auto font = std::make_shared<FreeTypeFont>(filename, pointSize, antiAliased);
-				loadedFonts[filename] = font;
+				loadedFonts[cacheEntry] = font;
 				return font;
 			}
 			return it->second.lock();

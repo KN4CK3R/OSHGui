@@ -52,7 +52,7 @@ namespace OSHGui
 			static void DisplaySizeChanged(const SizeF &size);
 
 		private:
-			static std::unordered_map<Misc::AnsiString, std::weak_ptr<Drawing::Font>> loadedFonts;
+			static std::unordered_map<std::tuple<Misc::AnsiString, float, bool>, std::weak_ptr<Drawing::Font>> loadedFonts;
 		};
 	}
 }
