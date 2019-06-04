@@ -3,12 +3,12 @@
 #undef MessageBox
 #undef DrawText
 //---------------------------------------------------------------------------
-//the basic includes for OSHGui
+// Add the basic includes for OSHGui
 #include <OSHGui.hpp>
 #include "Input/WindowsMessage.hpp"
 #include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
 //---------------------------------------------------------------------------
-//optional: make the namespace available
+// optional: make the namespace available
 using namespace OSHGui;
 using namespace OSHGui::Drawing;
 //---------------------------------------------------------------------------
@@ -16,33 +16,33 @@ Input::WindowsMessage input;
 //-----------------------------------
 void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 {
-	//1. create our renderer, Direct3D9 in this case
+	// 1. create our renderer, Direct3D9 in this case
 	auto renderer = std::make_unique<Direct3D9Renderer>(device);
 	
-	//2. and initialize the OSHGui with it
+	// 2. and initialize the OSHGui with it
 	Application::Initialize(std::move(renderer));
 
-	//or 1.+2.
-	//Application::Initialize(std::unique_ptr<Direct3D9Renderer>(new Direct3D9Renderer(device)));
+	// or 1.+2.
+	//Application::Initialize(std::make_unique<Direct3D9Renderer>(device));
 
-	//now we have a valid OSHGui instance, so lets grab it
+	// now we have a valid OSHGui instance, so lets grab it
 	auto &app = Application::Instance();
 
-	//3. create a font which will be used by the OSHGui
+	// 3. create a font which will be used by the OSHGui
 	const auto font = FontManager::LoadFont("Arial", 8.0f, false); //Arial, 8PT, no anti-aliasing
 	app.SetDefaultFont(font);
 
-	//4. create our form
+	// 4. create our form
 	auto form = std::make_shared<Form>();
 	form->SetText("Test");
 
-	//5. set this form as our mainform
+	// 5. set this form as our mainform
 	app.Run(form);
 
-	//optional: enable the OSHGui drawing
+	// optional: enable the OSHGui drawing
 	app.Enable();
 
-	//optional: register a Hotkey with which we can toggle the OSHGui drawing
+	// optional: register a Hotkey with which we can toggle the OSHGui drawing
 	app.RegisterHotkey(Hotkey(Key::Insert, []
 	{
 		Application::Instance().Toggle();
@@ -56,20 +56,20 @@ void Render(LPDIRECT3DDEVICE9 device)
 
 	auto &renderer = Application::Instance().GetRenderer();
 
-	//1. let our renderer begin its work
+	// 1. let our renderer begin its work
 	renderer.BeginRendering();
 
-	//2. render the OSHGui
+	// 2. render the OSHGui
 	Application::Instance().Render();
 
-	//3. end the rendering
+	// 3. end the rendering
 	renderer.EndRendering();
 
 	device->EndScene();
 	device->Present(nullptr, nullptr, nullptr, nullptr);
 }
 //---------------------------------------------------------------------------
-//wrapper to create a win32 window
+// Wrapper to create a win32 window
 //---------------------------------------------------------------------------
 class Win32Window
 {
@@ -106,7 +106,7 @@ private:
 	WNDCLASS wc;
 };
 //---------------------------------------------------------------------------
-//wrapper to setup D3D9
+// Wrapper to setup D3D9
 //---------------------------------------------------------------------------
 class Direct3DDevice
 {
@@ -185,7 +185,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 			{
-				//let the OSHGui handle the input
+				// Let the OSHGui handle the input
 				if (!input.ProcessMessage(&msg))
 				{
 					if (msg.message == WM_QUIT)
