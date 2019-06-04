@@ -51,7 +51,7 @@ void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 //---------------------------------------------------------------------------
 void Render(LPDIRECT3DDEVICE9 device)
 {
-	device->Clear(0, 0, D3DCLEAR_TARGET, 0, 1.0f, 0);
+	device->Clear(0, nullptr, D3DCLEAR_TARGET, 0, 1.0f, 0);
 	device->BeginScene();
 
 	auto &renderer = Application::Instance().GetRenderer();
@@ -66,7 +66,7 @@ void Render(LPDIRECT3DDEVICE9 device)
 	renderer.EndRendering();
 
 	device->EndScene();
-	device->Present(0, 0, 0, 0);
+	device->Present(nullptr, nullptr, nullptr, nullptr);
 }
 //---------------------------------------------------------------------------
 //wrapper to create a win32 window
@@ -81,7 +81,7 @@ public:
 		wc.lpfnWndProc = DefWindowProc;
 		wc.hInstance = instance;
 		wc.lpszClassName = "D3D";
-		wc.hCursor = LoadCursor(0, IDC_ARROW);
+		wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
 		RegisterClass(&wc);
 
@@ -90,7 +90,7 @@ public:
 		windowSize.right = std::abs(windowSize.right) + std::abs(windowSize.left);
 		windowSize.bottom = std::abs(windowSize.bottom) + std::abs(windowSize.top);
 
-		Window = CreateWindowA("D3D", "D3D", WS_OVERLAPPEDWINDOW, 0, 100, windowSize.right, windowSize.bottom, GetDesktopWindow(), 0, wc.hInstance, 0);
+		Window = CreateWindowA("D3D", "D3D", WS_OVERLAPPEDWINDOW, 0, 100, windowSize.right, windowSize.bottom, GetDesktopWindow(), nullptr, wc.hInstance, nullptr);
 	}
 	~Win32Window()
 	{
@@ -183,7 +183,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				break;
 			}
 
-			if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 			{
 				//let the OSHGui handle the input
 				if (!input.ProcessMessage(&msg))
