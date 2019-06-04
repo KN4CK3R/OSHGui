@@ -25,7 +25,7 @@
     <ClCompile Include="..\..\Drawing\Direct3D9\Direct3D9TextureTarget.cpp" />
     <ClCompile Include="..\..\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp" />
     <ClCompile Include="..\..\Input\WindowsMessage.cpp" />
-    <ClCompile Include="OSHGui_Sample.cpp" />
+    <ClCompile Include="..\Code\OSHGui_Sample.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{704DC77E-4CA3-433D-A694-A56198EEF0D1}</ProjectGuid>
