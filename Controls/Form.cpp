@@ -108,6 +108,11 @@ namespace OSHGui
 		containerPanel_->AddControl(control);
 	}
 	//---------------------------------------------------------------------------
+	void Form::RemoveControl(Control* control)
+	{
+		containerPanel_->RemoveControl(control);
+	}
+	//---------------------------------------------------------------------------
 	void Form::Show(const std::shared_ptr<Form> &instance)
 	{
 		instance_ = std::weak_ptr<Form>(instance);

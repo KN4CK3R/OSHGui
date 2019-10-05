@@ -154,12 +154,9 @@ namespace OSHGui
 		 * Schließt die Form.
 		 */
 		void Close();
-		/**
-		 * Fügt ein untergeordnetes Steuerelement hinzu.
-		 *
-		 * \param control
-		 */
-		virtual void AddControl(Control *control) override;
+
+		void AddControl(Control *control) override;
+		void RemoveControl(Control* control) override;
 
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
