@@ -85,7 +85,7 @@ namespace OSHGui
 			template<typename T>
 			Any(const T &obj)
 				: id_(TypeID<T>()),
-				  wrapper_(new TypeWrapper<T>(obj_))
+				  wrapper_(new TypeWrapper<T>(obj))
 			{
 				
 			}
