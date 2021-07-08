@@ -259,7 +259,7 @@ namespace OSHGui
 
 		maxVisibleItems_ = std::max(1, itemAreaSize_.Height / itemHeight);
 
-		if (!items_.empty() && items_.size() * itemHeight > itemAreaSize_.Height)
+		if (!items_.empty() && static_cast<int>(items_.size()) * itemHeight > itemAreaSize_.Height)
 		{
 			if (!scrollBar_->GetVisible())
 			{
@@ -335,7 +335,7 @@ namespace OSHGui
 		{
 			newScrollValue = 0;
 		}
-		else if (newScrollValue > items_.size() - maxVisibleItems_)
+		else if (newScrollValue > static_cast<int>(items_.size()) - maxVisibleItems_)
 		{
 			newScrollValue = items_.size() - maxVisibleItems_;
 		}
@@ -377,6 +377,8 @@ namespace OSHGui
 						case Key::PageDown:
 							newSelectedIndex -= maxVisibleItems_;
 							break;
+						default:
+							break;
 					}
 
 					if (newSelectedIndex < 0)
@@ -392,6 +394,8 @@ namespace OSHGui
 
 					return true;
 				}
+				default:
+					break;
 			}
 		}
 

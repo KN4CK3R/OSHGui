@@ -151,7 +151,7 @@ namespace OSHGui
 		DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if (millisecond < 0 || millisecond >= MillisPerSecond)
+			if (millisecond < 0 || millisecond >= static_cast<int>(MillisPerSecond))
 			{
 				throw ArgumentOutOfRangeException("millisecond");
 			}
@@ -172,7 +172,7 @@ namespace OSHGui
 		DateTime::DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, DateTimeKind kind)
 		{
 			#ifndef OSHGUI_DONTUSEEXCEPTIONS
-			if (millisecond < 0 || millisecond >= MillisPerSecond)
+			if (millisecond < 0 || millisecond >= static_cast<int>(MillisPerSecond))
 			{
 				throw ArgumentOutOfRangeException("millisecond");
 			}
@@ -273,7 +273,7 @@ namespace OSHGui
 		DateTime DateTime::GetNow()
 		{
 			const auto utc = GetUtcNow();
-			const auto tick = utc.GetTicks() + TimezoneOffset;
+			const long long tick = utc.GetTicks() + TimezoneOffset;
 			if (tick > MaxTicks)
 			{
 				return DateTime(MaxTicks, DateTimeKind::Local);

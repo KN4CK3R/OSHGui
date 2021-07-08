@@ -20,8 +20,8 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ColorPicker::ColorPicker()
-		: drag_(false),
-		  color_(Drawing::Color::White())
+		: color_(Drawing::Color::White()),
+		  drag_(false)
 	{
 		type_ = ControlType::ColorPicker;
 		

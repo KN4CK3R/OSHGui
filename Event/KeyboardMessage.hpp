@@ -45,16 +45,16 @@ namespace OSHGui
 		 */
 		KeyboardMessage()
 			: state_(KeyboardState::Unknown),
-			  keyData_(Key::None),
-			  keyChar_('\0')
+			  keyChar_('\0'),
+			  keyData_(Key::None)
 		{
 
 		}
 
 		KeyboardMessage(KeyboardState state, Key keyData, Misc::AnsiChar keyChar)
 			: state_(state),
-			  keyData_(keyData),
-			  keyChar_(keyChar)
+			  keyChar_(keyChar),
+			  keyData_(keyData)
 		{
 
 		}

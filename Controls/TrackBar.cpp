@@ -21,10 +21,10 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TrackBar::TrackBar()
-		: drag_(false),
-		  minimum_(1),
+		: minimum_(1),
 		  maximum_(10),
 		  tickFrequency_(1),
+		  drag_(false),
 		  sliderLocation_(-SliderSize.Width / 2, 1)
 	{
 		type_ = ControlType::TrackBar;
@@ -241,6 +241,8 @@ namespace OSHGui
 					break;
 				case Key::PageUp:
 					SetValueInternal(value_ + std::max(10, (maximum_ - minimum_) / 10));
+					break;
+				default:
 					break;
 			}
 		}

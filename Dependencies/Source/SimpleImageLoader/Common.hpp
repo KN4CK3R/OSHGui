@@ -61,7 +61,7 @@ namespace SimpleImageLoader
 	//---------------------------------------------------------------------------
 	inline uint32_t CalculatePitch(uint32_t line)
 	{
-		return line + 3 & ~3;
+		return (line + 3) & ~3;
 	}
 	//---------------------------------------------------------------------------
 	inline uint32_t CalculateUsedPaletteEntries(uint32_t bit_count)

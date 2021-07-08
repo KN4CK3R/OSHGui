@@ -23,9 +23,9 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabControl::TabControl()
-		: startIndex_(0),
-		  maxIndex_(0),
-		  selected_(nullptr)
+		: selected_(nullptr),
+		  startIndex_(0),
+		  maxIndex_(0)
 	{
 		type_ = ControlType::TabControl;
 

@@ -13,7 +13,7 @@ namespace SimpleImageLoader
 	{
 		if (position == SeekPosition::Begin)
 		{
-			if (offset < 0 || (uint32_t)offset >= data_.size())
+			if ((uint32_t)offset >= data_.size())
 			{
 				throw;
 			}

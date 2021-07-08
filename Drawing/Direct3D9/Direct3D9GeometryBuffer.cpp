@@ -12,8 +12,8 @@ namespace OSHGui
 		//---------------------------------------------------------------------------
 		Direct3D9GeometryBuffer::Direct3D9GeometryBuffer(Direct3D9Renderer &_owner)
 			: owner(_owner),
-			  clipRect(0, 0, 0, 0),
 			  clippingActive(true),
+			  clipRect(0, 0, 0, 0),
 			  translation(0, 0, 0),
 			  rotation(0, 0, 0),
 			  pivot(0, 0, 0),

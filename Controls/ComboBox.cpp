@@ -18,8 +18,8 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	ComboBox::ComboBox()
-		: droppedDown_(false),
-		  maxShowItems_(DefaultMaxShowItems)
+		: maxShowItems_(DefaultMaxShowItems),
+		  droppedDown_(false)
 	{
 		type_ = ControlType::ComboBox;
 	
@@ -69,6 +69,8 @@ namespace OSHGui
 						case Key::PageDown:
 							newSelectedIndex -= 4;
 							break;
+						default:
+							break;
 					}
 
 					if (newSelectedIndex < 0)
@@ -82,6 +84,8 @@ namespace OSHGui
 
 					listBox_->SetSelectedIndex(newSelectedIndex);
 				}
+				default:
+					break;
 			}
 			button_->Focus();
 		});
